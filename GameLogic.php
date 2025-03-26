@@ -27,13 +27,13 @@ function ParseDQParameter($phase, $player, $parameter) {
     case "INDIRECTDAMAGEMULTIZONE":
     case "PARTIALMULTIHEALMULTIZONE":
     case "MAYMULTIHEALMULTIZONE":
-    case "MULTIHEALMULTIZONE":      
+    case "MULTIHEALMULTIZONE":
       $params = explode("-", $parameter);
       $counterLimit = $params[0];
       $mzIndexes = explode(",", implode("-", array_slice($params, 1)));
       $allies = [];
       $characters = [];
-  
+
       // Get the allies and characters from the mzIndexes
       for ($i = 0; $i < count($mzIndexes); $i++) {
         $mzIndex = $mzIndexes[$i];
@@ -658,11 +658,11 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               Restore($targetHeal, $targetPlayer);
               $afterHealth = GetHealth($targetPlayer);
               $healAmount = $currentHealth - $afterHealth;
-            }   
+            }
 
             if ($healAmount > 0) {
               $healedTargets[] = $healAmount . "-" . $targetUniqueID;
-            }       
+            }
           }
 
           if (count($healedTargets) == 0) {
@@ -692,7 +692,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             } else {
               DealDamageAsync($targetUniqueID[1], $targetHeal, sourcePlayer:$sourcePlayer);
               $damagedTargets[] = $targetUniqueID;
-            }          
+            }
           }
 
           if (count($damagedTargets) == 0) {
@@ -725,7 +725,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             PrependDecisionQueue("OK", $targetPlayer, CardLink($sourceCardID, $sourceCardID) . " deals " . $amount . " indirect damage to you.");
           }
           PrependDecisionQueue("SETDQCONTEXT", $targetPlayer, "Indirect Damage");
-          
+
           return $lastResult;
         case "DEALDAMAGE":
           // Important: use MZOpHelpers.php DamageStringBuilder() function for param structure
@@ -1341,6 +1341,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "SHUFFLEDECK":
       $deck = &GetDeck($player);
       $skipSeed = $parameter == "SKIPSEED";
+      if($skipSeed) {
+        DeclumpDeck($deck);
+      }
       RandomizeArray($deck, $skipSeed);
       return $lastResult;
     case "EXHAUSTCHARACTER":

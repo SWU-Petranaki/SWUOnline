@@ -31,6 +31,20 @@ function RandomizeArray(&$arr, $skipSeed = false){
   }
 }
 
+function DeclumpDeck(&$deck) {
+  $numPiles = 8;
+  $piles = [];
+  for($i=0;$i<count($deck);$i+=$numPiles) {
+    for($j=0;$j<$numPiles;++$j) {
+      if(isset($deck[$i+$j])) {
+        $piles[$j][] = $deck[$i+$j];
+      }
+    }
+  }
+  shuffle($piles);
+  $deck = array_merge(...$piles);
+}
+
 function GetRandom($low=-1, $high=-1)
 {
   global $randomSeeded;
