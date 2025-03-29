@@ -1616,7 +1616,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "LEADERREADYORPASS":
       $char = &GetPlayerCharacter($player);
       if(count($char) < CharacterPieces() + 1 || $char[CharacterPieces() + 1] != 2) return "PASS";
-      return $lastResult;
+      return 1;
     case "ATTACKMODIFIER":
       $amount = intval($parameter);
       WriteLog($amount);
