@@ -565,13 +565,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       else
         $content = CreateButton($playerID, "Game Over!", 100001, 0, "24px", "", "", false, true);
     } else {
-
-      
       $content = CreateButton($playerID, "Main Menu", 100001, 0, "24px", "", "", false, true);
-
-
-
-
       if ($playerID == 1 && $theirCharacter[0] != "DUMMY")
         $content .= "&nbsp;" . CreateButton($playerID, "Rematch", 100004, 0, "24px");
       if ($playerID == 1)
