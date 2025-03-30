@@ -997,6 +997,10 @@ function StartRegroupPhase() {
   ResetClassState(1);
   ResetClassState(2);
 
+  // Reset allies round health modifiers
+  ResetAlliesHealthModifiers(1);
+  ResetAlliesHealthModifiers(2);
+  
   // Trigger abilities
   CharacterStartRegroupPhaseAbilities(1);
   CharacterStartRegroupPhaseAbilities(2);
@@ -1051,7 +1055,7 @@ function EndRegroupPhase() {
 }
 
 function StartActionPhase() {
-  global $mainPlayer, $currentTurnEffects, $nextTurnEffects;
+  global $mainPlayer;
 
   // Reset class states
   ResetClassState(1);

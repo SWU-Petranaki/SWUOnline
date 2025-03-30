@@ -1774,15 +1774,6 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       // Unset turn modifiers
       UnsetTurnModifiers();
 
-      // End turn allies
-      foreach([1, 2] as $p) {
-        $allies = GetAllies($p);
-        for($i = count($allies) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
-          $ally = new Ally("MYALLY-" . $i, $p);
-          $ally->EndRound();
-        }
-      }
-
       // Switch initiative
       $mainPlayer = $initiativePlayer == 1 ? 2 : 1;
       $initiativeTaken = 0;
