@@ -909,10 +909,11 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $unitsThatAttackedBase = explode(",", GetClassState($player, $CS_UnitsThatAttackedBase));
       $opponent = $player == 1 ? 2: 1;
       for($i = 0; $i < count($unitsThatAttackedBase); ++$i) {
-        $targetMZIndex = "THEIRALLY-" . SearchAlliesForUniqueID($unitsThatAttackedBase[$i], $opponent);
-        $ally = new Ally($targetMZIndex, $player);
-        if($targetMZIndex == "THEIRALLY--1" || $ally->IsLeader()) continue;
-        DecisionQueueStaticEffect("MZOP", $player, "CAPTURE," . $lastResult, $targetMZIndex);
+      $targetMZIndex = "THEIRALLY-" . SearchAlliesForUniqueID($unitsThatAttackedBase[$i], $opponent); 
+      if($targetMZIndex == "THEIRALLY--1") continue;
+      $ally = new Ally($targetMZIndex, $opponent);
+      if($ally->IsLeader()) continue;
+      DecisionQueueStaticEffect("MZOP", $player, "CAPTURE," . $lastResult, $targetMZIndex);
       }
       return 1;
     case "ANEWADVENTURE":
