@@ -5644,7 +5644,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to destroy");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "DESTROY,$currentPlayer", 1);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LETHALCRACKDOWN", 1);
       break;
     case "5683908835"://Count Dooku
