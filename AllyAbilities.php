@@ -3539,9 +3539,18 @@ function AllyTakeDamageAbilities($player, $index, $damage, $preventable)
   return $damage;
 }
 
-function ResetAllies($player) {
-  global $mainPlayer, $defPlayer;
+function ResetAlliesHealthModifiers($player) {
+  $allies = &GetAllies($player);
+  for ($i = count($allies) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
+    $roundHealthModifier = $allies[$i+9];
+    if(is_int($roundHealthModifier)) $allies[$i+2] -= $roundHealthModifier;
+    $allies[$i+9] = 0;
+    $ally = new Ally("MYALLY-" . $i, $player);
+    $ally->DefeatIfNoRemainingHP();
+  }
+}
 
+function ResetAllies($player) {
   //Reset allies variables
   $allies = &GetAllies($player);
   for ($i = count($allies) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
@@ -3561,9 +3570,11 @@ function ResetAllies($player) {
         $allies[$i+4] = implode(",", $upgrades);
       }
 
-      // Ready ally
       $ally = new Ally("MYALLY-" . $i, $player);
+      // Ready ally
       $ally->Ready();
+      // Defeat if no remaining HP
+      $ally->DefeatIfNoRemainingHP();
     }
   }
 }

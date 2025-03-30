@@ -539,15 +539,6 @@ class Ally {
     return max($power, 0);
   }
 
-  //All the things that should happen at the end of a round
-  function EndRound() {
-    if($this->index == -1) return;
-    $roundHealthModifier = $this->allies[$this->index+9];
-    if(is_int($roundHealthModifier)) $this->allies[$this->index+2] -= $roundHealthModifier;
-    $this->allies[$this->index+9] = 0;
-    $this->DefeatIfNoRemainingHP();
-  }
-
   function Ready($resolvedSpecialCase=false) {
     $upgrades = $this->GetUpgrades();
     for($i=0; $i<count($upgrades); ++$i) {
