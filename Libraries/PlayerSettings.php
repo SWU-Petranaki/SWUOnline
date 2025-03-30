@@ -303,6 +303,7 @@ function GetCardBack($player, $index="")
     40 => "sekrit",
     41 => "C4",
     42 => "CB_GEG",
+    43 => "SWU_NZ",
     default => "CardBack",
   };
 }
