@@ -1536,7 +1536,7 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
   global $decisionQueue, $CS_PlayIndex, $CS_OppIndex, $CS_OppCardActive, $CS_PlayUniqueID, $CS_LayerPlayIndex, $CS_LastDynCost, $CS_NumCardsPlayed;
   global $CS_DynCostResolved, $CS_NumVillainyPlayed, $CS_NumEventsPlayed, $CS_NumClonesPlayed;
   global $CS_PlayedAsUpgrade, $CS_NumWhenDefeatedPlayed, $CS_NumBountyHuntersPlayed, $CS_NumPilotsPlayed, $CS_NumFirstOrderPlayed;
-  global $CS_NumUnitsPlayed;
+  global $CS_NumUnitsPlayed, $CS_ForceLightningActive;
   $resources = &GetResources($currentPlayer);
   $dynCostResolved = intval($dynCostResolved);
   $layerPriority[0] = ShouldHoldPriority(1);
@@ -1737,6 +1737,8 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
         IncrementClassState($currentPlayer, $CS_NumClonesPlayed);
       if (TraitContains($cardID, "First Order", $currentPlayer))
         IncrementClassState($currentPlayer, $CS_NumFirstOrderPlayed);
+      if($playingCard == "6854851277") //Scuffed way to check for Force Lightning, but it works for now
+        IncrementClassState($currentPlayer, $CS_ForceLightningActive); 
       //end increment NumPlayed traits
     }
     if ($playType == "A" || $playType == "AA") {
