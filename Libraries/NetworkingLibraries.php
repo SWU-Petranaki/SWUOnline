@@ -1868,7 +1868,7 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
   }
   switch ($cardID) {
     case "9644107128"://Bamboozle
-      if (SearchCount(SearchHand($currentPlayer, aspect: "Cunning")) > 0) {
+      if ($from != "RESOURCES" && SearchCount(SearchHand($currentPlayer, aspect: "Cunning")) > 0) {
         AddDecisionQueue("YESNO", $currentPlayer, "if_you_want_to_discard_a_Cunning_card", 1);
         AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:aspect=Cunning", 1);
