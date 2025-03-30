@@ -991,7 +991,10 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("MZOP", $player, DealDamageBuilder($power, $player, isUnitEffect:1), 1);
       break;
     case "LETHALCRACKDOWN":
-      DealDamageAsync($player, CardPower($lastResult), "DAMAGE", "1389085256", sourcePlayer:$player);
+      $enemyAlly = new Ally($lastResult);
+      $enemyPower = $enemyAlly->CurrentPower();
+      $enemyAlly->Destroy();
+      DealDamageAsync($player, $enemyPower, "DAMAGE", "1389085256", sourcePlayer:$player);
       break;
     case "KASHYYYKDEFENDER":
       $args = explode("-", $lastResult);
