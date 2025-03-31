@@ -1863,7 +1863,7 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("MZOP", $player, "REST", 1);
         break;
       case "724979d608"://Cad Bane Leader Unit
-        if ($numUses > 0) {
+        if ($numUses > 0 && SearchCount(SearchAllies($otherPlayer)) > 0) {
           AddDecisionQueue("YESNO", $player, "if you want use Cad Bane's ability");
           AddDecisionQueue("NOPASS", $player, "-");
           AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY", 1);
