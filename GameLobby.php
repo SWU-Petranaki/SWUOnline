@@ -24,11 +24,11 @@ function getUserIP() {
   // Check for proxy forwarded IP
   if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
       $ip = $_SERVER['HTTP_CLIENT_IP'];
-  } 
+  }
   // Check for IP from shared internet
   elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
       $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-  } 
+  }
   // Get the standard remote address
   else {
       $ip = $_SERVER['REMOTE_ADDR'];
@@ -43,7 +43,7 @@ function logUserIP() {
     $timestamp = date('Y-m-d H:i:s');
     $gameInfo = "Username: " . $_SESSION["useruid"] . " - IP: " . $ip;
     $logEntry = $timestamp . " - " . $gameInfo . "\n";
-    
+
     // Write to a log file in the root directory
     $logFile = "user_ip_log.txt";
     file_put_contents($logFile, $logEntry, FILE_APPEND);
@@ -214,7 +214,7 @@ $isMobile = IsMobile();
           <?php if (isset($deck)): ?>
             <div style="display: flex; align-items: center; width: 100%; gap: 16px; margin-bottom: 20px;">
             <h2 class='deck-title' style="margin: 0;">Your Deck</h2>
-            <h2 class='deck-count' style="flex-grow: 1; margin: 0;"><span id='mbCount'>(<?= count($deck) ?></span>/<?= count($deck) + count($deckSB) ?>)</h2>
+            <h2 class='deck-count' style="flex-grow: 1; margin: 0;">(<span id='mbCount'><?= count($deck) ?></span>/<?= count($deck) + count($deckSB) ?>)</h2>
 
             <a href='MainMenu.php' class="leave-lobby">
               <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
