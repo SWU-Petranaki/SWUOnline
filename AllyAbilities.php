@@ -643,6 +643,7 @@ function AllyPlayableExhausted(Ally $ally) {
     case "040a3e81f3"://Lando Leader Unit
       return $ally->NumUses() > 0;
     case "5306772000"://Phantom II
+      return NumResourcesAvailable($ally->PlayerID()) > 0;
     case "4300219753"://Fett's Firespray
     case "7144880397"://Ahsoka Tano TWI
     case "2471223947"://Frontline Shuttle
@@ -3385,6 +3386,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
       AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY",1);
       AddDecisionQueue("MZFILTER", $mainPlayer, "filterUpgradeEligible={0}", 1);
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index={1}", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to move <0> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "MOVEUPGRADE", 1);
