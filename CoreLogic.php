@@ -1888,7 +1888,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
 {
   global $currentPlayer, $layers;
   global $CS_LastAttack, $CS_LayerTarget, $CS_NumClonesPlayed, $CS_PlayedAsUpgrade, $CS_NumWhenDefeatedPlayed;
-  global $CS_NumUnitsPlayed, $CS_ForceLightningActive;
+  global $CS_NumUnitsPlayed;
 
   $modifier = 0;
   //Aspect Penalty
@@ -2093,6 +2093,9 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
   $allies = &GetAllies($currentPlayer);
   for($i=0; $i<count($allies); $i+=AllyPieces())
   {
+    $ally = new Ally("MYALLY-" . $i, $currentPlayer);
+    if($ally->LostAbilities()) continue; 
+
     //Shadows of the Galaxy
     if($allies[$i+1] == 0) continue;
     switch($allies[$i]) {
@@ -2101,7 +2104,8 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
         break;
       //Jump to Lightspeed
       case "649c6a9dbd"://Admiral Piett
-        if(TraitContains($cardID, "Capital Ship", $currentPlayer) && GetClassState($otherPlayer, $CS_ForceLightningActive) == 0) $modifier -= 2;
+     
+        if(TraitContains($cardID, "Capital Ship", $currentPlayer)) $modifier -= 2;
         break;
       case "6311662442"://Director Krennic
         if(GetClassState($currentPlayer, $CS_NumWhenDefeatedPlayed) == 0 && HasWhenDestroyed($cardID)) $modifier -= 1;
