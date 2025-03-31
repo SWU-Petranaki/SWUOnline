@@ -1220,7 +1220,10 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
       break;
     case "3503780024"://Outlaw Corona
       if($reportMode) break;
-      AddTopDeckAsResource($opponent);
+      AddDecisionQueue("SETDQCONTEXT", $opponent, "Do you want to put the top card of your deck into play as a resource");
+      AddDecisionQueue("YESNO", $opponent, "-");
+      AddDecisionQueue("NOPASS", $opponent, "-");
+      AddDecisionQueue("OP", $opponent, "ADDTOPDECKASRESOURCE", 1);
       break;
     case "6947306017"://Fugitive Wookie
       if($reportMode) break;
