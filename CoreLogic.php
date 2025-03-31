@@ -2094,7 +2094,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
   for($i=0; $i<count($allies); $i+=AllyPieces())
   {
     $ally = new Ally("MYALLY-" . $i, $currentPlayer);
-    if($ally->LostAbilities()) continue; 
+    if($ally->LostAbilities()) continue;
 
     //Shadows of the Galaxy
     if($allies[$i+1] == 0) continue;
@@ -2104,7 +2104,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
         break;
       //Jump to Lightspeed
       case "649c6a9dbd"://Admiral Piett
-     
+
         if(TraitContains($cardID, "Capital Ship", $currentPlayer)) $modifier -= 2;
         break;
       case "6311662442"://Director Krennic
@@ -6836,8 +6836,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "5306772000"://Phantom II
       if(GetResolvedAbilityName($cardID, "PLAY") == "Dock") {
-        $ghosts = implode(",",array_map(function ($x) { return "MYALLY-" . $x; }, explode(",", SearchAllies($currentPlayer, cardTitle:"The Ghost"))));
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $ghosts);
+        $ghostIndices = explode(",", SearchAllies($currentPlayer, cardTitle:"The Ghost"));
+        if($ghostIndices[0] == "") break;
+        $ghostUnits = implode(",",array_map(function ($x) { return "MYALLY-" . $x; }, $ghostIndices));
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $ghostUnits);
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose which of The Ghost you would like to attach to.", 1);
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);

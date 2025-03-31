@@ -1444,12 +1444,7 @@ function CheckJTLAbilityTypes($cardID) {
     case "9763190770"://Major Vonreg
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "5306772000"://Phantom II
-      $abilityTypes = "";
-      if(SearchCount(SearchAlliesForTitle($currentPlayer, "The Ghost")) > 0 && NumResourcesAvailable($currentPlayer) >= 1)
-        $abilityTypes = "A";
-      if($abilityTypes != "") $abilityTypes .= ",";
-      $abilityTypes .= "AA";
-      return $abilityTypes;
+      return "A,AA";
     default: return "";
   }
 }
@@ -1765,7 +1760,7 @@ function CheckJTLAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "5306772000"://Phantom II
       $abilityNames = "";
-      if(SearchCount(SearchAlliesForTitle($currentPlayer, "The Ghost")) > 0 && NumResourcesAvailable($currentPlayer) >= 1) {
+      if(NumResourcesAvailable($currentPlayer) >= 1) {
         $abilityNames .= "Dock";
       }
       if($abilityNames != "") $abilityNames .= ",";
@@ -1878,8 +1873,8 @@ function IsPlayable($cardID, $phase, $from, $index = -1, &$restriction = null, $
       + SelfCostModifier($cardID, $from, reportMode: true)
       + CurrentEffectCostModifiers($cardID, $from, reportMode:true);
   if($from == "HAND" //The Darksaber
-      && $cardID == "3141660491" 
-      && ((SearchCount(SearchAllies($currentPlayer, trait:"Mandalorian")) > 0)  && NumResourcesAvailable($currentPlayer) > 4) 
+      && $cardID == "3141660491"
+      && ((SearchCount(SearchAllies($currentPlayer, trait:"Mandalorian")) > 0)  && NumResourcesAvailable($currentPlayer) > 4)
       || (ControlsNamedCard($currentPlayer, "Foundling") && NumResourcesAvailable($currentPlayer) > 4)
     )return true;
   if($from == "HAND"
@@ -1942,7 +1937,6 @@ function GoesWhereAfterResolving($cardID, $from = null, $player = "", $playedFro
 
 function UpgradeFilter($cardID)
 {
-  //TODO: allow upgrade filters to use & syntax on more than just traits
   if($cardID == "5375722883") return "trait!=Vehicle";//R2-D2 (Artooooooooo!)
   if(PilotingCost($cardID) >= 0) return "trait!=Vehicle";
   switch($cardID) {
@@ -1983,6 +1977,8 @@ function UpgradeFilter($cardID)
       return "trait!=Vehicle";
     case "5016817239"://Superheavy Ion Cannon
       return "trait!=Capital_Ship&trait!=Transport";
+    case "5306772000"://Phantom II
+      return "cardID!=6931439330&cardID!=5763330426";
     default: return "";
   }
 }

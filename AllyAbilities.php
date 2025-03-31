@@ -643,8 +643,7 @@ function AllyPlayableExhausted(Ally $ally) {
     case "040a3e81f3"://Lando Leader Unit
       return $ally->NumUses() > 0;
     case "5306772000"://Phantom II
-      return SearchCount(SearchAlliesForTitle($ally->Controller(), "The Ghost")) > 0
-        && NumResourcesAvailable($ally->Controller()) >= 1;
+      return NumResourcesAvailable($ally->PlayerID()) > 0;
     case "4300219753"://Fett's Firespray
     case "7144880397"://Ahsoka Tano TWI
     case "2471223947"://Frontline Shuttle
@@ -1593,7 +1592,7 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
       return count($aspectArr) < 3;
     case "2843644198"://Sabine Wren
       $ally = new Ally("MYALLY-" . $index, $player);
-      return !$ally->IsExhausted();
+      return !$ally->IsExhausted() || HasSentinel("2843644198", $player, $index);
     default: return true;
   }
 }
@@ -1783,7 +1782,7 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
   $ally = new Ally($uniqueID); // Important: ally could be defeated by the time this function is called. So, use $ally->Exists() to check if the ally still exists.
   if ($ally->Exists() && $ally->LostAbilities($playedCardID)) return;
   $playedAlly = new Ally($playedUniqueID); // Important: playedAlly could be defeated by the time this function is called. So, use $playedAlly->Exists() to check if the playedAlly still exists.
-  
+
   // When you play a card
   if ($player == $currentPlayer) {
     switch($cardID) {
@@ -1861,7 +1860,7 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY:maxCost=".$playedCardCost);
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to exhaust", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-        AddDecisionQueue("MZOP", $player, "REST", 1);        
+        AddDecisionQueue("MZOP", $player, "REST", 1);
         break;
       case "724979d608"://Cad Bane Leader Unit
         if ($numUses > 0) {
@@ -2083,7 +2082,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
         AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SUPERHEAVYIONCANNON", 1);
         break;
       case "0414253215"://General's Blade
-        if(TraitContains($attackerAlly->CardID(), "Jedi", $mainPlayer)) { 
+        if(TraitContains($attackerAlly->CardID(), "Jedi", $mainPlayer)) {
           $totalOnAttackAbilities++;
           if ($reportMode) break;
           AddCurrentTurnEffect($upgrades[$i], $mainPlayer, from:"PLAY");
@@ -2240,7 +2239,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
       if ($reportMode) break;
       XanaduBloodSHD($mainPlayer, $attackerAlly->Index());
       break;
-    case "7533529264"://Wolffe    
+    case "7533529264"://Wolffe
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       WolffeSOR($mainPlayer);
@@ -2929,10 +2928,10 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
       AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,1", 1);
       break;
     case "2282198576"://Anakin Skywalker
-      if(IsCoordinateActive($mainPlayer)) { 
+      if(IsCoordinateActive($mainPlayer)) {
         $totalOnAttackAbilities++;
         if ($reportMode) break;
-        Draw($mainPlayer); 
+        Draw($mainPlayer);
       }
       break;
     case "6fa73a45ed"://Count Dooku Leader Unit
@@ -3387,6 +3386,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
       AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY",1);
       AddDecisionQueue("MZFILTER", $mainPlayer, "filterUpgradeEligible={0}", 1);
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index={1}", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to move <0> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "MOVEUPGRADE", 1);

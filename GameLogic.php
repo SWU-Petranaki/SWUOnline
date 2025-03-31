@@ -27,13 +27,13 @@ function ParseDQParameter($phase, $player, $parameter) {
     case "INDIRECTDAMAGEMULTIZONE":
     case "PARTIALMULTIHEALMULTIZONE":
     case "MAYMULTIHEALMULTIZONE":
-    case "MULTIHEALMULTIZONE":      
+    case "MULTIHEALMULTIZONE":
       $params = explode("-", $parameter);
       $counterLimit = $params[0];
       $mzIndexes = explode(",", implode("-", array_slice($params, 1)));
       $allies = [];
       $characters = [];
-  
+
       // Get the allies and characters from the mzIndexes
       for ($i = 0; $i < count($mzIndexes); $i++) {
         $mzIndex = $mzIndexes[$i];
@@ -658,11 +658,11 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               Restore($targetHeal, $targetPlayer);
               $afterHealth = GetHealth($targetPlayer);
               $healAmount = $currentHealth - $afterHealth;
-            }   
+            }
 
             if ($healAmount > 0) {
               $healedTargets[] = $healAmount . "-" . $targetUniqueID;
-            }       
+            }
           }
 
           if (count($healedTargets) == 0) {
@@ -692,7 +692,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             } else {
               DealDamageAsync($targetUniqueID[1], $targetDamage, sourcePlayer:$sourcePlayer);
               $damagedTargets[] = $targetUniqueID;
-            }          
+            }
           }
 
           if (count($damagedTargets) == 0) {
@@ -725,7 +725,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             PrependDecisionQueue("OK", $targetPlayer, CardLink($sourceCardID, $sourceCardID) . " deals " . $amount . " indirect damage to you.");
           }
           PrependDecisionQueue("SETDQCONTEXT", $targetPlayer, "Indirect Damage");
-          
+
           return $lastResult;
         case "DEALDAMAGE":
           // Important: use MZOpHelpers.php DamageStringBuilder() function for param structure
@@ -1136,7 +1136,10 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $params = explode("=", $parameter);
       $arr = explode(",", $lastResult);
       $forUpgradeEligible = $params[0] == "filterUpgradeEligible";
-      if($forUpgradeEligible) $params = explode("=", UpgradeFilter($params[1]));
+      if($forUpgradeEligible) {
+        $params = explode("=", UpgradeFilter($params[1]));
+        $paramsCopy = $params;
+      }
       $invertedMatching = str_ends_with($params[0], "!");
       $params[0] = rtrim($params[0], "!");
       for($i=count($arr)-1; $i>=0; --$i) {
@@ -1151,7 +1154,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             }
             break;
           case "trait":
-            $traitParams = explode("&", implode("=",$params));
+            if(!isset($paramsCopy)) $traitParams = explode("&", implode("=",$params));
+            else $traitParams = explode("&", implode("=",$paramsCopy));
             for($j=0; $j<count($traitParams); ++$j) {
               $traitString = str_replace("_", " ", explode("=", $traitParams[$j])[1]);
               if(TraitContains(GetMZCard($player, $arr[$i]), $traitString, $player)) {
@@ -1268,6 +1272,22 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               $hasCaptives = count($ally->GetCaptives()) > 0;
               if($params[1] == 1 && $hasCaptives) $match = true;
               else if($params[1] == 0 && !$hasCaptives) $match = true;
+            }
+            break;
+          case "cardID":
+            if(!isset($paramsCopy)) $cardIDParams = explode("&", implode("=",$params));
+            else $cardIDParams = explode("&", implode("=",$paramsCopy));
+            for($j=0; $j<count($cardIDParams); ++$j) {
+              $cardIDString = explode("=", $cardIDParams[$j])[1];
+              $mzArr = explode("-", $arr[$i]);
+              if($mzArr[0] == "MYALLY") {
+                $ally = new Ally("MYALLY-" . $mzArr[1], $player);
+                if($ally->CardID() == $cardIDString) $match = true;
+              } else if($mzArr[0] == "THEIRALLY") {
+                $otherPlayer = $player == 1 ? 2 : 1;
+                $ally = new Ally("MYALLY-" . $mzArr[1], $otherPlayer);
+                if($ally->CardID() == $cardIDString) $match = true;
+              }
             }
             break;
           default: break;
