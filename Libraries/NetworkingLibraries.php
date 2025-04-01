@@ -445,7 +445,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
 
       // If there are no targets, return PASS
       if (count($targets) == 0) return "PASS";
-      
+
       ContinueDecisionQueue(implode(",", $targets));
       break;
     case 99: //Pass
@@ -633,7 +633,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $char = &GetPlayerCharacter($otherPlayer);
       if ($char[0] != "DUMMY") {
         AddDecisionQueue("YESNO", $otherPlayer, "if you want a Quick Rematch?");
-        AddDecisionQueue("NOPASS", $otherPlayer, "-", 1);
         AddDecisionQueue("QUICKREMATCH", $otherPlayer, "-", 1);
         AddDecisionQueue("OVER", $playerID, "-");
       } else {
@@ -652,8 +651,10 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $conceded = true;
-      if (!IsGameOver())
+      if (!IsGameOver()) {
         PlayerWon(($playerID == 1 ? 2 : 1));
+        CloseDecisionQueue();//to allow Rematch prompts
+      }
       break;
     case 100003: //Report Bug
       if ($isSimulation)
@@ -2254,7 +2255,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
         if ($from == "PLAY" || $from == "EQUIP") {
           $layerName = (GetResolvedAbilityType($cardID, $oppCardActive) == "A" || ($oppCardActive == true)) ? "ACTIVATEDABILITY" : "ATTACKABILITY";
         }
-        
+
         if ($layerName == "ATTACKABILITY") {}
         //TODO: Fix this Relentless and first light and The Mandalorian hack
         // Events and abilities that are not played should be resolved before any ally abilities
