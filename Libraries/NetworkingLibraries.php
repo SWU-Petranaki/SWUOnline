@@ -1045,7 +1045,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   $attackerID = $attacker->CardID();
   $hasOverwhelm = HasOverwhelm($attackerID, $mainPlayer, $attacker->Index());
   $attackerDestroyed = 0;
-
+  $isLeader = false;
   if ($target == "THEIRALLY--1") {//Means the target was already destroyed
     if ($hasOverwhelm) {
       DealDamageAsync($defPlayer, $totalAttack, "OVERWHELM", $attackerID, sourcePlayer:$mainPlayer);
@@ -1055,7 +1055,8 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     }
     if ($attackerID == "1086021299") {
       $lastDestroyed = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
-      ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0]);
+      $isLeader = false; //TODO FIX EDGE CASE ON THIS ONE FOR LEADER PILOTS
+      ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0], $isLeader);
     }
     ClearAttackTarget();
     CompletesAttackEffect($attackerID);
@@ -1080,6 +1081,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     if ($defenderPower < 0)
       $defenderPower = 0;
     $excess = $totalAttack - $defender->Health();
+    if($defender->IsLeader()) $isLeader = true;
     $destroyed = $defender->DealDamage($totalAttack, bypassShield: HasSaboteur($attackerID, $mainPlayer, $attacker->Index()), fromCombat: true, damageDealt: $combatChainState[$CCS_DamageDealt]);
     if ($destroyed)
       ClearAttackTarget();
@@ -1107,8 +1109,8 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   if (!$attackerDestroyed) {
     CompletesAttackEffect($attackerID);
   }
-  if ($attackerID == "1086021299" && $isDefenderAlly) {
-    ArquitensAssaultCruiser($mainPlayer, $defenderCardID);
+  if ($attackerID == "1086021299" && $isDefenderAlly){ 
+    ArquitensAssaultCruiser($mainPlayer, $defenderCardID, $isLeader);
   }
   ProcessDecisionQueue();
 }
@@ -2371,9 +2373,9 @@ function BlizzardAssaultATAT($player, $excess) {
   AddDecisionQueue("MZOP", $player, "DEALDAMAGE,$excess,$player,1", 1);
 }
 
-function ArquitensAssaultCruiser($player, $cardID) {
+function ArquitensAssaultCruiser($player, $cardID, $isLeader) {
   $defPlayer = $player == 1 ? 2 : 1;
-  if(!IsToken($cardID)) {
+  if(!IsToken($cardID) && !$isLeader) {
     $discard = GetDiscard($defPlayer);
     for($i=0; $i<count($discard); $i+=DiscardPieces()) {
       if($discard[$i] == $cardID) {

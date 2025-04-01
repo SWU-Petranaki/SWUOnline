@@ -6425,6 +6425,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "8174214418"://Turbolaser Salvo
+      if(SearchCount(SearchAllies($currentPlayer, arena:"Space")) < 1) break;
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an arena to blast. ");
       AddDecisionQueue("BUTTONINPUT", $currentPlayer, "Space,Ground");
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
