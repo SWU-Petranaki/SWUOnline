@@ -641,12 +641,15 @@ class Ally {
       }
     }
     if (CardIsUnique($cardID)) {
-      $this->CheckUniqueUpgrade($cardID);
-      if($receivingPilot) {
-        $allyDestroyed = $this->CheckUniqueAllyForPilot($cardID);
-        if($allyDestroyed) $this->index = min(0, $this->index - AllyPieces());
-        if($cardID == "0979322247")//Sidon Ithano
-          $this->DefeatIfNoRemainingHP();
+      CheckUniqueCard($cardID, $this->UniqueID());
+
+      if ($receivingPilot) {
+        switch ($cardID) {
+          case "0979322247"://Sidon Ithano
+            $this->DefeatIfNoRemainingHP();
+            break;
+          default: break;
+        }
       }
     }
     //end Pilot attach side effects
@@ -711,45 +714,15 @@ class Ally {
     $this->allies[$this->index + 4] = "-";
   }
 
-  function CheckUniqueUpgrade($cardID) {
-    $firstCopy = "";
-    $secondCopy = "";
-    for($i=0; $i<count($this->allies); $i+=AllyPieces()) {
-      $subcards = explode(",", $this->allies[$i + 4]);
-      for($j=0; $j<count($subcards); ++$j) {
-        if($subcards[$j] == $cardID) {
-          if($firstCopy == "") $firstCopy = $i;
-          else $secondCopy = $i;
-        }
+  function GetSubcardForCard($cardID) {
+    if($this->index == -1) return false;
+    $subcards = $this->GetSubcards();
+    for($i=0; $i<count($subcards); $i+=SubcardPieces()) {
+      if($subcards[$i] == $cardID) {
+        return new SubCard($this, $i);
       }
     }
-
-    if($firstCopy != "" && $firstCopy == $secondCopy && $this->index == $firstCopy) {
-      $ownerId = $this->DefeatUpgrade($cardID);
-      AddGraveyard($cardID, $ownerId, "PLAY");
-      WriteLog("Existing copy of upgrade defeated due to unique rule.");
-    } elseif ($firstCopy != "" && $secondCopy != "" && $firstCopy != $secondCopy) {
-      $otherIndex = $this->index == $firstCopy ? $secondCopy : $firstCopy;
-      $otherAlly = new Ally("MYALLY-" . $otherIndex);
-      $ownerId = $otherAlly->DefeatUpgrade($cardID);
-      AddGraveyard($cardID, $ownerId, "PLAY");
-      WriteLog("Existing copy of upgrade defeated due to unique rule.");
-    }
-  }
-
-  function CheckUniqueAllyForPilot($attachedPilotCardID) {
-    if(!CardIsUnique($attachedPilotCardID)) return;
-    for($i=0; $i<count($this->allies); $i+=AllyPieces()) {
-      if($i == $this->index) continue;
-      $ally = new Ally("MYALLY-" . $i);
-      if($ally->CardID() == $attachedPilotCardID) {
-        WriteLog(CardLink($attachedPilotCardID, $attachedPilotCardID) . " unit was defeated due to unique rule.");
-        $ally->Destroy();
-        return true;
-      }
-    }
-
-    return false;
+    return null;
   }
 
   function HasUpgrade($upgradeID) {

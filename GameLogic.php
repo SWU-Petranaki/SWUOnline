@@ -555,7 +555,11 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $parameterArr = explode(",", $parameter);
       switch ($parameterArr[0])
       {
-        case "CHECKUNIQUEALLY": return CheckUniqueAlly($lastResult, reportMode:true) ? "YES" : "NO";
+        case "CHECKUNIQUECARD":
+          $args = explode(",", $lastResult);
+          $cardID = $args[0];
+          $allyUniqueID = $args[1];
+          return CheckUniqueCard($cardID, $allyUniqueID, reportMode:true) ? "YES" : "NO";
         case "FREEZE": MZFreeze($lastResult); break;
         case "GAINCONTROL": MZGainControl($player, $lastResult); break;
         case "GETCARDID": return GetMZCard($player, $lastResult);
@@ -773,6 +777,17 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $enemyEffects = count($parameterArr) > 1 ? $parameterArr[1] != $ally->Controller(): true;
           $ally->Destroy($enemyEffects);
           return $id;
+        case "DESTROYUNIQUECARD":
+          $uniqueCardID = $parameterArr[1];
+          $ally = new Ally($lastResult);
+
+          if ($ally->CardID() == $uniqueCardID) {
+            $ally->Destroy(false);
+          } else {
+            $ally->DefeatUpgrade($uniqueCardID);
+          }
+
+          return $uniqueCardID;
         case "EXPLOIT":
           global $CS_PlayedWithExploit;
           SetClassState($player, $CS_PlayedWithExploit, 1);
