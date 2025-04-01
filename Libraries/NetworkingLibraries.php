@@ -1045,7 +1045,8 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   $attackerID = $attacker->CardID();
   $hasOverwhelm = HasOverwhelm($attackerID, $mainPlayer, $attacker->Index());
   $attackerDestroyed = 0;
-
+  //Construct defender
+  $defender = new Ally($target, $defPlayer);
   if ($target == "THEIRALLY--1") {//Means the target was already destroyed
     if ($hasOverwhelm) {
       DealDamageAsync($defPlayer, $totalAttack, "OVERWHELM", $attackerID, sourcePlayer:$mainPlayer);
@@ -1072,8 +1073,6 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   $isDefenderAlly = false;
   if ($targetArr[0] == "THEIRALLY") {
     $isDefenderAlly = true;
-    //Construct defender
-    $defender = new Ally($target, $defPlayer);
     //Resolve the combat
     $shootsFirst = ShouldCombatDamageFirst();
     $preventDamage = ShouldPreventCombatDamage();
