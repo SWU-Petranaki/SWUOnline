@@ -1055,7 +1055,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     }
     if ($attackerID == "1086021299") {
       $lastDestroyed = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
-      $isLeader = false; //TODO FIX EDGE CASE ON THIS ONE FOR LEADER PILOTS
+      $isLeader = AllyIsLeader($lastDestroyed[0], $lastDestroyed[4]);
       ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0], $isLeader);
     }
     ClearAttackTarget();
@@ -1081,7 +1081,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     if ($defenderPower < 0)
       $defenderPower = 0;
     $excess = $totalAttack - $defender->Health();
-    if($defender->IsLeader()) $isLeader = true;
+    $isLeader = $defender->IsLeader();
     $destroyed = $defender->DealDamage($totalAttack, bypassShield: HasSaboteur($attackerID, $mainPlayer, $attacker->Index()), fromCombat: true, damageDealt: $combatChainState[$CCS_DamageDealt]);
     if ($destroyed)
       ClearAttackTarget();
