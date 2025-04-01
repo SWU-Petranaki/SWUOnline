@@ -1045,6 +1045,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   $attackerID = $attacker->CardID();
   $hasOverwhelm = HasOverwhelm($attackerID, $mainPlayer, $attacker->Index());
   $attackerDestroyed = 0;
+  $isLeader = false;
   //Construct defender
   $defender = new Ally($target, $defPlayer);
   if ($target == "THEIRALLY--1") {//Means the target was already destroyed
@@ -1054,9 +1055,8 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     } else if ($attackerID == "3830969722") { //Blizzard Assault AT-AT
       BlizzardAssaultATAT($mainPlayer, $totalAttack);
     }
-    if ($attackerID == "1086021299") {
+    if ($attackerID == "1086021299") {//TODO FIX EDGE CASE ON THIS ONE FOR LEADER PILOTS
       $lastDestroyed = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
-      $isLeader = false;
       if($defender->IsLeader()) $isLeader = true;
       ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0], $isLeader);
     }
@@ -1081,6 +1081,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     if ($defenderPower < 0)
       $defenderPower = 0;
     $excess = $totalAttack - $defender->Health();
+    if($defender->IsLeader()) $isLeader = true;
     $destroyed = $defender->DealDamage($totalAttack, bypassShield: HasSaboteur($attackerID, $mainPlayer, $attacker->Index()), fromCombat: true, damageDealt: $combatChainState[$CCS_DamageDealt]);
     if ($destroyed)
       ClearAttackTarget();
@@ -1109,8 +1110,6 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     CompletesAttackEffect($attackerID);
   }
   if ($attackerID == "1086021299" && $isDefenderAlly){ 
-    $isLeader = false;
-    if($defender->IsLeader()) $isLeader = true;
     ArquitensAssaultCruiser($mainPlayer, $defenderCardID, $isLeader);
   }
   ProcessDecisionQueue();
