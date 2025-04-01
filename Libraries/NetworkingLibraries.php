@@ -1054,6 +1054,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
       BlizzardAssaultATAT($mainPlayer, $totalAttack);
     }
     if ($attackerID == "1086021299") {
+      $lastDestroyed = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
       $isLeader = false;
       if($defender->IsLeader()) $isLeader = true;
       ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0], $isLeader);
