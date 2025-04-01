@@ -3435,7 +3435,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
         AddDecisionQueue("MZFILTER", $currentPlayer, "index=" . $playAlly->MZIndex(), 1);
-        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "8-MYCHAR-0,THEIRCHAR-0,", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "8-MYCHAR-0,THEIRCHAR-0,");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Heal up to 8 total damage from any number of units and/or bases", 1);
         AddDecisionQueue("PARTIALMULTIHEALMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "MULTIHEAL", 1);
