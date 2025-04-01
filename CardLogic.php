@@ -376,6 +376,8 @@ function ProcessDecisionQueue()
   if($dqState[0] != "1") {
     $count = count($turn);
     if($count < 3) $turn[2] = "-";
+    //DQStatePieces
+    //DQState pieces
     $dqState[0] = "1"; //If the decision queue is currently active/processing
     $dqState[1] = $turn[0];
     $dqState[2] = $turn[1];
@@ -1000,7 +1002,7 @@ function StartRegroupPhase() {
   // Reset allies round health modifiers
   ResetAlliesHealthModifiers(1);
   ResetAlliesHealthModifiers(2);
-  
+
   // Trigger abilities
   CharacterStartRegroupPhaseAbilities(1);
   CharacterStartRegroupPhaseAbilities(2);

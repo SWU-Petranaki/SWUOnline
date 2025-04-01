@@ -190,6 +190,11 @@ function ChainLinkSummaryPieces()
   return 6;
 }
 
+//0 - Phase
+//1 - Player ID
+//3 - Parameter
+//4 - Subsequent
+//5 - Checkpoint
 function DecisionQueuePieces()
 {
   return 5;

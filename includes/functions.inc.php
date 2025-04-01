@@ -256,50 +256,51 @@ function LoadFavoriteDecks($userID)
 	return $output;
 }
 
-//Challenge ID 1 = sigil of solace blue
-//Challenge ID 2 = Talishar no dash
-//Challenge ID 3 = Moon Wish
-function logCompletedGameStats()
-{
-	global $winner, $currentRound, $gameName; //gameName is assumed by ParseGamefile.php
-	global $p1id, $p2id, $p1IsChallengeActive, $p2IsChallengeActive, $p1DeckLink, $p2DeckLink, $firstPlayer;
-	global $p1deckbuilderID, $p2deckbuilderID;
-	/*
-	$loser = ($winner == 1 ? 2 : 1);
-	$columns = "WinningHero, LosingHero, NumTurns, WinnerDeck, LoserDeck, WinnerHealth, FirstPlayer, WinningPlayer";
-	$values = "?, ?, ?, ?, ?, ?, ?, ?";
-	$winnerDeck = file_get_contents("./Games/" . $gameName . "/p" . $winner . "Deck.txt");
-	$loserDeck = file_get_contents("./Games/" . $gameName . "/p" . $loser . "Deck.txt");
-	$winHero = GetCachePiece($gameName, ($winner == 1 ? 7 : 8));
-	$loseHero = GetCachePiece($gameName, ($winner == 1 ? 8 : 7));
+//FAB stats
+// //Challenge ID 1 = sigil of solace blue
+// //Challenge ID 2 = Talishar no dash
+// //Challenge ID 3 = Moon Wish
+// function logCompletedGameStats()
+// {
+// 	global $winner, $currentRound, $gameName; //gameName is assumed by ParseGamefile.php
+// 	global $p1id, $p2id, $p1IsChallengeActive, $p2IsChallengeActive, $p1DeckLink, $p2DeckLink, $firstPlayer;
+// 	global $p1deckbuilderID, $p2deckbuilderID;
+// 	/*
+// 	$loser = ($winner == 1 ? 2 : 1);
+// 	$columns = "WinningHero, LosingHero, NumTurns, WinnerDeck, LoserDeck, WinnerHealth, FirstPlayer, WinningPlayer";
+// 	$values = "?, ?, ?, ?, ?, ?, ?, ?";
+// 	$winnerDeck = file_get_contents("./Games/" . $gameName . "/p" . $winner . "Deck.txt");
+// 	$loserDeck = file_get_contents("./Games/" . $gameName . "/p" . $loser . "Deck.txt");
+// 	$winHero = GetCachePiece($gameName, ($winner == 1 ? 7 : 8));
+// 	$loseHero = GetCachePiece($gameName, ($winner == 1 ? 8 : 7));
 
-	$conn = GetDBConnection();
+// 	$conn = GetDBConnection();
 
-	if ($p1id != "" && $p1id != "-") {
-		$columns .= ", " . ($winner == 1 ? "WinningPID" : "LosingPID");
-		$values .= ", " . $p1id;
-	}
-	if ($p2id != "" && $p2id != "-") {
-		$columns .= ", " . ($winner == 2 ? "WinningPID" : "LosingPID");
-		$values .= ", " . $p2id;
-	}
+// 	if ($p1id != "" && $p1id != "-") {
+// 		$columns .= ", " . ($winner == 1 ? "WinningPID" : "LosingPID");
+// 		$values .= ", " . $p1id;
+// 	}
+// 	if ($p2id != "" && $p2id != "-") {
+// 		$columns .= ", " . ($winner == 2 ? "WinningPID" : "LosingPID");
+// 		$values .= ", " . $p2id;
+// 	}
 
-	$sql = "INSERT INTO completedgame (" . $columns . ") VALUES (" . $values . ");";
-	$stmt = mysqli_stmt_init($conn);
-	$gameResultID = 0;
-	if (mysqli_stmt_prepare($stmt, $sql)) {
-		mysqli_stmt_bind_param($stmt, "ssssssss", $winHero, $loseHero, $currentRound, $winnerDeck, $loserDeck, GetHealth($winner), $firstPlayer, $winner);
-		mysqli_stmt_execute($stmt);
-		$gameResultID = mysqli_insert_id($conn);
-		mysqli_stmt_close($stmt);
-	}
+// 	$sql = "INSERT INTO completedgame (" . $columns . ") VALUES (" . $values . ");";
+// 	$stmt = mysqli_stmt_init($conn);
+// 	$gameResultID = 0;
+// 	if (mysqli_stmt_prepare($stmt, $sql)) {
+// 		mysqli_stmt_bind_param($stmt, "ssssssss", $winHero, $loseHero, $currentRound, $winnerDeck, $loserDeck, GetHealth($winner), $firstPlayer, $winner);
+// 		mysqli_stmt_execute($stmt);
+// 		$gameResultID = mysqli_insert_id($conn);
+// 		mysqli_stmt_close($stmt);
+// 	}
 
-	if ($p1IsChallengeActive == "1" && $p1id != "-") LogChallengeResult($conn, $gameResultID, $p1id, ($winner == 1 ? 1 : 0));
-	if ($p2IsChallengeActive == "1" && $p2id != "-") LogChallengeResult($conn, $gameResultID, $p2id, ($winner == 2 ? 1 : 0));
+// 	if ($p1IsChallengeActive == "1" && $p1id != "-") LogChallengeResult($conn, $gameResultID, $p1id, ($winner == 1 ? 1 : 0));
+// 	if ($p2IsChallengeActive == "1" && $p2id != "-") LogChallengeResult($conn, $gameResultID, $p2id, ($winner == 2 ? 1 : 0));
 
-	mysqli_close($conn);
-	*/
-}
+// 	mysqli_close($conn);
+// 	*/
+// }
 
 function changePassword($conn, $userID, $newPwd)
 {
@@ -322,18 +323,18 @@ function changePassword($conn, $userID, $newPwd)
 	exit();
 }
 
-function LogChallengeResult($conn, $gameResultID, $playerID, $result)
-{
-	WriteLog("Writing challenge result for player " . $playerID);
-	$challengeId = 3;
-	$sql = "INSERT INTO challengeresult (gameId, challengeId, playerId, result) VALUES (?, ?, ?, ?);";
-	$stmt = mysqli_stmt_init($conn);
-	if (mysqli_stmt_prepare($stmt, $sql)) {
-		mysqli_stmt_bind_param($stmt, "ssss", $gameResultID, $challengeId, $playerID, $result); //Challenge ID 1 = sigil of solace blue
-		mysqli_stmt_execute($stmt);
-		mysqli_stmt_close($stmt);
-	}
-}
+// function LogChallengeResult($conn, $gameResultID, $playerID, $result)//FAB stats
+// {
+// 	WriteLog("Writing challenge result for player " . $playerID);
+// 	$challengeId = 3;
+// 	$sql = "INSERT INTO challengeresult (gameId, challengeId, playerId, result) VALUES (?, ?, ?, ?);";
+// 	$stmt = mysqli_stmt_init($conn);
+// 	if (mysqli_stmt_prepare($stmt, $sql)) {
+// 		mysqli_stmt_bind_param($stmt, "ssss", $gameResultID, $challengeId, $playerID, $result); //Challenge ID 1 = sigil of solace blue
+// 		mysqli_stmt_execute($stmt);
+// 		mysqli_stmt_close($stmt);
+// 	}
+// }
 
 function SerializeGameResult($player, $DeckLink, $deckAfterSB, $gameID = "", $opposingHero = "", $gameName = "", $deckbuilderID = "", $opposingBaseColor = "", $myLeader = "", $myBase = "")
 {

@@ -508,7 +508,7 @@ function IsGameOver()
 
 function PlayerWon($playerID)
 {
-  global $winner, $turn, $gameName, $p1id, $p2id, $p1uid, $p2uid, $p1IsChallengeActive, $p2IsChallengeActive, $conceded, $currentRound;
+  global $winner, $turn, $gameName, $p1id, $p2id, $p1uid, $p2uid, $conceded, $currentRound;
   global $p1DeckLink, $p2DeckLink, $inGameStatus, $GameStatus_Over, $firstPlayer, $p1deckbuilderID, $p2deckbuilderID;
   if($turn[0] == "OVER") return;
   include_once "./MenuFiles/ParseGamefile.php";
@@ -522,11 +522,12 @@ function PlayerWon($playerID)
   $turn[0] = "OVER";
   SetCachePiece($gameName, 14, 6);//$MGS_GameOverStatsLogged
   if(GetCachePiece($gameName, 14) == 7) return;//$MGS_StatsLoggedIrreversible
-  try {
-    logCompletedGameStats();
-  } catch (Exception $e) {
 
-  }
+  // try {//FAB stats
+  //   logCompletedGameStats();
+  // } catch (Exception $e) {
+
+  // }
 
   try {
     SendSWUStatsResults();
@@ -2095,16 +2096,14 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
   {
     $ally = new Ally("MYALLY-" . $i, $currentPlayer);
     if($ally->LostAbilities()) continue;
-
-    //Shadows of the Galaxy
     if($allies[$i+1] == 0) continue;
     switch($allies[$i]) {
+      //Shadows of the Galaxy
       case "5035052619"://Jabba the Hutt
         if(DefinedTypesContains($cardID, "Event", $currentPlayer) && TraitContains($cardID, "Trick", $currentPlayer)) $modifier -= 1;
         break;
       //Jump to Lightspeed
       case "649c6a9dbd"://Admiral Piett
-
         if(TraitContains($cardID, "Capital Ship", $currentPlayer)) $modifier -= 2;
         break;
       case "6311662442"://Director Krennic

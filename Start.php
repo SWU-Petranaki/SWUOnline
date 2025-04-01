@@ -106,7 +106,7 @@ $isReplay = 0;
 WriteCache($gameName, ($currentUpdate + 1) . "!" . $currentTime . "!" . $currentTime . "!-1!-1!" . $currentTime . "!"
   . $p1Hero . "!" . $p2Hero . "!" . $visibility . "!" . $isReplay . "!0!0!"
   . FormatCode($format) . "!" . $MGS_GameStarted
-  . "!0!0!$currentTime!0!0!$p1Base!$p2Base$p1SecondHero!$p2SecondHero"); //Initialize SHMOP cache for this game
+  . "!0!0!$currentTime!0!0!$p1Base!$p2Base!$p1SecondHero!$p2SecondHero!1"); //Initialize SHMOP cache for this game
 
 ob_start();
 include "ParseGamestate.php";
