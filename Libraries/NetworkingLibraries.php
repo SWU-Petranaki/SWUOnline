@@ -1055,9 +1055,10 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     } else if ($attackerID == "3830969722") { //Blizzard Assault AT-AT
       BlizzardAssaultATAT($mainPlayer, $totalAttack);
     }
-    if ($attackerID == "1086021299") {//TODO FIX EDGE CASE ON THIS ONE FOR LEADER PILOTS
+    if ($attackerID == "1086021299") {
       $lastDestroyed = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
-      if($defender->IsLeader()) $isLeader = true;
+      if($defender->IsLeader()) $isLeader = true;//TODO FIX EDGE CASE ON THIS ONE FOR LEADER PILOTS
+      $isLeader = false; // HARDCODE FOR THE ABOVE
       ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0], $isLeader);
     }
     ClearAttackTarget();
