@@ -192,9 +192,9 @@ function ChainLinkSummaryPieces()
 
 //0 - Phase
 //1 - Player ID
-//3 - Parameter
-//4 - Subsequent
-//5 - Checkpoint
+//2 - Parameter
+//3 - Subsequent
+//4 - Checkpoint
 function DecisionQueuePieces()
 {
   return 5;

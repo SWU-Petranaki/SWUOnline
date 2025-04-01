@@ -7,12 +7,12 @@ $stage = getenv('STAGE') ?: 'prod';
 $isDev = $stage === 'dev';
 
 $ReturnDelim = "GSDELIM";
-$DisconnectFirstWarningMS = $isDev ? 1e9 : 30e3;
-$DisconnectFinalWarningMS = $isDev ? 1e9 : 55e3;
-$DisconnectTimeoutMS = $isDev ? 1e9 : 60e3;
+$DisconnectFirstWarningMS = $isDev ? 1e9 : 15e3;
+$DisconnectFinalWarningMS = $isDev ? 1e9 : 25e3;
+$DisconnectTimeoutMS = $isDev ? 1e9 : 30e3;
 $ServerTimeoutMS = $isDev ? 1e9 : 90e3;
-$InputWarningMS = $isDev ? 1e9 : 60e3;
-$InputTimeoutMS = $isDev ? 1e9 : 90e3;
+$InputWarningMS = $isDev ? 1e9 : 50e3;
+$InputTimeoutMS = $isDev ? 1e9 : 60e3;
 
 //We should always have a player ID as a URL parameter
 $gameName = $_GET["gameName"];
@@ -175,7 +175,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   include "Libraries/UILibraries2.php";
   include "Libraries/StatFunctions.php";
   include "Libraries/PlayerSettings.php";
-  
+
   $isActivePlayer = $turn[1] == $playerID;
 
   if ($turn[0] == "REMATCH" && intval($playerID) != 3) {
