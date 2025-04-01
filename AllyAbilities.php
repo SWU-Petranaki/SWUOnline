@@ -715,6 +715,8 @@ function AllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Ambush";
     case "a742dea1f1"://Han Solo Red Leader Unit
       return $abilityName != "Play";
+    case "5306772000"://Phantom II
+      return $abilityName != "Dock";
     default: break;
   }
 

@@ -1759,12 +1759,7 @@ function CheckJTLAbilityNames($cardID, $index, $validate) {
     case "9763190770"://Major Vonreg
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "5306772000"://Phantom II
-      $abilityNames = "";
-      if(NumResourcesAvailable($currentPlayer) >= 1) {
-        $abilityNames .= "Dock";
-      }
-      if($abilityNames != "") $abilityNames .= ",";
-      $abilityNames .= "Attack";
+      $abilityNames = "Dock,Attack";
       if($validate) {
         $ally = new Ally("MYALLY-" . $index, $currentPlayer);
         if($ally->IsExhausted()) $abilityNames = FilterOutAttackAbilityName($abilityNames);
