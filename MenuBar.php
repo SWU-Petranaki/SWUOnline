@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 include_once 'Assets/patreon-php-master/src/OAuth.php';
 include_once 'Assets/patreon-php-master/src/API.php';
@@ -39,13 +39,74 @@ $isMobile = IsMobile();
 </head>
 
 <body>
-
+    <style>
+      a.info-nav:hover {
+        text-decoration: none;
+      }
+      span.nav-triangle {
+        font-size: 0.7rem;
+        margin-left: 0.2rem;
+      }
+      li.dropdown {
+          position: relative;
+          display: inline-block;
+      }
+      ul.dropdown-content {
+        display: none;
+        position: absolute;
+        left: -1rem;
+        top: 1.5rem;
+        background-color: rgba(90, 70, 30, 0.7);
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      }
+      .dropdown-content li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        backdrop-filter: blur(16px);
+      }
+      .dropdown-content a {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-size: 1rem;
+      }
+      .dropdown-content a:hover {
+        background-color: rgba(90, 70, 30, 0.9);
+        width: 100%;
+        color: rgba(220, 200, 160, 1);
+      }
+    </style>
+    <script>
+      function toggleInfoNav() {
+          var dropdownContent = document.querySelector('.dropdown-content');
+          if (dropdownContent.style.display === 'block') {
+              dropdownContent.style.display = 'none';
+          } else {
+              dropdownContent.style.display = 'block';
+          }
+          var triangle = document.querySelector('.nav-triangle');
+          if (dropdownContent.style.display === 'block') {
+            triangle.innerHTML = '▲';
+          } else {
+            triangle.innerHTML = '▼';
+          }
+      }
+    </script>
     <div class='nav-bar' style="display: block;">
           <div class='nav-bar-user'>
               <ul class='rightnav'>
                   <?php
                   if (isset($_SESSION["useruid"])) {
-                      echo "<li><a href='UnimplementedCards.php' class='NavBarItem'>Preview Cards</a></li>";
+                        echo "<li class='dropdown'>
+                          <a href='javascript:void(0)' onclick='toggleInfoNav()' class='NavBarItem info-nav'>Info <span class='nav-triangle'>▼</span></a>
+                          <ul class='dropdown-content'>
+                            <li><a href='CantinaBrawl.php'>Cantina Brawl</a></li>
+                            <li><a href='UnimplementedCards.php'>Preview Cards</a></li>
+                            <li><a href='Conduct.php'>Code of Conduct</a></li>
+                          </ul>
+                        </li>";
                       echo "<li><a href='https://swustats.net/TCGEngine/SharedUI/MainMenu.php' target='_blank' class='NavBarItem'>SWU Stats</a></li>";
                       echo "<li><a href='ProfilePage.php' class='NavBarItem'>Profile</a></li>";
                       echo "<li><a href='./AccountFiles/LogoutUser.php' class='NavBarItem'>Log Out</a></li>";
@@ -85,7 +146,7 @@ $isMobile = IsMobile();
                   ?>
               </ul>
           </div>
-        <div class="nav-bar-karabast">
+        <div class="nav-bar-karabast" style="z-index: -1;">
             Looking for <a href="https://karabast.net">new Karabast</a>?
         </div>
     </div>
