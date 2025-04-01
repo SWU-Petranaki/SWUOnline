@@ -854,18 +854,11 @@ class Ally {
   }
 
   function IsLeader() {
-    return CardIDIsLeader($this->CardID())
-      || $this->HasPilotLeaderUpgrade();
+    return AllyIsLeader($this->CardID(), $this->GetUpgrades(withMetadata:true));
   }
 
   function HasPilotLeaderUpgrade() {
-    $upgrades = $this->GetUpgrades(withMetadata:true);
-    for($i=0; $i<count($upgrades); $i+=SubcardPieces()) {
-      if (CardIDIsLeader($upgrades[$i]) && $upgrades[$i+2] == "1") {
-        return $upgrades[$i] != "3eb545eb4b";//Poe Dameron JTL leader (so far the only one)
-      }
-    }
-    return false;
+    return AllyHasPilotLeaderUpgrade($this->GetUpgrades(withMetadata:true));
   }
 
   function IsUpgraded(): bool {
@@ -933,6 +926,20 @@ class Ally {
       || $this->HasUpgrade("7208848194"))//Chewbacca
     ;
   }
+}
+
+function AllyIsLeader($cardID, $upgradesWithMetadata): bool {
+  return CardIDIsLeader($cardID)
+    || AllyHasPilotLeaderUpgrade($upgradesWithMetadata);
+}
+
+function AllyHasPilotLeaderUpgrade($upgradesWithMetadata): bool {
+  for($i=0; $i<count($upgradesWithMetadata); $i+=SubcardPieces()) {
+    if (CardIDIsLeader($upgradesWithMetadata[$i]) && $upgradesWithMetadata[$i+2] == "1") {
+      return $upgradesWithMetadata[$i] != "3eb545eb4b";//Poe Dameron JTL leader (so far the only one)
+    }
+  }
+  return false;
 }
 
 function LastAllyIndex($player): int {
