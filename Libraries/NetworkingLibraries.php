@@ -1054,8 +1054,9 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
       BlizzardAssaultATAT($mainPlayer, $totalAttack);
     }
     if ($attackerID == "1086021299") {
-      $lastDestroyed = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
-      ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0]);
+      $isLeader = false;
+      if($defender->IsLeader()) $isLeader = true;
+      ArquitensAssaultCruiser($mainPlayer, $lastDestroyed[0], $isLeader);
     }
     ClearAttackTarget();
     CompletesAttackEffect($attackerID);
@@ -1107,8 +1108,10 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   if (!$attackerDestroyed) {
     CompletesAttackEffect($attackerID);
   }
-  if ($attackerID == "1086021299" && $isDefenderAlly) {
-    ArquitensAssaultCruiser($mainPlayer, $defenderCardID);
+  if ($attackerID == "1086021299" && $isDefenderAlly){ 
+    $isLeader = false;
+    if($defender->IsLeader()) $isLeader = true;
+    ArquitensAssaultCruiser($mainPlayer, $defenderCardID, $isLeader);
   }
   ProcessDecisionQueue();
 }
@@ -2371,9 +2374,9 @@ function BlizzardAssaultATAT($player, $excess) {
   AddDecisionQueue("MZOP", $player, "DEALDAMAGE,$excess,$player,1", 1);
 }
 
-function ArquitensAssaultCruiser($player, $cardID) {
+function ArquitensAssaultCruiser($player, $cardID, $isLeader) {
   $defPlayer = $player == 1 ? 2 : 1;
-  if(!IsToken($cardID)) {
+  if(!IsToken($cardID) && !$isLeader) {
     $discard = GetDiscard($defPlayer);
     for($i=0; $i<count($discard); $i+=DiscardPieces()) {
       if($discard[$i] == $cardID) {
