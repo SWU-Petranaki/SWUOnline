@@ -143,6 +143,11 @@ session_start();
       document.getElementById('ban-message').style.display = 'none';
       document.getElementById('april-fools').style.display = 'block';
       window.scrollTo(0, 0); // Scroll back to the top of the page
+
+      // Set cookie to expire at the end of the day
+      const expiry = new Date();
+      expiry.setHours(23, 59, 59, 999); // End of today
+      document.cookie = `april_fools_seen=${new Date().getFullYear()}; expires=${expiry.toUTCString()}; path=/`;
     }
   </script>
 </body>

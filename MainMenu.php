@@ -24,9 +24,6 @@ if ((date('m') == '04' && date('d') == '01')) {
   
   // If they haven't seen it yet, set a cookie and redirect
   if (!$aprilFoolsSeen) {
-    // Set cookie to expire at the end of the day
-    $expiry = strtotime('tomorrow') - 1; // End of today
-    setcookie('april_fools_seen', date('Y'), $expiry, '/');
     header("Location: ./Banned.php");
     exit;
   }
