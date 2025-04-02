@@ -143,6 +143,7 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
 
         for ($j = 0; $j < count($upgrades); $j+=SubcardPieces()) {
           $subcard = new SubCard($otherAlly, $j);
+          if ($subcard->IsCaptive()) continue; // Ignore captives
           if ($subcard->CardID() == $cardID && $subcard->Owner() == $player) { // TODO: we should check for controller instead of owner
             $uniqueAllyInPlay = $otherAlly;
             break;
