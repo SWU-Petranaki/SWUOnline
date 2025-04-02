@@ -555,7 +555,11 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $parameterArr = explode(",", $parameter);
       switch ($parameterArr[0])
       {
-        case "CHECKUNIQUEALLY": return CheckUniqueAlly($lastResult, reportMode:true) ? "YES" : "NO";
+        case "CHECKUNIQUECARD":
+          $args = explode(",", $lastResult);
+          $cardID = $args[0];
+          $allyUniqueID = $args[1];
+          return CheckUniqueCard($cardID, $allyUniqueID, reportMode:true) ? "YES" : "NO";
         case "FREEZE": MZFreeze($lastResult); break;
         case "GAINCONTROL": MZGainControl($player, $lastResult); break;
         case "GETCARDID": return GetMZCard($player, $lastResult);
@@ -773,6 +777,17 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $enemyEffects = count($parameterArr) > 1 ? $parameterArr[1] != $ally->Controller(): true;
           $ally->Destroy($enemyEffects);
           return $id;
+        case "DESTROYUNIQUECARD":
+          $uniqueCardID = $parameterArr[1];
+          $ally = new Ally($lastResult);
+
+          if ($ally->CardID() == $uniqueCardID) {
+            $ally->Destroy(false);
+          } else {
+            $ally->DefeatUpgrade($uniqueCardID);
+          }
+
+          return $uniqueCardID;
         case "EXPLOIT":
           global $CS_PlayedWithExploit;
           SetClassState($player, $CS_PlayedWithExploit, 1);
@@ -2117,20 +2132,29 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       PrependDecisionQueue("SHUFFLEDECK", $player, "-");
       return 0;
     case "QUICKREMATCH":
-      $currentTime = round(microtime(true) * 1000);
-      SetCachePiece($gameName, 2, $currentTime);
-      SetCachePiece($gameName, 3, $currentTime);
-      ClearGameFiles($gameName);
-      include "MenuFiles/ParseGamefile.php";
-      $authKey = $playerID == 1 ? $p1Key : $p2Key;
-      header("Location: " . $redirectPath . "/Start.php?gameName=$gameName&playerID=$playerID&authKey=$authKey");
-      exit;
+      if($lastResult == "YES") {
+        $currentTime = round(microtime(true) * 1000);
+        SetCachePiece($gameName, 2, $currentTime);
+        SetCachePiece($gameName, 3, $currentTime);
+        ClearGameFiles($gameName);
+        include "MenuFiles/ParseGamefile.php";
+        $authKey = $playerID == 1 ? $p1Key : $p2Key;
+        header("Location: " . $redirectPath . "/Start.php?gameName=$gameName&playerID=$playerID&authKey=$authKey");
+        exit;
+      } else {
+        WriteLog("Player $player declined the quick rematch");
+        CloseDecisionQueue();
+        break;
+      }
     case "REMATCH":
-      global $GameStatus_Rematch, $inGameStatus;
+      global $GameStatus_Rematch, $inGameStatus, $gameName, $gameFileHandler;
       if($lastResult == "YES")
       {
         $inGameStatus = $GameStatus_Rematch;
+        IncrementCachePiece($gameName, 24);
         ClearGameFiles($gameName);
+      } else {
+        WriteLog("Player $player declined the rematch");
       }
       return 0;
     case "UNIQUETOMZ":
@@ -2378,4 +2402,12 @@ function AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID = "-", $resource
       }
     }
   }
+}
+
+function GeenerateRematchID() {
+  $rematchID = "";
+  for($i=0; $i<12; ++$i) {
+    $rematchID .= rand(0, 9);
+  }
+  return $rematchID;
 }

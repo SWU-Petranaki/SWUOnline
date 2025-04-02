@@ -3,7 +3,7 @@ include_once "./Libraries/IOLibraries.php";
 
 function initializePlayerState($handler, $deckHandler, $player)
 {
-  global $p1IsPatron, $p2IsPatron, $p1IsChallengeActive, $p2IsChallengeActive, $p1id, $p2id;
+  global $p1IsPatron, $p2IsPatron, $p1FreeGameFilePiece01, $p2FreeGameFilePiece01, $p1id, $p2id;
   global $SET_AlwaysHoldPriority, $SET_TryUI2, $SET_DarkMode, $SET_ManualMode, $SET_SkipARs, $SET_SkipDRs, $SET_PassDRStep, $SET_AutotargetArcane;
   global $SET_ColorblindMode, $SET_EnableDynamicScaling, $SET_Mute, $SET_Cardback, $SET_IsPatron;
   global $SET_MuteChat, $SET_DisableStats, $SET_CasterMode, $SET_DisableAnimations;
@@ -12,8 +12,8 @@ function initializePlayerState($handler, $deckHandler, $player)
   $deckSize = count($deckCards);
   fwrite($handler, "\r\n"); //Hand
 
-  if($player == 1) $p1IsChallengeActive = "0";
-  else if($player == 2) $p2IsChallengeActive = "0";
+  if($player == 1) $p1FreeGameFilePiece01 = "-";
+  else if($player == 2) $p2FreeGameFilePiece01 = "-";
 
   //Equipment challenge
   /*

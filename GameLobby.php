@@ -9,6 +9,7 @@ include_once "Libraries/HTTPLibraries.php";
 include_once "Assets/patreon-php-master/src/PatreonDictionary.php";
 include_once "WriteLog.php";
 include_once './AccountFiles/AccountDatabaseAPI.php';
+include_once './Libraries/GameFormats.php';
 ob_end_clean();
 
 session_start();
@@ -19,43 +20,12 @@ if (isset($_SESSION["userid"]) && IsBanned($_SESSION["userid"])) {
   exit;
 }
 
-// Get the user's IP address
-function getUserIP() {
-  // Check for proxy forwarded IP
-  if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-      $ip = $_SERVER['HTTP_CLIENT_IP'];
-  }
-  // Check for IP from shared internet
-  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-  }
-  // Get the standard remote address
-  else {
-      $ip = $_SERVER['REMOTE_ADDR'];
-  }
-  return $ip;
-}
-
-function logUserIP() {
-  // Check if the user is Brubraz and log their IP if so
-  if (isset($_SESSION["useruid"]) && $_SESSION["useruid"] == "TheHungryHippo") {
-    $ip = getUserIP();
-    $timestamp = date('Y-m-d H:i:s');
-    $gameInfo = "Username: " . $_SESSION["useruid"] . " - IP: " . $ip;
-    $logEntry = $timestamp . " - " . $gameInfo . "\n";
-
-    // Write to a log file in the root directory
-    $logFile = "user_ip_log.txt";
-    file_put_contents($logFile, $logEntry, FILE_APPEND);
-  }
-}
-
 logUserIP();
-
 
 $authKey = "";
 $gameName = TryGET("gameName", "");
 $playerID = TryGET("playerID", "");
+//$rematchID = TryGET("rematchID", "");
 
 if($gameName == "" || $playerID == "") exit;
 
@@ -107,6 +77,14 @@ else if ($playerID == 2 && $gameStatus >= $MGS_ReadyToStart)
   $icon = "notReady.png";
 
 $isMobile = IsMobile();
+
+global $format;
+if(is_numeric($format)) {
+  $parsedFormat = Formats::FromCode($format);
+} else {
+  $parsedFormat = $format;
+}
+$canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece($gameName, 24)) !== 1;
 ?>
 
 <!DOCTYPE html>
@@ -289,6 +267,10 @@ $isMobile = IsMobile();
     }
 
     function CardClick(id) {
+      if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
+        alert('In the Premier Strict format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
+        return;
+      }
       var idArr = id.split("-");
       if (idArr[0] == "DECK") {
         var overlay = document.getElementById(id + "-ovr");
@@ -373,3 +355,38 @@ $isMobile = IsMobile();
   </script>
 </body>
 </html>
+
+<?php
+//helper functions
+
+// Get the user's IP address
+function getUserIP() {
+  // Check for proxy forwarded IP
+  if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+      $ip = $_SERVER['HTTP_CLIENT_IP'];
+  }
+  // Check for IP from shared internet
+  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  }
+  // Get the standard remote address
+  else {
+      $ip = $_SERVER['REMOTE_ADDR'];
+  }
+  return $ip;
+}
+
+function logUserIP() {
+  // Check if the user is Brubraz and log their IP if so
+  if (isset($_SESSION["useruid"]) && $_SESSION["useruid"] == "TheHungryHippo") {
+    $ip = getUserIP();
+    $timestamp = date('Y-m-d H:i:s');
+    $gameInfo = "Username: " . $_SESSION["useruid"] . " - IP: " . $ip;
+    $logEntry = $timestamp . " - " . $gameInfo . "\n";
+
+    // Write to a log file in the root directory
+    $logFile = "user_ip_log.txt";
+    file_put_contents($logFile, $logEntry, FILE_APPEND);
+  }
+}
+?>

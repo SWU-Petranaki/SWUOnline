@@ -14,6 +14,21 @@ if (isset($_SESSION["userid"]) && IsBanned($_SESSION["userid"])) {
   exit;
 }
 
+// April Fools Day
+if ((date('m') == '04' && date('d') == '01')) {
+  // Check if the user has already seen the April Fools page
+  $aprilFoolsSeen = false;
+  if (isset($_COOKIE['april_fools_seen']) && $_COOKIE['april_fools_seen'] == date('Y')) {
+    $aprilFoolsSeen = true;
+  }
+  
+  // If they haven't seen it yet, set a cookie and redirect
+  if (!$aprilFoolsSeen) {
+    header("Location: ./Banned.php");
+    exit;
+  }
+}
+
 if (!empty($_SESSION['error'])) {
   $error = $_SESSION['error'];
   unset($_SESSION['error']);

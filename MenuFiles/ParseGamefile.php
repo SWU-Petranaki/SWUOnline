@@ -35,8 +35,8 @@
   $p2IsPatron = trim(fgets($gameFileHandler));
   $p1DeckLink = trim(fgets($gameFileHandler));
   $p2DeckLink = trim(fgets($gameFileHandler));
-  $p1IsChallengeActive = trim(fgets($gameFileHandler));
-  $p2IsChallengeActive = trim(fgets($gameFileHandler));
+  $p1FreeGameFilePiece01 = trim(fgets($gameFileHandler));
+  $p2FreeGameFilePiece01 = trim(fgets($gameFileHandler));
   $joinerIP = trim(fgets($gameFileHandler));
   $deprecated = trim(fgets($gameFileHandler));//Deprecated
   $p1Matchups = json_decode(trim(fgets($gameFileHandler)));

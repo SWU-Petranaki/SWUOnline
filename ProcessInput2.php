@@ -142,7 +142,6 @@ if($chkCountTheirs > 0 || $chkCountMine > 0) {
 else
   ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkInput, false, $inputText);
 
-
 ProcessMacros();
 if ($inGameStatus == $GameStatus_Rematch) {
   $origDeck = "./Games/" . $gameName . "/p1DeckOrig.txt";

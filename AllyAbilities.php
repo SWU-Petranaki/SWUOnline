@@ -46,7 +46,7 @@ function PlayAlly($cardID, $player, $subCards = "-", $from = "-",
   $allies[] = $epicAction ? 1 : 0; //Epic Action
   $index = count($allies) - AllyPieces();
   CurrentEffectAllyEntersPlay($player, $index);
-  CheckUniqueAlly($uniqueID);
+  CheckUniqueCard($cardID, $uniqueID);
 
   if ($playAbility || $cardID == "0345124206") { //Clone - Ensure that the Clone will always choose a unit to clone whenever it enters play.
     if(HasShielded($cardID, $player, $index)) {
@@ -106,50 +106,66 @@ function CheckHealthAllAllies() {
 }
 
 // Returns true if there is more than one unique unit in play, false otherwise.
-function CheckUniqueAlly($uniqueID, $reportMode = false) {
-  $ally = new Ally($uniqueID);
-  if (!$ally->Exists()) return;
-  $cardID = $ally->CardID();
-  $player = $ally->PlayerID();
+function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
+  $uniqueAllyInPlay = null;
+  $ally = new Ally($allyUniqueID);
+  if (!$ally->Exists()) return false;
+  if (!CardIsUnique($cardID)) return false;
 
-  if (CardIsUnique($cardID) && !$ally->IsCloned()) {
-    // Check if there are any other unique allies in play, ignoring cloned units
-    $allies = &GetAllies($player);
-    $uniqueAllyInPlay = false;
+  // Get the player that controls the unique card
+  if ($cardID == $ally->CardID()) {
+    $player = $ally->Controller();
+
+    // Cloned units are not unique
+    if ($ally->IsCloned()) return false;
+  } else {
+    $subcard = $ally->GetSubcardForCard($cardID);
+    if ($subcard != null) {
+      $player = $subcard->Owner(); // TODO: we should check for controller instead of owner
+    } else {
+      return false;
+    }
+  }
+
+  // Check if there are any other unique cards in play
+  for ($p = 1; $p <= 2; $p++) {
+    $allies = &GetAllies($p);
+
     for ($i = 0; $i < count($allies); $i += AllyPieces()) {
-      $otherAlly = new Ally("MYALLY-" . $i, $player);
-      if ($otherAlly->Exists() && $otherAlly->UniqueID() != $uniqueID) {
-        if($otherAlly->CardID() == $cardID && !$otherAlly->IsCloned()) {
-          $uniqueAllyInPlay = true;
-          break;
-        } else {//check for pilots
-          $upgrades = $otherAlly->GetUpgrades(withMetadata:true);
-          for ($j = 0; $j < count($upgrades); $j+=SubcardPieces()) {
-            if ($upgrades[$j] == $cardID) {
-              if (!$reportMode) {
-                WriteLog(CardLink($cardID, $cardID) . " upgrade has been defeated due to unique rule.");
-                DefeatUpgradeForUniqueID($upgrades[$j + 3]);
-              }
-              return true;
-            }
+      $otherAlly = new Ally("MYALLY-" . $i, $p);
+      if ($otherAlly->UniqueID() == $allyUniqueID) continue;
+
+      if ($otherAlly->CardID() == $cardID && !$otherAlly->IsCloned() && $otherAlly->Controller() == $player) {
+        $uniqueAllyInPlay = $otherAlly;
+        break;
+      } else { //check for upgrades/pilots
+        $upgrades = $otherAlly->GetUpgrades(withMetadata:true);
+
+        for ($j = 0; $j < count($upgrades); $j+=SubcardPieces()) {
+          $subcard = new SubCard($otherAlly, $j);
+          if ($subcard->CardID() == $cardID && $subcard->Owner() == $player) { // TODO: we should check for controller instead of owner
+            $uniqueAllyInPlay = $otherAlly;
+            break;
           }
         }
+
+        if ($uniqueAllyInPlay != null) break;
       }
     }
-
-    if (!$reportMode && $uniqueAllyInPlay) {
-      PrependDecisionQueue("MZOP", $player, "DESTROY,$player", 1);
-      PrependDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
-      PrependDecisionQueue("SETDQCONTEXT", $player, "You have two of this unique unit; choose one to destroy", 1);
-      PrependDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:cardID=" . $cardID, 1);
-      PrependDecisionQueue("NOPASS", $player, "-");
-      // Double check that there is more than one unique unit in play, in case any were defeated during the resolution.
-      PrependDecisionQueue("MZOP", $player, "CHECKUNIQUEALLY");
-      PrependDecisionQueue("PASSPARAMETER", $player, $uniqueID);
-    }
-
-    return $uniqueAllyInPlay;
   }
+
+  if (!$reportMode && $uniqueAllyInPlay != null) {
+    PrependDecisionQueue("MZOP", $player, "DESTROYUNIQUECARD," . $cardID, 1);
+    PrependDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+    PrependDecisionQueue("SETDQCONTEXT", $player, "You have two of this unique card; choose one to destroy", 1);
+    PrependDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex() . "," . $uniqueAllyInPlay->MZIndex(), 1);
+    PrependDecisionQueue("NOPASS", $player, "-");
+    // Double check that there is more than one unique unit in play, in case any were defeated during the resolution.
+    PrependDecisionQueue("MZOP", $player, "CHECKUNIQUECARD");
+    PrependDecisionQueue("PASSPARAMETER", $player, $cardID . "," . $allyUniqueID);
+  }
+
+  return $uniqueAllyInPlay != null;
 }
 
 function LeaderAbilitiesIgnored() {
@@ -564,7 +580,7 @@ function AllyTakeControl($player, $uniqueID) {
 
   $allyIndex = $ally->Index();
   $allyController = $ally->Controller();
-
+  $allyCardID = $ally->CardID();
   // Return if the ally is already controlled by the player
   if ($allyController == $player) {
     return $uniqueID;
@@ -603,7 +619,15 @@ function AllyTakeControl($player, $uniqueID) {
   $theirAllies = array_values($theirAllies); // Reindex the array
 
   CheckHealthAllAllies();
-  CheckUniqueAlly($uniqueID);
+
+  // Check if the ally is unique and its subcards are unique
+  $newAlly = new Ally($uniqueID, $player);
+  CheckUniqueCard($newAlly->CardID(), $newAlly->UniqueID());
+  $subcards = $newAlly->GetSubcards();
+  for ($i = 0; $i < count($subcards); $i += SubcardPieces()) {
+    $subcard = new SubCard($newAlly, $i);
+    CheckUniqueCard($subcard->CardID(), $newAlly->UniqueID());
+  }
   return $uniqueID;
 }
 
@@ -715,6 +739,8 @@ function AllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Ambush";
     case "a742dea1f1"://Han Solo Red Leader Unit
       return $abilityName != "Play";
+    case "5306772000"://Phantom II
+      return $abilityName != "Dock";
     default: break;
   }
 
@@ -3655,11 +3681,14 @@ function InvisibleHandJTL($player) {
 }
 
 function LukePilotPlotArmor($player, $turnsInPlay) {
-  AddDecisionQueue("SETDQCONTEXT", $player, "Move Luke to the ground arena?");
+  AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to move Luke Skywalker to the ground arena?");
   AddDecisionQueue("YESNO", $player, "-");
   AddDecisionQueue("NOPASS", $player, "-");
   AddDecisionQueue("PASSPARAMETER", $player, "5942811090,$turnsInPlay", 1);//Luke Skywalker (You Still With Me?)
   AddDecisionQueue("MZOP", $player, "FALLENPILOTUPGRADE", 1);
+  AddDecisionQueue("ELSE", $player, "-");
+  AddDecisionQueue("PASSPARAMETER", $player, "5942811090", 1);
+  AddDecisionQueue("ADDDISCARD", $player, "PLAY", 1);
 }
 
 function TheAnnihilatorJTL($player) {
