@@ -361,17 +361,17 @@ $canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece
 
 // Get the user's IP address
 function getUserIP() {
-  // Check for proxy forwarded IP
-  if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-      $ip = $_SERVER['HTTP_CLIENT_IP'];
+  // Check for IP from Cloudflare
+  if (!empty($SERVER['CF-Connecting-IP'])) {
+    $ip = $_SERVER['CF-Connecting-IP'];
   }
   // Check for IP from shared internet
   elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
   }
-  // Check for IP from Cloudflare
-  elseif (!empty($SERVER['CF-Connecting-IP'])) {
-      $ip = $_SERVER['CF-Connecting-IP'];
+  // Check for proxy forwarded IP
+  elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+      $ip = $_SERVER['HTTP_CLIENT_IP'];
   }
   // Get the standard remote address
   else {
