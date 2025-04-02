@@ -143,6 +143,7 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
 
         for ($j = 0; $j < count($upgrades); $j+=SubcardPieces()) {
           $subcard = new SubCard($otherAlly, $j);
+          if ($subcard->IsCaptive()) continue; // Ignore captives
           if ($subcard->CardID() == $cardID && $subcard->Owner() == $player) { // TODO: we should check for controller instead of owner
             $uniqueAllyInPlay = $otherAlly;
             break;
@@ -158,7 +159,8 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
     PrependDecisionQueue("MZOP", $player, "DESTROYUNIQUECARD," . $cardID, 1);
     PrependDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
     PrependDecisionQueue("SETDQCONTEXT", $player, "You have two of this unique card; choose one to destroy", 1);
-    PrependDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex() . "," . $uniqueAllyInPlay->MZIndex(), 1);
+    PrependDecisionQueue("UIDOP", $player, "GETMZINDEX", 1);
+    PrependDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID() . "," . $uniqueAllyInPlay->UniqueID(), 1);
     PrependDecisionQueue("NOPASS", $player, "-");
     // Double check that there is more than one unique unit in play, in case any were defeated during the resolution.
     PrependDecisionQueue("MZOP", $player, "CHECKUNIQUECARD");

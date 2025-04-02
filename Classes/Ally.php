@@ -947,6 +947,10 @@ class SubCard {
     return $this->subcards[$this->index+2] == "1";
   }
 
+  function IsCaptive() {
+    return DefinedTypesContains($this->CardID(), "Unit") && !$this->IsPilot();
+  }
+
   function UniqueID() {
     return $this->subcards[$this->index+3];
   }
