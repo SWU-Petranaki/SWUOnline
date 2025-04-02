@@ -369,6 +369,10 @@ function getUserIP() {
   elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
       $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
   }
+  // Check for IP from Cloudflare
+  elseif (!empty($SERVER['CF-Connecting-IP'])) {
+      $ip = $_SERVER['CF-Connecting-IP'];
+  }
   // Get the standard remote address
   else {
       $ip = $_SERVER['REMOTE_ADDR'];
@@ -377,8 +381,16 @@ function getUserIP() {
 }
 
 function logUserIP() {
+  $watchFor = [
+    "starvinmarvin",
+    "penelopesgarden",
+    "creepyfrenchman",
+    "creepierfrenchman",
+    "ntcg"//ninin's alt account for testing
+  ];
   // Check if the user is Brubraz and log their IP if so
-  if (isset($_SESSION["useruid"]) && $_SESSION["useruid"] == "TheHungryHippo") {
+  if (isset($_SESSION["useruid"])
+      && in_array($_SESSION["useruid"], $watchFor)) {
     $ip = getUserIP();
     $timestamp = date('Y-m-d H:i:s');
     $gameInfo = "Username: " . $_SESSION["useruid"] . " - IP: " . $ip;
