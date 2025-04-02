@@ -1295,11 +1295,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $counterType = 0;
       $counterLimit = 0;
 
-      if (!$mzChooseFromPlay && $playable && TheirAllyPlayableExhausted($ally)) {
-        $border = CardBorderColor($theirAllies[$i], "PLAY", $playable);
-        $action = $currentPlayer == $playerID && $turn[0] != "P" && $playable ? 105 : 0; // 105 is the Ally Ability for opponent-controlled abilities like Mercenary Gunship
-        $actionDataOverride = strval($i);
-      } else if ($mzMultiDamage || $mzMultiHeal) {
+      if ($mzMultiDamage || $mzMultiHeal) {
         $isTarget = in_array($ally->UniqueID(), $mzMultiAllies);
         if ($isTarget) {
           $showCounterControls = $isActivePlayer;
@@ -1311,6 +1307,10 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
             $counterLimit = $isDamagePreventable ? 0 : $ally->Health();
           }
         }
+      } else if (!$mzChooseFromPlay && $playable && TheirAllyPlayableExhausted($ally)) {
+        $border = CardBorderColor($theirAllies[$i], "PLAY", $playable);
+        $action = $currentPlayer == $playerID && $turn[0] != "P" && $playable ? 105 : 0; // 105 is the Ally Ability for opponent-controlled abilities like Mercenary Gunship
+        $actionDataOverride = strval($i);
       }
 
       $opts = array(
@@ -1482,13 +1482,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $counterType = 0;
       $counterLimit = 0;
 
-      if ($mzChooseFromPlay) {
-        $mzIndex = "MYALLY-" . $i;
-        $inOptions = in_array($mzIndex, $optionsIndex);
-        $action = $inOptions ? 16 : 0;
-        $actionDataOverride = $inOptions ? $mzIndex : 0;
-        $border = CardBorderColor($myAllies[$i], "PLAY", $action == 16);
-      } else if ($mzMultiDamage || $mzMultiHeal) {
+      if ($mzMultiDamage || $mzMultiHeal) {
         $isTarget = in_array($ally->UniqueID(), $mzMultiAllies);
         if ($isTarget) {
           $showCounterControls = $isActivePlayer;
@@ -1500,6 +1494,12 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
             $counterLimit = $isDamagePreventable ? 0 : $ally->Health();
           }
         }
+      } else if ($mzChooseFromPlay) {
+        $mzIndex = "MYALLY-" . $i;
+        $inOptions = in_array($mzIndex, $optionsIndex);
+        $action = $inOptions ? 16 : 0;
+        $actionDataOverride = $inOptions ? $mzIndex : 0;
+        $border = CardBorderColor($myAllies[$i], "PLAY", $action == 16);
       } else {
         $playable = IsPlayable($myAllies[$i], $turn[0], "PLAY", $i, $restriction) && (!$ally->IsExhausted() || AllyPlayableExhausted($ally));
         $border = CardBorderColor($myAllies[$i], "PLAY", $playable);
