@@ -43,6 +43,7 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-" . 41, "C4", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 42, "Golden Eagle Gaming", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 43, "SWU NZ", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-" . 44, "Golden Squadron", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   return $rv;
 }
 
