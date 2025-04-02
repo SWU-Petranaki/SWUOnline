@@ -133,8 +133,9 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
 
     for ($i = 0; $i < count($allies); $i += AllyPieces()) {
       $otherAlly = new Ally("MYALLY-" . $i, $p);
+      if ($otherAlly->UniqueID() == $allyUniqueID) continue;
 
-      if ($otherAlly->CardID() == $cardID && !$otherAlly->IsCloned() && $otherAlly->Controller() == $player && $otherAlly->UniqueID() != $allyUniqueID) {
+      if ($otherAlly->CardID() == $cardID && !$otherAlly->IsCloned() && $otherAlly->Controller() == $player) {
         $uniqueAllyInPlay = $otherAlly;
         break;
       } else { //check for upgrades/pilots
