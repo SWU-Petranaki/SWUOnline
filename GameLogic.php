@@ -522,13 +522,18 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $parameterArr = explode(",", $parameter);
       switch ($parameterArr[0]) {
         case "GETMZINDEX":
-          if (is_numeric($lastResult)) {
-            $ally = new Ally($lastResult);
-            return $ally->MZIndex();
-          } else {
-            $character = new Character($lastResult);
-            return $character->MZIndex();
+          $indexes = explode(",", $lastResult);
+          $mzIndexes = [];
+          foreach ($indexes as $index) {
+            if (is_numeric($index)) {
+              $ally = new Ally($index);
+              $mzIndexes[] = $ally->MZIndex();
+            } else {
+              $character = new Character($lastResult);
+              $mzIndexes[] = $character->MZIndex();
+            }
           }
+          return implode(",", $mzIndexes);
         case "REVERTCONTROL": // Revert control of a unit to its owner
           $ally = new Ally($lastResult);
           if (!$ally->Exists() || $ally->Controller() == $ally->Owner()) return "PASS";
