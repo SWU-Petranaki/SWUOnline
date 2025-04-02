@@ -4799,7 +4799,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if ($from != "PLAY") XanaduBloodSHD($currentPlayer, $playAlly->Index());
       break;
     case "1312599620"://Smuggler's Starfighter
-      if(SearchCount(SearchAllies($currentPlayer, trait:"Underworld")) > 0) {
+      if(SearchCount(SearchAllies($currentPlayer, trait:"Underworld")) > 1) {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3 power");
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
