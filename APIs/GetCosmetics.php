@@ -171,6 +171,10 @@ $cardBack = new stdClass();
 $cardBack->name = "SWU NZ";
 $cardBack->id = 43;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Golden Squadron";
+$cardBack->id = 44;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {
