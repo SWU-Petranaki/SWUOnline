@@ -1225,9 +1225,9 @@ function MainMenuUI()
 
 function LeaveGameUI() {
   global $playerID;
-  $rv = "<div class='leave-game-wrapper'>";
+  $rv = "<div class='leave-game-wrapper' style='height: 70vh;'>";
   $rv .= "<div>";
-  $rv .= "<h3>" . (IsGameOver() ? "Leave" : "Concede") . " game and return to main menu?</h3>";
+  $rv .= "<h3 style='font-size: 24px; font-weight: 600;'>" . (IsGameOver() ? "Leave" : "Concede") . " game and return to main menu?</h3>";
   $rv .= "<div class='leave-game-buttons'>";
   if (IsGameOver())
     $rv .= CreateButton($playerID, "Leave Game", 100001, 0, "24px", "", "", false, true);
