@@ -73,11 +73,11 @@ function PlayCaptive($player, $target) {
   AddDecisionQueue("OP", $player, "PLAYCAPTIVE", 1);
 }
 
-function RescueUnit($player, $target="", $may=false)
+function RescueUnit($player, $target="", $may=false, $onlyOwned=false)
 {
   AddDecisionQueue("PASSPARAMETER", $player, $target);
   AddDecisionQueue("SETDQVAR", $player, 0);
-  AddDecisionQueue("MZOP", $player, "GETCAPTIVES");
+  AddDecisionQueue("MZOP", $player, $onlyOwned ? "GETOWNEDCAPTIVES" : "GETCAPTIVES");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to rescue");
   if($may) AddDecisionQueue("MAYCHOOSECARD", $player, "<-", 1);
   else AddDecisionQueue("CHOOSECARD", $player, "<-", 1);

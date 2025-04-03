@@ -1261,3 +1261,19 @@ function CountHand($player) {
   $hand = &GetHand($player);
   return count($hand)/HandPieces();
 }
+
+function SearchCaptors($player="") {
+  $captors = [];
+  foreach ([1, 2] as $p) {
+    if ($player != "" && $p != $player) continue;
+
+    $allies = &GetAllies($p);
+    foreach ($allies as $ally) {
+      $ally = new Ally($ally);
+      if ($ally->HasCaptive()) {
+        $captors[] = $ally->MZIndex();
+      }
+    }
+  }
+  return implode(",", $captors);
+}

@@ -3075,7 +3075,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
     case "0693815329"://Cad Bane (Hostage Taker)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      RescueUnit($mainPlayer == 1 ? 2 : 1, "THEIRALLY-" . $attackerIndex, may:true);
+      RescueUnit($mainPlayer == 1 ? 2 : 1, "THEIRALLY-" . $attackerIndex, may:true, onlyOwned:true);
       AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
       AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
       break;

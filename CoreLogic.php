@@ -4789,9 +4789,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       RescueUnit($currentPlayer, $target);
       break;
     case "9552605383"://L3-37
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to rescue from (or pass for shield)");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      $captors = SearchCaptors();
+      if (SearchCount($captors) > 0) {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $captors);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to rescue from (or pass for shield)");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      } else {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "PASS");
+      }
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "L337," . $uniqueId);
       break;
     case "5818136044"://Xanadu Blood
@@ -6012,7 +6017,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       break;
     case "7579458834"://Reprocess
-      AddDecisionQueue("FINDINDICES", $currentPlayer, "GY");
+      AddDecisionQueue("FINDINDICES", $currentPlayer, "GYUNITS");
       AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "4-");
       AddDecisionQueue("MULTICHOOSEDISCARD", $currentPlayer, "<-");
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "RESTOCK", 1);
