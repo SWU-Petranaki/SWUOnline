@@ -1500,6 +1500,24 @@ h3 {
   user-select: none;
 }
 
+.multichoose-wrapper {
+  display:flex;
+  flex-wrap:wrap;
+  width:100%;
+  justify-content:center;
+  margin-bottom:8px;
+  column-gap:16px;
+}
+
+.multichoose-item {
+  margin:0px 0px;
+  text-align:center;
+}
+
+label.multichoose .not-selectable {
+  margin-bottom: 0px !important;
+}
+
 .counters-control-wrapper {
   margin: 0px;
   top: 15px;
