@@ -920,10 +920,10 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 75%;
+        height: 250px;
         gap: 16px;
         margin-left: -5px;
-        margin-top: 3%;
+        margin-bottom: 10px;
       }
       .card {
         display: flex;
@@ -986,7 +986,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $content .= "</div>";
     }
     $content .= "</div>";
-    echo CreatePopup("CHOOSEOPTION", [], 0, 1, $caption, 1, $content, height: "35%", width: "50%");
+    echo CreatePopup("CHOOSEOPTION", [], 0, 1, $caption, 1, $content, height: "300px", width: "50%");
   }
 
   // MULTICHOOSETEXT and MAYMULTICHOOSETEXT are deprecated, use MULTICHOOSE and MAYMULTICHOOSE instead
