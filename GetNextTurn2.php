@@ -1046,10 +1046,10 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $theirAllies = &GetAllies($otherPlayer);
       $myAllies = &GetAllies($playerID);
       $caption = "<div>Choose up to " . $params[0] . " card" . ($optionParams > 1 ? "s." : ".") . "</div>";
-      $content .= "<div style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
+      $content .= "<div class='multichoose-wrapper' style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
       
       for ($i = 0; $i < count($options); ++$i) {
-        $content .= "<div style='margin:5px; text-align:center; vertical-align:top;'>";
+        $content .= "<div class='multichoose-item' style='margin:5px; text-align:center; vertical-align:top;'>";
         $content .= CreateCheckbox($i, strval($i));
         $content .= "<div class='container'>";
         if ($turn[0] == "MULTICHOOSEDISCARD")
@@ -1131,10 +1131,10 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       // Theirs section
       $content .= "<div style='margin-bottom:15px;'>";
       $content .= "<div style='color:white; text-align:center; margin-bottom:10px;'>Theirs</div>";
-      $content .= "<div style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
+      $content .= "<div class='multichoose-wrapper' style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
       
       for ($i = 0; $i < count($options[0]); ++$i) {
-        $content .= "<div style='margin:5px; text-align:center;'>";
+        $content .= "<div class='multichoose-item' style='margin:5px; text-align:center;'>";
         $content .= CreateCheckbox("t" . $i, strval($i));
         $content .= "<div class='container'>";
         $content .= "<label class='multichoose' for=chkt" . $i . ">" . Card($multiTheirAllies[$options[0][$i]], "concat", $cardSize, 0, 1) . "</label>";
@@ -1147,10 +1147,10 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       // Mine section
       $content .= "<div>";
       $content .= "<div style='color:white; text-align:center; margin-bottom:10px;'>Mine</div>";
-      $content .= "<div style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
+      $content .= "<div class='multichoose-wrapper' style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
       
       for ($i = 0; $i < count($options[1]); ++$i) {
-        $content .= "<div style='margin:5px; text-align:center;'>";
+        $content .= "<div class='multichoose-item' style='margin:5px; text-align:center;'>";
         $content .= CreateCheckbox("m" . $i, strval($i));
         $content .= "<div class='container'>";
         $content .= "<label class='multichoose' for=chkm" . $i . ">" . Card($multiAllies[$options[1][$i]], "concat", $cardSize, 0, 1) . "</label>";
@@ -1178,11 +1178,11 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $caption = "<div>Choose up to " . $params[0] . " card" . ($params[0] > 1 ? "s." : ".") . "</div>";
     if (GetDQHelpText() != "-")
       $caption = "<div>" . implode(" ", explode("_", GetDQHelpText())) . "</div>";
-    $content .= "<div style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
+    $content .= "<div class='multichoose-wrapper' style='display:flex; flex-wrap:wrap; width:100%; justify-content:center;'>";
     $checkboxCount = 0; //function chkSumbmit() called by the Submit button relies on knowing the number of checkboxes and them being numbered sequentially, so I can't simply skip those corresponding to the unselectable cards outright. I had no luck with hiding the checkboxes I wanted gone so instead I do create only those that should be usable, but use this variable to track their indices, seperate from the indices of the displayed cards.
     for ($i = 0; $i < count($searchIndices); ++$i) {
       $selectable = array_search($searchIndices[$i], $validTargetIndices) !== false;
-      $content .= "<div style='margin:5px; text-align:center;'>";
+      $content .= "<div class='multichoose-item' style='margin:5px; text-align:center;'>";
       if ($selectable) {
         $content .= CreateCheckbox($checkboxCount++, strval($i));
       } else {
