@@ -17,7 +17,7 @@ function LeaderPilotDeploy($player, $leader, $target) {
       AddDecisionQueue("PARTIALMULTIDAMAGEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
       break;
-    case "a015eb5c5e"://Han Solo
+    case "a015eb5c5e"://Han Solo JTL
       HanSoloPilotLeaderJTL($player);
       break;
     case "3064aff14f"://Lando Calrissian
