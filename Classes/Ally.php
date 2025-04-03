@@ -686,13 +686,17 @@ class Ally {
     return $upgrades;
   }
 
+  function HasCaptive() {
+    return count($this->GetCaptives()) > 0;
+  }
+
   function GetCaptives($withMetadata = false) {
     if($this->allies[$this->index + 4] == "-") return [];
     $subcards = $this->GetSubcards();
     $capturedUnits = [];
     for($i=0; $i<count($subcards); $i+=SubcardPieces()) {
-      $isPilot = $subcards[$i+2] == "1";
-      if(DefinedTypesContains($subcards[$i], "Unit") && !$isPilot) {
+      $subcard = new SubCard($this, $i);
+      if($subcard->IsCaptive()) {
         if ($withMetadata) {
           for ($j = 0; $j < SubcardPieces(); $j++) {
             array_push($capturedUnits, $subcards[$i + $j]);

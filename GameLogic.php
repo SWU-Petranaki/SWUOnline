@@ -924,6 +924,18 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $targetAlly->Attach($upgradeID, $upgradeOwnerID, $epicAction ?? false, $turnsInPlay ?? 0);
           CheckHealthAllAllies();
           return $lastResult;
+        case "GETOWNEDCAPTIVES":
+          $ally = new Ally($lastResult);
+          $captives = $ally->GetCaptives(true);
+          $rv = [];
+          for ($i = 0; $i < count($captives); $i += SubcardPieces()) {
+            $subcard = new SubCard($ally, $i);
+            if ($subcard->Owner() == $player) {
+              $rv[] = $subcard->CardID();
+            }
+          }
+          $rv = implode(",", $rv);
+          return $rv == "" ? "PASS" : $rv;     
         case "GETCAPTIVES":
           $ally = new Ally($lastResult);
           $rv = implode(",", $ally->GetCaptives());
