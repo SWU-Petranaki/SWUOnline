@@ -787,20 +787,22 @@ function CreateSelectOption($input, $value, $currentInput)
   return $rv;
 }
 
-function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $arrElements = 1, $customInput = "", $path = "./", $big = false, $overCombatChain = false, $additionalComments = "", $size = 0, $width="50%", $height="30%")
+function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $arrElements = 1, $customInput = "", $path = "./", $big = false, $overCombatChain = false, $additionalComments = "", $size = 0, $width="50%", $height="30%", $maxHeight="80%")
 {
   global $darkMode, $cardSize, $playerID;
   $style = "";
   $overCC = 1000;
   $darkMode = IsDarkMode($playerID);
-  $top = "calc(50% - $height/2)";
+  $top = "50%";
   $left = "calc(50% - $width/2 - 129px)";
+  $transform = "translateY(-50%)";
   if ($size == 2) {
     $top = "10%";
     $left = "calc(25% - 129px)";
     $width = "50%";
     $height = "80%";
     $overCC = 1001;
+    $transform = "none";
   }
   if ($big) {
     $top = "5%";
@@ -808,6 +810,7 @@ function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $
     $width = "80%";
     $height = "90%";
     $overCC = 1001;
+    $transform = "none";
   }
   if ($overCombatChain) {
     $top = "160px";
@@ -815,6 +818,7 @@ function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $
     $width = "auto";
     $height = "auto";
     $overCC = 100;
+    $transform = "none";
   }
 
   // Modals
@@ -824,7 +828,7 @@ function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $
     "OVER" => "background-color:rgba(0, 0, 0, 0.8); backdrop-filter: blur(30px);",
     default => "background-color:rgba(0, 0, 0, 0.825);"
   };
-  $rv = "<div id='" . $id . "' style='overflow-y: auto; " . $bg . " border-radius: 10px; padding: 10px; font-weight: 500; scrollbar-color: #888888 rgba(0, 0, 0, 0); scrollbar-width: thin; z-index:" . $overCC . "; position: absolute; top:" . $top . "; left:" . $left . "; width:" . $width . "; height:" . $height . ";" . ($defaultState == 0 ? " display:none;" : "") . "'>";
+  $rv = "<div id='" . $id . "' style='overflow-y: auto; " . $bg . " border-radius: 10px; padding: 10px; font-weight: 500; scrollbar-color: #888888 rgba(0, 0, 0, 0); scrollbar-width: thin; z-index:" . $overCC . "; position: absolute; top:" . $top . "; left:" . $left . "; transform:" . $transform . "; width:" . $width . "; min-height:" . $height . "; max-height:" . $maxHeight . "; " . ($defaultState == 0 ? " display:none;" : "") . "'>";
 
   if ($title != "")
     $rv .= "<h" . ($big ? "1" : "3") . " style='font-weight: 500; margin-left: 10px; margin-top: 5px; margin-bottom: 24px; text-align: center; user-select: none;'>" . $title . "</h" . ($big ? "1" : "3") . ">";
