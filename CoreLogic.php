@@ -6017,7 +6017,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       break;
     case "7579458834"://Reprocess
-      AddDecisionQueue("FINDINDICES", $currentPlayer, "GY");
+      AddDecisionQueue("FINDINDICES", $currentPlayer, "GYUNITS");
       AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "4-");
       AddDecisionQueue("MULTICHOOSEDISCARD", $currentPlayer, "<-");
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "RESTOCK", 1);
