@@ -109,6 +109,8 @@ function logUserIP() {
     "penelopesgarden",
     "creepyfrenchman",
     "creepierfrenchman",
+    "wonkywillow",
+    "bubblywubbly"
   ];
   // Check if the user is Brubraz and log their IP if so
   if (isset($_SESSION["useruid"])
