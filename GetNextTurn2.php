@@ -1046,16 +1046,11 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $theirAllies = &GetAllies($otherPlayer);
       $myAllies = &GetAllies($playerID);
       $caption = "<div>Choose up to " . $params[0] . " card" . ($optionParams > 1 ? "s." : ".") . "</div>";
-      $content .= CreateForm($playerID, "Submit", 19, count($options));
-      $content .= "<table class='table-border-a'><tr>";
+      $content .= "<div style='display:flex; flex-wrap:wrap; width:100%;'>";
+      
       for ($i = 0; $i < count($options); ++$i) {
-        $content .= "<td>";
+        $content .= "<div style='margin:5px; text-align:center; vertical-align:top;'>";
         $content .= CreateCheckbox($i, strval($i));
-        $content .= "</td>";
-      }
-      $content .= "</tr><tr>";
-      for ($i = 0; $i < count($options); ++$i) {
-        $content .= "<td style='text-align:center;vertical-align:top;'>";
         $content .= "<div class='container'>";
         if ($turn[0] == "MULTICHOOSEDISCARD")
           $content .= "<label class='multichoose' for=chk" . $i . ">" . Card($myDiscard[$options[$i]], "concat", $cardSize, 0, 1) . "</label>";
@@ -1124,61 +1119,52 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         else if ($turn[0] == "MULTICHOOSETEXT" || $turn[0] == "MAYMULTICHOOSETEXT")
           $content .= implode(" ", explode("_", strval($options[$i])));
         $content .= "<div class='overlay'><div class='text'>Select</div></div></div>";
-        $content .= "</td>";
+        $content .= "</div>";
       }
+      $content .= "</div>";
+      $content .= CreateForm($playerID, "Submit", 19, count($options));
     }
     else {
       //TODO: Redemption
       $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
-      $content .= "<table class='table-border-a'><tr>";
-      for($i = 0; $i < count($options[0]); ++$i) {
-        if($i == floor(count($options[0]) / 2))
-          $content .= "<td style='color:white;'>Theirs</td>";
-        else
-          $content .= "<td></td>";
-      }
-      $content .= "</tr><tr>";
+      
+      // Theirs section
+      $content .= "<div style='margin-bottom:15px;'>";
+      $content .= "<div style='color:white; text-align:center; margin-bottom:10px;'>Theirs</div>";
+      $content .= "<div style='display:flex; flex-wrap:wrap; width:100%;'>";
+      
       for ($i = 0; $i < count($options[0]); ++$i) {
-        $content .= "<td>";
+        $content .= "<div style='margin:5px; text-align:center;'>";
         $content .= CreateCheckbox("t" . $i, strval($i));
-        $content .= "</td>";
-      }
-      $content .= "</tr><tr>";
-      for($i = 0; $i < count($options[0]); ++$i) {
-        $content .= "<td>";
         $content .= "<div class='container'>";
         $content .= "<label class='multichoose' for=chkt" . $i . ">" . Card($multiTheirAllies[$options[0][$i]], "concat", $cardSize, 0, 1) . "</label>";
         $content .= "<div class='overlay'><div class='text'>Select</div></div></div>";
-        $content .= "</td>";
+        $content .= "</div>";
       }
-      $content .= "</tr></table>";
-      $content .= "<table class='table-border-a'><tr>";
-      for($i = 0; $i < count($options[1]); ++$i) {
-        if($i == floor(count($options[1]) / 2))
-          $content .= "<td style='color:white;'>Mine</td>";
-        else
-          $content .= "<td></td>";
-      }
-      $content .= "</tr><tr>";
+      
+      $content .= "</div></div>";
+      
+      // Mine section
+      $content .= "<div>";
+      $content .= "<div style='color:white; text-align:center; margin-bottom:10px;'>Mine</div>";
+      $content .= "<div style='display:flex; flex-wrap:wrap; width:100%;'>";
+      
       for ($i = 0; $i < count($options[1]); ++$i) {
-        $content .= "<td>";
+        $content .= "<div style='margin:5px; text-align:center;'>";
         $content .= CreateCheckbox("m" . $i, strval($i));
-        $content .= "</td>";
-      }
-      $content .= "</tr><tr>";
-      for($i = 0; $i < count($options[1]); ++$i) {
-        $content .= "<td>";
         $content .= "<div class='container'>";
         $content .= "<label class='multichoose' for=chkm" . $i . ">" . Card($multiAllies[$options[1][$i]], "concat", $cardSize, 0, 1) . "</label>";
         $content .= "<div class='overlay'><div class='text'>Select</div></div></div>";
-        $content .= "</td>";
+        $content .= "</div>";
       }
+      
+      $content .= "</div></div>";
     }
 
-    $content .= "</tr></table></form></div>";
+    $content .= "</form></div>";
     if (GetDQHelpText() != "-")
       $caption = "<div>" . implode(" ", explode("_", GetDQHelpText())) . "</div>";
-    echo CreatePopup("MULTICHOOSE", [], 0, 1, $caption, 1, $content, height: $all ? "55%" : "40%");
+    echo CreatePopup("MULTICHOOSE", [], 0, 1, $caption, 1, $content, height: $all ? "55%" : "30%");
   }
 
   if ($turn[0] == "MULTICHOOSESEARCHTARGETS" && $currentPlayer == $playerID) { //Widely copied from the above MULTICHOOSE cases, but incorporating the fact that only some options shown are selectable.
