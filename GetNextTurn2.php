@@ -667,7 +667,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $content .= "</td>";
     }
     $content .= "</tr></table>";
-    echo CreatePopup("OPT", [], 0, 1, GetPhaseHelptext(), 1, $content);
+    echo CreatePopup("OPT", [], 0, 1, GetPhaseHelptext(), 1, $content, height: "300px");
   }
 
   if (($turn[0] == "CHOOSETOPOPPONENT") && $isActivePlayer) { //Use when you have to reorder the top of your opponent library e.g. Righteous Cleansing

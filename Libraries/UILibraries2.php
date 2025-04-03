@@ -787,7 +787,7 @@ function CreateSelectOption($input, $value, $currentInput)
   return $rv;
 }
 
-function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $arrElements = 1, $customInput = "", $path = "./", $big = false, $overCombatChain = false, $additionalComments = "", $size = 0, $width="50%", $height="30%", $maxHeight="80%")
+function CreatePopup($id, $fromArr, $canClose, $defaultState = 0, $title = "", $arrElements = 1, $customInput = "", $path = "./", $big = false, $overCombatChain = false, $additionalComments = "", $size = 0, $width="50%", $height="250px", $maxHeight="80%")
 {
   global $darkMode, $cardSize, $playerID;
   $style = "";
