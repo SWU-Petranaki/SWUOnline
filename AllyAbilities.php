@@ -108,6 +108,7 @@ function CheckHealthAllAllies() {
 // Returns true if there is more than one unique unit in play, false otherwise.
 function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
   $uniqueAllyInPlay = null;
+  $playedUniqueID = null;
   $ally = new Ally($allyUniqueID);
   if (!$ally->Exists()) return false;
   if (!CardIsUnique($cardID)) return false;
@@ -115,13 +116,14 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
   // Get the player that controls the unique card
   if ($cardID == $ally->CardID()) {
     $player = $ally->Controller();
-
+    $playedUniqueID = $ally->UniqueID();
     // Cloned units are not unique
     if ($ally->IsCloned()) return false;
   } else {
     $subcard = $ally->GetSubcardForCard($cardID);
     if ($subcard != null) {
       $player = $subcard->Owner(); // TODO: we should check for controller instead of owner
+      $playedUniqueID = $subcard->UniqueID();
     } else {
       return false;
     }
@@ -133,9 +135,8 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
 
     for ($i = 0; $i < count($allies); $i += AllyPieces()) {
       $otherAlly = new Ally("MYALLY-" . $i, $p);
-      if ($otherAlly->UniqueID() == $allyUniqueID) continue;
 
-      if ($otherAlly->CardID() == $cardID && !$otherAlly->IsCloned() && $otherAlly->Controller() == $player) {
+      if ($otherAlly->CardID() == $cardID && !$otherAlly->IsCloned() && $otherAlly->Controller() == $player && $otherAlly->UniqueID() != $playedUniqueID) {
         $uniqueAllyInPlay = $otherAlly;
         break;
       } else { //check for upgrades/pilots
@@ -144,7 +145,7 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
         for ($j = 0; $j < count($upgrades); $j+=SubcardPieces()) {
           $subcard = new SubCard($otherAlly, $j);
           if ($subcard->IsCaptive()) continue; // Ignore captives
-          if ($subcard->CardID() == $cardID && $subcard->Owner() == $player) { // TODO: we should check for controller instead of owner
+          if ($subcard->CardID() == $cardID && $subcard->Owner() == $player && $subcard->UniqueID() != $playedUniqueID) { // TODO: we should check for controller instead of owner
             $uniqueAllyInPlay = $otherAlly;
             break;
           }
