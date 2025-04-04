@@ -5232,10 +5232,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "9752523457"://Finalizer //TODO MAKE THIS NOT MANUAL
       $allies = &GetAllies($currentPlayer);
-      WriteLog("This is a manual card, for the time being please respect the arena restictions for capture.  Pass the units that cannot capture");
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
         $ally = new Ally("MYALLY-" . $i, $currentPlayer);
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=".$ally->CurrentArena());
         AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1", 1);
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ". $ally->CurrentArena() . " unit for  " . CardLink($ally->CardID(), $ally->CardID()) . " to capture (must be in same arena)", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
