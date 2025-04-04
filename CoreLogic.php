@@ -5230,7 +5230,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1 );
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CONSOLIDATIONOFPOWER", 1);
       break;
-    case "9752523457"://Finalizer //TODO MAKE THIS NOT MANUAL
+    case "9752523457"://Finalizer
       $allies = &GetAllies($currentPlayer);
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
         $ally = new Ally("MYALLY-" . $i, $currentPlayer);
