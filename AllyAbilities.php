@@ -511,10 +511,11 @@ function DestroyAlly($player, $index,
   // Remove the ally from the allies array
   for($j = $index + AllyPieces() - 1; $j >= $index; --$j) unset($allies[$j]);
 
-  // Rescue captives
   $allies = array_values($allies);
   if(!$skipRescue) {
     for($i=0; $i<count($captives); $i+=SubcardPieces()) {
+      $otherPlayer = $owner;
+      if($captives[$i] == "3401690666" && GetClassState($otherPlayer, $CS_NumEventsPlayed) == 0 ) AddCurrentTurnEffect("3401690666", $otherPlayer, from:"PLAY"); // Relentless
       PlayAlly($captives[$i], $captives[$i+1], from:"CAPTIVE");
     }
   }

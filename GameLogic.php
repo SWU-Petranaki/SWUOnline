@@ -67,7 +67,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
   global $CS_NextNAACardGoAgain, $CCS_AttackTarget, $CS_NumLeftPlay, $CS_PlayIndex;
   global $CS_LayerTarget, $decisionQueue, $dqVars, $mainPlayer, $lastPlayed, $dqState, $CS_AbilityIndex, $CS_CharacterIndex;
   global $CS_AdditionalCosts, $CS_AlluvionUsed, $CS_MaxQuellUsed, $CS_DamageDealt, $CS_ArcaneTargetsSelected, $inGameStatus;
-  global $CS_ArcaneDamageDealt, $MakeStartTurnBackup, $CCS_AttackTargetUID, $chainLinkSummary, $chainLinks, $MakeStartGameBackup, $CCS_MultiAttackTargets;
+  global $CS_ArcaneDamageDealt, $MakeStartTurnBackup, $CCS_AttackTargetUID, $chainLinkSummary, $chainLinks, $MakeStartGameBackup, $CCS_MultiAttackTargets, $CS_NumEventsPlayed;
   $rv = "";
 
   switch($phase) {
@@ -1073,6 +1073,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           return $lastResult;
         case "RESCUECAPTIVE":
           $captiveID = $lastResult;
+          $otherPlayer = ($player == 1 ? 2 : 1);
+          if($lastResult == "3401690666" &&GetClassState($otherPlayer, $CS_NumEventsPlayed) == 0 ) AddCurrentTurnEffect("3401690666", $otherPlayer, from:"PLAY"); // Relentless
           $mzArr = explode("-", $dqVars[0]);
           $allyPlayer = $mzArr[0] == "MYALLY" ? $player : ($player == 1 ? 2 : 1);
           $ally = new Ally($dqVars[0], $allyPlayer);
@@ -1080,6 +1082,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           return $lastResult;
         case "PLAYCAPTIVE":
           $captiveID = $lastResult;
+          $otherPlayer = ($player == 1 ? 2 : 1);
+          if($lastResult == "3401690666" &&GetClassState($otherPlayer, $CS_NumEventsPlayed) == 0 ) AddCurrentTurnEffect("3401690666", $otherPlayer, from:"PLAY"); // Relentless
           $mzArr = explode("-", $dqVars[0]);
           $allyPlayer = $mzArr[0] == "MYALLY" ? $player : ($player == 1 ? 2 : 1);
           $ally = new Ally($dqVars[0], $allyPlayer);
