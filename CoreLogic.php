@@ -523,14 +523,10 @@ function PlayerWon($playerID)
   SetCachePiece($gameName, 14, 6);//$MGS_GameOverStatsLogged
   if(GetCachePiece($gameName, 14) == 7) return;//$MGS_StatsLoggedIrreversible
 
-  // try {//FAB stats
-  //   logCompletedGameStats();
-  // } catch (Exception $e) {
-
-  // }
-
   try {
-    SendSWUStatsResults();
+    if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
+      SendSWUStatsResults();
+    }
   } catch (Exception $e) {
 
   }
