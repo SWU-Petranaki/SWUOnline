@@ -186,8 +186,7 @@ include_once 'Header.php';
     Single Player</label>
   -->
   <div style=' text-align:center;'>
-    <!-- <input type="submit" class="create-game-button" value="<?php echo ($createGameText); ?>"> -->
-    <span>Maintenance will be back shortly</span>
+    <input type="submit" class="create-game-button" value="<?php echo ($createGameText); ?>">
   </div>
   </form>
 
