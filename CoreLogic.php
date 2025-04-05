@@ -5227,16 +5227,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
       AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "$totalAllies-", 1);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose any number of friendly units", 1);
-      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1 );
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CONSOLIDATIONOFPOWER", 1);
       break;
     case "9752523457"://Finalizer
       $allies = &GetAllies($currentPlayer);
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
         $ally = new Ally("MYALLY-" . $i, $currentPlayer);
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=".$ally->CurrentArena());
         AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1", 1);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit for " . CardLink($ally->CardID(), $ally->CardID()) . " to capture (must be in same arena)", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ". $ally->CurrentArena() . " unit for  " . CardLink($ally->CardID(), $ally->CardID()) . " to capture (must be in same arena)", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "CAPTURE," . $ally->UniqueID(), 1);
       }
