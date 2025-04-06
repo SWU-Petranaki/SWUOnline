@@ -1018,8 +1018,8 @@ function StartRegroupPhase() {
   AddDecisionQueue("DRAW", $otherPlayer, "0");
   AddDecisionQueue("DRAW", $otherPlayer, "0");
   MZMoveCard($initiativePlayer, "MYHAND", "MYRESOURCES", may:true, context:"Choose a card to resource", silent:true);
-  MZMoveCard($otherPlayer, "MYHAND", "MYRESOURCES", may:true, context:"Choose a card to resource", silent:true);
   AddDecisionQueue("AFTERRESOURCE", $initiativePlayer, "HAND", 1);
+  MZMoveCard($otherPlayer, "MYHAND", "MYRESOURCES", may:true, context:"Choose a card to resource", silent:true);
   AddDecisionQueue("AFTERRESOURCE", $otherPlayer, "HAND", 1);
   ProcessDecisionQueue();
 
@@ -1181,6 +1181,7 @@ function CardDiscarded($player, $discarded, $source = "")
   global $mainPlayer;
   AllyCardDiscarded($player, $discarded);
   AddEvent("DISCARD", $discarded);
+  LogPlayCardStats($player, $discarded, "HAND", type:"DISCARDED");
 }
 
 function DestroyFrozenArsenal($player)

@@ -2245,28 +2245,14 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         Attack($params[0]);
       }
       return $lastResult;
-    // case "STARTTURN"://FAB
-    //   StartTurn();
-    //   return $lastResult;
     case "MILL":
       Mill($player, $parameter);
-      return "";
-    case "RESERVABLE":
-      $resources = &GetResources($player);
-      $resources[0] += count($lastResult);
-      $auras = &GetAuras($player);
-      for($i = 0; $i < count($lastResult); ++$i) {
-        $auras[$lastResult[$i] + 1] = 1;
-      }
       return "";
     case "CARDDISCARDED":
       CardDiscarded($player, $lastResult);
       return $lastResult;
     case "NEGATE":
       NegateLayer($parameter);
-      return "";
-    case "DRAWINTOMEMORY":
-      DrawIntoMemory($player);
       return "";
     case "MULTIDAMAGE":
       $lastResultArr = explode(",", $lastResult);

@@ -341,6 +341,7 @@ function SerializeGameResult($player, $DeckLink, $deckAfterSB, $gameID = "", $op
 	global $winner, $currentRound, $CardStats_TimesPlayed, $CardStats_TimesActivated, $CardStats_TimesResourced, $firstPlayer;
 	global $TurnStats_DamageThreatened, $TurnStats_DamageDealt, $TurnStats_CardsPlayedOffense, $TurnStats_CardsPlayedDefense, $TurnStats_CardsPitched, $TurnStats_CardsBlocked;
 	global $TurnStats_ResourcesUsed, $TurnStats_CardsLeft, $TurnStats_DamageBlocked, $TurnStats_ResourcesLeft;
+	global $CardStats_TimesDrawn, $CardStats_TimesDiscarded;
 	$DeckLink = explode("/", $DeckLink);
 	$DeckLink = $DeckLink[count($DeckLink) - 1];
 	$deckAfterSB = explode("\r\n", $deckAfterSB);
@@ -373,6 +374,8 @@ function SerializeGameResult($player, $DeckLink, $deckAfterSB, $gameID = "", $op
 		$deck["cardResults"][$i]["pitched"] = 0;
 		$deck["cardResults"][$i]["resourced"] = 0;
 		$deck["cardResults"][$i]["activated"] = 0;
+		$deck["cardResults"][$i]["drawn"] = 0;
+		$deck["cardResults"][$i]["discarded"] = 0;
 		$deck["cardResults"][$i]["cardName"] = CardName($deduplicatedDeck[$i]);
 		//$deck["cardResults"][$i]["pitchValue"] = PitchValue($deduplicatedDeck[$i]);
 	}
@@ -385,6 +388,8 @@ function SerializeGameResult($player, $DeckLink, $deckAfterSB, $gameID = "", $op
 				$deck["cardResults"][$j]["activated"] = $cardStats[$i + $CardStats_TimesActivated];
 				$deck["cardResults"][$j]["pitched"] = $cardStats[$i + $CardStats_TimesResourced];
 				$deck["cardResults"][$j]["resourced"] = $cardStats[$i + $CardStats_TimesResourced];
+				$deck["cardResults"][$j]["drawn"] = $cardStats[$i + $CardStats_TimesDrawn];
+				$deck["cardResults"][$j]["discarded"] = $cardStats[$i + $CardStats_TimesDiscarded];
 				break;
 			}
 		}

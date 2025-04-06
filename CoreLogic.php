@@ -525,7 +525,7 @@ function PlayerWon($playerID)
 
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
-      SendSWUStatsResults();
+      //SendSWUStatsResults();
     }
   } catch (Exception $e) {
 
@@ -7121,12 +7121,6 @@ function AddPreparationCounters($player, $amount=1)
   IncrementClassState($player, $CS_PreparationCounters, $amount);
 }
 
-function DrawIntoMemory($player)
-{
-  $deck = &GetDeck($player);
-  if(count($deck) > 0) AddMemory(array_shift($deck), $player, "DECK", "DOWN");
-}
-
 function Mill($player, $amount)
 {
   $cards = "";
@@ -7317,7 +7311,9 @@ function Draw($player, $mainPhase = true)
     IncrementClassState($player, $CS_CardsDrawn);
     OpponentUnitDrawEffects($otherPlayer);
   }
-  return $hand[count($hand) - 1];
+  $drawnCardID = $hand[count($hand) - 1];
+  LogPlayCardStats($player, $drawnCardID, "DECK", type:"DRAWN");
+  return $drawnCardID;
 }
 
 function WakeUpChampion($player)
