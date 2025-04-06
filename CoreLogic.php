@@ -525,7 +525,7 @@ function PlayerWon($playerID)
 
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
-      //SendSWUStatsResults();
+      SendSWUStatsResults();
     }
   } catch (Exception $e) {
 
