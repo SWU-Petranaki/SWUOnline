@@ -882,7 +882,7 @@ function CardStatsUI($player)
 
 function CardStats($player)
 {
-  global $CardStats_TimesPlayed, $CardStats_TimesActivated, $CardStats_TimesResourced;
+  global $CardStats_TimesPlayed, $CardStats_TimesActivated, $CardStats_TimesResourced, $CardStats_TimesDrawn, $CardStats_TimesDiscarded;
   global $TurnStats_DamageThreatened, $TurnStats_DamageDealt, $TurnStats_CardsPlayedOffense, $TurnStats_CardsPlayedDefense, $TurnStats_CardsPitched, $TurnStats_CardsBlocked, $firstPlayer;
   global $TurnStats_ResourcesUsed, $TurnStats_CardsLeft, $TurnStats_DamageBlocked, $darkMode;
   if (AreStatsDisabled($player))
@@ -896,6 +896,8 @@ function CardStats($player)
   $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Times<br>Played</td> ";
   $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Times<br>Activated</td>";
   $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Times<br>Resourced</td>";
+  $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Times<br>Drawn</td>";
+  $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Times<br>Discarded</td>";
   $rv .= "</tr>";
   $BackgroundColor = "";
   if ($darkMode) {
@@ -911,11 +913,15 @@ function CardStats($player)
     $timesPlayed = $cardStats[$i + $CardStats_TimesPlayed];
     $timesResourced = $cardStats[$i + $CardStats_TimesResourced];
     $timesActivated = $cardStats[$i + $CardStats_TimesActivated];
+    $timesDrawn = $cardStats[$i + $CardStats_TimesDrawn];
+    $timesDiscarded = $cardStats[$i + $CardStats_TimesDiscarded];
     $rv .= "<tr style='background-color:" . $BackgroundColor . ";'>";
     $rv .= "<td>" . CardLink($cardStats[$i], $cardStats[$i]) . "</td>";
     $rv .= "<td>" . $timesPlayed . "</td>";
     $rv .= "<td>" . $timesActivated . "</td>";
     $rv .= "<td>" . $timesResourced . "</td>";
+    $rv .= "<td>" . $timesDrawn . "</td>";
+    $rv .= "<td>" . $timesDiscarded . "</td>";
     $rv .= "</tr>";
   }
   $rv .= "</table>";
@@ -960,13 +966,13 @@ function CardStats($player)
     //Cards per turn stats
     $rv .= "<table style='text-align:center; margin-right:10px; width: 100%; margin-top:10px; border-spacing: 0; border-collapse: collapse; font-size: 1em; color: white; line-height: 24px;'><tr>";
     $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Turn<br>Number</td>";
-    $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Cards<br>Played</td>";
+    //$rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Cards<br>Played</td>";
     //$rv .= "<td style='border-bottom: 1px solid black; border-top: 1px solid black;'>Cards<br>Blocked</td>";
     //$rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Cards<br>Reserved</td>";
     //$rv .= "<td style='border-bottom: 1px solid black; border-top: 1px solid black;'>Resources<br>Used</td>";
     //$rv .= "<td style='border-bottom: 1px solid black; border-top: 1px solid black;'>Cards<br>Left</td>";
     $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Damage<br>Dealt</td>";
-    $rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Damage<br>Taken</td>";
+    //$rv .= "<td style='border-bottom: 1px solid white; border-top: 1px solid white;'>Damage<br>Taken</td>";
     $rv .= "</tr>";
 
     for ($i = 0; $i < count($turnStats); $i += TurnStatPieces()) {
