@@ -150,7 +150,9 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       if ($gameState == 5 && $lastCurrentPlayer == $playerID && ($currentTime - $lastActionTime) > $InputTimeoutMS && $lastActionWarning > 0) {
         $currentPlayerInputTimeout = true;
         $lastUpdate = 0;
-      } else if ($gameState == 5 && $lastCurrentPlayer == $otherP && ($currentTime - $lastActionTime) > $InputTimeoutMS && $lastActionWarning == $otherP && $finalWarning == $otherP) {
+      } else if ($gameState == 5 && $lastCurrentPlayer == $otherP
+          && ($currentTime - $lastActionTime) > $InputTimeoutMS && $lastActionWarning == $otherP && $finalWarning == $otherP
+          && GetCachePiece($gameName, $otherP + 14) != 3) {
         WriteLog("Player $otherP is inactive.");
         SetCachePiece($gameName, $otherP + 14, 3);
         GamestateUpdated($gameName);
@@ -1047,7 +1049,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $myAllies = &GetAllies($playerID);
       $caption = "<div>Choose up to " . $params[0] . " card" . ($optionParams > 1 ? "s." : ".") . "</div>";
       $content .= "<div class='multichoose-wrapper'>";
-      
+
       for ($i = 0; $i < count($options); ++$i) {
         $content .= "<div class='multichoose-item'>";
         $content .= CreateCheckbox($i, strval($i));
@@ -1125,12 +1127,12 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $content .= CreateForm($playerID, "Submit", 19, count($options));
     }
     else {
-      
+
       // Theirs section
       $content .= "<div style='margin-bottom:15px;'>";
       $content .= "<div style='color:white; text-align:center; margin-bottom:10px;'>Theirs</div>";
       $content .= "<div class='multichoose-wrapper'>";
-      
+
       for ($i = 0; $i < count($options[0]); ++$i) {
         $content .= "<div class='multichoose-item'>";
         $content .= CreateCheckbox("t" . $i, strval($i));
@@ -1139,14 +1141,14 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $content .= "<div class='overlay'><div class='text'>Select</div></div></div>";
         $content .= "</div>";
       }
-      
+
       $content .= "</div></div>";
-      
+
       // Mine section
       $content .= "<div>";
       $content .= "<div style='color:white; text-align:center; margin-bottom:10px;'>Mine</div>";
       $content .= "<div class='multichoose-wrapper'>";
-      
+
       for ($i = 0; $i < count($options[1]); ++$i) {
         $content .= "<div class='multichoose-item'>";
         $content .= CreateCheckbox("m" . $i, strval($i));
@@ -1155,7 +1157,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $content .= "<div class='overlay'><div class='text'>Select</div></div></div>";
         $content .= "</div>";
       }
-      
+
       $content .= "</div></div>";
       $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
     }
