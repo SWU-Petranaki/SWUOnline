@@ -585,6 +585,7 @@ function AllyTakeControl($player, $uniqueID) {
   $allyIndex = $ally->Index();
   $allyController = $ally->Controller();
   $allyCardID = $ally->CardID();
+  if($allyCardID == "3401690666" && GetClassState($otherPlayer, $CS_NumEventsPlayed) == 0 ) AddCurrentTurnEffect("3401690666", $otherPlayer, from:"PLAY"); // Relentless
   // Return if the ally is already controlled by the player
   if ($allyController == $player) {
     return $uniqueID;
