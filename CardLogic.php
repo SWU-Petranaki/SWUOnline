@@ -1299,10 +1299,11 @@ function AsajjVentressIWorkAlone($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a friendly unit to damage", 1);
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
   AddDecisionQueue("SETDQVAR", $player, "1", 1);
   AddDecisionQueue("MZOP", $player, "GETARENA", 1);
   AddDecisionQueue("SETDQVAR", $player, "2", 1);
+  AddDecisionQueue("PASSPARAMETER", $player, "{1}", 1);
+  AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
   AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY:arena={2}", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose an opposing unit to damage", 1);
   AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
