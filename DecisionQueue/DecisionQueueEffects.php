@@ -721,11 +721,11 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "CONSOLIDATIONOFPOWER":
       if (count($lastResult) > 0) {
         $totalPower = 0;
-        $uniqueIDs = [];
+        $sacrifices = [];
         for ($i=0; $i<count($lastResult); ++$i) {
           $ally = new Ally("MYALLY-" . $lastResult[$i], $player);
           $totalPower += $ally->CurrentPower();
-          $sacraficed[] = $ally;
+          $sacrifices[] = $ally;
         }
 
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to put into play");
@@ -734,8 +734,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("ADDCURRENTEFFECT", $player, "4895747419", 1);
         AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
 
-        foreach ($uniqueIDs as $uniqueID) {
-          $sacraficed->Destroy();
+        foreach ($sacrifices as $sacrificed) {
+          $sacrificed->Destroy();
         }
       }
       return $lastResult;
