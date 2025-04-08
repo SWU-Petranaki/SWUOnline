@@ -1460,6 +1460,15 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
       RevealCards($cards, $player);
       return $lastResult;
+    case "REVEALDECKCARDS":
+      $hand = &GetDeck($player);
+      $cards = "";
+      for($i = 0; $i < count($hand); $i += DeckPieces()) {
+        if($cards != "") $cards .= ",";
+        $cards .= $hand[$i];
+      }
+      RevealCards($cards, $player);
+      return $lastResult;
     case "WRITELOG":
       WriteLog(implode(" ", explode("_", $parameter)));
       return $lastResult;

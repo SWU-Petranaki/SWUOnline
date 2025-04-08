@@ -705,6 +705,20 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     echo CreatePopup("LOOKHAND", [], 0, 1, "Opponent's hand", 1, $content);
   }
 
+  if ($turn[0] == "LOOKDECK" && $isActivePlayer) {
+    $content = "<table style='margin: 0 auto;'><tr>";
+    for ($i = 0; $i < count($theirDeck); ++$i) {
+      $content .= "<td>";
+      $content .= Card($theirDeck[$i], "concat", $cardSize, 0, 1);
+      $content .= "</td>";
+    }
+    $content .= "</tr></table>";
+    $content .= "<div style='text-align: center;'>";
+    $content .= CreateButton($playerID, "Ok", 99, "OK", "20px");
+    $content .= "</div>";
+    echo CreatePopup("LOOKDECK", [], 0, 1, "Opponent's deck", 1, $content);
+  }
+
   if ($turn[0] == "HANDTOPBOTTOM" && $isActivePlayer) {
     $content = "<table><tr>";
     for ($i = 0; $i < count($myHand); ++$i) {
@@ -747,6 +761,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $source = $myHand;
       else if ($option[0] == "THEIRHAND")
         $source = $theirHand;
+      else if ($option[0] == "THEIRDECK")
+        $source = $theirDeck;
       else if ($option[0] == "MYDISCARD")
         $source = $myDiscard;
       else if ($option[0] == "THEIRDISCARD")
