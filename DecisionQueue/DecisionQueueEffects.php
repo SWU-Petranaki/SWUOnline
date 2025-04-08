@@ -722,7 +722,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         for ($i=0; $i<count($lastResult); ++$i) {
           $ally = new Ally("MYALLY-" . $lastResult[$i], $player);
           $totalPower += $ally->CurrentPower();
-          $uniqueIDs[] = $ally->UniqueID();
+          $uniqueIDs[] = $ally;
         }
 
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to put into play");
@@ -732,8 +732,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
 
         foreach ($uniqueIDs as $uniqueID) {
-          AddDecisionQueue("PASSPARAMETER", $player, $uniqueID, 1);
-          AddDecisionQueue("MZOP", $player, "DESTROY,$player", 1);
+          $uniqueID->Destroy();
         }
       }
       return $lastResult;
