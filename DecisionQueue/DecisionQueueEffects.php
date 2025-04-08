@@ -569,6 +569,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally->RemoveSubcard($upgrades[$i], skipDestroy:true);
         if(!IsToken($upgrades[$i]) && !CardIDIsLeader($upgrades[$i])) AddHand($upgrades[$i+1], $upgrades[$i]);
       }
+      if ($ally->Health() <= 0) {
+        $ally->Destroy();
+      }
       return $lastResult;
     case "JUMPTOLIGHTSPEED":
       $upgradesReturned = [];
