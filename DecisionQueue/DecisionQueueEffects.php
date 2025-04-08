@@ -569,6 +569,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally->RemoveSubcard($upgrades[$i], skipDestroy:true);
         if(!IsToken($upgrades[$i]) && !CardIDIsLeader($upgrades[$i])) AddHand($upgrades[$i+1], $upgrades[$i]);
       }
+      if ($ally->Health() <= 0) {
+        $ally->Destroy();
+      }
       return $lastResult;
     case "JUMPTOLIGHTSPEED":
       $upgradesReturned = [];
@@ -722,7 +725,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         for ($i=0; $i<count($lastResult); ++$i) {
           $ally = new Ally("MYALLY-" . $lastResult[$i], $player);
           $totalPower += $ally->CurrentPower();
-          $uniqueIDs[] = $ally->UniqueID();
+          $sacraficed[] = $ally;
         }
 
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to put into play");
@@ -732,8 +735,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
 
         foreach ($uniqueIDs as $uniqueID) {
-          AddDecisionQueue("PASSPARAMETER", $player, $uniqueID, 1);
-          AddDecisionQueue("MZOP", $player, "DESTROY,$player", 1);
+          $sacraficed->Destroy();
         }
       }
       return $lastResult;
