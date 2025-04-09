@@ -122,6 +122,10 @@ function GetBackground($player)
       return "Keep Fighting";
     case 15:
       return "R2-D2";
+    case 16:
+      return "Kylo Ren Saber";
+    case 17:
+      return "Plo Koon Saber";
     case 101:
       return "SOR Starfield";
     case 102:
@@ -130,6 +134,8 @@ function GetBackground($player)
       return "TWI Starfield";
     case 104:
       return "JTL Starfield";
+    case 105:
+      return "LEG Starfield";
     case 201:
       return "SOR Artwork";
     case 202:
@@ -138,6 +144,8 @@ function GetBackground($player)
       return "TWI Artwork";
     case 204:
       return "JTL Artwork";
+    case 205:
+      return "LEG Artwork";
   }
 }
 
@@ -176,6 +184,10 @@ function BackgroundCode($name)
       return 14;
     case "R2-D2":
       return 15;
+    case "Kylo Ren Saber":
+      return 16;
+    case "Plo Koon Saber":
+      return 17;
     case "SOR Starfield":
       return 101;
     case "SHD Starfield":
@@ -184,6 +196,8 @@ function BackgroundCode($name)
       return 103;
     case "JTL Starfield":
       return 104;
+    case "LEG Starfield":
+      return 105;
     case "SOR Artwork":
       return 201;
     case "SHD Artwork":
@@ -192,6 +206,8 @@ function BackgroundCode($name)
       return 203;
     case "JTL Artwork":
       return 204;
+    case "LEG Artwork":
+      return 205;
   }
 }
 
@@ -230,6 +246,10 @@ function GetGameBgSrc($code)
       return ["bg-keepfighting.png", false];
     case 15:
       return ["bg-r2d2.png", false];
+    case 16:
+      return ["bg-kylo-stance.png", false];
+    case 17:
+      return ["bg-plo-koon-stance.png", false];
     case 101:
       return ["SWUKeyArt/SWH01_Starfield.png", false];
     case 102:
@@ -238,6 +258,8 @@ function GetGameBgSrc($code)
       return ["SWUKeyArt/SWH03_Starfield.jpg", false];
     case 104:
       return ["SWUKeyArt/SWH04_Starfield.jpg", false];
+    case 105:
+      return ["SWUKeyArt/SWH05_Starfield.jpg", false];
     case 201:
       return ["SWUKeyArt/SWH01_KeyArt.jpg", false];
     case 202:
@@ -246,6 +268,8 @@ function GetGameBgSrc($code)
       return ["SWUKeyArt/SWH03_KeyArt.png", false];
     case 204:
       return ["SWUKeyArt/SWH04_KeyArt.jpg", false];
+    case 205:
+      return ["SWUKeyArt/SWH05_KeyArt.jpg", false];
   }
 }
 
