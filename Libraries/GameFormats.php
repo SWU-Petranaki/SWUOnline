@@ -169,7 +169,10 @@ function DeckModifier($base): int {
 
 function IsAllowed($cardID, $format): bool {
   $banned = [
-    "4626028465"//Boba Fett Leader SOR
+    "4626028465",//Boba Fett Leader SOR
+    "9155536481", //Jango Fett TWI
+    "4002861992",//DJ Blatent Thief
+    "5696041568"//Triple Dark Raid
   ];
   if($format == Formats::$OpenFormat) return true;
   if(!CardInRotation($format, $cardID)) return false;
