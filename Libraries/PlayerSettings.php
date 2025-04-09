@@ -305,6 +305,7 @@ function GetCardBack($player, $index="")
     42 => "CB_GEG",
     43 => "SWU_NZ",
     44 => "Golden_Squadron",
+    45 => "CB_EAX",
     default => "CardBack",
   };
 }
