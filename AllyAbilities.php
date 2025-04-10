@@ -3709,7 +3709,7 @@ function TheAnnihilatorJTL($player) {
   AddDecisionQueue("LOOKHAND", $player, "-", 1);
   AddDecisionQueue("PASSPARAMETER", $player, "{0}"); // Workaround for the fact "LOOKHAND" always returns PASS
   AddDecisionQueue("LOOKDECK", $player, "-", 1); 
-  AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1); 
+  AddDecisionQueue("PASSPARAMETER", $player, "{0}"); 
   AddDecisionQueue("SPECIFICCARD", $player, "THEANNIHILATOR", 1);
 }
 
