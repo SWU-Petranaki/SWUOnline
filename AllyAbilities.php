@@ -412,7 +412,7 @@ function DestroyAlly($player, $index,
   $skipDestroy = false, $fromCombat = false, $skipRescue = false,
   $removedFromPlay = true, $skipSpecialCase = false)
 {
-  global $mainPlayer, $combatChainState, $CS_AlliesDestroyed, $CS_NumAlliesDestroyed, $CS_NumLeftPlay, $CCS_CachedLastDestroyed;
+  global $mainPlayer, $combatChainState, $CS_AlliesDestroyed, $CS_NumAlliesDestroyed, $CS_NumLeftPlay, $CCS_CachedLastDestroyed, $CS_NumEventsPlayed;
 
   $allies = &GetAllies($player);
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -571,7 +571,7 @@ function UpgradesContainBounty($upgrades) {
 }
 
 function AllyTakeControl($player, $uniqueID) {
-  global $currentTurnEffects;
+  global $currentTurnEffects, $CS_NumEventsPlayed;
   if ($uniqueID == "" || $uniqueID == -1) return -1;
 
   $otherPlayer = $player == 1 ? 2 : 1;

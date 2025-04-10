@@ -6970,6 +6970,9 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "9763190770,PLAY", 1);
       break;
+    case "5576996578"://Endless Legions
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ENDLESSLEGIONS");
+      break;
     default: break;
   }
 }

@@ -578,7 +578,7 @@ function ContinueDecisionQueue($lastResult = "")
       $player = $decisionQueue[1];
       $params = explode("!", $decisionQueue[2]); //Parameter
       if($lastResult == "") $lastResult = 0;
-      CloseDecisionQueue();
+      CloseDecisionQueue(); // TODO: there's a glitch here, if we have more than one unit being played, the decision queue is not updated correctly
       if($currentPlayer != $player) {
         $currentPlayer = $player;
         $otherPlayer = $currentPlayer == 1 ? 2 : 1;

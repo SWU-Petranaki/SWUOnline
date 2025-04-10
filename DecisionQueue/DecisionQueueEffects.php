@@ -842,18 +842,26 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddHand($player, $cardID);
       return $lastResult;
     case "ENDLESSLEGIONS":
+      global $CS_AfterPlayedBy;
       $resources = &GetResourceCards($player);
-      $cardsToPlay = [];
-      AddCurrentTurnEffect("5576996578", $player);
-      for($i=count($resources)-ResourcePieces(); $i>=0; $i-=ResourcePieces()) {
+      $resourceIndices = [];
+
+      for ($i=0; $i < count($resources); $i += ResourcePieces()) {
         if(DefinedTypesContains($resources[$i], "Unit", $player)) {
-          $resourceCard = RemoveResource($player, $i);
-          $cardsToPlay[] = $resourceCard;
+          $resourceIndices[] = "MYRESOURCES-" . $i;
         }
       }
-      for($i=0; $i<count($cardsToPlay); ++$i) {
-        PlayCard($cardsToPlay[$i], "RESOURCES");
-      }
+      if (count($resourceIndices) == 0) return "PASS";
+      
+      AddDecisionQueue("PASSPARAMETER", $player, implode(",", $resourceIndices));
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to play for free (or pass)");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-");
+      AddDecisionQueue("SETDQVAR", $player, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "5576996578", 1);
+      AddDecisionQueue("SETCLASSSTATE", $player, $CS_AfterPlayedBy, 1);
+      AddDecisionQueue("ADDCURRENTEFFECT", $player, "5576996578", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       return 1;
     case "HUNTEROUTCASTSERGEANT":
       $chosenResourceIndex = explode("-", $lastResult)[1];
