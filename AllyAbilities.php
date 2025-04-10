@@ -181,7 +181,7 @@ function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpg
     case "b0dbca5c05"://Iden Versio Leader Unit
       return true;
     case "2649829005"://Agent Kallus
-      return $wasUnique && $numUses > 0;
+      return $cardID != "2649829005" && $wasUnique && $numUses > 0;
     case "8687233791"://Punishing One
       $ally = new Ally($uniqueID);
       return $ally->IsExhausted() && $wasUpgraded && $numUses > 0;
@@ -3702,12 +3702,14 @@ function TheAnnihilatorJTL($player) {
   AddDecisionQueue("SETDQVAR", $player, "0");
   AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to destroy");
-  AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "DESTROY,$player", 1);
   AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("REVEALHANDCARDS", $player, "-", 1);
   AddDecisionQueue("LOOKHAND", $player, "-", 1);
-  AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-", 1);
   AddDecisionQueue("PASSPARAMETER", $player, "{0}"); // Workaround for the fact "LOOKHAND" always returns PASS
+  AddDecisionQueue("LOOKDECK", $player, "-", 1); 
+  AddDecisionQueue("PASSPARAMETER", $player, "{0}"); 
   AddDecisionQueue("SPECIFICCARD", $player, "THEANNIHILATOR", 1);
 }
 

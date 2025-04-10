@@ -620,9 +620,11 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       $deck = &GetDeck($otherPlayer);
       $deckClass = new Deck($otherPlayer);
+
       for ($i = count($deck) - 1; $i >= 0; $i -= DeckPieces()) {
         $cardTitle = CardTitle($deck[$i]);
         if ($cardTitle == $destroyedCardTitle) {
+        
           WriteLog(CardLink($deck[$i], $deck[$i]) . " was discarded from deck.");
           AddGraveyard($deck[$i], $otherPlayer, "DECK");
           $deckClass->Remove($i);
