@@ -3705,11 +3705,10 @@ function TheAnnihilatorJTL($player) {
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "DESTROY,$player", 1);
   AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("REVEALHANDCARDS", $player, "-", 1);
   AddDecisionQueue("LOOKHAND", $player, "-", 1);
-  // AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-", 1); //This is not doing anything?
   AddDecisionQueue("PASSPARAMETER", $player, "{0}"); // Workaround for the fact "LOOKHAND" always returns PASS
-  // AddDecisionQueue("LOOKDECK", $player, "-", 1); //The popup is getting stuck when this is used
-  AddDecisionQueue("REVEALDECKCARDS", $otherPlayer, "-", 1);// Displays the deck in the log
+  AddDecisionQueue("LOOKDECK", $player, "-", 1); 
   AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1); 
   AddDecisionQueue("SPECIFICCARD", $player, "THEANNIHILATOR", 1);
 }
