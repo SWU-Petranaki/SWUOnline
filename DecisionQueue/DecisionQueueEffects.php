@@ -840,17 +840,21 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddHand($player, $cardID);
       return $lastResult;
     case "ENDLESSLEGIONS":
-      $resources = &GetResourceCards($player);
-      $cardsToPlay = [];
-      AddCurrentTurnEffect("5576996578", $player);
-      for($i=count($resources)-ResourcePieces(); $i>=0; $i-=ResourcePieces()) {
-        if(DefinedTypesContains($resources[$i], "Unit", $player)) {
-          $resourceCard = RemoveResource($player, $i);
-          $cardsToPlay[] = $resourceCard;
+      global $dqVars;
+      if ($dqVars[0] == "-") return "PASS";
+
+      $mzIndexes = explode(",", $dqVars[0]);
+      for ($i=0; $i<count($mzIndexes); $i++) {
+        $index = explode("-", $mzIndexes[$i])[1];
+        MZPlayCard($player, $mzIndexes[$i]);
+
+        // After playing the card, we need to update the mzIndexes for higher indices
+        for ($j=$i+1; $j<count($mzIndexes); $j++) {
+          $otherIndice = explode("-", $mzIndexes[$j])[1];
+          if ($otherIndice > $index) {
+            $mzIndexes[$j] = "MYRESOURCES-" . ($otherIndice - ResourcePieces());
+          }
         }
-      }
-      for($i=0; $i<count($cardsToPlay); ++$i) {
-        PlayCard($cardsToPlay[$i], "RESOURCES");
       }
       return 1;
     case "HUNTEROUTCASTSERGEANT":

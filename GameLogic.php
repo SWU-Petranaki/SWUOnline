@@ -1172,6 +1172,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "MZFILTER":
       $params = explode("=", $parameter);
       $arr = explode(",", $lastResult);
+      $isFilteringAlly = ((count($arr) > 0) && (is_numeric($arr[0]) || str_contains($arr[0], "ALLY")));
       $forUpgradeEligible = $params[0] == "filterUpgradeEligible";
       if($forUpgradeEligible) {
         $params = explode("=", UpgradeFilter($params[1]));
@@ -1216,11 +1217,16 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             for($j=0; $j<count($mzArr); ++$j) {
               if($mzArr[$j] == "" || $mzArr[$j] == "-") continue;
 
-              $ally = new Ally($arr[$i]);
-              $filterAlly = new Ally($mzArr[$j]);
-              if($ally->UniqueID() == $filterAlly->UniqueID()) {
-                $match = true;
-                break;
+              if ($isFilteringAlly) {
+                $ally = new Ally($arr[$i]);
+                $filterAlly = new Ally($mzArr[$j]);
+                if($ally->UniqueID() == $filterAlly->UniqueID()) {
+                  $match = true;
+                  break;
+                }
+              } else if ($arr[$i] == $mzArr[$j]) {
+                  $match = true;
+                  break;
               }
             }
             break;
