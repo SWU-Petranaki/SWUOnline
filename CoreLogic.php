@@ -5182,27 +5182,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "5576996578"://Endless Legions
-      AddCurrentTurnEffect("5576996578", $currentPlayer);
-      $resources = &GetResourceCards($currentPlayer);
-      $resourceIndices = [];
-
-      for ($i=0; $i < count($resources); $i += ResourcePieces()) {
-        if(DefinedTypesContains($resources[$i], "Unit", $currentPlayer)) {
-          $resourceIndices[] = "MYRESOURCES-" . $i;
-        }
-      }
-      if (count($resourceIndices) == 0) break;
-      
-      $resourceIndicesStr = implode(",", $resourceIndices);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "-");
-      AddDecisionQueue("SETDQVAR", $currentPlayer, 0);
-      for($i=0; $i<count($resourceIndices); $i++) {
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $resourceIndicesStr, 1);
-        AddDecisionQueue("MZFILTER", $currentPlayer, "dqVar=0", 1);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to play for free (or pass)", 1);
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("APPENDDQVAR", $currentPlayer, 0, 1);
-      }
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ENDLESSLEGIONS");
       break;
     case "8095362491"://Frontier Trader
@@ -6990,6 +6969,9 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "9763190770,PLAY", 1);
+      break;
+    case "5576996578"://Endless Legions
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ENDLESSLEGIONS");
       break;
     default: break;
   }
