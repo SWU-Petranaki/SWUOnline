@@ -44,6 +44,7 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-" . 42, "Golden Eagle Gaming", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 43, "SWU NZ", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 44, "Golden Squadron", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-" . 45, "Epic Action [X]", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   return $rv;
 }
 
@@ -66,14 +67,18 @@ function GameBackgroundDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Background . "-" . 13, "High Ground", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 14, "Keep Fighting", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 15, "R2-D2", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 16, "Kylo Ren Saber", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 17, "Plo Koon Saber", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 101, "SOR Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 102, "SHD Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 103, "TWI Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 104, "JTL Starfield", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 105, "LEG Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 201, "SOR Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 202, "SHD Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 203, "TWI Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 204, "JTL Artwork", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 205, "LEG Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   return $rv;
 }
 ?>
