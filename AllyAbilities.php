@@ -1761,7 +1761,7 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
       case "0052542605"://Bossk
         return DefinedTypesContains($playedCardID, "Event");
       case "9850906885"://Maz Kanata
-        return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit");
+        return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
       case "6354077246"://Black Squadron Scout Wing
         $target = TargetAlly();
         return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID() && !$target->IsExhausted();
