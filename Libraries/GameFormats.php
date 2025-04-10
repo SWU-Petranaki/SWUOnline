@@ -94,7 +94,7 @@ class DeckValidation {
 }
 
 function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardArr): DeckValidation {
-  $previewSet = "LEG";
+  $previewSet = "LOF";
   $deckSize = 0;
   $cards = "";
   $invalidCards = [];
@@ -236,7 +236,7 @@ function CardInRotation($format, $cardID): bool {
   $sandcrawlerRotation = $premierRotation;
   $civiWarRotation = $premierRotation;
   $cloneWarRotation = $premierRotation;
-  $previewRotation = array_merge($premierRotation, ["LEG"]);
+  $previewRotation = array_merge($premierRotation, ["LOF"]);
   return match($format) {
     Formats::$PremierFormat, Formats::$PremierStrict => in_array(CardSet($cardID), $premierRotation),
     Formats::$PadawanFormat => in_array(CardSet($cardID), $padawanRotation),
