@@ -975,6 +975,12 @@ function ResolveChainLink()
     return;
   }
   $attacker = new Ally($attackerMZ, $mainPlayer);
+  if (UIDIsAffectedByMalevolence($attacker->UniqueID())) {
+    RevertGamestate();
+    WriteLog(CardLink($attacker->CardID(), $attacker->CardID()) . " is affected by " . CardLink("3381931079", "3381931079") . ". Reverting gamestate.", error:true);
+    return;
+  }
+
   $totalAttack = $attacker->CurrentPower();
   $combatChainState[$CCS_LinkTotalAttack] = $totalAttack;
   $target = GetAttackTarget();

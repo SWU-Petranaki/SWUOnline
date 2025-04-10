@@ -18,7 +18,7 @@ function FmtKeyword($keyword) {
   return "<span class='keyword'>$keyword</span>";
 }
 
-function WriteLog($text, $player = 0, $highlight=false, $path="./")
+function WriteLog($text, $player = 0, $highlight=false, $path="./", $error=false)
 {
   global $gameName;
 
@@ -31,6 +31,7 @@ function WriteLog($text, $player = 0, $highlight=false, $path="./")
   $output = $player != 0 ? FmtPlayer($output, $player) : $output;
   $output = "<p class='log-entry'>$output</p>";
   $output = $output . "\r\n";
+  $output = $error ? "<span style='color:red;'>$output</span>" : $output;
   
   fwrite($handler, $output);
   fclose($handler);

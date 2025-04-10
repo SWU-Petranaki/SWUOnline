@@ -1386,7 +1386,7 @@ function UIDIsAffectedByMalevolence($uniqueID) {
 
   $found = false;
   for($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
-    $found = $found || ($currentTurnEffects[$i] == "3381931079" && $currentTurnEffects[$i+2] == $uniqueID);
+    $found = $found || ($currentTurnEffects[$i] == "3381931079" && $currentTurnEffects[$i+2] == $uniqueID); //Malevolence
   }
 
   return $found;
