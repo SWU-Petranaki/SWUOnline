@@ -5002,7 +5002,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $uniqueCards = [];
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
         $cardID = $allies[$i];
-        if (!in_array($cardID, $uniqueCards)) array_push($uniqueCards, $cardID);
+        $cardID = CardTitle($allies[$i]);
+        if (!in_array($cardID, $uniqueCards)){
+          array_push($uniqueCards, $cardID);
+        } 
       }
       $buffAmount = count($uniqueCards);
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
