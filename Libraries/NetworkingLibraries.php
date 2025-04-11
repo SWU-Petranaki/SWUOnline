@@ -684,7 +684,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         break;
       $otherPlayer = ($playerID == 1 ? 2 : 1);
       $parsedFormat = GetCurrentFormat();
-      include_once "./GameFormats.php";
+      include_once "./Libraries/GameFormats.php";
       if ($parsedFormat !== Formats::$PremierStrict) {
         AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
         AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);

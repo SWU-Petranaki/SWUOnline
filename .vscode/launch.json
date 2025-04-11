@@ -9,7 +9,6 @@
             "type": "php",
             "request": "launch",
             "port": 9003,
-            "hostname": "local",
             "pathMappings": {
                 "/var/www/html/Arena": "${workspaceFolder}",
             }
