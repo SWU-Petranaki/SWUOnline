@@ -1855,6 +1855,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "REMOVEPHASEEFFECTS":
       RemovePhaseEffects();
       return 1;
+    case "BACKUPSTARTTURN":
+      BackupStartTurn();
+      return 1;
     case "RESUMEROUNDPASS":
       ResumeRoundPass();
       return 1;
