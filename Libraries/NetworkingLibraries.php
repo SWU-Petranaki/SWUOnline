@@ -1382,13 +1382,17 @@ function BeginRoundPass()
   ProcessDecisionQueue();
 }
 
+function BackupStartTurn() {
+  global $MakeStartTurnBackup;
+  $MakeStartTurnBackup = true;
+}
+
 function ResumeRoundPass()
 {
-  global $MakeStartTurnBackup, $mainPlayer, $initiativePlayer;
+  global $mainPlayer, $initiativePlayer;
   if ($mainPlayer == $initiativePlayer) {
     $mainPlayer = $initiativePlayer == 1 ? 2 : 1; // Swap player
   }
-  $MakeStartTurnBackup = true;
 }
 
 function BeginTurnPass()

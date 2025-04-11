@@ -1013,6 +1013,7 @@ function StartRegroupPhase() {
 
   // Draw cards and resource them
   $otherPlayer = $initiativePlayer == 1 ? 2 : 1;
+  AddDecisionQueue("BACKUPSTARTTURN", $initiativePlayer, "-");
   AddDecisionQueue("DRAW", $initiativePlayer, "0");
   AddDecisionQueue("DRAW", $initiativePlayer, "0");
   AddDecisionQueue("DRAW", $otherPlayer, "0");
