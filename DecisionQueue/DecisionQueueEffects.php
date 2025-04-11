@@ -1034,7 +1034,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $ally = new Ally($lastResult, $player);
       $attackerCost = CardCost($ally->CardID());
       $attackerCostIsOdd = $attackerCost % 2 == 1;
-      $odds = $dqVars[0];
+      $odds = intval($dqVars[0]);
       $oddsIsOdd = $odds % 2 == 1;
       if($attackerCostIsOdd && $oddsIsOdd && $attackerCost != $odds) {
         AddCurrentTurnEffect("0616724418", $player);

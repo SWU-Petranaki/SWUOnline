@@ -9,7 +9,6 @@ function initializePlayerState($handler, $deckHandler, $player)
   global $SET_MuteChat, $SET_DisableStats, $SET_CasterMode, $SET_DisableAnimations;
   $materialDeck = GetArray($deckHandler);
   $deckCards = GetArray($deckHandler);
-  $deckSize = count($deckCards);
   fwrite($handler, "\r\n"); //Hand
 
   if($player == 1) $p1FreeGameFilePiece01 = "-";
