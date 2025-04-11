@@ -5001,7 +5001,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $allies = &GetAllies($currentPlayer);
       $uniqueCards = [];
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
-        $cardID = $allies[$i];
         $cardID = CardTitle($allies[$i]);
         if (!in_array($cardID, $uniqueCards)){
           array_push($uniqueCards, $cardID);
