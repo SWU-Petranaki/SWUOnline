@@ -16,6 +16,8 @@ include "DecisionQueue/DecisionQueueEffects.php";
 include "CurrentEffectAbilities.php";
 include "CombatChain.php";
 include_once "WriteLog.php";
+include_once "./Libraries/NetworkingLibraries.php";
+include_once "./Libraries/GameFormats.php";
 
 
 
@@ -936,7 +938,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             }
           }
           $rv = implode(",", $rv);
-          return $rv == "" ? "PASS" : $rv;     
+          return $rv == "" ? "PASS" : $rv;
         case "GETCAPTIVES":
           $ally = new Ally($lastResult);
           $rv = implode(",", $ally->GetCaptives());
@@ -2188,13 +2190,20 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
     case "REMATCH":
       global $GameStatus_Rematch, $inGameStatus, $gameName, $gameFileHandler;
-      if($lastResult == "YES")
-      {
+      $parsedFormat = GetCurrentFormat();
+      if($parsedFormat !== Formats::$PremierStrict) {
+        if($lastResult == "YES")
+        {
+          $inGameStatus = $GameStatus_Rematch;
+          IncrementCachePiece($gameName, 24);
+          ClearGameFiles($gameName);
+        } else {
+          WriteLog("Player $player declined the rematch");
+        }
+      } else {
         $inGameStatus = $GameStatus_Rematch;
         IncrementCachePiece($gameName, 24);
         ClearGameFiles($gameName);
-      } else {
-        WriteLog("Player $player declined the rematch");
       }
       return 0;
     case "UNIQUETOMZ":

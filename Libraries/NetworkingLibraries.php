@@ -683,8 +683,15 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       if ($turn[0] != "OVER")
         break;
       $otherPlayer = ($playerID == 1 ? 2 : 1);
-      AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
-      AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
+      $parsedFormat = GetCurrentFormat();
+      include_once "./GameFormats.php";
+      if ($parsedFormat !== Formats::$PremierStrict) {
+        AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
+        AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
+      }
+      else {
+        AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
+      }
       ProcessDecisionQueue();
       break;
     case 100005: //Reserved to trigger user return from activity
@@ -787,6 +794,25 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
 
 function ArenabotSpan() {
   return "<span style='font-weight:bold; color:plum'>Arenabot: </span>";
+}
+
+function GetCurrentFormat() {
+  global $format, $gameName;
+
+  if($format === null) {
+    $format = GetCachePiece($gameName, 13);
+  }
+
+  return is_numeric($format) ? Formats::FromCode($format) : $format;
+}
+
+function BestOf3IsOver() {
+  global $gameName;
+  if(GetCachePiece($gameName, 25) >= 2 || GetCachePiece($gameName, 26) >= 2) {
+    return true;
+  }
+
+  return false;
 }
 
 function IsModeAsync($mode)
@@ -1117,7 +1143,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   if (!$attackerDestroyed) {
     CompletesAttackEffect($attackerID);
   }
-  if ($attackerID == "1086021299" && $isDefenderAlly){ 
+  if ($attackerID == "1086021299" && $isDefenderAlly){
     ArquitensAssaultCruiser($mainPlayer, $defenderCardID, $isLeader);
   }
   ProcessDecisionQueue();

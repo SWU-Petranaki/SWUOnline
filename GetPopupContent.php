@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . "/components/Menus.php";
 include "./Libraries/HTTPLibraries.php";
 
 $gameName = $_GET["gameName"];
@@ -64,9 +65,14 @@ switch ($popupType) {
       }
       else
       {
-        $content = CreateButton($playerID, "Main Menu", 100001, 0, "24px", "", "", false, true);
-        if ($playerID == 1) $content .= "&nbsp;" . CreateButton($playerID, "Rematch", 100004, 0, "24px");
-        if ($playerID == 1) $content .= "&nbsp;" . CreateButton($playerID, "Quick Rematch", 100000, 0, "24px");
+        $otherP = ($playerID == 1 ? 2 : 1);
+        $parsedFormat = GetCurrentFormat();
+        $isPremierStrict = $parsedFormat === Formats::$PremierStrict;
+        $endBo3 = BestOf3IsOver();
+        $myWins = GetCachePiece($gameName, $playerID + 24);
+        $theirWins = GetCachePiece($gameName, $otherP + 24);
+        $content = "";
+        $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict);
         $content .= CreateButton($playerID, "Report Bug", 100003, 0, "24px") . "<BR>";
       }
       $content .= "</div>";

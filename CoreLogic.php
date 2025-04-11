@@ -520,6 +520,7 @@ function PlayerWon($playerID)
 
   $inGameStatus = $GameStatus_Over;
   $turn[0] = "OVER";
+  IncrementCachePiece($gameName, $playerID + 24);//25 = P1 Game Wins, 26 = P2 Game Wins
   SetCachePiece($gameName, 14, 6);//$MGS_GameOverStatsLogged
   if(GetCachePiece($gameName, 14) == 7) return;//$MGS_StatsLoggedIrreversible
 
