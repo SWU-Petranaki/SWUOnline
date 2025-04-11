@@ -707,7 +707,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $ally->DealDamage($ally->Health() - 1);
       return $lastResult;
     case "LTCHILDSEN":
-      if($lastResult == "PASS" || $lastResult == []) {
+      if($lastResult == "PASS" || !is_array($lastResult) || count($lastResult) == 0) {
         return $lastResult;
       }
       $hand = &GetHand($player);
