@@ -85,7 +85,9 @@ fwrite($handler, "0\r\n"); //Player 2 total time
 fwrite($handler, time() . "\r\n"); //Last update time
 fwrite($handler, $roguelikeGameID . "\r\n"); //Roguelike game id
 fwrite($handler, "\r\n");//Events
-fwrite($handler, "-");//Effect Context
+fwrite($handler, "-\r\n");//Effect Context
+fwrite($handler, "$firstPlayer\r\n");//Initiative Player
+fwrite($handler, "0");//Initiative Taken
 fclose($handler);
 
 //Set up log file

@@ -38,13 +38,12 @@ class Deck {
           WriteLog("Reveals " . CardLink($this->deck[$revealedCards], $this->deck[$revealedCards]));
           //AddEvent("REVEAL", $this->deck[$revealedCards]);
         }
-        if(SearchLandmark("ELE000")) KorshemRevealAbility($this->playerID);
         return true;
       } else {
         WriteLog("Your deck is empty. Nothing was revealed.");
-        return false;
       }
     }
+    return false;
   }
 
   function Top($remove = false, $amount = 1)

@@ -6216,6 +6216,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $deck = new Deck($currentPlayer);
         if($deck->Reveal()) {
           $cardCost = CardCost($deck->Top());
+        } else {
+          $cardCost = 2; // If the deck is empty, we'll set the card cost to 2 only to say that the card cost is not odd
         }
         AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardCost);
         AddDecisionQueue("SETDQVAR", $currentPlayer, "0");

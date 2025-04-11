@@ -165,6 +165,11 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
           $nameColor = ($contentCreator != null ? $contentCreator->NameColor() : "");
           $displayName = "<span style='color:$nameColor'>$playerName</span>";
           $deckFile = "./Games/" . $gameName . "/p" . $playerID . "Deck.txt";
+          // If the deck file doesn't exist, redirect to the main menu
+          if (!file_exists($deckFile)) {
+            header("Location: " . $redirectPath . "/MainMenu.php");
+            exit;
+          }
           $handler = fopen($deckFile, "r");
 
           echo ("<h3>$displayName</h3>");
