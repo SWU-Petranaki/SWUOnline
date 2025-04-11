@@ -73,12 +73,12 @@ function GameBackgroundDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Background . "-" . 102, "SHD Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 103, "TWI Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 104, "JTL Starfield", $SET_Background . "-" . $settings[$SET_Background]);
-  $rv .= CreateSelectOption($SET_Background . "-" . 105, "LEG Starfield", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 105, "LOF Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 201, "SOR Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 202, "SHD Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 203, "TWI Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 204, "JTL Artwork", $SET_Background . "-" . $settings[$SET_Background]);
-  $rv .= CreateSelectOption($SET_Background . "-" . 205, "LEG Artwork", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 205, "LOF Artwork", $SET_Background . "-" . $settings[$SET_Background]);
   return $rv;
 }
 ?>

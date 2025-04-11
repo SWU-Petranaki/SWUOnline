@@ -10,7 +10,6 @@ include "Libraries/SHMOPLibraries.php";
 include "Libraries/StatFunctions.php";
 include "Libraries/UILibraries.php";
 include "Libraries/PlayerSettings.php";
-include "Libraries/NetworkingLibraries.php";
 include "AI/CombatDummy.php";
 include "AI/EncounterAI.php";
 include "AI/PlayerMacros.php";
@@ -100,7 +99,7 @@ if(!IsReplay()) {
   }
   if ($playerID != 3 && $authKey != $targetAuth) { echo("Invalid auth key"); exit; }
   if ($playerID == 3 && !IsModeAllowedForSpectators($mode)) ExitProcessInput();
-  if(GetCachePiece($gameName, $playerID + 14) > 0 && GetCachePiece($gameName, 19) != $playerID) {
+  if($playerID != 3 && GetCachePiece($gameName, $playerID + 14) > 0 && GetCachePiece($gameName, 19) != $playerID) {
     exit("refresh");
   }
   if (!IsModeAsync($mode) && $currentPlayer != $playerID) {

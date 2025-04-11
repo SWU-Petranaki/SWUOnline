@@ -135,7 +135,7 @@ function GetBackground($player)
     case 104:
       return "JTL Starfield";
     case 105:
-      return "LEG Starfield";
+      return "LOF Starfield";
     case 201:
       return "SOR Artwork";
     case 202:
@@ -145,7 +145,7 @@ function GetBackground($player)
     case 204:
       return "JTL Artwork";
     case 205:
-      return "LEG Artwork";
+      return "LOF Artwork";
   }
 }
 
@@ -196,7 +196,7 @@ function BackgroundCode($name)
       return 103;
     case "JTL Starfield":
       return 104;
-    case "LEG Starfield":
+    case "LOF Starfield":
       return 105;
     case "SOR Artwork":
       return 201;
@@ -206,7 +206,7 @@ function BackgroundCode($name)
       return 203;
     case "JTL Artwork":
       return 204;
-    case "LEG Artwork":
+    case "LOF Artwork":
       return 205;
   }
 }

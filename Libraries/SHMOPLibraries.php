@@ -25,6 +25,8 @@
 22 - P1 Second Hero
 23 - P2 Second Hero
 24 - Round Game Number (eg. for a Bo3)
+25 - P1 Game Wins
+26 - P2 Game Wins
 */
 
 // $useRedis = getenv('REDIS_ENABLED') ?? false;

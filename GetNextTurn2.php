@@ -2,6 +2,8 @@
 
 include 'Libraries/HTTPLibraries.php';
 include 'Libraries/NetworkingLibraries.php';
+include 'Libraries/GameFormats.php';
+require __DIR__ . "/components/Menus.php";
 
 $stage = getenv('STAGE') ?: 'prod';
 $isDev = $stage === 'dev';
@@ -567,12 +569,13 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       else
         $content = CreateButton($playerID, "Game Over!", 100001, 0, "24px", "", "", false, true);
     } else {
-      $content = CreateButton($playerID, "Main Menu", 100001, 0, "24px", "", "", false, true);
-      if ($playerID == 1 && $theirCharacter[0] != "DUMMY")
-        $content .= "&nbsp;" . CreateButton($playerID, "Rematch", 100004, 0, "24px");
-      if ($playerID == 1)
-        $content .= "&nbsp;" . CreateButton($playerID, "Quick Rematch", 100000, 0, "24px");
-      //if ($playerID != 3 && IsPatron($playerID)) $content .= "&nbsp;" . CreateButton($playerID, "Save Replay", 100012, 0, "24px");
+      $parsedFormat = GetCurrentFormat();
+      $isPremierStrict = $parsedFormat === Formats::$PremierStrict;
+      $endBo3 = BestOf3IsOver();
+      $myWins = GetCachePiece($gameName, $playerID + 24);
+      $theirWins = GetCachePiece($gameName, $otherP + 24);
+      $content = "";
+      $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict);
       if ($playerID != 3) {
         $time = ($playerID == 1 ? $p1TotalTime : $p2TotalTime);
         $totalTime = $p1TotalTime + $p2TotalTime;
@@ -581,7 +584,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $content .= "<BR><span class='Time-Span'>Your Play Time: " . intval($time / 60) . "m" . $time % 60 . "s - Game Time: " . intval($totalTime / 60) . "m" . $totalTime % 60 . "s</span>";
       }
     }
-
     $content .= "</div>";
     $content .= CardStats($playerID);
     $verb = $playerID == $winner ? "Won!" : "Lost";
