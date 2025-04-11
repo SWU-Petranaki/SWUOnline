@@ -131,68 +131,65 @@ if ($handle = opendir($path)) {
 
     if ($status == 0 && $visibility == "public" && intval(GetCachePiece($gameName, 11)) < 3) {
       $p1Hero = GetCachePiece($gameName, 7);
-      $retryP1Hero = 0;
-      while($retryP1Hero < 10 && $p1Hero == "") {
-        $retryP1Hero++;
-        $p1Hero = GetCachePiece($gameName, 7);
-      }
       $p1Base = GetCachePiece($gameName, 20);
-      $formatName = FormatDisplayName($format);
+      if ($p1Hero != "" && $p1Base != "") {
+        $formatName = FormatDisplayName($format);
 
-      $link = "<form style='text-align:center;' action='" . $redirectPath . "/JoinGame.php'>";
-      $link .= "<table class='game-item' cellspacing='0'><tr>";
-      $link .= "<td class='game-name'>";
-      if ($formatName != "") {
-          $link .= "<p class='format-title'>" . $formatName . "</p>";
-      }
-      $description = ($gameDescription == "" ? "Game #" . $gameName : $gameDescription);
-      $link .= "<p style='word-break: break-word;'>" . $description . "</p></td>";
-      $link .= "<td>" . <<<HTML
-        <style>
-          .hero-container {
-            display: flex;
-            align-items: center;
-            column-gap: 10px
-          }
-
-          .hero-image {
-            height: 50px;
-            max-width: inherit;
-          }
-        </style>
-        <div class='hero-container'>
-          <img class='hero-image' src='./WebpImages2/$p1Hero.webp' alt='Player 1 Hero Image' />
-          <img class='hero-image' src='./WebpImages2/$p1Base.webp' alt='Player 1 Base Image' />
-        </div>
-      HTML
-      . "</td>";
-      $link .= "<td><input style='margin-left: 24px;' class='ServerChecker_Button' type='submit' id='joinGame' value='Join Game' /></td></tr>";
-      $link .= "</table>";
-      $link .= "<input type='hidden' name='gameName' value='$gameToken' />";
-      $link .= "<input type='hidden' name='playerID' value='2' />";
-      $link .= "</form>";
-
-      if (!$isUserBanned) {
-        switch ($format) {
-          case "premierf":
-            $premierLinks .= $link;
-            break;
-          case "prstrict":
-            $premierStrictLinks .= $link;
-            break;
-          case "previewf":
-            $previewLinks .= $link;
-            break;
-          default:
-            if ($format != "shadowblitz" && $format != "shadowcc")
-              $otherFormatsLinks .= $link;
-            break;
+        $link = "<form style='text-align:center;' action='" . $redirectPath . "/JoinGame.php'>";
+        $link .= "<table class='game-item' cellspacing='0'><tr>";
+        $link .= "<td class='game-name'>";
+        if ($formatName != "") {
+            $link .= "<p class='format-title'>" . $formatName . "</p>";
         }
-      } else {
-        if ($format == "shadowblitz")
-          $blitzLinks .= $link;
-        else if ($format == "shadowcc")
-          $ccLinks .= $link;
+        $description = ($gameDescription == "" ? "Game #" . $gameName : $gameDescription);
+        $link .= "<p style='word-break: break-word;'>" . $description . "</p></td>";
+        $link .= "<td>" . <<<HTML
+          <style>
+            .hero-container {
+              display: flex;
+              align-items: center;
+              column-gap: 10px
+            }
+
+            .hero-image {
+              height: 50px;
+              max-width: inherit;
+            }
+          </style>
+          <div class='hero-container'>
+            <img class='hero-image' src='./WebpImages2/$p1Hero.webp' alt='Player 1 Hero Image' />
+            <img class='hero-image' src='./WebpImages2/$p1Base.webp' alt='Player 1 Base Image' />
+          </div>
+        HTML
+        . "</td>";
+        $link .= "<td><input style='margin-left: 24px;' class='ServerChecker_Button' type='submit' id='joinGame' value='Join Game' /></td></tr>";
+        $link .= "</table>";
+        $link .= "<input type='hidden' name='gameName' value='$gameToken' />";
+        $link .= "<input type='hidden' name='playerID' value='2' />";
+        $link .= "</form>";
+
+        if (!$isUserBanned) {
+          switch ($format) {
+            case "premierf":
+              $premierLinks .= $link;
+              break;
+            case "prstrict":
+              $premierStrictLinks .= $link;
+              break;
+            case "previewf":
+              $previewLinks .= $link;
+              break;
+            default:
+              if ($format != "shadowblitz" && $format != "shadowcc")
+                $otherFormatsLinks .= $link;
+              break;
+          }
+        } else {
+          if ($format == "shadowblitz")
+            $blitzLinks .= $link;
+          else if ($format == "shadowcc")
+            $ccLinks .= $link;
+        }
       }
     }
   }
