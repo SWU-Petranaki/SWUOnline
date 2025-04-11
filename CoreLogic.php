@@ -2468,7 +2468,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
   if($from == "EQUIP" && DefinedTypesContains($cardID, "Leader", $currentPlayer)) {
     global $dqVars;
     $abilityName = GetResolvedAbilityName($cardID, $from);
-    if ($dqVars[0] == "Deploy" && $dqVars[1] == "Pilot") {
+    if (count($dqVars) > 0 && $dqVars[0] == "Deploy" && $dqVars[1] == "Pilot") {
       $abilityName = "Pilot";
     }
 
