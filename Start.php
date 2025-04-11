@@ -43,11 +43,19 @@ fwrite($handler, "0 0\r\n"); //Player health totals
 
 //Player 1
 $p1DeckHandler = fopen("./Games/" . $gameName . "/p1Deck.txt", "r");
+if (!$p1DeckHandler) {
+  echo "Player 1 deck not found";
+  exit;
+}
 initializePlayerState($handler, $p1DeckHandler, 1);
 fclose($p1DeckHandler);
 
 //Player 2
 $p2DeckHandler = fopen("./Games/" . $gameName . "/p2Deck.txt", "r");
+if (!$p2DeckHandler) {
+  echo "Player 2 deck not found";
+  exit;
+}
 initializePlayerState($handler, $p2DeckHandler, 2);
 fclose($p2DeckHandler);
 
