@@ -420,6 +420,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       break;
     case 38: //Confirm Multi Damage/Heal
       $parsedParams = ParseDQParameter($turn[0], $turn[1], $turn[2]);
+      if ($parsedParams == "") return "PASS";
       $counterLimit = $parsedParams["counterLimit"];
       $allies = $parsedParams["allies"];
       $characters = $parsedParams["characters"];
