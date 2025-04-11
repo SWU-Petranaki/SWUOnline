@@ -526,7 +526,8 @@ function PlayerWon($playerID)
 
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
-      SendSWUStatsResults();
+      $isDev = getenv("STAGE") == "dev";
+      if(!$isDev) SendSWUStatsResults();
     }
   } catch (Exception $e) {
 
@@ -5005,7 +5006,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $cardID = CardTitle($allies[$i]);
         if (!in_array($cardID, $uniqueCards)){
           array_push($uniqueCards, $cardID);
-        } 
+        }
       }
       $buffAmount = count($uniqueCards);
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
