@@ -2192,8 +2192,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       global $GameStatus_Rematch, $inGameStatus, $gameName, $gameFileHandler;
       $parsedFormat = GetCurrentFormat();
       if($parsedFormat !== Formats::$PremierStrict) {
-        if($lastResult == "YES")
-        {
+        if($lastResult == "YES") {
           $inGameStatus = $GameStatus_Rematch;
           IncrementCachePiece($gameName, 24);
           ClearGameFiles($gameName);
@@ -2201,9 +2200,13 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           WriteLog("Player $player declined the rematch");
         }
       } else {
-        $inGameStatus = $GameStatus_Rematch;
-        IncrementCachePiece($gameName, 24);
-        ClearGameFiles($gameName);
+        if($lastResult == "YES") {
+          $inGameStatus = $GameStatus_Rematch;
+          IncrementCachePiece($gameName, 24);
+          ClearGameFiles($gameName);
+        } else {
+          ConcedeMatch($player);
+        }
       }
       return 0;
     case "UNIQUETOMZ":
@@ -2437,12 +2440,4 @@ function AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID = "-", $resource
       }
     }
   }
-}
-
-function GeenerateRematchID() {
-  $rematchID = "";
-  for($i=0; $i<12; ++$i) {
-    $rematchID .= rand(0, 9);
-  }
-  return $rematchID;
 }

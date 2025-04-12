@@ -273,8 +273,8 @@ function CardSubceedsNumCopies($format, $cardID, $count): bool {
 
 function FormatDisplayName($format) {
   return match($format) {
-    Formats::$PremierFormat => "Premier",
-    Formats::$PremierStrict => "Premier Strict",
+    Formats::$PremierFormat => "Premier Casual",
+    Formats::$PremierStrict => "Premier (Best of 3)",
     Formats::$PreviewFormat => "Preview",
     Formats::$PadawanFormat => "Padawan",
     Formats::$SandcrawlerFormat => "Sandcrawler",

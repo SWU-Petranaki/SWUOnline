@@ -185,7 +185,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       if (!str_starts_with($turn[0], "MULTICHOOSE") && !str_starts_with($turn[0], "MAYMULTICHOOSE"))
         break;
       $input = [];
-      if ($turn[0] == "MULTICHOOSEOURUNITS"/*|| $turn[0] == "MULTICHOOSEOURUNITSANDBASE"*/) {//TODO: Redemption
+      if ($turn[0] == "MULTICHOOSEOURUNITS"/*|| $turn[0] == "MULTICHOOSEOURUNITSANDBASE"*/) {
         $input[0] = [];
         $input[1] = [];
         $sets = explode("&", $turn[2]);
@@ -532,8 +532,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       PlayCard($cardID, "PLAY", -1, $index, $theirAllies[$index + 5]);
       break;
     case 10000: //Undo
+      $parsedFormat = GetCurrentFormat();
+      $endBo3 = BestOf3IsOver();
       if (GetCachePiece($gameName, 14) == 7)
         break;//$MGS_StatsLoggedIrreversible
+      if (IsGameOver() && $parsedFormat === Formats::$PremierStrict) {
+        WriteLog("Player $playerID tried to undo the result of a Bo3 game.");
+        break;
+      }
       RevertGamestate();
       $skipWriteGamestate = true;
       WriteLog("Player " . $playerID . " undid their last action.");
@@ -690,6 +696,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
       }
       else {
+        AddDecisionQueue("YESNO", $otherPlayer, "if you want to continue to next game in Best of 3?<br/>(No will concede the whole match)");
         AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
       }
       ProcessDecisionQueue();
@@ -706,8 +713,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       if (!IsGameOver()) {
-        PlayerWon(($playerID == 1 ? 1 : 2));
+        PlayerWon($playerID == 1 ? 1 : 2);
+        $otherP = ($playerID == 1 ? 2 : 1);
         SetCachePiece($gameName, 14, 7);//$MGS_StatsLoggedIrreversible
+        $parsedFormat = GetCurrentFormat();
+        $endBo3 = BestOf3IsOver();
+        if ($parsedFormat === Formats::$PremierStrict && !$endBo3) {
+          ConcedeMatch($otherP);
+        }
       }
       break;
     case 100010: //Grant badge
@@ -776,7 +789,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       copy("./Games/$gameName/lastTurnGamestate.txt", $folderName . "/lastTurnGamestate.txt");
       WriteLog("Thank you for reporting the player. The chat log has been saved to the server. Please report it to mods on the discord server with the game number for reference ($gameName).");
       break;
-    case 100015:
+    case 100015://Leave Game Concede
       if ($isSimulation)
         return;
       include_once "./includes/dbh.inc.php";
@@ -785,6 +798,16 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       if (!IsGameOver())
         PlayerWon(($playerID == 1 ? 2 : 1));
       header("Location: " . $redirectPath . "/MainMenu.php");
+      break;
+    case 100016://Concede Match
+      if ($isSimulation)
+        return;
+      include_once "./includes/dbh.inc.php";
+      include_once "./includes/functions.inc.php";
+      $conceded = true;
+      if (!IsGameOver()) {
+        ConcedeMatch($playerID);
+      }
       break;
     default:
       break;
@@ -813,6 +836,17 @@ function BestOf3IsOver() {
   }
 
   return false;
+}
+
+function ConcedeMatch($player) {
+  global $gameName;
+
+  $winnerID = $player == 1 ? 2 : 1;
+  $theirWins = GetCachePiece($gameName, $winnerID + 24);
+  if($theirWins == 1) {
+    PlayerWon($winnerID, concededMatch: true);
+  }
+  CloseDecisionQueue();
 }
 
 function IsModeAsync($mode)
