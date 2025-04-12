@@ -806,6 +806,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       include_once "./includes/functions.inc.php";
       $conceded = true;
       if (!IsGameOver()) {
+        PlayerWon(($playerID == 1 ? 2 : 1));
         ConcedeMatch($playerID);
       }
       break;
