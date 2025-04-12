@@ -3705,7 +3705,7 @@ function TheAnnihilatorJTL($player) {
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "DESTROY,$player", 1);
   AddDecisionQueue("SETDQVAR", $player, "0", 1);
-  AddDecisionQueue("REVEALHANDCARDS", $player, "-", 1);
+  AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-", 1);
   AddDecisionQueue("LOOKHAND", $player, "-", 1);
   AddDecisionQueue("PASSPARAMETER", $player, "{0}"); // Workaround for the fact "LOOKHAND" always returns PASS
   AddDecisionQueue("LOOKDECK", $player, "-", 1);

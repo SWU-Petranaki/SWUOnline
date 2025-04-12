@@ -2185,7 +2185,7 @@ function LeaderUnit($cardID) {
       return "3f0b5622a7";
     case "7514405173"://Admiral Ackbar
       return "36859e7ec4";
-    case "9831674351"://Boba Fett
+    case "9831674351"://Boba Fett JTL
       return "f6eb711cf3";
     case "4030832630"://Admiral Piett
       return "649c6a9dbd";
