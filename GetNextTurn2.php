@@ -9,9 +9,9 @@ $stage = getenv('STAGE') ?: 'prod';
 $isDev = $stage === 'dev';
 
 $ReturnDelim = "GSDELIM";
-$DisconnectFirstWarningMS = $isDev ? 1e9 : 15e3;
-$DisconnectFinalWarningMS = $isDev ? 1e9 : 25e3;
-$DisconnectTimeoutMS = $isDev ? 1e9 : 30e3;
+$DisconnectFirstWarningMS = $isDev ? 1e9 : 40e3;
+$DisconnectFinalWarningMS = $isDev ? 1e9 : 55e3;
+$DisconnectTimeoutMS = $isDev ? 1e9 : 60e3;
 $ServerTimeoutMS = $isDev ? 1e9 : 90e3;
 $InputWarningMS = $isDev ? 1e9 : 50e3;
 $InputTimeoutMS = $isDev ? 1e9 : 60e3;

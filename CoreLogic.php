@@ -506,11 +506,11 @@ function IsGameOver()
   return $inGameStatus == $GameStatus_Over;
 }
 
-function PlayerWon($playerID)
+function PlayerWon($playerID, $concededMatch = false)
 {
   global $winner, $turn, $gameName, $p1id, $p2id, $p1uid, $p2uid, $conceded, $currentRound;
   global $p1DeckLink, $p2DeckLink, $inGameStatus, $GameStatus_Over, $firstPlayer, $p1deckbuilderID, $p2deckbuilderID;
-  if($turn[0] == "OVER") return;
+  if($turn[0] == "OVER" && !$concededMatch) return;
   include_once "./MenuFiles/ParseGamefile.php";
 
   $winner = $playerID;
@@ -1576,6 +1576,7 @@ function CanConfirmPhase($phase) {
       case "CHOOSEOPTION": return 0;
       case "CHOOSEMYSOUL": return 0;
       case "OVER": return 0;
+      case "YESNO": return 0;
       case "INDIRECTDAMAGEMULTIZONE": return 0;
       case "MULTIDAMAGEMULTIZONE": return 0;
       case "MULTIHEALMULTIZONE": return 0;

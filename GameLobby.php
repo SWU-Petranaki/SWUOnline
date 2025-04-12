@@ -83,7 +83,7 @@ $currentRoundGame = intval(GetCachePiece($gameName, 24));
 $canSideboard = Formats::$PremierStrict != $parsedFormat || $currentRoundGame !== 1;
 $canLeaveLobby = Formats::$PremierStrict != $parsedFormat || $currentRoundGame === 1;
 
-$arenaBotPremierStrictMessage = "By joining a Premier Strict lobby, you are agreeing to a Best of 3 Game. Any premature exit in the middle of a game will be considered unsportsmanlike behavior and could result in a ban. If you joined by mistake, please leave this lobby and join a Premier Casual lobby instead.";
+$arenaBotPremierStrictMessage = "By joining this lobby, you are agreeing to a Best of 3 Game. Any premature exit in the middle of a game will be considered unsportsmanlike behavior and could result in a ban. If you joined by mistake, please leave this lobby and join a Premier Casual lobby instead.";
 if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFormat == Formats::$PremierStrict) {
   $chatLog = file("./Games/" . $gameName . "/gamelog.txt");
   $found = false;
@@ -296,7 +296,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
 
     function CardClick(id) {
       if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
-        alert('In the Premier Strict format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
+        alert('In the Premier format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
         return;
       }
       var idArr = id.split("-");
