@@ -268,7 +268,7 @@ $canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece
 
     function CardClick(id) {
       if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
-        alert('In the Premier Strict format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
+        alert('In the Premier Strict (BO3) format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
         return;
       }
       var idArr = id.split("-");

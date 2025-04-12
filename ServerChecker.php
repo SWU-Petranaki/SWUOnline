@@ -202,7 +202,7 @@ if ($canSeeQueue) {
   echo ("<h3>Premier Casual</h3>");
   echo ("<hr/>");
   echo ($premierLinks);
-  echo ("<h3>Premier Strict</h3>");
+  echo ("<h3>Premier Strict (BO3)</h3>");
   echo ("<hr/>");
   echo ($premierStrictLinks);
   // echo ("<h3>Preview</h3>");

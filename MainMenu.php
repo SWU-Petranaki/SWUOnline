@@ -155,7 +155,7 @@ include_once 'Header.php';
   echo ("<select name='format' id='format' onchange='toggleInfoBox()'>");
   echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
   if($canSeeQueue) {
-    echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier Strict</option>");
+    echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier Strict (BO3)</option>");
     //echo ("<option value='$previewFormat'" . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">" . FormatDisplayName($previewFormat) . "</option>");
     //Cantina Brawl Format; Update this to rotate formats
     $funFormatBackendName = Formats::$PadawanFormat;
