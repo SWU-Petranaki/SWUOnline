@@ -9,12 +9,14 @@ $stage = getenv('STAGE') ?: 'prod';
 $isDev = $stage === 'dev';
 
 $ReturnDelim = "GSDELIM";
-$DisconnectFirstWarningMS = $isDev ? 1e9 : 40e3;
+$DisconnectFirstWarningMS = $isDev ? 1e9 : 30e3;
 $DisconnectFinalWarningMS = $isDev ? 1e9 : 55e3;
 $DisconnectTimeoutMS = $isDev ? 1e9 : 60e3;
 $ServerTimeoutMS = $isDev ? 1e9 : 90e3;
 $InputWarningMS = $isDev ? 1e9 : 50e3;
 $InputTimeoutMS = $isDev ? 1e9 : 60e3;
+$NextGameWarningMS = $isDev ? 1e9 : 20e3;
+$NextGameTimeoutMS = $isDev ? 1e9 : 30e3;
 
 //We should always have a player ID as a URL parameter
 $gameName = $_GET["gameName"];
@@ -66,6 +68,10 @@ $isGamePlayer = $playerID == 1 || $playerID == 2;
 $opponentDisconnected = false;
 $opponentInactive = false;
 $currentPlayerInputTimeout = false;
+//premier strict
+$parsedFormat = GetCurrentFormat();
+$isPremierStrict = $parsedFormat === Formats::$PremierStrict;
+$endBo3 = BestOf3IsOver();
 
 $currentTime = round(microtime(true) * 1000);
 if ($isGamePlayer) {
@@ -106,6 +112,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $lastActionTime = intval($cacheArr[16]);
     $lastActionWarning = intval($cacheArr[17]);
     $finalWarning = intval($cacheArr[18]);
+
     if ($gameState == 6 && $timeDiff > 10_000 && $oppStatus == "0") {
       WriteLog("Player $otherP has disconnected.");
       $opponentDisconnected = true;
@@ -113,6 +120,20 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       SetCachePiece($gameName, 14, 7);//$MGS_StatsLoggedIrreversible
       GamestateUpdated($gameName);
     } else {
+      if ($isPremierStrict && $gameState == 6 && !$endBo3 && ($currentTime - $lastActionTime) > $NextGameWarningMS && $lastActionWarning == 0 && $lastCurrentPlayer == $playerID) {
+        WriteLog(ArenabotSpan() . "Player $playerID , are you still there? Your opponent will be allowed to claim match in " . ($NextGameTimeoutMS - $NextGameWarningMS) / 1000 . " seconds if no activity is detected.");
+        SetCachePiece($gameName, 18, $playerID);
+        GamestateUpdated($gameName);
+      }
+      if ($isPremierStrict && $gameState == 6 && !$endBo3 && ($currentTime - $lastActionTime) > $NextGameTimeoutMS && $finalWarning == 0
+          && $lastCurrentPlayer == $playerID && GetCachePiece($gameName, $playerID + 14) != 3) {
+        WriteLog("Player $playerID is inactive. Player $otherP can claim match now.");
+        SetCachePiece($gameName, 19, $playerID);
+        SetCachePiece($gameName, $playerID + 3, 2);
+        SetCachePiece($gameName, $playerID + 14, 3);
+        GamestateUpdated($gameName);
+      }
+
       if ($gameState == 5 && $timeDiff > $DisconnectFirstWarningMS && $otherPlayerDisconnectStatus == 0 && ($oppStatus == "0")) {
         $warningSeconds = ($DisconnectTimeoutMS - $DisconnectFirstWarningMS) / 1000;
         WriteLog(ArenabotSpan() . "Player $otherP, are you still there? Your opponent will be allowed to claim victory in $warningSeconds seconds if no activity is detected.");
@@ -167,6 +188,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
 }
 $otherP = ($playerID == 1 ? 2 : 1);
 $opponentDisconnected = GetCachePiece($gameName, $otherP + 3) == "2" || GetCachePiece($gameName, $otherP + 14) == "3";
+$opponentDisconnectedBo3 = $isPremierStrict && !$endBo3 && $opponentDisconnected;
 
 if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   echo "0";
@@ -181,8 +203,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   include "Libraries/PlayerSettings.php";
 
   $isActivePlayer = $turn[1] == $playerID;
-  $parsedFormat = GetCurrentFormat();
-  $isPremierStrict = $parsedFormat === Formats::$PremierStrict;
   if ($turn[0] == "REMATCH" && intval($playerID) != 3) {
     include "MenuFiles/ParseGamefile.php";
     include "MenuFiles/WriteGamefile.php";
@@ -355,11 +375,16 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         if ($turn[0] == "B")
           echo (CreateButton($playerID, "Undo Block", 10001, 0, "18px") . " " . CreateButton($playerID, "Pass", 99, 0, "18px") . " " . CreateButton($playerID, "Pass Block and Reactions", 101, 0, "16px", "", "Reactions will not be skipped if the opponent reacts"));
       }
+
       if ($opponentDisconnected && $playerID != 3) {
         echo (CreateButton($playerID, "Claim Victory", 100007, 0, "18px", "", "claimVictoryButton"));
       }
+
     } else {
-      if (($currentPlayerActivity == 2 || $opponentDisconnected == true) && $playerID != 3) {
+      if ($opponentDisconnectedBo3 && $playerID != 3) {
+        echo ("Opponent is inactive " . CreateButton($playerID, "Claim Match Victory", 100017, 0, "18px", "", "claimMatchVictoryButton"));
+      }
+      else if (($currentPlayerActivity == 2 || $opponentDisconnected == true) && $playerID != 3) {
         echo ("Opponent is inactive " . CreateButton($playerID, "Claim Victory", 100007, 0, "18px", "", "claimVictoryButton"));
       } else {
         echo ($helpText);

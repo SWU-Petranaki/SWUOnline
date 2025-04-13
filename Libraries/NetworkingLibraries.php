@@ -810,6 +810,18 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         ConcedeMatch($playerID);
       }
       break;
+    case 100017://Claim Match Victory
+      if ($isSimulation)
+        return;
+      include_once "./includes/dbh.inc.php";
+      include_once "./includes/functions.inc.php";
+      $conceded = true;
+      if (IsGameOver()) {
+        $otherP = ($playerID == 1 ? 2 : 1);
+        PlayerWon($playerID);
+        ConcedeMatch($otherP);
+      }
+      break;
     default:
       break;
   }
@@ -884,6 +896,8 @@ function IsModeAsync($mode)
     case 100012:
       return true;
     case 100015:
+      return true;
+    case 100017:
       return true;
   }
   return false;
