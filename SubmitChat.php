@@ -36,7 +36,7 @@ $displayIconTitle = "";
 $contributors = array("OotTheMonk", "love", "ninin", "Brubraz", "Mobyus1", "Leobraz");
 if (isset($_SESSION['useruid']) && in_array($_SESSION['useruid'], $contributors)) {
   $displayIcon = "./Images/legendary-icon.webp";
-  $displayIconTitle = "Contributor";
+  $displayIconTitle = "{Petranaki Developer}";
 } else if (isset($_SESSION['useruid']) && isset($_SESSION["isPatreon"])) {
   $displayIcon = "./Images/rare-icon.webp";
   $displayIconTitle = "Patron";
