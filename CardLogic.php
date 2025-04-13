@@ -578,7 +578,7 @@ function ContinueDecisionQueue($lastResult = "")
       $player = $decisionQueue[1];
       $params = explode("!", $decisionQueue[2]); //Parameter
       if($lastResult == "") $lastResult = 0;
-      CloseDecisionQueue();
+      CloseDecisionQueue(); // TODO: there's a glitch here, if we have more than one unit being played, the decision queue is not updated correctly
       if($currentPlayer != $player) {
         $currentPlayer = $player;
         $otherPlayer = $currentPlayer == 1 ? 2 : 1;
@@ -1013,6 +1013,7 @@ function StartRegroupPhase() {
 
   // Draw cards and resource them
   $otherPlayer = $initiativePlayer == 1 ? 2 : 1;
+  AddDecisionQueue("BACKUPSTARTTURN", $initiativePlayer, "-"); // Make a checkpoint before drawing cards, even though new turns starts at the start of the action phase
   AddDecisionQueue("DRAW", $initiativePlayer, "0");
   AddDecisionQueue("DRAW", $initiativePlayer, "0");
   AddDecisionQueue("DRAW", $otherPlayer, "0");
@@ -1386,7 +1387,7 @@ function UIDIsAffectedByMalevolence($uniqueID) {
 
   $found = false;
   for($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
-    $found = $found || ($currentTurnEffects[$i] == "3381931079" && $currentTurnEffects[$i+2] == $uniqueID);
+    $found = $found || ($currentTurnEffects[$i] == "3381931079" && $currentTurnEffects[$i+2] == $uniqueID); //Malevolence
   }
 
   return $found;

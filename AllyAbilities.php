@@ -412,7 +412,7 @@ function DestroyAlly($player, $index,
   $skipDestroy = false, $fromCombat = false, $skipRescue = false,
   $removedFromPlay = true, $skipSpecialCase = false)
 {
-  global $mainPlayer, $combatChainState, $CS_AlliesDestroyed, $CS_NumAlliesDestroyed, $CS_NumLeftPlay, $CCS_CachedLastDestroyed;
+  global $mainPlayer, $combatChainState, $CS_AlliesDestroyed, $CS_NumAlliesDestroyed, $CS_NumLeftPlay, $CCS_CachedLastDestroyed, $CS_NumEventsPlayed;
 
   $allies = &GetAllies($player);
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -571,7 +571,7 @@ function UpgradesContainBounty($upgrades) {
 }
 
 function AllyTakeControl($player, $uniqueID) {
-  global $currentTurnEffects;
+  global $currentTurnEffects, $CS_NumEventsPlayed;
   if ($uniqueID == "" || $uniqueID == -1) return -1;
 
   $otherPlayer = $player == 1 ? 2 : 1;
@@ -1620,7 +1620,7 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
           if($aspects[$j] != "") $aspectArr[$aspects[$j]] = 1;
         }
       }
-      return count($aspectArr) < 3;
+      return count($aspectArr) < 3 || HasSentinel("3646264648", $player, $index);
     case "2843644198"://Sabine Wren
       $ally = new Ally("MYALLY-" . $index, $player);
       return !$ally->IsExhausted() || HasSentinel("2843644198", $player, $index);
@@ -3708,8 +3708,8 @@ function TheAnnihilatorJTL($player) {
   AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-", 1);
   AddDecisionQueue("LOOKHAND", $player, "-", 1);
   AddDecisionQueue("PASSPARAMETER", $player, "{0}"); // Workaround for the fact "LOOKHAND" always returns PASS
-  AddDecisionQueue("LOOKDECK", $player, "-", 1); 
-  AddDecisionQueue("PASSPARAMETER", $player, "{0}"); 
+  AddDecisionQueue("LOOKDECK", $player, "-", 1);
+  AddDecisionQueue("PASSPARAMETER", $player, "{0}");
   AddDecisionQueue("SPECIFICCARD", $player, "THEANNIHILATOR", 1);
 }
 

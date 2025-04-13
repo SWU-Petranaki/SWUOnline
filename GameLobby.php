@@ -10,6 +10,7 @@ include_once "Assets/patreon-php-master/src/PatreonDictionary.php";
 include_once "WriteLog.php";
 include_once './AccountFiles/AccountDatabaseAPI.php';
 include_once './Libraries/GameFormats.php';
+include './Libraries/NetworkingLibraries.php';
 ob_end_clean();
 
 session_start();
@@ -77,14 +78,25 @@ else if ($playerID == 2 && $gameStatus >= $MGS_ReadyToStart)
   $icon = "notReady.png";
 
 $isMobile = IsMobile();
+$parsedFormat = GetCurrentFormat();
+$currentRoundGame = intval(GetCachePiece($gameName, 24));
+$canSideboard = Formats::$PremierStrict != $parsedFormat || $currentRoundGame !== 1;
+$canLeaveLobby = Formats::$PremierStrict != $parsedFormat || $currentRoundGame === 1;
 
-global $format;
-if(is_numeric($format)) {
-  $parsedFormat = Formats::FromCode($format);
-} else {
-  $parsedFormat = $format;
+$arenaBotPremierStrictMessage = "By joining this lobby, you are agreeing to a Best of 3 Game. Any premature exit in the middle of a game will be considered unsportsmanlike behavior and could result in a ban. If you joined by mistake, please leave this lobby and join a Premier Casual lobby instead.";
+if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFormat == Formats::$PremierStrict) {
+  $chatLog = file("./Games/" . $gameName . "/gamelog.txt");
+  $found = false;
+  foreach($chatLog as $line) {
+    if(strpos($line, $arenaBotPremierStrictMessage) !== false) {
+      $found = true;
+      break;
+    }
+  }
+  if(!$found) {
+    WriteLog(ArenabotSpan() . $arenaBotPremierStrictMessage);
+  }
 }
-$canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece($gameName, 24)) !== 1;
 ?>
 
 <!DOCTYPE html>
@@ -153,6 +165,21 @@ $canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece
           $nameColor = ($contentCreator != null ? $contentCreator->NameColor() : "");
           $displayName = "<span style='color:$nameColor'>$playerName</span>";
           $deckFile = "./Games/" . $gameName . "/p" . $playerID . "Deck.txt";
+
+          // If the deck file doesn't exist, redirect to the main menu
+          if (!file_exists($deckFile)) {
+            // Retry 10 times before redirecting to the main menu
+            $attempts = 10;
+            while ($attempts > 0 && !file_exists($deckFile)) {
+              $deckFile = "./Games/" . $gameName . "/p" . $playerID . "Deck.txt";
+              $attempts--;
+            }
+            if (!file_exists($deckFile)) {
+              echo "<script>alert('Could not find deck file'); window.location.href = '" . $redirectPath . "/MainMenu.php';</script>";
+              exit;
+            }
+          }
+
           $handler = fopen($deckFile, "r");
 
           echo ("<h3>$displayName</h3>");
@@ -193,13 +220,14 @@ $canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece
             <div style="display: flex; align-items: center; width: 100%; gap: 16px; margin-bottom: 20px;">
             <h2 class='deck-title' style="margin: 0;">Your Deck</h2>
             <h2 class='deck-count' style="flex-grow: 1; margin: 0;">(<span id='mbCount'><?= count($deck) ?></span>/<?= count($deck) + count($deckSB) ?>)</h2>
-
-            <a href='MainMenu.php' class="leave-lobby">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-                <path fill="currentColor" d="m17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z" />
+            <?php
+            if ($canLeaveLobby) echo "<a href='MainMenu.php' class='leave-lobby'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='24px' height='24px' viewBox='0 0 24 24'>
+              <path fill='currentColor' d='m17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z' />
               </svg>
               Leave Lobby
-            </a>
+            </a>";
+            ?>
             </div>
           <?php endif; ?>
         </div>
@@ -268,7 +296,7 @@ $canSideboard = Formats::$PremierStrict != $parsedFormat || intval(GetCachePiece
 
     function CardClick(id) {
       if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
-        alert('In the Premier Strict format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
+        alert('In the Premier format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
         return;
       }
       var idArr = id.split("-");

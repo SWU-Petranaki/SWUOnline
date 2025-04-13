@@ -283,7 +283,7 @@ function Card($cardNumber, $folder, $maxHeight, $action = 0, $showHover = 0, $ov
   //$imgCounterHeight = $dynamicScaling ? intval($maxHeight / 2) : 44;
   $imgCounterHeight = $dynamicScaling ? intval($maxHeight / 2) : 35;
   $imgCounterFontSize = 24;
-  
+
   if ($counterType == 0) {
     if (!is_numeric($counters)) {
       $rv .= "<div style='margin: 0px; top: 101px; left: 50%;
@@ -1202,12 +1202,15 @@ function CardLink($caption, $cardNumber, $recordMenu = false)
 function MainMenuUI()
 {
   global $playerID, $gameName, $redirectPath, $authKey;
+  $parsedFormat = GetCurrentFormat();
   // TODO: Have as a global variable.
   $rv = "<table class='table-MainMenu'><tr><td class='table-td-MainMenu'>";
   $rv .= GetSettingsUI($playerID) . "<BR>";
   $rv .= "</td><td style='width:45%;  margin-top: 10px; vertical-align:top;'>";
   // $rv .= CreateButton($playerID, "Home Page", 100001, 0, "24px", "", "", false, true) . "<BR>";
-  $rv .= CreateButton($playerID, "Concede", 100002, 0, "24px", prompt: "⚠️ Do you really want to concede ?") . "<BR><BR>";
+  $rv .= CreateButton($playerID, "Concede Game", 100002, 0, "24px", prompt: "⚠️ Do you really want to concede ?") . "<BR><BR>";
+  if($parsedFormat === Formats::$PremierStrict)
+    $rv .= CreateButton($playerID, "Concede Match", 100016, 0, "24px", prompt: "⚠️ Do you really want to concede the Bo3 ?") . "<BR><BR>";
   $rv .= CreateButton($playerID, "Report Bug", 100003, 0, "24px") . "<BR><BR>";
   $rv .= CreateButton($playerID, "Undo", 10000, 0, "24px", "", "Hotkey: U") . "<BR><BR>";
 

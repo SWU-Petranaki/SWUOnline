@@ -506,11 +506,11 @@ function IsGameOver()
   return $inGameStatus == $GameStatus_Over;
 }
 
-function PlayerWon($playerID)
+function PlayerWon($playerID, $concededMatch = false)
 {
   global $winner, $turn, $gameName, $p1id, $p2id, $p1uid, $p2uid, $conceded, $currentRound;
   global $p1DeckLink, $p2DeckLink, $inGameStatus, $GameStatus_Over, $firstPlayer, $p1deckbuilderID, $p2deckbuilderID;
-  if($turn[0] == "OVER") return;
+  if($turn[0] == "OVER" && !$concededMatch) return;
   include_once "./MenuFiles/ParseGamefile.php";
 
   $winner = $playerID;
@@ -520,12 +520,14 @@ function PlayerWon($playerID)
 
   $inGameStatus = $GameStatus_Over;
   $turn[0] = "OVER";
+  IncrementCachePiece($gameName, $playerID + 24);//25 = P1 Game Wins, 26 = P2 Game Wins
   SetCachePiece($gameName, 14, 6);//$MGS_GameOverStatsLogged
   if(GetCachePiece($gameName, 14) == 7) return;//$MGS_StatsLoggedIrreversible
 
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
-      SendSWUStatsResults();
+      $isDev = getenv("STAGE") == "dev";
+      if(!$isDev) SendSWUStatsResults();
     }
   } catch (Exception $e) {
 
@@ -1574,6 +1576,7 @@ function CanConfirmPhase($phase) {
       case "CHOOSEOPTION": return 0;
       case "CHOOSEMYSOUL": return 0;
       case "OVER": return 0;
+      case "YESNO": return 0;
       case "INDIRECTDAMAGEMULTIZONE": return 0;
       case "MULTIDAMAGEMULTIZONE": return 0;
       case "MULTIHEALMULTIZONE": return 0;
@@ -2470,7 +2473,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
   if($from == "EQUIP" && DefinedTypesContains($cardID, "Leader", $currentPlayer)) {
     global $dqVars;
     $abilityName = GetResolvedAbilityName($cardID, $from);
-    if ($dqVars[0] == "Deploy" && $dqVars[1] == "Pilot") {
+    if (count($dqVars) > 0 && $dqVars[0] == "Deploy" && $dqVars[1] == "Pilot") {
       $abilityName = "Pilot";
     }
 
@@ -5006,7 +5009,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $cardID = CardTitle($allies[$i]);
         if (!in_array($cardID, $uniqueCards)){
           array_push($uniqueCards, $cardID);
-        } 
+        }
       }
       $buffAmount = count($uniqueCards);
       for($i=0; $i<count($allies); $i+=AllyPieces()) {
@@ -6216,6 +6219,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $deck = new Deck($currentPlayer);
         if($deck->Reveal()) {
           $cardCost = CardCost($deck->Top());
+        } else {
+          $cardCost = 2; // If the deck is empty, we'll set the card cost to 2 only to say that the card cost is not odd
         }
         AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardCost);
         AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
@@ -6978,6 +6983,9 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "9763190770,PLAY", 1);
+      break;
+    case "5576996578"://Endless Legions
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ENDLESSLEGIONS");
       break;
     default: break;
   }

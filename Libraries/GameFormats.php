@@ -94,7 +94,7 @@ class DeckValidation {
 }
 
 function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardArr): DeckValidation {
-  $previewSet = "LEG";
+  $previewSet = "LOF";
   $deckSize = 0;
   $cards = "";
   $invalidCards = [];
@@ -236,7 +236,7 @@ function CardInRotation($format, $cardID): bool {
   $sandcrawlerRotation = $premierRotation;
   $civiWarRotation = $premierRotation;
   $cloneWarRotation = $premierRotation;
-  $previewRotation = array_merge($premierRotation, ["LEG"]);
+  $previewRotation = array_merge($premierRotation, ["LOF"]);
   return match($format) {
     Formats::$PremierFormat, Formats::$PremierStrict => in_array(CardSet($cardID), $premierRotation),
     Formats::$PadawanFormat => in_array(CardSet($cardID), $padawanRotation),
@@ -273,8 +273,8 @@ function CardSubceedsNumCopies($format, $cardID, $count): bool {
 
 function FormatDisplayName($format) {
   return match($format) {
-    Formats::$PremierFormat => "Premier",
-    Formats::$PremierStrict => "Premier Strict",
+    Formats::$PremierFormat => "Premier Casual",
+    Formats::$PremierStrict => "Premier (Best of 3)",
     Formats::$PreviewFormat => "Preview",
     Formats::$PadawanFormat => "Padawan",
     Formats::$SandcrawlerFormat => "Sandcrawler",

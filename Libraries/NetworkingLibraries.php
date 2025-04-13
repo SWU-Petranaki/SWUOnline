@@ -185,7 +185,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       if (!str_starts_with($turn[0], "MULTICHOOSE") && !str_starts_with($turn[0], "MAYMULTICHOOSE"))
         break;
       $input = [];
-      if ($turn[0] == "MULTICHOOSEOURUNITS"/*|| $turn[0] == "MULTICHOOSEOURUNITSANDBASE"*/) {//TODO: Redemption
+      if ($turn[0] == "MULTICHOOSEOURUNITS"/*|| $turn[0] == "MULTICHOOSEOURUNITSANDBASE"*/) {
         $input[0] = [];
         $input[1] = [];
         $sets = explode("&", $turn[2]);
@@ -420,6 +420,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       break;
     case 38: //Confirm Multi Damage/Heal
       $parsedParams = ParseDQParameter($turn[0], $turn[1], $turn[2]);
+      if ($parsedParams == "") return "PASS";
       $counterLimit = $parsedParams["counterLimit"];
       $allies = $parsedParams["allies"];
       $characters = $parsedParams["characters"];
@@ -531,8 +532,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       PlayCard($cardID, "PLAY", -1, $index, $theirAllies[$index + 5]);
       break;
     case 10000: //Undo
+      $parsedFormat = GetCurrentFormat();
+      $endBo3 = BestOf3IsOver();
       if (GetCachePiece($gameName, 14) == 7)
         break;//$MGS_StatsLoggedIrreversible
+      if (IsGameOver() && $parsedFormat === Formats::$PremierStrict) {
+        WriteLog("Player $playerID tried to undo the result of a Bo3 game.");
+        break;
+      }
       RevertGamestate();
       $skipWriteGamestate = true;
       WriteLog("Player " . $playerID . " undid their last action.");
@@ -682,8 +689,16 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       if ($turn[0] != "OVER")
         break;
       $otherPlayer = ($playerID == 1 ? 2 : 1);
-      AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
-      AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
+      $parsedFormat = GetCurrentFormat();
+      include_once "./Libraries/GameFormats.php";
+      if ($parsedFormat !== Formats::$PremierStrict) {
+        AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
+        AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
+      }
+      else {
+        AddDecisionQueue("YESNO", $otherPlayer, "if you want to continue to next game in Best of 3?<br/>(No will concede the whole match)");
+        AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
+      }
       ProcessDecisionQueue();
       break;
     case 100005: //Reserved to trigger user return from activity
@@ -698,8 +713,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       if (!IsGameOver()) {
-        PlayerWon(($playerID == 1 ? 1 : 2));
+        PlayerWon($playerID == 1 ? 1 : 2);
+        $otherP = ($playerID == 1 ? 2 : 1);
         SetCachePiece($gameName, 14, 7);//$MGS_StatsLoggedIrreversible
+        $parsedFormat = GetCurrentFormat();
+        $endBo3 = BestOf3IsOver();
+        if ($parsedFormat === Formats::$PremierStrict && !$endBo3) {
+          ConcedeMatch($otherP);
+        }
       }
       break;
     case 100010: //Grant badge
@@ -768,7 +789,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       copy("./Games/$gameName/lastTurnGamestate.txt", $folderName . "/lastTurnGamestate.txt");
       WriteLog("Thank you for reporting the player. The chat log has been saved to the server. Please report it to mods on the discord server with the game number for reference ($gameName).");
       break;
-    case 100015:
+    case 100015://Leave Game Concede
       if ($isSimulation)
         return;
       include_once "./includes/dbh.inc.php";
@@ -778,6 +799,17 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         PlayerWon(($playerID == 1 ? 2 : 1));
       header("Location: " . $redirectPath . "/MainMenu.php");
       break;
+    case 100016://Concede Match
+      if ($isSimulation)
+        return;
+      include_once "./includes/dbh.inc.php";
+      include_once "./includes/functions.inc.php";
+      $conceded = true;
+      if (!IsGameOver()) {
+        PlayerWon(($playerID == 1 ? 2 : 1));
+        ConcedeMatch($playerID);
+      }
+      break;
     default:
       break;
   }
@@ -786,6 +818,36 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
 
 function ArenabotSpan() {
   return "<span style='font-weight:bold; color:plum'>Arenabot: </span>";
+}
+
+function GetCurrentFormat() {
+  global $format, $gameName;
+
+  if($format === null) {
+    $format = GetCachePiece($gameName, 13);
+  }
+
+  return is_numeric($format) ? Formats::FromCode($format) : $format;
+}
+
+function BestOf3IsOver() {
+  global $gameName;
+  if(GetCachePiece($gameName, 25) >= 2 || GetCachePiece($gameName, 26) >= 2) {
+    return true;
+  }
+
+  return false;
+}
+
+function ConcedeMatch($player) {
+  global $gameName;
+
+  $winnerID = $player == 1 ? 2 : 1;
+  $theirWins = GetCachePiece($gameName, $winnerID + 24);
+  if($theirWins == 1) {
+    PlayerWon($winnerID, concededMatch: true);
+  }
+  CloseDecisionQueue();
 }
 
 function IsModeAsync($mode)
@@ -975,6 +1037,12 @@ function ResolveChainLink()
     return;
   }
   $attacker = new Ally($attackerMZ, $mainPlayer);
+  if (UIDIsAffectedByMalevolence($attacker->UniqueID())) {
+    RevertGamestate();
+    WriteLog(CardLink($attacker->CardID(), $attacker->CardID()) . " is affected by " . CardLink("3381931079", "3381931079") . ". Reverting gamestate.", error:true);
+    return;
+  }
+
   $totalAttack = $attacker->CurrentPower();
   $combatChainState[$CCS_LinkTotalAttack] = $totalAttack;
   $target = GetAttackTarget();
@@ -1110,7 +1178,7 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
   if (!$attackerDestroyed) {
     CompletesAttackEffect($attackerID);
   }
-  if ($attackerID == "1086021299" && $isDefenderAlly){ 
+  if ($attackerID == "1086021299" && $isDefenderAlly){
     ArquitensAssaultCruiser($mainPlayer, $defenderCardID, $isLeader);
   }
   ProcessDecisionQueue();
@@ -1376,13 +1444,17 @@ function BeginRoundPass()
   ProcessDecisionQueue();
 }
 
+function BackupStartTurn() {
+  global $MakeStartTurnBackup;
+  $MakeStartTurnBackup = true;
+}
+
 function ResumeRoundPass()
 {
-  global $MakeStartTurnBackup, $mainPlayer, $initiativePlayer;
+  global $mainPlayer, $initiativePlayer;
   if ($mainPlayer == $initiativePlayer) {
     $mainPlayer = $initiativePlayer == 1 ? 2 : 1; // Swap player
   }
-  $MakeStartTurnBackup = true;
 }
 
 function BeginTurnPass()

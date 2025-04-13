@@ -2,14 +2,16 @@
 
 include 'Libraries/HTTPLibraries.php';
 include 'Libraries/NetworkingLibraries.php';
+include 'Libraries/GameFormats.php';
+require __DIR__ . "/components/Menus.php";
 
 $stage = getenv('STAGE') ?: 'prod';
 $isDev = $stage === 'dev';
 
 $ReturnDelim = "GSDELIM";
-$DisconnectFirstWarningMS = $isDev ? 1e9 : 15e3;
-$DisconnectFinalWarningMS = $isDev ? 1e9 : 25e3;
-$DisconnectTimeoutMS = $isDev ? 1e9 : 30e3;
+$DisconnectFirstWarningMS = $isDev ? 1e9 : 40e3;
+$DisconnectFinalWarningMS = $isDev ? 1e9 : 55e3;
+$DisconnectTimeoutMS = $isDev ? 1e9 : 60e3;
 $ServerTimeoutMS = $isDev ? 1e9 : 90e3;
 $InputWarningMS = $isDev ? 1e9 : 50e3;
 $InputTimeoutMS = $isDev ? 1e9 : 60e3;
@@ -179,7 +181,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   include "Libraries/PlayerSettings.php";
 
   $isActivePlayer = $turn[1] == $playerID;
-
+  $parsedFormat = GetCurrentFormat();
+  $isPremierStrict = $parsedFormat === Formats::$PremierStrict;
   if ($turn[0] == "REMATCH" && intval($playerID) != 3) {
     include "MenuFiles/ParseGamefile.php";
     include "MenuFiles/WriteGamefile.php";
@@ -559,6 +562,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     echo CreatePopup("INSTANT", [], 0, 1, "", 1, $content, "./", false, true); // Output the content in a popup
   }
 
+
+
   if ($turn[0] == "OVER") {
     if ($roguelikeGameID != "") {
       $caption = (GetHealth($playerID) > 0 ? "Continue Adventure" : "Game Over");
@@ -567,12 +572,11 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       else
         $content = CreateButton($playerID, "Game Over!", 100001, 0, "24px", "", "", false, true);
     } else {
-      $content = CreateButton($playerID, "Main Menu", 100001, 0, "24px", "", "", false, true);
-      if ($playerID == 1 && $theirCharacter[0] != "DUMMY")
-        $content .= "&nbsp;" . CreateButton($playerID, "Rematch", 100004, 0, "24px");
-      if ($playerID == 1)
-        $content .= "&nbsp;" . CreateButton($playerID, "Quick Rematch", 100000, 0, "24px");
-      //if ($playerID != 3 && IsPatron($playerID)) $content .= "&nbsp;" . CreateButton($playerID, "Save Replay", 100012, 0, "24px");
+      $endBo3 = BestOf3IsOver();
+      $myWins = GetCachePiece($gameName, $playerID + 24);
+      $theirWins = GetCachePiece($gameName, $otherP + 24);
+      $content = "";
+      $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict);
       if ($playerID != 3) {
         $time = ($playerID == 1 ? $p1TotalTime : $p2TotalTime);
         $totalTime = $p1TotalTime + $p2TotalTime;
@@ -581,7 +585,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $content .= "<BR><span class='Time-Span'>Your Play Time: " . intval($time / 60) . "m" . $time % 60 . "s - Game Time: " . intval($totalTime / 60) . "m" . $totalTime % 60 . "s</span>";
       }
     }
-
     $content .= "</div>";
     $content .= CardStats($playerID);
     $verb = $playerID == $winner ? "Won!" : "Lost";
@@ -1050,7 +1053,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       }
       $options = array_merge($options, $optionParams != "" ? explode(",", $optionParams) : []);
     } else {
-      //TODO: Redemption
       $paramsTheirs = explode("-", $sets[0]);
       $paramsMine = explode("-", $sets[1]);
       $params = [$paramsTheirs, $paramsMine];
@@ -1664,15 +1666,16 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   echo ("<div id='sidebarWrapper'>");
 
   echo ("<div class='menu-buttons-wrapper-a'><div class='menu-buttons-wrapper-b'><table><tr>");
+
   if ($playerID == 3) {
     echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='window.location.href=\"./MainMenu.php\";'><img class='exit-icon' src='./Images/close.png' /></div></td>");
   } else if (IsPatron($playerID)) {
     echo ("<td><div class='MenuButtons' title='Click to view stats.' onclick='TogglePopup(\"myStatsPopup\");'><img class='settings-icon' src='./Images/stats-2.png' /></div></td>");
     echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"menuPopup\");'><img class='settings-icon' src='./Images/cog.png' /></div></td>");
-    echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"leaveGame\");'><img class='exit-icon' src='./Images/close.png' /></div></td>");
+    if(!$isPremierStrict) echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"leaveGame\");'><img class='exit-icon' src='./Images/close.png' /></div></td>");
   } else {
     echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"menuPopup\");'><img class='settings-icon' src='./Images/cog.png' /></div></td>");
-    echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"leaveGame\");'><img class='exit-icon' src='./Images/close.png' /></div></td>");
+    if(!$isPremierStrict) echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"leaveGame\");'><img class='exit-icon' src='./Images/close.png' /></div></td>");
   }
   echo ("</tr></table></div></div>");
 

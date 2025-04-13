@@ -42,12 +42,22 @@ $handler = fopen($filename, "w");
 fwrite($handler, "0 0\r\n"); //Player health totals
 
 //Player 1
-$p1DeckHandler = fopen("./Games/" . $gameName . "/p1Deck.txt", "r");
+$p1DeckFilename = "./Games/" . $gameName . "/p1Deck.txt";
+$p1DeckHandler = fopen($p1DeckFilename, "r");
+if (!$p1DeckHandler) {
+  echo("Player 1 deck not found");
+  exit;
+}
 initializePlayerState($handler, $p1DeckHandler, 1);
 fclose($p1DeckHandler);
 
 //Player 2
-$p2DeckHandler = fopen("./Games/" . $gameName . "/p2Deck.txt", "r");
+$p2DeckFilename = "./Games/" . $gameName . "/p2Deck.txt";
+$p2DeckHandler = fopen($p2DeckFilename, "r");
+if (!$p2DeckHandler) {
+  echo("Player 2 deck not found");
+  exit;
+}
 initializePlayerState($handler, $p2DeckHandler, 2);
 fclose($p2DeckHandler);
 
@@ -85,7 +95,9 @@ fwrite($handler, "0\r\n"); //Player 2 total time
 fwrite($handler, time() . "\r\n"); //Last update time
 fwrite($handler, $roguelikeGameID . "\r\n"); //Roguelike game id
 fwrite($handler, "\r\n");//Events
-fwrite($handler, "-");//Effect Context
+fwrite($handler, "-\r\n");//Effect Context
+fwrite($handler, "$firstPlayer\r\n");//Initiative Player
+fwrite($handler, "0");//Initiative Taken
 fclose($handler);
 
 //Set up log file
@@ -101,12 +113,15 @@ $p1SecondHero = GetCachePiece($gameName, 22);
 $p2SecondHero = GetCachePiece($gameName, 23);
 $visibility = GetCachePiece($gameName, 9);
 $format = GetCachePiece($gameName, 13);
+$roundGameNumber = GetCachePiece($gameName, 24);
+$p1GameWins = GetCachePiece($gameName, 25);
+$p2GameWins = GetCachePiece($gameName, 26);
 $currentPlayer = 0;
 $isReplay = 0;
 WriteCache($gameName, ($currentUpdate + 1) . "!" . $currentTime . "!" . $currentTime . "!-1!-1!" . $currentTime . "!"
   . $p1Hero . "!" . $p2Hero . "!" . $visibility . "!" . $isReplay . "!0!0!"
-  . FormatCode($format) . "!" . $MGS_GameStarted
-  . "!0!0!$currentTime!0!0!$p1Base!$p2Base!$p1SecondHero!$p2SecondHero!1"); //Initialize SHMOP cache for this game
+  . $format . "!" . $MGS_GameStarted
+  . "!0!0!$currentTime!0!0!$p1Base!$p2Base!$p1SecondHero!$p2SecondHero!$roundGameNumber!$p1GameWins!$p2GameWins"); //Initialize SHMOP cache for this game
 
 ob_start();
 include "ParseGamestate.php";

@@ -16,6 +16,8 @@ include "DecisionQueue/DecisionQueueEffects.php";
 include "CurrentEffectAbilities.php";
 include "CombatChain.php";
 include_once "WriteLog.php";
+include_once "./Libraries/NetworkingLibraries.php";
+include_once "./Libraries/GameFormats.php";
 
 
 
@@ -936,7 +938,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             }
           }
           $rv = implode(",", $rv);
-          return $rv == "" ? "PASS" : $rv;     
+          return $rv == "" ? "PASS" : $rv;
         case "GETCAPTIVES":
           $ally = new Ally($lastResult);
           $rv = implode(",", $ally->GetCaptives());
@@ -1172,6 +1174,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "MZFILTER":
       $params = explode("=", $parameter);
       $arr = explode(",", $lastResult);
+      $isFilteringAlly = ((count($arr) > 0) && (is_numeric($arr[0]) || str_contains($arr[0], "ALLY")));
       $forUpgradeEligible = $params[0] == "filterUpgradeEligible";
       if($forUpgradeEligible) {
         $params = explode("=", UpgradeFilter($params[1]));
@@ -1216,11 +1219,16 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             for($j=0; $j<count($mzArr); ++$j) {
               if($mzArr[$j] == "" || $mzArr[$j] == "-") continue;
 
-              $ally = new Ally($arr[$i]);
-              $filterAlly = new Ally($mzArr[$j]);
-              if($ally->UniqueID() == $filterAlly->UniqueID()) {
-                $match = true;
-                break;
+              if ($isFilteringAlly) {
+                $ally = new Ally($arr[$i]);
+                $filterAlly = new Ally($mzArr[$j]);
+                if($ally->UniqueID() == $filterAlly->UniqueID()) {
+                  $match = true;
+                  break;
+                }
+              } else if ($arr[$i] == $mzArr[$j]) {
+                  $match = true;
+                  break;
               }
             }
             break;
@@ -1849,6 +1857,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "REMOVEPHASEEFFECTS":
       RemovePhaseEffects();
       return 1;
+    case "BACKUPSTARTTURN":
+      BackupStartTurn();
+      return 1;
     case "RESUMEROUNDPASS":
       ResumeRoundPass();
       return 1;
@@ -2179,13 +2190,23 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
     case "REMATCH":
       global $GameStatus_Rematch, $inGameStatus, $gameName, $gameFileHandler;
-      if($lastResult == "YES")
-      {
-        $inGameStatus = $GameStatus_Rematch;
-        IncrementCachePiece($gameName, 24);
-        ClearGameFiles($gameName);
+      $parsedFormat = GetCurrentFormat();
+      if($parsedFormat !== Formats::$PremierStrict) {
+        if($lastResult == "YES") {
+          $inGameStatus = $GameStatus_Rematch;
+          IncrementCachePiece($gameName, 24);
+          ClearGameFiles($gameName);
+        } else {
+          WriteLog("Player $player declined the rematch");
+        }
       } else {
-        WriteLog("Player $player declined the rematch");
+        if($lastResult == "YES") {
+          $inGameStatus = $GameStatus_Rematch;
+          IncrementCachePiece($gameName, 24);
+          ClearGameFiles($gameName);
+        } else {
+          ConcedeMatch($player);
+        }
       }
       return 0;
     case "UNIQUETOMZ":
@@ -2419,12 +2440,4 @@ function AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID = "-", $resource
       }
     }
   }
-}
-
-function GeenerateRematchID() {
-  $rematchID = "";
-  for($i=0; $i<12; ++$i) {
-    $rematchID .= rand(0, 9);
-  }
-  return $rematchID;
 }
