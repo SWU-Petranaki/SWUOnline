@@ -2088,7 +2088,9 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
       default: break;
     }
   }
-  if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0 && SearchUpgradesForCard($currentPlayer, "7501988286") != "") $modifier -= 2;//Death Star Plans
+  if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0 && SearchUpgradesForCard($currentPlayer, "7501988286") != ""){//Death Star Plans
+    $modifier -= SearchCount(SearchUpgradesForCard($currentPlayer, "7501988286"));
+  } 
   //My ally cost modifier
   $allies = &GetAllies($currentPlayer);
   for($i=0; $i<count($allies); $i+=AllyPieces())
@@ -6737,9 +6739,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CAT_AND_MOUSE", 1);
       break;
     case "3782661648"://Out the Airlock
-      $ally = new Ally($target);
-      $ally->AddRoundHealthModifier(-5);
-      AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $ally->UniqueID());
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -5/-5", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "3782661648,HAND", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,5", 1);
       break;
     case "4159101997"://Crackshot V-Wing
       if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, trait:"Fighter")) <= 1) {
@@ -7191,7 +7198,6 @@ function PlayRequiresTarget($cardID)
     case "1973545191": return 6;//Unexpected Escape
     case "0598830553": return 7;//Dryden Vos
     case "8576088385": return 6;//Detention Block Rescue
-    case "3782661648": return 6;//Out the Airlock
     default: return -1;
   }
 }
