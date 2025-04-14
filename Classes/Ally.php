@@ -310,7 +310,6 @@ class Ally {
           }
           $subcards = array_values($subcards);
           $this->allies[$this->index+4] = count($subcards) > 0 ? implode(",", $subcards) : "-";
-          AddEvent("SHIELDDESTROYED", $this->UniqueID());
           if(!$bypassShield) return false;//Cancel the damage if shield prevented it
         }
         switch($subcards[$i]) {
@@ -743,6 +742,12 @@ class Ally {
       }
     }
     return false;
+  }
+
+  function DefeatAllShields() {
+    while ($this->HasShield()) {
+      $this->DefeatUpgrade("8752877738"); //Shield token
+    }
   }
 
   function DefeatUpgrade($upgradeID, $subcardUniqueID = "") {
