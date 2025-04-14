@@ -852,7 +852,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $subcardIsLeader = CardIDIsLeader($lastResult);
           $upgrades = $attachedAlly->GetUpgrades(withMetadata:true);
           [$fromEpicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($upgrades, $lastResult);
-          $attachedAlly->RemoveSubcard($lastResult, movingPilot:true);
+          $attachedAlly->RemoveSubcard($lastResult, moving:true);
           $newUID = PlayAlly($lastResult, $attachedAlly->Owner(), epicAction:$fromEpicAction, turnsInPlay: $turnsInPlay);
           if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust();
           return $newUID;

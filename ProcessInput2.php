@@ -176,8 +176,14 @@ CombatDummyAI(); //Only does anything if applicable
 //EncounterAI();
 
 if (!IsGameOver()) {
-  if ($playerID == 1) $p1TotalTime += time() - intval($lastUpdateTime);
-  else if ($playerID == 2) $p2TotalTime += time() - intval($lastUpdateTime);
+  if ($playerID == 1) {
+    $p1TotalTime = $p1TotalTime != "" ? $p1TotalTime : 0;
+    $p1TotalTime += time() - intval($lastUpdateTime);
+  }
+  else if ($playerID == 2) {
+    $p2TotalTime = $p2TotalTime != "" ? $p2TotalTime : 0;
+    $p2TotalTime += time() - intval($lastUpdateTime);
+  }
   $lastUpdateTime = time();
 }
 
