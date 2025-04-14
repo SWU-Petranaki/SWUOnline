@@ -111,6 +111,10 @@ class Ally {
     return $this->allies[$this->index+11];
   }
 
+  function SetOwner($owner) {
+    $this->allies[$this->index+11] = $owner;
+  }
+
   function Controller() {
     return $this->playerID;
   }
@@ -945,6 +949,10 @@ class SubCard {
 
   function Owner() {
     return $this->subcards[$this->index+1];
+  }
+
+  function SetOwner($owner) {
+    $this->subcards[$this->index+1] = $owner;
   }
 
   function IsPilot() {

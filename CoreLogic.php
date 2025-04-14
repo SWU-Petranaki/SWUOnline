@@ -6915,6 +6915,9 @@ function AfterPlayedByAbility($cardID) {
   $index = LastAllyIndex($currentPlayer);
   $ally = new Ally("MYALLY-" . $index, $currentPlayer);
   switch($cardID) {
+    case "PLAYCAPTIVE":
+      $ally->SetOwner($ally->Owner() == 1 ? 2 : 1);
+      break;
     case "040a3e81f3"://Lando Calrissian Leader Unit
     case "5440730550"://Lando Calrissian
       AddDecisionQueue("OP", $currentPlayer, "ADDTOPDECKASRESOURCE");

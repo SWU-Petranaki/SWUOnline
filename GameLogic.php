@@ -1083,6 +1083,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $ally->RescueCaptive($captiveID);
           return $lastResult;
         case "PLAYCAPTIVE":
+          global $CS_AfterPlayedBy;
           $captiveID = $lastResult;
           $otherPlayer = ($player == 1 ? 2 : 1);
           if($lastResult == "3401690666" &&GetClassState($otherPlayer, $CS_NumEventsPlayed) == 0 ) AddCurrentTurnEffect("3401690666", $otherPlayer, from:"PLAY"); // Relentless
@@ -1090,6 +1091,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $allyPlayer = $mzArr[0] == "MYALLY" ? $player : ($player == 1 ? 2 : 1);
           $ally = new Ally($dqVars[0], $allyPlayer);
           $ally->RemoveSubcard($captiveID);
+          SetClassState($currentPlayer, $CS_AfterPlayedBy, "PLAYCAPTIVE");
           PlayCardSkipCosts($captiveID, "CAPTIVE");
           return $lastResult;
         case "DISCARDCAPTIVE":
