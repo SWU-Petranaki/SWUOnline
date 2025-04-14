@@ -2445,8 +2445,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, ($theirCard ? "THEIRALLY-" : "MYALLY-") . $index, 1);
       AddDecisionQueue("SETDQVAR", $currentPlayer, "1", 1);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "1", 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, "2", 1);//set movingPilot to true
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Vehicle", 1);
       AddDecisionQueue("MZFILTER", $currentPlayer, "hasPilot=1", 1);
       AddDecisionQueue("PASSREVERT", $currentPlayer, "-");

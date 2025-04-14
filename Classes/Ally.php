@@ -581,12 +581,13 @@ class Ally {
     return $subCardUniqueID;
   }
 
-  function RemoveSubcard($subcardID, $subcardUniqueID = "", $movingPilot = false, $skipDestroy = false) {
+  function RemoveSubcard($subcardID, $subcardUniqueID = "", $moving = false, $skipDestroy = false) {
     global $CS_PlayIndex, $CS_CachedLeader1EpicAction, $CS_CachedLeader2EpicAction;
     if($this->index == -1) return false;
     $subcards = $this->GetSubcards();
     for($i=0; $i<count($subcards); $i+=SubcardPieces()) {
       $subcard = new SubCard($this, $i);
+      $movingPilot = $moving && $subcard->IsPilot();
       if($subcard->CardID() == $subcardID && ($subcardUniqueID == "" || $subcards[$i+3] == $subcardUniqueID)) {
         $ownerId = $subcard->Owner();
         $isPilot = $subcard->IsPilot();

@@ -1246,8 +1246,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       if(PilotingCost($lastResult) > -1) {
         global $CS_PlayedAsUpgrade;
         SetClassState($player, $CS_PlayedAsUpgrade, 1);
-        AddDecisionQueue("PASSPARAMETER", $player, "1", 1);
-        AddDecisionQueue("SETDQVAR", $player, "2", 1);//set movingPilot to true
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:trait=Vehicle", 1);
         AddDecisionQueue("MZFILTER", $player, "hasPilot=1", 1);
         AddDecisionQueue("PASSREVERT", $player, "-");

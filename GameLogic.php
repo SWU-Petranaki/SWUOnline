@@ -896,7 +896,6 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $targetAlly = new Ally($lastResult);
           $upgradeID = $dqVars[0];
           $mzSource = $dqVars[1];
-          $movingPilot = isset($dqVars[2]) ? $dqVars[2] == "1" : false;
           $mzSourceArr = explode("-", $mzSource);
           $upgradeOwnerID = null;
           [$epicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($targetAlly->GetUpgrades(withMetadata:true), $upgradeID);
@@ -904,7 +903,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           switch ($mzSourceArr[0]) {
             case "MYALLY": case "THEIRALLY":
               $sourceAlly = new Ally($mzSource);
-              $upgradeOwnerID = $sourceAlly->RemoveSubcard($upgradeID, movingPilot: $movingPilot);
+              $upgradeOwnerID = $sourceAlly->RemoveSubcard($upgradeID, moving: true);
               break;
             case "MYDISCARD": case "THEIRDISCARD":
               MZRemove($player, $mzSource);
