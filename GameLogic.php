@@ -852,7 +852,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $subcardIsLeader = CardIDIsLeader($lastResult);
           $upgrades = $attachedAlly->GetUpgrades(withMetadata:true);
           [$fromEpicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($upgrades, $lastResult);
-          $attachedAlly->RemoveSubcard($lastResult, movingPilot:true);
+          $attachedAlly->RemoveSubcard($lastResult, moving:true);
           $newUID = PlayAlly($lastResult, $attachedAlly->Owner(), epicAction:$fromEpicAction, turnsInPlay: $turnsInPlay);
           if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust();
           return $newUID;
@@ -896,7 +896,6 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $targetAlly = new Ally($lastResult);
           $upgradeID = $dqVars[0];
           $mzSource = $dqVars[1];
-          $movingPilot = isset($dqVars[2]) ? $dqVars[2] == "1" : false;
           $mzSourceArr = explode("-", $mzSource);
           $upgradeOwnerID = null;
           [$epicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($targetAlly->GetUpgrades(withMetadata:true), $upgradeID);
@@ -904,7 +903,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           switch ($mzSourceArr[0]) {
             case "MYALLY": case "THEIRALLY":
               $sourceAlly = new Ally($mzSource);
-              $upgradeOwnerID = $sourceAlly->RemoveSubcard($upgradeID, movingPilot: $movingPilot);
+              $upgradeOwnerID = $sourceAlly->RemoveSubcard($upgradeID, moving: true);
               break;
             case "MYDISCARD": case "THEIRDISCARD":
               MZRemove($player, $mzSource);
@@ -1083,6 +1082,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $ally->RescueCaptive($captiveID);
           return $lastResult;
         case "PLAYCAPTIVE":
+          global $CS_AfterPlayedBy;
           $captiveID = $lastResult;
           $otherPlayer = ($player == 1 ? 2 : 1);
           if($lastResult == "3401690666" &&GetClassState($otherPlayer, $CS_NumEventsPlayed) == 0 ) AddCurrentTurnEffect("3401690666", $otherPlayer, from:"PLAY"); // Relentless
@@ -1090,6 +1090,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $allyPlayer = $mzArr[0] == "MYALLY" ? $player : ($player == 1 ? 2 : 1);
           $ally = new Ally($dqVars[0], $allyPlayer);
           $ally->RemoveSubcard($captiveID);
+          SetClassState($currentPlayer, $CS_AfterPlayedBy, "PLAYCAPTIVE");
           PlayCardSkipCosts($captiveID, "CAPTIVE");
           return $lastResult;
         case "DISCARDCAPTIVE":

@@ -1081,6 +1081,7 @@ function ResolveMultiTarget(Ally $attacker, $mainPlayer, $defPlayer)
   $numTargets = count($multiTargetAllyIDs);
   for ($i = 0; $i < $numTargets; ++$i) {
     $defAlly = new Ally("MYALLY-$multiTargetAllyIDs[$i]", $defPlayer);
+    if ($hasSaboteur) $defAlly->DefeatAllShields();
     $defDamage = $defAlly->CurrentPower();
     $defRemainingHP = $defAlly->Health();
     $modifiedDamage = $attackerDamage;
@@ -1159,13 +1160,13 @@ function ResolveSingleTarget($mainPlayer, $defPlayer, $target, $attackerPrefix, 
     //Resolve the combat
     $shootsFirst = ShouldCombatDamageFirst();
     $preventDamage = ShouldPreventCombatDamage();
-    $defenderPower = $defender->CurrentPower();
     $defenderCardID = $defender->CardID();
-    if ($defenderPower < 0)
-      $defenderPower = 0;
     $excess = $totalAttack - $defender->Health();
     $isLeader = $defender->IsLeader();
-    $destroyed = $defender->DealDamage($totalAttack, bypassShield: HasSaboteur($attackerID, $mainPlayer, $attacker->Index()), fromCombat: true, damageDealt: $combatChainState[$CCS_DamageDealt]);
+    $hasSaboteur = HasSaboteur($attackerID, $mainPlayer, $attacker->Index());
+    if ($hasSaboteur) $defender->DefeatAllShields();
+    $defenderPower = max(0, $defender->CurrentPower());
+    $destroyed = $defender->DealDamage($totalAttack, bypassShield: $hasSaboteur, fromCombat: true, damageDealt: $combatChainState[$CCS_DamageDealt]);
     if ($destroyed)
       ClearAttackTarget();
     if ($attackerPrefix == "MYALLY" && (!$destroyed || !$shootsFirst) && !$preventDamage) {

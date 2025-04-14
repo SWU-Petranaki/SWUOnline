@@ -111,6 +111,10 @@ class Ally {
     return $this->allies[$this->index+11];
   }
 
+  function SetOwner($owner) {
+    $this->allies[$this->index+11] = $owner;
+  }
+
   function Controller() {
     return $this->playerID;
   }
@@ -306,7 +310,6 @@ class Ally {
           }
           $subcards = array_values($subcards);
           $this->allies[$this->index+4] = count($subcards) > 0 ? implode(",", $subcards) : "-";
-          AddEvent("SHIELDDESTROYED", $this->UniqueID());
           if(!$bypassShield) return false;//Cancel the damage if shield prevented it
         }
         switch($subcards[$i]) {
@@ -577,12 +580,13 @@ class Ally {
     return $subCardUniqueID;
   }
 
-  function RemoveSubcard($subcardID, $subcardUniqueID = "", $movingPilot = false, $skipDestroy = false) {
+  function RemoveSubcard($subcardID, $subcardUniqueID = "", $moving = false, $skipDestroy = false) {
     global $CS_PlayIndex, $CS_CachedLeader1EpicAction, $CS_CachedLeader2EpicAction;
     if($this->index == -1) return false;
     $subcards = $this->GetSubcards();
     for($i=0; $i<count($subcards); $i+=SubcardPieces()) {
       $subcard = new SubCard($this, $i);
+      $movingPilot = $moving && $subcard->IsPilot();
       if($subcard->CardID() == $subcardID && ($subcardUniqueID == "" || $subcards[$i+3] == $subcardUniqueID)) {
         $ownerId = $subcard->Owner();
         $isPilot = $subcard->IsPilot();
@@ -738,6 +742,12 @@ class Ally {
       }
     }
     return false;
+  }
+
+  function DefeatAllShields() {
+    while ($this->HasShield()) {
+      $this->DefeatUpgrade("8752877738"); //Shield token
+    }
   }
 
   function DefeatUpgrade($upgradeID, $subcardUniqueID = "") {
@@ -945,6 +955,10 @@ class SubCard {
 
   function Owner() {
     return $this->subcards[$this->index+1];
+  }
+
+  function SetOwner($owner) {
+    $this->subcards[$this->index+1] = $owner;
   }
 
   function IsPilot() {
