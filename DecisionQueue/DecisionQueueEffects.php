@@ -1265,11 +1265,13 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PREPENDLASTRESULT", $opponent, "MYCHAR-0,");
       AddDecisionQueue("SETDQCONTEXT", $opponent, "Choose something to deal 2 damage to", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $opponent, "<-");
+      AddDecisionQueue("SETDQVAR", $opponent, "1", 1);
       AddDecisionQueue("MZOP", $opponent, "GETCARDTITLE");
-      AddDecisionQueue("PASSPARAMETER", $opponent, "{0}");
-      AddDecisionQueue("YESNO", $player, "if you want to deal 2 damage to the chosen unit?", 1); //TODO display the chosen units name
-      AddDecisionQueue("YESPASS", $player, "-");
-      AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$opponent,1");   //This is always hitting the base
+      AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to?");//TODO display the chosen units name 
+      AddDecisionQueue("YESNO", $player, "if you want to deal 2 damage to the chosen unit?", 1); 
+      AddDecisionQueue("NOPASS", $player, "-");
+      AddDecisionQueue("PASSPARAMETER", $player, "{1}", 1);
+      AddDecisionQueue("MZOP", $opponent, "DEALDAMAGE,2,$opponent", 1);
       break;
     //SpecificCardLogic End
     default: return "";
