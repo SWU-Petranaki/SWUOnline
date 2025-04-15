@@ -8,4 +8,7 @@
   $patreonClientSecret = getenv("PATREON_CLIENT_SECRET") ?: "";
 
   $fabraryOutgoingKey = "eKj9PbXqA3oG5fHdR6ZtLsUyVcN4wxm";
+  
+  //SWU Stats
+  $SWUStatsAPIKey = getenv("SWU_STATS_API_KEY") ?: "";
 ?>

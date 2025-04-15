@@ -17,3 +17,6 @@ $fabDBSecret = "op://$APP_ENV/FabDB/secret";
 // Patreon
 $patreonClientID = "op://$APP_ENV/Patreon/username";
 $patreonClientSecret = "op://$APP_ENV/Patreon/credential";
+
+//SWU Stats
+$SWUStatsAPIKey = getenv("SWU_STATS_API_KEY") ?: "";
