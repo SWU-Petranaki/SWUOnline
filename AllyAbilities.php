@@ -2651,11 +2651,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
     case "9472541076"://Grey Squadron Y-Wing
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      AddDecisionQueue("MULTIZONEINDICES", $defPlayer, "MYALLY");
-      AddDecisionQueue("PREPENDLASTRESULT", $defPlayer, "MYCHAR-0,");
-      AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose something to deal 2 damage to");
-      AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $defPlayer, "DEALDAMAGE,2,$mainPlayer,1", 1);
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "GREYSQUADYWING", 1);
       break;
     case "7291903225"://Rickety Quadjumper
       $totalOnAttackAbilities++;

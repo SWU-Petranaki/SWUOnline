@@ -1258,6 +1258,20 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <0> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
+      break;
+    case "GREYSQUADYWING":
+      $opponent = $player == 1 ? 2: 1;
+      AddDecisionQueue("MULTIZONEINDICES", $opponent, "MYALLY");
+      AddDecisionQueue("PREPENDLASTRESULT", $opponent, "MYCHAR-0,");
+      AddDecisionQueue("SETDQCONTEXT", $opponent, "Choose something to deal 2 damage to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $opponent, "<-");
+      AddDecisionQueue("MZOP", $opponent, "GETCARDID");
+      AddDecisionQueue("PASSPARAMETER", $opponent, "{0}");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to the chosen unit?", 1); //TODO display the chosen units name
+      AddDecisionQueue("YESNO", $player, "Do you want to deal 2 damage to the chosen unit?"); //TODO display the chosen units name
+      AddDecisionQueue("YESPASS", $player, "-");
+      AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$opponent,1");   //This is always hitting the base
+      break;
     //SpecificCardLogic End
     default: return "";
   }
