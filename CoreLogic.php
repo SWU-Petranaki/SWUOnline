@@ -3623,7 +3623,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $numCards = count($hand)/HandPieces();
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal " . $numCards . " damage to");
-        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE," . $numCards . ",$currentPlayer,1", 1);
       }
       break;
