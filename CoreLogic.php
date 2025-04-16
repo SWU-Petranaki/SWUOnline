@@ -539,10 +539,13 @@ function PlayerWon($playerID, $concededMatch = false)
 }
 
 function SendSWUStatsResults() {
-  global $gameName, $firstPlayer, $winner, $currentRound, $p1id, $p2id, $p1DeckLink, $p2DeckLink;
+  global $gameName, $firstPlayer, $winner, $currentRound, $p1id, $p2id, $p1DeckLink, $p2DeckLink, $SWUStatsAPIKey;
+  include_once "./APIKeys/APIKeys.php";
 
   $url = 'https://swustats.net/TCGEngine/APIs/SubmitGameResult.php';
 	$loser = ($winner == 1 ? 2 : 1);
+  $source = "Petranaki";
+  $apiKey = $SWUStatsAPIKey;
   $winHero = GetCachePiece($gameName, ($winner == 1 ? 7 : 8));
 	$loseHero = GetCachePiece($gameName, ($winner == 1 ? 8 : 7));
   $winnerHealth = GetHealth($winner);
@@ -557,6 +560,8 @@ function SendSWUStatsResults() {
 	$winnerDeck = file_get_contents("./Games/" . $gameName . "/p" . $winner . "Deck.txt");
 	$loserDeck = file_get_contents("./Games/" . $gameName . "/p" . $loser . "Deck.txt");
   $data_json = json_encode([
+    'source' => $source,
+    'apiKey' => $apiKey,
     'gameName' => $gameName,
     'round' => $currentRound,
     'winner' => $winner,
