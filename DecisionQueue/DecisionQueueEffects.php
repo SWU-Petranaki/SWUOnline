@@ -1260,18 +1260,23 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
       break;
     case "GREYSQUADYWING":
-      $opponent = $player == 1 ? 2: 1;
-      AddDecisionQueue("MULTIZONEINDICES", $opponent, "MYALLY");
-      AddDecisionQueue("PREPENDLASTRESULT", $opponent, "MYCHAR-0,");
-      AddDecisionQueue("SETDQCONTEXT", $opponent, "Choose something to deal 2 damage to", 1);
-      AddDecisionQueue("CHOOSEMULTIZONE", $opponent, "<-");
-      AddDecisionQueue("SETDQVAR", $opponent, "1", 1);
-      AddDecisionQueue("MZOP", $opponent, "GETCARDTITLE");
-      AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to?");//TODO display the chosen units name 
-      AddDecisionQueue("YESNO", $player, "if you want to deal 2 damage to the chosen unit?", 1); 
-      AddDecisionQueue("NOPASS", $player, "-");
-      AddDecisionQueue("PASSPARAMETER", $player, "{1}", 1);
-      AddDecisionQueue("MZOP", $opponent, "DEALDAMAGE,2,$opponent", 1);
+      $otherPlayer = ($player == 1 ? 2 : 1);
+      if(str_starts_with($lastResult, "MYCHAR")){
+      AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to base?"); 
+      AddDecisionQueue("YESNO", $player, "-", 1);
+      AddDecisionQueue("NOPASS", $player, "-", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, $lastResult, 1);
+      AddDecisionQueue("MZOP", $otherPlayer, "DEALDAMAGE,2,$otherPlayer", 1);
+      }
+      
+      $ally = new Ally($lastResult);
+      if(!$ally->Exists()) break;
+
+      AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to " . CardLink($ally->CardID(), $ally->CardID()) . "?");
+      AddDecisionQueue("YESNO", $player, "-", 1);
+      AddDecisionQueue("NOPASS", $player, "-", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, $lastResult, 1); 
+      AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player", 1);
       break;
     //SpecificCardLogic End
     default: return "";
