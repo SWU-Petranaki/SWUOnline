@@ -1471,16 +1471,17 @@ function IndirectDamage($cardID, $sourcePlayer, $amount, $fromUnitEffect=false, 
   IncrementClassState($sourcePlayer, $CS_NumIndirectDamageGiven);
 
   if(!$sourcePlayerTargets && $uniqueID != "") {
-    $sourceIndex = SearchAlliesForUniqueID($uniqueID, $sourcePlayer);
-    $ally = new Ally("MYALLY-" . $sourceIndex, $sourcePlayer);
-    $upgrades = $ally->GetUpgrades();
-    for ($i = 0; $i < count($upgrades); $i += SubcardPieces()) {
-      switch($upgrades[$i]) {
-        case "7021680131"://Targeting Computer
-          $sourcePlayerTargets = true;
-          $sourceModifierCardID = "7021680131";
-          break;
-        default: break;
+    $ally = new Ally($uniqueID);
+    if ($ally->Exists() && $ally->Controller() == $sourcePlayer) {
+      $upgrades = $ally->GetUpgrades();
+      for ($i = 0; $i < count($upgrades); $i++) {
+        switch($upgrades[$i]) {
+          case "7021680131"://Targeting Computer
+            $sourcePlayerTargets = true;
+            $sourceModifierCardID = "7021680131";
+            break;
+          default: break;
+        }
       }
     }
   }
