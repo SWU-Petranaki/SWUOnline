@@ -1862,14 +1862,14 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("CREATEBATTLEDROID", $player, "-", 1);
         }
         break;
-      case "0142631581"://Mas Amedda
+      case "0142631581"://Mas Amedda 
         if ($ally->Exists() && !$ally->IsExhausted()) {
-          AddDecisionQueue("SETDQCONTEXT", $player, "Choose if you want to search for a unit");
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose if you want to exhaust Mas Amedda to search");
           AddDecisionQueue("YESNO", $player, "-");
           AddDecisionQueue("NOPASS", $player, "-");
           AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex(), 1);
-          AddDecisionQueue("MZOP", $player, "REST", 1);
-          AddDecisionQueue("SEARCHDECKTOPX", $player, "4;1;include-definedType-Unit");
+          AddDecisionQueue("MZOP", $player, "REST", 1); 
+          AddDecisionQueue("SEARCHDECKTOPX", $player, "4;1;include-definedType-Unit", 1);
           AddDecisionQueue("ADDHAND", $player, "-", 1);
           AddDecisionQueue("REVEALCARDS", $player, "-", 1);
         }
@@ -2647,15 +2647,15 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
         RemoveDiscard($mainPlayer, count($discard) - DiscardPieces());
         AddHand($mainPlayer, $card);
       }
-      break;
+      break; 
     case "9472541076"://Grey Squadron Y-Wing
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       AddDecisionQueue("MULTIZONEINDICES", $defPlayer, "MYALLY");
       AddDecisionQueue("PREPENDLASTRESULT", $defPlayer, "MYCHAR-0,");
-      AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose something to deal 2 damage to");
+      AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose a target for the damage");
       AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $defPlayer, "DEALDAMAGE,2,$mainPlayer,1", 1);
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "GREYSQUADYWING");
       break;
     case "7291903225"://Rickety Quadjumper
       $totalOnAttackAbilities++;

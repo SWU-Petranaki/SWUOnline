@@ -3209,6 +3209,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:aspect=Heroism");
         AddDecisionQueue("MZFILTER", $currentPlayer, "turns=>0");
         AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "token=1");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1, 1);
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
@@ -3620,7 +3621,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $numCards = count($hand)/HandPieces();
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal " . $numCards . " damage to");
-        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE," . $numCards . ",$currentPlayer,1", 1);
       }
       break;
