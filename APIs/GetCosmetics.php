@@ -179,6 +179,10 @@ $cardBack = new stdClass();
 $cardBack->name = "Epic Action [X]";
 $cardBack->id = 45;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Make an Opening";
+$cardBack->id = 46;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {

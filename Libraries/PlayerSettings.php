@@ -330,6 +330,7 @@ function GetCardBack($player, $index="")
     43 => "SWU_NZ",
     44 => "Golden_Squadron",
     45 => "CB_EAX",
+    46 => "MAO",
     default => "CardBack",
   };
 }
