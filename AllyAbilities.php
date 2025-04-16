@@ -1862,14 +1862,14 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("CREATEBATTLEDROID", $player, "-", 1);
         }
         break;
-      case "0142631581"://Mas Amedda
+      case "0142631581"://Mas Amedda 
         if ($ally->Exists() && !$ally->IsExhausted()) {
-          AddDecisionQueue("SETDQCONTEXT", $player, "Choose if you want to search for a unit");
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose if you want to exhaust Mas Amedda to search");
           AddDecisionQueue("YESNO", $player, "-");
           AddDecisionQueue("NOPASS", $player, "-");
           AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex(), 1);
-          AddDecisionQueue("MZOP", $player, "REST", 1);
-          AddDecisionQueue("SEARCHDECKTOPX", $player, "4;1;include-definedType-Unit");
+          AddDecisionQueue("MZOP", $player, "REST", 1); 
+          AddDecisionQueue("SEARCHDECKTOPX", $player, "4;1;include-definedType-Unit", 1);
           AddDecisionQueue("ADDHAND", $player, "-", 1);
           AddDecisionQueue("REVEALCARDS", $player, "-", 1);
         }
