@@ -1269,7 +1269,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("MZOP", $otherPlayer, "DEALDAMAGE,2,$otherPlayer", 1);
       }
       
-      $ally = new Ally($lastResult);
+      $ally = new Ally($lastResult, $otherPlayer);
       if(!$ally->Exists()) break;
 
       AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to " . CardLink($ally->CardID(), $ally->CardID()) . "?");
