@@ -811,16 +811,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       }
       break;
     case 100017://Claim Match Victory
-      if ($isSimulation)
+      $parsedFormat = GetCurrentFormat();
+      if ($isSimulation || $parsedFormat !== Formats::$PremierStrict)
         return;
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $conceded = true;
-      if (IsGameOver()) {
-        $otherP = ($playerID == 1 ? 2 : 1);
-        PlayerWon($playerID);
-        ConcedeMatch($otherP);
-      }
+      $otherP = ($playerID == 1 ? 2 : 1);
+      ConcedeMatch($otherP);
       break;
     default:
       break;
@@ -856,10 +854,18 @@ function ConcedeMatch($player) {
 
   $winnerID = $player == 1 ? 2 : 1;
   $theirWins = GetCachePiece($gameName, $winnerID + 24);
-  if($theirWins == 1) {
-    PlayerWon($winnerID, concededMatch: true);
-  }
   CloseDecisionQueue();
+  switch($theirWins) {
+    case 0:
+      PlayerWon($winnerID, concededMatch: true);
+      PlayerWon($winnerID, concededMatch: true);
+      break;
+    case 1:
+      PlayerWon($winnerID, concededMatch: true);
+      break;
+    default:
+      break;
+  }
 }
 
 function IsModeAsync($mode)
