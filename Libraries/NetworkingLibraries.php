@@ -658,10 +658,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $conceded = true;
-      if (!IsGameOver()) {
-        PlayerWon(($playerID == 1 ? 2 : 1));
-        CloseDecisionQueue();//to allow Rematch prompts
-      }
+      if (!IsGameOver()) PlayerWon(($playerID == 1 ? 2 : 1));
       break;
     case 100003: //Report Bug
       if ($isSimulation)
@@ -818,7 +815,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $conceded = true;
       if (IsGameOver()) {
         $otherP = ($playerID == 1 ? 2 : 1);
-        PlayerWon($playerID);
         ConcedeMatch($otherP);
       }
       break;
@@ -856,10 +852,13 @@ function ConcedeMatch($player) {
 
   $winnerID = $player == 1 ? 2 : 1;
   $theirWins = GetCachePiece($gameName, $winnerID + 24);
+  if($theirWins == 0) {
+    PlayerWon($winnerID, concededMatch: true);
+    PlayerWon($winnerID, concededMatch: true);
+  }
   if($theirWins == 1) {
     PlayerWon($winnerID, concededMatch: true);
   }
-  CloseDecisionQueue();
 }
 
 function IsModeAsync($mode)

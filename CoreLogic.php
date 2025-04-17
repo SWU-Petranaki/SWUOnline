@@ -523,7 +523,8 @@ function PlayerWon($playerID, $concededMatch = false)
   IncrementCachePiece($gameName, $playerID + 24);//25 = P1 Game Wins, 26 = P2 Game Wins
   SetCachePiece($gameName, 14, 6);//$MGS_GameOverStatsLogged
   if(GetCachePiece($gameName, 14) == 7) return;//$MGS_StatsLoggedIrreversible
-
+  CloseDecisionQueue();//to allow Rematch prompts
+  GamestateUpdated($gameName);
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
       $isDev = getenv("STAGE") == "dev";
@@ -2095,7 +2096,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
   }
   if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0 && SearchUpgradesForCard($currentPlayer, "7501988286") != ""){//Death Star Plans
     $modifier -= SearchCount(SearchUpgradesForCard($currentPlayer, "7501988286"));
-  } 
+  }
   //My ally cost modifier
   $allies = &GetAllies($currentPlayer);
   for($i=0; $i<count($allies); $i+=AllyPieces())
