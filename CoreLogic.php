@@ -2095,7 +2095,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
   }
   if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0 && SearchUpgradesForCard($currentPlayer, "7501988286") != ""){//Death Star Plans
     $modifier -= SearchCount(SearchUpgradesForCard($currentPlayer, "7501988286"));
-  } 
+  }
   //My ally cost modifier
   $allies = &GetAllies($currentPlayer);
   for($i=0; $i<count($allies); $i+=AllyPieces())
