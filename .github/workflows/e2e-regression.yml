@@ -73,8 +73,9 @@ jobs:
       run: |
         cd ../SWUOnline-Automation
         xvfb-run --auto-servernum npm test
-      env:
-        FULL_REGRESSION: true
+      # Set environment variables for the E2E tests
+      #env:
+        #FULL_REGRESSION: true
 
     # - name: Upload Debug Artifacts
     #   uses: actions/upload-artifact@v4

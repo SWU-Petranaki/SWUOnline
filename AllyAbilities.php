@@ -794,6 +794,7 @@ function AllyLeavesPlayAbility($player, $index)
     if(CardIDIsLeader($subcard->CardID())) {
       $leaderUndeployed = LeaderUndeployed($subcard->CardID());
       if($leaderUndeployed != "") {
+        $cachedEpicAction1 = GetClassState($subcard->Owner(), $CS_CachedLeader1EpicAction) == 1;
         $usedEpicAction = $subcard->FromEpicAction() || $cachedEpicAction1;
         AddCharacter($leaderUndeployed, $subcard->Owner(), counters:$usedEpicAction ? 1 : 0, status:1);
       }
