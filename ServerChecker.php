@@ -138,7 +138,7 @@ if ($handle = opendir($path)) {
         $link = "<form style='text-align:center;' action='" . $redirectPath . "/JoinGame.php'>";
         $link .= "<table class='game-item' cellspacing='0'><tr>";
         $link .= "<td class='game-name'>";
-        if ($formatName != "") {
+        if ($formatName != "" && $formatName != "Premier (Best of 3)" && $formatName != "Premier Casual") {
             $link .= "<p class='format-title'>" . $formatName . "</p>";
         }
         $description = ($gameDescription == "" ? "Game #" . $gameName : $gameDescription);
@@ -196,10 +196,10 @@ if ($handle = opendir($path)) {
   closedir($handle);
 }
 if ($canSeeQueue) {
-  echo ("<h3>Premier Casual</h3>");
+  echo ("<h3 style='text-align: right;'>Premier Casual</h3>");
   echo ("<hr/>");
   echo ($premierLinks);
-  echo ("<h3>Premier (Best of 3)</h3>");
+  echo ("<h3 style='text-align: right;'>Premier (Best of 3)</h3>");
   echo ("<hr/>");
   echo ($premierStrictLinks);
   // echo ("<h3>Preview</h3>");
@@ -208,7 +208,7 @@ if ($canSeeQueue) {
   // echo ("<h3>Open Format</h3>");
   // echo ("<hr/>");
   // echo ($openFormatLinks);
-  echo ("<h3>Other Formats</h3>");
+  echo ("<h3 style='text-align: right;'>Other Formats</h3>");
   echo ("<hr/>");
   echo ($otherFormatsLinks);
 }

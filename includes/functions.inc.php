@@ -253,7 +253,16 @@ function LoadFavoriteDecks($userID)
 		mysqli_stmt_close($stmt);
 	}
 	mysqli_close($conn);
+	$output = sortFavorites($output);
 	return $output;
+}
+
+function sortFavorites($array) {
+	$chunks = array_chunk($array, 4);
+	usort($chunks, function($a, $b) {
+		return strcmp($a[1], $b[1]);
+	});
+	return array_merge(...$chunks);
 }
 
 //FAB stats
