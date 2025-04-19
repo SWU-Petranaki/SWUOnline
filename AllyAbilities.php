@@ -1862,13 +1862,13 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("CREATEBATTLEDROID", $player, "-", 1);
         }
         break;
-      case "0142631581"://Mas Amedda 
+      case "0142631581"://Mas Amedda
         if ($ally->Exists() && !$ally->IsExhausted()) {
           AddDecisionQueue("SETDQCONTEXT", $player, "Choose if you want to exhaust Mas Amedda to search");
           AddDecisionQueue("YESNO", $player, "-");
           AddDecisionQueue("NOPASS", $player, "-");
           AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex(), 1);
-          AddDecisionQueue("MZOP", $player, "REST", 1); 
+          AddDecisionQueue("MZOP", $player, "REST", 1);
           AddDecisionQueue("SEARCHDECKTOPX", $player, "4;1;include-definedType-Unit", 1);
           AddDecisionQueue("ADDHAND", $player, "-", 1);
           AddDecisionQueue("REVEALCARDS", $player, "-", 1);
@@ -2647,7 +2647,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
         RemoveDiscard($mainPlayer, count($discard) - DiscardPieces());
         AddHand($mainPlayer, $card);
       }
-      break; 
+      break;
     case "9472541076"://Grey Squadron Y-Wing
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3507,13 +3507,7 @@ function AllyDamageTakenAbilities($player, $index, $damage, $fromCombat=false, $
       //Jump to Lightspeed
       case "9611596703"://Allegiant General Pryde
         if(!$preventable) {
-          global $layers;
-          $skipLayer = false;
-          for($i=0; $i<count($layers); $i+=LayerPieces()) {
-            if($layers[$i] == "TRIGGER" && $layers[$i+1] == $otherPlayer && $layers[$i+2] == "9611596703"
-                && $layers[$i+3] == $damagedAlly->UniqueID()) $skipLayer = true;
-          }
-          if(!$skipLayer) AddLayer("TRIGGER", $otherPlayer, "9611596703", $damagedAlly->UniqueID());
+          AddLayer("TRIGGER", $otherPlayer, "9611596703", $damagedAlly->UniqueID());
         }
         break;
       default: break;
