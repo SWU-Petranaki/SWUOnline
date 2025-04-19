@@ -331,6 +331,7 @@ function GetCardBack($player, $index="")
     44 => "Golden_Squadron",
     45 => "CB_EAX",
     46 => "MAO",
+    47 => "Aixopluc_Squadron",
     default => "CardBack",
   };
 }

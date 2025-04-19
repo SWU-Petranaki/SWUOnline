@@ -183,6 +183,10 @@ $cardBack = new stdClass();
 $cardBack->name = "Make an Opening";
 $cardBack->id = 46;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Aixopluc Squadron";
+$cardBack->id = 47;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {
