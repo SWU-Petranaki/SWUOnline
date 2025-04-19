@@ -510,10 +510,18 @@ function PlayerWon($playerID, $concededMatch = false)
 {
   global $winner, $turn, $gameName, $p1id, $p2id, $p1uid, $p2uid, $conceded, $currentRound;
   global $p1DeckLink, $p2DeckLink, $inGameStatus, $GameStatus_Over, $firstPlayer, $p1deckbuilderID, $p2deckbuilderID;
+
   if($turn[0] == "OVER" && !$concededMatch) return;
   include_once "./MenuFiles/ParseGamefile.php";
 
   $winner = $playerID;
+  $machGameNumber = GetCachePiece($gameName, 24);
+  $p1Wins = GetCachePiece($gameName, 25);
+  $p2Wins = GetCachePiece($gameName, 26);
+  if(!$concededMatch) {
+    $winsEqualsGamesWon = $p1Wins + $p2Wins == ($machGameNumber - 1);
+    if(!$winsEqualsGamesWon) return;
+  }
   if ($playerID == 1 && $p1uid != "") WriteLog($p1uid . " wins!", $playerID);
   elseif ($playerID == 2 && $p2uid != "") WriteLog($p2uid . " wins!", $playerID);
   else WriteLog("Player " . $winner . " wins!");
