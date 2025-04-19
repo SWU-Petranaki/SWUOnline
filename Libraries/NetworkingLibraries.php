@@ -660,7 +660,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $conceded = true;
       if (!IsGameOver()) {
         PlayerWon(($playerID == 1 ? 2 : 1));
-        CloseDecisionQueue();//to allow Rematch prompts
       }
       break;
     case 100003: //Report Bug
@@ -690,6 +689,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         break;
       $otherPlayer = ($playerID == 1 ? 2 : 1);
       $parsedFormat = GetCurrentFormat();
+      CloseDecisionQueue();
       include_once "./Libraries/GameFormats.php";
       if ($parsedFormat !== Formats::$PremierStrict) {
         AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
@@ -713,6 +713,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       if (!IsGameOver()) {
+        CloseDecisionQueue();
         PlayerWon($playerID == 1 ? 1 : 2);
         $otherP = ($playerID == 1 ? 2 : 1);
         SetCachePiece($gameName, 14, 7);//$MGS_StatsLoggedIrreversible
@@ -816,6 +817,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         return;
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
+      CloseDecisionQueue();
       $conceded = true;
       $otherP = ($playerID == 1 ? 2 : 1);
       ConcedeMatch($otherP);
