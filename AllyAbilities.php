@@ -3487,6 +3487,11 @@ function AllyDamageTakenAbilities($player, $index, $damage, $fromCombat=false, $
           AddDecisionQueue("MZOP", $player, "DEALDAMAGE,$damage,$player,1", 1);
         }
         break;
+      case "9611596703"://Allegiant General Pryde
+        if(!$preventable) {
+          AddLayer("TRIGGER", $player, "9611596703", $damagedAlly->UniqueID());
+        }
+        break;
       default: break;
     }
   }
