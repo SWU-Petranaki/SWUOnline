@@ -65,7 +65,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       break;
     case 8:
     case 9: //OPT, CHOOSETOP, CHOOSEBOTTOM
-      if ($turn[0] == "OPT" || $turn[0] == "CHOOSETOP" || $turn[0] == "MAYCHOOSETOP" || $turn[0] == "CHOOSEBOTTOM") {
+      if ($turn[0] == "OPT" || $turn[0] == "CHOOSETOP" || $turn[0] == "MAYCHOOSETOP" || $turn[0] == "MAYCHOOSETOPREVEALED" || $turn[0] == "MAYCHOOSEBOTTOM") {
         $options = explode(",", $turn[2]);
         $found = -1;
         for ($i = 0; $i < count($options); ++$i) {
@@ -77,12 +77,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         if ($found == -1)
           break; //Invalid input
         $deck = &GetDeck($playerID);
+        $shouldReveal = $turn[0] == "MAYCHOOSETOPREVEALED";
+        $cardName = $shouldReveal ? CardLink($buttonInput, $buttonInput) : "a card";
         if ($mode == 8) {
           array_unshift($deck, $buttonInput);
-          WriteLog("Player " . $playerID . " put a card on top of the deck.");
+          WriteLog("Player " . $playerID . " put " . $cardName . " on top of the deck.");
         } else if ($mode == 9) {
           $deck[] = $buttonInput;
-          WriteLog("Player " . $playerID . " put a card on the bottom of the deck.");
+          WriteLog("Player " . $playerID . " put " . $cardName . " on the bottom of the deck.");
         }
         unset($options[$found]);
         $options = array_values($options);
@@ -961,7 +963,7 @@ function Passed(&$turn, $playerID)
 function PassInput($autopass = false)
 {
   global $turn, $currentPlayer, $initiativeTaken, $initiativePlayer;
-  if ($turn[0] == "END" || $turn[0] == "MAYCHOOSEOPTION" || $turn[0] == "MAYMULTICHOOSETEXT" || $turn[0] == "MAYCHOOSECOMBATCHAIN" || $turn[0] == "MAYCHOOSEMULTIZONE" || $turn[0] == "MAYMULTICHOOSEAURAS" || $turn[0] == "MAYMULTICHOOSEHAND" || $turn[0] == "MAYCHOOSEHAND" || $turn[0] == "MAYCHOOSEDISCARD" || $turn[0] == "MAYCHOOSEARSENAL" || $turn[0] == "MAYCHOOSEPERMANENT" || $turn[0] == "MAYCHOOSEDECK" || $turn[0] == "MAYCHOOSEMYSOUL" || $turn[0] == "MAYCHOOSETOP" || $turn[0] == "MAYCHOOSECARD" || $turn[0] == "INSTANT" || $turn[0] == "OK" || $turn[0] == "LOOKHAND" || $turn[0] == "LOOKDECK" || $turn[0] == "BUTTONINPUT" || $turn[0] == "MAYMULTIDAMAGEMULTIZONE" || $turn[0] == "PARTIALMULTIDAMAGEMULTIZONE" || $turn[0] == "PARTIALMULTIHEALMULTIZONE" || $turn[0] == "MAYMULTIHEALMULTIZONE") {
+  if ($turn[0] == "END" || $turn[0] == "MAYCHOOSEOPTION" || $turn[0] == "MAYMULTICHOOSETEXT" || $turn[0] == "MAYCHOOSECOMBATCHAIN" || $turn[0] == "MAYCHOOSEMULTIZONE" || $turn[0] == "MAYMULTICHOOSEAURAS" || $turn[0] == "MAYMULTICHOOSEHAND" || $turn[0] == "MAYCHOOSEHAND" || $turn[0] == "MAYCHOOSEDISCARD" || $turn[0] == "MAYCHOOSEARSENAL" || $turn[0] == "MAYCHOOSEPERMANENT" || $turn[0] == "MAYCHOOSEDECK" || $turn[0] == "MAYCHOOSEMYSOUL" || $turn[0] == "MAYCHOOSETOP" || $turn[0] == "MAYCHOOSETOPREVEALED" || $turn[0] == "MAYCHOOSECARD" || $turn[0] == "INSTANT" || $turn[0] == "OK" || $turn[0] == "LOOKHAND" || $turn[0] == "LOOKDECK" || $turn[0] == "BUTTONINPUT" || $turn[0] == "MAYMULTIDAMAGEMULTIZONE" || $turn[0] == "PARTIALMULTIDAMAGEMULTIZONE" || $turn[0] == "PARTIALMULTIHEALMULTIZONE" || $turn[0] == "MAYMULTIHEALMULTIZONE") {
     ContinueDecisionQueue("PASS");
   } else {
     if ($autopass == true);

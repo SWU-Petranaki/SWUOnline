@@ -3918,13 +3918,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           ++$damage;
         }
       }
-      WriteLog(CardLink($cardID, $cardID) . " is dealing " . $damage . " damage. Pass to discard the rest of the cards.");
+      WriteLog(CardLink($cardID, $cardID) . " is dealing " . $damage . " damage.");
       DealDamageAsync($otherPlayer, $damage, "DAMAGE", "5767546527", sourcePlayer:$currentPlayer);
       if($cards != "") {
         AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cards);
         AddDecisionQueue("SETDQVAR", $currentPlayer, 0);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Push pass (or Space) to discard the rest of the cards");
-        AddDecisionQueue("MAYCHOOSETOP", $currentPlayer, $cards);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Pass to discard the rest of the cards");
+        AddDecisionQueue("MAYCHOOSETOPREVEALED", $currentPlayer, $cards);
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "FORACAUSEIBELIEVEIN");
       }
       break;
