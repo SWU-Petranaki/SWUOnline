@@ -431,6 +431,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       break;
     case "FORACAUSEIBELIEVEIN":
+      if ($dqVars[0] == '') break;
       $cardArr = explode(",", $dqVars[0]);
       for($i=0; $i<count($cardArr); ++$i) {
         AddGraveyard($cardArr[$i], $player, "DECK");
