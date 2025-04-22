@@ -2,6 +2,7 @@
 include "../includes/functions.inc.php";
 include "../includes/dbh.inc.php";
 include "../Libraries/CoreLibraries.php";
+include "../GeneratedCode/GeneratedCardDictionaries.php";
 header('Content-Type: application/json; charset=utf-8');
 session_start();
 if (!isset($_SESSION['userid'])) {
@@ -34,13 +35,15 @@ $results = [
   "t1_3" => 0,
   "t2_3" => 0,
   "t3_3" => 0,
+  "res2orless" => 0,
+  "firstHands" => [],
 ];
 global $randomSeeded;
 $randomSeeded = true;
 for($i = 0; $i < $iterations; ++$i) {
   $deckCopy = $deckArray;
   //shuffle deck using algorithm with seed = true
-  for($j=0;$j<3;++$j) {//we shuffle ten times in prod
+  for($j=0;$j<10;++$j) {//we shuffle ten times in prod
     RandomizeArray($deckCopy, skipSeed: true);
   }
   //draw num cards
@@ -53,6 +56,8 @@ for($i = 0; $i < $iterations; ++$i) {
     } else {
       $drawnCards[$card] = 1;
     }
+    $uuid = UUIDLookup($card);
+    $results["firstHands"][$i][$j] = $uuid;
   }
   //check for dupes
   $noDupes = false;
@@ -63,8 +68,12 @@ for($i = 0; $i < $iterations; ++$i) {
   $oneTrips = false;
   $twoTrips = false;
   $threeTrips = false;
+  $hasTurn1Play = false;
 
   foreach($drawnCards as $card => $cards) {
+    $uuid = UUIDLookup($card);
+    $hasTurn1Play = $hasTurn1Play || CardCost($uuid) < 3;
+
     if ($cards == 1) continue;
     if ($cards == 2) {
       if ($oneDupe) {
@@ -118,6 +127,9 @@ for($i = 0; $i < $iterations; ++$i) {
   }
   if($noDupes) {
     $results["t1_1"]++;
+  }
+  if($hasTurn1Play) {
+    $results["res2orless"]++;
   }
 }
 
