@@ -823,6 +823,9 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
         }
       }
       break;
+    case "UNITPLAYEDASUPGRADE":
+      AllyPlayedAsUpgradeAbility($target, $player, Ally::FromUniqueId($additionalCosts));
+      break;
     case "5942811090": //Luke Skywalker (You Still With Me?)
       LukePilotPlotArmor($player, $target);
       break;
