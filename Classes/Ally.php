@@ -575,7 +575,7 @@ class Ally {
     else $this->allies[$this->index+4] = $this->allies[$this->index+4] . "," . $cardID . "," . $ownerID . "," . ($asPilot ? "1" : "0") . "," . $subCardUniqueID . "," . ($epicAction ? "1" : "0") . ",$turnsInPlay,0,0";
 
     if($asPilot) {
-      AllyPlayedAsUpgradeAbility($cardID, $ownerID, $this);
+      AddLayer("TRIGGER", $ownerID, "UNITPLAYEDASUPGRADE", $cardID, $this->UniqueID());
     }
     return $subCardUniqueID;
   }

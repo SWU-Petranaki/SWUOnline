@@ -2176,6 +2176,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
   global $CCS_WeaponIndex, $EffectContext, $CCS_AttackUniqueID, $CS_NumEventsPlayed, $CS_AfterPlayedBy, $layers;
   global $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks, $CS_NumIllusionistActionCardAttacks, $CCS_IsBoosted;
   global $SET_PassDRStep, $CS_AbilityIndex, $CS_NumMandalorianAttacks, $CCS_MultiAttackTargets, $CS_SeparatistUnitsThatAttacked;
+  global $CS_PlayedAsUpgrade;
 
   $oppCardActive = GetClassState($currentPlayer, $CS_OppCardActive) > 0;
 
@@ -2379,10 +2380,11 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       }
     }
     if ($from != "PLAY" && $from != "EQUIP" && $from != "CHAR") {
-      if (HasShielded($cardID, $currentPlayer, $index)) {
+      $playedAsUpgrade = GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == "1";
+      if (!$playedAsUpgrade && HasShielded($cardID, $currentPlayer, $index)) {
         AddLayer("TRIGGER", $currentPlayer, "SHIELDED", "-", "-", $uniqueID);
       }
-      if (HasAmbush($cardID, $currentPlayer, $index, $from)) {
+      if (!$playedAsUpgrade && HasAmbush($cardID, $currentPlayer, $index, $from)) {
         AddLayer("TRIGGER", $currentPlayer, "AMBUSH", "-", "-", $uniqueID);
       }
       AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID, $resourcesPaid);

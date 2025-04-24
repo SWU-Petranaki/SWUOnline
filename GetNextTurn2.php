@@ -561,6 +561,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $cardId = explode(",", $layers[$i + 3])[0];
         $layerColor = $layerColor == 1 ? 2 : 1;
       }
+        if ($cardId == "UNITPLAYEDASUPGRADE")
+        $cardId = $layers[$i + 3];
       $content .= "<div class='tile' style='max-width:{$cardSize}px;'>" . Card($cardId, "concat", $cardSize, 0, 1, 0, $layerColor, $counters, controller: $layerController);
 
       // Add reorder buttons for ability layers if applicable
