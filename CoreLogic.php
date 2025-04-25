@@ -6293,22 +6293,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "3722493191"://IG-2000
        if($from != "PLAY" && SearchCount(SearchAllies($otherPlayer)) > 0) {
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "-");
-        AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
-        AddDecisionQueue("SETDQVAR", $currentPlayer, "1");
-        for ($i = 3; $i > 0; $i--) {
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY", 1);
-          AddDecisionQueue("MZFILTER", $currentPlayer, "dqVar=0", 1);
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose up to $i unit" . ($i > 1 ? "s" : "") . " to damage", 1);
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("APPENDDQVAR", $currentPlayer, "0", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("SETDQVAR", $currentPlayer, "2", 1);
-          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "1-{2}", 1);
-          AddDecisionQueue("APPENDDQVAR", $currentPlayer, "1", 1);
-        }
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{1}");
-        AddDecisionQueue("EQUALPASS", $currentPlayer, "-");
+        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY&THEIRALLY", "to damage");
         AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
@@ -7217,91 +7202,112 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-  //target type return values
-  //-1: no target
-  // 0: My Hero + Their Hero
-  // 1: Their Hero only
-  // 2: Any Target
-  // 3: Their Units
-  // 4: My Hero only (For afflictions)
-  // 6: Any unit
-  // 7: Friendly unit
-  // 8: Any Non-Leader + Non-Vehicle unit
-  function GetArcaneTargetIndices($player, $target)
-  {
-    global $CS_ArcaneTargetsSelected;
-    $otherPlayer = ($player == 1 ? 2 : 1);
-
-    if ($target == 8) {
-      $rvArr = [];
-      $theirAllies = &GetAllies($otherPlayer);
-      for($i=0; $i<count($theirAllies); $i+=AllyPieces()) {
-        $cardID = $theirAllies[$i];
-        if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle")) {
-          continue;
-        }
-
-        $rvArr[] = "THEIRALLY-" . $i;
-      }
-
-      $myAllies = &GetAllies($player);
-      for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
-        $cardID = $myAllies[$i];
-        if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle")) {
-          continue;
-        }
-        $rvArr[] = "MYALLY-" . $i;
-      }
-
-      return implode(",", $rvArr);
-    } else if ($target == 4) return "MYCHAR-0";
-
-    if($target != 3 && $target != 6 && $target != 7) $rv = "THEIRCHAR-0";
-    else $rv = "";
-
-    if(($target == 0 && !ShouldAutotargetOpponent($player)) || $target == 2)
-    {
-      $rv .= ",MYCHAR-0";
-    }
-    if($target == 2 || $target == 6)
-    {
-      $theirAllies = &GetAllies($otherPlayer);
-      for($i=0; $i<count($theirAllies); $i+=AllyPieces())
-      {
-        if($rv != "") $rv .= ",";
-        $rv .= "THEIRALLY-" . $i;
-      }
-      $myAllies = &GetAllies($player);
-      for($i=0; $i<count($myAllies); $i+=AllyPieces())
-      {
-        if($rv != "") $rv .= ",";
-        $rv .= "MYALLY-" . $i;
-      }
-    }
-    elseif($target == 3 || $target == 5)
-    {
-      $theirAllies = &GetAllies($otherPlayer);
-      for($i=0; $i<count($theirAllies); $i+=AllyPieces())
-      {
-        if($rv != "") $rv .= ",";
-        $rv .= "THEIRALLY-" . $i;
-      }
-    } else if($target == 7) {
-      $myAllies = &GetAllies($player);
-      for($i=0; $i<count($myAllies); $i+=AllyPieces())
-      {
-        if($rv != "") $rv .= ",";
-        $rv .= "MYALLY-" . $i;
-      }
-    }
-    $targets = explode(",", $rv);
-    $targetsSelected = GetClassState($player, $CS_ArcaneTargetsSelected);
-    for($i=count($targets)-1; $i>=0; --$i)
-    {
-      if(DelimStringContains($targetsSelected, $targets[$i])) unset($targets[$i]);
-    }
-    return implode(",", $targets);
+function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title) {
+  AddDecisionQueue("PASSPARAMETER", $player, "-");
+  AddDecisionQueue("SETDQVAR", $player, "0");
+  AddDecisionQueue("SETDQVAR", $player, "1");
+  for ($i = $numUnits; $i > 0; $i--) {
+    AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
+    AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
+    AddDecisionQueue("SETDQCONTEXT", $player, "Choose up to $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
+    AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+    AddDecisionQueue("APPENDDQVAR", $player, "0", 1);
+    AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+    AddDecisionQueue("SETDQVAR", $player, "2", 1);
+    AddDecisionQueue("PASSPARAMETER", $player, "1-{2}", 1);
+    AddDecisionQueue("APPENDDQVAR", $player, "1", 1);
   }
+  AddDecisionQueue("PASSPARAMETER", $player, $cardID, 1);
+  AddDecisionQueue("SETDQVAR", $player, "3", 1);
+  AddDecisionQueue("PASSPARAMETER", $player, "{1}");
+  AddDecisionQueue("EQUALPASS", $player, "-");
+}
+
+//target type return values
+//-1: no target
+// 0: My Hero + Their Hero
+// 1: Their Hero only
+// 2: Any Target
+// 3: Their Units
+// 4: My Hero only (For afflictions)
+// 6: Any unit
+// 7: Friendly unit
+// 8: Any Non-Leader + Non-Vehicle unit
+function GetArcaneTargetIndices($player, $target)
+{
+  global $CS_ArcaneTargetsSelected;
+  $otherPlayer = ($player == 1 ? 2 : 1);
+
+  if ($target == 8) {
+    $rvArr = [];
+    $theirAllies = &GetAllies($otherPlayer);
+    for($i=0; $i<count($theirAllies); $i+=AllyPieces()) {
+      $cardID = $theirAllies[$i];
+      if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle")) {
+        continue;
+      }
+
+      $rvArr[] = "THEIRALLY-" . $i;
+    }
+
+    $myAllies = &GetAllies($player);
+    for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
+      $cardID = $myAllies[$i];
+      if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle")) {
+        continue;
+      }
+      $rvArr[] = "MYALLY-" . $i;
+    }
+
+    return implode(",", $rvArr);
+  } else if ($target == 4) return "MYCHAR-0";
+
+  if($target != 3 && $target != 6 && $target != 7) $rv = "THEIRCHAR-0";
+  else $rv = "";
+
+  if(($target == 0 && !ShouldAutotargetOpponent($player)) || $target == 2)
+  {
+    $rv .= ",MYCHAR-0";
+  }
+  if($target == 2 || $target == 6)
+  {
+    $theirAllies = &GetAllies($otherPlayer);
+    for($i=0; $i<count($theirAllies); $i+=AllyPieces())
+    {
+      if($rv != "") $rv .= ",";
+      $rv .= "THEIRALLY-" . $i;
+    }
+    $myAllies = &GetAllies($player);
+    for($i=0; $i<count($myAllies); $i+=AllyPieces())
+    {
+      if($rv != "") $rv .= ",";
+      $rv .= "MYALLY-" . $i;
+    }
+  }
+  elseif($target == 3 || $target == 5)
+  {
+    $theirAllies = &GetAllies($otherPlayer);
+    for($i=0; $i<count($theirAllies); $i+=AllyPieces())
+    {
+      if($rv != "") $rv .= ",";
+      $rv .= "THEIRALLY-" . $i;
+    }
+  } else if($target == 7) {
+    $myAllies = &GetAllies($player);
+    for($i=0; $i<count($myAllies); $i+=AllyPieces())
+    {
+      if($rv != "") $rv .= ",";
+      $rv .= "MYALLY-" . $i;
+    }
+  }
+  $targets = explode(",", $rv);
+  $targetsSelected = GetClassState($player, $CS_ArcaneTargetsSelected);
+  for($i=count($targets)-1; $i>=0; --$i)
+  {
+    if(DelimStringContains($targetsSelected, $targets[$i])) unset($targets[$i]);
+  }
+  return implode(",", $targets);
+}
 
 function CountPitch(&$pitch, $min = 0, $max = 9999)
 {

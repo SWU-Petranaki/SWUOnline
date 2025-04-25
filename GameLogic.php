@@ -799,29 +799,29 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "EXPLOIT":
           global $CS_PlayedWithExploit;
           SetClassState($player, $CS_PlayedWithExploit, 1);
-          $exploitedAllies = (array)$dqVars[0];
+          $exploitedAllies = explode(",", $dqVars[0]);
           if ($exploitedAllies == [])
           {
             return;
           }
           $numExploits = count($exploitedAllies);
-          $exploitingCardID = $dqVars[1];
+          $exploitingCardID = $dqVars[3];
 
           for($i=0; $i<$numExploits; ++$i) {
             AddDecisionQueue("ADDCURRENTEFFECT", $player, "6772128891", 1);//Exploit effect
           }
 
           for($i=0; $i<$numExploits; ++$i) {
-            $ally = new Ally("MYALLY-" . $exploitedAllies[$i]);
+            $ally = new Ally($exploitedAllies[$i]);
             $exploitedUniqueID = $ally->UniqueID();
             AddDecisionQueue("PASSPARAMETER", $player, $exploitedUniqueID, 1);
             AddDecisionQueue("DESTROYALLY", $player, "-", 1);
           }
 
-          if($exploitingCardID == "8655450523") {//Count Dooku - Fallen Jedi
+          if($exploitingCardID == "8655450523") {//Count Dooku (Fallen Jedi)
             $exploitedAlliesPowers = [];
             for($i=0;$i<$numExploits;++$i) {
-              $ally = new Ally("MYALLY-" . $exploitedAllies[$i], $player);
+              $ally = new Ally($exploitedAllies[$i], $player);
               $exploitedAlliesPowers[$i] = $ally->CurrentPower();
             }
             AddLayer("TRIGGER", $player, "8655450523", implode(",", $exploitedAlliesPowers));

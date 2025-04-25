@@ -1951,15 +1951,7 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
   if ($from != "PLAY") {
     $exploitAmount = ExploitAmount($cardID, $currentPlayer, reportMode: false);
     if ($exploitAmount > 0) {
-      $singleExploit = $exploitAmount == 1;
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-      AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
-      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "$exploitAmount-", 1);
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose " . ($singleExploit ? "" : "up to ") . $exploitAmount . ($singleExploit ? " unit" : " units") . " to exploit");
-      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, 0);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, 1);
+      DQMultiUnitSelect($cardID, $currentPlayer, $exploitAmount, "MYALLY", "to exploit");
       AddDecisionQueue("MZOP", $currentPlayer, "EXPLOIT", 1);
     }
     $pilotCost = PilotingCost($cardID, $currentPlayer);
