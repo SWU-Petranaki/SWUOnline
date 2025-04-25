@@ -29,6 +29,8 @@
 26 - P2 Game Wins
 27 - P1 Undo Count per Round
 28 - P2 Undo Count per Round
+29 - P1 Revert Count Per Round
+30 - P2 Revert Count Per Round
 */
 
 // $useRedis = getenv('REDIS_ENABLED') ?? false;

@@ -1532,6 +1532,7 @@ function AllyStartRegroupPhaseAbilities($player) {
 
 function AllyEndRegroupPhaseAbilities($player) {
   // To function correctly, use uniqueID instead of MZIndex
+  $gameName = $_GET["gameName"];
   $allies = &GetAllies($player);
   for($i = count($allies) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
     $ally = new Ally("MYALLY-" . $i, $player);
@@ -1563,6 +1564,8 @@ function AllyEndRegroupPhaseAbilities($player) {
       default: break;
     }
   }
+  SetCachePiece($gameName, 29, 0);
+  SetCachePiece($gameName, 30, 0);
 }
 
 function AllyStartActionPhaseAbilities($player) {
