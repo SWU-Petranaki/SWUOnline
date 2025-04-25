@@ -558,7 +558,14 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       WriteLog("Player " . $playerID . " cancel their blocks.");
       break;
     case 10003: //Revert to prior turn
+      $undoCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 27 : 28)));
+      WriteLog($undoCount);
+      if ($undoCount >= 10) {
+        WriteLog("Player $playerID has exceeded the maximum number of undos per round.");
+        break;
+      }
       RevertGamestate($buttonInput);
+      IncrementCachePiece($gameName, ($playerID == 1 ? 27 : 28));
       WriteLog("Player " . $playerID . " reverted back to a prior turn.");
       break;
     case 10005:
