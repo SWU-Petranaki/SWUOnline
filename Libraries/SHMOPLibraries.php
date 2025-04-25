@@ -27,6 +27,8 @@
 24 - Round Game Number (eg. for a Bo3)
 25 - P1 Game Wins
 26 - P2 Game Wins
+27 - P1 Undo Count per Round
+28 - P2 Undo Count per Round
 */
 
 // $useRedis = getenv('REDIS_ENABLED') ?? false;

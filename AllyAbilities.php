@@ -1474,7 +1474,7 @@ function AllyPlayedAsUpgradeAbility($cardID, $player, $targetAlly) {
 
 function AllyStartRegroupPhaseAbilities($player) {
   // To function correctly, use uniqueID instead of MZIndex
-
+  $gameName = $_GET["gameName"];
   $allies = &GetAllies($player);
   for($i = count($allies) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
     $ally = new Ally("MYALLY-" . $i, $player);
@@ -1524,6 +1524,8 @@ function AllyStartRegroupPhaseAbilities($player) {
       }
 
       $processedUpgrades[] = $upgradeCardID;
+      SetCachePiece($gameName, 27, 0);
+      SetCachePiece($gameName, 28, 0);
     }
   }
 }
