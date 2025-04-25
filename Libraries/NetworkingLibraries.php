@@ -542,7 +542,13 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         WriteLog("Player $playerID tried to undo the result of a Bo3 game.");
         break;
       }
+      $undoCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 27 : 28)));
+      if ($undoCount >= 10) {
+        WriteLog("Player $playerID has exceeded the maximum number of undos per round.");
+        break;
+      }
       RevertGamestate();
+      IncrementCachePiece($gameName, ($playerID == 1 ? 27 : 28));
       $skipWriteGamestate = true;
       WriteLog("Player " . $playerID . " undid their last action.");
       break;
@@ -552,7 +558,13 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       WriteLog("Player " . $playerID . " cancel their blocks.");
       break;
     case 10003: //Revert to prior turn
+      $revertCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 29 : 30)));
+      if ($revertCount >= 3) {
+        WriteLog("Player $playerID has exceeded the maximum number of reverts per round.");
+        break;
+      }
       RevertGamestate($buttonInput);
+      IncrementCachePiece($gameName, ($playerID == 1 ? 29 : 30));
       WriteLog("Player " . $playerID . " reverted back to a prior turn.");
       break;
     case 10005:
