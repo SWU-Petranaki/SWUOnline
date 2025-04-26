@@ -9,6 +9,8 @@
 
   $fabraryOutgoingKey = "eKj9PbXqA3oG5fHdR6ZtLsUyVcN4wxm";
   
-  //SWU Stats
+  // SWU Stats
   $SWUStatsAPIKey = getenv("SWU_STATS_API_KEY") ?: "";
+  $swustatsClientID = getenv("SWU_STATS_CLIENT_ID") ?: '';
+  $swustatsClientSecret = getenv("SWU_STATS_CLIENT_SECRET") ?: '';
 ?>
