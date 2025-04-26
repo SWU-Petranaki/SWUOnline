@@ -3054,12 +3054,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "7929181061"://General Tagge
       if($from != "PLAY") {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Trooper");
-        AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
-        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-", 1);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose up to 3 troopers to give experience");
-        AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MULTIGIVEEXPERIENCE", 1);
+        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience too");
+        AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
     case "8240629990"://Avenger

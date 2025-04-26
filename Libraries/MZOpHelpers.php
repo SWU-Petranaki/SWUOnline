@@ -70,4 +70,23 @@ function AssignIndirectDamageBuilder($cardID, $sourcePlayer, $amount, $fromUnitE
   $fromUnitEffect = $fromUnitEffect ? 1 : 0;
   return "ASSIGNINDIRECTDAMAGE,$cardID,$sourcePlayer,$amount,$fromUnitEffect,$sourceModifierCardID";
 }
+
+/**
+ * Builds a string for giving experience to multiple targets
+ * 
+ * Parameter structure:
+ * 0 - MULTIGIVEEXPERIENCE
+ * 1 - Amount of experience
+ * 2 - Source player
+ * 
+ * @param int $amount The amount of experience to give
+ * @param int $sourcePlayer The player giving the experience
+ * @return string The formatted experience string for the decision queue
+ */
+function GiveExperienceBuilder($sourcePlayer, $isUnitEffect = 0, $isPreventable = 1) {
+  $isUnitEffect = $isUnitEffect ? 1 : 0;
+  $isPreventable = $isPreventable ? 1 : 0;
+  WriteLog($amount);
+  return "MULTIADDEXPERIENCE,$sourcePlayer,$isUnitEffect,$isPreventable";
+}
 ?>
