@@ -588,7 +588,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "SHOOTDOWN":
       $controller = MZPlayerID($player, $lastResult);
       $ally = new Ally($lastResult, $controller);
-      $wasDestroyed = $ally->DealDamage(3);
+      $wasDestroyed = $ally->DealDamage(3, enemyDamage:$ally->Controller() != $player);
       if($wasDestroyed) {
         DealDamageAsync($otherPlayer, 2, "DAMAGE", "7730475388", sourcePlayer:$player);
       }
