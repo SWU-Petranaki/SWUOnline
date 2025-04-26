@@ -2,25 +2,33 @@
 // get_user_decks.php
 // Fetches decks for the authenticated user using their SWUStats OAuth access token
 
-session_start();
+include_once __DIR__ . '/../../Database/ConnectionManager.php';
+include_once __DIR__ . '/../../AccountFiles/AccountSessionAPI.php';
 
-// Database connection (update with your actual DB credentials)
-$pdo = new PDO('mysql:host=localhost;dbname=YOUR_DB_NAME', 'YOUR_DB_USER', 'YOUR_DB_PASS');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-// Get the current user's access token from the database
-if (!isset($_SESSION['userid'])) {
+$userId = LoggedInUser();
+if (!$userId) {
     http_response_code(401);
     die('User not logged in.');
 }
-$stmt = $pdo->prepare('SELECT swustatsAccessToken FROM users WHERE usersId=?');
-$stmt->execute([$_SESSION['userid']]);
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$row || empty($row['swustatsAccessToken'])) {
+
+$conn = GetLocalMySQLConnection();
+if (!$conn) {
+    http_response_code(500);
+    die('Database connection failed.');
+}
+
+$stmt = $conn->prepare("SELECT swustatsAccessToken FROM users WHERE usersId=?");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($access_token);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
+
+if (empty($access_token)) {
     http_response_code(401);
     die('No SWUStats access token found.');
 }
-$access_token = $row['swustatsAccessToken'];
 
 // SWUStats API endpoint (update if needed)
 $api_url = 'https://swustats.net/TCGEngine/APIs/UserAPIs/GetUserDecks.php';

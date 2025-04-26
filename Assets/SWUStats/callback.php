@@ -45,20 +45,28 @@ $expires_in = isset($token_data['expires_in']) ? $token_data['expires_in'] : nul
 // --- STEP 3: Store tokens in the database ---
 // You should link the tokens to the currently logged-in user or create a new user as needed.
 // Example using PDO (update with your DB connection):
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=YOUR_DB_NAME', 'YOUR_DB_USER', 'YOUR_DB_PASS');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Example: update the logged-in user's row (replace logic as needed)
-    session_start();
-    if (!isset($_SESSION['userid'])) {
-        die('User not logged in.');
-    }
-    $stmt = $pdo->prepare('UPDATE users SET swustatsAccessToken=?, swustatsRefreshToken=?, swustatsTokenExpiry=? WHERE usersId=?');
-    $stmt->execute([$access_token, $refresh_token, $expires_in, $_SESSION['userid']]);
-    echo '<h2>SWUStats account linked successfully!</h2>';
-} catch (PDOException $e) {
-    die('Database error: ' . $e->getMessage());
+include_once __DIR__ . '/../../Database/ConnectionManager.php';
+include_once __DIR__ . '/../../AccountFiles/AccountSessionAPI.php';
+
+$userId = LoggedInUser();
+if (!$userId) {
+    die('User not logged in.');
 }
+
+$conn = GetLocalMySQLConnection();
+if (!$conn) {
+    die('Database connection failed.');
+}
+
+$stmt = $conn->prepare("UPDATE users SET swustatsAccessToken=?, swustatsRefreshToken=?, swustatsTokenExpiry=? WHERE usersId=?");
+$stmt->bind_param("sssi", $access_token, $refresh_token, $expires_in, $userId);
+if ($stmt->execute()) {
+    echo '<h2>SWUStats account linked successfully!</h2>';
+} else {
+    die('Database error: ' . $stmt->error);
+}
+$stmt->close();
+$conn->close();
 ?>
 
 <!-- You may want to redirect the user or display a success message here. -->
