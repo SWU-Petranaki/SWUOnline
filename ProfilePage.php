@@ -84,7 +84,7 @@ include_once 'Header.php';
   $swustats_client_id = $swustatsClientID;
   $swustats_redirect_uri = urlencode('http://petranaki.net/SWUOnline/Assets/SWUStats/callback.php');
   $swustats_scopes = urlencode('decks profile stats');
-  $swustats_auth_url = "https://swustats.net/oauth/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
+  $swustats_auth_url = "https://swustats.net/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
   echo '<a href="' . $swustats_auth_url . '"><button style="background:#3a6ea5;color:#fff;height:40px;margin-bottom:10px;">Login with SWUStats</button></a>';
 
   echo ("<h2>Favorite Decks</h2>");
