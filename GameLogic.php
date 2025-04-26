@@ -805,7 +805,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             return;
           }
           $numExploits = count($exploitedAllies);
-          $exploitingCardID = $dqVars[3];
+          $exploitingCardID = $parameterArr[1];
 
           for($i=0; $i<$numExploits; ++$i) {
             AddDecisionQueue("ADDCURRENTEFFECT", $player, "6772128891", 1);//Exploit effect
