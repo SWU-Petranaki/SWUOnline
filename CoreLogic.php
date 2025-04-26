@@ -4805,7 +4805,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $captors = SearchCaptors();
       if (SearchCount($captors) > 0) {
         AddDecisionQueue("PASSPARAMETER", $currentPlayer, $captors);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to rescue from (or pass for shield)");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a unit to rescue from (or pass for shield)");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       } else {
         AddDecisionQueue("PASSPARAMETER", $currentPlayer, "PASS");
@@ -5812,7 +5812,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "2298508689"://Reckless Torrent
       if(IsCoordinateActive($currentPlayer)) {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to deal 2 damage (or pass)");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a friendly unit to deal 2 damage");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2,$currentPlayer,1", 1);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
@@ -7217,8 +7217,6 @@ function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title) {
     AddDecisionQueue("PASSPARAMETER", $player, "1-{2}", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "1", 1);
   }
-  AddDecisionQueue("PASSPARAMETER", $player, $cardID, 1);
-  AddDecisionQueue("SETDQVAR", $player, "3", 1);
   AddDecisionQueue("PASSPARAMETER", $player, "{1}");
   AddDecisionQueue("EQUALPASS", $player, "-");
 }
