@@ -17,10 +17,10 @@ if (!$conn) {
     die('Database connection failed.');
 }
 
-$stmt = $conn->prepare("SELECT swustatsAccessToken FROM users WHERE usersId=?");
+$stmt = $conn->prepare("SELECT swustatsAccessToken, swustatsRefreshToken FROM users WHERE usersId=?");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
-$stmt->bind_result($access_token);
+$stmt->bind_result($access_token, $refresh_token_db);
 $stmt->fetch();
 $stmt->close();
 $conn->close();
@@ -30,8 +30,11 @@ if (empty($access_token)) {
     die('No SWUStats access token found.');
 }
 
+// Always use the refresh token from the database
+$refreshToken = $refresh_token_db;
+
 // SWUStats API endpoint (update if needed)
-$api_url = 'https://swustats.net/TCGEngine/APIs/UserAPIs/GetUserDecks.php';
+$api_url = 'https://swustats.net/TCGEngine/APIs/UserAPIs/GetUserDecks.php?refresh_token=' . urlencode($refreshToken);
 
 $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
