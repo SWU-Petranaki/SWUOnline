@@ -177,8 +177,16 @@ include_once 'Header.php';
     echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
     echo CardbacksDropdowns($settingArray);
     echo ("</select></div>");
+    $stage = getenv('STAGE') ?: 'prod';
+    $isDev = $stage === 'dev';
+    $patreonCases = $isDev ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
+    if(count($patreonCases) > 0) {
+      echo ("<div class='SelectDeckInput'>Patreon Cardbacks: <span style='margin-left: 25%;'>");
+      echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
+      echo PatreonCardbacksDropdowns($settingArray, $patreonCases);
+      echo ("</select></div>");
+    }
     ?>
-    <p>if you have a Patreon cardback, that will have to be changed in-game still (for now).</p>
     <?php
     if(!isset($settingArray[$SET_Background])) $settingArray[$SET_Background] = 0;
     $bgSource = "./Images/" . GetGameBgSrc($settingArray[$SET_Background])[0];
@@ -188,9 +196,6 @@ include_once 'Header.php';
     echo GameBackgroundDropdowns($settingArray);
     echo ("</select></div>");
     ?>
-  </div>
-  <div class='stats container bg-yellow'>
-    <p style="font-size: 1.52rem;">For stats tracking, build or import your deck to <a href="https://swustats.net" target="_blank">swustats.net</a> and use the swustats deck link to play on Petranaki.</p>
   </div>
 </div>
 </div>

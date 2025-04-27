@@ -526,17 +526,7 @@ function GetSettingsUI($player)
   $rv .= "<h3>Patreon Card Backs</h3>";
   $submitLink = ProcessInputLink($player, 26, "select", "onchange", true);
   $rv .= "<select id='cardbacksPatreonSelect' class='settingsSelect'" . $submitLink . ">";
-  $rv .= CreateSelectOption($SET_Cardback . "-" . 0, "", $SET_Cardback . "-" . $settings[$SET_Cardback]);
-  foreach ($patreonCases as $campaign) {
-    if (isset($_SESSION[$campaign->SessionID()]) || (isset($_SESSION["useruid"]) && $campaign->IsTeamMember($_SESSION["useruid"]))) {
-      $cardBacks = $campaign->CardBacks();
-      $cardBacks = explode(",", $cardBacks);
-      for ($i = 0; $i < count($cardBacks); ++$i) {
-        $name = $campaign->CampaignName() . (count($cardBacks) > 1 ? " " . $i + 1 : "");
-        $rv .= CreateSelectOption($SET_Cardback . "-" . $cardBacks[$i], $name, $SET_Cardback . "-" . $settings[$SET_Cardback]);
-      }
-    }
-  }
+  $rv .= PatreonCardbacksDropdowns($settings, $patreonCases);
   $rv .= "</select>";
   $rv .= "<BR>";
 
