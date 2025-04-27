@@ -65,6 +65,22 @@ include_once 'Header.php';
 
 <div id="cardDetail" style="z-index:100000; display:none; position:fixed;"></div>
 
+<?php
+if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_success']) {
+    echo '<div id="swustats-modal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:99999;display:flex;align-items:center;justify-content:center;">
+        <div style="background:#d4edda;color:#155724;padding:30px 40px;border-radius:12px;border:1px solid #c3e6cb;box-shadow:0 6px 32px rgba(0,0,0,0.15);font-size:1.2em;text-align:center;min-width:320px;">
+            SWUStats account linked successfully!
+        </div>
+    </div>';
+    unset($_SESSION['swustats_linked_success']);
+    echo '<script>
+        setTimeout(function() {
+            var modal = document.getElementById("swustats-modal");
+            if(modal) { modal.style.transition = "opacity 0.6s"; modal.style.opacity = 0; setTimeout(function(){ modal.remove(); }, 700); }
+        }, 2500);
+    </script>';
+}
+?>
 <div class="core-wrapper">
 <div class='fav-decks container bg-yellow'>
   <div style="display:flex; gap: 16px; max-width: 50vw;">

@@ -61,12 +61,13 @@ if (!$conn) {
 $stmt = $conn->prepare("UPDATE users SET swustatsAccessToken=?, swustatsRefreshToken=?, swustatsTokenExpiry=? WHERE usersId=?");
 $stmt->bind_param("sssi", $access_token, $refresh_token, $expires_in, $userId);
 if ($stmt->execute()) {
-    echo '<h2>SWUStats account linked successfully!</h2>';
+    session_start();
+    $_SESSION['swustats_linked_success'] = true;
+    header('Location: /SWUOnline/ProfilePage.php');
+    exit();
 } else {
     die('Database error: ' . $stmt->error);
 }
 $stmt->close();
 $conn->close();
-?>
-
-<!-- You may want to redirect the user or display a success message here. -->
+// No output here, user will be redirected.
