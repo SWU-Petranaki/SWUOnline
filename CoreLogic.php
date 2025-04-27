@@ -3016,8 +3016,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "4536594859"://Medal Ceremony
-
-      DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to");
+      DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience to", "numAttacks=0");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       
       break;   
@@ -7195,14 +7194,14 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title) {
+function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title, $mzFilter="") {
   AddDecisionQueue("PASSPARAMETER", $player, "-");
   AddDecisionQueue("SETDQVAR", $player, "0");
   AddDecisionQueue("SETDQVAR", $player, "1");
   for ($i = $numUnits; $i > 0; $i--) {
     AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
     AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
-    if($cardID == "4536594859") AddDecisionQueue("MZFILTER", $player, "numAttacks=0"); //Medal Ceremony
+    if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, 1);
     AddDecisionQueue("SETDQCONTEXT", $player, "Choose up to $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
     AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "0", 1);
