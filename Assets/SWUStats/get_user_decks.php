@@ -33,8 +33,12 @@ if (empty($access_token)) {
 // Always use the refresh token from the database
 $refreshToken = $refresh_token_db;
 
+// Load SWUStats client ID
+include_once __DIR__ . '/../../APIKeys/APIKeys.php';
+$client_id = $swustatsClientID;
+
 // SWUStats API endpoint (update if needed)
-$api_url = 'https://swustats.net/TCGEngine/APIs/UserAPIs/GetUserDecks.php?refresh_token=' . urlencode($refreshToken);
+$api_url = 'https://swustats.net/TCGEngine/APIs/UserAPIs/GetUserDecks.php?refresh_token=' . urlencode($refreshToken) . '&client_id=' . urlencode($client_id);
 
 $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
