@@ -86,7 +86,6 @@ function AssignIndirectDamageBuilder($cardID, $sourcePlayer, $amount, $fromUnitE
 function GiveExperienceBuilder($sourcePlayer, $isUnitEffect = 0, $isPreventable = 1) {
   $isUnitEffect = $isUnitEffect ? 1 : 0;
   $isPreventable = $isPreventable ? 1 : 0;
-  WriteLog($amount);
   return "MULTIADDEXPERIENCE,$sourcePlayer,$isUnitEffect,$isPreventable";
 }
 ?>
