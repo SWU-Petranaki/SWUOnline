@@ -8,7 +8,7 @@ include_once __DIR__ . '/../../APIKeys/APIKeys.php';
 $client_id = $swustatsClientID;
 $client_secret = $swustatsClientSecret;
 $redirect_uri = 'http://petranaki.net/SWUOnline/Assets/SWUStats/callback.php'; // Change to your production URL when deploying
-$token_url = 'https://swustats.net/oauth/token';
+$token_url = 'https://swustats.net/TCGEngine/APIs/OAuth/token.php';
 
 // --- STEP 1: Receive authorization code ---
 if (!isset($_GET['code'])) {
