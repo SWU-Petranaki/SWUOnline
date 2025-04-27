@@ -1206,12 +1206,8 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
       break;
     case "3074091930"://Rich Reward
       if($reportMode) break;
-      AddDecisionQueue("MULTIZONEINDICES", $opponent, "MYALLY");
-      AddDecisionQueue("OP", $opponent, "MZTONORMALINDICES");
-      AddDecisionQueue("PREPENDLASTRESULT", $opponent, "3-", 1);
-      AddDecisionQueue("SETDQCONTEXT", $opponent, "Choose up to 2 units to give experience");
-      AddDecisionQueue("MULTICHOOSEUNIT", $opponent, "<-", 1);
-      AddDecisionQueue("SPECIFICCARD", $opponent, "MULTIGIVEEXPERIENCE", 1);
+        DQMultiUnitSelect($cardID, $opponent, 2, "MYALLY", "to give an experience to");
+        AddDecisionQueue("MZOP", $opponent, GiveExperienceBuilder($opponent, isUnitEffect:1), 1);
       break;
     case "1780014071"://Public Enemy
       if($reportMode) break;

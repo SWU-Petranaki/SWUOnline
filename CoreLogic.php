@@ -3016,14 +3016,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "4536594859"://Medal Ceremony
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Rebel");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "numAttacks=0");
-      AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
-      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-", 1);
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose up to 3 units that have attacked to give experience", 1);
-      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1, 1);
-      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MEDALCEREMONY");
-      break;
+      DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
+      AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
+      
+      break;   
     case "6515891401"://Karabast
       $ally = new Ally($target);
       $damage = $ally->Damage() + 1;
@@ -3054,12 +3050,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "7929181061"://General Tagge
       if($from != "PLAY") {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Trooper");
-        AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
-        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-", 1);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose up to 3 troopers to give experience");
-        AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MULTIGIVEEXPERIENCE", 1);
+        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience to");
+        AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
     case "8240629990"://Avenger
@@ -7200,13 +7192,14 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title) {
+function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title, $mzFilter="") {
   AddDecisionQueue("PASSPARAMETER", $player, "-");
   AddDecisionQueue("SETDQVAR", $player, "0");
   AddDecisionQueue("SETDQVAR", $player, "1");
   for ($i = $numUnits; $i > 0; $i--) {
     AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
     AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
+    if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, 1);
     AddDecisionQueue("SETDQCONTEXT", $player, "Choose up to $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
     AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "0", 1);

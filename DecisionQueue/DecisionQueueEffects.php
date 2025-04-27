@@ -683,15 +683,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "GUERILLAINSURGENCY":
       DamageAllAllies(4, "7235023816", arena: "Ground");
       return $lastResult;
-    case "MEDALCEREMONY":
-      if($lastResult == "PASS") {
-        return $lastResult;
-      }
-      for($i=0; $i<count($lastResult); ++$i) {
-        $ally = new Ally("MYALLY-" . $lastResult[$i], $player);
-        $ally->Attach("2007868442");//Experience token
-      }
-      return $lastResult;
     case "PLANETARYINVASION":
       if($lastResult == "PASS") {
         return $lastResult;
