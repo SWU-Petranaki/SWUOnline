@@ -365,6 +365,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to play");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("ADDCURRENTEFFECT", $player, "7895170711", 1);
+     
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
     case "CLEARTHEFIELD":
@@ -682,15 +683,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       return $lastResult;
     case "GUERILLAINSURGENCY":
       DamageAllAllies(4, "7235023816", arena: "Ground");
-      return $lastResult;
-    case "MEDALCEREMONY":
-      if($lastResult == "PASS") {
-        return $lastResult;
-      }
-      for($i=0; $i<count($lastResult); ++$i) {
-        $ally = new Ally("MYALLY-" . $lastResult[$i], $player);
-        $ally->Attach("2007868442");//Experience token
-      }
       return $lastResult;
     case "PLANETARYINVASION":
       if($lastResult == "PASS") {

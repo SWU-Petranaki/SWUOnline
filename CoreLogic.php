@@ -3016,14 +3016,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "4536594859"://Medal Ceremony
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Rebel");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "numAttacks=0");
-      AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
-      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-", 1);
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose up to 3 units that have attacked to give experience", 1);
-      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1, 1);
-      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MEDALCEREMONY");
-      break;
+
+      DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to");
+      AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
+      
+      break;   
     case "6515891401"://Karabast
       $ally = new Ally($target);
       $damage = $ally->Damage() + 1;
@@ -3054,7 +3051,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "7929181061"://General Tagge
       if($from != "PLAY") {
-        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience too");
+        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience to");
         AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
@@ -7205,6 +7202,7 @@ function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title) {
   for ($i = $numUnits; $i > 0; $i--) {
     AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
     AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
+    if($cardID == "4536594859") AddDecisionQueue("MZFILTER", $player, "numAttacks=0"); //Medal Ceremony
     AddDecisionQueue("SETDQCONTEXT", $player, "Choose up to $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
     AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "0", 1);
