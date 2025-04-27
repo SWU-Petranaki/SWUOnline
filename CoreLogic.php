@@ -6334,9 +6334,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to take control of", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "TAKECONTROL", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
-      AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $currentPlayer, "8105698374,HAND", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "COMMANDEER", 1);
       break;
     case "4334684518"://Tandem Assault
       AddCurrentTurnEffect($cardID . "-1", $currentPlayer);
