@@ -63,7 +63,7 @@ $stmt->bind_param("sssi", $access_token, $refresh_token, $expires_in, $userId);
 if ($stmt->execute()) {
     session_start();
     $_SESSION['swustats_linked_success'] = true;
-    header('Location: /SWUOnline/ProfilePage.php');
+    header('Location: /Arena/ProfilePage.php');
     exit();
 } else {
     die('Database error: ' . $stmt->error);
