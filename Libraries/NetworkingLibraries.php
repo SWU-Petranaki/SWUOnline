@@ -534,6 +534,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       PlayCard($cardID, "PLAY", -1, $index, $theirAllies[$index + 5]);
       break;
     case 10000: //Undo
+      $isDev = getenv("STAGE") == "dev";
       $parsedFormat = GetCurrentFormat();
       $endBo3 = BestOf3IsOver();
       if (GetCachePiece($gameName, 14) == 7)
@@ -543,7 +544,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         break;
       }
       $undoCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 27 : 28)));
-      if ($undoCount >= 10) {
+      if (!$isDev && $undoCount >= 10) {
         WriteLog("Player $playerID has exceeded the maximum number of undos per round.");
         break;
       }

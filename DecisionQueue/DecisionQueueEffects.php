@@ -1271,6 +1271,15 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, $lastResult, 1);
       AddDecisionQueue("MZOP", $otherPlayer, DealDamageBuilder(2, $player, isUnitEffect: 1), 1);
       break;
+    case "COMMANDEER":
+      $ally = Ally::FromUniqueId($lastResult);
+      AddDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID(), 1);
+      if($ally->Controller() != $player) {
+        AddDecisionQueue("MZOP", $player, "TAKECONTROL", 1);
+        AddDecisionQueue("MZOP", $player, "READY", 1);
+      }
+      AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $player, "8105698374,HAND", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }
