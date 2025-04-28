@@ -1842,7 +1842,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         default: break;
       }
       $combatChainState[$CCS_AttackTargetUID] = $uid;
-      LogSelectedTarget($defPlayer, $lastResult);
+      LogSelectedTarget($defPlayer, $lastResult, true);
       return 1;
     case "STARTTURNABILITIES":
       StartTurnAbilities();
@@ -2453,7 +2453,7 @@ function AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID = "-", $resource
   }
 }
 
-function LogSelectedTarget($player, $lastResult)
+function LogSelectedTarget($player, $lastResult, $isAttack = false)
     {
       $targetCard = GetMZCard($player, $lastResult);
       $message = GetMZCardLink($player, $lastResult);
@@ -2468,7 +2468,10 @@ function LogSelectedTarget($player, $lastResult)
           $message .= " with " . implode(", ", $upgradeLinks); 
         }
       }
-
-      $message .= " was chosen";
+      if($isAttack) {
+        $message .= " was chosen as the attack target";
+      } else {
+        $message .= " was chosen";
+      }
       WriteLog($message);
     }
