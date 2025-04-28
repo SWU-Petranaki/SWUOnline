@@ -588,7 +588,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "SHOOTDOWN":
       $controller = MZPlayerID($player, $lastResult);
       $ally = new Ally($lastResult, $controller);
-      $wasDestroyed = $ally->DealDamage(3);
+      $wasDestroyed = $ally->DealDamage(3, enemyDamage:$ally->Controller() != $player);
       if($wasDestroyed) {
         DealDamageAsync($otherPlayer, 2, "DAMAGE", "7730475388", sourcePlayer:$player);
       }
@@ -625,7 +625,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       for ($i = count($deck) - 1; $i >= 0; $i -= DeckPieces()) {
         $cardTitle = CardTitle($deck[$i]);
         if ($cardTitle == $destroyedCardTitle) {
-        
+
           WriteLog(CardLink($deck[$i], $deck[$i]) . " was discarded from deck.");
           AddGraveyard($deck[$i], $otherPlayer, "DECK");
           $deckClass->Remove($i);
@@ -844,9 +844,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         }
       }
       if (count($resourceIndices) == 0) return "PASS";
-      
+
       AddDecisionQueue("PASSPARAMETER", $player, implode(",", $resourceIndices));
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to play for free (or pass)");
+      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to play for free");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-");
       AddDecisionQueue("SETDQVAR", $player, "0", 1);
       AddDecisionQueue("PASSPARAMETER", $player, "5576996578", 1);
@@ -913,7 +913,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $unitsThatAttackedBase = explode(",", GetClassState($player, $CS_UnitsThatAttackedBase));
       $opponent = $player == 1 ? 2: 1;
       for($i = 0; $i < count($unitsThatAttackedBase); ++$i) {
-      $targetMZIndex = "THEIRALLY-" . SearchAlliesForUniqueID($unitsThatAttackedBase[$i], $opponent); 
+      $targetMZIndex = "THEIRALLY-" . SearchAlliesForUniqueID($unitsThatAttackedBase[$i], $opponent);
       if($targetMZIndex == "THEIRALLY--1") continue;
       $ally = new Ally($targetMZIndex, $opponent);
       if($ally->IsLeader()) continue;
@@ -990,8 +990,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       break;
     case "COUNTDOOKU_TWI":
       $power = $lastResult;
-      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal " . $power . " damage to", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to deal " . $power . " damage to", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, DealDamageBuilder($power, $player, isUnitEffect:1), 1);
       break;
@@ -1259,8 +1259,17 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       AddDecisionQueue("YESNO", $player, "-");
       AddDecisionQueue("NOPASS", $player, "-", 1);
-      AddDecisionQueue("PASSPARAMETER", $player, $lastResult, 1); 
+      AddDecisionQueue("PASSPARAMETER", $player, $lastResult, 1);
       AddDecisionQueue("MZOP", $otherPlayer, DealDamageBuilder(2, $player, isUnitEffect: 1), 1);
+      break;
+    case "COMMANDEER":
+      $ally = Ally::FromUniqueId($lastResult);
+      AddDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID(), 1);
+      if($ally->Controller() != $player) {
+        AddDecisionQueue("MZOP", $player, "TAKECONTROL", 1);
+        AddDecisionQueue("MZOP", $player, "READY", 1);
+      }
+      AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $player, "8105698374,HAND", 1);
       break;
     //SpecificCardLogic End
     default: return "";

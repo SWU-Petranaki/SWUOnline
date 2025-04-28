@@ -2829,7 +2829,7 @@ function SpecificAllyAttackAbilities($attackerUniqueID=0, $reportMode=false)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY");
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to defeat a shield from (or pass)");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "You may choose a unit to defeat a shield from");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "ROSETICO", 1);
       break;

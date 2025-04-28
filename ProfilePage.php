@@ -65,6 +65,22 @@ include_once 'Header.php';
 
 <div id="cardDetail" style="z-index:100000; display:none; position:fixed;"></div>
 
+<?php
+if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_success']) {
+    echo '<div id="swustats-modal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:99999;display:flex;align-items:center;justify-content:center;">
+        <div style="background:#d4edda;color:#155724;padding:30px 40px;border-radius:12px;border:1px solid #c3e6cb;box-shadow:0 6px 32px rgba(0,0,0,0.15);font-size:1.2em;text-align:center;min-width:320px;">
+            SWUStats account linked successfully!
+        </div>
+    </div>';
+    unset($_SESSION['swustats_linked_success']);
+    echo '<script>
+        setTimeout(function() {
+            var modal = document.getElementById("swustats-modal");
+            if(modal) { modal.style.transition = "opacity 0.6s"; modal.style.opacity = 0; setTimeout(function(){ modal.remove(); }, 700); }
+        }, 2500);
+    </script>';
+}
+?>
 <div class="core-wrapper">
 <div class='fav-decks container bg-yellow'>
   <div style="display:flex; gap: 16px; max-width: 50vw;">
@@ -78,6 +94,14 @@ include_once 'Header.php';
   </div>
   <?php
   DisplayPatreon();
+
+  // SWUStats Login Button
+  include_once './APIKeys/APIKeys.php';
+  $swustats_client_id = $swustatsClientID;
+  $swustats_redirect_uri = urlencode('https://petranaki.net/Arena/Assets/SWUStats/callback.php');
+  $swustats_scopes = urlencode('decks profile stats');
+  $swustats_auth_url = "https://swustats.net/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
+  echo '<a href="' . $swustats_auth_url . '"><button style="background:#3a6ea5;color:#fff;height:40px;margin-bottom:10px;">Login with SWUStats</button></a>';
 
   echo ("<h2>Favorite Decks</h2>");
   $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
@@ -169,8 +193,16 @@ include_once 'Header.php';
     echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
     echo CardbacksDropdowns($settingArray);
     echo ("</select></div>");
+    $stage = getenv('STAGE') ?: 'prod';
+    $isDev = $stage === 'dev';
+    $patreonCases = $isDev ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
+    if(count($patreonCases) > 0) {
+      echo ("<div class='SelectDeckInput'>Patreon Cardbacks: <span style='margin-left: 25%;'>");
+      echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
+      echo PatreonCardbacksDropdowns($settingArray, $patreonCases);
+      echo ("</select></div>");
+    }
     ?>
-    <p>if you have a Patreon cardback, that will have to be changed in-game still (for now).</p>
     <?php
     if(!isset($settingArray[$SET_Background])) $settingArray[$SET_Background] = 0;
     $bgSource = "./Images/" . GetGameBgSrc($settingArray[$SET_Background])[0];
@@ -180,9 +212,6 @@ include_once 'Header.php';
     echo GameBackgroundDropdowns($settingArray);
     echo ("</select></div>");
     ?>
-  </div>
-  <div class='stats container bg-yellow'>
-    <p style="font-size: 1.52rem;">For stats tracking, build or import your deck to <a href="https://swustats.net" target="_blank">swustats.net</a> and use the swustats deck link to play on Petranaki.</p>
   </div>
 </div>
 </div>

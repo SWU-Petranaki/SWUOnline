@@ -50,6 +50,23 @@ function CardbacksDropdowns($settings) {
   return $rv;
 }
 
+function PatreonCardbacksDropdowns($settings, $patreonCases) {
+  global $SET_Cardback;
+  $rv = "";
+  $rv .= CreateSelectOption($SET_Cardback . "-" . 0, "", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  foreach ($patreonCases as $campaign) {
+    if (isset($_SESSION[$campaign->SessionID()]) || (isset($_SESSION["useruid"]) && $campaign->IsTeamMember($_SESSION["useruid"]))) {
+      $cardBacks = $campaign->CardBacks();
+      $cardBacks = explode(",", $cardBacks);
+      for ($i = 0; $i < count($cardBacks); ++$i) {
+        $name = $campaign->CampaignName() . (count($cardBacks) > 1 ? " " . $i + 1 : "");
+        $rv .= CreateSelectOption($SET_Cardback . "-" . $cardBacks[$i], $name, $SET_Cardback . "-" . $settings[$SET_Cardback]);
+      }
+    }
+  }
+  return $rv;
+}
+
 function GameBackgroundDropdowns($settings) {
   global $SET_Background;
   $rv = "";
