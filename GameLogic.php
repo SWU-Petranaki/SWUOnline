@@ -1003,15 +1003,18 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           return $cardID;
         case "WRITECHOICE":
           $ally = new Ally($lastResult);
-          WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " was chosen");
+          $player = $ally->Controller();
+          LogSelectedTarget($player, $lastResult);
           return $lastResult;
         case "WRITECHOICEFROMUNIQUE":
-          $controller = UnitUniqueIDController($lastResult);
-          $controller = $controller != -1 ? $controller : 1;
-          $index = SearchAlliesForUniqueID($lastResult, $controller);
-          $ally = new Ally($controller == $currentPlayer ? "MYALLY-" . $index : "THEIRALLY-" . $index);
-          WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " was chosen");
-          return $lastResult;
+            $controller = UnitUniqueIDController($lastResult);
+            $controller = $controller != -1 ? $controller : 1;
+            $index = SearchAlliesForUniqueID($lastResult, $controller);
+            $mzIndex = ($controller == $currentPlayer ? "MYALLY-" . $index : "THEIRALLY-" . $index);
+            $ally = new Ally($mzIndex); 
+            $player = $ally->Controller();
+            LogSelectedTarget($player, $mzIndex);
+            return $lastResult;
         default: break;
       }
       return $lastResult;
@@ -1839,7 +1842,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         default: break;
       }
       $combatChainState[$CCS_AttackTargetUID] = $uid;
-      WriteLog(GetMZCardLink($defPlayer, $lastResult) . " was chosen as the attack target");
+      LogSelectedTarget($defPlayer, $lastResult, true);
       return 1;
     case "STARTTURNABILITIES":
       StartTurnAbilities();
@@ -2449,3 +2452,26 @@ function AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID = "-", $resource
     }
   }
 }
+
+function LogSelectedTarget($player, $lastResult, $isAttack = false)
+    {
+      $targetCard = GetMZCard($player, $lastResult);
+      $message = GetMZCardLink($player, $lastResult);
+      if (str_contains($lastResult, "ALLY")) {
+        $ally = new Ally($lastResult);
+        $upgrades = $ally->GetUpgrades();
+        if (count($upgrades) > 0) {
+          $upgradeLinks = [];
+          foreach ($upgrades as $upgrade) {
+            $upgradeLinks[] = CardLink($upgrade, $upgrade);
+          }
+          $message .= " with " . implode(", ", $upgradeLinks); 
+        }
+      }
+      if($isAttack) {
+        $message .= " was chosen as the attack target";
+      } else {
+        $message .= " was chosen";
+      }
+      WriteLog($message);
+    }
