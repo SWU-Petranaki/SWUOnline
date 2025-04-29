@@ -332,6 +332,8 @@ function GetCardBack($player, $index="")
     45 => "CB_EAX",
     46 => "MAO",
     47 => "Aixopluc_Squadron",
+    48 => "KW",
+    49 => "RR",
     default => "CardBack",
   };
 }
