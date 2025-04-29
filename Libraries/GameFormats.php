@@ -185,7 +185,8 @@ function IsAllowed($cardID, $format): bool {
       ,
     //Only Commons, any unbanned leader, no Rare bases, no Special cards unless they have a Common variant
     Formats::$PadawanFormat => (CardRarity($cardID) == "Common"
-        || CardIDIsLeader($cardID) && CardRarity($cardID) == "Rare")
+        || CardIDIsLeader($cardID) && CardRarity($cardID) == "Rare"
+        || IsWeeklyPlayCommon($cardID))
       && !in_array($cardID, $banned)
       && !IsRareBase($cardID)
       ,
@@ -225,6 +226,41 @@ function IsRareBase($cardID) {
     ,"4301437393"//Thermal Oscillator
     ,"9586661707"//Nabat Village
     ,"1672815328"//Lake Country
+      => true,
+    default => false
+  };
+}
+
+function IsWeeklyPlayCommon($cardID) {
+  return match($cardID) {
+    //Spark of Rebellion
+    "6903722220" //Luke's Lightsaber
+    ,"9266336818" //Grand Moff Tarkin
+    ,"0705773109" //Vader's Lightsaber
+    ,"9680213078" //Leia Organa
+    ,"9996676854" //Admiral Motti
+    ,"0523973552" //I Am Your Father
+    ,"9568000754" //R2-D2
+    ,"8009713136" //C-3PO
+    //Shadows of the Galaxy
+    ,"0302968596" //Calculated Lethality
+    ,"8142386948" //Razor Crest
+    ,"4843225228" //Phase-III Dark Trooper
+    ,"6536128825" //Grogu
+    ,"4328408486" //Incinerator Trooper
+    ,"5351496853" //Gideon's Light Cruiser
+    ,"6884078296" //Greef Karga
+    ,"0754286363" //The Mandolorian's Rifle
+    //Twilight of the Republic
+    ,"3876951742" //General's Guardian
+    ,"0511508627" //Captain Rex
+    ,"2282198576" //Anakin Skywalker
+    ,"5027991609" //Separatist Commando
+    ,"5584601885" //Battle Droid Escort
+    ,"0875550518" //Grievous's Wheel Bike
+    ,"1209133362" //33nd Stalwart
+    ,"0741296536" //Ahsoka's Padawan Lightsaber
+    //Jump to Lightspeed
       => true,
     default => false
   };
