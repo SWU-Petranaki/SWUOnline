@@ -187,6 +187,14 @@ $cardBack = new stdClass();
 $cardBack->name = "Aixopluc Squadron";
 $cardBack->id = 47;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Kaloret Warriors";
+$cardBack->id = 48;
+$response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Ruthless Raiders";
+$cardBack->id = 49;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {
