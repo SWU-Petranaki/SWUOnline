@@ -18,7 +18,7 @@ if (!isset($_SESSION["userid"])) {
 
 $isPatron = isset($_SESSION["isPatron"]);
 $isMobile = IsMobile();
-
+$baseUri = "/Arena";
 ?>
 
 <head>
@@ -29,7 +29,7 @@ $isMobile = IsMobile();
     <link rel="shortcut icon" href="Images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="Images/apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="stylesheet" href="./css/petranaki250320.css">
+    <link rel="stylesheet" href="css/petranaki250320.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -80,13 +80,27 @@ $isMobile = IsMobile();
     </style>
     <script>
       function toggleInfoNav() {
-          var dropdownContent = document.querySelector('.dropdown-content');
+          var dropdownContent = document.querySelector('#info-dd');
           if (dropdownContent.style.display === 'block') {
               dropdownContent.style.display = 'none';
           } else {
               dropdownContent.style.display = 'block';
           }
-          var triangle = document.querySelector('.nav-triangle');
+          var triangle = document.querySelector('#nav-tri-info');
+          if (dropdownContent.style.display === 'block') {
+            triangle.innerHTML = '▲';
+          } else {
+            triangle.innerHTML = '▼';
+          }
+      }
+      function toggleToolsNav() {
+          var dropdownContent = document.querySelector('#tools-dd');
+          if (dropdownContent.style.display === 'block') {
+              dropdownContent.style.display = 'none';
+          } else {
+              dropdownContent.style.display = 'block';
+          }
+          var triangle = document.querySelector('#nav-tri-tools');
           if (dropdownContent.style.display === 'block') {
             triangle.innerHTML = '▲';
           } else {
@@ -99,20 +113,27 @@ $isMobile = IsMobile();
               <ul class='rightnav'>
                   <?php
                   if (isset($_SESSION["useruid"])) {
-                        echo "<li class='dropdown'>
-                          <a href='javascript:void(0)' onclick='toggleInfoNav()' class='NavBarItem info-nav'>Info <span class='nav-triangle'>▼</span></a>
-                          <ul class='dropdown-content'>
-                            <li><a href='CantinaBrawl.php'>Cantina Brawl</a></li>
-                            <li><a href='UnimplementedCards.php'>Preview Cards</a></li>
-                            <li><a href='Conduct.php'>Code of Conduct</a></li>
-                          </ul>
-                        </li>";
+                      echo "<li class='dropdown'>
+                        <a href='javascript:void(0)' onclick='toggleInfoNav()' class='NavBarItem info-nav'>Info <span id='nav-tri-info' class='nav-triangle'>▼</span></a>
+                        <ul id='info-dd' class='dropdown-content'>
+                          <li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>
+                          <li><a href='$baseUri/UnimplementedCards.php'>Preview Cards</a></li>
+                          <li><a href='$baseUri/Conduct.php'>Code of Conduct</a></li>
+                        </ul>
+                      </li>";
+                      echo "<li class='dropdown'>
+                        <a href='javascript:void(0)' onclick='toggleToolsNav()' class='NavBarItem info-nav'>Tools <span id='nav-tri-tools' class='nav-triangle'>▼</span></a>
+                        <ul id='tools-dd' class='dropdown-content'>
+                          <li><a href='$baseUri/Tools/ShuffleIntegrity.php'>Shuffle Integrity</a></li>
+                          <li><a href='$baseUri/Tools/MeleeToJson.php'>Melee To JSON</a></li>
+                        </ul>
+                      </li>";
                       echo "<li><a href='https://swustats.net/TCGEngine/SharedUI/MainMenu.php' target='_blank' class='NavBarItem'>SWU Stats</a></li>";
-                      echo "<li><a href='ProfilePage.php' class='NavBarItem'>Profile</a></li>";
-                      echo "<li><a href='./AccountFiles/LogoutUser.php' class='NavBarItem'>Log Out</a></li>";
+                      echo "<li><a href='$baseUri/ProfilePage.php' class='NavBarItem'>Profile</a></li>";
+                      echo "<li><a href='$baseUri/AccountFiles/LogoutUser.php' class='NavBarItem'>Log Out</a></li>";
                   } else {
-                      echo "<li><a href='Signup.php' class='NavBarItem'>Sign Up</a></li>";
-                      echo "<li><a href='./LoginPage.php' class='NavBarItem'>Log In</a></li>";
+                      echo "<li><a href='$baseUri/Signup.php' class='NavBarItem'>Sign Up</a></li>";
+                      echo "<li><a href='$baseUri/LoginPage.php' class='NavBarItem'>Log In</a></li>";
                   }
                   ?>
               </ul>
@@ -121,13 +142,13 @@ $isMobile = IsMobile();
           <div class='nav-bar-links'>
               <ul>
                   <?php
-                  echo '<li><a target="_blank" href="https://discord.gg/ep9fj8Vj3F"><img src="./Images/icons/discord.svg" alt="Discord"></a></li>';
-                  echo '<li><a target="_blank" href="https://github.com/SWU-Petranaki/SWUOnline"><img src="./Images/icons/github.svg" alt="GitHub"></a></li>';
-                  echo '<li>
-                  <a href="javascript:void(0);" onclick="toggleLanguages()">
-                      <img src="./Images/icons/globe.svg" alt="Languages">
-                  </a>
-                  <ul id="languageList" style="display: none;">';
+                  echo "<li><a target='_blank' href='https://discord.gg/ep9fj8Vj3F'><img src='$baseUri/Images/icons/discord.svg' alt='Discord'></a></li>";
+                  echo "<li><a target='_blank' href='https://github.com/SWU-Petranaki/SWUOnline'><img src='$baseUri/Images/icons/github.svg' alt='GitHub'></a></li>";
+                  echo "<li>
+                            <a href='javascript:void(0);' onclick='toggleLanguages()'>
+                              <img src='$baseUri/Images/icons/globe.svg' alt='Languages'>
+                            </a>
+                            <ul id='languageList' style='display: none;'>";
 
                   $languages = [
                       'EN' => 'English',
@@ -138,7 +159,7 @@ $isMobile = IsMobile();
                   ];
 
                   foreach ($languages as $code => $lang) {
-                      echo "<li onclick=\"setLanguage('$code')\"><img src='./Images/icons/$code.svg' alt='$lang' class='language-icon'>   $lang</li>";
+                      echo "<li onclick=\"setLanguage('$code')\"><img src='$baseUri/Images/icons/$code.svg' alt='$lang' class='language-icon'>   $lang</li>";
                   }
 
                   echo '</ul>
@@ -147,7 +168,7 @@ $isMobile = IsMobile();
               </ul>
           </div>
         <div class="nav-bar-karabast" style="z-index: -1;">
-            Looking for <a href="https://karabast.net">new Karabast</a>?
+            Looking for <a href="https://karabast.net">Karabast</a>?
         </div>
     </div>
 

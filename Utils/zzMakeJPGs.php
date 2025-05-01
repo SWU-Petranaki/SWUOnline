@@ -4,7 +4,7 @@
   include_once "../CardDictionary.php";
   include_once "../Libraries/CoreLibraries.php";
 
-  $sets = ["SOR", "SHD", "TWI", "JTL"];
+  $sets = ["SOR", "SHD", "TWI", "JTL", "LOF"];
 
 foreach ($sets as $set) {
     // Process each set (e.g., display the set's value)
