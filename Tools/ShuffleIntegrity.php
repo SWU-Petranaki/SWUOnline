@@ -66,7 +66,7 @@ $useruid = $_SESSION["useruid"];
     document.getElementById("firstHands").innerHTML = "";
 
     //send request to api/ShuffleTool.php
-    xhr.open("POST", "api/ShuffleTool.php", true);
+    xhr.open("POST", "../api/ShuffleTool.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
