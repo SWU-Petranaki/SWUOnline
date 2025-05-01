@@ -3016,10 +3016,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "4536594859"://Medal Ceremony
-      DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
+      DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
-      
-      break;   
+
+      break;
     case "6515891401"://Karabast
       $ally = new Ally($target);
       $damage = $ally->Damage() + 1;
@@ -3050,7 +3050,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "7929181061"://General Tagge
       if($from != "PLAY") {
-        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience to");
+        DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Trooper", "to give an experience to");
         AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
@@ -4406,7 +4406,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6544277158"://Hotshot Maneuver
       if ($target != "-") {
         $ally = new Ally($target);
-        $totalOnAttackAbilities = SpecificAllyAttackAbilities($ally->UniqueID(), reportMode:true);
+        $totalOnAttackAbilities = LayerAttackersOnAttackAbilities($ally->UniqueID(), reportMode:true);
         $totalOnAttackAbilities += RestoreAmount($ally->CardID(), $ally->Controller(), $ally->Index()) > 0 ? 1 : 0;
         $totalOnAttackAbilities += HasSaboteur($ally->CardID(), $ally->Controller(), $ally->Index()) ? 1 : 0;
 
@@ -6287,7 +6287,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "3722493191"://IG-2000
        if($from != "PLAY" && SearchCount(SearchAllies($otherPlayer)) > 0) {
-        DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY&THEIRALLY", "to damage");
+        DQMultiUnitSelect($currentPlayer, 3, "MYALLY&THEIRALLY", "to damage");
         AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
@@ -7194,7 +7194,7 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-function DQMultiUnitSelect($cardID, $player, $numUnits, $unitSelector, $title, $mzFilter="") {
+function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="") {
   AddDecisionQueue("PASSPARAMETER", $player, "-");
   AddDecisionQueue("SETDQVAR", $player, "0");
   AddDecisionQueue("SETDQVAR", $player, "1");

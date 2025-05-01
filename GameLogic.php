@@ -835,7 +835,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $arr = explode(",", $dqVars[0]);
           for($i = 0; $i < count($arr); ++$i) {
             $ally = new Ally($arr[$i], $player);
-            $ally->Attach("2007868442"); //Experience token 
+            $ally->Attach("2007868442"); //Experience token
           }
           break;
         case "MOVEARENA":
@@ -1011,7 +1011,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             $controller = $controller != -1 ? $controller : 1;
             $index = SearchAlliesForUniqueID($lastResult, $controller);
             $mzIndex = ($controller == $currentPlayer ? "MYALLY-" . $index : "THEIRALLY-" . $index);
-            $ally = new Ally($mzIndex); 
+            $ally = new Ally($mzIndex);
             $player = $ally->Controller();
             LogSelectedTarget($player, $mzIndex);
             return $lastResult;
@@ -2465,7 +2465,7 @@ function LogSelectedTarget($player, $lastResult, $isAttack = false)
           foreach ($upgrades as $upgrade) {
             $upgradeLinks[] = CardLink($upgrade, $upgrade);
           }
-          $message .= " with " . implode(", ", $upgradeLinks); 
+          $message .= " with " . implode(", ", $upgradeLinks);
         }
       }
       if($isAttack) {

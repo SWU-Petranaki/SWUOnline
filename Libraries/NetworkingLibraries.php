@@ -1960,7 +1960,7 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
   if ($from != "PLAY") {
     $exploitAmount = ExploitAmount($cardID, $currentPlayer, reportMode: false);
     if ($exploitAmount > 0) {
-      DQMultiUnitSelect($cardID, $currentPlayer, $exploitAmount, "MYALLY", "to exploit");
+      DQMultiUnitSelect($currentPlayer, $exploitAmount, "MYALLY", "to exploit");
       AddDecisionQueue("MZOP", $currentPlayer, "EXPLOIT,$cardID", 1);
     }
     $pilotCost = PilotingCost($cardID, $currentPlayer);
@@ -2190,6 +2190,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
   global $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks, $CS_NumIllusionistActionCardAttacks, $CCS_IsBoosted;
   global $SET_PassDRStep, $CS_AbilityIndex, $CS_NumMandalorianAttacks, $CCS_MultiAttackTargets, $CS_SeparatistUnitsThatAttacked;
   global $CS_PlayedAsUpgrade;
+  global $layers;
 
   $oppCardActive = GetClassState($currentPlayer, $CS_OppCardActive) > 0;
 
@@ -2204,8 +2205,6 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
     SetClassState($currentPlayer, $CS_PlayIndex, $index);
   if ($oppCardActive)
     $index = GetClassState($currentPlayer, $CS_OppIndex);
-
-  $definedCardType = CardType($cardID);
   //Figure out where it goes
   $openedChain = false;
   $chainClosed = false;
@@ -2215,67 +2214,24 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       WriteLog(CardLink($cardID, $cardID) . " does not resolve because it is no longer in play.");
       return;
     }
-    $upgrades = "-";
-    if($uniqueID != "-1") {
-      $ally = new Ally($uniqueID);
-      $upgrades = implode(",", $ally->GetUpgrades(withMetadata:true));
+    LayerAttackersOnAttackAbilities();
+    $layersHasOnAttack = false;
+    for ($i = 0; $i < count($layers); $i += LayerPieces()) {
+      if ($layers[$i + 2] == "ONATTACKABILITY") {
+        $layersHasOnAttack = true;
+        break;
+      }
     }
-    $index = AddCombatChain($cardID, $currentPlayer, $from, $resourcesPaid, $upgrades);
-    if ($index == 0) {
-      ChangeSetting($defPlayer, $SET_PassDRStep, 0);
-      $combatChainState[$CCS_AttackPlayedFrom] = $from;
-      if ($definedCardType != "AA")
-        $combatChainState[$CCS_WeaponIndex] = GetClassState($currentPlayer, $CS_PlayIndex);
-      $chainClosed = ProcessAttackTarget();
-      $baseAttackSet = CurrentEffectBaseAttackSet($cardID);
-      if ($baseAttackSet != -1)
-        $attackValue = $baseAttackSet;
-      else if (IsAllyAttacking()) {
-        $ally = new Ally("MYALLY-" . GetClassState($currentPlayer, $CS_PlayIndex), $currentPlayer);
-        $attackValue = $ally->CurrentPower();
-        $ally->IncrementTimesAttacked();
-        if (GetAttackTarget() == "THEIRCHAR-0") {
-          //Add attacker to defender's list of units that attacked their base this phase.
-          global $CS_UnitsThatAttackedBase;
-          AppendClassState($defPlayer, $CS_UnitsThatAttackedBase, $ally->UniqueID(), false);
-        }
-      } else
-        $attackValue = ($baseAttackSet != -1 ? $baseAttackSet : AttackValue($cardID));
-      $combatChainState[$CCS_LinkBaseAttack] = BaseAttackModifiers($attackValue);
-      $combatChainState[$CCS_AttackUniqueID] = $uniqueID;
-      $openedChain = true;
-      if ($definedCardType == "AA" || $definedCardType == "W") {
-        $char = &GetPlayerCharacter($currentPlayer);
-        $char[1] = 1;
-      }
-      if (!$chainClosed) {
-        IncrementClassState($currentPlayer, $CS_NumAttacks);
-        //increment Trait attacks
-        if (TraitContains($cardID, "Mandalorian", $currentPlayer, $index))
-          IncrementClassState($currentPlayer, $CS_NumMandalorianAttacks);
-        if (TraitContains($cardID, "Separatist", $currentPlayer, $index))
-          AppendClassState($currentPlayer, $CS_SeparatistUnitsThatAttacked, $ally->UniqueID(), false);
-        if(TraitContains($cardID, "Fighter", $currentPlayer, $index))
-          IncrementClassState($currentPlayer, $CS_NumFighterAttacks);
-        if(TraitContains($cardID, "Vehicle", $currentPlayer, $index) && !IsToken($cardID))
-          IncrementClassState($currentPlayer, $CS_NumNonTokenVehicleAttacks);
-        //end increment Trait attacks
-        ArsenalAttackAbilities();
-        OnAttackEffects($cardID);
-      }
-      if (!$chainClosed || $definedCardType == "AA") {
-        //AuraAttackAbilities($cardID);//FAB
-        if ($from == "PLAY" && IsAlly($cardID)) {
-          AllyAttackAbilities($cardID);
-          SpecificAllyAttackAbilities();
-        }
-      }
-    } else { //On chain, but not index 0
-      if ($definedCardType == "DR")
-        OnDefenseReactionResolveEffects();
+    if($layersHasOnAttack) {
+      $turn[0] = "INSTANT";
+      $params = implode(",", [$uniqueID, $cardID, $from, $resourcesPaid]);
+      AddLayer("TRIGGER", $currentPlayer, "CONTINUECOMBAT", $params);
+      return;
+    } else {
+      ContinueCombat($uniqueID, $cardID, $currentPlayer, $from, $resourcesPaid);
     }
-    SetClassState($currentPlayer, $CS_PlayCCIndex, $index);
   } else if ($from != "PLAY") {
+    $definedCardType = CardType($cardID);
     $cardSubtype = CardSubType($cardID);
     if ($definedCardType != "C" && $definedCardType != "E" && $definedCardType != "W") {
       $goesWhere = GoesWhereAfterResolving($cardID, $from, $currentPlayer, resourcesPaid: $resourcesPaid, additionalCosts: $additionalCosts);
@@ -2411,6 +2367,74 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
   SetClassState($currentPlayer, $CS_PlayIndex, -1);
   SetClassState($currentPlayer, $CS_CharacterIndex, -1);
   ProcessDecisionQueue();
+}
+
+function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
+  global $combatChainState, $defPlayer, $SET_PassDRStep;
+  global $CCS_LinkBaseAttack, $CCS_AttackUniqueID, $CCS_AttackPlayedFrom, $CCS_WeaponIndex;
+  global $CS_PlayIndex, $CS_PlayCCIndex, $CS_NumAttacks, $CS_NumMandalorianAttacks, $CS_SeparatistUnitsThatAttacked, $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks;
+
+  $upgrades = "-";
+  $definedCardType = CardType($cardID);
+    if($uniqueID != "-1") {
+      $ally = new Ally($uniqueID);
+      $upgrades = implode(",", $ally->GetUpgrades(withMetadata:true));
+    }
+    $index = AddCombatChain($cardID, $player, $from, $resourcesPaid, $upgrades);
+    if ($index == 0) {
+      ChangeSetting($defPlayer, $SET_PassDRStep, 0);
+      $combatChainState[$CCS_AttackPlayedFrom] = $from;
+      if ($definedCardType != "AA")
+        $combatChainState[$CCS_WeaponIndex] = GetClassState($player, $CS_PlayIndex);
+      $chainClosed = ProcessAttackTarget();
+      $baseAttackSet = CurrentEffectBaseAttackSet($cardID);
+      if ($baseAttackSet != -1)
+        $attackValue = $baseAttackSet;
+      else if (IsAllyAttacking()) {
+        $ally = new Ally("MYALLY-" . GetClassState($player, $CS_PlayIndex), $player);
+        $attackValue = $ally->CurrentPower();
+        $ally->IncrementTimesAttacked();
+        if (GetAttackTarget() == "THEIRCHAR-0") {
+          //Add attacker to defender's list of units that attacked their base this phase.
+          global $CS_UnitsThatAttackedBase;
+          AppendClassState($defPlayer, $CS_UnitsThatAttackedBase, $ally->UniqueID(), false);
+        }
+      } else
+        $attackValue = ($baseAttackSet != -1 ? $baseAttackSet : AttackValue($cardID));
+      $combatChainState[$CCS_LinkBaseAttack] = BaseAttackModifiers($attackValue);
+      $combatChainState[$CCS_AttackUniqueID] = $uniqueID;
+      $openedChain = true;
+      if ($definedCardType == "AA" || $definedCardType == "W") {
+        $char = &GetPlayerCharacter($player);
+        $char[1] = 1;
+      }
+      if (!$chainClosed) {
+        IncrementClassState($player, $CS_NumAttacks);
+        //increment Trait attacks
+        if (TraitContains($cardID, "Mandalorian", $player, $index))
+          IncrementClassState($player, $CS_NumMandalorianAttacks);
+        if (TraitContains($cardID, "Separatist", $player, $index))
+          AppendClassState($player, $CS_SeparatistUnitsThatAttacked, $ally->UniqueID(), false);
+        if(TraitContains($cardID, "Fighter", $player, $index))
+          IncrementClassState($player, $CS_NumFighterAttacks);
+        if(TraitContains($cardID, "Vehicle", $player, $index) && !IsToken($cardID))
+          IncrementClassState($player, $CS_NumNonTokenVehicleAttacks);
+        //end increment Trait attacks
+        ArsenalAttackAbilities();
+        OnAttackEffects($cardID);
+      }
+      if (!$chainClosed || $definedCardType == "AA") {
+        //AuraAttackAbilities($cardID);//FAB
+        if ($from == "PLAY" && IsAlly($cardID)) {
+          AllyAttackAbilities($cardID);
+          //LayerAttackersOnAttackAbilities();
+        }
+      }
+    } else { //On chain, but not index 0
+      if ($definedCardType == "DR")
+        OnDefenseReactionResolveEffects();
+    }
+    SetClassState($player, $CS_PlayCCIndex, $index);
 }
 
 function CurrentTurnEffectsPlayingUnit($player) {

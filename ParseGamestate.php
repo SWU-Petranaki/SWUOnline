@@ -152,7 +152,7 @@ function ParseGamestate($useRedis = false)
     $chainLink = GetStringArray($gamestateContent[57+$i]);
     $chainLinks[] = $chainLink;
   }
-  $chainLinkSummary = GetStringArray($gamestateContent[57+$numChainLinks]);
+    $chainLinkSummary = GetStringArray($gamestateContent[57+$numChainLinks]);
   $p1Key = trim($gamestateContent[58+$numChainLinks]);
   $p2Key = trim($gamestateContent[59+$numChainLinks]);
   $permanentUniqueIDCounter = trim($gamestateContent[60+$numChainLinks]);

@@ -298,7 +298,7 @@ function PrependLayer($cardID, $player, $parameter, $target = "-", $additionalCo
 
 function IsAbilityLayer($cardID)
 {
-  return $cardID == "TRIGGER" || $cardID == "PLAYABILITY" || $cardID == "PLAYCARDABILITY" || $cardID == "ATTACKABILITY" || $cardID == "ACTIVATEDABILITY" || $cardID == "WHENPLAYCARDABILITY";
+  return $cardID == "TRIGGER" || $cardID == "PLAYABILITY" || $cardID == "PLAYCARDABILITY" || $cardID == "ONATTACKABILITY" || $cardID == "ATTACKABILITY" || $cardID == "ACTIVATEDABILITY" || $cardID == "WHENPLAYCARDABILITY";
 }
 
 function AddLayer($cardID, $player, $parameter, $target = "-", $additionalCosts = "-", $uniqueID = "-", $append = false)
@@ -415,6 +415,13 @@ function ShouldHoldPriorityNow($player)
   if($player != $currentPlayer) return false;
   if(count($layers) == LayerPieces()) return false;
   return $dqState[8] > 0;
+}
+
+function LayersIsOnlyOneOnAttackAndCombat($player)
+{
+  global $layers;
+  return count($layers) == 2*LayerPieces() && $layers[0] == "TRIGGER" && $layers[LayerPieces()] == "TRIGGER"
+    && $layers[2] == "ONATTACKABILITY" && $layers[LayerPieces() + 2] == "CONTINUECOMBAT";
 }
 
 function SkipHoldingPriorityNow($player)
@@ -673,6 +680,14 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
   $EffectContext = $parameter;
 
   switch ($parameter) {
+    case "CONTINUECOMBAT":
+      $params = explode(",", $target);
+      $uniqueID = $params[0];
+      $cardID = $params[1];
+      $from = $params[2];
+      $resourcesPaid = $params[3];
+      ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid);
+      break;
     case "AMBUSH":
       $ally = new Ally($uniqueID);
       if (SearchCount(GetTargetsForAttack($ally, false)) > 0 && $ally->Exists() && $ally->Controller() == $player) {
@@ -702,6 +717,10 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       } else {
         CharacterPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardID, $playedFrom, $playedUniqueID);
       }
+      break;
+    case "ONATTACKABILITY":
+      $otherPlayer = $player == 1 ? 2 : 1;
+      SpecificAllyAttackAbilities($player, $otherPlayer, $target, $additionalCosts);
       break;
     case "AFTERDESTROYTHEIRSABILITY":
       $data=explode(",",$target);

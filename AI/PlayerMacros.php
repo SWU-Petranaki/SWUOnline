@@ -22,6 +22,12 @@ function ProcessMacros()
       else if($turn[0] == "CHOOSEARCANE" && $turn[2] == "0") { $somethingChanged = true; ContinueDecisionQueue("0"); }
       else if($turn[0] == "CHOOSEARSENAL" && $turn[2] == "0") { $somethingChanged = true; ContinueDecisionQueue($turn[2]); }
       else if((count($decisionQueue) == 0 || $decisionQueue[0] == "INSTANT") && count($layers) > 0 && $layers[count($layers)-LayerPieces()] == "ENDSTEP" && count($layers) < (LayerPieces() * 3)) { $somethingChanged = true; PassInput(true); }
+      else if(count($decisionQueue) == 0
+        && $turn[0] == "INSTANT"
+        && LayersIsOnlyOneOnAttackAndCombat($currentPlayer))
+      {
+        //TODO: see where this condition should go to auto-pass
+      }
       else if($turn[0] == "INSTANT" || ($turn[0] == "M" && ($actionPoints == 0 || $currentPlayer != $mainPlayer)))
       {
         if(HoldPrioritySetting($currentPlayer) == 0 && !HasPlayableCard($currentPlayer, $turn[0]))
@@ -50,7 +56,7 @@ function ProcessMacros()
         $counterLimit = $parsedParams["counterLimit"];
         $allies = $parsedParams["allies"];
         $characters = $parsedParams["characters"];
-        
+
         if (count($allies) == 1) {
           $ally = new Ally($allies[0]);
           $ally->SetCounters($counterLimit);
@@ -60,7 +66,7 @@ function ProcessMacros()
         } else {
           PassInput(true);
           return;
-        }        
+        }
 
         $somethingChanged = true;
         ProcessInput($turn[1], 38, "-", "", 0, []);
