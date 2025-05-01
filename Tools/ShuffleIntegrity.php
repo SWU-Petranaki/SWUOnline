@@ -94,7 +94,7 @@ $useruid = $_SESSION["useruid"];
             var cardDiv = document.createElement("span");
             var numCards = document.getElementById("numCards").value;
             var width = Math.min(Math.max(120 - ((numCards - 6) * 3), 64), 128);
-            cardDiv.innerHTML = `<img src="concat/${card}.webp" width=${width}/>`
+            cardDiv.innerHTML = `<img src="/Arena/concat/${card}.webp" width=${width}/>`
             handDiv.appendChild(cardDiv);
           }
           firstHandsDiv.appendChild(handDiv);
