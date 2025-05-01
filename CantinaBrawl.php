@@ -78,7 +78,7 @@ include_once 'Header.php';
     Show your friends that you don't need a massive wallet to have fun in SWU! Construct a deck using only Common cards!
   </p>
   <p class="ref-page-brawl-rule-detail">
-    (Rare Leaders are allowed, no Special rarity cards unless they have a Common variant)
+    (Any Leader allowed, No Rare bases, no Special rarity cards unless they are a Leader or have a Common variant)
   </p>
   <br/>
   <p>

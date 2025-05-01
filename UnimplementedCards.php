@@ -76,7 +76,7 @@ $cardsList = [];
                 ?>
             </div>
             <div class="cards-list-wrapper" style="text-align: center; padding: 20px 0; margin-top: 40px; max-width: 100%; overflow: hidden;">
-            <h3 style="color: #fff; font-size: 24px;">Here are a list of unimplemented cards we don't have images from the <a href="https://starwarsunlimited.com/cards" style="color: #007bff; text-decoration: underline;" target="_blank">SWU website</a>.</h3>
+            <h3 style="color: #fff; font-size: 24px;">Here are a list of unimplemented cards we don't have images from the <a href="https://starwarsunlimited.com/cards?expansion=53" style="color: #007bff; text-decoration: underline;" target="_blank">SWU website</a>.</h3>
                 <ul style="list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; max-width: 100%; margin: 0 auto;">
                     <?php
                     foreach ($cardsList as $card) {

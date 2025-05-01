@@ -84,7 +84,7 @@ class DeckValidation {
 
   public function RejectionDetail($format) {
     return match($format) {
-      Formats::$PadawanFormat => "Only Common cards are allowed, with the exception of Rare Leaders. No Rare Bases are allowed, and no Special rarity cards unless they have a Common variant.",
+      Formats::$PadawanFormat => "Only Common cards are allowed, with the exception of Leaders. No Rare Bases are allowed, and no Special rarity cards unless they are a Leader or have a Common variant.",
       Formats::$SandcrawlerFormat => "Only Uncommon and Common cards are allowed, with the exception of Leaders. No Rare Bases are allowed, and any Special rarity cards that don't have a Rare or Legendary variant are allowed.",
       Formats::$GalacticCivilWar => "Only units with Rebel or Imperial traits are allowed.",
       Formats::$CloneWars => "Only units with Republic or Separatist traits are allowed.",
@@ -185,7 +185,7 @@ function IsAllowed($cardID, $format): bool {
       ,
     //Only Commons, any unbanned leader, no Rare bases, no Special cards unless they have a Common variant
     Formats::$PadawanFormat => (CardRarity($cardID) == "Common"
-        || CardIDIsLeader($cardID) && CardRarity($cardID) == "Rare"
+        || CardIDIsLeader($cardID)
         || IsWeeklyPlayCommon($cardID))
       && !in_array($cardID, $banned)
       && !IsRareBase($cardID)
