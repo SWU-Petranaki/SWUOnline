@@ -258,11 +258,11 @@ function LoadFavoriteDecks($userID)
 }
 
 function sortFavorites($array) {
-	$chunks = array_chunk($array, 4);
-	usort($chunks, function($a, $b) {
-		return strcmp($a[1], $b[1]);
-	});
-	return array_merge(...$chunks);
+    $chunks = array_chunk($array, 4);
+    usort($chunks, function($a, $b) {
+        return strcasecmp($a[1], $b[1]);
+    });
+    return array_merge(...$chunks);
 }
 
 //FAB stats
