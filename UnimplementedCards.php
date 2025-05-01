@@ -24,10 +24,11 @@ $cardsList = [];
         <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px;">
             <div style="text-align: center; margin-top: 4px;">
                 <h2>Unimplemented Cards</h2>
-                <!-- <p style="margin-bottom: 20px;">The cards we have images for, but are not implemented are below</p> -->
-                <p style="margin-bottom: 20px;">All  Set 1-4 cards are now implemeneted.</p>
+                <h4>Last Updated: 2025-04-30</h4>
+                <p style="margin-bottom: 20px;">The cards we have images for, but are not implemented are below</p>
+                <!-- <p style="margin-bottom: 20px;">All  Set 1-5 cards are now implemeneted.</p> -->
             </div>
-            <!-- <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;"> -->
+            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
                 <?php
                 $files = glob('./UnimplementedCards/*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE);
                 $cardList = [];
@@ -74,7 +75,7 @@ $cardsList = [];
                 }
                 ?>
             </div>
-            <!-- <div class="cards-list-wrapper" style="text-align: center; padding: 20px 0; margin-top: 40px; max-width: 100%; overflow: hidden;">
+            <div class="cards-list-wrapper" style="text-align: center; padding: 20px 0; margin-top: 40px; max-width: 100%; overflow: hidden;">
             <h3 style="color: #fff; font-size: 24px;">Here are a list of unimplemented cards we don't have images from the <a href="https://starwarsunlimited.com/cards" style="color: #007bff; text-decoration: underline;" target="_blank">SWU website</a>.</h3>
                 <ul style="list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; max-width: 100%; margin: 0 auto;">
                     <?php
@@ -83,7 +84,7 @@ $cardsList = [];
                     }
                     ?>
                  </ul>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>
