@@ -10,13 +10,6 @@ if (!isset($_SESSION['userid'])) {
   exit;
 }
 
-$contributors = ["OotTheMonk", "love", "ninin", "Brubraz", "Mobyus1"];
-$useruid = $_SESSION["useruid"];
-if (!in_array($useruid, $contributors)) {
-  echo json_encode(["error" => "Unauthorized"]);
-  exit;
-}
-
 $deck = $_POST["deck"] ?? '';
 $numCards = $_POST["numCards"] ?? 0;
 $iterations = $_POST["iterations"] ?? 1000;

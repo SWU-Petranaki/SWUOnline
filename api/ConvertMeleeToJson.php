@@ -12,13 +12,6 @@ if (!isset($_SESSION['userid'])) {
   exit;
 }
 
-$contributors = ["OotTheMonk", "love", "ninin", "Brubraz", "Mobyus1"];
-$useruid = $_SESSION["useruid"];
-if (!in_array($useruid, $contributors)) {
-  echo json_encode(["error" => "Unauthorized"]);
-  exit;
-}
-
 $deck = $_POST["input"] ?? '';
 if ($deck == '') {
   echo json_encode(["error" => "Missing input parameter"]);
