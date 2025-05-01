@@ -177,6 +177,7 @@
     GenerateFunction($cardRarityArray, $handler, "CardRarity", true, $DEFAULT_CARD_RARITY);
     GenerateCardTitles($titleArray, $handler);
     GenerateUnimplementedCards($handler);
+    GenerateReverseLookup($titleArray, $subtitleArray, $handler);
     fwrite($handler, "?>");
 
     fclose($handler);
@@ -227,6 +228,36 @@
       fwrite($handler, "function " . $functionName . "(cardID) {\r\n");
       fwrite($handler, "  const data = " . json_encode($cardArray) . ";\r\n");
       fwrite($handler, "  return data[cardID] !== undefined ? data[cardID] : " . ($isString ? "\"" . $defaultValue . "\"" : var_export($defaultValue, true)) . ";\r\n");
+      fwrite($handler, "}\r\n\r\n");
+    }
+  }
+
+  function GenerateReverseLookup($titleArray, $subtitleArray, $handler, $language = "PHP")
+  {
+    echo "Generating LookupCardIDFromTitles (" . $language . ")<br>";
+
+    fwrite($handler, "function LookupCardIDFromTitles(\$title, \$subtitle) {\r\n");
+    fwrite($handler, "  \$lookupTable = [];\r\n");
+
+    // Build lookup table
+    foreach($titleArray as $uuid => $title) {
+      if(isset($subtitleArray[$uuid])) {
+        $key = $title . " | " . $subtitleArray[$uuid];
+        $lookupTable[$key] = $uuid;
+      } else {
+        $lookupTable[$title] = $uuid;
+      }
+    }
+
+    if($language == "PHP") {
+      fwrite($handler, "  \$data = " . var_export($lookupTable, true) . ";\r\n");
+      fwrite($handler, "  \$key = \$subtitle ? \$title . ' | ' . \$subtitle : \$title;\r\n");
+      fwrite($handler, "  return isset(\$data[\$key]) ? \$data[\$key] : '';\r\n");
+      fwrite($handler, "}\r\n\r\n");
+    } else if($language == "js") {
+      fwrite($handler, "  const data = " . json_encode($lookupTable) . ";\r\n");
+      fwrite($handler, "  const key = subtitle ? title + ' | ' + subtitle : title;\r\n");
+      fwrite($handler, "  return data[key] !== undefined ? data[key] : '';\r\n");
       fwrite($handler, "}\r\n\r\n");
     }
   }
