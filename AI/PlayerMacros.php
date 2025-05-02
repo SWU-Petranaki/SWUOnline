@@ -36,7 +36,7 @@ function ProcessMacros()
           else if($layers[5] != "-")//Means there is a unique ID
           {
             $subtype = CardSubType($layers[2]);
-            //FAB//if(DelimStringContains($subtype, "Aura") && GetAuraGemState($layers[1], $layers[2]) == 0) { $somethingChanged = true; PassInput(true); }
+            if(DelimStringContains($subtype, "Aura") && GetAuraGemState($layers[1], $layers[2]) == 0) { $somethingChanged = true; PassInput(true); }
             if(DelimStringContains($subtype, "Item") && GetItemGemState($layers[1], $layers[2]) == 0) { $somethingChanged = true; PassInput(true); }
           }
         }
@@ -50,7 +50,7 @@ function ProcessMacros()
         $counterLimit = $parsedParams["counterLimit"];
         $allies = $parsedParams["allies"];
         $characters = $parsedParams["characters"];
-
+        
         if (count($allies) == 1) {
           $ally = new Ally($allies[0]);
           $ally->SetCounters($counterLimit);
@@ -60,7 +60,7 @@ function ProcessMacros()
         } else {
           PassInput(true);
           return;
-        }
+        }        
 
         $somethingChanged = true;
         ProcessInput($turn[1], 38, "-", "", 0, []);

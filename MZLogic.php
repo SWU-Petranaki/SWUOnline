@@ -25,8 +25,8 @@ function MZDestroy($player, $lastResult)
     switch ($mzIndex[0]) {
       case "MYHAND": $lastResult = DiscardCard($player, $mzIndex[1]); break;
       case "THEIRHAND": $lastResult = DiscardCard($otherPlayer, $mzIndex[1]); break;
-      // case "MYCHAR": $lastResult = DestroyCharacter($player, $mzIndex[1]); break;
-      // case "THEIRCHAR": $lastResult = DestroyCharacter($otherPlayer, $mzIndex[1]); break;
+      case "MYCHAR": $lastResult = DestroyCharacter($player, $mzIndex[1]); break;
+      case "THEIRCHAR": $lastResult = DestroyCharacter($otherPlayer, $mzIndex[1]); break;
       case "MYALLY":
         $ally = new Ally("MYALLY-" . $mzIndex[1], $player);
         $lastResult = $ally->Destroy();
@@ -190,23 +190,22 @@ function MZAttack($player, $mzIndexOrUniqueID)
   PlayCard($ally->CardID(), "PLAY", -1, $ally->Index(), $ally->UniqueID(), skipAbilityType:true);
 }
 
-//FAB
-// function MZUndestroy($player, $parameter, $lastResult)
-// {
-//   $lastResultArr = explode(",", $lastResult);
-//   $params = explode(",", $parameter);
-//   $otherPlayer = ($player == 1 ? 2 : 1);
-//   for($i = 0; $i < count($lastResultArr); ++$i) {
-//     $mzIndex = explode("-", $lastResultArr[$i]);
-//     switch ($mzIndex[0]) {
-//       case "MYCHAR":
-//         UndestroyCharacter($player, $mzIndex[1]);
-//         break;
-//       default: break;
-//     }
-//   }
-//   return $lastResult;
-// }
+function MZUndestroy($player, $parameter, $lastResult)
+{
+  $lastResultArr = explode(",", $lastResult);
+  $params = explode(",", $parameter);
+  $otherPlayer = ($player == 1 ? 2 : 1);
+  for($i = 0; $i < count($lastResultArr); ++$i) {
+    $mzIndex = explode("-", $lastResultArr[$i]);
+    switch ($mzIndex[0]) {
+      case "MYCHAR":
+        UndestroyCharacter($player, $mzIndex[1]);
+        break;
+      default: break;
+    }
+  }
+  return $lastResult;
+}
 
 // function MZBanish($player, $parameter, $lastResult)//FAB
 // {
