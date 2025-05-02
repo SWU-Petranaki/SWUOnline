@@ -43,23 +43,24 @@ $response->roguelikeGameID = $roguelikeGameID;
 $response->altArts = [];
 
 //Get Alt arts
-if(!AltArtsDisabled($playerID))
-{
-  foreach(PatreonCampaign::cases() as $campaign) {
-    if(isset($_SESSION[$campaign->SessionID()]) || (IsUserLoggedIn() && $campaign->IsTeamMember(LoggedInUserName()))) {
-      $altArts = $campaign->AltArts();
-      $altArts = explode(",", $altArts);
-      for($i = 0; $i < count($altArts); ++$i) {
-        $arr = explode("=", $altArts[$i]);
-        $altArt = new stdClass();
-        $altArt->name = $campaign->CampaignName() . (count($cardBacks) > 1 ? " " . $i + 1 : "");
-        $altArt->cardId = $arr[0];
-        $altArt->altPath = $arr[1];
-        $response->altArts[] = $altArt;
-      }
-    }
-  }
-}
+//FAB
+// if(!AltArtsDisabled($playerID))
+// {
+//   foreach(PatreonCampaign::cases() as $campaign) {
+//     if(isset($_SESSION[$campaign->SessionID()]) || (IsUserLoggedIn() && $campaign->IsTeamMember(LoggedInUserName()))) {
+//       $altArts = $campaign->AltArts();
+//       $altArts = explode(",", $altArts);
+//       for($i = 0; $i < count($altArts); ++$i) {
+//         $arr = explode("=", $altArts[$i]);
+//         $altArt = new stdClass();
+//         $altArt->name = $campaign->CampaignName() . (count($cardBacks) > 1 ? " " . $i + 1 : "");
+//         $altArt->cardId = $arr[0];
+//         $altArt->altPath = $arr[1];
+//         $response->altArts[] = $altArt;
+//       }
+//     }
+//   }
+// }
 
 echo json_encode($response);
 

@@ -208,12 +208,13 @@ function CharacterDestroyEffect($cardID, $player)
 function ResetCharacter($player) {
   $char = &GetPlayerCharacter($player);
   for ($i = 0; $i < count($char); $i += CharacterPieces()) {
-    if ($char[$i+7] == 1) $char[$i+1] = 0; //Destroy if it was flagged for destruction
+    //if ($char[$i+7] == 1) $char[$i+1] = 0; //Destroy if it was flagged for destruction//FAB
     if ($char[$i+1] != 0) {
       $char[$i+1] = 2;
     }
+
     $char[$i+5] = CharacterNumUsesPerTurn($char[$i]);
-    $char[$i+10] = 0;
+    //$char[$i+10] = 0;//FAB
   }
 }
 
@@ -374,7 +375,7 @@ function CharacterHasWhenPlayCardAbility($player, $characterIndex, $playedCardID
       case "9005139831"://The Mandalorian Leader
         return $character->IsReady() && (DefinedTypesContains($playedCardID, "Upgrade", $player) || PilotWasPlayed($player, $playedCardID));
       case "9334480612"://Boba Fett (Daimyo)
-        return $character->IsReady() 
+        return $character->IsReady()
           && DefinedTypesContains($playedCardID, "Unit", $player)
           && !PilotWasPlayed($player, $playedCardID)
           && HasKeyword($playedCardID, "Any", $player);

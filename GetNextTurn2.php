@@ -505,7 +505,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     }
 
     // Check if the first layer is an attack or weapon, and if so, get and display the attack target
-    if (CardType($layers[0]) == "AA" || IsWeapon($layers[0])) {
+    if (CardType($layers[0]) == "AA"/* || IsWeapon($layers[0])//FAB*/) {
       $attackTarget = GetAttackTarget();
       if ($attackTarget != "NA") {
         $content .= "&nbsp;Attack Target: " . GetMZCardLink($defPlayer, $attackTarget);
