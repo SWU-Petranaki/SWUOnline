@@ -1274,7 +1274,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   echo ($banishUI);
   echo ("</div>");
   echo ("</div>");
-
   //Show deck, discard, pitch, banish
   //Display Their Discard
   if (count($theirDiscard) > 0) {
@@ -1286,7 +1285,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     echo ("<div class= 'their-discard-empty' style='color: " . $bordelessFontColor . ";'>Discard</div>");
   }
   echo ("</div>");
-
   //Display Their Deck
   if (count($theirDeck) > 0) {
     echo ("<div class= 'their-deck'>");
@@ -1655,7 +1653,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   echo ("<div class='resources' title='Click to see your resources.' onclick='TogglePopup(\"myResourcePopup\");'><img src='./Images/Resource.png' /><span>" . $numReady . "/" . $total . "</span></div>");
   echo ("</div>");
   echo ("</div>"); //End resource div
-
   //Show deck, discard
   //Display My Discard
   if (count($myDiscard) > 0) {
@@ -1667,7 +1664,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     echo ("<div class='my-discard-empty-label' style='color: " . $bordelessFontColor . ";'>Discard</div>");
   }
   echo ("</div>");
-
   //Display My Deck
   if (count($myDeck) > 0) {
     $playerDeck = new Deck($playerID);
