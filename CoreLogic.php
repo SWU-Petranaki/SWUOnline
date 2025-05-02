@@ -5730,7 +5730,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $allies = &GetAllies($currentPlayer);
       if(count($allies) == AllyPieces()) {
         $ally = new Ally("MYALLY-0");
-        $traits = CardTraits($ally->CardID());
+        $traits = array_map('trim', explode(',', CardTraits($ally->CardID())));
+        if ($ally->HasUpgrade("7687006104") && !in_array("Mandalorian", $traits)) $traits[] = "Mandalorian";
+        $traits = implode(',', $traits);
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to put into play");
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
         AddDecisionQueue("MZFILTER", $currentPlayer, "trait=Vehicle");
@@ -6503,7 +6505,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") CreateTieFighter($currentPlayer);
       break;
     case "9810057689"://No Glory, Only Results
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY&MYALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to take control of");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
