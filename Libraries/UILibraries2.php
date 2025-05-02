@@ -48,7 +48,7 @@ function TextCounterColor($darkMode)
 //14 onChain = 1 if card is on combat chain (mostly for equipment)
 //15 isFrozen = 1 if frozen
 //16 shows gem = (0, 1, 2) (0 off, 1 active, 2 inactive)
-function ClientRenderedCard($cardNumber, $action = 0, $overlay = 0, $borderColor = 0, $counters = 0, $actionDataOverride = "-", $lifeCounters = 0, $defCounters = 0, $atkCounters = 0, $controller = 0, $type = "", $sType = "", $restriction = "", $isBroken = 0, $onChain = 0, $isFrozen = 0, $gem = 0, $rotate = 0, $landscape = 0, $epicActionUsed = 0, $showCounterControls = 0, $counterType = 0, $counterLimitReached = 0)
+function ClientRenderedCard($cardNumber, $action = 0, $overlay = 0, $borderColor = 0, $counters = 0, $actionDataOverride = "-", $lifeCounters = 0, $forceTokens = 0, $atkCounters = 0, $controller = 0, $type = "", $sType = "", $restriction = "", $isBroken = 0, $onChain = 0, $isFrozen = 0, $gem = 0, $rotate = 0, $landscape = 0, $epicActionUsed = 0, $showCounterControls = 0, $counterType = 0, $counterLimitReached = 0)
 {
   $rvArr = [];
   $rvArr[0] = $cardNumber;
@@ -58,7 +58,7 @@ function ClientRenderedCard($cardNumber, $action = 0, $overlay = 0, $borderColor
   $rvArr[4] = $counters;
   $rvArr[5] = $actionDataOverride;
   $rvArr[6] = $lifeCounters;
-  $rvArr[7] = $defCounters;
+  $rvArr[7] = $forceTokens;
   $rvArr[8] = $atkCounters;
   $rvArr[9] = $controller;
   $rvArr[10] = $type;

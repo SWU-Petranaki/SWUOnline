@@ -92,8 +92,11 @@
     else $backgroundColor = "rgba(255,255,255,0.70)";
 
     $borderColor = ($darkMode ? "#DDD" : "#1a1a1a");
+    $myChar = &GetPlayerCharacter($playerID);
+    $myBase = $myChar[0];
+    $theirChar = &GetPlayerCharacter($otherPlayerID);
+    $theirBase = $theirChar[0];
     ?>
-
 
     <head>
       <meta charset="utf-8">
@@ -126,7 +129,7 @@
         return " " + event + "='SubmitInput(\"" + mode + "\", \"&buttonInput=" + input + "\", " + fullRefresh + ");'";
       }
       //Rotate is deprecated
-      function Card(cardNumber, folder, maxHeight, action = 0, showHover = 0, overlay = 0, borderColor = 0, counters = 0, actionDataOverride = "", id = "", rotate = 0, lifeCounters = 0, forceToken = 0, atkCounters = 0, controller = 0, restriction = "", isBroken = 0, onChain = 0, isFrozen = 0, gem = 0, landscape = 0, epicActionUsed = 0, isUnimplemented = 0, showCounterControls = 0, counterType = 0, counterLimitReached = 0) {
+      function Card(cardNumber, folder, maxHeight, action = 0, showHover = 0, overlay = 0, borderColor = 0, counters = 0, actionDataOverride = "", id = "", rotate = 0, lifeCounters = 0, forceTokens = "-", atkCounters = 0, controller = 0, restriction = "", isBroken = 0, onChain = 0, isFrozen = 0, gem = 0, landscape = 0, epicActionUsed = 0, isUnimplemented = 0, showCounterControls = 0, counterType = 0, counterLimitReached = 0) {
         if (folder == "crops") {
           cardNumber += "_cropped";
         }
@@ -250,12 +253,18 @@
           rv += "<img title='Restricted by: " + restriction + "' style='position:absolute; z-index:100; top:26px; left:26px;' src='./Images/restricted.png' />";
         }
         if (epicActionUsed == 1) rv += "<img title='Epic Action Used' style='position:absolute; z-index:100; border-radius:5px; top: -3px; right: -2px; height:26px; width:26px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src='./Images/ExhaustToken.png' />";
-        var isMysBase = cardNumber == <?php echo GetPlayerCharacter($playerID)[0] ?>;
-        var isTheirBase = cardNumber == <?php echo GetPlayerCharacter($otherPlayerID)[0] ?>;
-        var isDev = <?php echo (getenv("STAGE") === "dev" ? "true" : "false") ?>;
-        if(isDev && (isMysBase || isTheirBase)) {
-          if (forceToken == 0) rv += "<img title='Force Token' style='position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src='./Images/fuse.png' />";
-          else rv += "<img title='Force Token' style='position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src='./Images/fuse2.png' />";
+        var isMyBase = cardNumber == <?php echo $myBase ?> && controller == <?php echo $playerID ?>;
+        var isTheirBase = cardNumber == <?php echo $theirBase ?> && controller == <?php echo $otherPlayerID ?>;
+        var forceTokensArr = forceTokens.split(",");
+        var myForceToken = forceTokensArr[0];
+        var theirForceToken = forceTokensArr[1];
+        if(isMyBase) {
+          var imgSrc = (myForceToken == "1") ? "'./Images/ForceToken.png'" : "'./Images/ForceToken-dim.png'";
+          rv += `<img id='P<?=$playerID?>FORCETOKEN' title='Force Token' style='position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src=${imgSrc} />`;
+        }
+        if(isTheirBase) {
+          var imgSrc = (theirForceToken == "1") ? "'./Images/ForceToken.png'" : "'./Images/ForceToken-dim.png'";
+          rv += `<img id='P<?=$otherPlayerID?>FORCETOKEN' title='Force Token' style='position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src=${imgSrc} />`;
         }
         rv += "</a>";
 
@@ -674,6 +683,26 @@
                         element.animate(exhaustAnimation,timing);
                         element.innerHTML += "<div style='position:absolute; text-align:center; font-size:36px; top: 0px; left:-2px; width:100%; height: calc(100% - 16px); padding: 0 2px; border-radius:12px; background-color:rgba(0,0,0,0.5);'><div style='width:100%; height:100%:'></div></div>";
                         element.className += "exhausted";
+                      }
+                    } else if(eventType == "FORCETOKEN") {
+                      var eventArr = eventsArr[i+1].split("!");
+                      var id = "P" + eventArr[0] + "FORCETOKEN";
+                      var element = document.getElementById(id);
+                      if(!!element) {
+                        if(timeoutAmount < 500) timeoutAmount = 500;
+                        var imgSrc;
+                        if(eventArr[1] == "1") {
+                          imgSrc = "./Images/ForceToken.png";
+                        } else {
+                          imgSrc = "./Images/ForceToken-dim.png";
+                        }  element.animate([
+                          { opacity: 0 },
+                          { opacity: 1 }
+                        ], {
+                          duration: 300,
+                          fill: "forwards"
+                        });
+                        element.src = imgSrc;
                       }
                     }
                   }
