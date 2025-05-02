@@ -24,15 +24,15 @@ function DiscardPieces()
 
 //0 - Card ID
 //1 - Status (2=ready, 1=unavailable, 0=destroyed)
-//2 - Num counters
+//2 - Epic Action Used?
 //3 - Unique ID
-//4 - Num defense counters
-//5 - Num uses
-//6 - On chain (1 = yes, 0 = no)
-//7 - Flagged for destruction (1 = yes, 0 = no)
-//8 - Frozen (1 = yes, 0 = no)
-//9 - Is Active (2 = always active, 1 = yes, 0 = no)
-//10 - Counters (damage/healing counters)
+//4 - The Force is With You (1 = yes, 0 = no)
+//5 - Num Uses
+//6 - (free)
+//7 - (free)
+//8 - (free)
+//9 - (free)
+//10 - (free)
 function CharacterPieces()
 {
   return 11;
@@ -397,10 +397,10 @@ function ResetCombatChainState()
   $combatChainState[$CCS_CantAttackBase] = 0;               //35
   $combatChainState[$CCS_CachedLastDestroyed] = "NA";       //36
   $combatChainState[$CCS_MultiAttackTargets] = "-";         //37
-  $defCharacter = &GetPlayerCharacter($defPlayer);
-  for ($i = 0; $i < count($defCharacter); $i += CharacterPieces()) {
-    $defCharacter[$i + 6] = 0;
-  }
+  // $defCharacter = &GetPlayerCharacter($defPlayer);//FAB
+  // for ($i = 0; $i < count($defCharacter); $i += CharacterPieces()) {
+  //   $defCharacter[$i + 6] = 0;
+  // }
   for ($i = 0; $i < count($chainLinks); ++$i) {
     for ($j = 0; $j < count($chainLinks[$i]); $j += ChainLinksPieces()) {
       if ($chainLinks[$i][$j + 2] != "1") continue;

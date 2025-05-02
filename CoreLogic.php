@@ -30,7 +30,7 @@ function EvaluateCombatChain(&$totalAttack, &$totalDefense, &$attackModifiers=[]
       }
       else
       {
-        $totalDefense += BlockingCardDefense($i-1, $combatChain[$i+1], $combatChain[$i+2]);
+        //$totalDefense += BlockingCardDefense($i-1, $combatChain[$i+1], $combatChain[$i+2]);
       }
     }
 
@@ -85,28 +85,29 @@ function AddAttack(&$totalAttack, $amount)
   $totalAttack += $amount;
 }
 
-function BlockingCardDefense($index, $from="", $resourcesPaid=-1)
-{
-  global $combatChain, $defPlayer, $mainPlayer, $currentTurnEffects;
-  $from = $combatChain[$index+2];
-  $resourcesPaid = $combatChain[$index+3];
-  $defense = BlockValue($combatChain[$index]) + BlockModifier($combatChain[$index], $from, $resourcesPaid) + $combatChain[$index + 6];
-  if(CardType($combatChain[$index]) == "E")
-  {
-    $defCharacter = &GetPlayerCharacter($defPlayer);
-    $charIndex = FindDefCharacter($combatChain[$index]);
-    $defense += $defCharacter[$charIndex+4];
-  }
-  for ($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
-    if (IsCombatEffectActive($currentTurnEffects[$i]) && !IsCombatEffectLimited($i)) {
-      if ($currentTurnEffects[$i + 1] == $defPlayer) {
-        $defense += EffectBlockModifier($currentTurnEffects[$i], index:$index);
-      }
-    }
-  }
-  if($defense < 0) $defense = 0;
-  return $defense;
-}
+//FAB
+// function BlockingCardDefense($index, $from="", $resourcesPaid=-1)
+// {
+//   global $combatChain, $defPlayer, $mainPlayer, $currentTurnEffects;
+//   $from = $combatChain[$index+2];
+//   $resourcesPaid = $combatChain[$index+3];
+//   $defense = BlockValue($combatChain[$index]) + BlockModifier($combatChain[$index], $from, $resourcesPaid) + $combatChain[$index + 6];
+//   if(CardType($combatChain[$index]) == "E")
+//   {
+//     $defCharacter = &GetPlayerCharacter($defPlayer);
+//     $charIndex = FindDefCharacter($combatChain[$index]);
+//     $defense += $defCharacter[$charIndex+4];
+//   }
+//   for ($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
+//     if (IsCombatEffectActive($currentTurnEffects[$i]) && !IsCombatEffectLimited($i)) {
+//       if ($currentTurnEffects[$i + 1] == $defPlayer) {
+//         $defense += EffectBlockModifier($currentTurnEffects[$i], index:$index);
+//       }
+//     }
+//   }
+//   if($defense < 0) $defense = 0;
+//   return $defense;
+// }
 
 function AddCombatChain($cardID, $player, $from, $resourcesPaid, $upgradesWithMetadata)
 {
@@ -722,11 +723,12 @@ function GetChainLinkCards($playerID="", $cardType="", $exclCardTypes="")
   return $pieces;
 }
 
-function GetTheirEquipmentChoices()
-{
-  global $currentPlayer;
-  return GetEquipmentIndices(($currentPlayer == 1 ? 2 : 1));
-}
+//FAB
+// function GetTheirEquipmentChoices()
+// {
+//   global $currentPlayer;
+//   return GetEquipmentIndices(($currentPlayer == 1 ? 2 : 1));
+// }
 
 function FindMyCharacter($cardID)
 {
@@ -775,9 +777,10 @@ function CombatChainClosedMainCharacterEffects()
       if($charIndex == -1) continue;
       switch($chainLinks[$i][$j])
       {
-        case "CRU051": case "CRU052":
-          if($character[$charIndex+7] == "1") DestroyCharacter($mainPlayer, $charIndex);
-          break;
+        //FAB
+        // case "CRU051": case "CRU052":
+        //   if($character[$charIndex+7] == "1") DestroyCharacter($mainPlayer, $charIndex);
+        //   break;
         default: break;
       }
     }
@@ -790,31 +793,32 @@ function CombatChainClosedCharacterEffects()
   $character = &GetPlayerCharacter($defPlayer);
   for($i=0; $i<count($chainLinks); ++$i)
   {
-    $nervesOfSteelActive = $chainLinkSummary[$i*ChainLinkSummaryPieces()+1] <= 2 && SearchAuras("EVR023", $defPlayer);
+    //$nervesOfSteelActive = $chainLinkSummary[$i*ChainLinkSummaryPieces()+1] <= 2 && SearchAuras("EVR023", $defPlayer);
     for($j=0; $j<count($chainLinks[$i]); $j += ChainLinksPieces())
     {
       if($chainLinks[$i][$j+1] != $defPlayer) continue;
       $charIndex = FindCharacterIndex($defPlayer, $chainLinks[$i][$j]);
       if($charIndex == -1) continue;
-      if(!$nervesOfSteelActive)
-      {
-        if(HasTemper($chainLinks[$i][$j]))
-        {
-          $character[$charIndex+4] -= 1;//Add -1 block counter
-          if((BlockValue($character[$charIndex]) + $character[$charIndex + 4] + BlockModifier($character[$charIndex], "CC", 0) + $chainLinks[$i][$j + 5]) <= 0)
-          {
-            DestroyCharacter($defPlayer, $charIndex);
-          }
-        }
-        if(HasBattleworn($chainLinks[$i][$j]))
-        {
-          $character[$charIndex+4] -= 1;//Add -1 block counter
-        }
-        else if(HasBladeBreak($chainLinks[$i][$j]))
-        {
-          DestroyCharacter($defPlayer, $charIndex);
-        }
-      }
+      //FAB
+      // if(!$nervesOfSteelActive)
+      // {
+      //   if(HasTemper($chainLinks[$i][$j]))
+      //   {
+      //     $character[$charIndex+4] -= 1;//Add -1 block counter
+      //     if((BlockValue($character[$charIndex]) + $character[$charIndex + 4] + BlockModifier($character[$charIndex], "CC", 0) + $chainLinks[$i][$j + 5]) <= 0)
+      //     {
+      //       DestroyCharacter($defPlayer, $charIndex);
+      //     }
+      //   }
+      //   if(HasBattleworn($chainLinks[$i][$j]))
+      //   {
+      //     $character[$charIndex+4] -= 1;//Add -1 block counter
+      //   }
+      //   else if(HasBladeBreak($chainLinks[$i][$j]))
+      //   {
+      //     DestroyCharacter($defPlayer, $charIndex);
+      //   }
+      // }
       switch($chainLinks[$i][$j])
       {
         case "MON089":
@@ -999,12 +1003,13 @@ function AfterDieRoll($player)
 {
   global $CS_DieRoll, $CS_HighestRoll;
   $roll = GetClassState($player, $CS_DieRoll);
-  $skullCrusherIndex = FindCharacterIndex($player, "EVR001");
-  if($skullCrusherIndex > -1 && IsCharacterAbilityActive($player, $skullCrusherIndex))
-  {
-    if($roll == 1) { WriteLog("Skull Crushers was destroyed."); DestroyCharacter($player, $skullCrusherIndex); }
-    if($roll == 5 || $roll == 6) { WriteLog("Skull Crushers gives +1 this turn."); AddCurrentTurnEffect("EVR001", $player); }
-  }
+  //FAB
+  // $skullCrusherIndex = FindCharacterIndex($player, "EVR001");
+  // if($skullCrusherIndex > -1 && IsCharacterAbilityActive($player, $skullCrusherIndex))
+  // {
+  //   if($roll == 1) { WriteLog("Skull Crushers was destroyed."); DestroyCharacter($player, $skullCrusherIndex); }
+  //   if($roll == 5 || $roll == 6) { WriteLog("Skull Crushers gives +1 this turn."); AddCurrentTurnEffect("EVR001", $player); }
+  // }
   if($roll > GetClassState($player, $CS_HighestRoll)) SetClassState($player, $CS_HighestRoll, $roll);
 }
 
@@ -1425,25 +1430,27 @@ function CloseCombatChain($chainClosed="true")
   $combatChainState[$CCS_AttackTarget] = "NA";
 }
 
-function UndestroyCharacter($player, $index)
-{
-  $char = &GetPlayerCharacter($player);
-  $char[$index+1] = 2;
-  $char[$index+4] = 0;
-}
+//FAB
+// function UndestroyCharacter($player, $index)
+// {
+//   $char = &GetPlayerCharacter($player);
+//   $char[$index+1] = 2;
+//   $char[$index+4] = 0;
+// }
 
-function DestroyCharacter($player, $index)
-{
-  $char = &GetPlayerCharacter($player);
-  $char[$index+1] = 0;
-  $char[$index+4] = 0;
-  $cardID = $char[$index];
-  if($char[$index+6] == 1) RemoveCombatChain(GetCombatChainIndex($cardID, $player));
-  $char[$index+6] = 0;
-  AddGraveyard($cardID, $player, "CHAR");
-  CharacterDestroyEffect($cardID, $player);
-  return $cardID;
-}
+//FAB
+// function DestroyCharacter($player, $index)
+// {
+//   $char = &GetPlayerCharacter($player);
+//   $char[$index+1] = 0;
+//   $char[$index+4] = 0;
+//   $cardID = $char[$index];
+//   if($char[$index+6] == 1) RemoveCombatChain(GetCombatChainIndex($cardID, $player));
+//   $char[$index+6] = 0;
+//   AddGraveyard($cardID, $player, "CHAR");
+//   CharacterDestroyEffect($cardID, $player);
+//   return $cardID;
+// }
 
 function RemoveCharacter($player, $index)
 {
@@ -1492,19 +1499,20 @@ function AddCharacterUses($player, $index, $numToAdd)
   $character[$index+5] += $numToAdd;
 }
 
-function HaveUnblockedEquip($player)
-{
-  $char = &GetPlayerCharacter($player);
-  for($i=CharacterPieces(); $i<count($char); $i+=CharacterPieces())
-  {
-    if($char[$i+1] == 0) continue;//If broken
-    if($char[$i+6] == 1) continue;//On combat chain
-    if(CardType($char[$i]) != "E") continue;
-    if(BlockValue($char[$i]) == -1) continue;
-    return true;
-  }
-  return false;
-}
+//FAB
+// function HaveUnblockedEquip($player)
+// {
+//   $char = &GetPlayerCharacter($player);
+//   for($i=CharacterPieces(); $i<count($char); $i+=CharacterPieces())
+//   {
+//     if($char[$i+1] == 0) continue;//If broken
+//     if($char[$i+6] == 1) continue;//On combat chain
+//     if(CardType($char[$i]) != "E") continue;
+//     if(BlockValue($char[$i]) == -1) continue;
+//     return true;
+//   }
+//   return false;
+// }
 
 function NumEquipBlock()
 {
@@ -1556,7 +1564,8 @@ function CanConfirmPhase($phase) {
   function CanPassPhase($phase)
   {
     global $combatChainState, $CCS_RequiredEquipmentBlock, $currentPlayer, $turn;
-    if($phase == "B" && HaveUnblockedEquip($currentPlayer) && NumEquipBlock() < $combatChainState[$CCS_RequiredEquipmentBlock]) return false;
+    //FAB
+    //if($phase == "B" && HaveUnblockedEquip($currentPlayer) && NumEquipBlock() < $combatChainState[$CCS_RequiredEquipmentBlock]) return false;
     switch($phase)
     {
       case "P": return 0;
@@ -3018,8 +3027,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "4536594859"://Medal Ceremony
       DQMultiUnitSelect($cardID, $currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
-      
-      break;   
+
+      break;
     case "6515891401"://Karabast
       $ally = new Ally($target);
       $damage = $ally->Damage() + 1;

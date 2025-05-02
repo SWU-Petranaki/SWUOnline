@@ -420,17 +420,18 @@ function SearchPermanentsForCard($player, $card)
   return $indices;
 }
 
-function SearchEquipNegCounter(&$character)
-{
-  $equipList = "";
-  for ($i = 0; $i < count($character); $i += CharacterPieces()) {
-    if (CardType($character[$i]) == "E" && $character[$i + 4] < 0 && $character[$i + 1] != 0) {
-      if ($equipList != "") $equipList = $equipList . ",";
-      $equipList = $equipList . $i;
-    }
-  }
-  return $equipList;
-}
+//FAB
+// function SearchEquipNegCounter(&$character)
+// {
+//   $equipList = "";
+//   for ($i = 0; $i < count($character); $i += CharacterPieces()) {
+//     if (CardType($character[$i]) == "E" && $character[$i + 4] < 0 && $character[$i + 1] != 0) {
+//       if ($equipList != "") $equipList = $equipList . ",";
+//       $equipList = $equipList . $i;
+//     }
+//   }
+//   return $equipList;
+// }
 
 function SearchCharacterActive($player, $cardID, $checkGem=false)
 {
@@ -711,18 +712,19 @@ function GetArsenalFaceUpIndices($player, $isExhausted = "")
   return GetArsenalIndices($player, "UP", $isExhausted);
 }
 
-function GetEquipmentIndices($player, $maxBlock = -1, $onCombatChain = false)
-{
-  $character = &GetPlayerCharacter($player);
-  $indices = "";
-  for ($i = 0; $i < count($character); $i += CharacterPieces()) {
-    if ($character[$i + 1] != 0 && CardType($character[$i]) == "E" && ($maxBlock == -1 || (BlockValue($character[$i]) + $character[$i + 4]) <= $maxBlock) && ($onCombatChain == false || $character[$i + 6] > 0)) {
-      if ($indices != "") $indices .= ",";
-      $indices .= $i;
-    }
-  }
-  return $indices;
-}
+//FAB
+// function GetEquipmentIndices($player, $maxBlock = -1, $onCombatChain = false)
+// {
+//   $character = &GetPlayerCharacter($player);
+//   $indices = "";
+//   for ($i = 0; $i < count($character); $i += CharacterPieces()) {
+//     if ($character[$i + 1] != 0 && CardType($character[$i]) == "E" && ($maxBlock == -1 || (BlockValue($character[$i]) + $character[$i + 4]) <= $maxBlock) && ($onCombatChain == false || $character[$i + 6] > 0)) {
+//       if ($indices != "") $indices .= ",";
+//       $indices .= $i;
+//     }
+//   }
+//   return $indices;
+// }
 
 function SearchAuras($cardID, $player)
 {
