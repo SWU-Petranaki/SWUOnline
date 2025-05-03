@@ -774,8 +774,7 @@ if (!empty($_SESSION['error'])) {
       <!-- COLUMN 1: DECK SELECTION -->
       <div class="deck-column">
         <div class="container bg-yellow">
-          <h2>Select Your Deck</h2>
-          
+          <div id="deckFeedback" class="deck-feedback"></div>
           <!-- SWU Stats integration -->
           <?php
           $favoriteDecks = [];
@@ -820,7 +819,6 @@ if (!empty($_SESSION['error'])) {
               }
             ?>
           </div>
-          <div id="deckFeedback" class="deck-feedback"></div>
         </div>
       </div>
       
