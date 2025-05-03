@@ -305,6 +305,149 @@ include_once 'Header.php';
       border-bottom: none;
       margin-bottom: 0;
     }
+
+    /* Modal styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background: rgba(70, 50, 20, 0.95);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .modal-close:hover {
+      transform: scale(1.2);
+    }
+
+    .modal-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 15px;
+      margin-top: 15px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      padding: 8px 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .modal-btn-primary {
+      background: rgba(120, 100, 60, 0.8);
+      color: white;
+    }
+
+    .modal-btn-secondary {
+      background: rgba(70, 70, 70, 0.8);
+      color: white;
+    }
+
+    /* Create game summary bar */
+    .create-game-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(70, 50, 20, 0.5);
+      border-radius: 5px;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+    }
+
+    .summary-text {
+      flex-grow: 1;
+    }
+
+    .edit-icon {
+      background: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .edit-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .edit-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .create-btn {
+      background: rgba(120, 100, 60, 0.8);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .create-btn:hover {
+      background: rgba(140, 120, 80, 0.9);
+    }
+
+    .create-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .summary-actions {
+      display: flex;
+      align-items: center;
+    }
     </style>
 </head>
 <body>
@@ -371,13 +514,28 @@ include_once 'Header.php';
     <!-- COLUMN 2: GAME ACTIONS -->
     <div class="game-action-column">
       <div class="tabs">
-        <button class="tab-button active" id="joinTabBtn" onclick="switchTabDirect('joinTab')">Join Game</button>
-        <button class="tab-button" id="createTabBtn" onclick="switchTabDirect('createTab')">Create Game</button>
+        <button class="tab-button active" id="gamesTabBtn" onclick="switchTabDirect('gamesTab')">Games</button>
         <button class="tab-button" id="spectateTabBtn" onclick="switchTabDirect('spectateTab')">Spectate</button>
       </div>
       
-      <!-- JOIN GAME TAB -->
-      <div id="joinTab" class="tab-content active">
+      <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
+      <div id="gamesTab" class="tab-content active">
+        <div class="create-game-summary">
+          <div class="summary-text">
+            <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
+          </div>
+          <div class="summary-actions">
+            <button class="create-btn" id="quickCreateGame">Create Game</button>
+            <button class="edit-icon" id="openCreateGameModal">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2-2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Edit
+            </button>
+          </div>
+        </div>
+        
         <h3>Join a Game</h3>
         
         <div class="game-list-filters">
@@ -397,56 +555,6 @@ include_once 'Header.php';
         </div>
       </div>
       
-      <!-- CREATE GAME TAB -->
-      <div id="createTab" class="tab-content">
-        <h3><?php echo ($createNewGameText); ?></h3>
-        
-        <form id="createGameForm" action='<?= $redirectPath ?>/CreateGame.php'>
-          <input type='hidden' id='fabdb' name='fabdb' value=''>
-          <input type='hidden' id='favoriteDeck' name='favoriteDeck' value='0'>
-          
-          <label for="gameDescription" class='game-name-label'>Game Name</label>
-          <input type="text" id="gameDescription" name="gameDescription" placeholder="Game #">
-          
-          <?php
-          $standardFormatCasual = Formats::$PremierFormat;
-          $standardFormat = Formats::$PremierStrict;
-          $previewFormat = Formats::$PreviewFormat;
-          $openFormat = Formats::$OpenFormat;
-          echo ("<label for='format' class='SelectDeckInput'>Format</label>");
-          echo ("<select name='format' id='format'>");
-          echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
-          if($canSeeQueue) {
-            echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
-            //Cantina Brawl Format; Update this to rotate formats
-            $funFormatBackendName = Formats::$PadawanFormat;
-            $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
-            echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
-          }
-          echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
-          echo ("</select>");
-          ?>
-          
-          <?php
-          echo ("<label for='visibility' class='SelectDeckInput'>Game Visibility</label>");
-          echo ("<select name='visibility' id='visibility'>");
-          
-          if ($canSeeQueue) {
-            echo ("<option value='public'" . ($defaultVisibility == 1 ? " selected" : "") . ">Public</option>");
-          } else {
-            echo '<p class="login-notice">&#10071;<a href="./LoginPage.php">Log In</a> to be able to create public games.</p>';
-          }
-          
-          echo ("<option value='private'" . ($defaultVisibility == 0 ? " selected" : "") . ">Private</option>");
-          echo ("</select>");
-          ?>
-          
-          <div style='text-align:center;'>
-            <input type="submit" id="createGameButton" class="create-game-button" value="<?php echo ($createGameText); ?>" disabled>
-          </div>
-        </form>
-      </div>
-      
       <!-- SPECTATE TAB -->
       <div id="spectateTab" class="tab-content">
         <h3>Spectate Games</h3>
@@ -455,6 +563,62 @@ include_once 'Header.php';
         <div id="spectateList" class="game-list">
           <p>Spectate functionality will be added via REST API.</p>
           <p class="api-note"><i>Note: This section is being restructured to use a more efficient REST-based approach.</i></p>
+        </div>
+      </div>
+      
+      <!-- CREATE GAME MODAL -->
+      <div id="createGameModal" class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title"><?php echo ($createNewGameText); ?></h3>
+            <button class="modal-close" id="closeCreateGameModal">&times;</button>
+          </div>
+          
+          <form id="createGameForm" action='<?= $redirectPath ?>/CreateGame.php'>
+            <input type='hidden' id='fabdb' name='fabdb' value=''>
+            <input type='hidden' id='favoriteDeck' name='favoriteDeck' value='0'>
+            
+            <label for="gameDescription" class='game-name-label'>Game Name</label>
+            <input type="text" id="gameDescription" name="gameDescription" placeholder="Game #">
+            
+            <?php
+            $standardFormatCasual = Formats::$PremierFormat;
+            $standardFormat = Formats::$PremierStrict;
+            $previewFormat = Formats::$PreviewFormat;
+            $openFormat = Formats::$OpenFormat;
+            echo ("<label for='format' class='SelectDeckInput'>Format</label>");
+            echo ("<select name='format' id='format'>");
+            echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
+            if($canSeeQueue) {
+              echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
+              //Cantina Brawl Format; Update this to rotate formats
+              $funFormatBackendName = Formats::$PadawanFormat;
+              $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
+              echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
+            }
+            echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
+            echo ("</select>");
+            ?>
+            
+            <?php
+            echo ("<label for='visibility' class='SelectDeckInput'>Game Visibility</label>");
+            echo ("<select name='visibility' id='visibility'>");
+            
+            if ($canSeeQueue) {
+              echo ("<option value='public'" . ($defaultVisibility == 1 ? " selected" : "") . ">Public</option>");
+            } else {
+              echo '<p class="login-notice">&#10071;<a href="./LoginPage.php">Log In</a> to be able to create public games.</p>';
+            }
+            
+            echo ("<option value='private'" . ($defaultVisibility == 0 ? " selected" : "") . ">Private</option>");
+            echo ("</select>");
+            ?>
+            
+            <div class="modal-footer">
+              <button type="button" class="modal-btn modal-btn-secondary" id="cancelCreateGame">Cancel</button>
+              <button type="submit" id="createGameButton" class="modal-btn modal-btn-primary" disabled><?php echo ($createGameText); ?></button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -736,6 +900,98 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.toggle('rotated');
         });
     });
+    
+    // Modal functionality for create game
+    const modal = document.getElementById('createGameModal');
+    const openModalBtn = document.getElementById('openCreateGameModal');
+    const closeModalBtn = document.getElementById('closeCreateGameModal');
+    const cancelBtn = document.getElementById('cancelCreateGame');
+    const formatSelect = document.getElementById('format');
+    const visibilitySelect = document.getElementById('visibility');
+    const summaryElement = document.getElementById('gameSettingsSummary');
+
+    // Function to update the game settings summary
+    function updateGameSettingsSummary() {
+        const formatText = formatSelect.options[formatSelect.selectedIndex].text;
+        const visibilityText = visibilitySelect.options[visibilitySelect.selectedIndex].text;
+        summaryElement.textContent = `Create: ${formatText}, ${visibilityText}`;
+    }
+
+    // Open modal
+    openModalBtn.addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
+
+    // Close modal with X button
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close modal with Cancel button
+    cancelBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Update summary when format or visibility changes
+    formatSelect.addEventListener('change', updateGameSettingsSummary);
+    visibilitySelect.addEventListener('change', updateGameSettingsSummary);
+
+    // Initialize the summary with default values
+    updateGameSettingsSummary();
+
+    // Handle form submission (existing validation will work normally)
+    document.getElementById('createGameForm').addEventListener('submit', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close modal if clicked outside content
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Quick create game button functionality
+    const quickCreateGameBtn = document.getElementById('quickCreateGame');
+    if (quickCreateGameBtn) {
+        quickCreateGameBtn.addEventListener('click', () => {
+            // Check if the deck is valid before submitting
+            if (!createGameButton.disabled) {
+                // Submit the form directly
+                document.getElementById('createGameForm').submit();
+            } else {
+                // If no valid deck is selected, show a visual indication
+                deckFeedback.innerHTML = 'Please select a valid deck before creating a game <span class="help-icon">?</span>';
+                deckFeedback.className = 'deck-feedback deck-invalid';
+                deckFeedback.style.display = 'block';
+                
+                // Scroll to the deck feedback if it's not in view
+                deckFeedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+    
+    // Initialize the quickCreateGame button with same disabled state as modal button
+    if (quickCreateGameBtn) {
+        quickCreateGameBtn.disabled = createGameButton.disabled;
+        
+        // Update quick create button disabled state when deck validation changes
+        const originalValidateDeckLink = validateDeckLink;
+        validateDeckLink = function(url) {
+            const result = originalValidateDeckLink(url);
+            if (quickCreateGameBtn) {
+                quickCreateGameBtn.disabled = createGameButton.disabled;
+            }
+            return result;
+        };
+    }
 });
 </script>
 
