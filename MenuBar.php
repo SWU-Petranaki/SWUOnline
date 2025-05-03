@@ -49,8 +49,8 @@ $baseUri = "/Arena";
         margin-left: 0.2rem;
       }
       li.dropdown {
-          position: relative;
-          display: inline-block;
+        position: relative;
+        display: inline-block;
       }
       ul.dropdown-content {
         display: none;
@@ -79,137 +79,6 @@ $baseUri = "/Arena";
         width: 100%;
         color: rgba(220, 200, 160, 1);
       }
-      
-      /* Mobile menu styles */
-      .menu-toggle, .menu-overlay, .mobile-menu-panel {
-        display: none;
-      }
-      
-      /* Mobile karabast link styling */
-      .mobile-karabast {
-        display: none;
-        width: 100%;
-        text-align: center;
-        padding: 10px 0;
-        border-top: 1px solid rgba(220, 200, 160, 0.2);
-      }
-      
-      .mobile-karabast a {
-        color: rgba(220, 200, 160, 1);
-        text-decoration: underline;
-      }
-      
-      .mobile-karabast a:hover {
-        color: rgba(240, 220, 180, 1);
-      }
-      
-      .nav-bar {
-        position: absolute;
-        right: 0;
-        top: 10px;
-        font-size: 18px;
-        font-weight: 600;
-        z-index: 100;
-        width: auto; /* Only as wide as needed on desktop */
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-      }
-      
-      /* Responsive styles */
-      @media screen and (max-width: 768px) {
-        .menu-toggle {
-          display: block;
-          position: absolute;
-          top: 10px;
-          right: 5px;
-          z-index: 10100;
-        }
-        
-        .nav-bar {
-          position: relative;
-          width: 100%; /* Full width on mobile */
-          padding: 10px;
-          align-items: stretch;
-        }
-        
-        .nav-bar-user, .nav-bar-links {
-          display: none;
-          position: fixed;
-          top: 56px; /* below header, adjust as needed */
-          left: 0;
-          right: 0;
-          margin: 0 auto;
-          width: 95vw;
-          max-width: 400px;
-          background-color: rgba(50, 40, 20, 0.97);
-          backdrop-filter: blur(10px);
-          z-index: 11000;
-          border-radius: 0 0 16px 16px;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-          overflow-y: auto;
-        }
-        
-        .menu-overlay {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: rgba(0,0,0,0.4);
-          z-index: 10000;
-        }
-        
-        .nav-bar-user.show, .nav-bar-links.show {
-          display: block;
-        }
-        
-        .menu-overlay.show {
-          display: block;
-        }
-        
-        .nav-bar-user ul.rightnav {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          padding: 0;
-          margin: 0;
-        }
-        
-        .nav-bar-user ul.rightnav li {
-          width: 100%;
-          text-align: center;
-          padding: 10px 0;
-          border-bottom: 1px solid rgba(220, 200, 160, 0.2);
-        }
-        
-        .nav-bar-links ul {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          width: 100%;
-          padding: 0;
-          margin: 10px 0 0 0;
-        }
-        
-        .nav-bar-links ul li {
-          margin: 0 15px;
-        }
-        
-        ul.dropdown-content {
-          position: static;
-          width: 100%;
-          box-shadow: none;
-          margin-top: 10px;
-        }
-        
-        .nav-bar-karabast {
-          text-align: center;
-          padding: 10px;
-          margin-top: 10px;
-        }
-      }
       /* Desktop nav-bar styles (default) */
       .nav-bar {
         position: absolute;
@@ -231,31 +100,29 @@ $baseUri = "/Arena";
       .nav-bar-karabast {
         margin-left: 16px;
       }
-      /* Hide mobile-only elements by default */
-      .menu-overlay, .mobile-karabast {
+      .menu-toggle, .menu-overlay, .mobile-menu-panel, .mobile-karabast {
         display: none;
       }
-      /* Responsive styles for mobile */
+      /* Mobile overrides */
       @media screen and (max-width: 768px) {
         .nav-bar {
           position: relative;
           width: 100%;
           padding: 10px;
           align-items: stretch;
-          background: none;
+          background: none !important;
         }
         .menu-toggle {
           display: block;
           position: absolute;
           top: 10px;
-          right: 5px;
+          right: 16px;
           z-index: 10100;
+          margin-right: 20px;
         }
-        /* Hide desktop nav-bar content in mobile */
         .nav-bar-user, .nav-bar-links, .nav-bar-karabast {
           display: none !important;
         }
-        /* Show overlay and mobile menu when active */
         .menu-overlay {
           display: none;
           position: fixed;
