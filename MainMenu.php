@@ -157,6 +157,30 @@ if (!empty($_SESSION['error'])) {
       overflow-y: auto; /* Enable scrolling within columns on desktop */
       overflow-x: hidden;
       max-height: calc(100vh - 180px); /* Ensure columns don't exceed viewport, accounting for footer */
+      margin-right: 10px;
+      
+      /* Custom scrollbar styling */
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: rgba(120, 100, 60, 0.8) rgba(70, 50, 20, 0.5); /* Thumb and track colors */
+
+      /* For Webkit-based browsers (Chrome, Edge, Safari) */
+      &::-webkit-scrollbar {
+      width: 8px;
+      }
+      &::-webkit-scrollbar-track {
+      background: rgba(70, 50, 20, 0.5);
+      border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+      background: rgba(120, 100, 60, 0.8);
+      border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+      background: rgba(140, 120, 80, 0.9);
+      }
+      &::-webkit-scrollbar-button {
+      display: none; /* Remove scrollbar arrows */
+      }
     }
     
     /* Fix deck-column to fit content */

@@ -236,7 +236,7 @@ $baseUri = "/Arena";
             </ul>
         </div>
         <div class="nav-bar-karabast" style="z-index: 10;">
-            Looking for <a href="https://karabast.net">Karabast</a>?
+            Looking for&nbsp;<a href="https://karabast.net">Karabast</a>?
         </div>
     </div>
     <!-- Mobile overlay and menu panel (mobile only) -->
