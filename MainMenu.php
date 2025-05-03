@@ -515,6 +515,64 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
+        // Check if the input is JSON (starts with '{')
+        if (url.trim().startsWith('{')) {
+            try {
+                // Try to parse the JSON to ensure it's valid
+                const deckData = JSON.parse(url.trim());
+                
+                // Check if the deck has the required properties
+                if (!deckData.leader || !deckData.base || !deckData.deck) {
+                    deckFeedback.textContent = 'Invalid JSON deck data. Required properties: leader, base, and deck.';
+                    deckFeedback.className = 'deck-feedback deck-invalid';
+                    deckFeedback.style.display = 'block';
+                    createGameButton.disabled = true;
+                    return false;
+                }
+                
+                // Additional validation for required structure
+                if (!deckData.leader.id || !deckData.base.id || !Array.isArray(deckData.deck) || deckData.deck.length === 0) {
+                    deckFeedback.textContent = 'Invalid JSON deck structure. Check leader, base, and deck properties.';
+                    deckFeedback.className = 'deck-feedback deck-invalid';
+                    deckFeedback.style.display = 'block';
+                    createGameButton.disabled = true;
+                    return false;
+                }
+                
+                // Verify deck is an array with at least some cards
+                let validDeck = true;
+                for (const card of deckData.deck) {
+                    if (!card.id || !card.count) {
+                        validDeck = false;
+                        break;
+                    }
+                }
+                
+                if (!validDeck) {
+                    deckFeedback.textContent = 'Invalid cards in deck. Each card needs id and count properties.';
+                    deckFeedback.className = 'deck-feedback deck-invalid';
+                    deckFeedback.style.display = 'block';
+                    createGameButton.disabled = true;
+                    return false;
+                }
+                
+                // If we made it here, the JSON is valid
+                deckFeedback.textContent = 'Valid JSON deck data accepted!';
+                deckFeedback.className = 'deck-feedback deck-valid';
+                deckFeedback.style.display = 'block';
+                createGameButton.disabled = false;
+                return true;
+            } catch (e) {
+                // JSON parsing failed
+                deckFeedback.textContent = 'Invalid JSON format. ' + e.message;
+                deckFeedback.className = 'deck-feedback deck-invalid';
+                deckFeedback.style.display = 'block';
+                createGameButton.disabled = true;
+                return false;
+            }
+        }
+        
+        // If not JSON, check if it's a valid deck URL
         let isValid = false;
         for (const domain of validDomains) {
             if (url.includes(domain)) {
@@ -529,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
             deckFeedback.style.display = 'block';
             createGameButton.disabled = false;
         } else {
-            deckFeedback.textContent = 'Please enter a valid deck URL from SWU Stats, SWUDB, or SW-Unlimited-DB.';
+            deckFeedback.textContent = 'Please enter a valid deck URL from SWU Stats, SWUDB, or SW-Unlimited-DB, or paste JSON deck data.';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
