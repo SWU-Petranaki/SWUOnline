@@ -371,13 +371,34 @@ include_once 'Header.php';
     <!-- COLUMN 2: GAME ACTIONS -->
     <div class="game-action-column">
       <div class="tabs">
-        <button class="tab-button active" id="createTabBtn" onclick="switchTabDirect('createTab')">Create Game</button>
-        <button class="tab-button" id="joinTabBtn" onclick="switchTabDirect('joinTab')">Join Game</button>
+        <button class="tab-button active" id="joinTabBtn" onclick="switchTabDirect('joinTab')">Join Game</button>
+        <button class="tab-button" id="createTabBtn" onclick="switchTabDirect('createTab')">Create Game</button>
         <button class="tab-button" id="spectateTabBtn" onclick="switchTabDirect('spectateTab')">Spectate</button>
       </div>
       
+      <!-- JOIN GAME TAB -->
+      <div id="joinTab" class="tab-content active">
+        <h3>Join a Game</h3>
+        
+        <div class="game-list-filters">
+          <label for="formatFilter">Filter by format:</label>
+          <select id="formatFilter">
+            <option value="all">All Formats</option>
+            <option value="premier">Premier Casual</option>
+            <option value="premier-bo3">Premier (Best of 3)</option>
+            <option value="cantina">Cantina Brawl</option>
+            <option value="open">Open Format</option>
+          </select>
+        </div>
+        
+        <div id="gameList" class="game-list">
+          <p>Game listing functionality will be added via REST API.</p>
+          <p class="api-note"><i>Note: This section is being restructured to use a more efficient REST-based approach.</i></p>
+        </div>
+      </div>
+      
       <!-- CREATE GAME TAB -->
-      <div id="createTab" class="tab-content active">
+      <div id="createTab" class="tab-content">
         <h3><?php echo ($createNewGameText); ?></h3>
         
         <form id="createGameForm" action='<?= $redirectPath ?>/CreateGame.php'>
@@ -424,27 +445,6 @@ include_once 'Header.php';
             <input type="submit" id="createGameButton" class="create-game-button" value="<?php echo ($createGameText); ?>" disabled>
           </div>
         </form>
-      </div>
-      
-      <!-- JOIN GAME TAB -->
-      <div id="joinTab" class="tab-content">
-        <h3>Join a Game</h3>
-        
-        <div class="game-list-filters">
-          <label for="formatFilter">Filter by format:</label>
-          <select id="formatFilter">
-            <option value="all">All Formats</option>
-            <option value="premier">Premier Casual</option>
-            <option value="premier-bo3">Premier (Best of 3)</option>
-            <option value="cantina">Cantina Brawl</option>
-            <option value="open">Open Format</option>
-          </select>
-        </div>
-        
-        <div id="gameList" class="game-list">
-          <p>Game listing functionality will be added via REST API.</p>
-          <p class="api-note"><i>Note: This section is being restructured to use a more efficient REST-based approach.</i></p>
-        </div>
       </div>
       
       <!-- SPECTATE TAB -->
