@@ -91,10 +91,13 @@ if (!empty($_SESSION['error'])) {
     <title>Petranaki</title>
     
     <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+      width: 100vw;
+      max-width: 100vw;
     }
     
     /* Site container */
@@ -139,11 +142,11 @@ if (!empty($_SESSION['error'])) {
       display: grid;
       grid-template-columns: 1fr 1.2fr 1fr;
       gap: 20px;
-      width: 100%;
-      max-width: 1800px;
+      width: 100vw;
+      max-width: 100vw;
       margin: 0 auto;
-      height: calc(100vh - 180px);
-      overflow: hidden;
+      height: calc(100vh - 220px);
+      overflow-x: hidden;
     }
 
     .deck-column, .game-action-column, .news-column {
@@ -151,6 +154,7 @@ if (!empty($_SESSION['error'])) {
       flex-direction: column;
       border-radius: 10px;
       overflow-y: auto; /* Enable scrolling within columns on desktop */
+      overflow-x: hidden;
       max-height: calc(100vh - 180px); /* Ensure columns don't exceed viewport, accounting for footer */
     }
     
@@ -625,12 +629,19 @@ if (!empty($_SESSION['error'])) {
     
     /* Mobile-responsive layout */
     @media (max-width: 991px) {
+      html, body {
+        overflow-x: hidden;
+        width: 100vw;
+        max-width: 100vw;
+      }
       .main-layout {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
         height: auto;
         overflow: visible;
         padding: 0 10px;
+        width: 100%;
+        max-width: 100%;
       }
       
       .deck-column, .game-action-column, .news-column {
