@@ -51,12 +51,6 @@ if ($handle = opendir($path)) {
             $gameStatus = trim(fgets($gameFileHandler));
             $format = trim(fgets($gameFileHandler));
             $visibility = trim(fgets($gameFileHandler));
-            $gameDescription = "";
-            
-            // Skip ahead to game description line
-            for ($i = 0; $i < 9; $i++) {
-              fgets($gameFileHandler);
-            }
             $gameDescription = trim(fgets($gameFileHandler));
             
             flock($gameFileHandler, LOCK_UN);
