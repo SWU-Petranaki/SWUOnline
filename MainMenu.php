@@ -625,23 +625,9 @@ include_once 'Header.php';
     
     <!-- COLUMN 3: NEWS & INFO -->
     <div class="news-column">
-      <div class="container bg-yellow">
-        <div class="collapsible-header">
-          <h2>What is Petranaki?</h2>
-          <span class="rotate-icon">▼</span>
-        </div>
-        <div class="collapsible-content expanded">
-          <p><b>Petranaki is an Open-Source, Fan-Made Platform</b></p>
-          <p>This is a free educational tool for researching decks and strategies for in-person play. It does not include automated tournaments or rankings. All features are accessible without payment and are not intended for commercial use.</p>
-        </div>
-      </div>
-
       <div class="container bg-yellow" style="margin-top: 20px;">
-        <div class="collapsible-header">
-          <h2>News</h2>
-          <span class="rotate-icon">▼</span>
-        </div>
-        <div class="collapsible-content expanded">
+        <h2>News</h2>
+        <div>
           <div style="position: relative;">
             <div style='vertical-align:middle; text-align: start;'>
               <img src="./Images/jtl-han-solo.webp" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
