@@ -503,13 +503,13 @@ echo $errorScript;
 function switchTabDirect(tabId) {
     console.log('Switching to tab: ' + tabId);
     
-    // Hide all tabs
-    document.getElementById('createTab').style.display = 'none';
-    document.getElementById('joinTab').style.display = 'none';
-    document.getElementById('spectateTab').style.display = 'none';
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
     
-    // Show the clicked tab
-    document.getElementById(tabId).style.display = 'block';
+    // Add active class to the selected tab
+    document.getElementById(tabId).classList.add('active');
     
     // Update button styles
     document.getElementById('createTabBtn').classList.remove('active');
