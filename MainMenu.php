@@ -171,6 +171,84 @@ include_once 'Header.php';
     .format-section {
       margin-bottom: 15px;
     }
+    
+    /* Format filter styling */
+    .game-list-filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    /* Styled dropdown with filter icon */
+    .filter-dropdown-wrapper {
+      position: relative;
+      flex-grow: 1;
+    }
+    
+    .filter-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .styled-dropdown {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-color: rgba(70, 50, 20, 0.6);
+      color: white;
+      padding: 10px 30px 10px 35px; /* Increased left padding for icon */
+      border-radius: 5px;
+      border: 1px solid rgba(150, 130, 90, 0.5);
+      width: 100%;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+    
+    .styled-dropdown:focus {
+      outline: none;
+      border-color: rgba(180, 160, 120, 0.8);
+      box-shadow: 0 0 0 2px rgba(180, 160, 120, 0.3);
+    }
+    
+    .styled-dropdown:hover {
+      background-color: rgba(90, 70, 40, 0.7);
+    }
+    
+    /* Refresh button styling */
+    .refresh-btn {
+      background-color: rgba(120, 100, 60, 0.8);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 36px;
+      height: 36px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .refresh-btn:hover {
+      background-color: rgba(140, 120, 80, 0.9);
+      transform: rotate(15deg);
+    }
+    
+    .refresh-btn svg {
+      width: 16px;
+      height: 16px;
+    }
 
     /* Deck selection feedback */
     .deck-feedback {
@@ -536,22 +614,25 @@ include_once 'Header.php';
           </div>
         </div>
         
-        <h3>Join a Game</h3>
-        
         <div class="game-list-filters">
-          <label for="formatFilter">Filter by format:</label>
-          <select id="formatFilter">
-            <option value="all">All Formats</option>
-            <option value="premier">Premier Casual</option>
-            <option value="premier-bo3">Premier (Best of 3)</option>
-            <option value="cantina">Cantina Brawl</option>
-            <option value="openform">Open Format</option>
-          </select>
-          <button id="refreshGameList" class="refresh-btn">
+          <div class="filter-dropdown-wrapper">
+            <span class="filter-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+            </span>
+            <select id="formatFilter" class="styled-dropdown">
+              <option value="all">All Formats</option>
+              <option value="premier">Premier Casual</option>
+              <option value="premier-bo3">Premier (Best of 3)</option>
+              <option value="cantina">Cantina Brawl</option>
+              <option value="openform">Open Format</option>
+            </select>
+          </div>
+          <button id="refreshGameList" class="refresh-btn" title="Refresh game list">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
             </svg>
-            Refresh
           </button>
         </div>
         
@@ -567,19 +648,24 @@ include_once 'Header.php';
         <p>Watch ongoing games without participating.</p>
         
         <div class="game-list-filters">
-          <label for="spectateFormatFilter">Filter by format:</label>
-          <select id="spectateFormatFilter">
-            <option value="all">All Formats</option>
-            <option value="premier">Premier Casual</option>
-            <option value="premier-bo3">Premier (Best of 3)</option>
-            <option value="cantina">Cantina Brawl</option>
-            <option value="openform">Open Format</option>
-          </select>
-          <button id="refreshSpectateList" class="refresh-btn">
+          <div class="filter-dropdown-wrapper">
+            <span class="filter-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+            </span>
+            <select id="spectateFormatFilter" class="styled-dropdown">
+              <option value="all">All Formats</option>
+              <option value="premier">Premier Casual</option>
+              <option value="premier-bo3">Premier (Best of 3)</option>
+              <option value="cantina">Cantina Brawl</option>
+              <option value="openform">Open Format</option>
+            </select>
+          </div>
+          <button id="refreshSpectateList" class="refresh-btn" title="Refresh spectate list">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
             </svg>
-            Refresh
           </button>
         </div>
         
@@ -1206,13 +1292,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Set up format filter
-    const formatFilter = document.getElementById('formatFilter');
-    if (formatFilter) {
-        formatFilter.addEventListener('change', function() {
-            // Reload games with new filter
-            loadOpenGames();
-        });
-    }
+    const formatFilterDropdown = document.getElementById('formatFilter');
+    formatFilterDropdown.addEventListener('change', function() {
+        // Reload games with new filter
+        loadOpenGames();
+    });
 });
 
 // Function to load spectate games from API
@@ -1327,13 +1411,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Set up spectate format filter
-    const spectateFormatFilter = document.getElementById('spectateFormatFilter');
-    if (spectateFormatFilter) {
-        spectateFormatFilter.addEventListener('change', function() {
-            // Reload spectate games with new filter
-            loadSpectateGames();
-        });
-    }
+    const spectateFormatFilterDropdown = document.getElementById('spectateFormatFilter');
+    spectateFormatFilterDropdown.addEventListener('change', function() {
+        // Reload spectate games with new filter
+        loadSpectateGames();
+    });
 });
 </script>
 
