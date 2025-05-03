@@ -1,0 +1,48 @@
+/* ... existing styles ... */
+
+.deck-management {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.deck-management h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4em;
+}
+
+.deck-management label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.deck-management input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.deck-management .SelectDeckInput {
+  margin-bottom: 10px;
+}
+
+.deck-management select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.deck-management .save-deck {
+  display: block;
+  margin-top: 5px;
+}
+
+/* ... existing styles ... */

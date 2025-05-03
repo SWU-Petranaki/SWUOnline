@@ -88,6 +88,43 @@ include_once 'Header.php';
 <div class="core-wrapper">
 
   <div class="game-browser-wrapper" style="min-width: 0px;">
+    <!-- New Deck Management Card -->
+    <div class="deck-management container bg-yellow" style='margin-bottom: 20px; overflow-y:auto;'>
+      <h2>Deck Management</h2>
+      <?php
+      $favoriteDecks = [];
+      if (isset($_SESSION["userid"])) {
+        if($userData != NULL && $userData["swustatsAccessToken"] != null) {
+          echo "<div>SWU Stats account connected</div>";
+          // Future: Add deck management via SWU Stats API here
+        } else {
+          $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
+          if (count($favoriteDecks) > 0) {
+            $selIndex = -1;
+            if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
+            echo ("<div class='SelectDeckInput'>Favorite Decks");
+            echo ("<select name='favoriteDecks' id='favoriteDecks'>");
+            for ($i = 0; $i < count($favoriteDecks); $i += 4) {
+              echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
+            }
+            echo ("</select></div>");
+          }
+          echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place!</p>";
+        }
+      }
+      ?>
+      
+      <label for="deckLink">Deck Link (<u><a href='https://swustats.net/' target='_blank'>SWU Stats</a></u>, <u><a href='https://www.swudb.com/' target='_blank'>SWUDB</a></u>, or <u><a href='https://sw-unlimited-db.com/' target='_blank'>SW-Unlimited-DB</a></u>)</label>
+      <input type="text" id="deckLink" name="deckLink" value='<?= $deckUrl ?>'>
+      <?php
+      if (isset($_SESSION["userid"])) {
+        echo ("<span class='save-deck'>");
+        echo ("<label for='saveFavoriteDeck'><input class='inputFavoriteDeck' type='checkbox' id='saveFavoriteDeck' name='saveFavoriteDeck' />");
+        echo ("Save to Favorite Decks</label>");
+        echo ("</span>");
+      }
+      ?>
+    </div>
     <div class="game-browser container bg-yellow" style='overflow-y:auto;'>
       <?php
       try {
@@ -111,45 +148,9 @@ include_once 'Header.php';
 
   <?php
   echo ("<form style='width:100%;display:inline-block;' action='" . $redirectPath . "/CreateGame.php'>");
-
-  $favoriteDecks = [];
-  if (isset($_SESSION["userid"])) {
-    if($userData != NULL && $userData["swustatsAccessToken"] != null) {
-      echo "<div>Has access token</div>";
-    } else {
-      $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
-      if (count($favoriteDecks) > 0) {
-        $selIndex = -1;
-        if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
-        echo ("<div class='SelectDeckInput'>Favorite Decks");
-        echo ("<select name='favoriteDecks' id='favoriteDecks'>");
-        for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-          echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
-        }
-        echo ("</select></div>");
-      }
-      echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place!</p>";
-    }
-  }
-  /*
-  if (count($favoriteDecks) == 0) {
-    echo ("<div><label class='SelectDeckInput'>" . $starterDecksText . ": </label>");
-    echo ("<select name='decksToTry' id='decksToTry'>");
-
-    echo ("</select></div>");
-  }
-  */
-
-  ?>
-  <label for="fabdb">Deck Link (<u><a href='https://swustats.net/' target='_blank'>SWU Stats</a></u>, <u><a href='https://www.swudb.com/' target='_blank'>SWUDB</a></u>, or <u><a href='https://sw-unlimited-db.com/' target='_blank'>SW-Unlimited-DB</a></u>)</label>
-  <input type="text" id="fabdb" name="fabdb" value='<?= $deckUrl ?>'>
-  <?php
-  if (isset($_SESSION["userid"])) {
-    echo ("<span class='save-deck'>");
-    echo ("<labelfor='favoriteDeck'><input class='inputFavoriteDeck' type='checkbox' id='favoriteDeck' name='favoriteDeck' />");
-    echo ("Save to Favorite Decks</label>");
-    echo ("</span>");
-  }
+  // Add hidden field to capture the deck link and favorite deck info from the deck management section
+  echo ("<input type='hidden' id='fabdb' name='fabdb' value=''>");
+  echo ("<input type='hidden' id='favoriteDeck' name='favoriteDeck' value='0'>");
   ?>
   <label for="gameDescription" class='game-name-label'>Game Name</label>
   <input type="text" id="gameDescription" name="gameDescription" placeholder="Game #">
@@ -260,6 +261,43 @@ include_once 'Header.php';
       infoBox.style.display = 'none';
     }
   }
+
+  // Handle deck management elements
+  document.addEventListener('DOMContentLoaded', function() {
+    // Connect the deck link input to the hidden form field
+    var deckLinkInput = document.getElementById('deckLink');
+    var fabdbHidden = document.getElementById('fabdb');
+    
+    if(deckLinkInput && fabdbHidden) {
+      // Initialize with current value
+      fabdbHidden.value = deckLinkInput.value;
+      
+      // Update on change
+      deckLinkInput.addEventListener('input', function() {
+        fabdbHidden.value = deckLinkInput.value;
+      });
+    }
+    
+    // Connect favorite decks dropdown to the form
+    var favoriteDecksSelect = document.getElementById('favoriteDecks');
+    var favoriteDeckHidden = document.getElementById('favoriteDeck');
+    
+    if(favoriteDecksSelect && favoriteDeckHidden) {
+      favoriteDecksSelect.addEventListener('change', function() {
+        var selectedValue = favoriteDecksSelect.value;
+        favoriteDeckHidden.value = selectedValue;
+        
+        // If a favorite deck is selected, update the deck link input with the deck URL
+        if(selectedValue && selectedValue.includes('<fav>')) {
+          var parts = selectedValue.split('<fav>');
+          if(parts.length > 1 && deckLinkInput) {
+            deckLinkInput.value = parts[1];
+            fabdbHidden.value = parts[1];
+          }
+        }
+      });
+    }
+  });
 
   // Ensure the info box is displayed correctly based on the default selected format
   window.onload = function() {
