@@ -323,8 +323,10 @@ include_once 'Header.php';
         <!-- SWU Stats integration -->
         <?php
         $favoriteDecks = [];
+        $swuStatsLinked = isset($userData) && $userData["swustatsAccessToken"] != null;
+
         if (isset($_SESSION["userid"])) {
-          if($userData != NULL && $userData["swustatsAccessToken"] != null) {
+          if ($swuStatsLinked) {
             echo "<div class='swustats-connected'>SWU Stats account connected</div>";
             // Future: Add deck management via SWU Stats API here
             echo "<div class='deck-list'>
@@ -340,7 +342,7 @@ include_once 'Header.php';
               echo ("<select name='favoriteDecks' id='favoriteDecks'>");
               echo ("<option value=''>-- Select a deck --</option>");
               for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-                echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
+          echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
               }
               echo ("</select></div>");
             }
@@ -354,12 +356,12 @@ include_once 'Header.php';
           <input type="text" id="deckLink" name="deckLink" value='<?= $deckUrl ?>' placeholder="Paste your deck URL here">
           
           <?php
-          if (isset($_SESSION["userid"])) {
+            if (isset($_SESSION["userid"]) && !$swuStatsLinked) {
             echo ("<span class='save-deck'>");
             echo ("<label for='saveFavoriteDeck'><input class='inputFavoriteDeck' type='checkbox' id='saveFavoriteDeck' name='saveFavoriteDeck' />");
             echo ("Save to Favorite Decks</label>");
             echo ("</span>");
-          }
+            }
           ?>
         </div>
         <div id="deckFeedback" class="deck-feedback"></div>
@@ -584,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (helpIcon) {
                 // Get tooltip content
                 const tooltipContent = `
-                    <span class="tooltip-title">Where to find decks:</span>
+                    <span class="tooltip-title">Copy deck links or JSON from:</span>
                     <a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a>
                     <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
                     <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
