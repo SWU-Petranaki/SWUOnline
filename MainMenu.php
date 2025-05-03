@@ -267,51 +267,31 @@ include_once 'Header.php';
       margin-left: 6px;
       cursor: help;
       position: relative;
-      font-weight: bold;
     }
 
-    .tooltip {
-      visibility: hidden;
+    /* Move all tooltips to a fixed position relative to the viewport */
+    #global-tooltip {
+      display: none;
+      position: fixed;
+      z-index: 9999;
       width: 280px;
       background-color: rgba(40, 30, 20, 0.95);
       color: #fff;
       text-align: left;
       border-radius: 6px;
       padding: 10px;
-      position: absolute;
-      z-index: 1000; /* Higher z-index to ensure it's above everything */
-      bottom: 125%;
-      left: 50%;
-      margin-left: -140px;
-      opacity: 0;
-      /* Different transition times for appearing and disappearing */
-      transition: opacity 0.2s ease-in, visibility 0s linear 0.5s;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      font-weight: normal;
-      pointer-events: auto; /* Enable pointer events so we can hover over the tooltip */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 
-    .tooltip::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: rgba(40, 30, 20, 0.95) transparent transparent transparent;
+    .tooltip-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 14px;
+      display: block;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 8px;
     }
 
-    /* Make tooltip visible when hovering over help icon OR the tooltip itself */
-    .help-icon:hover .tooltip,
-    .tooltip:hover {
-      visibility: visible;
-      opacity: 1;
-      /* Reset the visibility delay when showing the tooltip */
-      transition: opacity 0.2s ease-in, visibility 0s linear 0s;
-    }
-
-    /* Improved spacing for tooltip links */
     .tooltip-link {
       display: block;
       margin: 8px 0;
@@ -325,20 +305,14 @@ include_once 'Header.php';
       border-bottom: none;
       margin-bottom: 0;
     }
-
-    .tooltip-title {
-      font-weight: bold;
-      margin-bottom: 12px;
-      font-size: 14px;
-      display: block;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      padding-bottom: 8px;
-    }
     </style>
 </head>
 <body>
 <div class="core-wrapper">
   <div id="mainMenuError" class="error-popup-hidden"></div>
+  
+  <!-- Add a single global tooltip that will be positioned dynamically -->
+  <div id="global-tooltip"></div>
   
   <div class="main-layout">
     <!-- COLUMN 1: DECK SELECTION -->
@@ -551,6 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const favoriteDeckHidden = document.getElementById('favoriteDeck');
     const createGameButton = document.getElementById('createGameButton');
     const deckFeedback = document.getElementById('deckFeedback');
+    const globalTooltip = document.getElementById('global-tooltip');
     
     // Initialize with current value
     if(deckLinkInput && fabdbHidden) {
@@ -582,13 +557,84 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Set up event handlers for help icons
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#global-tooltip') && !e.target.closest('.help-icon')) {
+            globalTooltip.style.display = 'none';
+        }
+    });
+    
+    // Track if we're hovering over either the help icon or the tooltip
+    let isHoveringHelp = false;
+    let tooltipHideTimeout = null;
+    
+    document.addEventListener('mouseover', function(e) {
+        const helpIcon = e.target.closest('.help-icon');
+        const tooltip = e.target.closest('#global-tooltip');
+        
+        if (helpIcon || tooltip) {
+            // Clear any pending hide timeout
+            if (tooltipHideTimeout) {
+                clearTimeout(tooltipHideTimeout);
+                tooltipHideTimeout = null;
+            }
+            
+            isHoveringHelp = true;
+            
+            if (helpIcon) {
+                // Get tooltip content
+                const tooltipContent = `
+                    <span class="tooltip-title">Where to find decks:</span>
+                    <a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a>
+                    <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
+                    <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
+                `;
+                
+                // Position tooltip at fixed position relative to the icon
+                const rect = helpIcon.getBoundingClientRect();
+                globalTooltip.innerHTML = tooltipContent;
+                globalTooltip.style.left = (rect.left - 120) + 'px'; // Center tooltip over icon
+                globalTooltip.style.top = (rect.top - 130) + 'px'; // Position above the icon
+                globalTooltip.style.display = 'block';
+                
+                // Prevent tooltips from going off-screen
+                const tooltipRect = globalTooltip.getBoundingClientRect();
+                if (tooltipRect.left < 10) {
+                    globalTooltip.style.left = '10px';
+                }
+                if (tooltipRect.right > window.innerWidth - 10) {
+                    globalTooltip.style.left = (window.innerWidth - tooltipRect.width - 10) + 'px';
+                }
+                if (tooltipRect.top < 10) {
+                    globalTooltip.style.top = (rect.bottom + 10) + 'px'; // Position below instead
+                }
+            }
+        }
+    });
+    
+    document.addEventListener('mouseout', function(e) {
+        const leavingHelpIcon = e.target.closest('.help-icon');
+        const leavingTooltip = e.target.closest('#global-tooltip');
+        const enteringHelpIcon = e.relatedTarget && e.relatedTarget.closest('.help-icon');
+        const enteringTooltip = e.relatedTarget && e.relatedTarget.closest('#global-tooltip');
+        
+        // If we're leaving either the help icon or tooltip and not entering the other
+        if ((leavingHelpIcon || leavingTooltip) && !enteringHelpIcon && !enteringTooltip) {
+            // Set a short timeout before hiding the tooltip to allow for small gaps in mouse movement
+            tooltipHideTimeout = setTimeout(() => {
+                globalTooltip.style.display = 'none';
+                isHoveringHelp = false;
+            }, 100);
+        }
+    });
+    
     // Function to validate deck link
     function validateDeckLink(url) {
         const validDomains = ['swustats.net', 'swudb.com', 'sw-unlimited-db.com'];
         
         if (!url || url.trim() === '') {
             // Add help icon with tooltip containing deck site links
-            deckFeedback.innerHTML = 'Please select or enter a deck <span class="help-icon">?<div class="tooltip"><span class="tooltip-title">Where to find decks:</span><a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a><a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a><a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a></div></span>';
+            deckFeedback.innerHTML = 'Please select or enter a deck <span class="help-icon">?</span>';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
@@ -667,8 +713,8 @@ document.addEventListener('DOMContentLoaded', function() {
             deckFeedback.style.display = 'block';
             createGameButton.disabled = false;
         } else {
-            // Also add help icon to the error message
-            deckFeedback.innerHTML = 'Please enter a valid deck URL or JSON data <span class="help-icon">?<div class="tooltip"><span class="tooltip-title">Where to find decks:</span><a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a><a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a><a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a></div></span>';
+            // Also add help icon to the error message (without embedded tooltip)
+            deckFeedback.innerHTML = 'Please enter a valid deck URL or JSON data <span class="help-icon">?</span>';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
