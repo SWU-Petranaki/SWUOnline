@@ -86,8 +86,9 @@ ul {
 body {
   background-size: cover;
   background-position: center;
-  background-image: url('../Images/arena-bg.webp');
-  max-width: 100%;
+  background-repeat: no-repeat;
+  background-image: url('../Images/petranaki_arena_cartoon_bg.webp');
+  width: 100%;
   height: 100%;
   margin: 0;
 }

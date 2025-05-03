@@ -91,6 +91,11 @@ include_once 'Header.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    
     /* Styles for the new 3-column layout */
     .main-layout {
       display: grid;
@@ -99,13 +104,16 @@ include_once 'Header.php';
       width: 100%;
       max-width: 1800px;
       margin: 0 auto;
+      height: calc(100vh - 180px); /* Adjusted to account for header AND footer */
+      overflow: hidden; /* Prevent page-level scroll on desktop */
     }
 
     .deck-column, .game-action-column, .news-column {
       display: flex;
       flex-direction: column;
       border-radius: 10px;
-      overflow-y: auto;
+      overflow-y: auto; /* Enable scrolling within columns on desktop */
+      max-height: calc(100vh - 180px); /* Ensure columns don't exceed viewport, accounting for footer */
     }
     
     /* Fix deck-column to fit content */
@@ -115,14 +123,22 @@ include_once 'Header.php';
       align-self: flex-start;
     }
     
-    /* Make deck column fit content */
-    .deck-column .container {
-      height: fit-content;
-    }
-    
     /* Keep scrolling for other columns */
     .game-action-column, .news-column {
       overflow-y: auto;
+    }
+
+    /* Fix news-column height and scrolling */
+    .news-column {
+      height: auto;
+      max-height: calc(100vh - 230px); /* Adjusted to account for header and padding */
+    }
+    
+    /* Ensure container inside news column doesn't have its own scrollbar */
+    .news-column .container {
+      overflow: visible;
+      height: auto;
+      max-height: none;
     }
 
     /* Tabbed interface styles */
@@ -160,6 +176,8 @@ include_once 'Header.php';
       border-radius: 0 0 10px 10px;
       position: relative;
       z-index: 9; /* Slightly lower than buttons but still above most content */
+      height: auto; /* Allow content to expand naturally */
+      overflow: visible; /* Remove scrolling from tab content container */
     }
 
     .tab-content.active {
@@ -169,8 +187,8 @@ include_once 'Header.php';
     /* Game list styling */
     .game-list {
       margin-top: 15px;
-      max-height: 400px;
-      overflow-y: auto;
+      max-height: none; /* Remove fixed height to avoid nested scrollbars */
+      overflow-y: visible; /* Remove scrollbars from inner elements */
     }
 
     .game-item {
@@ -572,24 +590,42 @@ include_once 'Header.php';
       .main-layout {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
+        height: auto;
+        overflow: visible;
       }
       
       .deck-column, .game-action-column, .news-column {
         width: 100%;
         margin-bottom: 20px;
+        overflow-y: visible; /* Remove internal scrolling on mobile */
+        max-height: none; /* Allow content to expand naturally */
       }
       
+      .game-list {
+        max-height: none; /* Allow game lists to expand fully */
+        overflow-y: visible;
+      }
+      
+      /* Fixed header for mobile */
       .home-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
         padding: 10px 0 !important;
-        height: auto !important; 
+        height: auto !important;
+        pointer-events: auto !important;
       }
       
+      /* Fix navigation for mobile */
       .nav-bar {
-        position: relative !important;
+        position: sticky !important;
+        top: 0;
         right: auto !important;
-        top: auto !important;
         width: 100% !important;
         margin-bottom: 15px;
+        z-index: 100;
+        background-color: rgba(20, 20, 20, 0.8);
+        backdrop-filter: blur(5px);
       }
       
       .nav-bar-user {
@@ -607,6 +643,19 @@ include_once 'Header.php';
       
       .nav-bar-user ul.rightnav li {
         margin: 5px;
+      }
+      
+      /* Ensure smooth scrolling on the entire page */
+      html, body {
+        height: auto;
+        overflow: visible;
+        overflow-x: hidden;
+      }
+      
+      /* Adjust core wrapper for full page scroll */
+      .core-wrapper {
+        height: auto;
+        overflow: visible;
       }
     }
     
