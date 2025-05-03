@@ -114,24 +114,21 @@ include_once 'Header.php';
 
   $favoriteDecks = [];
   if (isset($_SESSION["userid"])) {
-    $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
-    if (count($favoriteDecks) > 0) {
-      $selIndex = -1;
-      if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
-      echo ("<div class='SelectDeckInput'>Favorite Decks");
-      echo ("<select name='favoriteDecks' id='favoriteDecks'>");
-      for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-        echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
+    if($userData != NULL && $userData["swustatsAccessToken"] != null) {
+      echo "<div>Has access token</div>";
+    } else {
+      $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
+      if (count($favoriteDecks) > 0) {
+        $selIndex = -1;
+        if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
+        echo ("<div class='SelectDeckInput'>Favorite Decks");
+        echo ("<select name='favoriteDecks' id='favoriteDecks'>");
+        for ($i = 0; $i < count($favoriteDecks); $i += 4) {
+          echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
+        }
+        echo ("</select></div>");
       }
-      echo ("</select></div>");
-    }
-    if($userData != NULL) {
-      if($userData != NULL && $userData["swustatsAccessToken"] != null) {
-        echo "<div>Has access token</div>";
-      } else {
-        echo "<div>No access token</div>";
-      }
-      
+      echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place!</p>";
     }
   }
   /*
