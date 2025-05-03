@@ -180,6 +180,8 @@ include_once 'Header.php';
       font-weight: bold;
       text-align: center;
       display: none;
+      position: relative; /* Position relative for absolute positioning of children */
+      overflow: visible !important; /* Force tooltip to overflow without scrollbars */
     }
 
     .deck-valid {
@@ -250,6 +252,88 @@ include_once 'Header.php';
     .nav-bar * {
       pointer-events: auto; /* Re-enable click events for navigation elements */
     }
+
+    /* Help icon tooltip styles */
+    .help-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background-color: rgba(150, 130, 90, 0.7);
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 18px;
+      font-size: 14px;
+      margin-left: 6px;
+      cursor: help;
+      position: relative;
+      font-weight: bold;
+    }
+
+    .tooltip {
+      visibility: hidden;
+      width: 280px;
+      background-color: rgba(40, 30, 20, 0.95);
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1000; /* Higher z-index to ensure it's above everything */
+      bottom: 125%;
+      left: 50%;
+      margin-left: -140px;
+      opacity: 0;
+      /* Different transition times for appearing and disappearing */
+      transition: opacity 0.2s ease-in, visibility 0s linear 0.5s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      font-weight: normal;
+      pointer-events: auto; /* Enable pointer events so we can hover over the tooltip */
+    }
+
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: rgba(40, 30, 20, 0.95) transparent transparent transparent;
+    }
+
+    /* Make tooltip visible when hovering over help icon OR the tooltip itself */
+    .help-icon:hover .tooltip,
+    .tooltip:hover {
+      visibility: visible;
+      opacity: 1;
+      /* Reset the visibility delay when showing the tooltip */
+      transition: opacity 0.2s ease-in, visibility 0s linear 0s;
+    }
+
+    /* Improved spacing for tooltip links */
+    .tooltip-link {
+      display: block;
+      margin: 8px 0;
+      padding: 5px 0;
+      color: #bddbff;
+      text-decoration: underline;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tooltip-link:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .tooltip-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 14px;
+      display: block;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 8px;
+    }
     </style>
 </head>
 <body>
@@ -293,11 +377,6 @@ include_once 'Header.php';
         
         <div class="deck-link-input">
           <label for="deckLink">Deck Link:</label>
-          <div class="deck-sources">
-            <u><a href='https://swustats.net/' target='_blank'>SWU Stats</a></u>, 
-            <u><a href='https://www.swudb.com/' target='_blank'>SWUDB</a></u>, or 
-            <u><a href='https://sw-unlimited-db.com/' target='_blank'>SW-Unlimited-DB</a></u>
-          </div>
           <input type="text" id="deckLink" name="deckLink" value='<?= $deckUrl ?>' placeholder="Paste your deck URL here">
           
           <?php
@@ -508,7 +587,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const validDomains = ['swustats.net', 'swudb.com', 'sw-unlimited-db.com'];
         
         if (!url || url.trim() === '') {
-            deckFeedback.textContent = 'Please select or enter a deck.';
+            // Add help icon with tooltip containing deck site links
+            deckFeedback.innerHTML = 'Please select or enter a deck <span class="help-icon">?<div class="tooltip"><span class="tooltip-title">Where to find decks:</span><a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a><a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a><a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a></div></span>';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
@@ -587,7 +667,8 @@ document.addEventListener('DOMContentLoaded', function() {
             deckFeedback.style.display = 'block';
             createGameButton.disabled = false;
         } else {
-            deckFeedback.textContent = 'Please enter a valid deck URL from SWU Stats, SWUDB, or SW-Unlimited-DB, or paste JSON deck data.';
+            // Also add help icon to the error message
+            deckFeedback.innerHTML = 'Please enter a valid deck URL or JSON data <span class="help-icon">?<div class="tooltip"><span class="tooltip-title">Where to find decks:</span><a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a><a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a><a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a></div></span>';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
