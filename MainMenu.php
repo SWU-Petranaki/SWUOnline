@@ -82,21 +82,59 @@ if (!empty($_SESSION['error'])) {
 }
 
 // Now start HTML output after all PHP processing is done
-include_once 'Header.php';
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petranaki</title>
     
     <style>
     body {
       margin: 0;
       padding: 0;
+      font-family: 'Barlow', sans-serif;
     }
     
-    /* Styles for the new 3-column layout */
+    /* Site container */
+    .site-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    /* Ensure header and menubar work together in mobile view */
+    .header-wrapper {
+      position: relative;
+      z-index: 100;
+    }
+    
+    .home-header {
+      width: 100%;
+      z-index: 10;
+      position: relative;
+    }
+    
+    .nav-bar {
+      /* Desktop: compact, top-right, auto width */
+      position: absolute;
+      right: 0;
+      top: 10px;
+      width: auto;
+      margin-bottom: 0;
+      z-index: 100;
+      background: none;
+      backdrop-filter: none;
+    }
+    
+    /* Main content area */
+    .content-wrapper {
+      flex: 1;
+      padding: 20px;
+    }
+    
+    /* Styles for the 3-column layout */
     .main-layout {
       display: grid;
       grid-template-columns: 1fr 1.2fr 1fr;
@@ -104,8 +142,8 @@ include_once 'Header.php';
       width: 100%;
       max-width: 1800px;
       margin: 0 auto;
-      height: calc(100vh - 180px); /* Adjusted to account for header AND footer */
-      overflow: hidden; /* Prevent page-level scroll on desktop */
+      height: calc(100vh - 180px);
+      overflow: hidden;
     }
 
     .deck-column, .game-action-column, .news-column {
@@ -592,6 +630,7 @@ include_once 'Header.php';
         grid-template-rows: auto auto auto;
         height: auto;
         overflow: visible;
+        padding: 0 10px;
       }
       
       .deck-column, .game-action-column, .news-column {
@@ -606,43 +645,43 @@ include_once 'Header.php';
         overflow-y: visible;
       }
       
-      /* Fixed header for mobile */
-      .home-header {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        padding: 10px 0 !important;
-        height: auto !important;
-        pointer-events: auto !important;
+      /* Properly coordinate header, menubar, and content on mobile */
+      .header-wrapper {
+        position: relative;
       }
       
-      /* Fix navigation for mobile */
+      .home-header {
+        padding: 5px 0 !important;
+        position: relative;
+        pointer-events: auto !important;
+        z-index: 30;
+      }
+      
+      .title-container {
+        padding: 5px !important;
+      }
+      
       .nav-bar {
-        position: sticky !important;
-        top: 0;
-        right: auto !important;
+        position: relative !important;
+        top: auto;
         width: 100% !important;
         margin-bottom: 15px;
-        z-index: 100;
+        z-index: 20;
         background-color: rgba(20, 20, 20, 0.8);
         backdrop-filter: blur(5px);
       }
       
-      .nav-bar-user {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
+      /* Improve mobile menu appearance */
+      .menu-toggle {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        z-index: 40;
       }
       
-      .nav-bar-user ul.rightnav {
-        padding-left: 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      
-      .nav-bar-user ul.rightnav li {
-        margin: 5px;
+      /* Better spacing for mobile content */
+      .content-wrapper {
+        padding: 10px;
       }
       
       /* Ensure smooth scrolling on the entire page */
@@ -686,237 +725,261 @@ include_once 'Header.php';
         width: 100%;
         justify-content: space-between;
       }
+      
+      .title p {
+        font-size: 0.7rem;
+        margin-top: 0;
+      }
+      
+      .home-title {
+        font-size: 1.5rem !important;
+        margin-bottom: 0;
+      }
+      
+      .content-wrapper {
+        padding: 5px;
+      }
     }
     </style>
 </head>
 <body>
-<div class="core-wrapper">
-  <div id="mainMenuError" class="error-popup-hidden"></div>
+<div class="site-container">
+  <!-- Header & MenuBar wrapper to coordinate them better -->
+  <div class="header-wrapper">
+    <?php include_once 'Header.php'; ?>
+    <!-- MenuBar is already included at the top of this file -->
+  </div>
   
-  <!-- Add a single global tooltip that will be positioned dynamically -->
-  <div id="global-tooltip"></div>
-  
-  <div class="main-layout">
-    <!-- COLUMN 1: DECK SELECTION -->
-    <div class="deck-column">
-      <div class="container bg-yellow">
-        <h2>Select Your Deck</h2>
-        
-        <!-- SWU Stats integration -->
-        <?php
-        $favoriteDecks = [];
-        $swuStatsLinked = isset($userData) && $userData["swustatsAccessToken"] != null;
-
-        if (isset($_SESSION["userid"])) {
-          if ($swuStatsLinked) {
-            echo "<div class='swustats-connected'>SWU Stats account connected</div>";
-            // Future: Add deck management via SWU Stats API here
-            echo "<div class='deck-list'>
-              <p>Your decks will appear here.</p>
-              <!-- Future: Dynamic deck list will load here -->
-            </div>";
-          } else {
-            $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
-            if (count($favoriteDecks) > 0) {
-              $selIndex = -1;
-              if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
-              echo ("<div class='SelectDeckInput'><label for='favoriteDecks'>Favorite Decks</label>");
-              echo ("<select name='favoriteDecks' id='favoriteDecks'>");
-              echo ("<option value=''>-- Select a deck --</option>");
-              for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-          echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
-              }
-              echo ("</select></div>");
-            }
-            echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place!</p>";
-          }
-        }
-        ?>
-        
-        <div class="deck-link-input">
-          <label for="deckLink">Deck Link:</label>
-          <input type="text" id="deckLink" name="deckLink" value='<?= $deckUrl ?>' placeholder="Paste your deck URL here">
-          
-          <?php
-            if (isset($_SESSION["userid"]) && !$swuStatsLinked) {
-            echo ("<span class='save-deck'>");
-            echo ("<label for='saveFavoriteDeck'><input class='inputFavoriteDeck' type='checkbox' id='saveFavoriteDeck' name='saveFavoriteDeck' />");
-            echo ("Save to Favorite Decks</label>");
-            echo ("</span>");
-            }
-          ?>
-        </div>
-        <div id="deckFeedback" class="deck-feedback"></div>
-      </div>
-    </div>
+  <div class="content-wrapper">
+    <div id="mainMenuError" class="error-popup-hidden"></div>
     
-    <!-- COLUMN 2: GAME ACTIONS -->
-    <div class="game-action-column">
-      <div class="tabs">
-        <button class="tab-button active" id="gamesTabBtn" onclick="switchTabDirect('gamesTab')">Games</button>
-        <button class="tab-button" id="spectateTabBtn" onclick="switchTabDirect('spectateTab')">Spectate</button>
+    <!-- Add a single global tooltip that will be positioned dynamically -->
+    <div id="global-tooltip"></div>
+    
+    <div class="main-layout">
+      <!-- COLUMN 1: DECK SELECTION -->
+      <div class="deck-column">
+        <div class="container bg-yellow">
+          <h2>Select Your Deck</h2>
+          
+          <!-- SWU Stats integration -->
+          <?php
+          $favoriteDecks = [];
+          $swuStatsLinked = isset($userData) && $userData["swustatsAccessToken"] != null;
+
+          if (isset($_SESSION["userid"])) {
+            if ($swuStatsLinked) {
+              echo "<div class='swustats-connected'>SWU Stats account connected</div>";
+              // Future: Add deck management via SWU Stats API here
+              echo "<div class='deck-list'>
+                <p>Your decks will appear here.</p>
+                <!-- Future: Dynamic deck list will load here -->
+              </div>";
+            } else {
+              $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
+              if (count($favoriteDecks) > 0) {
+                $selIndex = -1;
+                if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
+                echo ("<div class='SelectDeckInput'><label for='favoriteDecks'>Favorite Decks</label>");
+                echo ("<select name='favoriteDecks' id='favoriteDecks'>");
+                echo ("<option value=''>-- Select a deck --</option>");
+                for ($i = 0; $i < count($favoriteDecks); $i += 4) {
+            echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
+                }
+                echo ("</select></div>");
+              }
+              echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place!</p>";
+            }
+          }
+          ?>
+          
+          <div class="deck-link-input">
+            <label for="deckLink">Deck Link:</label>
+            <input type="text" id="deckLink" name="deckLink" value='<?= $deckUrl ?>' placeholder="Paste your deck URL here">
+            
+            <?php
+              if (isset($_SESSION["userid"]) && !$swuStatsLinked) {
+              echo ("<span class='save-deck'>");
+              echo ("<label for='saveFavoriteDeck'><input class='inputFavoriteDeck' type='checkbox' id='saveFavoriteDeck' name='saveFavoriteDeck' />");
+              echo ("Save to Favorite Decks</label>");
+              echo ("</span>");
+              }
+            ?>
+          </div>
+          <div id="deckFeedback" class="deck-feedback"></div>
+        </div>
       </div>
       
-      <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
-      <div id="gamesTab" class="tab-content active">
-        <div class="create-game-summary">
-          <div class="summary-text">
-            <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
+      <!-- COLUMN 2: GAME ACTIONS -->
+      <div class="game-action-column">
+        <div class="tabs">
+          <button class="tab-button active" id="gamesTabBtn" onclick="switchTabDirect('gamesTab')">Games</button>
+          <button class="tab-button" id="spectateTabBtn" onclick="switchTabDirect('spectateTab')">Spectate</button>
+        </div>
+        
+        <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
+        <div id="gamesTab" class="tab-content active">
+          <div class="create-game-summary">
+            <div class="summary-text">
+              <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
+            </div>
+            <div class="summary-actions">
+              <button class="create-btn" id="quickCreateGame">Create Game</button>
+              <button class="edit-icon" id="openCreateGameModal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2-2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Edit
+              </button>
+            </div>
           </div>
-          <div class="summary-actions">
-            <button class="create-btn" id="quickCreateGame">Create Game</button>
-            <button class="edit-icon" id="openCreateGameModal">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2-2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          
+          <div class="game-list-filters">
+            <div class="filter-dropdown-wrapper">
+              <span class="filter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+              </span>
+              <select id="formatFilter" class="styled-dropdown">
+                <option value="all">All Formats</option>
+                <option value="premier">Premier Casual</option>
+                <option value="premier-bo3">Premier (Best of 3)</option>
+                <option value="cantina">Cantina Brawl</option>
+                <option value="openform">Open Format</option>
+              </select>
+            </div>
+            <button id="refreshGameList" class="refresh-btn" title="Refresh game list">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
               </svg>
-              Edit
             </button>
           </div>
-        </div>
-        
-        <div class="game-list-filters">
-          <div class="filter-dropdown-wrapper">
-            <span class="filter-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-              </svg>
-            </span>
-            <select id="formatFilter" class="styled-dropdown">
-              <option value="all">All Formats</option>
-              <option value="premier">Premier Casual</option>
-              <option value="premier-bo3">Premier (Best of 3)</option>
-              <option value="cantina">Cantina Brawl</option>
-              <option value="openform">Open Format</option>
-            </select>
+          
+          <div id="gameList" class="game-list">
+            <p id="gameListLoading">Loading games...</p>
+            <div id="gameListContent"></div>
           </div>
-          <button id="refreshGameList" class="refresh-btn" title="Refresh game list">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-            </svg>
-          </button>
         </div>
         
-        <div id="gameList" class="game-list">
-          <p id="gameListLoading">Loading games...</p>
-          <div id="gameListContent"></div>
-        </div>
-      </div>
-      
-      <!-- SPECTATE TAB -->
-      <div id="spectateTab" class="tab-content">
-        <h3>Spectate Games</h3>
-        <p>Watch ongoing games without participating.</p>
-        
-        <div class="game-list-filters">
-          <div class="filter-dropdown-wrapper">
-            <span class="filter-icon">
+        <!-- SPECTATE TAB -->
+        <div id="spectateTab" class="tab-content">
+          <h3>Spectate Games</h3>
+          <p>Watch ongoing games without participating.</p>
+          
+          <div class="game-list-filters">
+            <div class="filter-dropdown-wrapper">
+              <span class="filter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+              </span>
+              <select id="spectateFormatFilter" class="styled-dropdown">
+                <option value="all">All Formats</option>
+                <option value="premier">Premier Casual</option>
+                <option value="premier-bo3">Premier (Best of 3)</option>
+                <option value="cantina">Cantina Brawl</option>
+                <option value="openform">Open Format</option>
+              </select>
+            </div>
+            <button id="refreshSpectateList" class="refresh-btn" title="Refresh spectate list">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
               </svg>
-            </span>
-            <select id="spectateFormatFilter" class="styled-dropdown">
-              <option value="all">All Formats</option>
-              <option value="premier">Premier Casual</option>
-              <option value="premier-bo3">Premier (Best of 3)</option>
-              <option value="cantina">Cantina Brawl</option>
-              <option value="openform">Open Format</option>
-            </select>
-          </div>
-          <button id="refreshSpectateList" class="refresh-btn" title="Refresh spectate list">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-            </svg>
-          </button>
-        </div>
-        
-        <div id="spectateList" class="game-list">
-          <p id="spectateListLoading">Loading games...</p>
-          <div id="spectateListContent"></div>
-        </div>
-      </div>
-      
-      <!-- CREATE GAME MODAL -->
-      <div id="createGameModal" class="modal-overlay">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title"><?php echo ($createNewGameText); ?></h3>
-            <button class="modal-close" id="closeCreateGameModal">&times;</button>
+            </button>
           </div>
           
-          <form id="createGameForm" action='<?= $redirectPath ?>/CreateGame.php'>
-            <input type='hidden' id='fabdb' name='fabdb' value=''>
-            <input type='hidden' id='favoriteDeck' name='favoriteDeck' value='0'>
-            
-            <label for="gameDescription" class='game-name-label'>Game Name</label>
-            <input type="text" id="gameDescription" name="gameDescription" placeholder="Game #">
-            
-            <?php
-            $standardFormatCasual = Formats::$PremierFormat;
-            $standardFormat = Formats::$PremierStrict;
-            $previewFormat = Formats::$PreviewFormat;
-            $openFormat = Formats::$OpenFormat;
-            echo ("<label for='format' class='SelectDeckInput'>Format</label>");
-            echo ("<select name='format' id='format'>");
-            echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
-            if($canSeeQueue) {
-              echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
-              //Cantina Brawl Format; Update this to rotate formats
-              $funFormatBackendName = Formats::$PadawanFormat;
-              $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
-              echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
-            }
-            echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
-            echo ("</select>");
-            ?>
-            
-            <?php
-            echo ("<label for='visibility' class='SelectDeckInput'>Game Visibility</label>");
-            echo ("<select name='visibility' id='visibility'>");
-            
-            if ($canSeeQueue) {
-              echo ("<option value='public'" . ($defaultVisibility == 1 ? " selected" : "") . ">Public</option>");
-            } else {
-              echo '<p class="login-notice">&#10071;<a href="./LoginPage.php">Log In</a> to be able to create public games.</p>';
-            }
-            
-            echo ("<option value='private'" . ($defaultVisibility == 0 ? " selected" : "") . ">Private</option>");
-            echo ("</select>");
-            ?>
-            
-            <div class="modal-footer">
-              <button type="button" class="modal-btn modal-btn-secondary" id="cancelCreateGame">Cancel</button>
-              <button type="submit" id="createGameButton" class="modal-btn modal-btn-primary" disabled><?php echo ($createGameText); ?></button>
+          <div id="spectateList" class="game-list">
+            <p id="spectateListLoading">Loading games...</p>
+            <div id="spectateListContent"></div>
+          </div>
+        </div>
+        
+        <!-- CREATE GAME MODAL -->
+        <div id="createGameModal" class="modal-overlay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title"><?php echo ($createNewGameText); ?></h3>
+              <button class="modal-close" id="closeCreateGameModal">&times;</button>
             </div>
-          </form>
+            
+            <form id="createGameForm" action='<?= $redirectPath ?>/CreateGame.php'>
+              <input type='hidden' id='fabdb' name='fabdb' value=''>
+              <input type='hidden' id='favoriteDeck' name='favoriteDeck' value='0'>
+              
+              <label for="gameDescription" class='game-name-label'>Game Name</label>
+              <input type="text" id="gameDescription" name="gameDescription" placeholder="Game #">
+              
+              <?php
+              $standardFormatCasual = Formats::$PremierFormat;
+              $standardFormat = Formats::$PremierStrict;
+              $previewFormat = Formats::$PreviewFormat;
+              $openFormat = Formats::$OpenFormat;
+              echo ("<label for='format' class='SelectDeckInput'>Format</label>");
+              echo ("<select name='format' id='format'>");
+              echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
+              if($canSeeQueue) {
+                echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
+                //Cantina Brawl Format; Update this to rotate formats
+                $funFormatBackendName = Formats::$PadawanFormat;
+                $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
+                echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
+              }
+              echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
+              echo ("</select>");
+              ?>
+              
+              <?php
+              echo ("<label for='visibility' class='SelectDeckInput'>Game Visibility</label>");
+              echo ("<select name='visibility' id='visibility'>");
+              
+              if ($canSeeQueue) {
+                echo ("<option value='public'" . ($defaultVisibility == 1 ? " selected" : "") . ">Public</option>");
+              } else {
+                echo '<p class="login-notice">&#10071;<a href="./LoginPage.php">Log In</a> to be able to create public games.</p>';
+              }
+              
+              echo ("<option value='private'" . ($defaultVisibility == 0 ? " selected" : "") . ">Private</option>");
+              echo ("</select>");
+              ?>
+              
+              <div class="modal-footer">
+                <button type="button" class="modal-btn modal-btn-secondary" id="cancelCreateGame">Cancel</button>
+                <button type="submit" id="createGameButton" class="modal-btn modal-btn-primary" disabled><?php echo ($createGameText); ?></button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- COLUMN 3: NEWS & INFO -->
-    <div class="news-column">
-      <div class="container bg-yellow" style="margin-top: 20px;">
-        <h2>News</h2>
-        <div>
-          <div style="position: relative;">
-            <div style='vertical-align:middle; text-align: start;'>
-              <img src="./Images/jtl-han-solo.webp" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-              <h3 style="margin: 15px 0; display: block;">The Classic Force Awakens</h3>
-              <p>All Set 1-4 cards are now implemeneted.</p>
-              <p>Petranaki is the original version of Karabast, and it will continue to be available for those who prefer to stick with the classic experience. The project will keep evolving with updates designed to enhance gameplay, offering a fast and easy way to enjoy and sharpen your skills with your favorite decks.</p>
-              <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">new Discord server</a> to stay up-to-date, get the latest news, and share your feedback. May the Force guide your cards!</p>
+      
+      <!-- COLUMN 3: NEWS & INFO -->
+      <div class="news-column">
+        <div class="container bg-yellow" style="margin-top: 20px;">
+          <h2>News</h2>
+          <div>
+            <div style="position: relative;">
+              <div style='vertical-align:middle; text-align: start;'>
+                <img src="./Images/jtl-han-solo.webp" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                <h3 style="margin: 15px 0; display: block;">The Classic Force Awakens</h3>
+                <p>All Set 1-4 cards are now implemeneted.</p>
+                <p>Petranaki is the original version of Karabast, and it will continue to be available for those who prefer to stick with the classic experience. The project will keep evolving with updates designed to enhance gameplay, offering a fast and easy way to enjoy and sharpen your skills with your favorite decks.</p>
+                <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">new Discord server</a> to stay up-to-date, get the latest news, and share your feedback. May the Force guide your cards!</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<?php 
-// Output any error messages
-echo $errorScript;
-?>
+  <?php 
+  // Output any error messages
+  echo $errorScript;
+  ?>
+  
+  <?php include_once 'Disclaimer.php'; ?>
+</div>
 
 <script>
 // Tab switching functionality (without alerts)
@@ -1652,6 +1715,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include_once 'Disclaimer.php'; ?>
 </body>
 </html>

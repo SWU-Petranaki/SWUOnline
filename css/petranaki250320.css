@@ -195,9 +195,10 @@ select {
 /* HEADER ---------------------------------------------------------------------------------------------- */
 
 .home-header {
-  height: 276px;
+  height: auto; /* Changed from fixed 276px to auto */
   padding: 20px 0 0 20px;
   position: relative;
+  margin-bottom: 10px; /* Add space after the header */
 }
 
 .title {
@@ -209,7 +210,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: left;
-  width: calc(33% - 50px);
+  width: calc(40% - 50px); /* Increased from 33% to 40% to make it wider */
   padding: 16px 18px 18px 18px;
   border-radius: 10px;
 }
@@ -263,7 +264,9 @@ select {
   top: 10px;
   font-size: 18px;
   font-weight: 600;
-  z-index: 20;
+  z-index: 100; /* Increased from 20 to 100 to ensure it appears above other elements */
+  width: auto; /* Only as wide as needed on desktop */
+  display: block;
 }
 
 .nav-bar a {
@@ -305,6 +308,7 @@ select {
   font-size: 16px;
   font-weight: 500;
   padding: 12.5px 20px;
+  z-index: 10; /* Added z-index to prevent cutoff */
 
   a {
     text-decoration: underline;
@@ -880,4 +884,40 @@ select {
 .bg-blur {
   background-color: rgb(0, 0, 0, 40%);
   backdrop-filter: blur(20px);
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 768px) {
+  .title-container {
+    width: calc(60% - 40px); /* Wider on mobile */
+    padding: 12px 14px 14px 14px;
+  }
+  
+  .home-header h1 {
+    font-size: 40px; /* Slightly smaller font on mobile */
+  }
+  
+  /* Hide the karabast section on mobile as it will be in the burger menu */
+  .nav-bar-karabast {
+    display: none;
+  }
+  
+  /* Make sure the banner doesn't interfere with the logo */
+  .home-banner {
+    width: calc(100% - 200px);
+  }
+  
+  /* Core wrapper adjustments for smaller header */
+  .core-wrapper {
+    margin-top: -60px; /* Adjusted from -116px for the smaller header */
+  }
+
+  .nav-bar {
+    position: relative;
+    width: 100%; /* Full width on mobile */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

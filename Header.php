@@ -9,3 +9,31 @@
         </a>
     </div>
 </div>
+
+<style>
+/* Responsive styles for Header */
+@media screen and (max-width: 768px) {
+    .home-header {
+        padding: 10px 0;
+        height: auto !important;
+    }
+    
+    .title-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px !important;
+    }
+    
+    .home-title {
+        font-size: 1.8rem !important;
+        margin-bottom: 5px;
+    }
+    
+    .title p {
+        font-size: 0.8rem;
+        text-align: center;
+        line-height: 1.2;
+    }
+}
+</style>
