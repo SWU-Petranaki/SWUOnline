@@ -79,6 +79,7 @@ if ($handle = opendir($path)) {
       if ($p1Hero != "" && $p1Base != "") {
         $openGame = new stdClass();
         $formatName = FormatDisplayName($format);
+
         $description = ($gameDescription == "" ? "Game #" . $gameName : $gameDescription);
         
         $openGame->gameName = $gameToken;

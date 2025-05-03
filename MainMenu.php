@@ -545,13 +545,19 @@ include_once 'Header.php';
             <option value="premier">Premier Casual</option>
             <option value="premier-bo3">Premier (Best of 3)</option>
             <option value="cantina">Cantina Brawl</option>
-            <option value="open">Open Format</option>
+            <option value="openform">Open Format</option>
           </select>
+          <button id="refreshGameList" class="refresh-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+            </svg>
+            Refresh
+          </button>
         </div>
         
         <div id="gameList" class="game-list">
-          <p>Game listing functionality will be added via REST API.</p>
-          <p class="api-note"><i>Note: This section is being restructured to use a more efficient REST-based approach.</i></p>
+          <p id="gameListLoading">Loading games...</p>
+          <div id="gameListContent"></div>
         </div>
       </div>
       
@@ -560,9 +566,26 @@ include_once 'Header.php';
         <h3>Spectate Games</h3>
         <p>Watch ongoing games without participating.</p>
         
+        <div class="game-list-filters">
+          <label for="spectateFormatFilter">Filter by format:</label>
+          <select id="spectateFormatFilter">
+            <option value="all">All Formats</option>
+            <option value="premier">Premier Casual</option>
+            <option value="premier-bo3">Premier (Best of 3)</option>
+            <option value="cantina">Cantina Brawl</option>
+            <option value="openform">Open Format</option>
+          </select>
+          <button id="refreshSpectateList" class="refresh-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+            </svg>
+            Refresh
+          </button>
+        </div>
+        
         <div id="spectateList" class="game-list">
-          <p>Spectate functionality will be added via REST API.</p>
-          <p class="api-note"><i>Note: This section is being restructured to use a more efficient REST-based approach.</i></p>
+          <p id="spectateListLoading">Loading games...</p>
+          <div id="spectateListContent"></div>
         </div>
       </div>
       
@@ -977,6 +1000,339 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return result;
         };
+    }
+});
+
+// Function to load games from API
+function loadOpenGames() {
+    document.getElementById('gameListLoading').style.display = 'block';
+    document.getElementById('gameListContent').innerHTML = '';
+    
+    fetch('APIs/GetOpenGames.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayOpenGames(data);
+        })
+        .catch(error => {
+            console.error('Error fetching games:', error);
+            document.getElementById('gameListContent').innerHTML = 
+                '<p class="error-message">Error loading games. Please try again later.</p>';
+            document.getElementById('gameListLoading').style.display = 'none';
+        });
+}
+
+// Function to display games by format
+function displayOpenGames(data) {
+    const gameListContent = document.getElementById('gameListContent');
+    const formatFilter = document.getElementById('formatFilter').value;
+    document.getElementById('gameListLoading').style.display = 'none';
+    
+    // Group games by format for better organization
+    const gamesByFormat = {};
+    
+    if (!data.openGames || data.openGames.length === 0) {
+        gameListContent.innerHTML = '<p>No open games available. Create a new game to get started!</p>';
+        return;
+    }
+    
+    // Group games by format
+    data.openGames.forEach(game => {
+        if (!gamesByFormat[game.format]) {
+            gamesByFormat[game.format] = [];
+        }
+        gamesByFormat[game.format].push(game);
+    });
+    
+    // Clear existing content
+    gameListContent.innerHTML = '';
+    
+    // Display games grouped by format
+    Object.keys(gamesByFormat).forEach(format => {
+        // Skip if format doesn't match filter (unless "all" is selected)
+        if (formatFilter !== 'all' && format !== formatFilter) {
+            return;
+        }
+        
+        const formatGames = gamesByFormat[format];
+        const formatSection = document.createElement('div');
+        formatSection.className = 'format-section';
+        
+        // Create format header
+        const formatHeader = document.createElement('h4');
+        formatHeader.textContent = formatGames[0].formatName || format;
+        formatSection.appendChild(formatHeader);
+        
+        // Create games list for this format
+        formatGames.forEach(game => {
+            const gameItem = document.createElement('div');
+            gameItem.className = 'game-item';
+            
+            // Game info with images
+            const gameInfo = document.createElement('div');
+            gameInfo.className = 'game-info';
+            
+            // Game description/name
+            const gameName = document.createElement('strong');
+            // Use a friendly name if available, otherwise use Game #ID
+            gameName.textContent = game.description && game.description !== game.gameName ? 
+                                   game.description : 
+                                   `Game #${game.gameName}`;
+            
+            // Create card display div
+            const cardDisplay = document.createElement('div');
+            cardDisplay.className = 'card-display';
+            cardDisplay.style.display = 'flex';
+            cardDisplay.style.alignItems = 'center';
+            cardDisplay.style.gap = '10px';
+            cardDisplay.style.marginTop = '5px';
+            
+            // Leader card
+            if (game.p1Hero) {
+                const leaderContainer = document.createElement('div');
+                leaderContainer.className = 'card-container';
+                leaderContainer.style.textAlign = 'center';
+                
+                const leaderImg = document.createElement('img');
+                leaderImg.src = `./concat/${game.p1Hero}.webp`;
+                leaderImg.alt = 'Leader';
+                leaderImg.className = 'card-image';
+                leaderImg.style.width = '60px';
+                leaderImg.style.height = '84px';
+                leaderImg.style.objectFit = 'cover';
+                leaderImg.style.borderRadius = '5px';
+                leaderImg.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+                
+                // Add error handler for image loading
+                leaderImg.onerror = function() {
+                    leaderImg.src = './Images/card-back.webp'; // Fallback image if leader image not found
+                    leaderImg.alt = 'Leader Card';
+                };
+                
+                leaderContainer.appendChild(leaderImg);
+                
+                const leaderLabel = document.createElement('div');
+                leaderLabel.textContent = 'Leader';
+                leaderLabel.style.fontSize = '0.8em';
+                leaderLabel.style.marginTop = '2px';
+                leaderContainer.appendChild(leaderLabel);
+                
+                cardDisplay.appendChild(leaderContainer);
+            }
+            
+            // Base card
+            if (game.p1Base) {
+                const baseContainer = document.createElement('div');
+                baseContainer.className = 'card-container';
+                baseContainer.style.textAlign = 'center';
+                
+                const baseImg = document.createElement('img');
+                baseImg.src = `./concat/${game.p1Base}.webp`;
+                baseImg.alt = 'Base';
+                baseImg.className = 'card-image';
+                baseImg.style.width = '60px';
+                baseImg.style.height = '84px';
+                baseImg.style.objectFit = 'cover';
+                baseImg.style.borderRadius = '5px';
+                baseImg.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+                
+                // Add error handler for image loading
+                baseImg.onerror = function() {
+                    baseImg.src = './Images/card-back.webp'; // Fallback image if base image not found
+                    baseImg.alt = 'Base Card';
+                };
+                
+                baseContainer.appendChild(baseImg);
+                
+                const baseLabel = document.createElement('div');
+                baseLabel.textContent = 'Base';
+                baseLabel.style.fontSize = '0.8em';
+                baseLabel.style.marginTop = '2px';
+                baseContainer.appendChild(baseLabel);
+                
+                cardDisplay.appendChild(baseContainer);
+            }
+            
+            gameInfo.appendChild(gameName);
+            gameInfo.appendChild(cardDisplay);
+            
+            // Join button
+            const joinButton = document.createElement('button');
+            joinButton.textContent = 'Join';
+            joinButton.className = 'join-btn';
+            joinButton.onclick = function() {
+                // Check if deck is selected first
+                const deckLink = document.getElementById('deckLink').value;
+                if (!deckLink || deckLink.trim() === '') {
+                    const deckFeedback = document.getElementById('deckFeedback');
+                    deckFeedback.textContent = 'Please select a deck before joining a game';
+                    deckFeedback.className = 'deck-feedback deck-invalid';
+                    deckFeedback.style.display = 'block';
+                    return;
+                }
+                
+                // Join the game
+                const fabdb = document.getElementById('fabdb');
+                window.location.href = `${window.location.origin}/SWUOnline/JoinGame.php?gameName=${game.gameName}&fabdb=${encodeURIComponent(fabdb.value)}`;
+            };
+            
+            gameItem.appendChild(gameInfo);
+            gameItem.appendChild(joinButton);
+            formatSection.appendChild(gameItem);
+        });
+        
+        gameListContent.appendChild(formatSection);
+    });
+    
+    // Show message if no games match the filter
+    if (gameListContent.children.length === 0) {
+        gameListContent.innerHTML = '<p>No games found matching the selected format.</p>';
+    }
+}
+
+// Set up refresh button and format filter events
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial load of games
+    loadOpenGames();
+    
+    // Set up refresh button
+    const refreshButton = document.getElementById('refreshGameList');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', loadOpenGames);
+    }
+    
+    // Set up format filter
+    const formatFilter = document.getElementById('formatFilter');
+    if (formatFilter) {
+        formatFilter.addEventListener('change', function() {
+            // Reload games with new filter
+            loadOpenGames();
+        });
+    }
+});
+
+// Function to load spectate games from API
+function loadSpectateGames() {
+    document.getElementById('spectateListLoading').style.display = 'block';
+    document.getElementById('spectateListContent').innerHTML = '';
+    
+    fetch('APIs/GetSpectateGames.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displaySpectateGames(data);
+        })
+        .catch(error => {
+            console.error('Error fetching spectate games:', error);
+            document.getElementById('spectateListContent').innerHTML = 
+                '<p class="error-message">Error loading games. Please try again later.</p>';
+            document.getElementById('spectateListLoading').style.display = 'none';
+        });
+}
+
+// Function to display spectate games by format
+function displaySpectateGames(data) {
+    const spectateListContent = document.getElementById('spectateListContent');
+    const formatFilter = document.getElementById('spectateFormatFilter').value;
+    document.getElementById('spectateListLoading').style.display = 'none';
+    
+    // Group games by format for better organization
+    const gamesByFormat = {};
+    
+    if (!data.gamesInProgress || data.gamesInProgress.length === 0) {
+        spectateListContent.innerHTML = '<p>No games currently available to spectate.</p>';
+        return;
+    }
+    
+    // Group games by format
+    data.gamesInProgress.forEach(game => {
+        if (!gamesByFormat[game.format]) {
+            gamesByFormat[game.format] = [];
+        }
+        gamesByFormat[game.format].push(game);
+    });
+    
+    // Clear existing content
+    spectateListContent.innerHTML = '';
+    
+    // Display games grouped by format
+    Object.keys(gamesByFormat).forEach(format => {
+        // Skip if format doesn't match filter (unless "all" is selected)
+        if (formatFilter !== 'all' && format !== formatFilter) {
+            return;
+        }
+        
+        const formatGames = gamesByFormat[format];
+        const formatSection = document.createElement('div');
+        formatSection.className = 'format-section';
+        
+        // Create format header
+        const formatHeader = document.createElement('h4');
+        formatHeader.textContent = formatGames[0].formatName || format;
+        formatSection.appendChild(formatHeader);
+        
+        // Create games list for this format
+        formatGames.forEach(game => {
+            const gameItem = document.createElement('div');
+            gameItem.className = 'game-item';
+            
+            // Game info
+            const gameInfo = document.createElement('div');
+            gameInfo.className = 'game-info';
+            gameInfo.innerHTML = `
+                <strong>Game #${game.gameName}</strong>
+                <div>${game.p1Hero || 'Unknown'} vs ${game.p2Hero || 'Unknown'}</div>
+                <div class="time-info">Last update: ${game.secondsSinceLastUpdate}s ago</div>
+            `;
+            
+            // Spectate button
+            const spectateButton = document.createElement('button');
+            spectateButton.textContent = 'Spectate';
+            spectateButton.className = 'spectate-btn';
+            spectateButton.onclick = function() {
+                window.location.href = `${window.location.origin}/SWUOnline/GameLobby.php?gameName=${game.gameName}&playerID=3`;
+            };
+            
+            gameItem.appendChild(gameInfo);
+            gameItem.appendChild(spectateButton);
+            formatSection.appendChild(gameItem);
+        });
+        
+        spectateListContent.appendChild(formatSection);
+    });
+    
+    // Show message if no games match the filter
+    if (spectateListContent.children.length === 0) {
+        spectateListContent.innerHTML = '<p>No games found matching the selected format.</p>';
+    }
+}
+
+// Set up spectate refresh button and format filter events
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial load of spectate games
+    loadSpectateGames();
+    
+    // Set up spectate refresh button
+    const refreshSpectateButton = document.getElementById('refreshSpectateList');
+    if (refreshSpectateButton) {
+        refreshSpectateButton.addEventListener('click', loadSpectateGames);
+    }
+    
+    // Set up spectate format filter
+    const spectateFormatFilter = document.getElementById('spectateFormatFilter');
+    if (spectateFormatFilter) {
+        spectateFormatFilter.addEventListener('change', function() {
+            // Reload spectate games with new filter
+            loadSpectateGames();
+        });
     }
 });
 </script>
