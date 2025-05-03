@@ -6,6 +6,7 @@ include_once "Libraries/PlayerSettings.php";
 include_once 'Assets/patreon-php-master/src/PatreonDictionary.php';
 include_once "APIKeys/APIKeys.php";
 include_once './AccountFiles/AccountDatabaseAPI.php';
+include_once './Database/ConnectionManager.php';
 include_once 'Libraries/GameFormats.php';
 
 // Check if the user is banned
@@ -52,6 +53,8 @@ if (!empty($_SESSION['error'])) {
     });
   </script>";
 }
+
+$userData = isset($_SESSION["useruid"]) ? LoadUserData($_SESSION["useruid"]) : NULL;
 
 $language = TryGet("language", 1);
 $settingArray = [];
@@ -121,6 +124,14 @@ include_once 'Header.php';
         echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
       }
       echo ("</select></div>");
+    }
+    if($userData != NULL) {
+      if($userData != NULL && $userData["swustatsAccessToken"] != null) {
+        echo "<div>Has access token</div>";
+      } else {
+        echo "<div>No access token</div>";
+      }
+      
     }
   }
   /*
