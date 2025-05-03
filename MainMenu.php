@@ -107,6 +107,23 @@ include_once 'Header.php';
       border-radius: 10px;
       overflow-y: auto;
     }
+    
+    /* Fix deck-column to fit content */
+    .deck-column {
+      min-height: auto !important;
+      height: auto !important;
+      align-self: flex-start;
+    }
+    
+    /* Make deck column fit content */
+    .deck-column .container {
+      height: fit-content;
+    }
+    
+    /* Keep scrolling for other columns */
+    .game-action-column, .news-column {
+      overflow-y: auto;
+    }
 
     /* Tabbed interface styles */
     .tabs {
