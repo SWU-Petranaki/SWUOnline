@@ -297,10 +297,12 @@ include_once 'Header.php';
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      background-color: rgba(100, 90, 80, 0.5) !important;
     }
 
     button:disabled:hover {
       transform: none;
+      background-color: rgba(100, 90, 80, 0.5) !important;
     }
 
     .news-toggle {
@@ -812,6 +814,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize with current value
     if(deckLinkInput && fabdbHidden) {
         fabdbHidden.value = deckLinkInput.value;
+        // Run validation when the page loads to set initial button states
         validateDeckLink(deckLinkInput.value);
         
         // Update on change
@@ -819,6 +822,9 @@ document.addEventListener('DOMContentLoaded', function() {
             fabdbHidden.value = deckLinkInput.value;
             validateDeckLink(deckLinkInput.value);
         });
+    } else {
+        // If deckLinkInput doesn't exist, disable all join buttons by default
+        validateDeckLink('');
     }
     
     // Connect favorite decks dropdown to the form
@@ -913,6 +919,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to validate deck link
     function validateDeckLink(url) {
         const validDomains = ['swustats.net', 'swudb.com', 'sw-unlimited-db.com'];
+        const joinButtons = document.querySelectorAll('.join-btn');
         
         if (!url || url.trim() === '') {
             // Add help icon with tooltip containing deck site links
@@ -920,6 +927,13 @@ document.addEventListener('DOMContentLoaded', function() {
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
+            
+            // Disable all join buttons
+            joinButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            });
+            
             return false;
         }
         
@@ -935,6 +949,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     deckFeedback.className = 'deck-feedback deck-invalid';
                     deckFeedback.style.display = 'block';
                     createGameButton.disabled = true;
+                    
+                    // Disable all join buttons
+                    joinButtons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.classList.add('disabled');
+                    });
+                    
                     return false;
                 }
                 
@@ -944,6 +965,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     deckFeedback.className = 'deck-feedback deck-invalid';
                     deckFeedback.style.display = 'block';
                     createGameButton.disabled = true;
+                    
+                    // Disable all join buttons
+                    joinButtons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.classList.add('disabled');
+                    });
+                    
                     return false;
                 }
                 
@@ -961,6 +989,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     deckFeedback.className = 'deck-feedback deck-invalid';
                     deckFeedback.style.display = 'block';
                     createGameButton.disabled = true;
+                    
+                    // Disable all join buttons
+                    joinButtons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.classList.add('disabled');
+                    });
+                    
                     return false;
                 }
                 
@@ -969,6 +1004,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 deckFeedback.className = 'deck-feedback deck-valid';
                 deckFeedback.style.display = 'block';
                 createGameButton.disabled = false;
+                
+                // Enable all join buttons
+                joinButtons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.classList.remove('disabled');
+                });
+                
                 return true;
             } catch (e) {
                 // JSON parsing failed
@@ -976,6 +1018,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 deckFeedback.className = 'deck-feedback deck-invalid';
                 deckFeedback.style.display = 'block';
                 createGameButton.disabled = true;
+                
+                // Disable all join buttons
+                joinButtons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('disabled');
+                });
+                
                 return false;
             }
         }
@@ -994,12 +1043,24 @@ document.addEventListener('DOMContentLoaded', function() {
             deckFeedback.className = 'deck-feedback deck-valid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = false;
+            
+            // Enable all join buttons
+            joinButtons.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+            });
         } else {
             // Also add help icon to the error message (without embedded tooltip)
             deckFeedback.innerHTML = 'Please enter a valid deck URL or JSON data <span class="help-icon">?</span>';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
+            
+            // Disable all join buttons
+            joinButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            });
         }
         
         return isValid;
@@ -1139,6 +1200,10 @@ function displayOpenGames(data) {
     const formatFilter = document.getElementById('formatFilter').value;
     document.getElementById('gameListLoading').style.display = 'none';
     
+    // Check if there's a valid deck to determine if buttons should be disabled
+    const deckLinkInput = document.getElementById('deckLink');
+    const isValidDeck = deckLinkInput && deckLinkInput.value && validateDeckLink(deckLinkInput.value);
+    
     // Group games by format for better organization
     const gamesByFormat = {};
     
@@ -1236,6 +1301,13 @@ function displayOpenGames(data) {
             const joinButton = document.createElement('button');
             joinButton.textContent = 'Join';
             joinButton.className = 'join-btn';
+            
+            // Set initial disabled state based on deck validity
+            if (!isValidDeck) {
+                joinButton.disabled = true;
+                joinButton.classList.add('disabled');
+            }
+            
             joinButton.onclick = function() {
                 // Check if deck is selected first
                 const deckLink = document.getElementById('deckLink').value;
