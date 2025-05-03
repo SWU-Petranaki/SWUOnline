@@ -633,6 +633,7 @@ if (!empty($_SESSION['error'])) {
         overflow-x: hidden;
         width: 100vw;
         max-width: 100vw;
+        background-attachment: fixed;
       }
       .main-layout {
         grid-template-columns: 1fr;
@@ -642,21 +643,23 @@ if (!empty($_SESSION['error'])) {
         padding: 0 10px;
         width: 100%;
         max-width: 100%;
+        box-sizing: border-box;
       }
-      
       .deck-column, .game-action-column, .news-column {
         width: 100%;
+        max-width: 100%;
         margin-bottom: 20px;
-        overflow-y: visible; /* Remove internal scrolling on mobile */
-        max-height: none; /* Allow content to expand naturally */
+        overflow: visible !important;
+        max-height: none !important;
+        height: auto !important;
       }
-      
-      .game-list {
-        max-height: none; /* Allow game lists to expand fully */
-        overflow-y: visible;
+      .container {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding-left: 8px;
+        padding-right: 8px;
       }
-      
-      /* Properly coordinate header, menubar, and content on mobile */
       .header-wrapper {
         position: relative;
       }
@@ -830,6 +833,7 @@ if (!empty($_SESSION['error'])) {
         
         <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
         <div id="gamesTab" class="tab-content active">
+          <!-- Filters and refresh button are now part of the Games tab only -->
           <div class="game-list-filters">
             <div class="filter-dropdown-wrapper">
               <span class="filter-icon">
