@@ -1247,9 +1247,49 @@ function displayOpenGames(data) {
                     return;
                 }
                 
-                // Join the game
+                // Join the game directly via JoinGameInput.php instead of going to JoinGame.php
                 const fabdb = document.getElementById('fabdb');
-                window.location.href = `${window.location.origin}/SWUOnline/JoinGame.php?gameName=${game.gameName}&fabdb=${encodeURIComponent(fabdb.value)}`;
+                const saveDeck = document.getElementById('saveFavoriteDeck');
+                
+                // Create a form element to submit the data
+                const form = document.createElement('form');
+                form.method = 'GET';
+                form.action = `${window.location.origin}/SWUOnline/JoinGameInput.php`;
+                
+                // Add game name
+                const gameNameInput = document.createElement('input');
+                gameNameInput.type = 'hidden';
+                gameNameInput.name = 'gameName';
+                gameNameInput.value = game.gameName;
+                form.appendChild(gameNameInput);
+                
+                // Add player ID (hardcoded to 2 for now, as that's typically the joiner)
+                const playerIDInput = document.createElement('input');
+                playerIDInput.type = 'hidden';
+                playerIDInput.name = 'playerID';
+                playerIDInput.value = '2';
+                form.appendChild(playerIDInput);
+                
+                // Add the deck link
+                const fabdbInput = document.createElement('input');
+                fabdbInput.type = 'hidden';
+                fabdbInput.name = 'fabdb';
+                fabdbInput.value = fabdb.value;
+                form.appendChild(fabdbInput);
+                
+                // Add save to favorites checkbox if it exists
+                if (saveDeck && saveDeck.checked) {
+                    const favoriteDeckInput = document.createElement('input');
+                    favoriteDeckInput.type = 'hidden';
+                    favoriteDeckInput.name = 'favoriteDeck';
+                    favoriteDeckInput.value = 'on';
+                    form.appendChild(favoriteDeckInput);
+                }
+                
+                // Add form to the document, submit it, and remove it
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
             };
             
             gameItem.appendChild(gameInfo);
