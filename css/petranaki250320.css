@@ -205,14 +205,13 @@ select {
   text-decoration: none;
   letter-spacing: 0.05em;
 }
-
 .title-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: left;
-  width: calc(40% - 50px); /* Increased from 33% to 40% to make it wider */
+  align-items: flex-start;
   padding: 16px 18px 18px 18px;
   border-radius: 10px;
+  width: auto;
 }
 
 .home-header h1 {
@@ -889,7 +888,7 @@ select {
 /* Mobile responsive adjustments */
 @media screen and (max-width: 768px) {
   .title-container {
-    width: calc(60% - 40px); /* Wider on mobile */
+    width: auto; /* Adjust width to fit the content */
     padding: 12px 14px 14px 14px;
   }
   

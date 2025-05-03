@@ -111,6 +111,7 @@ if (!empty($_SESSION['error'])) {
     .header-wrapper {
       position: relative;
       z-index: 100;
+      width:60%;
     }
     
     .home-header {
@@ -134,7 +135,7 @@ if (!empty($_SESSION['error'])) {
     /* Main content area */
     .content-wrapper {
       flex: 1;
-      padding: 20px;
+      padding: 10px;
     }
     
     /* Styles for the 3-column layout */
@@ -669,10 +670,6 @@ if (!empty($_SESSION['error'])) {
         position: relative;
         pointer-events: auto !important;
         z-index: 30;
-      }
-      
-      .title-container {
-        padding: 5px !important;
       }
       
       .nav-bar {
