@@ -176,8 +176,8 @@ include_once 'Header.php';
     }
     
     .card-image {
-      width: 40px;
-      height: 56px;
+      width: 56px;
+      height: 40px;
       object-fit: cover;
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -230,6 +230,27 @@ include_once 'Header.php';
       color: rgba(255, 255, 255, 0.8);
       pointer-events: none;
       z-index: 1;
+    }
+    
+    /* Deck feedback styling */
+    .deck-feedback {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .deck-valid {
+      background-color: rgba(40, 150, 50, 0.3);
+      color: #c0ffc0;
+      border: 1px solid rgba(40, 150, 50, 0.5);
+    }
+    
+    .deck-invalid {
+      background-color: rgba(180, 60, 60, 0.3);
+      color: #ffc0c0;
+      border: 1px solid rgba(180, 60, 60, 0.5);
     }
     
     .styled-dropdown {
@@ -1171,7 +1192,7 @@ function displayOpenGames(data) {
             // Leader card
             if (game.p1Hero) {
                 const leaderImg = document.createElement('img');
-                leaderImg.src = `./concat/${game.p1Hero}.webp`;
+                leaderImg.src = `./WebpImages2/${game.p1Hero}.webp`;
                 leaderImg.alt = 'Leader';
                 leaderImg.className = 'card-image';
                 
@@ -1187,7 +1208,7 @@ function displayOpenGames(data) {
             // Base card
             if (game.p1Base) {
                 const baseImg = document.createElement('img');
-                baseImg.src = `./concat/${game.p1Base}.webp`;
+                baseImg.src = `./WebpImages2/${game.p1Base}.webp`;
                 baseImg.alt = 'Base';
                 baseImg.className = 'card-image';
                 
