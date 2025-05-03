@@ -566,6 +566,78 @@ include_once 'Header.php';
       display: flex;
       align-items: center;
     }
+    
+    /* Mobile-responsive layout */
+    @media (max-width: 991px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+      
+      .deck-column, .game-action-column, .news-column {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      .home-header {
+        padding: 10px 0 !important;
+        height: auto !important; 
+      }
+      
+      .nav-bar {
+        position: relative !important;
+        right: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        margin-bottom: 15px;
+      }
+      
+      .nav-bar-user {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .nav-bar-user ul.rightnav {
+        padding-left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .nav-bar-user ul.rightnav li {
+        margin: 5px;
+      }
+    }
+    
+    @media (max-width: 575px) {
+      .game-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .game-info {
+        margin-bottom: 10px;
+        width: 100%;
+      }
+      
+      .join-btn, .spectate-btn {
+        width: 100%;
+      }
+      
+      .create-game-summary {
+        flex-direction: column;
+      }
+      
+      .summary-text {
+        margin-bottom: 10px;
+      }
+      
+      .summary-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
     </style>
 </head>
 <body>
