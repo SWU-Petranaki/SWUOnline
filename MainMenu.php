@@ -167,6 +167,42 @@ include_once 'Header.php';
     .game-item:last-child {
       border-bottom: none;
     }
+    
+    .card-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 10px;
+    }
+    
+    .card-image {
+      width: 40px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .game-info {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+    }
+    
+    .join-btn {
+      background-color: rgba(120, 100, 60, 0.8);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    
+    .join-btn:hover {
+      background-color: rgba(140, 120, 80, 0.9);
+    }
 
     .format-section {
       margin-bottom: 15px;
@@ -234,42 +270,6 @@ include_once 'Header.php';
       padding: 8px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.2s;
-      flex-shrink: 0;
-    }
-    
-    .refresh-btn:hover {
-      background-color: rgba(140, 120, 80, 0.9);
-      transform: rotate(15deg);
-    }
-    
-    .refresh-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    /* Deck selection feedback */
-    .deck-feedback {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      text-align: center;
-      display: none;
-      position: relative; /* Position relative for absolute positioning of children */
-      overflow: visible !important; /* Force tooltip to overflow without scrollbars */
-    }
-
-    .deck-valid {
-      background: rgba(0, 120, 0, 0.3);
-      color: #aaffaa;
-    }
-
-    .deck-invalid {
-      background: rgba(120, 0, 0, 0.3);
-      color: #ffaaaa;
     }
 
     /* Disable buttons when no deck is selected */
@@ -1148,10 +1148,12 @@ function displayOpenGames(data) {
         const formatSection = document.createElement('div');
         formatSection.className = 'format-section';
         
-        // Create format header
-        const formatHeader = document.createElement('h4');
-        formatHeader.textContent = formatGames[0].formatName || format;
-        formatSection.appendChild(formatHeader);
+        // Only show format header when viewing all formats
+        if (formatFilter === 'all') {
+            const formatHeader = document.createElement('h4');
+            formatHeader.textContent = formatGames[0].formatName || format;
+            formatSection.appendChild(formatHeader);
+        }
         
         // Create games list for this format
         formatGames.forEach(game => {
@@ -1162,36 +1164,16 @@ function displayOpenGames(data) {
             const gameInfo = document.createElement('div');
             gameInfo.className = 'game-info';
             
-            // Game description/name
-            const gameName = document.createElement('strong');
-            // Use a friendly name if available, otherwise use Game #ID
-            gameName.textContent = game.description && game.description !== game.gameName ? 
-                                   game.description : 
-                                   `Game #${game.gameName}`;
-            
             // Create card display div
             const cardDisplay = document.createElement('div');
             cardDisplay.className = 'card-display';
-            cardDisplay.style.display = 'flex';
-            cardDisplay.style.alignItems = 'center';
-            cardDisplay.style.gap = '10px';
-            cardDisplay.style.marginTop = '5px';
             
             // Leader card
             if (game.p1Hero) {
-                const leaderContainer = document.createElement('div');
-                leaderContainer.className = 'card-container';
-                leaderContainer.style.textAlign = 'center';
-                
                 const leaderImg = document.createElement('img');
                 leaderImg.src = `./concat/${game.p1Hero}.webp`;
                 leaderImg.alt = 'Leader';
                 leaderImg.className = 'card-image';
-                leaderImg.style.width = '60px';
-                leaderImg.style.height = '84px';
-                leaderImg.style.objectFit = 'cover';
-                leaderImg.style.borderRadius = '5px';
-                leaderImg.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
                 
                 // Add error handler for image loading
                 leaderImg.onerror = function() {
@@ -1199,32 +1181,15 @@ function displayOpenGames(data) {
                     leaderImg.alt = 'Leader Card';
                 };
                 
-                leaderContainer.appendChild(leaderImg);
-                
-                const leaderLabel = document.createElement('div');
-                leaderLabel.textContent = 'Leader';
-                leaderLabel.style.fontSize = '0.8em';
-                leaderLabel.style.marginTop = '2px';
-                leaderContainer.appendChild(leaderLabel);
-                
-                cardDisplay.appendChild(leaderContainer);
+                cardDisplay.appendChild(leaderImg);
             }
             
             // Base card
             if (game.p1Base) {
-                const baseContainer = document.createElement('div');
-                baseContainer.className = 'card-container';
-                baseContainer.style.textAlign = 'center';
-                
                 const baseImg = document.createElement('img');
                 baseImg.src = `./concat/${game.p1Base}.webp`;
                 baseImg.alt = 'Base';
                 baseImg.className = 'card-image';
-                baseImg.style.width = '60px';
-                baseImg.style.height = '84px';
-                baseImg.style.objectFit = 'cover';
-                baseImg.style.borderRadius = '5px';
-                baseImg.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
                 
                 // Add error handler for image loading
                 baseImg.onerror = function() {
@@ -1232,19 +1197,19 @@ function displayOpenGames(data) {
                     baseImg.alt = 'Base Card';
                 };
                 
-                baseContainer.appendChild(baseImg);
-                
-                const baseLabel = document.createElement('div');
-                baseLabel.textContent = 'Base';
-                baseLabel.style.fontSize = '0.8em';
-                baseLabel.style.marginTop = '2px';
-                baseContainer.appendChild(baseLabel);
-                
-                cardDisplay.appendChild(baseContainer);
+                cardDisplay.appendChild(baseImg);
             }
             
-            gameInfo.appendChild(gameName);
+            // Game description/name
+            const gameName = document.createElement('span');
+            gameName.className = 'game-name';
+            // Use a friendly name if available, otherwise use Game #ID
+            gameName.textContent = game.description && game.description !== game.gameName ? 
+                                  game.description : 
+                                  `Game #${game.gameName}`;
+            
             gameInfo.appendChild(cardDisplay);
+            gameInfo.appendChild(gameName);
             
             // Join button
             const joinButton = document.createElement('button');
@@ -1279,25 +1244,6 @@ function displayOpenGames(data) {
         gameListContent.innerHTML = '<p>No games found matching the selected format.</p>';
     }
 }
-
-// Set up refresh button and format filter events
-document.addEventListener('DOMContentLoaded', function() {
-    // Initial load of games
-    loadOpenGames();
-    
-    // Set up refresh button
-    const refreshButton = document.getElementById('refreshGameList');
-    if (refreshButton) {
-        refreshButton.addEventListener('click', loadOpenGames);
-    }
-    
-    // Set up format filter
-    const formatFilterDropdown = document.getElementById('formatFilter');
-    formatFilterDropdown.addEventListener('change', function() {
-        // Reload games with new filter
-        loadOpenGames();
-    });
-});
 
 // Function to load spectate games from API
 function loadSpectateGames() {
@@ -1401,6 +1347,22 @@ function displaySpectateGames(data) {
 
 // Set up spectate refresh button and format filter events
 document.addEventListener('DOMContentLoaded', function() {
+    // Initial load of open games
+    loadOpenGames();
+    
+    // Set up game refresh button
+    const refreshGameButton = document.getElementById('refreshGameList');
+    if (refreshGameButton) {
+        refreshGameButton.addEventListener('click', loadOpenGames);
+    }
+    
+    // Set up game format filter
+    const formatFilterDropdown = document.getElementById('formatFilter');
+    formatFilterDropdown.addEventListener('change', function() {
+        // Reload games with new filter
+        loadOpenGames();
+    });
+    
     // Initial load of spectate games
     loadSpectateGames();
     
