@@ -167,32 +167,6 @@ if (!empty($_SESSION['error'])) {
         
         <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
         <div id="gamesTab" class="tab-content active">
-          <!-- Filters and refresh button are now part of the Games tab only -->
-          <div class="game-list-filters">
-            <div class="filter-dropdown-wrapper">
-              <span class="filter-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                </svg>
-              </span>
-              <select id="formatFilter" class="styled-dropdown">
-                <option value="all">All Formats</option>
-                <option value="premier">Premier Casual</option>
-                <option value="premier-bo3">Premier (Best of 3)</option>
-                <option value="cantina">Cantina Brawl</option>
-                <option value="openform">Open Format</option>
-              </select>
-            </div>
-            <button id="refreshGameList" class="refresh-btn" title="Refresh game list">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-              </svg>
-            </button>
-          </div>
-          <div id="gameList" class="game-list">
-            <p id="gameListLoading">Loading games...</p>
-            <div id="gameListContent"></div>
-          </div>
           <div class="create-game-summary">
             <div class="summary-text">
               <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
@@ -207,6 +181,32 @@ if (!empty($_SESSION['error'])) {
                 Edit
               </button>
             </div>
+          </div>
+          <!-- Filters and refresh button are now part of the Games tab only -->
+          <div class="game-list-filters">
+            <div class="filter-dropdown-wrapper">
+              <span class="filter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+              </span>
+              <select id="formatFilter" class="styled-dropdown">
+                <option value="all">All Formats</option>
+                <option value="premierf">Premier Casual</option>
+                <option value="prstrict">Premier (Best of 3)</option>
+                <option value="padawanf">Cantina Brawl</option>
+                <option value="openform">Open Format</option>
+              </select>
+            </div>
+            <button id="refreshGameList" class="refresh-btn" title="Refresh game list">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+              </svg>
+            </button>
+          </div>
+          <div id="gameList" class="game-list">
+            <p id="gameListLoading">Loading games...</p>
+            <div id="gameListContent"></div>
           </div>
         </div>
         
@@ -260,7 +260,7 @@ if (!empty($_SESSION['error'])) {
               $standardFormat = Formats::$PremierStrict;
               $previewFormat = Formats::$PreviewFormat;
               $openFormat = Formats::$OpenFormat;
-              echo ("<label for='format' class='SelectDeckInput'>Format</label>");
+              echo ("<br><label for='format' class='SelectDeckInput'>Format</label>");
               echo ("<select name='format' id='format'>");
               echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
               if($canSeeQueue) {
@@ -1180,7 +1180,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function populateDeckDropdown(decks) {
       // Filter out decks with visibility null before populating dropdown
       var validDecks = decks.filter(function(deck) {
-        return deck.visibility !== null;
+        return true;
       });
       
       validDecks.forEach(function(deck) {
