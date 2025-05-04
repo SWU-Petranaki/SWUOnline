@@ -2211,6 +2211,7 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
       $deck = &GetDeck($mainPlayer);
       if(count($deck) > 0)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
     case "4299027717"://Mining Guild Tie Fighter
       $totalOnAttackAbilities++;
       if ($reportMode) break;
