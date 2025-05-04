@@ -1772,11 +1772,6 @@ function displaySpectateGames(data) {
                 p2CardDisplay.appendChild(baseImg);
             }
             
-            // Add format label
-            const formatLabel = document.createElement('div');
-            formatLabel.className = 'format-label';
-            formatLabel.textContent = game.formatName || game.format;
-            
             // Assemble all the info components
             const matchupDiv = document.createElement('div');
             matchupDiv.className = 'matchup-display';
@@ -1788,11 +1783,6 @@ function displaySpectateGames(data) {
             matchupDiv.appendChild(p2CardDisplay);
             
             gameInfo.appendChild(matchupDiv);
-            
-            // Only show format label when not filtering by format
-            if (formatFilter === 'all') {
-                gameInfo.appendChild(formatLabel);
-            }
             
             // Spectate button
             const spectateButton = document.createElement('button');
