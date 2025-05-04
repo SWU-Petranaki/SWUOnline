@@ -114,6 +114,110 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap" rel="stylesheet">
   <style>
     <?php include 'PlayerColors.php' ?>
+    
+    /* Fixed layout for the lobby panes */
+    .lobby-wrapper {
+      display: grid;
+      grid-template-columns: minmax(0, 1.0fr) minmax(150px, 0.5fr) minmax(0, 1.5fr);
+      gap: 10px;
+      height: calc(100vh - 80px); /* Adjust height to fit viewport minus header/footer */
+    }
+    
+    /* Make all container panes scrollable */
+    .game-lobby, .player-info, .deck-info {
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+      overflow: hidden;
+    }
+    
+    /* Setup panel and chat panel in first column */
+    .game-set-up {
+      flex: 0 0 auto; /* Don't grow, don't shrink, auto height */
+      margin-bottom: 10px;
+      overflow-y: auto;
+      max-height: 40vh;
+    }
+    
+    .chat-log {
+      flex: 1 1 auto; /* Grow, shrink, auto height */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .gamelog {
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .chatbox {
+      flex: 0 0 auto;
+    }
+    
+    /* Ensure the player pane doesn't get too narrow but not too wide either */
+    .player-info {
+      min-width: 150px;
+      max-width: 180px;
+      width: 100%;
+      overflow-y: auto;
+    }
+    
+    /* Make deck info scrollable */
+    .deck-info {
+      overflow-y: auto;
+    }
+    
+    /* Adjust the card display in the player pane */
+    .player-info img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* Ensure the deck display doesn't overlap */
+    .deck-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      overflow-y: auto;
+      max-height: calc(100vh - 220px);
+    }
+    
+    /* Consistent card spacing */
+    .deck-display > span {
+      margin: 0;
+      padding: 0 0 5px 0 !important;
+      display: inline-block;
+      box-sizing: border-box;
+    }
+    
+    /* For mobile views, stack all panes vertically with full-page scrolling */
+    @media (max-width: 1024px) {
+      body {
+        overflow-y: auto;
+      }
+      
+      .lobby-wrapper {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow-y: visible;
+      }
+      
+      .game-lobby, .player-info, .deck-info {
+        max-height: none;
+        overflow: visible;
+      }
+      
+      .game-set-up, .chat-log, .gamelog, .deck-display {
+        max-height: none;
+        overflow: visible;
+      }
+      
+      .player-info {
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 
