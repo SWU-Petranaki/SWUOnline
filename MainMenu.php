@@ -1032,6 +1032,15 @@ function switchTabDirect(tabId) {
     document.getElementById(tabId + 'Btn').classList.add('active');
 }
 
+// Show total games in the Games tab button
+function updateGamesTabTotal(totalGames) {
+  var gamesTabBtn = document.getElementById('gamesTabBtn');
+  if (gamesTabBtn) {
+    // Remove any previous count
+    gamesTabBtn.innerHTML = 'Games' + (typeof totalGames === 'number' ? ' <span style="font-size:0.95em; color:#ffd24d;">(' + totalGames + ')</span>' : '');
+  }
+}
+
 // Load other functionality on page ready
 document.addEventListener('DOMContentLoaded', function() {
     // Deck validation
@@ -1407,7 +1416,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadOpenGames() {
     document.getElementById('gameListLoading').style.display = 'block';
     document.getElementById('gameListContent').innerHTML = '';
-    
     fetch('APIs/GetOpenGames.php')
         .then(response => {
             if (!response.ok) {
@@ -1416,6 +1424,7 @@ function loadOpenGames() {
             return response.json();
         })
         .then(data => {
+            updateGamesTabTotal(data.totalGames); // <-- update tab label
             displayOpenGames(data);
         })
         .catch(error => {

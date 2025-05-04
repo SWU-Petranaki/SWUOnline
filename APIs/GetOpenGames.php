@@ -20,12 +20,14 @@ SetHeaders();
 $response = new stdClass();
 $response->openGames = [];
 $response->canSeeQueue = IsUserLoggedIn();
+$response->totalGames = 0; // Add totalGames property
 $isUserBanned = isset($_SESSION["userid"]) ? IsBanned($_SESSION["userid"]) : false;
 
 if ($handle = opendir($path)) {
   while (false !== ($folder = readdir($handle))) {
     if ('.' === $folder) continue;
     if ('..' === $folder) continue;
+    $response->totalGames++; // Increment for every folder (game)
     
     $gameToken = $folder;
     $folder = $path . "/" . $folder . "/";
