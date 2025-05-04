@@ -199,7 +199,13 @@ select {
   padding: 20px 0 0 20px;
   position: relative;
   margin-bottom: 10px; /* Add space after the header */
+  width: 100%;
+  z-index: 10;
+  position: relative;
+  pointer-events: none; /* This makes the header ignore mouse events */
+  z-index: -1; /* This ensures it stays below interactive elements */
 }
+
 
 .title {
   text-decoration: none;
@@ -213,6 +219,14 @@ select {
   border-radius: 10px;
   width: auto;
 }
+
+    /* Make specific elements within home-header clickable again if needed */
+    .home-header a, 
+    .home-header button,
+    .nav-bar,
+    .nav-bar * {
+      pointer-events: auto; /* Re-enable click events for navigation elements */
+    }
 
 .home-header h1 {
   font-size: 50px;

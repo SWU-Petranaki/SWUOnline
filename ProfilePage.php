@@ -43,22 +43,101 @@ $(document).on('click', '#filterButton', function() {
     });
 });
 </script>
-<?php
-include_once 'Header.php';
-?>
+<body>
+<div class="header-wrapper">
+  <?php include_once 'Header.php'; ?>
+</div>
 
 <style>
-/* Ensure profile content leaves space for the header */
-@media (min-width: 0px) {
-  .core-wrapper {
-    margin-top: 20px !important; /* Adjust this value to match or exceed header height */
-    min-height: calc(100vh - 110px);
-  }
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-attachment: fixed;
 }
-@media (max-width: 768px) {
+
+/* Ensure profile content leaves space for the header, like main menu */
+.core-wrapper {
+  margin-top: 30px !important;
+  min-height: calc(100vh - 20px) !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+@media (max-width: 991px) {
   .core-wrapper {
     margin-top: 80px !important;
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px) !important;
+  }
+  
+  .header-wrapper {
+        position: relative;
+        width: auto;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        max-width: fit-content;
+      }
+}
+
+/* --- Responsive Profile Flex Layout --- */
+.profile-flex-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.profile-flex-wrapper > .fav-decks,
+.profile-flex-wrapper > .profile-set-settings-wrapper {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 700px;
+}
+
+.profile-set-settings-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+@media (max-width: 1200px) {
+  .profile-flex-wrapper > .fav-decks,
+  .profile-flex-wrapper > .profile-set-settings-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .profile-flex-wrapper {
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-flex-wrapper {
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .profile-flex-wrapper > .fav-decks,
+  .profile-flex-wrapper > .profile-set-settings-wrapper {
+    max-width: 100vw;
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+  .fav-decks {
+    overflow-y: visible !important;
+  }
+  .profile-set-settings-wrapper {
+    overflow-y: visible !important;
   }
 }
 </style>
@@ -82,138 +161,140 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
 }
 ?>
 <div class="core-wrapper">
-<div class='fav-decks container bg-yellow'>
-  <div style="display:flex; gap: 16px; max-width: 50vw;">
-      <h2 style="flex-grow: 1;">Welcome <?php echo $_SESSION['useruid'] ?>!</h2>
-      <a href="ChangeUsername.php">
-          <button name="change-username" style="height: 40px">Change Username</button>
-      </a>
-      <a href="ChangePassword.php">
-          <button name="change-password" style="height: 40px">Change Password</button>
-      </a>
+  <div class="profile-flex-wrapper">
+    <div class='fav-decks container bg-yellow'>
+      <div style="display:flex; gap: 16px; max-width: 50vw;">
+          <h2 style="flex-grow: 1;">Welcome <?php echo $_SESSION['useruid'] ?>!</h2>
+          <a href="ChangeUsername.php">
+              <button name="change-username" style="height: 40px">Change Username</button>
+          </a>
+          <a href="ChangePassword.php">
+              <button name="change-password" style="height: 40px">Change Password</button>
+          </a>
+      </div>
+      <?php
+      DisplayPatreon();
+
+      // SWUStats Login Button
+      include_once './APIKeys/APIKeys.php';
+      $swustats_client_id = $swustatsClientID;
+      $swustats_redirect_uri = urlencode('https://petranaki.net/Arena/Assets/SWUStats/callback.php');
+      $swustats_scopes = urlencode('decks profile stats');
+      $swustats_auth_url = "https://swustats.net/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
+      echo '<a href="' . $swustats_auth_url . '"><button style="background:#3a6ea5;color:#fff;height:40px;margin-bottom:10px;">Login with SWUStats</button></a>';
+
+      echo ("<h2>Favorite Decks</h2>");
+      $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
+      if (count($favoriteDecks) > 0) {
+          echo ("<table>");
+          echo ("<tr><td>Hero</td><td>Deck Name</td><td>Link</td><td>Delete</td></tr>");
+          for ($i = 0; $i < count($favoriteDecks); $i += 4) {
+              echo ("<tr>");
+              echo ("<td>" . CardLink($favoriteDecks[$i + 2], $favoriteDecks[$i + 2], true) . "</td>");
+              echo ("<td>" . $favoriteDecks[$i + 1] . "</td>");
+              echo ("<td>" . ParseLink($favoriteDecks[$i]) . "</td>");
+              echo ("<td><a style='text-underline-offset:5px;' href='./MenuFiles/DeleteDeck.php?decklink=" . urlencode($favoriteDecks[$i]) . "'>Delete</a></td>");
+              echo ("</tr>");
+          }
+          echo ("</table>");
+      }
+      ?>
+      <h2>Block List</h2>
+      <form class="form-resetpwd" action="includes/BlockUser.php" method="post">
+          <input class="block-input" type="text" name="userToBlock" placeholder="User to block">
+          <button type="submit" name="block-user-submit">Block</button>
+      </form>
+    </div>
+    <div class="profile-set-settings-wrapper" style="max-width: 40vw; margin: 0 auto;">
+      <div class='profile-set-settings container bg-yellow' style="margin: 0 20px 20px 0;">
+        <h2>Game Settings</h2>
+        <script>
+          function OnFaveDeckChange(c) {
+            const deckIndex = c.split("<fav>")[0];
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) { }
+            }
+            var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
+            ajaxLink += "&piece=" + <?php echo ($SET_FavoriteDeckIndex); ?>;
+            xmlhttp += `&value=${deckIndex}`;
+            xmlhttp.open("GET", ajaxLink, true);
+            xmlhttp.send();
+          }
+
+          function OnCardbackChange(c) {
+            const cardback = c.split("-")[1];
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) { window.location.reload(); }
+            }
+            var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
+            ajaxLink += "&piece=" + <?php echo ($SET_Cardback); ?>;
+            xmlhttp += `&value=${cardback}`;
+            xmlhttp.open("GET", ajaxLink, true);
+            xmlhttp.send();
+          }
+
+          function OnBackgroundChange(c) {
+            const background = c.split("-")[1];
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) { window.location.reload(); }
+            }
+            var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
+            ajaxLink += "&piece=" + <?php echo ($SET_Background); ?>;
+            xmlhttp += `&value=${background}`;
+            xmlhttp.open("GET", ajaxLink, true);
+            xmlhttp.send();
+          }
+        </script>
+        <?php
+        $savedSettings = LoadSavedSettings($_SESSION["userid"]);
+        $settingArray = [];
+        for ($i = 0; $i < count($savedSettings); $i += 2) {
+          $settingArray[$savedSettings[intval($i)]] = $savedSettings[intval($i) + 1];
+        }
+        $favoriteDecks = [];
+        $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
+        if (count($favoriteDecks) > 0) {
+          $selIndex = -1;
+          if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
+          echo ("<div class='SelectDeckInput'>Favorite Deck");
+          echo ("<select onchange='OnFaveDeckChange(event.target.value)' name='favoriteDecks' id='favoriteDecks'>");
+          for ($i = 0; $i < count($favoriteDecks); $i += 4) {
+            echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
+          }
+          echo ("</select></div>");
+        }
+        if(!isset($settingArray[$SET_Cardback])) $settingArray[$SET_Cardback] = 0;
+        $cbSource = "./concat/" . GetCardBack("", $settingArray[$SET_Cardback]) . ".webp";
+        echo ("<div class='SelectDeckInput'>Cardbacks: <span style='margin-left: 25%;'> Preview:");
+        echo ("<img src=$cbSource alt='cardback' style='width: 85px; height: 85px; margin-left: 20px;'></span>");
+        echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
+        echo CardbacksDropdowns($settingArray);
+        echo ("</select></div>");
+        $stage = getenv('STAGE') ?: 'prod';
+        $isDev = $stage === 'dev';
+        $patreonCases = $isDev ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
+        if(count($patreonCases) > 0) {
+          echo ("<div class='SelectDeckInput'>Patreon Cardbacks: <span style='margin-left: 25%;'>");
+          echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
+          echo PatreonCardbacksDropdowns($settingArray, $patreonCases);
+          echo ("</select></div>");
+        }
+        ?>
+        <?php
+        if(!isset($settingArray[$SET_Background])) $settingArray[$SET_Background] = 0;
+        $bgSource = "./Images/" . GetGameBgSrc($settingArray[$SET_Background])[0];
+        echo ("<div class='SelectDeckInput'>Backgrounds: <span style='margin-left: 15%;'> Preview:");
+        echo ("<img src=$bgSource alt='cardback' style='width: 160px; height: 90px; margin-left: 20px;'></span>");
+        echo ("<select onchange='OnBackgroundChange(event.target.value)' name='backgrounds' id='backgrounds'>");
+        echo GameBackgroundDropdowns($settingArray);
+        echo ("</select></div>");
+        ?>
+      </div>
+    </div>
   </div>
-  <?php
-  DisplayPatreon();
-
-  // SWUStats Login Button
-  include_once './APIKeys/APIKeys.php';
-  $swustats_client_id = $swustatsClientID;
-  $swustats_redirect_uri = urlencode('https://petranaki.net/Arena/Assets/SWUStats/callback.php');
-  $swustats_scopes = urlencode('decks profile stats');
-  $swustats_auth_url = "https://swustats.net/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
-  echo '<a href="' . $swustats_auth_url . '"><button style="background:#3a6ea5;color:#fff;height:40px;margin-bottom:10px;">Login with SWUStats</button></a>';
-
-  echo ("<h2>Favorite Decks</h2>");
-  $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
-  if (count($favoriteDecks) > 0) {
-      echo ("<table>");
-      echo ("<tr><td>Hero</td><td>Deck Name</td><td>Link</td><td>Delete</td></tr>");
-      for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-          echo ("<tr>");
-          echo ("<td>" . CardLink($favoriteDecks[$i + 2], $favoriteDecks[$i + 2], true) . "</td>");
-          echo ("<td>" . $favoriteDecks[$i + 1] . "</td>");
-          echo ("<td>" . ParseLink($favoriteDecks[$i]) . "</td>");
-          echo ("<td><a style='text-underline-offset:5px;' href='./MenuFiles/DeleteDeck.php?decklink=" . urlencode($favoriteDecks[$i]) . "'>Delete</a></td>");
-          echo ("</tr>");
-      }
-      echo ("</table>");
-  }
-  ?>
-  <h2>Block List</h2>
-  <form class="form-resetpwd" action="includes/BlockUser.php" method="post">
-      <input class="block-input" type="text" name="userToBlock" placeholder="User to block">
-      <button type="submit" name="block-user-submit">Block</button>
-  </form>
-</div>
-<div style="max-width: 40vw; margin: 0 auto;">
-  <div class='profile-set-settings container bg-yellow' style="margin: 0 20px 20px 0;">
-    <h2>Game Settings</h2>
-    <script>
-      function OnFaveDeckChange(c) {
-        const deckIndex = c.split("<fav>")[0];
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) { }
-        }
-        var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
-        ajaxLink += "&piece=" + <?php echo ($SET_FavoriteDeckIndex); ?>;
-        ajaxLink += `&value=${deckIndex}`;
-        xmlhttp.open("GET", ajaxLink, true);
-        xmlhttp.send();
-      }
-
-      function OnCardbackChange(c) {
-        const cardback = c.split("-")[1];
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) { window.location.reload(); }
-        }
-        var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
-        ajaxLink += "&piece=" + <?php echo ($SET_Cardback); ?>;
-        ajaxLink += `&value=${cardback}`;
-        xmlhttp.open("GET", ajaxLink, true);
-        xmlhttp.send();
-      }
-
-      function OnBackgroundChange(c) {
-        const background = c.split("-")[1];
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) { window.location.reload(); }
-        }
-        var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
-        ajaxLink += "&piece=" + <?php echo ($SET_Background); ?>;
-        ajaxLink += `&value=${background}`;
-        xmlhttp.open("GET", ajaxLink, true);
-        xmlhttp.send();
-      }
-    </script>
-    <?php
-    $savedSettings = LoadSavedSettings($_SESSION["userid"]);
-    $settingArray = [];
-    for ($i = 0; $i < count($savedSettings); $i += 2) {
-      $settingArray[$savedSettings[intval($i)]] = $savedSettings[intval($i) + 1];
-    }
-    $favoriteDecks = [];
-    $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
-    if (count($favoriteDecks) > 0) {
-      $selIndex = -1;
-      if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
-      echo ("<div class='SelectDeckInput'>Favorite Deck");
-      echo ("<select onchange='OnFaveDeckChange(event.target.value)' name='favoriteDecks' id='favoriteDecks'>");
-      for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-        echo ("<option value='" . $i . "<fav>" . $favoriteDecks[$i] . "'" . ($i == $selIndex ? " selected " : "") . ">" . $favoriteDecks[$i + 1] . "</option>");
-      }
-      echo ("</select></div>");
-    }
-    if(!isset($settingArray[$SET_Cardback])) $settingArray[$SET_Cardback] = 0;
-    $cbSource = "./concat/" . GetCardBack("", $settingArray[$SET_Cardback]) . ".webp";
-    echo ("<div class='SelectDeckInput'>Cardbacks: <span style='margin-left: 25%;'> Preview:");
-    echo ("<img src=$cbSource alt='cardback' style='width: 85px; height: 85px; margin-left: 20px;'></span>");
-    echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
-    echo CardbacksDropdowns($settingArray);
-    echo ("</select></div>");
-    $stage = getenv('STAGE') ?: 'prod';
-    $isDev = $stage === 'dev';
-    $patreonCases = $isDev ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
-    if(count($patreonCases) > 0) {
-      echo ("<div class='SelectDeckInput'>Patreon Cardbacks: <span style='margin-left: 25%;'>");
-      echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
-      echo PatreonCardbacksDropdowns($settingArray, $patreonCases);
-      echo ("</select></div>");
-    }
-    ?>
-    <?php
-    if(!isset($settingArray[$SET_Background])) $settingArray[$SET_Background] = 0;
-    $bgSource = "./Images/" . GetGameBgSrc($settingArray[$SET_Background])[0];
-    echo ("<div class='SelectDeckInput'>Backgrounds: <span style='margin-left: 15%;'> Preview:");
-    echo ("<img src=$bgSource alt='cardback' style='width: 160px; height: 90px; margin-left: 20px;'></span>");
-    echo ("<select onchange='OnBackgroundChange(event.target.value)' name='backgrounds' id='backgrounds'>");
-    echo GameBackgroundDropdowns($settingArray);
-    echo ("</select></div>");
-    ?>
-  </div>
-</div>
 </div>
 
 

@@ -124,12 +124,6 @@ if (!empty($_SESSION['error'])) {
       }
     }
     
-    .home-header {
-      width: 100%;
-      z-index: 10;
-      position: relative;
-    }
-    
     .nav-bar {
       /* Desktop: compact, top-right, auto width */
       position: absolute;
@@ -454,20 +448,6 @@ if (!empty($_SESSION['error'])) {
       transform: rotate(180deg);
     }
 
-    /* Fix for the home-header blocking tab interactions */
-    .home-header {
-      pointer-events: none; /* This makes the header ignore mouse events */
-      z-index: -1; /* This ensures it stays below interactive elements */
-    }
-
-    /* Make specific elements within home-header clickable again if needed */
-    .home-header a, 
-    .home-header button,
-    .nav-bar,
-    .nav-bar * {
-      pointer-events: auto; /* Re-enable click events for navigation elements */
-    }
-
     /* Help icon tooltip styles */
     .help-icon {
       display: inline-block;
@@ -703,13 +683,6 @@ if (!empty($_SESSION['error'])) {
         margin: 0 auto;
         display: flex;
         justify-content: center;
-      }
-      
-      .home-header {
-        padding: 5px 0 !important;
-        position: relative;
-        pointer-events: auto !important;
-        z-index: 30;
       }
       
       .nav-bar {

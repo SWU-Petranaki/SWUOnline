@@ -14,8 +14,11 @@
 /* Responsive styles for Header */
 @media screen and (max-width: 768px) {
     .home-header {
-        padding: 10px 0;
         height: auto !important;
+        padding: 5px 0 !important;
+        position: relative;
+        pointer-events: auto !important;
+        z-index: 30;
     }
     
     .title-container {
