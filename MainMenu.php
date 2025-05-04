@@ -332,6 +332,7 @@ if (!empty($_SESSION['error'])) {
       color: rgba(255, 255, 255, 0.8);
       pointer-events: none;
       z-index: 1;
+      margin-top:-4px;
     }
     
     /* Deck feedback styling */
@@ -393,6 +394,7 @@ if (!empty($_SESSION['error'])) {
       padding: 8px;
       display: flex;
       align-items: center;
+      margin-top: -9px;
     }
 
     /* Disable buttons when no deck is selected */
@@ -897,9 +899,6 @@ if (!empty($_SESSION['error'])) {
         
         <!-- SPECTATE TAB -->
         <div id="spectateTab" class="tab-content">
-          <h3>Spectate Games</h3>
-          <p>Watch ongoing games without participating.</p>
-          
           <div class="game-list-filters">
             <div class="filter-dropdown-wrapper">
               <span class="filter-icon">
@@ -1441,7 +1440,7 @@ function displayOpenGames(data) {
     const gamesByFormat = {};
     
     if (!data.openGames || data.openGames.length === 0) {
-        gameListContent.innerHTML = '<p>No open games available. Create a new game to get started!</p>';
+        gameListContent.innerHTML = '<p>No open games available. Create a new game to get started!</p><BR>';
         return;
     }
     
