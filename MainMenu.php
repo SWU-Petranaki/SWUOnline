@@ -328,8 +328,6 @@ if (!empty($_SESSION['error'])) {
 <script>
 // Tab switching functionality (without alerts)
 function switchTabDirect(tabId) {
-    console.log('Switching to tab: ' + tabId);
-    
     // Remove active class from all tabs
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
@@ -338,9 +336,8 @@ function switchTabDirect(tabId) {
     // Add active class to the selected tab
     document.getElementById(tabId).classList.add('active');
     
-    // Update button styles
-    document.getElementById('createTabBtn').classList.remove('active');
-    document.getElementById('joinTabBtn').classList.remove('active');
+    // Update button styles - only use the buttons that exist
+    document.getElementById('gamesTabBtn').classList.remove('active');
     document.getElementById('spectateTabBtn').classList.remove('active');
     document.getElementById(tabId + 'Btn').classList.add('active');
 }
