@@ -167,6 +167,21 @@ if (!empty($_SESSION['error'])) {
         
         <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
         <div id="gamesTab" class="tab-content active">
+          <div class="create-game-summary">
+            <div class="summary-text">
+              <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
+            </div>
+            <div class="summary-actions">
+              <button class="create-btn" id="quickCreateGame">Create Game</button>
+              <button class="edit-icon" id="openCreateGameModal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2-2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Edit
+              </button>
+            </div>
+          </div>
           <!-- Filters and refresh button are now part of the Games tab only -->
           <div class="game-list-filters">
             <div class="filter-dropdown-wrapper">
@@ -192,21 +207,6 @@ if (!empty($_SESSION['error'])) {
           <div id="gameList" class="game-list">
             <p id="gameListLoading">Loading games...</p>
             <div id="gameListContent"></div>
-          </div>
-          <div class="create-game-summary">
-            <div class="summary-text">
-              <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
-            </div>
-            <div class="summary-actions">
-              <button class="create-btn" id="quickCreateGame">Create Game</button>
-              <button class="edit-icon" id="openCreateGameModal">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2-2h14a2 2 0 0 0 2-2v-7"></path>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                </svg>
-                Edit
-              </button>
-            </div>
           </div>
         </div>
         
