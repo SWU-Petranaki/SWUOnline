@@ -295,7 +295,7 @@ if (!empty($_SESSION['error'])) {
       flex-grow: 1;
     }
     
-    .join-btn {
+    .join-btn, .spectate-btn {
       background-color: rgba(120, 100, 60, 0.8);
       color: white;
       border: none;
@@ -306,7 +306,7 @@ if (!empty($_SESSION['error'])) {
       white-space: nowrap;
     }
     
-    .join-btn:hover {
+    .join-btn:hover, .spectate-btn:hover {
       background-color: rgba(140, 120, 80, 0.9);
     }
 
@@ -1805,7 +1805,7 @@ function displaySpectateGames(data) {
             spectateButton.textContent = 'Spectate';
             spectateButton.className = 'spectate-btn';
             spectateButton.onclick = function() {
-                window.location.href = `${window.location.origin}/Arena/GameLobby.php?gameName=${game.gameName}&playerID=3`;
+                window.location.href = `${window.location.origin}/Arena/NextTurn4.php?gameName=${game.gameName}&playerID=3`;
             };
             
             gameItem.appendChild(gameInfo);
