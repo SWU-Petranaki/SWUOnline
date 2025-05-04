@@ -1410,6 +1410,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
         };
     }
+    
+    // Make validateDeckLink globally available
+    window.validateDeckLink = validateDeckLink;
 });
 
 // Function to load games from API
@@ -1781,36 +1784,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleDeckSelection() {
       var selectedValue = swuDecksDropdown.value;
-      var createGameButton = document.getElementById('createGameButton');
-      var quickCreateGameBtn = document.getElementById('quickCreateGame');
-      // Enable/disable all join buttons, even if they are dynamically created later
-      function setJoinButtons(enabled) {
-        // Use setTimeout to ensure we catch dynamically rendered join buttons
-        setTimeout(function() {
-          var joinButtons = document.querySelectorAll('.join-btn');
-          joinButtons.forEach(function(btn) {
-            btn.disabled = !enabled;
-            if (enabled) btn.classList.remove('disabled');
-            else btn.classList.add('disabled');
-          });
-        }, 0);
-      }
-      if (selectedValue) {
-        deckLinkInput.value = selectedValue;
-        fabdbHidden.value = selectedValue;
-        if (typeof validateDeckLink === 'function') validateDeckLink(selectedValue);
-        if (createGameButton) createGameButton.disabled = false;
-        if (quickCreateGameBtn) quickCreateGameBtn.disabled = false;
-        setJoinButtons(true);
-      } else {
-        // Clear the deck text field if the blank option is selected
-        deckLinkInput.value = '';
-        fabdbHidden.value = '';
-        if (typeof validateDeckLink === 'function') validateDeckLink('');
-        if (createGameButton) createGameButton.disabled = true;
-        if (quickCreateGameBtn) quickCreateGameBtn.disabled = true;
-        setJoinButtons(false);
-      }
+      // Set the input and hidden field
+      deckLinkInput.value = selectedValue;
+      fabdbHidden.value = selectedValue;
+      // Always use the same validation as typing
+      if (typeof validateDeckLink === 'function') validateDeckLink(selectedValue);
     }
 
     var xhr = new XMLHttpRequest();
