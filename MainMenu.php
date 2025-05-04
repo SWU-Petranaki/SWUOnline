@@ -192,9 +192,9 @@ if (!empty($_SESSION['error'])) {
               </span>
               <select id="formatFilter" class="styled-dropdown">
                 <option value="all">All Formats</option>
-                <option value="premier">Premier Casual</option>
-                <option value="premier-bo3">Premier (Best of 3)</option>
-                <option value="cantina">Cantina Brawl</option>
+                <option value="premierf">Premier Casual</option>
+                <option value="prstrict">Premier (Best of 3)</option>
+                <option value="padawanf">Cantina Brawl</option>
                 <option value="openform">Open Format</option>
               </select>
             </div>
