@@ -2328,6 +2328,8 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
     case "3310100725"://Insurgent Saboteurs
     case "7232609585"://Supporting Eta-2
     case "2644994192"://Hondo Ohnaka
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
     case "1990020761"://Shuttle Tydirium
