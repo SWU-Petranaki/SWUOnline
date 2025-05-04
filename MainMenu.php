@@ -1772,11 +1772,6 @@ function displaySpectateGames(data) {
                 p2CardDisplay.appendChild(baseImg);
             }
             
-            // Last update time
-            const timeInfo = document.createElement('div');
-            timeInfo.className = 'time-info';
-            timeInfo.textContent = `Last update: ${game.secondsSinceLastUpdate}s ago`;
-            
             // Add format label
             const formatLabel = document.createElement('div');
             formatLabel.className = 'format-label';
@@ -1793,7 +1788,6 @@ function displaySpectateGames(data) {
             matchupDiv.appendChild(p2CardDisplay);
             
             gameInfo.appendChild(matchupDiv);
-            gameInfo.appendChild(timeInfo);
             
             // Only show format label when not filtering by format
             if (formatFilter === 'all') {
