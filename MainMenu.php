@@ -1180,7 +1180,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function populateDeckDropdown(decks) {
       // Filter out decks with visibility null before populating dropdown
       var validDecks = decks.filter(function(deck) {
-        return deck.visibility !== null;
+        return true;
       });
       
       validDecks.forEach(function(deck) {
