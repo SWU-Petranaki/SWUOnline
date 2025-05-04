@@ -394,6 +394,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        
+        // Auto-select the favorite deck if one is set in user settings
+        if (favoriteDecksSelect.selectedIndex > 0) {
+            // Trigger the change event to populate the deck link
+            var event = new Event('change');
+            favoriteDecksSelect.dispatchEvent(event);
+        }
     }
     
     // Set up event handlers for help icons
