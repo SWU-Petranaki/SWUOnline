@@ -50,7 +50,9 @@ if ($handle = opendir($path)) {
           $gameInProgress->p1Base = $p1Base;
           $gameInProgress->p2Base = $p2Base;
           $gameInProgress->secondsSinceLastUpdate = intval(($currentTime - $lastGamestateUpdate) / 1000);
-          $gameInProgress->format = GetCachePiece($gameToken, 13);
+          $format = GetCachePiece($gameToken, 13);
+          $gameInProgress->format = $format;
+          $gameInProgress->formatName = FormatDisplayName($format);
           
           $response->gamesInProgress[] = $gameInProgress;
         }

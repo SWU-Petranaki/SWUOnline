@@ -1678,24 +1678,133 @@ function displaySpectateGames(data) {
         const formatSection = document.createElement('div');
         formatSection.className = 'format-section';
         
-        // Create format header
-        const formatHeader = document.createElement('h4');
-        formatHeader.textContent = formatGames[0].formatName || format;
-        formatSection.appendChild(formatHeader);
+        // Only show format header when viewing all formats
+        if (formatFilter === 'all') {
+            const formatHeader = document.createElement('h4');
+            formatHeader.textContent = formatGames[0].formatName || format;
+            formatSection.appendChild(formatHeader);
+        }
         
         // Create games list for this format
         formatGames.forEach(game => {
             const gameItem = document.createElement('div');
             gameItem.className = 'game-item';
             
-            // Game info
+            // Game info with images
             const gameInfo = document.createElement('div');
             gameInfo.className = 'game-info';
-            gameInfo.innerHTML = `
-                <strong>Game #${game.gameName}</strong>
-                <div>${game.p1Hero || 'Unknown'} vs ${game.p2Hero || 'Unknown'}</div>
-                <div class="time-info">Last update: ${game.secondsSinceLastUpdate}s ago</div>
-            `;
+            
+            // Create card display div for Player 1
+            const p1CardDisplay = document.createElement('div');
+            p1CardDisplay.className = 'card-display';
+            
+            // Player 1 Leader card
+            if (game.p1Hero) {
+                const leaderImg = document.createElement('img');
+                leaderImg.src = `./WebpImages2/${game.p1Hero}.webp`;
+                leaderImg.alt = 'Leader 1';
+                leaderImg.className = 'card-image';
+                
+                // Add error handler for image loading
+                leaderImg.onerror = function() {
+                    leaderImg.src = './Images/card-back.webp'; // Fallback image
+                    leaderImg.alt = 'Leader Card';
+                };
+                
+                p1CardDisplay.appendChild(leaderImg);
+            }
+            
+            // Player 1 Base card
+            if (game.p1Base) {
+                const baseImg = document.createElement('img');
+                baseImg.src = `./WebpImages2/${game.p1Base}.webp`;
+                baseImg.alt = 'Base 1';
+                baseImg.className = 'card-image';
+                
+                // Add error handler for image loading
+                baseImg.onerror = function() {
+                    baseImg.src = './Images/card-back.webp'; // Fallback image
+                    baseImg.alt = 'Base Card';
+                };
+                
+                p1CardDisplay.appendChild(baseImg);
+            }
+            
+            // Create VS text
+            const vsText = document.createElement('span');
+            vsText.textContent = ' vs ';
+            vsText.className = 'vs-text';
+            vsText.style.margin = '0 10px';
+            
+            // Create card display div for Player 2
+            const p2CardDisplay = document.createElement('div');
+            p2CardDisplay.className = 'card-display';
+            
+            // Player 2 Leader card
+            if (game.p2Hero) {
+                const leaderImg = document.createElement('img');
+                leaderImg.src = `./WebpImages2/${game.p2Hero}.webp`;
+                leaderImg.alt = 'Leader 2';
+                leaderImg.className = 'card-image';
+                
+                // Add error handler for image loading
+                leaderImg.onerror = function() {
+                    leaderImg.src = './Images/card-back.webp'; // Fallback image
+                    leaderImg.alt = 'Leader Card';
+                };
+                
+                p2CardDisplay.appendChild(leaderImg);
+            }
+            
+            // Player 2 Base card
+            if (game.p2Base) {
+                const baseImg = document.createElement('img');
+                baseImg.src = `./WebpImages2/${game.p2Base}.webp`;
+                baseImg.alt = 'Base 2';
+                baseImg.className = 'card-image';
+                
+                // Add error handler for image loading
+                baseImg.onerror = function() {
+                    baseImg.src = './Images/card-back.webp'; // Fallback image
+                    baseImg.alt = 'Base Card';
+                };
+                
+                p2CardDisplay.appendChild(baseImg);
+            }
+            
+            // Game name/id
+            const gameName = document.createElement('div');
+            gameName.className = 'game-name';
+            gameName.innerHTML = `<strong>Game #${game.gameName}</strong>`;
+            
+            // Last update time
+            const timeInfo = document.createElement('div');
+            timeInfo.className = 'time-info';
+            timeInfo.textContent = `Last update: ${game.secondsSinceLastUpdate}s ago`;
+            
+            // Add format label
+            const formatLabel = document.createElement('div');
+            formatLabel.className = 'format-label';
+            formatLabel.textContent = game.formatName || game.format;
+            
+            // Assemble all the info components
+            const matchupDiv = document.createElement('div');
+            matchupDiv.className = 'matchup-display';
+            matchupDiv.style.display = 'flex';
+            matchupDiv.style.alignItems = 'center';
+            matchupDiv.style.marginTop = '5px';
+            matchupDiv.appendChild(p1CardDisplay);
+            matchupDiv.appendChild(vsText);
+            matchupDiv.appendChild(p2CardDisplay);
+            
+            gameInfo.appendChild(gameName);
+            gameInfo.appendChild(matchupDiv);
+            gameInfo.appendChild(timeInfo);
+            
+            // Only show format label when not filtering by format
+            if (formatFilter === 'all') {
+                gameInfo.appendChild(formatLabel);
+            }
             
             // Spectate button
             const spectateButton = document.createElement('button');
