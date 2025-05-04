@@ -395,6 +395,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     fabdbHidden.value = parts[1];
                     validateDeckLink(parts[1]);
                 }
+                
+                // Save the selected index to user settings (similar to SWU Stats)
+                var selectedIndex = selectedValue.split('<fav>')[0];
+                if(selectedIndex) {
+                    // Update user setting via AJAX
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'api/UpdateMyPlayerSetting.php?piece=<?= $SET_FavoriteDeckIndex ?>&value=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?>', true);
+                    xhr.send();
+                }
             }
         });
         
