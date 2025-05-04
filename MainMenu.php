@@ -111,6 +111,8 @@ if (!empty($_SESSION['error'])) {
           <?php
           $favoriteDecks = [];
           $swuStatsLinked = isset($userData) && $userData["swustatsAccessToken"] != null;
+          $selIndex = -1;
+          if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
 
           if (isset($_SESSION["userid"])) {
             if ($swuStatsLinked) {
@@ -124,6 +126,7 @@ if (!empty($_SESSION['error'])) {
                 <option value=''>-- Select a deck --</option>
                 </select>
                 </div>";
+              echo "<script>var savedFavoriteDeckIndex = " . $selIndex . ";</script>";
             } else {
               $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
               if (count($favoriteDecks) > 0) {
@@ -1176,14 +1179,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var swuDecksDropdown = document.getElementById('swuDecks');
     var deckLinkInput = document.getElementById('deckLink');
     var fabdbHidden = document.getElementById('fabdb');
+    // Access the saved favorite deck index from the PHP variable
+    var savedIndex = typeof savedFavoriteDeckIndex !== 'undefined' ? savedFavoriteDeckIndex : -1;
 
     function populateDeckDropdown(decks) {
-      // Filter out decks with visibility null before populating dropdown
       var validDecks = decks.filter(function(deck) {
         return true;
       });
       
-      validDecks.forEach(function(deck) {
+      validDecks.forEach(function(deck, index) {
         var option = document.createElement('option');
         // Build the deck link using the id from the API
         var deckId = deck.id || deck.deckId || deck.keyIndicator2 || '';
@@ -1201,6 +1205,16 @@ document.addEventListener('DOMContentLoaded', function() {
         deckLoadingContainer.textContent = 'No valid decks found.';
         deckLoadingContainer.style.display = 'block';
         deckDropdownContainer.style.display = 'none';
+      } else {
+        // If we have a saved index, select that deck in the dropdown
+        if (savedIndex >= 0 && savedIndex < validDecks.length) {
+          // +1 because the first option is the "-- Select a deck --" placeholder
+          swuDecksDropdown.selectedIndex = savedIndex + 1;
+          
+          // Trigger the change event to populate the deck link
+          var event = new Event('change');
+          swuDecksDropdown.dispatchEvent(event);
+        }
       }
     }
 
@@ -1211,6 +1225,18 @@ document.addEventListener('DOMContentLoaded', function() {
       fabdbHidden.value = selectedValue;
       // Always use the same validation as typing
       if (typeof validateDeckLink === 'function') validateDeckLink(selectedValue);
+      
+      // Save the selected index as a user preference
+      var selectedIndex = swuDecksDropdown.selectedIndex - 1; // -1 to account for the placeholder
+      if (selectedValue && selectedIndex >= 0) {
+        // Update the savedFavoriteDeckIndex variable to keep track of the current selection
+        savedFavoriteDeckIndex = selectedIndex;
+        
+        // Save the selection to user settings via AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'api/UpdateMyPlayerSetting.php?settingID=<?= $SET_FavoriteDeckIndex ?>&settingValue=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?>', true);
+        xhr.send();
+      }
     }
 
     var xhr = new XMLHttpRequest();
