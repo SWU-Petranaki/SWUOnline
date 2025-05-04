@@ -260,7 +260,7 @@ if (!empty($_SESSION['error'])) {
               $standardFormat = Formats::$PremierStrict;
               $previewFormat = Formats::$PreviewFormat;
               $openFormat = Formats::$OpenFormat;
-              echo ("<label for='format' class='SelectDeckInput'>Format</label>");
+              echo ("<br><label for='format' class='SelectDeckInput'>Format</label>");
               echo ("<select name='format' id='format'>");
               echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
               if($canSeeQueue) {
