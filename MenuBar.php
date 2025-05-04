@@ -30,7 +30,7 @@ $baseUri = "/Arena";
     <link rel="shortcut icon" href="Images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="Images/apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="stylesheet" href="css/petranaki250505.css">
+    <link rel="stylesheet" href="css/petranaki250506.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -119,6 +119,7 @@ $baseUri = "/Arena";
           right: 16px;
           z-index: 10100;
           margin-right: 20px;
+          font-size: 30px;
         }
         .nav-bar-user, .nav-bar-links, .nav-bar-karabast {
           display: none !important;
