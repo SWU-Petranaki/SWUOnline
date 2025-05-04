@@ -1758,21 +1758,49 @@ document.addEventListener('DOMContentLoaded', function() {
     function populateDeckDropdown(decks) {
       decks.forEach(function(deck) {
         var option = document.createElement('option');
-        option.value = deck.keyIndicator1 + '<fav>' + deck.keyIndicator2;
-        option.textContent = deck.name;
+        // Build the deck link using the id from the API
+        var deckId = deck.id || deck.deckId || deck.keyIndicator2 || '';
+        var deckLink = '';
+        if (deckId) {
+          deckLink = 'https://www.swustats.net/TCGEngine/NextTurn.php?gameName=' + encodeURIComponent(deckId) + '&playerID=1&folderPath=SWUDeck';
+        }
+        option.value = deckLink;
+        option.textContent = deck.name || deck.deckName || 'Unnamed Deck';
         swuDecksDropdown.appendChild(option);
       });
     }
 
     function handleDeckSelection() {
       var selectedValue = swuDecksDropdown.value;
-      if (selectedValue && selectedValue.includes('<fav>')) {
-        var parts = selectedValue.split('<fav>');
-        if (parts.length > 1) {
-          deckLinkInput.value = parts[1];
-          fabdbHidden.value = parts[1];
-          if (typeof validateDeckLink === 'function') validateDeckLink(parts[1]);
-        }
+      var createGameButton = document.getElementById('createGameButton');
+      var quickCreateGameBtn = document.getElementById('quickCreateGame');
+      // Enable/disable all join buttons, even if they are dynamically created later
+      function setJoinButtons(enabled) {
+        // Use setTimeout to ensure we catch dynamically rendered join buttons
+        setTimeout(function() {
+          var joinButtons = document.querySelectorAll('.join-btn');
+          joinButtons.forEach(function(btn) {
+            btn.disabled = !enabled;
+            if (enabled) btn.classList.remove('disabled');
+            else btn.classList.add('disabled');
+          });
+        }, 0);
+      }
+      if (selectedValue) {
+        deckLinkInput.value = selectedValue;
+        fabdbHidden.value = selectedValue;
+        if (typeof validateDeckLink === 'function') validateDeckLink(selectedValue);
+        if (createGameButton) createGameButton.disabled = false;
+        if (quickCreateGameBtn) quickCreateGameBtn.disabled = false;
+        setJoinButtons(true);
+      } else {
+        // Clear the deck text field if the blank option is selected
+        deckLinkInput.value = '';
+        fabdbHidden.value = '';
+        if (typeof validateDeckLink === 'function') validateDeckLink('');
+        if (createGameButton) createGameButton.disabled = true;
+        if (quickCreateGameBtn) quickCreateGameBtn.disabled = true;
+        setJoinButtons(false);
       }
     }
 
