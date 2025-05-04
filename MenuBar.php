@@ -115,11 +115,15 @@ $baseUri = "/Arena";
         .menu-toggle {
           display: block;
           position: absolute;
-          top: 10px;
-          right: 16px;
+          top: 0px;
+          right: 10px;
           z-index: 10100;
-          margin-right: 20px;
+          margin-right: 15px;
           font-size: 30px;
+          background-color: rgba(90, 70, 30, 0.7); /* Add background shade */
+          color: white; /* Ensure the text/icon is visible */
+          padding: 3px 7px; /* Add proportional padding: 3px top/bottom, 6px left/right */
+          border-radius: 4px; /* Optional: Add rounded corners */
         }
         .nav-bar-user, .nav-bar-links, .nav-bar-karabast {
           display: none !important;

@@ -4,6 +4,7 @@
 require "MenuBar.php";
 include_once './AccountFiles/AccountDatabaseAPI.php';
 include "Libraries/PlayerSettings.php";
+include_once './Database/ConnectionManager.php';
 
 if (!isset($_SESSION['userid'])) {
     header('Location: ./MainMenu.php');
@@ -149,12 +150,21 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
 
       // SWUStats Login Button
       include_once './APIKeys/APIKeys.php';
-      $swustats_client_id = $swustatsClientID;
-      $swustats_redirect_uri = urlencode('https://petranaki.net/Arena/Assets/SWUStats/callback.php');
-      $swustats_scopes = urlencode('decks profile stats');
-      $swustats_auth_url = "https://swustats.net/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
-      echo '<a href="' . $swustats_auth_url . '"><button style="background:#3a6ea5;color:#fff;height:40px;margin-bottom:10px;">Login with SWUStats</button></a>';
+      
+      $userData = isset($_SESSION["useruid"]) ? LoadUserData($_SESSION["useruid"]) : NULL;
+      $swuStatsLinked = isset($userData) && $userData["swustatsAccessToken"] != null;
 
+      if(!$swuStatsLinked) {
+        $swustats_client_id = $swustatsClientID;
+        $swustats_redirect_uri = urlencode('https://petranaki.net/Arena/Assets/SWUStats/callback.php');
+        $swustats_scopes = urlencode('decks profile stats');
+        $swustats_auth_url = "https://swustats.net/TCGEngine/APIs/OAuth/authorize.php?response_type=code&client_id={$swustats_client_id}&redirect_uri={$swustats_redirect_uri}&scope={$swustats_scopes}";
+        echo '<a href="' . $swustats_auth_url . '"><button style="background:#3a6ea5;color:#fff;height:40px;margin-bottom:10px;">Login with SWUStats</button></a>';
+      } else {
+        echo '<div style="margin-bottom: 10px; color: lightblue;">SWUStats account is linked.</div>';
+        echo '<a href="./AccountFiles/SWUStatsUnlink.php"><button style="background:#d9534f;color:#fff;height:40px;">Unlink SWUStats</button></a>';
+        echo '<br><br>';
+      }
       echo ("<h2>Favorite Decks</h2>");
       $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
       if (count($favoriteDecks) > 0) {
