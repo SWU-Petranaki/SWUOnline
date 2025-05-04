@@ -58,6 +58,52 @@ include_once 'Header.php';
 <div class="flex-padder"></div>
 </div>
 
+<!-- Add styles for proper header spacing -->
+<style>
+  /* Common styles for adequate header spacing */
+  .core-wrapper {
+    margin-top: 0px !important; /* Increased top margin for header space */
+    min-height: calc(100vh - 200px) !important; /* Adjust to account for header and footer */
+    position: relative;
+    z-index: 1; /* Keep content above background, below header */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .core-wrapper {
+      margin-top: 0px !important; /* More space for mobile header */
+      height: auto !important;
+      min-height: calc(100vh - 220px) !important;
+    }
+    
+    .flex-wrapper {
+      flex-direction: column;
+      padding: 0 10px;
+      overflow-x: hidden;
+    }
+    
+    .signup-wrapper.container {
+      margin: 0 10px 15px 10px;
+      width: calc(100% - 20px);
+      box-sizing: border-box;
+    }
+    
+    .flex-padder {
+      display: none;
+    }
+    
+    .disclaimer {
+      left: 0;
+      right: 0;
+      border-radius: 0;
+      width: 100%;
+      z-index: 100;
+    }
+  }
+</style>
+
 <?php
 include_once 'Disclaimer.php';
 ?>
