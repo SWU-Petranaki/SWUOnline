@@ -1136,8 +1136,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Position tooltip at fixed position relative to the icon
                 const rect = helpIcon.getBoundingClientRect();
                 globalTooltip.innerHTML = tooltipContent;
-                globalTooltip.style.left = (rect.left - 120) + 'px'; // Center tooltip over icon
-                globalTooltip.style.top = (rect.top - 130) + 'px'; // Position above the icon
+                // Mobile: show below icon, Desktop: show above
+                if (window.innerWidth <= 768) {
+                    globalTooltip.style.left = rect.left + 'px';
+                    globalTooltip.style.top = (rect.bottom + 12) + 'px'; // 12px below icon
+                } else {
+                    globalTooltip.style.left = (rect.left - 120) + 'px'; // Center tooltip over icon
+                    globalTooltip.style.top = (rect.top - 130) + 'px'; // Position above the icon
+                }
                 globalTooltip.style.display = 'block';
                 
                 // Prevent tooltips from going off-screen
