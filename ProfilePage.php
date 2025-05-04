@@ -20,20 +20,6 @@ include_once "CardDictionary.php";
 include_once "./Libraries/UILibraries2.php";
 include_once "./APIKeys/APIKeys.php";
 
-  /*
-  $badges = LoadBadges($_SESSION['userid']);
-  echo ("<div class='ContentWindow' style='position:relative; width:50%; left:20px; top:20px; height:200px;'>");
-  echo ("<h1>Your Badges</h1>");
-  for ($i = 0; $i < count($badges); $i += 7) {
-    $bottomText = str_replace("{0}", $badges[$i + 2], $badges[$i + 4]);
-    $fullText = $badges[$i + 3] . "<br><br>" . $bottomText;
-    if ($badges[$i + 6] != "") echo ("<a href='" . $badges[$i + 6] . "'>");
-    echo ("<img style='margin:3px; width:120px; height:120px; object-fit: cover;' src='" . $badges[$i + 5] . "'></img>");
-    if ($badges[$i + 6] != "") echo ("</a>");
-  }
-  echo ("</div>");
-  */
-
 // Calculate default dates
 $startDate = date('Y-m-d', strtotime('-1 month'));
 $endDate = date('Y-m-d');
@@ -61,7 +47,21 @@ $(document).on('click', '#filterButton', function() {
 include_once 'Header.php';
 ?>
 
-
+<style>
+/* Ensure profile content leaves space for the header */
+@media (min-width: 0px) {
+  .core-wrapper {
+    margin-top: 20px !important; /* Adjust this value to match or exceed header height */
+    min-height: calc(100vh - 110px);
+  }
+}
+@media (max-width: 768px) {
+  .core-wrapper {
+    margin-top: 80px !important;
+    min-height: calc(100vh - 80px);
+  }
+}
+</style>
 
 <div id="cardDetail" style="z-index:100000; display:none; position:fixed;"></div>
 
