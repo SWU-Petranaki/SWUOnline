@@ -20,14 +20,13 @@ SetHeaders();
 $response = new stdClass();
 $response->openGames = [];
 $response->canSeeQueue = IsUserLoggedIn();
-$response->totalGames = 0; // Add totalGames property
+$response->totalGames = 0; // Will only count actual active games
 $isUserBanned = isset($_SESSION["userid"]) ? IsBanned($_SESSION["userid"]) : false;
 
 if ($handle = opendir($path)) {
   while (false !== ($folder = readdir($handle))) {
     if ('.' === $folder) continue;
     if ('..' === $folder) continue;
-    $response->totalGames++; // Increment for every folder (game)
     
     $gameToken = $folder;
     $folder = $path . "/" . $folder . "/";
@@ -35,7 +34,18 @@ if ($handle = opendir($path)) {
     $currentTime = round(microtime(true) * 1000);
     
     // Skip if game is already in progress
-    if (file_exists($gs)) continue;
+    if (file_exists($gs)) {
+      $lastGamestateUpdate = intval(GetCachePiece($gameToken, 6));
+      // Only count in-progress games with recent updates (last 30 seconds)
+      if ($lastGamestateUpdate != "" && $currentTime - $lastGamestateUpdate < 30000) {
+        $response->totalGames++;
+      } else if ($currentTime - $lastGamestateUpdate > 900000) { //~15 minutes
+        // Delete old game files
+        deleteDirectory($folder);
+        DeleteCache($gameToken);
+      }
+      continue;
+    }
 
     $gf = $folder . "GameFile.txt";
     $gameName = $gameToken;
@@ -44,7 +54,8 @@ if ($handle = opendir($path)) {
     
     if (file_exists($gf)) {
       $lastRefresh = intval(GetCachePiece($gameName, 2)); //Player 1 last connection time
-      if ($lastRefresh != "" && $currentTime - $lastRefresh < 900000) { // 15 minutes
+      // Use 500ms timeout like in ServerChecker instead of 15 minutes
+      if ($lastRefresh != "" && $currentTime - $lastRefresh < 500) {
         $gameFileHandler = fopen($gf, "r+");
         if ($gameFileHandler) {
           if (flock($gameFileHandler, LOCK_EX)) {
@@ -90,6 +101,8 @@ if ($handle = opendir($path)) {
         
         if ($shouldInclude) {
           $response->openGames[] = $openGame;
+          // Only count games we actually return as open
+          $response->totalGames++;
         }
       }
     }
