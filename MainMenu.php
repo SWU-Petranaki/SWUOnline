@@ -819,10 +819,14 @@ if (!empty($_SESSION['error'])) {
 
           if (isset($_SESSION["userid"])) {
             if ($swuStatsLinked) {
-                echo "<div id='deckLoadingContainer' class='swustats-connected'>Loading decks...</div>";
-                echo "<div id='deckDropdownContainer' style='display: none;'>
+              echo "<div id='deckLoadingContainer' class='swustats-connected'>";
+              echo "<select id='swuDecksLoading' name='swuDecksLoading' disabled>";
+              echo "<option>Loading decks...</option>";
+              echo "</select>";
+              echo "</div>";
+              echo "<div id='deckDropdownContainer' style='display: none;'>
                 <select id='swuDecks' name='swuDecks' style='margin-top: 15px; margin-bottom: 10px;'>
-                  <option value=''>-- Select a deck --</option>
+                <option value=''>-- Select a deck --</option>
                 </select>
                 </div>";
             } else {
