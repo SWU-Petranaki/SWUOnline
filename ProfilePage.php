@@ -43,10 +43,9 @@ $(document).on('click', '#filterButton', function() {
     });
 });
 </script>
-<body>
-<div class="header-wrapper">
-  <?php include_once 'Header.php'; ?>
-</div>
+<?php
+include_once 'Header.php';
+?>
 
 <style>
 html, body {
@@ -55,6 +54,19 @@ html, body {
   overflow-x: hidden;
   overflow-y: auto;
   background-attachment: fixed;
+}
+
+/* Fixed header styles - now aligned left on desktop */
+.home-header {
+  z-index: 30;
+}
+
+.title {
+  z-index: 40; /* Ensure title and links are above other elements */
+}
+
+.title-container {
+  z-index: 50; /* Ensure the container is clickable */
 }
 
 /* Ensure profile content leaves space for the header, like main menu */
@@ -70,15 +82,6 @@ html, body {
     margin-top: 60px !important;
     min-height: calc(100vh - 60px) !important;
   }
-  
-  .header-wrapper {
-        position: relative;
-        width: auto;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        max-width: fit-content;
-      }
 }
 
 /* --- Responsive Profile Flex Layout --- */
@@ -120,6 +123,11 @@ html, body {
 }
 
 @media (max-width: 768px) {
+  .home-header {
+    display: flex;
+    justify-content: center;
+  }
+  
   .core-wrapper {
     margin-top: 40px !important;
     min-height: calc(100vh - 40px) !important;
