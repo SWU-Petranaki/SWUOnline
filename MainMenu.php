@@ -805,12 +805,12 @@ if (!empty($_SESSION['error'])) {
 
           if (isset($_SESSION["userid"])) {
             if ($swuStatsLinked) {
-              echo "<div class='swustats-connected'>SWU Stats account connected</div>";
-              // Future: Add deck management via SWU Stats API here
-              echo "<div class='deck-list'>
-                <p>Your decks will appear here.</p>
-                <!-- Future: Dynamic deck list will load here -->
-              </div>";
+                echo "<div id='deckLoadingContainer' class='swustats-connected'>Loading decks...</div>";
+                echo "<div id='deckDropdownContainer' style='display: none;'>
+                <select id='swuDecks' name='swuDecks' style='margin-top: 15px; margin-bottom: 10px;'>
+                  <option value=''>-- Select a deck --</option>
+                </select>
+                </div>";
             } else {
               $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
               if (count($favoriteDecks) > 0) {
@@ -1744,6 +1744,66 @@ document.addEventListener('DOMContentLoaded', function() {
         loadSpectateGames();
     });
 });
+
+<?php if ($swuStatsLinked) { ?>
+// SWU Stats deck loading logic using plain JavaScript and AJAX
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var deckLoadingContainer = document.getElementById('deckLoadingContainer');
+    var deckDropdownContainer = document.getElementById('deckDropdownContainer');
+    var swuDecksDropdown = document.getElementById('swuDecks');
+    var deckLinkInput = document.getElementById('deckLink');
+    var fabdbHidden = document.getElementById('fabdb');
+
+    function populateDeckDropdown(decks) {
+      decks.forEach(function(deck) {
+        var option = document.createElement('option');
+        option.value = deck.keyIndicator1 + '<fav>' + deck.keyIndicator2;
+        option.textContent = deck.name;
+        swuDecksDropdown.appendChild(option);
+      });
+    }
+
+    function handleDeckSelection() {
+      var selectedValue = swuDecksDropdown.value;
+      if (selectedValue && selectedValue.includes('<fav>')) {
+        var parts = selectedValue.split('<fav>');
+        if (parts.length > 1) {
+          deckLinkInput.value = parts[1];
+          fabdbHidden.value = parts[1];
+          if (typeof validateDeckLink === 'function') validateDeckLink(parts[1]);
+        }
+      }
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './Assets/SWUStats/get_user_decks.php', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            if (data.decks && data.decks.length > 0) {
+              populateDeckDropdown(data.decks);
+              deckLoadingContainer.style.display = 'none';
+              deckDropdownContainer.style.display = 'block';
+            } else {
+              deckLoadingContainer.textContent = 'No decks found.';
+            }
+          } catch (e) {
+            deckLoadingContainer.textContent = 'Error loading decks.';
+          }
+        } else {
+          deckLoadingContainer.textContent = 'Error loading decks.';
+        }
+      }
+    };
+    xhr.send();
+
+    swuDecksDropdown.addEventListener('change', handleDeckSelection);
+  });
+})();
+<?php } ?>
 </script>
 
 </body>
