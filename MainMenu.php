@@ -111,7 +111,17 @@ if (!empty($_SESSION['error'])) {
     .header-wrapper {
       position: relative;
       z-index: 100;
-      width:60%;
+      width: 60%;
+      margin: 0;
+      display: block;
+    }
+    @media (max-width: 991px) {
+      .header-wrapper {
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+      }
     }
     
     .home-header {
@@ -689,6 +699,10 @@ if (!empty($_SESSION['error'])) {
       }
       .header-wrapper {
         position: relative;
+        width: auto;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
       }
       
       .home-header {
