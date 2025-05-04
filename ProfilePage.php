@@ -43,10 +43,76 @@ $(document).on('click', '#filterButton', function() {
     });
 });
 </script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Petranaki</title>
+    <style>
+        /* Common styles for adequate header spacing */
+        .core-wrapper {
+            margin-top: 0px !important; /* Increased top margin for header space */
+            min-height: calc(100vh - 200px) !important; /* Adjust to account for header and footer */
+            position: relative;
+            z-index: 1; /* Keep content above background, below header */
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: visible !important;
+        }
+        
+        /* Ensure profile content is properly laid out */
+        .profile-flex-wrapper {
+            display: flex;
+            flex-direction: row;
+            gap: 32px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .core-wrapper {
+                margin-top: 0px !important; /* More space for mobile header */
+                height: auto !important;
+                min-height: calc(100vh - 220px) !important;
+            }
+            
+            .profile-flex-wrapper {
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 10px;
+            }
+            
+            .fav-decks, .profile-set-settings-wrapper {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 0 15px 0 !important;
+            }
+            
+            .fav-decks.container, .profile-set-settings.container {
+                width: 100%;
+                margin: 0 0 15px 0 !important;
+                padding: 15px;
+            }
+            
+            .disclaimer {
+                left: 0;
+                right: 0;
+                border-radius: 0;
+                width: 100%;
+                z-index: 100;
+            }
+        }
+    </style>
+</head>
+<body>
+
 <?php
 include_once 'Header.php';
 ?>
-
 
 <div id="cardDetail" style="z-index:100000; display:none; position:fixed;"></div>
 
@@ -69,7 +135,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
 <div class="core-wrapper">
   <div class="profile-flex-wrapper">
     <div class='fav-decks container bg-yellow'>
-      <div style="display:flex; gap: 16px; max-width: 50vw;">
+      <div style="display:flex; gap: 16px; max-width: 100%; flex-wrap: wrap;">
           <h2 style="flex-grow: 1;">Welcome <?php echo $_SESSION['useruid'] ?>!</h2>
           <a href="ChangeUsername.php">
               <button name="change-username" style="height: 40px">Change Username</button>
@@ -111,8 +177,8 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
           <button type="submit" name="block-user-submit">Block</button>
       </form>
     </div>
-    <div class="profile-set-settings-wrapper" style="max-width: 40vw; margin: 0 auto;">
-      <div class='profile-set-settings container bg-yellow' style="margin: 0 20px 20px 0;">
+    <div class="profile-set-settings-wrapper">
+      <div class='profile-set-settings container bg-yellow'>
         <h2>Game Settings</h2>
         <script>
           function OnFaveDeckChange(c) {
@@ -239,6 +305,10 @@ function ParseLink($link) {
     return "error: link not supported";
   }
 }
+?>
+</body>
+</html>
 
+<?php
 require "Disclaimer.php";
 ?>
