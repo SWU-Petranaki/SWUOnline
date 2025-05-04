@@ -119,6 +119,7 @@ $baseUri = "/Arena";
           right: 16px;
           z-index: 10100;
           margin-right: 20px;
+          font-size: 30px;
         }
         .nav-bar-user, .nav-bar-links, .nav-bar-karabast {
           display: none !important;
