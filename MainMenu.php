@@ -129,7 +129,7 @@ if (!empty($_SESSION['error'])) {
               if (count($favoriteDecks) > 0) {
                 $selIndex = -1;
                 if (isset($settingArray[$SET_FavoriteDeckIndex])) $selIndex = $settingArray[$SET_FavoriteDeckIndex];
-                echo ("<div class='SelectDeckInput'><label for='favoriteDecks'>Favorite Decks</label>");
+                echo ("<div class='SelectDeckInput'>");
                 echo ("<select name='favoriteDecks' id='favoriteDecks'>");
                 echo ("<option value=''>-- Select a deck --</option>");
                 for ($i = 0; $i < count($favoriteDecks); $i += 4) {
