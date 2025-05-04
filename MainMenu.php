@@ -1567,7 +1567,7 @@ function displayOpenGames(data) {
                 // Create a form element to submit the data
                 const form = document.createElement('form');
                 form.method = 'GET';
-                form.action = `${window.location.origin}/SWUOnline/JoinGameInput.php`;
+                form.action = `${window.location.origin}/Arena/JoinGameInput.php`;
                 
                 // Add game name
                 const gameNameInput = document.createElement('input');
@@ -1702,7 +1702,7 @@ function displaySpectateGames(data) {
             spectateButton.textContent = 'Spectate';
             spectateButton.className = 'spectate-btn';
             spectateButton.onclick = function() {
-                window.location.href = `${window.location.origin}/SWUOnline/GameLobby.php?gameName=${game.gameName}&playerID=3`;
+                window.location.href = `${window.location.origin}/Arena/GameLobby.php?gameName=${game.gameName}&playerID=3`;
             };
             
             gameItem.appendChild(gameInfo);
