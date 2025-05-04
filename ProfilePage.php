@@ -67,8 +67,8 @@ html, body {
 
 @media (max-width: 991px) {
   .core-wrapper {
-    margin-top: 80px !important;
-    min-height: calc(100vh - 80px) !important;
+    margin-top: 60px !important;
+    min-height: calc(100vh - 60px) !important;
   }
   
   .header-wrapper {
@@ -120,6 +120,10 @@ html, body {
 }
 
 @media (max-width: 768px) {
+  .core-wrapper {
+    margin-top: 40px !important;
+    min-height: calc(100vh - 40px) !important;
+  }
   .profile-flex-wrapper {
     flex-direction: column;
     gap: 18px;
@@ -127,10 +131,10 @@ html, body {
   }
   .profile-flex-wrapper > .fav-decks,
   .profile-flex-wrapper > .profile-set-settings-wrapper {
-    max-width: 100vw;
-    width: 100vw;
-    margin: 0;
-    border-radius: 0;
+    max-width: calc(100vw - 10px) !important;
+    width: calc(100vw - 10px) !important;
+    margin: 0 auto 0 auto !important;
+    border-radius: 10px;
     box-sizing: border-box;
   }
   .fav-decks {
