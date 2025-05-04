@@ -128,7 +128,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
         setTimeout(function() {
             var modal = document.getElementById("swustats-modal");
             if(modal) { modal.style.transition = "opacity 0.6s"; modal.style.opacity = 0; setTimeout(function(){ modal.remove(); }, 700); }
-        }, 2500);
+        }, 1500);
     </script>';
 }
 ?>
