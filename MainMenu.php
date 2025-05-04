@@ -1772,11 +1772,6 @@ function displaySpectateGames(data) {
                 p2CardDisplay.appendChild(baseImg);
             }
             
-            // Game name/id
-            const gameName = document.createElement('div');
-            gameName.className = 'game-name';
-            gameName.innerHTML = `<strong>Game #${game.gameName}</strong>`;
-            
             // Last update time
             const timeInfo = document.createElement('div');
             timeInfo.className = 'time-info';
@@ -1797,7 +1792,6 @@ function displaySpectateGames(data) {
             matchupDiv.appendChild(vsText);
             matchupDiv.appendChild(p2CardDisplay);
             
-            gameInfo.appendChild(gameName);
             gameInfo.appendChild(matchupDiv);
             gameInfo.appendChild(timeInfo);
             
