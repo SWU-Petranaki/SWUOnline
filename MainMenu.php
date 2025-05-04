@@ -1232,9 +1232,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the savedFavoriteDeckIndex variable to keep track of the current selection
         savedFavoriteDeckIndex = selectedIndex;
         
-        // Save the selection to user settings via AJAX
+        // Save the selection to user settings via AJAX - use correct parameter names: piece and value
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'api/UpdateMyPlayerSetting.php?settingID=<?= $SET_FavoriteDeckIndex ?>&settingValue=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?>', true);
+        xhr.open('GET', 'api/UpdateMyPlayerSetting.php?piece=<?= $SET_FavoriteDeckIndex ?>&value=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?>', true);
         xhr.send();
       }
     }
