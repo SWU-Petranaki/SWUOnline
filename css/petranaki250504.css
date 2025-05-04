@@ -86,8 +86,9 @@ ul {
 body {
   background-size: cover;
   background-position: center;
-  background-image: url('../Images/arena-bg.webp');
-  max-width: 100%;
+  background-repeat: no-repeat;
+  background-image: url('../Images/petranaki_arena_cartoon_bg.webp');
+  width: 100%;
   height: 100%;
   margin: 0;
 }
@@ -194,24 +195,38 @@ select {
 /* HEADER ---------------------------------------------------------------------------------------------- */
 
 .home-header {
-  height: 276px;
+  height: auto; /* Changed from fixed 276px to auto */
   padding: 20px 0 0 20px;
   position: relative;
+  margin-bottom: 10px; /* Add space after the header */
+  width: 100%;
+  z-index: 10;
+  position: relative;
+  pointer-events: none; /* This makes the header ignore mouse events */
+  z-index: -1; /* This ensures it stays below interactive elements */
 }
+
 
 .title {
   text-decoration: none;
   letter-spacing: 0.05em;
 }
-
 .title-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: left;
-  width: calc(33% - 50px);
+  align-items: flex-start;
   padding: 16px 18px 18px 18px;
   border-radius: 10px;
+  width: auto;
 }
+
+    /* Make specific elements within home-header clickable again if needed */
+    .home-header a, 
+    .home-header button,
+    .nav-bar,
+    .nav-bar * {
+      pointer-events: auto; /* Re-enable click events for navigation elements */
+    }
 
 .home-header h1 {
   font-size: 50px;
@@ -262,7 +277,9 @@ select {
   top: 10px;
   font-size: 18px;
   font-weight: 600;
-  z-index: 20;
+  z-index: 100; /* Increased from 20 to 100 to ensure it appears above other elements */
+  width: auto; /* Only as wide as needed on desktop */
+  display: block;
 }
 
 .nav-bar a {
@@ -304,6 +321,7 @@ select {
   font-size: 16px;
   font-weight: 500;
   padding: 12.5px 20px;
+  z-index: 10; /* Added z-index to prevent cutoff */
 
   a {
     text-decoration: underline;
@@ -868,7 +886,7 @@ select {
 }
 
 .disclaimer p {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 400;
   /* width: 100%; */
   text-align: center;
@@ -879,4 +897,40 @@ select {
 .bg-blur {
   background-color: rgb(0, 0, 0, 40%);
   backdrop-filter: blur(20px);
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 768px) {
+  .title-container {
+    width: auto; /* Adjust width to fit the content */
+    padding: 12px 14px 14px 14px;
+  }
+  
+  .home-header h1 {
+    font-size: 40px; /* Slightly smaller font on mobile */
+  }
+  
+  /* Hide the karabast section on mobile as it will be in the burger menu */
+  .nav-bar-karabast {
+    display: none;
+  }
+  
+  /* Make sure the banner doesn't interfere with the logo */
+  .home-banner {
+    width: calc(100% - 200px);
+  }
+  
+  /* Core wrapper adjustments for smaller header */
+  .core-wrapper {
+    margin-top: -60px; /* Adjusted from -116px for the smaller header */
+  }
+
+  .nav-bar {
+    position: relative;
+    width: 100%; /* Full width on mobile */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
