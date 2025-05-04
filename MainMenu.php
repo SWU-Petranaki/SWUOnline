@@ -1852,7 +1852,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var fabdbHidden = document.getElementById('fabdb');
 
     function populateDeckDropdown(decks) {
-      decks.forEach(function(deck) {
+      // Filter out decks with visibility null before populating dropdown
+      var validDecks = decks.filter(function(deck) {
+        return deck.visibility !== null;
+      });
+      
+      validDecks.forEach(function(deck) {
         var option = document.createElement('option');
         // Build the deck link using the id from the API
         var deckId = deck.id || deck.deckId || deck.keyIndicator2 || '';
@@ -1864,6 +1869,13 @@ document.addEventListener('DOMContentLoaded', function() {
         option.textContent = deck.name || deck.deckName || 'Unnamed Deck';
         swuDecksDropdown.appendChild(option);
       });
+      
+      // Display message if no valid decks after filtering
+      if (validDecks.length === 0) {
+        deckLoadingContainer.textContent = 'No valid decks found.';
+        deckLoadingContainer.style.display = 'block';
+        deckDropdownContainer.style.display = 'none';
+      }
     }
 
     function handleDeckSelection() {
