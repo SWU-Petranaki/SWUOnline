@@ -948,6 +948,12 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
         AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
       }
       break;
+    case "0661066339"://Qui-Gon Jinn's Aethersprite
+      $cardID = explode(",", $target)[0];
+      AddDecisionQueue("YESNO", $player, "if you want to use " . CardLink($cardID, $cardID) . "'s 'When Played' ability again");
+      AddDecisionQueue("NOPASS", $player, "-",1);
+      AddDecisionQueue("USEWHENPLAYED", $player, $target, 1);
+      break;
     default: break;
   }
 }

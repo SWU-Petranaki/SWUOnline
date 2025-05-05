@@ -6955,6 +6955,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     //PlayAbility End
     default: break;
   }
+
+  if($from != "PLAY" && SearchCurrentTurnEffects("0661066339", $currentPlayer, remove:true)) {//Qui-Gon Jinn's Aethersprite
+    $data = "$cardID,$resourcesPaid,$target,$additionalCosts,$uniqueId";
+    AddLayer("TRIGGER", $currentPlayer, "0661066339", $data);
+  }
 }
 
 function AttackWithMyUnitEvenIfExhaustedNoBases($player) {
