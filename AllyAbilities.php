@@ -2414,6 +2414,7 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
     //Legends of the Force
     case "b2072f156c"://Darth Maul Leader unit
     case "5472129982"://Luthen Rael
+    case "5856307533"://Merrin
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3601,6 +3602,18 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       ObiWanKenobiLOF($mainPlayer, true);
+      break;
+case "5856307533"://Merrin
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to deal 2 damage to a unit?");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 2 damage to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1); 
+      AddDecisionQueue("MZOP", $mainPlayer, "DEALDAMAGE,2,$mainPlayer,1", 1);
       break;
     default: break;
   }
