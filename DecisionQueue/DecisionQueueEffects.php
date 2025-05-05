@@ -1310,6 +1310,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("ADDCURRENTEFFECT", $player, $leaderUnitSide ? "6def6570f5": "2580909557", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
+    case "GROGU_LOF":
+      $target = new Ally($lastResult, $player);
+      $healed = $target->Heal(2);
+      if ($healed > 0) {
+        AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal " . $healed . " damage to");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+        AddDecisionQueue("MZOP", $player, DealDamageBuilder($healed, $player, isUnitEffect:1), 1);
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }
