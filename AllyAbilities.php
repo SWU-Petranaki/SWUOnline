@@ -1364,6 +1364,41 @@ function OnKillAbility($player, $uniqueID)
   if(count($combatChain) == 0) return;
   $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
   if($attackerAlly->UniqueID() == $uniqueID && $attackerAlly->PlayerID() == $player) return;
+
+  $killerChar = GetPlayerCharacter($mainPlayer);
+  for($i = 0; $i < count($killerChar); $i+=CharacterPieces()) {
+    switch($killerChar[$i]) {
+      case "4637578649"://Darth Revan Leader
+        if(!LeaderAbilitiesIgnored() && $killerChar[$i+1] == 2) {
+          AddDecisionQueue("ATTACKEREXISTSORPASS", $mainPlayer, $attackerAlly->UniqueID(), 1);
+          AddDecisionQueue("YESNO", $mainPlayer, "Give Experience to " . CardLink($attackerAlly->CardID(), $attackerAlly->CardID()) . "?", 1);
+          AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
+          AddDecisionQueue("EXHAUSTCHARACTER", $mainPlayer, FindCharacterIndex($mainPlayer, "4637578649"), 1);
+          AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
+          AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  //ally on kill abilities
+  $myAllies = GetAllies($mainPlayer);
+  for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
+    switch($myAllies[$i]) {
+      case "754e979196"://Darth Revan Leader Unit
+        AddDecisionQueue("ATTACKEREXISTSORPASS", $mainPlayer, $attackerAlly->UniqueID(), 1);
+        AddDecisionQueue("YESNO", $mainPlayer, "Give Experience to " . CardLink($attackerAlly->CardID(), $attackerAlly->CardID()) . "?", 1);
+        AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
+        AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
+        AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+        break;
+      default:
+        break;
+    }
+  }
+
+
   if($attackerAlly->LostAbilities()) return;
   $upgrades = $attackerAlly->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {
