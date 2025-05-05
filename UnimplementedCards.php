@@ -24,7 +24,7 @@ $cardsList = [];
         <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px;">
             <div style="text-align: center; margin-top: 4px;">
                 <h2>Unimplemented Cards</h2>
-                <h4>Last Updated: 2025-04-30</h4>
+                <h4>Last Updated: 2025-05-05</h4>
                 <p style="margin-bottom: 20px;">The cards we have images for, but are not implemented are below</p>
                 <!-- <p style="margin-bottom: 20px;">All  Set 1-5 cards are now implemeneted.</p> -->
             </div>
