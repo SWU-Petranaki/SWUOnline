@@ -629,9 +629,12 @@ function HasOverwhelm($cardID, $player, $index)
     if($currentTurnEffects[$i+1] != $player) continue;
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
     switch($currentTurnEffects[$i]) {
-      case "4085341914": return true;//Heroic Resolve
-      case "6461101372": return !LeaderAbilitiesIgnored();//Maul Leader
-      case "1167572655": return true;//Planetary Invasion
+      case "6461101372"://Maul Leader
+        return !LeaderAbilitiesIgnored();
+      case "4085341914"://Heroic Resolve
+      case "1167572655"://Planetary Invasion
+      case "2167393423"://Darth Maul's Lightsaber
+        return true;
       default: break;
     }
   }
@@ -2038,6 +2041,7 @@ function UpgradeFilter($cardID)
     case "0414253215"://General's Blade
     case "0741296536"://Ahsoka's Padawan Lightsaber
     case "0875550518"://Grievous's Wheel Bike
+    case "2167393423"://Darth Maul's Lightsaber
       return "trait=Vehicle";
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment
