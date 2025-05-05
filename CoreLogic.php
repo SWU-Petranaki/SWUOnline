@@ -6855,7 +6855,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     //Legends of the Force
-    case "0024560758"://Darth Maul
+    case "0024560758"://Darth Maul Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Deal Damage") {
         if(!HasTheForce($currentPlayer)) {
@@ -6865,6 +6865,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           UseTheForce($currentPlayer);
           DQMultiUnitSelect($currentPlayer, 2, "MYALLY&THEIRALLY", "to deal 1 damage to", cantSkip:true);
           AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer), 1);
+        }
+      }
+      break;
+    case "2580909557"://Qui-Gon Jinn Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Bounce/Play") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          QuiGonJinnLOF($currentPlayer, false);
         }
       }
       break;

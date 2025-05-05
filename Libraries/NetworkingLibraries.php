@@ -2480,6 +2480,9 @@ function CurrentTurnEffectsPlayingUnit($player) {
       //Jump to Lightspeed
       case "7138400365"://The Invisible Hand
       case "7461173274"://They Hate That Ship
+      //Legends of the Force
+      case "2580909557"://Qui-Gon Jinn Leader
+      case "6def6570f5"://Qui-Gon Jinn Leader Unit
         return true;
     }
   }
