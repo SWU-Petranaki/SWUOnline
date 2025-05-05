@@ -259,12 +259,12 @@
         var myForceToken = forceTokensArr[0];
         var theirForceToken = forceTokensArr[1];
         if(isMyBase) {
-          var imgSrc = (myForceToken == "1") ? "'./Images/ForceToken.png'" : "'./Images/ForceToken-dim.png'";
-          rv += `<img id='P<?=$playerID?>FORCETOKEN' title='Force Token' style='position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src=${imgSrc} />`;
+          var showToken = myForceToken == "1";
+          rv += `<img id='P<?=$playerID?>FORCETOKEN' title='Force Token' style='display: ${showToken ? 'block':'none'}; position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src='./Images/ForceToken.png' />`;
         }
         if(isTheirBase) {
-          var imgSrc = (theirForceToken == "1") ? "'./Images/ForceToken.png'" : "'./Images/ForceToken-dim.png'";
-          rv += `<img id='P<?=$otherPlayerID?>FORCETOKEN' title='Force Token' style='position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src=${imgSrc} />`;
+          var showToken = theirForceToken == "1";
+          rv += `<img id='P<?=$otherPlayerID?>FORCETOKEN' title='Force Token' style='display: ${showToken ? 'block':'none'}; position:absolute; z-index:100; border-radius:5px; bottom: 3px; right: -2px; height:32px; width:32px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src='./Images/ForceToken.png' />`;
         }
         rv += "</a>";
 
@@ -690,19 +690,38 @@
                       var element = document.getElementById(id);
                       if(!!element) {
                         if(timeoutAmount < 500) timeoutAmount = 500;
-                        var imgSrc;
                         if(eventArr[1] == "1") {
-                          imgSrc = "./Images/ForceToken.png";
+                          element.style.display = 'block';
+                          element.style.opacity = '0';
+                          element.animate(
+                            [
+                              { opacity: 0 },
+                              { opacity: 1 }
+                            ],
+                            {
+                              duration: 500,
+                              easing: 'ease-in-out',
+                              fill: 'forwards'
+                            }
+                          ).onfinish = function() {
+                            element.style.opacity = '1';
+                          };
                         } else {
-                          imgSrc = "./Images/ForceToken-dim.png";
-                        }  element.animate([
-                          { opacity: 0 },
-                          { opacity: 1 }
-                        ], {
-                          duration: 300,
-                          fill: "forwards"
-                        });
-                        element.src = imgSrc;
+                          element.style.opacity = '1';
+                          element.animate(
+                            [
+                              { opacity: 1 },
+                              { opacity: 0 }
+                            ],
+                            {
+                              duration: 500,
+                              easing: 'ease-in-out',
+                              fill: 'forwards'
+                            }
+                          ).onfinish = function() {
+                            element.style.display = 'none';
+                          };
+                        }
                       }
                     }
                   }

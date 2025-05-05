@@ -2122,6 +2122,10 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
         break;
+      //Legends of the Force
+      case "b2072f156c":
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        break;
       default: break;
     }
   }
@@ -2371,6 +2375,11 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
           AddCurrentTurnEffect("9667260960", $mainPlayer, from:"PLAY");
         }
       }
+    //Legends of the Force
+    case "b2072f156c"://Darth Maul Leader unit
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
     default: break;
   }
@@ -3527,6 +3536,11 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       }
       AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->MZIndex());
       AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder($damage, $mainPlayer, isUnitEffect:true, isPreventable:false));
+      break;
+    //Legends of the Force
+    case "b2072f156c"://Darth Maul Leader unit
+      DQMultiUnitSelect($player, 2, "MYALLY&THEIRALLY", "to deal 1 damage to", cantSkip:true);
+      AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
       break;
     default: break;
   }

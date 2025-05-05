@@ -237,7 +237,7 @@ $CS_DamagePrevention = 4;
 $CS_CardsDrawn = 5;
 $CS_DamageTaken = 6;
 $CS_NumForcePlayed = 7;
-$CS_ArsenalFacing = 8;                  //free//number
+$CS_CantSkipPhase = 8;
 $CS_CharacterIndex = 9;
 $CS_PlayIndex = 10;
 $CS_Inactive = 11;                      //free//number
@@ -495,7 +495,7 @@ function ResetClassState($player)
   global $CS_ArcaneDamageTaken, $CS_NextNAAInstant, $CS_NextDamagePrevented, $CS_LastAttack, $CS_PlayCCIndex;
   global $CS_NumLeftPlay, $CS_NumUsesLeaderUpgrade1, $CS_NumUsesLeaderUpgrade2, $CS_AfterPlayedBy, $CS_NumAttackCards, $CS_NumPlayedFromBanish;
   global $CS_NumAttacks, $CS_DieRoll, $CS_NumMandalorianAttacks, $CS_SeparatistUnitsThatAttacked, $CS_NumFighterAttacks, $CS_LayerTarget, $CS_NumSwordAttacks;
-  global $CS_HitsWithWeapon, $CS_ArcaneDamagePrevention, $CS_DynCostResolved, $CS_CardsEnteredGY, $CS_CachedCharacterLevel, $CS_ArsenalFacing;
+  global $CS_HitsWithWeapon, $CS_ArcaneDamagePrevention, $CS_DynCostResolved, $CS_CardsEnteredGY, $CS_CachedCharacterLevel, $CS_CantSkipPhase;
   global $CS_HighestRoll, $CS_NumAuras, $CS_AbilityIndex, $CS_AdditionalCosts, $CS_NumRedPlayed, $CS_PlayUniqueID, $CS_AlluvionUsed;
   global $CS_NumPhantasmAADestroyed, $CS_NumEventsPlayed, $CS_MaxQuellUsed, $CS_DamageDealt, $CS_ArcaneTargetsSelected, $CS_NumDragonAttacks, $CS_NumIllusionistAttacks;
   global $CS_LastDynCost, $CS_NumIllusionistActionCardAttacks, $CS_ArcaneDamageDealt, $CS_LayerPlayIndex, $CS_NumCardsPlayed, $CS_NamesOfCardsPlayed;
@@ -511,7 +511,7 @@ function ResetClassState($player)
   $classState[$CS_CardsDrawn] = 0;
   $classState[$CS_DamageTaken] = 0;
   $classState[$CS_NumForcePlayed] = 0;
-  $classState[$CS_ArsenalFacing] = 0;
+  $classState[$CS_CantSkipPhase] = 0;
   $classState[$CS_CharacterIndex] = 0;
   $classState[$CS_PlayIndex] = -1;
   $classState[$CS_NumNonAttackCards] = 0;

@@ -1556,6 +1556,8 @@ function CanConfirmPhase($phase) {
   function CanPassPhase($phase)
   {
     global $combatChainState, $CCS_RequiredEquipmentBlock, $currentPlayer, $turn;
+    global $CS_CantSkipPhase;
+    if(GetClassState($currentPlayer, $CS_CantSkipPhase) == 1) return 0;
     if($phase == "B" && HaveUnblockedEquip($currentPlayer) && NumEquipBlock() < $combatChainState[$CCS_RequiredEquipmentBlock]) return false;
     switch($phase)
     {
@@ -6853,6 +6855,19 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     //Legends of the Force
+    case "0024560758"://Darth Maul
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Deal Damage") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          DQMultiUnitSelect($currentPlayer, 2, "MYALLY&THEIRALLY", "to deal 1 damage to", cantSkip:true);
+          AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer), 1);
+        }
+      }
+      break;
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
@@ -7248,7 +7263,9 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="") {
+function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="", $cantSkip=false) {
+  global $CS_CantSkipPhase;
+  if($cantSkip) SetClassState($player, $CS_CantSkipPhase, 1);
   AddDecisionQueue("PASSPARAMETER", $player, "-");
   AddDecisionQueue("SETDQVAR", $player, "0");
   AddDecisionQueue("SETDQVAR", $player, "1");
@@ -7256,7 +7273,7 @@ function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter=
     AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
     AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
     if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, 1);
-    AddDecisionQueue("SETDQCONTEXT", $player, "Choose up to $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
+    AddDecisionQueue("SETDQCONTEXT", $player, "Choose" . ($cantSkip ? "" : " up to") . " $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
     AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "0", 1);
     AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
@@ -7266,6 +7283,9 @@ function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter=
   }
   AddDecisionQueue("PASSPARAMETER", $player, "{1}");
   AddDecisionQueue("EQUALPASS", $player, "-");
+  AddDecisionQueue("PASSPARAMETER", $player, "0");
+  AddDecisionQueue("SETCLASSSTATE", $player, $CS_CantSkipPhase);
+  AddDecisionQueue("PASSPARAMETER", $player, "{1}");
 }
 
 //target type return values

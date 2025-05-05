@@ -1791,7 +1791,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "2580909557"://Qui-Gon Jinn
       return LeaderAbilitiesIgnored() ? "" : "Not Implemented";//"Bounce/Play";
     case "0024560758"://Darth Maul
-      return LeaderAbilitiesIgnored() ? "" : "Not Implemented";//"Deal Damage";
+      return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     default: return "";
   }
 }
