@@ -1186,27 +1186,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("MZOP", $player, DealDamageBuilder(1, $player, isUnitEffect:1), 1);
       }
       break;
-    //Legends of the Force
-    case "DARTHSIDIOUS_LOF":
-      UseTheForce($player);
-      $myIndices = SearchAllies($player) ? explode(",", SearchAllies($player)) : [];
-      $theirIndices = SearchAllies($otherPlayer) ? explode(",", SearchAllies($otherPlayer)) : [];
-      $allAllyUIDs = [];
-      foreach ($myIndices as $index) {
-        $ally = new Ally("MYALLY-" . $index, $player);
-        $allAllyUIDs[] = $ally->UniqueID();
-      }
-      foreach ($theirIndices as $index) {
-        $ally = new Ally("THEIRALLY-" . $index, $otherPlayer);
-        $allAllyUIDs[] = $ally->UniqueID();
-      }
-      foreach ($allAllyUIDs as $uid) {
-        $ally = Ally::FromUniqueId($uid);
-        if (!TraitContains($ally->CardID(), "Sith", $ally->Controller()) && $ally->Health() <= 3) {
-          $ally->Destroy();
-        }
-      }
-      break;
     case "PAY_READY_TAX":
       $tax = $parameterArr[1];
       if(NumResourcesAvailable($player) >= $tax) {
@@ -1291,6 +1270,34 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("MZOP", $player, "READY", 1);
       }
       AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $player, "8105698374,HAND", 1);
+      break;
+    //Legends of the Force
+    case "DARTHSIDIOUS_LOF":
+      UseTheForce($player);
+      $myIndices = SearchAllies($player) ? explode(",", SearchAllies($player)) : [];
+      $theirIndices = SearchAllies($otherPlayer) ? explode(",", SearchAllies($otherPlayer)) : [];
+      $allAllyUIDs = [];
+      foreach ($myIndices as $index) {
+        $ally = new Ally("MYALLY-" . $index, $player);
+        $allAllyUIDs[] = $ally->UniqueID();
+      }
+      foreach ($theirIndices as $index) {
+        $ally = new Ally("THEIRALLY-" . $index, $otherPlayer);
+        $allAllyUIDs[] = $ally->UniqueID();
+      }
+      foreach ($allAllyUIDs as $uid) {
+        $ally = Ally::FromUniqueId($uid);
+        if (!TraitContains($ally->CardID(), "Sith", $ally->Controller()) && $ally->Health() <= 3) {
+          $ally->Destroy();
+        }
+      }
+      break;
+    case "SAVAGEOPRESS_LOF":
+      if($lastResult == "YES") {
+        UseTheForce($player);
+      } else {
+        DealDamageAsync($player, 9, "DAMAGE", "1636013021", $player);
+      }
       break;
     //SpecificCardLogic End
     default: return "";

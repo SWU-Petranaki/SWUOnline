@@ -6869,6 +6869,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "1636013021"://Savage Opress
+      if($from != "PLAY") {
+        SavageOpressLOF($currentPlayer);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

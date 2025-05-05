@@ -701,6 +701,9 @@ function HasOverwhelm($cardID, $player, $index)
       return SearchCount(SearchAllies($player, trait:"Mandalorian")) > 1;
     case "2948071304"://Vonreg's TIE Interceptor
       return $ally->CurrentPower(reportMode:true) >= 4;
+    //Legacy of the Force
+    case "1636013021"://Savage Opress
+      return true;
     default: break;
   }
   //The Ghost JTL
@@ -878,6 +881,9 @@ function HasShielded($cardID, $player, $index)
     case "7385763727"://Techno Union Transport
     case "3770706835"://Outer Rim Outlaws
     case "2644994192"://Hondo Ohnaka
+      return true;
+    //Legacy of the Force
+    case "3967581160"://Anakin Skywalker
       return true;
     default: break;
   }

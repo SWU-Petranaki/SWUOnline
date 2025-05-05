@@ -1368,6 +1368,15 @@ function CaptainPhasmaUnit($player, $phasmaIndex) {
   AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "3427170256,PLAY", 1);
 }
 
+function SavageOpressLOF($player) {
+  if(HasTheForce($player)) {
+    AddDecisionQueue("YESNO", $player, "if you want use The Force");
+    AddDecisionQueue("SPECIFICCARD", $player, "SAVAGEOPRESS_LOF", 1);
+  } else {
+    DealDamageAsync($player, 9, "DAMAGE", "1636013021", $player);
+  }
+}
+
 function CountPilotUnitsAndPilotUpgrades($player, $other=false) {
   $count = $other ? -1 : 0;
   $count += SearchCount(SearchAllies($player, trait:"Pilot"));
