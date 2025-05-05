@@ -6874,6 +6874,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         SavageOpressLOF($currentPlayer);
       }
       break;
+    case "1545515980"://Stinger Mantis
+      //When Played
+      if($from != "PLAY") {
+        //You may deal 2 damage to an exhausted unit.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "status=0");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an exhausted unit to deal 2 damage to");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, 1), 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
