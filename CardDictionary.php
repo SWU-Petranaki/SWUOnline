@@ -465,6 +465,10 @@ function HasSentinel($cardID, $player, $index)
       return SearchCount(SearchAllies($player, trait:"Vehicle")) > 0;
     case "5763330426"://The Ghost
       return $ally->IsUpgraded();
+    case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+      global $CS_NumForcePlayed;
+      if(GetClassState($player, $CS_NumForcePlayed) > 0) return true;
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -1859,7 +1863,7 @@ function GetResolvedAbilityName($cardID, $from="-")
 
 function IsPlayable($cardID, $phase, $from, $index = -1, &$restriction = null, $player = "")
 {
-  global $currentPlayer, $CS_NumActionsPlayed, $combatChainState, $CCS_BaseAttackDefenseMax, $CS_NumNonAttackCards, $CS_NumAttackCards;
+  global $currentPlayer, $combatChainState, $CCS_BaseAttackDefenseMax, $CS_NumNonAttackCards, $CS_NumAttackCards;
   global $CCS_ResourceCostDefenseMin, $actionPoints, $mainPlayer, $defPlayer;
   global $combatChain;
   if($from == "ARS" || $from == "BANISH") return false;
