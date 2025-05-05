@@ -2122,10 +2122,6 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
         break;
-      //Legends of the Force
-      case "b2072f156c":
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
-        break;
       default: break;
     }
   }
