@@ -253,8 +253,8 @@
           rv += "<img title='Restricted by: " + restriction + "' style='position:absolute; z-index:100; top:26px; left:26px;' src='./Images/restricted.png' />";
         }
         if (epicActionUsed == 1) rv += "<img title='Epic Action Used' style='position:absolute; z-index:100; border-radius:5px; top: -3px; right: -2px; height:26px; width:26px; filter:drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.50));' src='./Images/ExhaustToken.png' />";
-        var isMyBase = cardNumber == <?php echo $myBase ?> && controller == <?php echo $playerID ?>;
-        var isTheirBase = cardNumber == <?php echo $theirBase ?> && controller == <?php echo $otherPlayerID ?>;
+        var isMyBase = cardNumber == "<?php echo $myBase ?>" && controller == <?php echo $playerID ?>;
+        var isTheirBase = cardNumber == "<?php echo $theirBase ?>" && controller == <?php echo $otherPlayerID ?>;
         var forceTokensArr = forceTokens.split(",");
         var myForceToken = forceTokensArr[0];
         var theirForceToken = forceTokensArr[1];
