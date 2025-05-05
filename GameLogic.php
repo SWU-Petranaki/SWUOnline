@@ -2448,7 +2448,13 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
       break;
     case "USEWHENPLAYED":
-      //TODO: for Qui-Gon Jinn's Aethersprite
+      $paramArr = explode(",", $parameter);
+      $cardID = $paramArr[0];
+      $resourcesPaid = $paramArr[1];
+      $target = $paramArr[2];
+      $additionalCosts = $paramArr[3];
+      $uniqueId = $paramArr[4];
+      PlayAbility($cardID, "HAND", $resourcesPaid, $target, $additionalCosts, false, $uniqueId);
       break;
     default:
       return "NOTSTATIC";

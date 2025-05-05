@@ -2419,12 +2419,19 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
-    case "5387ca4af6":
+    case "5387ca4af6"://Third Sister Leader Unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if (!LeaderAbilitiesIgnored()) {
-        AddCurrentTurnEffect("5387ca4af6", $mainPlayer, from:"PLAY");
+        //immediate effect. no layer
+        AddCurrentTurnEffect($attackerCardID, $mainPlayer, from:"PLAY");
       }
+      break;
+    case "0661066339"://Qui-Gon Jinn's Aethersprite
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      AddCurrentTurnEffect($attackerCardID, $mainPlayer, from:"PLAY");
       break;
     default: break;
   }
