@@ -997,6 +997,46 @@ function HasSaboteur($cardID, $player, $index)
   return false;
 }
 
+function HasHidden($cardID, $player, $index) {
+  global $currentTurnEffects;
+
+  $ally = new Ally("MYALLY-" . $index, $player);
+  if($ally->LostAbilities()) return false;
+  //ongoing effects
+  for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnPieces()) {
+    if($currentTurnEffects[$i+1] != $player) continue;
+    if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
+    switch($currentTurnEffects[$i]) {
+      default: break;
+    }
+  }
+  //upgrades that grant hidden
+  $upgrades = $ally->GetUpgrades();
+  for($i=0; $i<count($upgrades); ++$i)
+  {
+    switch($upgrades[$i]) {
+      default: break;
+    }
+  }
+  //other allies that grant hidden
+  $allies = &GetAllies($player);
+  for($i=0; $i<count($allies); $i+=AllyPieces())
+  {
+    switch($allies[$i]) {
+      default: break;
+    }
+  }
+  //card specific
+  switch($cardID) {
+    //Legends of the Force
+    case "3967581160"://Anakin Skywalker
+      return true;
+    default: break;
+  }
+
+  return false;
+}
+
 //FAB
 // function MemoryCost($cardID, $player)
 // {

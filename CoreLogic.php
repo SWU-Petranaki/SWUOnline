@@ -1260,6 +1260,7 @@ function HasKeyword($cardID, $keyword, $player="", $index=-1){
     case "Coordinate": return HasCoordinate($cardID, $player, $index);
     case "Exploit": return ExploitAmount($cardID, $player, true) > 0;
     case "Piloting": return PilotingCost($cardID) > -1;//TODO: test Boba Daimyo trigger when piloting as upgrade vs unit
+    case "Hidden": return HasHidden($cardID, $player, $index);
     case "Any":
       return SmuggleCost($cardID, $player, $index) > -1 ||
         RaidAmount($cardID, $player, $index, true) > 0 ||
@@ -1273,7 +1274,8 @@ function HasKeyword($cardID, $keyword, $player="", $index=-1){
         HasAmbush($cardID, $player, $index, "") ||
         HasCoordinate($cardID, $player, $index) ||
         ExploitAmount($cardID, $player, true) > 0 ||
-        PilotingCost($cardID) > -1;
+        PilotingCost($cardID) > -1 ||
+        HasHidden($cardID, $player, $index);
     default: return false;
   }
 }
