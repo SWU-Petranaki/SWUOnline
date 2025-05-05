@@ -1287,10 +1287,19 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           case "leader":
             $mzArr = explode("-", $arr[$i]);
             if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
-              $ally = new Ally($arr[$i]);//TODO: see how this is called; might need to add Pilot leader check
+              $ally = new Ally($arr[$i]);
               $isLeader = $ally->IsLeader();
               if($params[1] == 1 && $isLeader) $match = true;
               else if($params[1] == 0 && !$isLeader) $match = true;
+            }
+            break;
+          case "hasSentinel":
+            $mzArr = explode("-", $arr[$i]);
+            if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
+              $ally = new Ally($arr[$i]);
+              $hasSentinel = HasSentinel($ally->CardID(), $player, $ally->Index());
+              if($params[1] == 1 && $hasSentinel) $match = true;
+              else if($params[1] == 0 && !$hasSentinel) $match = true;
             }
             break;
           case "unique":

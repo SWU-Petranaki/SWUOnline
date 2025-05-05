@@ -2373,6 +2373,7 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
       }
     //Legends of the Force
     case "b2072f156c"://Darth Maul Leader unit
+    case "5472129982"://Luthen Rael
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
@@ -3537,6 +3538,11 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "b2072f156c"://Darth Maul Leader unit
       DQMultiUnitSelect($player, 2, "MYALLY&THEIRALLY", "to deal 1 damage to", cantSkip:true);
       AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
+      break;
+    case "5472129982"://Luthen Rael
+      AddDecisionQueue("SEARCHDECKTOPX", $mainPlayer, "5;1;include-trait-Item&include-definedType-Upgrade");
+      AddDecisionQueue("ADDHAND", $mainPlayer, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $mainPlayer, "-", 1);
       break;
     default: break;
   }
