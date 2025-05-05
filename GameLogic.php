@@ -1604,6 +1604,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "YESPASS":
       if($lastResult == "YES") return "PASS";
       return 1;
+    case "ATTACKEREXISTSORPASS":
+      if(!Ally::FromUniqueId($parameter)->Exists()) return "PASS";
+      return 1;
     case "CHOICETOPLAYERID":
       if ($lastResult == "Yourself") return $player;
       else if ($lastResult == "Opponent") return $player == 1 ? 2 : 1;

@@ -160,6 +160,7 @@ function RestoreAmount($cardID, $player, $index)
     case "7500360419": $amount += 2; break;//Adept ARC-170
     //Legends of the Force
     case "6797297267": $amount += 2; break;//Darth Sidious
+    case "754e979196": $amount += 1; break;//Darth Revan Leader Unit
     default: break;
   }
   //The Ghost JTL
@@ -2286,6 +2287,8 @@ function LeaderUnit($cardID) {
       return "6def6570f5";
     case "0024560758"://Darth Maul
       return "b2072f156c";
+    case "4637578649"://Darth Revan
+      return "754e979196";
     default: return "";
   }
 }
@@ -2438,6 +2441,13 @@ function LeaderUndeployed($cardID) {
       return "4531112134";
     case "d8a5bf1a15"://Major Vonreg
       return "9763190770";
+    //Legends of the Force
+    case "6def6570f5"://Qui-Gon Jinn
+      return "2580909557";
+    case "b2072f156c"://Darth Maul
+      return "0024560758";
+    case "754e979196"://Darth Revan
+      return "4637578649";
     default: return "";
   }
 }
