@@ -287,6 +287,14 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
     case "1540696516"://Scimitar
       $modifier += ($ally->Damage() > 0) ? 3 : 0;
       break;
+    case "9722568619"://Captain Enoch
+      $discard = &GetDiscard($player);
+      $count = 0;
+      for($i=0; $i<count($discard); $i+=DiscardPieces()) {
+        if(TraitContains($discard[$i], "Trooper", $player)) ++$count; 
+      }
+      $modifier += $count;
+      break;
     default: break;
   }
 
