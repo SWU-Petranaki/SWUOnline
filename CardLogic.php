@@ -1377,6 +1377,15 @@ function SavageOpressLOF($player) {
   }
 }
 
+function QuiGonJinnLOF($player, $flipped) {
+  AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY");
+  AddDecisionQueue("MZFILTER", $player, "leader=1");
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a friendly non-leader unit to return to owner's hand");
+  AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
+  AddDecisionQueue("SPECIFICCARD", $player, "QUIGONJINN_LOF,$flipped", 1);
+}
+
 function CountPilotUnitsAndPilotUpgrades($player, $other=false) {
   $count = $other ? -1 : 0;
   $count += SearchCount(SearchAllies($player, trait:"Pilot"));

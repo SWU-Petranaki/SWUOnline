@@ -1299,6 +1299,17 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         DealDamageAsync($player, 9, "DAMAGE", "1636013021", $player);
       }
       break;
+    case "QUIGONJINN_LOF":
+      $card = GetMZCard($player, $lastResult);
+      $cost = CardCost($card);
+      $leaderUnitSide = $parameterArr[1];
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYHAND:definedType=Unit;maxCost=" . ($cost - 1));
+      AddDecisionQueue("MZFILTER", $player, "aspect=Villainy");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a non-Villainy unit from your hand that costs less than " . $cost . " to play for free");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("ADDCURRENTEFFECT", $player, $leaderUnitSide ? "6def6570f5": "2580909557", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

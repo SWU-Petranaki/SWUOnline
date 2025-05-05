@@ -134,6 +134,9 @@ function CompletesAttackEffect($cardID) {
       AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "UWINGLANDER,$uid", 1);
       break;
+    case "6def6570f5"://Qui-Gon Jinn Leader unit
+      QuiGonJinnLOF($mainPlayer, true);
+      break;
     default: break;
   }
 }

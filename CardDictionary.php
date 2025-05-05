@@ -1455,9 +1455,9 @@ function CheckJTLAbilityTypes($cardID) {
 
 function CheckLOFAbilityTypes($cardID) {
   switch($cardID) {
-    case "2580909557"://Qui-Gon Jinn
+    case "2580909557"://Qui-Gon Jinn Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "0024560758"://Darth Maul
+    case "0024560758"://Darth Maul Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     default: return "";
   }
@@ -1788,9 +1788,9 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
   global $currentPlayer;
 
   switch($cardID) {
-    case "2580909557"://Qui-Gon Jinn
-      return LeaderAbilitiesIgnored() ? "" : "Not Implemented";//"Bounce/Play";
-    case "0024560758"://Darth Maul
+    case "2580909557"://Qui-Gon Jinn Leader
+      return LeaderAbilitiesIgnored() ? "" : "Bounce/Play";
+    case "0024560758"://Darth Maul Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     default: return "";
   }
