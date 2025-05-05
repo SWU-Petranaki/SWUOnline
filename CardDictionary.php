@@ -1503,6 +1503,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "0024560758"://Darth Maul Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "2693401411"://Obi-Wan Kenobi Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     default: return "";
   }
 }
@@ -1836,6 +1838,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Bounce/Play";
     case "0024560758"://Darth Maul Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
+    case "2693401411"://Obi-Wan Kenobi Leader
+      return LeaderAbilitiesIgnored() ? "" : "Experience";
     default: return "";
   }
 }
@@ -2289,6 +2293,8 @@ function LeaderUnit($cardID) {
       return "b2072f156c";
     case "4637578649"://Darth Revan
       return "754e979196";
+    case "2693401411"://Obi-Wan Kenobi
+      return "d12b136775";
     default: return "";
   }
 }
@@ -2448,6 +2454,8 @@ function LeaderUndeployed($cardID) {
       return "0024560758";
     case "754e979196"://Darth Revan
       return "4637578649";
+    case "d12b136775"://Obi-Wan Kenobi
+      return "2693401411";
     default: return "";
   }
 }

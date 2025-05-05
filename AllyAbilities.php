@@ -2414,6 +2414,7 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
     //Legends of the Force
     case "b2072f156c"://Darth Maul Leader unit
     case "5472129982"://Luthen Rael
+    case "d12b136775"://Obi-Wan Kenobi Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
@@ -3583,6 +3584,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SEARCHDECKTOPX", $mainPlayer, "5;1;include-trait-Item&include-definedType-Upgrade");
       AddDecisionQueue("ADDHAND", $mainPlayer, "-", 1);
       AddDecisionQueue("REVEALCARDS", $mainPlayer, "-", 1);
+      break;
+    case "d12b136775"://Obi-Wan Kenobi Leader unit
+      ObiWanKenobiLOF($mainPlayer, true);
       break;
     default: break;
   }

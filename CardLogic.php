@@ -1381,9 +1381,19 @@ function QuiGonJinnLOF($player, $flipped) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY");
   AddDecisionQueue("MZFILTER", $player, "leader=1");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a friendly non-leader unit to return to owner's hand");
-  AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+  else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
   AddDecisionQueue("SPECIFICCARD", $player, "QUIGONJINN_LOF,$flipped", 1);
+}
+
+function ObiWanKenobiLOF($player, $flipped) {
+  AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+  AddDecisionQueue("MZFILTER", $player, "hasExperience=1");
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give 1 experience token to");
+  if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+  else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
 }
 
 function CountPilotUnitsAndPilotUpgrades($player, $other=false) {
