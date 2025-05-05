@@ -1174,6 +1174,7 @@ function GetAbilityTypes($cardID, $index = -1, $from="-")
     case "SHD": $abilityTypes = CheckSHDAbilityTypes($cardID); break;
     case "TWI": $abilityTypes = CheckTWIAbilityTypes($cardID); break;
     case "JTL": $abilityTypes = CheckJTLAbilityTypes($cardID); break;
+    case "LOF": $abilityTypes = CheckLOFAbilityTypes($cardID); break;
     default: break;//maybe throw error?
   }
 
@@ -1442,6 +1443,16 @@ function CheckJTLAbilityTypes($cardID) {
   }
 }
 
+function CheckLOFAbilityTypes($cardID) {
+  switch($cardID) {
+    case "2580909557"://Qui-Gon Jinn
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    case "0024560758"://Darth Maul
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    default: return "";
+  }
+}
+
 
 function GetAbilityNames($cardID, $index = -1, $validate=false)
 {
@@ -1453,6 +1464,7 @@ function GetAbilityNames($cardID, $index = -1, $validate=false)
     case "SHD": $abilityNames = CheckSHDAbilityNames($cardID, $index, $validate); break;
     case "TWI": $abilityNames = CheckTWIAbilityNames($cardID, $index, $validate); break;
     case "JTL": $abilityNames = CheckJTLAbilityNames($cardID, $index, $validate); break;
+    case "LOF": $abilityNames = CheckLOFAbilityNames($cardID, $index, $validate); break;
     default: break;//maybe throw error?
   }
 
@@ -1758,6 +1770,18 @@ function CheckJTLAbilityNames($cardID, $index, $validate) {
         if($ally->IsExhausted()) $abilityNames = FilterOutAttackAbilityName($abilityNames);
       }
       return $abilityNames;
+    default: return "";
+  }
+}
+
+function CheckLOFAbilityNames($cardID, $index, $validate) {
+  global $currentPlayer;
+
+  switch($cardID) {
+    case "2580909557"://Qui-Gon Jinn
+      return LeaderAbilitiesIgnored() ? "" : "Not Implemented";//"Bounce/Play";
+    case "0024560758"://Darth Maul
+      return LeaderAbilitiesIgnored() ? "" : "Not Implemented";//"Deal Damage";
     default: return "";
   }
 }
@@ -2204,6 +2228,11 @@ function LeaderUnit($cardID) {
       return "c1700fc85b";
     case "9763190770"://Major Vonreg
       return "d8a5bf1a15";
+    //Legends of the Force
+    case "2580909557"://Qui-Gon Jinn
+      return "6def6570f5";
+    case "0024560758"://Darth Maul
+      return "b2072f156c";
     default: return "";
   }
 }
