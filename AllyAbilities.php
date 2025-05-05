@@ -1101,6 +1101,10 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
       break;
+      //Legends of the Force
+      case "1636013021":
+        SavageOpressLOF($player);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }

@@ -465,6 +465,10 @@ function HasSentinel($cardID, $player, $index)
       return SearchCount(SearchAllies($player, trait:"Vehicle")) > 0;
     case "5763330426"://The Ghost
       return $ally->IsUpgraded();
+    case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+      global $CS_NumForcePlayed;
+      if(GetClassState($player, $CS_NumForcePlayed) > 0) return true;
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -697,6 +701,9 @@ function HasOverwhelm($cardID, $player, $index)
       return SearchCount(SearchAllies($player, trait:"Mandalorian")) > 1;
     case "2948071304"://Vonreg's TIE Interceptor
       return $ally->CurrentPower(reportMode:true) >= 4;
+    //Legacy of the Force
+    case "1636013021"://Savage Opress
+      return true;
     default: break;
   }
   //The Ghost JTL
@@ -874,6 +881,9 @@ function HasShielded($cardID, $player, $index)
     case "7385763727"://Techno Union Transport
     case "3770706835"://Outer Rim Outlaws
     case "2644994192"://Hondo Ohnaka
+      return true;
+    //Legacy of the Force
+    case "3967581160"://Anakin Skywalker
       return true;
     default: break;
   }
@@ -1859,7 +1869,7 @@ function GetResolvedAbilityName($cardID, $from="-")
 
 function IsPlayable($cardID, $phase, $from, $index = -1, &$restriction = null, $player = "")
 {
-  global $currentPlayer, $CS_NumActionsPlayed, $combatChainState, $CCS_BaseAttackDefenseMax, $CS_NumNonAttackCards, $CS_NumAttackCards;
+  global $currentPlayer, $combatChainState, $CCS_BaseAttackDefenseMax, $CS_NumNonAttackCards, $CS_NumAttackCards;
   global $CCS_ResourceCostDefenseMin, $actionPoints, $mainPlayer, $defPlayer;
   global $combatChain;
   if($from == "ARS" || $from == "BANISH") return false;
