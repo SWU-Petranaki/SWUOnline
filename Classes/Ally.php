@@ -275,6 +275,16 @@ class Ally {
     return false;
   }
 
+  function HasExperience() {
+    $subcards = $this->GetSubcards();
+    for($i=0; $i<count($subcards); $i+=SubcardPieces()) {
+      if($subcards[$i] == "2007868442") { //Experience token
+        return true;
+      }
+    }
+    return false;
+  }
+
   function WasHealed() {
     return $this->allies[$this->index+14] == 1;
   }

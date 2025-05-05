@@ -6882,6 +6882,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "2693401411"://Obi-Wan Kenobi Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Experience") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          ObiWanKenobiLOF($currentPlayer, false);
+        }
+      }
+      break;
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");

@@ -1302,6 +1302,15 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               else if($params[1] == 0 && !$hasSentinel) $match = true;
             }
             break;
+          case "hasExperience":
+            $mzArr = explode("-", $arr[$i]);
+            if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
+              $ally = new Ally($arr[$i]);
+              $hasXp = $ally->HasExperience();
+              if($params[1] == 1 && $hasXp) $match = true;
+              else if($params[1] == 0 && !$hasXp) $match = true;
+            }
+            break;
           case "unique":
             $mzArr = explode("-", $arr[$i]);
             if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
