@@ -6912,6 +6912,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, 1), 1);
       }
       break;
+    case "0102737248"://Refugee of the Path
+      //When Played
+      if($from != "PLAY") {
+        //You may give a Shield token to a unit with Sentinel.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "hasSentinel=0");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
