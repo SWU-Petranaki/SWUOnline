@@ -6952,6 +6952,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
       break;
+    case "2167393423"://Darth Maul's Lightsaber
+      if(CardTitle(GetMZCard($currentPlayer, $target)) == "Darth Maul") {
+        $ally = new Ally($target, $currentPlayer);
+        AddCurrentTurnEffect($cardID, $currentPlayer, "HAND", $ally->UniqueID());
+        AddDecisionQueue("YESNO", $currentPlayer, "if you want to attack with Darth Maul", 1);
+        AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, 1, 1);
+        AddDecisionQueue("SETCOMBATCHAINSTATE", $currentPlayer, $CCS_CantAttackBase, 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $ally->MZIndex(), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

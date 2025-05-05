@@ -621,7 +621,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           return $lastResult;
         case "CHANGEATTACKTARGET": SetAttackTarget($lastResult); return $lastResult;
         case "MULTICHOOSEATTACKTARGETS":
-          $numOptions=count(explode(",",$lastResult));
+          $numOptions=$parameterArr[1];
           if($numOptions===1) {
             AddDecisionQueue("PASSPARAMETER", $player, "THEIRALLY-$lastResult", 1);
             AddDecisionQueue("PROCESSATTACKTARGET", $player, "-", 1);

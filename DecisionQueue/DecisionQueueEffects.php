@@ -349,7 +349,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $dqVars[0]=str_replace("THEIRCHAR-0,", "", $dqVars[0]);
         AddDecisionQueue("PASSPARAMETER", $player, $dqVars[0], 1);
         AddDecisionQueue("OP", $player, "MZTONORMALINDICES");
-        AddDecisionQueue("MZOP", $player, "MULTICHOOSEATTACKTARGETS", 1);
+        AddDecisionQueue("MZOP", $player, "MULTICHOOSEATTACKTARGETS,2", 1);
       }
       break;
     case "AFINEADDITION":
