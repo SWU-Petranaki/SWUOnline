@@ -1421,9 +1421,11 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       }
     }
 
+    $forceTokens = $i == 0 ? implode(",", [$myCharacter[4] == 1 ? 1 : 0, $theirCharacter[4] == 1 ? 1 : 0]) : "-";
+
     if ($characterContents != "")
       $characterContents .= "|";
-    $characterContents .= ClientRenderedCard(cardNumber: $theirCharacter[$i], action: $action, actionDataOverride: $actionDataOverride, borderColor: $border, overlay: $overlay, counters: $counters, defCounters: 0, atkCounters: $atkCounters, controller: $otherPlayer, type: $type, sType: $sType, isFrozen: ($theirCharacter[$i + 8] == 1), onChain: ($theirCharacter[$i + 6] == 1), isBroken: ($theirCharacter[$i + 1] == 0), rotate: 0, landscape: 1, epicActionUsed: $epicActionUsed, showCounterControls: $showCounterControls, counterType: $counterType, counterLimitReached: $counterLimitReached);
+    $characterContents .= ClientRenderedCard(cardNumber: $theirCharacter[$i], action: $action, actionDataOverride: $actionDataOverride, borderColor: $border, overlay: $overlay, counters: $counters, forceTokens: $forceTokens, atkCounters: $atkCounters, controller: $otherPlayer, type: $type, sType: $sType, isFrozen: ($theirCharacter[$i + 8] == 1), onChain: ($theirCharacter[$i + 6] == 1), isBroken: ($theirCharacter[$i + 1] == 0), rotate: 0, landscape: 1, epicActionUsed: $epicActionUsed, showCounterControls: $showCounterControls, counterType: $counterType, counterLimitReached: $counterLimitReached);
   }
   echo ($characterContents);
 
@@ -1639,7 +1641,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     if ($myCharData != "")
       $myCharData .= "|";
     $restriction = implode("_", explode(" ", $restriction));
-    $myCharData .= ClientRenderedCard($myCharacter[$i], $action, $myCharacter[$i + 1] != 2 ? 1 : 0, $border, $counters, $actionDataOverride, 0, 0, $atkCounters, $playerID, $type, $sType, $restriction, $myCharacter[$i + 1] == 0, $myCharacter[$i + 6] == 1, $myCharacter[$i + 8] == 1, gem: 0, rotate: 0, landscape: 1, epicActionUsed: $epicActionUsed, showCounterControls: $showCounterControls, counterType: $counterType, counterLimitReached: $counterLimitReached);
+    $forceTokens = $i == 0 ? implode(",", [$myCharacter[4] == 1 ? 1 : 0, $theirCharacter[4] == 1 ? 1 : 0]) : "-";
+    $myCharData .= ClientRenderedCard($myCharacter[$i], $action, $myCharacter[$i + 1] != 2 ? 1 : 0, $border, $counters, $actionDataOverride, 0, $forceTokens, $atkCounters, $playerID, $type, $sType, $restriction, $myCharacter[$i + 1] == 0, $myCharacter[$i + 6] == 1, $myCharacter[$i + 8] == 1, gem: 0, rotate: 0, landscape: 1, epicActionUsed: $epicActionUsed, showCounterControls: $showCounterControls, counterType: $counterType, counterLimitReached: $counterLimitReached);
   }
   echo ("<div id='myChar' style='display:none;'>");
   echo ($myCharData);

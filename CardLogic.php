@@ -676,7 +676,7 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
   $items = &GetItems($player);
   $character = &GetPlayerCharacter($player);
   $auras = &GetAuras($player);
-  $parameter = ShiyanaCharacter($parameter);
+  //$parameter = ShiyanaCharacter($parameter);
   $EffectContext = $parameter;
 
   switch ($parameter) {

@@ -1062,10 +1062,10 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     }
   }
 
-  if (($turn[0] == "CHOOSEMYSOUL" || $turn[0] == "MAYCHOOSEMYSOUL") && $turn[1] == $playerID) {
-    $playerInputPopup->active = true;
-    $playerInputPopup->popup = ChoosePopup($mySoul, $turn[2], 16, "Choose one of your soul", SoulPieces());
-  }
+  // if (($turn[0] == "CHOOSEMYSOUL" || $turn[0] == "MAYCHOOSEMYSOUL") && $turn[1] == $playerID) {
+  //   $playerInputPopup->active = true;
+  //   $playerInputPopup->popup = ChoosePopup($mySoul, $turn[2], 16, "Choose one of your soul", SoulPieces());
+  // }
 
   $playerInputPopup->buttons = $playerInputButtons;
   $response->playerInputPopUp = $playerInputPopup;

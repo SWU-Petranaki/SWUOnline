@@ -2,14 +2,14 @@
 
 //0 - Card ID
 //1 - Status (2=ready, 1=unavailable, 0=destroyed)
-//2 - Num counters (used for epic action on leaders)
-//3 - Num attack counters
-//4 - Num defense counters
-//5 - Num uses
-//6 - On chain (1 = yes, 0 = no)
-//7 - Flagged for destruction (1 = yes, 0 = no)
-//8 - Frozen (1 = yes, 0 = no)
-//9 - Is Active (2 = always active, 1 = yes, 0 = no)
+//2 - Epic Action Used?
+//3 - Unique ID
+//4 - The Force is With You (1 = yes, 0 = no)
+//5 - Num Uses
+//6 - (free)
+//7 - (free)
+//8 - (free)
+//9 - (free)
 //10 - Counters (damage/healing counters)
 class Character {
   // property declaration
@@ -58,6 +58,10 @@ class Character {
     return $this->characters[$this->index + 1];
   }
 
+  public function ForceToken() {
+    return $this->characters[$this->index + 4];
+  }
+
   public function Counters() {
     return $this->characters[$this->index + 10];
   }
@@ -95,14 +99,14 @@ class Character {
     return $this->Exists() && $this->characters[$this->index + 1] == 2;
   }
 }
-
-function CharacterCounters ($cardID)
-{
-  switch($cardID) {
-    case "DYN492a": return 8;
-    default: return 0;
-  }
-}
+//FAB
+// function CharacterCounters ($cardID)
+// {
+//   switch($cardID) {
+//     case "DYN492a": return 8;
+//     default: return 0;
+//   }
+// }
 
 function CharacterTakeDamageAbility($player, $index, $damage, $preventable)
 {
@@ -233,35 +237,35 @@ function ResetCharacter($player) {
 //   // }
 // }
 
-function MainCharacterAttackModifiers($index = -1, $onlyBuffs = false)
-{
-  global $combatChainState, $CCS_WeaponIndex, $mainPlayer, $CS_NumAttacks, $combatChain;
-  $modifier = 0;
-  $mainCharacterEffects = &GetMainCharacterEffects($mainPlayer);
-  $mainCharacter = &GetPlayerCharacter($mainPlayer);
-  if($index == -1) $index = $combatChainState[$CCS_WeaponIndex];
-  for($i = 0; $i < count($mainCharacterEffects); $i += CharacterEffectPieces()) {
-    if($mainCharacterEffects[$i] == $index) {
-      switch($mainCharacterEffects[$i + 1]) {
-        case "QQaOgurnjX": $modifier += 2; break;//Imbue in Frost
-        case "usb5FgKvZX": $modifier += 1; break;//Sharpening Stone
-        case "CgyJxpEgzk": $modifier += 3; break;//Spirit Blade: Infusion
-        default:
-          break;
-      }
-    }
-  }
-  if($onlyBuffs) return $modifier;
+// function MainCharacterAttackModifiers($index = -1, $onlyBuffs = false)//FAB
+// {
+//   global $combatChainState, $CCS_WeaponIndex, $mainPlayer, $CS_NumAttacks, $combatChain;
+//   $modifier = 0;
+//   $mainCharacterEffects = &GetMainCharacterEffects($mainPlayer);
+//   $mainCharacter = &GetPlayerCharacter($mainPlayer);
+//   if($index == -1) $index = $combatChainState[$CCS_WeaponIndex];
+//   for($i = 0; $i < count($mainCharacterEffects); $i += CharacterEffectPieces()) {
+//     if($mainCharacterEffects[$i] == $index) {
+//       switch($mainCharacterEffects[$i + 1]) {
+//         case "QQaOgurnjX": $modifier += 2; break;//Imbue in Frost
+//         case "usb5FgKvZX": $modifier += 1; break;//Sharpening Stone
+//         case "CgyJxpEgzk": $modifier += 3; break;//Spirit Blade: Infusion
+//         default:
+//           break;
+//       }
+//     }
+//   }
+//   if($onlyBuffs) return $modifier;
 
-  $mainCharacter = &GetPlayerCharacter($mainPlayer);
-  for($i = 0; $i < count($mainCharacter); $i += CharacterPieces()) {
-    switch($mainCharacter[$i]) {
-      //case "NfbZ0nouSQ": if(!IsAlly($combatChain[0])) $modifier += SearchCount(SearchBanish($mainPlayer,type:"WEAPON")); break;
-      default: break;
-    }
-  }
-  return $modifier;
-}
+//   $mainCharacter = &GetPlayerCharacter($mainPlayer);
+//   for($i = 0; $i < count($mainCharacter); $i += CharacterPieces()) {
+//     switch($mainCharacter[$i]) {
+//       //case "NfbZ0nouSQ": if(!IsAlly($combatChain[0])) $modifier += SearchCount(SearchBanish($mainPlayer,type:"WEAPON")); break;
+//       default: break;
+//     }
+//   }
+//   return $modifier;
+// }
 
 // function MainCharacterHitEffects()//FAB
 // {
@@ -281,21 +285,21 @@ function MainCharacterAttackModifiers($index = -1, $onlyBuffs = false)
 //   return $modifier;
 // }
 
-function MainCharacterGrantsGoAgain()
-{
-  global $combatChainState, $CCS_WeaponIndex, $mainPlayer;
-  if($combatChainState[$CCS_WeaponIndex] == -1) return false;
-  $mainCharacterEffects = &GetMainCharacterEffects($mainPlayer);
-  for($i = 0; $i < count($mainCharacterEffects); $i += 2) {
-    if($mainCharacterEffects[$i] == $combatChainState[$CCS_WeaponIndex]) {
-      switch($mainCharacterEffects[$i + 1]) {
+// function MainCharacterGrantsGoAgain()
+// {
+//   global $combatChainState, $CCS_WeaponIndex, $mainPlayer;
+//   if($combatChainState[$CCS_WeaponIndex] == -1) return false;
+//   $mainCharacterEffects = &GetMainCharacterEffects($mainPlayer);
+//   for($i = 0; $i < count($mainCharacterEffects); $i += 2) {
+//     if($mainCharacterEffects[$i] == $combatChainState[$CCS_WeaponIndex]) {
+//       switch($mainCharacterEffects[$i + 1]) {
 
-        default: break;
-      }
-    }
-  }
-  return false;
-}
+//         default: break;
+//       }
+//     }
+//   }
+//   return false;
+// }
 
 // function CharacterCostModifier($cardID, $from)
 // {
@@ -307,17 +311,17 @@ function MainCharacterGrantsGoAgain()
 //   return $modifier;
 // }
 
-function ShiyanaCharacter($cardID, $player="")
-{
-  global $currentPlayer;
-  if($player == "") $player = $currentPlayer;
-  if($cardID == "CRU097") {
-    $otherPlayer = ($player == 1 ? 2 : 1);
-    $otherCharacter = &GetPlayerCharacter($otherPlayer);
-    if(SearchCurrentTurnEffects($otherCharacter[0] . "-SHIYANA", $player)) $cardID = $otherCharacter[0];
-  }
-  return $cardID;
-}
+// function ShiyanaCharacter($cardID, $player="")
+// {
+//   global $currentPlayer;
+//   if($player == "") $player = $currentPlayer;
+//   if($cardID == "CRU097") {
+//     $otherPlayer = ($player == 1 ? 2 : 1);
+//     $otherCharacter = &GetPlayerCharacter($otherPlayer);
+//     if(SearchCurrentTurnEffects($otherCharacter[0] . "-SHIYANA", $player)) $cardID = $otherCharacter[0];
+//   }
+//   return $cardID;
+// }
 
 function EquipPayAdditionalCosts($cardIndex, $from)
 {

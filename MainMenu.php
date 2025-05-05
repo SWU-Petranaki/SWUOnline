@@ -95,13 +95,13 @@ if (!empty($_SESSION['error'])) {
   <!-- Header & MenuBar wrapper to coordinate them better -->
   <?php include_once 'Header.php'; ?>
   <!-- MenuBar is already included at the top of this file -->
-  
+
   <div class="content-wrapper">
     <div id="mainMenuError" class="error-popup-hidden"></div>
-    
+
     <!-- Add a single global tooltip that will be positioned dynamically -->
     <div id="global-tooltip"></div>
-    
+
     <div class="main-layout">
       <!-- COLUMN 1: DECK SELECTION -->
       <div class="deck-column">
@@ -144,11 +144,11 @@ if (!empty($_SESSION['error'])) {
             }
           }
           ?>
-          
+
           <div class="deck-link-input">
             <label for="deckLink">Deck Link:</label>
             <input type="text" id="deckLink" name="deckLink" value='<?= $deckUrl ?>' placeholder="Paste your deck URL here">
-            
+
             <?php
               if (isset($_SESSION["userid"]) && !$swuStatsLinked) {
               echo ("<span class='save-deck'>");
@@ -160,14 +160,14 @@ if (!empty($_SESSION['error'])) {
           </div>
         </div>
       </div>
-      
+
       <!-- COLUMN 2: GAME ACTIONS -->
       <div class="game-action-column">
         <div class="tabs">
           <button class="tab-button active" id="gamesTabBtn" onclick="switchTabDirect('gamesTab')">Games</button>
           <button class="tab-button" id="spectateTabBtn" onclick="switchTabDirect('spectateTab')">Spectate</button>
         </div>
-        
+
         <!-- GAMES TAB (COMBINED JOIN & CREATE) -->
         <div id="gamesTab" class="tab-content active">
           <div class="create-game-summary">
@@ -198,6 +198,7 @@ if (!empty($_SESSION['error'])) {
                 <option value="premierf">Premier Casual</option>
                 <option value="prstrict">Premier (Best of 3)</option>
                 <option value="padawanf">Cantina Brawl</option>
+                <option value="previewf">Preview (LOF)</option>
                 <option value="openform">Open Format</option>
               </select>
             </div>
@@ -212,7 +213,7 @@ if (!empty($_SESSION['error'])) {
             <div id="gameListContent"></div>
           </div>
         </div>
-        
+
         <!-- SPECTATE TAB -->
         <div id="spectateTab" class="tab-content">
           <div class="game-list-filters">
@@ -236,13 +237,13 @@ if (!empty($_SESSION['error'])) {
               </svg>
             </button>
           </div>
-          
+
           <div id="spectateList" class="game-list">
             <p id="spectateListLoading">Loading games...</p>
             <div id="spectateListContent"></div>
           </div>
         </div>
-        
+
         <!-- CREATE GAME MODAL -->
         <div id="createGameModal" class="modal-overlay">
           <div class="modal-content">
@@ -250,14 +251,14 @@ if (!empty($_SESSION['error'])) {
               <h3 class="modal-title"><?php echo ($createNewGameText); ?></h3>
               <button class="modal-close" id="closeCreateGameModal">&times;</button>
             </div>
-            
+
             <form id="createGameForm" action='<?= $redirectPath ?>/CreateGame.php'>
               <input type='hidden' id='fabdb' name='fabdb' value=''>
               <input type='hidden' id='favoriteDeck' name='favoriteDeck' value='0'>
-              
+
               <label for="gameDescription" class='game-name-label'>Game Name</label>
               <input type="text" id="gameDescription" name="gameDescription" placeholder="Game #">
-              
+
               <?php
               $standardFormatCasual = Formats::$PremierFormat;
               $standardFormat = Formats::$PremierStrict;
@@ -273,24 +274,25 @@ if (!empty($_SESSION['error'])) {
                 $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
               }
+              echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (LOF)</option>");
               echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
               echo ("</select>");
               ?>
-              
+
               <?php
               echo ("<label for='visibility' class='SelectDeckInput'>Game Visibility</label>");
               echo ("<select name='visibility' id='visibility'>");
-              
+
               if ($canSeeQueue) {
                 echo ("<option value='public'" . ($defaultVisibility == 1 ? " selected" : "") . ">Public</option>");
               } else {
                 echo '<p class="login-notice">&#10071;<a href="./LoginPage.php">Log In</a> to be able to create public games.</p>';
               }
-              
+
               echo ("<option value='private'" . ($defaultVisibility == 0 ? " selected" : "") . ">Private</option>");
               echo ("</select>");
               ?>
-              
+
               <div class="modal-footer">
                 <button type="button" class="modal-btn modal-btn-secondary" id="cancelCreateGame">Cancel</button>
                 <button type="submit" id="createGameButton" class="modal-btn modal-btn-primary" disabled><?php echo ($createGameText); ?></button>
@@ -299,7 +301,7 @@ if (!empty($_SESSION['error'])) {
           </div>
         </div>
       </div>
-      
+
       <!-- COLUMN 3: NEWS & INFO -->
       <div class="news-column">
         <div class="container bg-yellow" style="margin-top: 20px;">
@@ -320,11 +322,11 @@ if (!empty($_SESSION['error'])) {
     </div>
   </div>
 
-  <?php 
+  <?php
   // Output any error messages
   echo $errorScript;
   ?>
-  
+
   <?php include_once 'Disclaimer.php'; ?>
 </div>
 
@@ -335,10 +337,10 @@ function switchTabDirect(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
-    
+
     // Add active class to the selected tab
     document.getElementById(tabId).classList.add('active');
-    
+
     // Update button styles - only use the buttons that exist
     document.getElementById('gamesTabBtn').classList.remove('active');
     document.getElementById('spectateTabBtn').classList.remove('active');
@@ -364,13 +366,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const createGameButton = document.getElementById('createGameButton');
     const deckFeedback = document.getElementById('deckFeedback');
     const globalTooltip = document.getElementById('global-tooltip');
-    
+
     // Initialize with current value
     if(deckLinkInput && fabdbHidden) {
         fabdbHidden.value = deckLinkInput.value;
         // Run validation when the page loads to set initial button states
         validateDeckLink(deckLinkInput.value);
-        
+
         // Update on change
         deckLinkInput.addEventListener('input', function() {
             fabdbHidden.value = deckLinkInput.value;
@@ -380,13 +382,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // If deckLinkInput doesn't exist, disable all join buttons by default
         validateDeckLink('');
     }
-    
+
     // Connect favorite decks dropdown to the form
     if(favoriteDecksSelect && favoriteDeckHidden) {
         favoriteDecksSelect.addEventListener('change', function() {
             var selectedValue = favoriteDecksSelect.value;
             favoriteDeckHidden.value = selectedValue;
-            
+
             // If a favorite deck is selected, update the deck link input with the deck URL
             if(selectedValue && selectedValue.includes('<fav>')) {
                 var parts = selectedValue.split('<fav>');
@@ -395,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     fabdbHidden.value = parts[1];
                     validateDeckLink(parts[1]);
                 }
-                
+
                 // Save the selected index to user settings (similar to SWU Stats)
                 var selectedIndex = selectedValue.split('<fav>')[0];
                 if(selectedIndex) {
@@ -406,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
+
         // Auto-select the favorite deck if one is set in user settings
         if (favoriteDecksSelect.selectedIndex > 0) {
             // Trigger the change event to populate the deck link
@@ -414,31 +416,31 @@ document.addEventListener('DOMContentLoaded', function() {
             favoriteDecksSelect.dispatchEvent(event);
         }
     }
-    
+
     // Set up event handlers for help icons
     document.addEventListener('click', function(e) {
         if (!e.target.closest('#global-tooltip') && !e.target.closest('.help-icon')) {
             globalTooltip.style.display = 'none';
         }
     });
-    
+
     // Track if we're hovering over either the help icon or the tooltip
     let isHoveringHelp = false;
     let tooltipHideTimeout = null;
-    
+
     document.addEventListener('mouseover', function(e) {
         const helpIcon = e.target.closest('.help-icon');
         const tooltip = e.target.closest('#global-tooltip');
-        
+
         if (helpIcon || tooltip) {
             // Clear any pending hide timeout
             if (tooltipHideTimeout) {
                 clearTimeout(tooltipHideTimeout);
                 tooltipHideTimeout = null;
             }
-            
+
             isHoveringHelp = true;
-            
+
             if (helpIcon) {
                 // Get tooltip content
                 const tooltipContent = `
@@ -447,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
                     <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
                 `;
-                
+
                 // Position tooltip at fixed position relative to the icon
                 const rect = helpIcon.getBoundingClientRect();
                 globalTooltip.innerHTML = tooltipContent;
@@ -460,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     globalTooltip.style.top = (rect.top - 130) + 'px'; // Position above the icon
                 }
                 globalTooltip.style.display = 'block';
-                
+
                 // Prevent tooltips from going off-screen
                 const tooltipRect = globalTooltip.getBoundingClientRect();
                 if (tooltipRect.left < 10) {
@@ -475,13 +477,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    
+
     document.addEventListener('mouseout', function(e) {
         const leavingHelpIcon = e.target.closest('.help-icon');
         const leavingTooltip = e.target.closest('#global-tooltip');
         const enteringHelpIcon = e.relatedTarget && e.relatedTarget.closest('.help-icon');
         const enteringTooltip = e.relatedTarget && e.relatedTarget.closest('#global-tooltip');
-        
+
         // If we're leaving either the help icon or tooltip and not entering the other
         if ((leavingHelpIcon || leavingTooltip) && !enteringHelpIcon && !enteringTooltip) {
             // Set a short timeout before hiding the tooltip to allow for small gaps in mouse movement
@@ -491,66 +493,66 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100);
         }
     });
-    
+
     // Function to validate deck link
     function validateDeckLink(url) {
         const validDomains = ['swustats.net', 'swudb.com', 'sw-unlimited-db.com'];
         const joinButtons = document.querySelectorAll('.join-btn');
-        
+
         if (!url || url.trim() === '') {
             // Add help icon with tooltip containing deck site links
             deckFeedback.innerHTML = 'Please select or enter a deck <span class="help-icon">?</span>';
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
-            
+
             // Disable all join buttons
             joinButtons.forEach(btn => {
                 btn.disabled = true;
                 btn.classList.add('disabled');
             });
-            
+
             return false;
         }
-        
+
         // Check if the input is JSON (starts with '{')
         if (url.trim().startsWith('{')) {
             try {
                 // Try to parse the JSON to ensure it's valid
                 const deckData = JSON.parse(url.trim());
-                
+
                 // Check if the deck has the required properties
                 if (!deckData.leader || !deckData.base || !deckData.deck) {
                     deckFeedback.textContent = 'Invalid JSON deck data. Required properties: leader, base, and deck.';
                     deckFeedback.className = 'deck-feedback deck-invalid';
                     deckFeedback.style.display = 'block';
                     createGameButton.disabled = true;
-                    
+
                     // Disable all join buttons
                     joinButtons.forEach(btn => {
                         btn.disabled = true;
                         btn.classList.add('disabled');
                     });
-                    
+
                     return false;
                 }
-                
+
                 // Additional validation for required structure
                 if (!deckData.leader.id || !deckData.base.id || !Array.isArray(deckData.deck) || deckData.deck.length === 0) {
                     deckFeedback.textContent = 'Invalid JSON deck structure. Check leader, base, and deck properties.';
                     deckFeedback.className = 'deck-feedback deck-invalid';
                     deckFeedback.style.display = 'block';
                     createGameButton.disabled = true;
-                    
+
                     // Disable all join buttons
                     joinButtons.forEach(btn => {
                         btn.disabled = true;
                         btn.classList.add('disabled');
                     });
-                    
+
                     return false;
                 }
-                
+
                 // Verify deck is an array with at least some cards
                 let validDeck = true;
                 for (const card of deckData.deck) {
@@ -559,34 +561,34 @@ document.addEventListener('DOMContentLoaded', function() {
                         break;
                     }
                 }
-                
+
                 if (!validDeck) {
                     deckFeedback.textContent = 'Invalid cards in deck. Each card needs id and count properties.';
                     deckFeedback.className = 'deck-feedback deck-invalid';
                     deckFeedback.style.display = 'block';
                     createGameButton.disabled = true;
-                    
+
                     // Disable all join buttons
                     joinButtons.forEach(btn => {
                         btn.disabled = true;
                         btn.classList.add('disabled');
                     });
-                    
+
                     return false;
                 }
-                
+
                 // If we made it here, the JSON is valid
                 deckFeedback.textContent = 'Valid JSON deck data accepted!';
                 deckFeedback.className = 'deck-feedback deck-valid';
                 deckFeedback.style.display = 'block';
                 createGameButton.disabled = false;
-                
+
                 // Enable all join buttons
                 joinButtons.forEach(btn => {
                     btn.disabled = false;
                     btn.classList.remove('disabled');
                 });
-                
+
                 return true;
             } catch (e) {
                 // JSON parsing failed
@@ -594,17 +596,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 deckFeedback.className = 'deck-feedback deck-invalid';
                 deckFeedback.style.display = 'block';
                 createGameButton.disabled = true;
-                
+
                 // Disable all join buttons
                 joinButtons.forEach(btn => {
                     btn.disabled = true;
                     btn.classList.add('disabled');
                 });
-                
+
                 return false;
             }
         }
-        
+
         // If not JSON, check if it's a valid deck URL
         let isValid = false;
         for (const domain of validDomains) {
@@ -613,13 +615,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             }
         }
-        
+
         if (isValid) {
             deckFeedback.textContent = 'Valid deck selected!';
             deckFeedback.className = 'deck-feedback deck-valid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = false;
-            
+
             // Enable all join buttons
             joinButtons.forEach(btn => {
                 btn.disabled = false;
@@ -631,29 +633,29 @@ document.addEventListener('DOMContentLoaded', function() {
             deckFeedback.className = 'deck-feedback deck-invalid';
             deckFeedback.style.display = 'block';
             createGameButton.disabled = true;
-            
+
             // Disable all join buttons
             joinButtons.forEach(btn => {
                 btn.disabled = true;
                 btn.classList.add('disabled');
             });
         }
-        
+
         return isValid;
     }
-    
+
     // Collapsible sections
     const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
     collapsibleHeaders.forEach(header => {
         header.addEventListener('click', () => {
             const content = header.nextElementSibling;
             const icon = header.querySelector('.rotate-icon');
-            
+
             content.classList.toggle('expanded');
             icon.classList.toggle('rotated');
         });
     });
-    
+
     // Modal functionality for create game
     const modal = document.getElementById('createGameModal');
     const openModalBtn = document.getElementById('openCreateGameModal');
@@ -724,17 +726,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 deckFeedback.innerHTML = 'Please select a valid deck before creating a game <span class="help-icon">?</span>';
                 deckFeedback.className = 'deck-feedback deck-invalid';
                 deckFeedback.style.display = 'block';
-                
+
                 // Scroll to the deck feedback if it's not in view
                 deckFeedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
     }
-    
+
     // Initialize the quickCreateGame button with same disabled state as modal button
     if (quickCreateGameBtn) {
         quickCreateGameBtn.disabled = createGameButton.disabled;
-        
+
         // Update quick create button disabled state when deck validation changes
         const originalValidateDeckLink = validateDeckLink;
         validateDeckLink = function(url) {
@@ -745,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
         };
     }
-    
+
     // Make validateDeckLink globally available
     window.validateDeckLink = validateDeckLink;
 });
@@ -767,7 +769,7 @@ function loadOpenGames() {
         })
         .catch(error => {
             console.error('Error fetching games:', error);
-            document.getElementById('gameListContent').innerHTML = 
+            document.getElementById('gameListContent').innerHTML =
                 '<p class="error-message">Error loading games. Please try again later.</p>';
             document.getElementById('gameListLoading').style.display = 'none';
         });
@@ -778,19 +780,19 @@ function displayOpenGames(data) {
     const gameListContent = document.getElementById('gameListContent');
     const formatFilter = document.getElementById('formatFilter').value;
     document.getElementById('gameListLoading').style.display = 'none';
-    
+
     // Check if there's a valid deck to determine if buttons should be disabled
     const deckLinkInput = document.getElementById('deckLink');
     const isValidDeck = deckLinkInput && deckLinkInput.value && validateDeckLink(deckLinkInput.value);
-    
+
     // Group games by format for better organization
     const gamesByFormat = {};
-    
+
     if (!data.openGames || data.openGames.length === 0) {
         gameListContent.innerHTML = '<p>No open games available. Create a new game to get started!</p><BR>';
         return;
     }
-    
+
     // Group games by format
     data.openGames.forEach(game => {
         if (!gamesByFormat[game.format]) {
@@ -798,95 +800,95 @@ function displayOpenGames(data) {
         }
         gamesByFormat[game.format].push(game);
     });
-    
+
     // Clear existing content
     gameListContent.innerHTML = '';
-    
+
     // Display games grouped by format
     Object.keys(gamesByFormat).forEach(format => {
         // Skip if format doesn't match filter (unless "all" is selected)
         if (formatFilter !== 'all' && format !== formatFilter) {
             return;
         }
-        
+
         const formatGames = gamesByFormat[format];
         const formatSection = document.createElement('div');
         formatSection.className = 'format-section';
-        
+
         // Only show format header when viewing all formats
         if (formatFilter === 'all') {
             const formatHeader = document.createElement('h4');
             formatHeader.textContent = formatGames[0].formatName || format;
             formatSection.appendChild(formatHeader);
         }
-        
+
         // Create games list for this format
         formatGames.forEach(game => {
             const gameItem = document.createElement('div');
             gameItem.className = 'game-item';
-            
+
             // Game info with images
             const gameInfo = document.createElement('div');
             gameInfo.className = 'game-info';
-            
+
             // Create card display div
             const cardDisplay = document.createElement('div');
             cardDisplay.className = 'card-display';
-            
+
             // Leader card
             if (game.p1Hero) {
                 const leaderImg = document.createElement('img');
                 leaderImg.src = `./WebpImages2/${game.p1Hero}.webp`;
                 leaderImg.alt = 'Leader';
                 leaderImg.className = 'card-image';
-                
+
                 // Add error handler for image loading
                 leaderImg.onerror = function() {
                     leaderImg.src = './Images/card-back.webp'; // Fallback image if leader image not found
                     leaderImg.alt = 'Leader Card';
                 };
-                
+
                 cardDisplay.appendChild(leaderImg);
             }
-            
+
             // Base card
             if (game.p1Base) {
                 const baseImg = document.createElement('img');
                 baseImg.src = `./WebpImages2/${game.p1Base}.webp`;
                 baseImg.alt = 'Base';
                 baseImg.className = 'card-image';
-                
+
                 // Add error handler for image loading
                 baseImg.onerror = function() {
                     baseImg.src = './Images/card-back.webp'; // Fallback image if base image not found
                     baseImg.alt = 'Base Card';
                 };
-                
+
                 cardDisplay.appendChild(baseImg);
             }
-            
+
             // Game description/name
             const gameName = document.createElement('span');
             gameName.className = 'game-name';
             // Use a friendly name if available, otherwise use Game #ID
-            gameName.textContent = game.description && game.description !== game.gameName ? 
-                                  game.description : 
+            gameName.textContent = game.description && game.description !== game.gameName ?
+                                  game.description :
                                   `Game #${game.gameName}`;
-            
+
             gameInfo.appendChild(cardDisplay);
             gameInfo.appendChild(gameName);
-            
+
             // Join button
             const joinButton = document.createElement('button');
             joinButton.textContent = 'Join';
             joinButton.className = 'join-btn';
-            
+
             // Set initial disabled state based on deck validity
             if (!isValidDeck) {
                 joinButton.disabled = true;
                 joinButton.classList.add('disabled');
             }
-            
+
             joinButton.onclick = function() {
                 // Check if deck is selected first
                 const deckLink = document.getElementById('deckLink').value;
@@ -897,37 +899,37 @@ function displayOpenGames(data) {
                     deckFeedback.style.display = 'block';
                     return;
                 }
-                
+
                 // Join the game directly via JoinGameInput.php instead of going to JoinGame.php
                 const fabdb = document.getElementById('fabdb');
                 const saveDeck = document.getElementById('saveFavoriteDeck');
-                
+
                 // Create a form element to submit the data
                 const form = document.createElement('form');
                 form.method = 'GET';
                 form.action = `${window.location.origin}/Arena/JoinGameInput.php`;
-                
+
                 // Add game name
                 const gameNameInput = document.createElement('input');
                 gameNameInput.type = 'hidden';
                 gameNameInput.name = 'gameName';
                 gameNameInput.value = game.gameName;
                 form.appendChild(gameNameInput);
-                
+
                 // Add player ID (hardcoded to 2 for now, as that's typically the joiner)
                 const playerIDInput = document.createElement('input');
                 playerIDInput.type = 'hidden';
                 playerIDInput.name = 'playerID';
                 playerIDInput.value = '2';
                 form.appendChild(playerIDInput);
-                
+
                 // Add the deck link
                 const fabdbInput = document.createElement('input');
                 fabdbInput.type = 'hidden';
                 fabdbInput.name = 'fabdb';
                 fabdbInput.value = fabdb.value;
                 form.appendChild(fabdbInput);
-                
+
                 // Add save to favorites checkbox if it exists
                 if (saveDeck && saveDeck.checked) {
                     const favoriteDeckInput = document.createElement('input');
@@ -936,21 +938,21 @@ function displayOpenGames(data) {
                     favoriteDeckInput.value = 'on';
                     form.appendChild(favoriteDeckInput);
                 }
-                
+
                 // Add form to the document, submit it, and remove it
                 document.body.appendChild(form);
                 form.submit();
                 document.body.removeChild(form);
             };
-            
+
             gameItem.appendChild(gameInfo);
             gameItem.appendChild(joinButton);
             formatSection.appendChild(gameItem);
         });
-        
+
         gameListContent.appendChild(formatSection);
     });
-    
+
     // Show message if no games match the filter
     if (gameListContent.children.length === 0) {
         gameListContent.innerHTML = '<p>No games found matching the selected format.</p>';
@@ -961,7 +963,7 @@ function displayOpenGames(data) {
 function loadSpectateGames() {
     document.getElementById('spectateListLoading').style.display = 'block';
     document.getElementById('spectateListContent').innerHTML = '';
-    
+
     fetch('APIs/GetSpectateGames.php')
         .then(response => {
             if (!response.ok) {
@@ -974,7 +976,7 @@ function loadSpectateGames() {
         })
         .catch(error => {
             console.error('Error fetching spectate games:', error);
-            document.getElementById('spectateListContent').innerHTML = 
+            document.getElementById('spectateListContent').innerHTML =
                 '<p class="error-message">Error loading games. Please try again later.</p>';
             document.getElementById('spectateListLoading').style.display = 'none';
         });
@@ -985,15 +987,15 @@ function displaySpectateGames(data) {
     const spectateListContent = document.getElementById('spectateListContent');
     const formatFilter = document.getElementById('spectateFormatFilter').value;
     document.getElementById('spectateListLoading').style.display = 'none';
-    
+
     // Group games by format for better organization
     const gamesByFormat = {};
-    
+
     if (!data.gamesInProgress || data.gamesInProgress.length === 0) {
         spectateListContent.innerHTML = '<p>No games currently available to spectate.</p>';
         return;
     }
-    
+
     // Group games by format
     data.gamesInProgress.forEach(game => {
         if (!gamesByFormat[game.format]) {
@@ -1001,115 +1003,115 @@ function displaySpectateGames(data) {
         }
         gamesByFormat[game.format].push(game);
     });
-    
+
     // Clear existing content
     spectateListContent.innerHTML = '';
-    
+
     // Display games grouped by format
     Object.keys(gamesByFormat).forEach(format => {
         // Skip if format doesn't match filter (unless "all" is selected)
         if (formatFilter !== 'all' && format !== formatFilter) {
             return;
         }
-        
+
         const formatGames = gamesByFormat[format];
         const formatSection = document.createElement('div');
         formatSection.className = 'format-section';
-        
+
         // Only show format header when viewing all formats
         if (formatFilter === 'all') {
             const formatHeader = document.createElement('h4');
             formatHeader.textContent = formatGames[0].formatName || format;
             formatSection.appendChild(formatHeader);
         }
-        
+
         // Create games list for this format
         formatGames.forEach(game => {
             const gameItem = document.createElement('div');
             gameItem.className = 'game-item';
-            
+
             // Game info with images
             const gameInfo = document.createElement('div');
             gameInfo.className = 'game-info';
-            
+
             // Create card display div for Player 1
             const p1CardDisplay = document.createElement('div');
             p1CardDisplay.className = 'card-display';
-            
+
             // Player 1 Leader card
             if (game.p1Hero) {
                 const leaderImg = document.createElement('img');
                 leaderImg.src = `./WebpImages2/${game.p1Hero}.webp`;
                 leaderImg.alt = 'Leader 1';
                 leaderImg.className = 'card-image';
-                
+
                 // Add error handler for image loading
                 leaderImg.onerror = function() {
                     leaderImg.src = './Images/card-back.webp'; // Fallback image
                     leaderImg.alt = 'Leader Card';
                 };
-                
+
                 p1CardDisplay.appendChild(leaderImg);
             }
-            
+
             // Player 1 Base card
             if (game.p1Base) {
                 const baseImg = document.createElement('img');
                 baseImg.src = `./WebpImages2/${game.p1Base}.webp`;
                 baseImg.alt = 'Base 1';
                 baseImg.className = 'card-image';
-                
+
                 // Add error handler for image loading
                 baseImg.onerror = function() {
                     baseImg.src = './Images/card-back.webp'; // Fallback image
                     baseImg.alt = 'Base Card';
                 };
-                
+
                 p1CardDisplay.appendChild(baseImg);
             }
-            
+
             // Create VS text
             const vsText = document.createElement('span');
             vsText.textContent = ' vs ';
             vsText.className = 'vs-text';
             vsText.style.margin = '0 10px';
-            
+
             // Create card display div for Player 2
             const p2CardDisplay = document.createElement('div');
             p2CardDisplay.className = 'card-display';
-            
+
             // Player 2 Leader card
             if (game.p2Hero) {
                 const leaderImg = document.createElement('img');
                 leaderImg.src = `./WebpImages2/${game.p2Hero}.webp`;
                 leaderImg.alt = 'Leader 2';
                 leaderImg.className = 'card-image';
-                
+
                 // Add error handler for image loading
                 leaderImg.onerror = function() {
                     leaderImg.src = './Images/card-back.webp'; // Fallback image
                     leaderImg.alt = 'Leader Card';
                 };
-                
+
                 p2CardDisplay.appendChild(leaderImg);
             }
-            
+
             // Player 2 Base card
             if (game.p2Base) {
                 const baseImg = document.createElement('img');
                 baseImg.src = `./WebpImages2/${game.p2Base}.webp`;
                 baseImg.alt = 'Base 2';
                 baseImg.className = 'card-image';
-                
+
                 // Add error handler for image loading
                 baseImg.onerror = function() {
                     baseImg.src = './Images/card-back.webp'; // Fallback image
                     baseImg.alt = 'Base Card';
                 };
-                
+
                 p2CardDisplay.appendChild(baseImg);
             }
-            
+
             // Assemble all the info components
             const matchupDiv = document.createElement('div');
             matchupDiv.className = 'matchup-display';
@@ -1119,9 +1121,9 @@ function displaySpectateGames(data) {
             matchupDiv.appendChild(p1CardDisplay);
             matchupDiv.appendChild(vsText);
             matchupDiv.appendChild(p2CardDisplay);
-            
+
             gameInfo.appendChild(matchupDiv);
-            
+
             // Spectate button
             const spectateButton = document.createElement('button');
             spectateButton.textContent = 'Spectate';
@@ -1129,15 +1131,15 @@ function displaySpectateGames(data) {
             spectateButton.onclick = function() {
                 window.location.href = `${window.location.origin}/Arena/NextTurn4.php?gameName=${game.gameName}&playerID=3`;
             };
-            
+
             gameItem.appendChild(gameInfo);
             gameItem.appendChild(spectateButton);
             formatSection.appendChild(gameItem);
         });
-        
+
         spectateListContent.appendChild(formatSection);
     });
-    
+
     // Show message if no games match the filter
     if (spectateListContent.children.length === 0) {
         spectateListContent.innerHTML = '<p>No games found matching the selected format.</p>';
@@ -1148,29 +1150,29 @@ function displaySpectateGames(data) {
 document.addEventListener('DOMContentLoaded', function() {
     // Initial load of open games
     loadOpenGames();
-    
+
     // Set up game refresh button
     const refreshGameButton = document.getElementById('refreshGameList');
     if (refreshGameButton) {
         refreshGameButton.addEventListener('click', loadOpenGames);
     }
-    
+
     // Set up game format filter
     const formatFilterDropdown = document.getElementById('formatFilter');
     formatFilterDropdown.addEventListener('change', function() {
         // Reload games with new filter
         loadOpenGames();
     });
-    
+
     // Initial load of spectate games
     loadSpectateGames();
-    
+
     // Set up spectate refresh button
     const refreshSpectateButton = document.getElementById('refreshSpectateList');
     if (refreshSpectateButton) {
         refreshSpectateButton.addEventListener('click', loadSpectateGames);
     }
-    
+
     // Set up spectate format filter
     const spectateFormatFilterDropdown = document.getElementById('spectateFormatFilter');
     spectateFormatFilterDropdown.addEventListener('change', function() {
@@ -1195,7 +1197,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var validDecks = decks.filter(function(deck) {
         return true;
       });
-      
+
       validDecks.forEach(function(deck, index) {
         var option = document.createElement('option');
         // Build the deck link using the id from the API
@@ -1208,7 +1210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         option.textContent = deck.name || deck.deckName || 'Unnamed Deck';
         swuDecksDropdown.appendChild(option);
       });
-      
+
       // Display message if no valid decks after filtering
       if (validDecks.length === 0) {
         deckLoadingContainer.textContent = 'No valid decks found.';
@@ -1219,7 +1221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (savedIndex >= 0 && savedIndex < validDecks.length) {
           // +1 because the first option is the "-- Select a deck --" placeholder
           swuDecksDropdown.selectedIndex = savedIndex + 1;
-          
+
           // Trigger the change event to populate the deck link
           var event = new Event('change');
           swuDecksDropdown.dispatchEvent(event);
@@ -1234,13 +1236,13 @@ document.addEventListener('DOMContentLoaded', function() {
       fabdbHidden.value = selectedValue;
       // Always use the same validation as typing
       if (typeof validateDeckLink === 'function') validateDeckLink(selectedValue);
-      
+
       // Save the selected index as a user preference
       var selectedIndex = swuDecksDropdown.selectedIndex - 1; // -1 to account for the placeholder
       if (selectedValue && selectedIndex >= 0) {
         // Update the savedFavoriteDeckIndex variable to keep track of the current selection
         savedFavoriteDeckIndex = selectedIndex;
-        
+
         // Save the selection to user settings via AJAX - use correct parameter names: piece and value
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'api/UpdateMyPlayerSetting.php?piece=<?= $SET_FavoriteDeckIndex ?>&value=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?>', true);

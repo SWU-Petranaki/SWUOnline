@@ -2014,6 +2014,17 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
   $attackID = $attackerAlly->CardID();
   if($attackerAlly->LostAbilities()) return;
 
+  //check for Force base
+  $myBase = GetPlayerCharacter($mainPlayer)[0];
+  switch($myBase) {
+    case "0119018087"://Shadowed Undercity
+    case "0450346170"://Jedi Temple
+      if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
+        TheForceIsWithYou($mainPlayer);
+    break;
+    default: break;
+  }
+
   // Upgrade Abilities
   $upgrades = $attackerAlly->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {

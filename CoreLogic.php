@@ -50,7 +50,7 @@ function EvaluateCombatChain(&$totalAttack, &$totalDefense, &$attackModifiers=[]
         AddAttack($totalAttack, $attack);
       }
     }
-    $attack = MainCharacterAttackModifiers();
+    //$attack = MainCharacterAttackModifiers();
     if($canGainAttack || $attack < 0)
     {
       array_push($attackModifiers, "Character/Equipment", $attack);
@@ -5718,7 +5718,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2,$currentPlayer,1", 1);
       break;
     case "4512764429"://Sanctioner's Shuttle
-      if(IsCoordinateActive($currentPlayer)) {
+      if($from != "PLAY" && IsCoordinateActive($currentPlayer)) {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:maxCost=3");
         AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to capture");
@@ -6852,6 +6852,23 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "MOVEPILOTUNIT", 1);
       }
       break;
+    //Legends of the Force
+    case "5083905745"://Drain Essence
+      TheForceIsWithYou($currentPlayer);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal 2 damage to");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer), 1);
+      break;
+    case "6797297267"://Darth Sidious
+      if($from != "PLAY") {
+        if(HasTheForce($currentPlayer)) {
+          AddDecisionQueue("YESNO", $currentPlayer, "if you want use The Force");
+          AddDecisionQueue("NOPASS", $currentPlayer, "-");
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DARTHSIDIOUS_LOF", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7155,6 +7172,27 @@ function AddTopDeckAsResource($player, $isExhausted=true)
   }
 
   return false;
+}
+
+function HasTheForce($player) {
+  $char = &GetPlayerCharacter($player);
+  return $char[4] == "1";
+}
+
+function TheForceIsWithYou($player) {
+  $char = &GetPlayerCharacter($player);
+  if($char[4] == "1") return;
+  $char[4] = "1";
+  AddEvent("FORCETOKEN", "$player!1");
+  WriteLog("The Force is with Player " . $player . ".");
+}
+
+function UseTheForce($player) {
+  $char = &GetPlayerCharacter($player);
+  if($char[4] == "0") return;
+  $char[4] = "0";
+  AddEvent("FORCETOKEN", "$player!0");
+  WriteLog("Player " . $player . " used the Force.");
 }
 
 //target type return values
