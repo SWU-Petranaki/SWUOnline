@@ -393,7 +393,27 @@ function Card($cardNumber, $folder, $maxHeight, $action = 0, $showHover = 0, $ov
     user-select: none;'></div>";
   }
 
-  // Sentinel Icon Style
+  // Hidden Icon Style
+  if(isset($opts['currentlyHidden']) && $opts['currentlyHidden']) {
+    $rv .= "<div style='margin: 0px;
+    top: 42px;
+    left: 89px;
+    margin-right: -50%;
+    border-radius: 0%;
+    width:" . $iconSize . "px;
+    height:" . $iconSize . "px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    position:absolute; z-index: 10;
+    background: url(./Images/HiddenToken.png) no-repeat;
+    background-size: contain;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.40));
+    user-select: none;'></div>";
+  }
+
+  // Sentinel Icon Style (on top of Hidden if gains sentinel)
   if (isset($opts['hasSentinel']) && $opts['hasSentinel']) {
     $rv .= "<div style='margin: 0px;
     top: 42px;
