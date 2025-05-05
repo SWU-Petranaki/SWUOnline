@@ -280,6 +280,10 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
     case "5763330426"://The Ghost JTL (with Phantom II)
       $modifier += $ally->HasUpgrade("5306772000") ? 3 : 0;
       break;
+    //Legacy of the Force
+    case "1540696516"://Scimitar
+      $modifier += ($ally->Damage() > 0) ? 3 : 0;
+      break;
     default: break;
   }
 
