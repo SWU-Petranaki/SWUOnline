@@ -6857,6 +6857,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     //Legends of the Force
+    //LOF leaders
     case "0024560758"://Darth Maul Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Deal Damage") {
@@ -6894,6 +6895,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "3357344238"://Third Sister Leader
+      global $CS_AfterPlayedBy;
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Play") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to play");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+        AddDecisionQueue("SETCLASSSTATE", $currentPlayer, $CS_AfterPlayedBy, 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+      }
+      break;
+    //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
@@ -7062,6 +7078,12 @@ function AfterPlayedByAbility($cardID) {
       break;
     case "5576996578"://Endless Legions
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ENDLESSLEGIONS");
+      break;
+    //Legends of the Force
+    case "3357344238"://Third Sister Leader
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "3357344238,HAND", 1);
       break;
     default: break;
   }

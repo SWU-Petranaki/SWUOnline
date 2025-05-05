@@ -1017,6 +1017,11 @@ function CurrentEffectAllyEntersPlay($player, $index)
           $ally = new Ally("MYALLY-" . $index, $player);
           $ally->Attach("2007868442");//Experience token
           break;
+        case "5387ca4af6"://Third Sister Leader
+          $remove = true;
+          $ally = new Ally("MYALLY-" . $index, $player);
+          AddCurrentTurnEffect("5387ca4af6-P", $player, uniqueID:$ally->UniqueID(), lastingType: 3);
+          break;
         default:
           break;
       }
