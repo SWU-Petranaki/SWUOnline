@@ -1011,6 +1011,9 @@ function HasHidden($cardID, $player, $index) {
     if($currentTurnEffects[$i+1] != $player) continue;
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
     switch($currentTurnEffects[$i]) {
+      case "3357344238"://Third Sister Leader
+      case "5387ca4af6-P"://Third Sister Leader Unit
+        return true;
       default: break;
     }
   }
@@ -1035,6 +1038,8 @@ function HasHidden($cardID, $player, $index) {
     //Legends of the Force
     case "3967581160"://Anakin Skywalker
       return true;
+    case "5387ca4af6":
+      return !LeaderAbilitiesIgnored();
     default: break;
   }
 
@@ -1505,6 +1510,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "2693401411"://Obi-Wan Kenobi Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "3357344238"://Third Sister Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     default: return "";
   }
 }
@@ -1840,6 +1847,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     case "2693401411"://Obi-Wan Kenobi Leader
       return LeaderAbilitiesIgnored() ? "" : "Experience";
+    case "3357344238"://Third Sister Leader
+      return LeaderAbilitiesIgnored() ? "" : "Play";
     default: return "";
   }
 }
@@ -2295,6 +2304,8 @@ function LeaderUnit($cardID) {
       return "754e979196";
     case "2693401411"://Obi-Wan Kenobi
       return "d12b136775";
+    case "3357344238"://Third Sister
+      return "5387ca4af6";
     default: return "";
   }
 }
@@ -2456,6 +2467,8 @@ function LeaderUndeployed($cardID) {
       return "4637578649";
     case "d12b136775"://Obi-Wan Kenobi
       return "2693401411";
+    case "5387ca4af6"://Third Sister
+      return "3357344238";
     default: return "";
   }
 }

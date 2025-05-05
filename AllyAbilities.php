@@ -2419,6 +2419,13 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
+    case "5387ca4af6":
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if (!LeaderAbilitiesIgnored()) {
+        AddCurrentTurnEffect("5387ca4af6", $mainPlayer, from:"PLAY");
+      }
+      break;
     default: break;
   }
 
