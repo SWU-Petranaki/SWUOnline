@@ -318,11 +318,10 @@ if (!empty($_SESSION['error'])) {
           <div>
             <div style="position: relative;">
               <div style='vertical-align:middle; text-align: start;'>
-                <img src="./Images/jtl-han-solo.webp" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                <h3 style="margin: 15px 0; display: block;">The Classic Force Awakens</h3>
-                <p>All Set 1-4 cards are now implemeneted.</p>
-                <p>Petranaki is the original version of Karabast, and it will continue to be available for those who prefer to stick with the classic experience. The project will keep evolving with updates designed to enhance gameplay, offering a fast and easy way to enjoy and sharpen your skills with your favorite decks.</p>
-                <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">new Discord server</a> to stay up-to-date, get the latest news, and share your feedback. May the Force guide your cards!</p>
+                <img src="./Images/SWUKeyArt/SWH05_KeyArt.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                <h3 style="margin: 15px 0; display: block;">Set 5 Previews Are Underway</h3>
+                <p>As cards become available on the SWU card database, we will do our best to implement them into Petranaki as soon as possiible.</p>
+                <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">Discord server</a> to stay up-to-date, get the latest news, and share your feedback. Keep being the Legends of the Force that you are!</p>
               </div>
             </div>
           </div>
@@ -468,12 +467,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (tooltipShowTimeout) {
                     clearTimeout(tooltipShowTimeout);
                 }
-                
+
                 // Set a short delay before showing the tooltip
                 tooltipShowTimeout = setTimeout(() => {
                     // Get appropriate tooltip content based on context
                     let tooltipContent = '';
-                    
+
                     // Check if this is the SWU Stats link tooltip
                     if (helpIcon.parentElement && helpIcon.parentElement.textContent.includes('Link your SWU Stats account')) {
                         tooltipContent = `
@@ -505,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => {
                       globalTooltip.classList.add('show-tooltip');
                     }, 10);
-                    
+
                     // Mobile: show below icon, Desktop: show above
                     if (window.innerWidth <= 768) {
                         globalTooltip.style.left = rect.left + 'px';
@@ -514,7 +513,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         globalTooltip.style.left = (rect.left - 120) + 'px'; // Center tooltip over icon
                         globalTooltip.style.top = (rect.top - 150) + 'px'; // Position higher above the icon
                     }
-                    
+
                     // Prevent tooltips from going off-screen
                     const tooltipRect = globalTooltip.getBoundingClientRect();
                     if (tooltipRect.left < 10) {
@@ -800,7 +799,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
         };
     }
-    
+
     // Connect saveFavoriteDeck checkbox to the hidden favoriteDeck input
     const saveFavoriteDeckCheckbox = document.getElementById('saveFavoriteDeck');
     if (saveFavoriteDeckCheckbox && favoriteDeckHidden) {
