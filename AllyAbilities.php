@@ -1113,6 +1113,11 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
         AddDecisionQueue("SPECIFICCARD", $player, "QUIGONJINN_UNIT_LOF", 1);
         break;
+      case "5264998537"://Owen Lars
+          AddDecisionQueue("SEARCHDECKTOPX", $player, "5;1;include-trait-Force");
+          AddDecisionQueue("ADDHAND", $player, "-", 1);
+          AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
