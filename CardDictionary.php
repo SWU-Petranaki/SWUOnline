@@ -161,6 +161,7 @@ function RestoreAmount($cardID, $player, $index)
     //Legends of the Force
     case "6797297267": $amount += 2; break;//Darth Sidious
     case "754e979196": $amount += 1; break;//Darth Revan Leader Unit
+    case "5264998537": $amount += 2; break;//Owen Lars
     default: break;
   }
   //The Ghost JTL
