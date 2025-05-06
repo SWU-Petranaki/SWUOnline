@@ -519,6 +519,9 @@ function HasGrit($cardID, $player, $index)
       case "2633842896"://Biggs Darklighter
         if(TraitContains($cardID, "Speeder", $player)) return true;
         break;
+      case "9566815036"://Darth Revan's Lightsabers (yes there are two of them in one card)
+        if(TraitContains($cardID, "Sith", $player)) return true;
+        break;
       default: break;
     }
   }
