@@ -767,6 +767,7 @@ function CurrentEffectStartRegroupPhaseAbilities() {
       case "1302133998"://Impropriety Among Thieves
       case "7732981122"://Sly Moore
       case "1626462639"://Change of Heart
+      case "7691597101"://Liberated By Darkness
         AddDecisionQueue("PASSPARAMETER", $player , $uniqueID);
         AddDecisionQueue("UIDOP", $player , "REVERTCONTROL");
         break;
