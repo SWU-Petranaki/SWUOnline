@@ -368,6 +368,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const globalTooltip = document.getElementById('global-tooltip');
     const userLoggedIn = <?php echo isset($_SESSION["userid"]) ? 'true' : 'false'; ?>;
 
+    // Clear deck link input when clicked
+    if(deckLinkInput) {
+        deckLinkInput.addEventListener('click', function() {
+            this.value = '';
+            // Update the hidden field
+            if(fabdbHidden) fabdbHidden.value = '';
+            // Update validation state
+            validateDeckLink('');
+        });
+    }
+
     // Initialize with current value
     if(deckLinkInput && fabdbHidden) {
         fabdbHidden.value = deckLinkInput.value;
@@ -747,6 +758,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return result;
         };
+    }
+    
+    // Connect saveFavoriteDeck checkbox to the hidden favoriteDeck input
+    const saveFavoriteDeckCheckbox = document.getElementById('saveFavoriteDeck');
+    if (saveFavoriteDeckCheckbox && favoriteDeckHidden) {
+        saveFavoriteDeckCheckbox.addEventListener('change', function() {
+            favoriteDeckHidden.value = this.checked ? '1' : '0';
+        });
     }
 
     // Make validateDeckLink globally available
