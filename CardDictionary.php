@@ -839,6 +839,10 @@ function HasAmbush($cardID, $player, $index, $from)
       return true;
     case "7144880397"://Ahsoka Tano
       return HasMoreUnits($player == 1 ? 2 : 1);
+
+    case "8660042329"://Terentatek
+      $otherPlayer = $player == 1 ? 2 : 1;
+      return HasUnitWithTraitInPlay($otherPlayer, "Force");
     default: break;
   }
   //The Ghost JTL

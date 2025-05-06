@@ -3958,12 +3958,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "1626462639"://Change of Heart
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1", 1);
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to take control of", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "TAKECONTROL", 1);
+      DQTakeControlOfANonLeaderUnit($currentPlayer);
       AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $currentPlayer, "1626462639,PLAY", 1);
       break;
     case "2855740390"://Lieutenant Childsen
@@ -7021,6 +7016,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, 1), 1);
       }
       break;
+    case "7691597101"://Liberated By Darkness
+      if(HasTheForce($currentPlayer)) {
+        UseTheForce($currentPlayer);
+        DQTakeControlOfANonLeaderUnit($currentPlayer);
+        AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $currentPlayer, "7691597101,PLAY", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7356,6 +7358,15 @@ function UseTheForce($player) {
   $char[4] = "0";
   AddEvent("FORCETOKEN", "$player!0");
   WriteLog("Player " . $player . " used the Force.");
+}
+
+function DQTakeControlOfANonLeaderUnit($player) {
+  AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
+  AddDecisionQueue("MZFILTER", $player, "leader=1", 1);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to take control of", 1);
+  AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+  AddDecisionQueue("MZOP", $player, "TAKECONTROL", 1);
 }
 
 //target type return values
