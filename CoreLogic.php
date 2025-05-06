@@ -7023,6 +7023,22 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $currentPlayer, "7691597101,PLAY", 1);
       }
       break;
+    case "5482818255"://Jedi Consular
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Play Unit") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }

@@ -2488,6 +2488,7 @@ function CurrentTurnEffectsPlayingUnit($player) {
       //Legends of the Force
       case "2580909557"://Qui-Gon Jinn Leader
       case "6def6570f5"://Qui-Gon Jinn Leader Unit
+      case "5482818255"://Jedi Consular
         return true;
     }
   }
