@@ -1310,6 +1310,15 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("ADDCURRENTEFFECT", $player, $leaderUnitSide ? "6def6570f5": "2580909557", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
+    case "QUIGONJINN_UNIT_LOF":
+      $ally = new Ally($lastResult);
+      $controller = $ally->Controller();
+      $owner = $ally->Owner();
+      $cardID = $ally->CardID();
+      RemoveAlly($controller, $ally->Index());
+      AddDecisionQueue("PASSPARAMETER", $owner, $cardID, 1);
+      AddDecisionQueue("OPT", $owner, "<-", 1);
+      break;
     case "GROGU_LOF":
       $target = new Ally($lastResult, $player);
       $healed = $target->Heal(2);
