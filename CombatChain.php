@@ -291,9 +291,12 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       $discard = &GetDiscard($player);
       $count = 0;
       for($i=0; $i<count($discard); $i+=DiscardPieces()) {
-        if(TraitContains($discard[$i], "Trooper", $player)) ++$count; 
+        if(TraitContains($discard[$i], "Trooper", $player)) ++$count;
       }
       $modifier += $count;
+      break;
+    case "4082337781"://Sith Legionnaire
+      $modifier += (SearchCount(SearchAllies($player, aspect:"Villainy")) > 1) ? 2 : 0;
       break;
     default: break;
   }

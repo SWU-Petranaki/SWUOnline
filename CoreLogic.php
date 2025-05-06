@@ -7002,6 +7002,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,6", 1);
       }
       break;
+    case "4092125792"://Death Field
+      if(HasUnitWithTraitInPlay($currentPlayer, "Force")) Draw($currentPlayer);
+      $theirAllies = &GetAllies($otherPlayer);
+      for($i=count($theirAllies)-AllyPieces(); $i>=0; $i-=AllyPieces())
+      {
+        $ally = new Ally("MYALLY-" . $i, $otherPlayer);
+        if(!TraitContains($theirAllies[$i], "Vehicle")) $ally->DealDamage(2);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

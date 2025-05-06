@@ -208,6 +208,10 @@ function HasLeaderUnitWithTraitInPlay($player, $trait) {
   return false;
 }
 
+function HasUnitWithTraitInPlay($player, $trait) {
+  return SearchCount(SearchAllies($player, trait:$trait)) > 0;
+}
+
 function HasMoreUnits($player) {
   $allies = &GetAllies($player);
   $theirAllies = &GetTheirAllies($player);
