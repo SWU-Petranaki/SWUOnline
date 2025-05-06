@@ -75,7 +75,7 @@ include_once 'Header.php';
 
     ?>
     <label for="fabdb"><u><a style='color:darksalmon;' href='https://www.swudb.com/' target='_blank'>SWUDB</a></u> or <u><a style='color:darksalmon;' href='https://www.sw-unlimited-db.com/' target='_blank'>SW-Unlimited-DB</a></u> Deck Link <span class="secondary">(use the url or 'Deck Link' button)</span></label>
-    <input type="text" id="fabdb" name="fabdb">
+    <input type="text" id="deckLink" name="fabdb">
     <?php
     if (isset($_SESSION["userid"])) {
       echo ("<span class='save-deck'>");
