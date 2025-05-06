@@ -711,6 +711,7 @@ function HasOverwhelm($cardID, $player, $index)
       return $ally->CurrentPower(reportMode:true) >= 4;
     //Legacy of the Force
     case "1636013021"://Savage Opress
+    case "2285555274"://Darth Malak
       return true;
     default: break;
   }
@@ -1044,6 +1045,7 @@ function HasHidden($cardID, $player, $index) {
     //Legends of the Force
     case "3967581160"://Anakin Skywalker
     case "4389144613"://Grogu
+    case "3995900674"://Tuk'ata
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();

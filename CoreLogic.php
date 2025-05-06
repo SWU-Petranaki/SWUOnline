@@ -6987,6 +6987,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("OK", $currentPlayer, "-");
       }
       break;
+    case "2285555274"://Darth Malak
+      if($from != "PLAY") {
+        if(HasLeaderUnitWithTraitInPlay($currentPlayer, "Sith"))
+          Ally::FromUniqueId($uniqueId)->Ready();
+      }
+      break;
+    case "3853063436"://Cure Wounds
+      if(HasTheForce($currentPlayer)) {
+        UseTheForce($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal 6 damage from");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,6", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

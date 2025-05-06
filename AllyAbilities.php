@@ -179,6 +179,7 @@ function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpg
   switch($cardID) {
     case "1664771721"://Gideon Hask
     case "b0dbca5c05"://Iden Versio Leader Unit
+    case "2407397504"://HK-47
       return true;
     case "2649829005"://Agent Kallus
       return $wasUnique && $numUses > 0;
