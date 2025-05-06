@@ -368,6 +368,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const globalTooltip = document.getElementById('global-tooltip');
     const userLoggedIn = <?php echo isset($_SESSION["userid"]) ? 'true' : 'false'; ?>;
 
+    // Clear deck link input when clicked
+    if(deckLinkInput) {
+        deckLinkInput.addEventListener('click', function() {
+            this.value = '';
+            // Update the hidden field
+            if(fabdbHidden) fabdbHidden.value = '';
+            // Update validation state
+            validateDeckLink('');
+        });
+    }
+
     // Initialize with current value
     if(deckLinkInput && fabdbHidden) {
         fabdbHidden.value = deckLinkInput.value;
