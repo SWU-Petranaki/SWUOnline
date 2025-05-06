@@ -800,7 +800,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           global $CS_PlayedWithExploit;
           SetClassState($player, $CS_PlayedWithExploit, 1);
           $exploitedAllies = explode(",", $dqVars[0]);
-          if ($exploitedAllies == [])
+          if ($exploitedAllies[0] == "-" || $exploitedAllies == [])
           {
             return;
           }
