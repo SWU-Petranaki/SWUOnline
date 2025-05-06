@@ -7011,6 +7011,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         if(!TraitContains($theirAllies[$i], "Vehicle")) $ally->DealDamage(2);
       }
       break;
+    case "5737712611"://Jedi Knight
+      //When Played: if you have the initiative,
+      if($from != "PLAY" && $initiativePlayer == $currentPlayer) {
+        //Deal 2 damage to an enemy ground unit.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy ground unit to deal 2 damage to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, 1), 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

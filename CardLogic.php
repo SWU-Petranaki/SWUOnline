@@ -200,7 +200,8 @@ function HasLeaderPilotInPlay($player) {
 function HasLeaderUnitWithTraitInPlay($player, $trait) {
   $allies = GetAllies($player);
   for($i = 0; $i < count($allies); $i+=AllyPieces()) {
-    if(CardIDIsLeader($allies[$i]) && TraitContains($allies[$i], $trait)) {
+    $ally = Ally::FromUniqueId($allies[$i+5]);
+    if($ally->IsLeader() && TraitContains($allies[$i], $trait)) {
       return true;
     }
   }

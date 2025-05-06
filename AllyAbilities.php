@@ -2064,7 +2064,7 @@ function IsAlly($cardID, $player="")
 }
 
 //NOTE: This is for the actual attack abilities that allies have
-function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
+function LayerAttackersOnAttackAbilities($attackerUniqueID, $reportMode)
 {
   global $mainPlayer, $defPlayer, $combatChainState, $CCS_WeaponIndex, $initiativePlayer, $currentTurnEffects;
   $totalOnAttackAbilities = 0;
@@ -2266,7 +2266,6 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
     case "3556557330"://Asajj Ventress (Count Dooku's Assassin)
     case "f8e0c65364"://Asajj Ventress (deployed leader)
     case "2843644198"://Sabine Wren (You Can Count On Me)
-    case "0693815329"://Cad Bane (Hostage Taker)
     case "4ae6d91ddc"://Padme Amidala
     case "3033790509"://Captain Typho
     case "4489623180"://Ziro the Hutt
@@ -2278,6 +2277,12 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    case "0693815329"://Cad Bane (Hostage Taker)
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(Ally::FromUniqueId($attackerUniqueID)->HasCaptive())
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
     case "9568000754"://R2-D2
       $totalOnAttackAbilities++;
