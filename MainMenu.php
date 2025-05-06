@@ -748,6 +748,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return result;
         };
     }
+    
+    // Connect saveFavoriteDeck checkbox to the hidden favoriteDeck input
+    const saveFavoriteDeckCheckbox = document.getElementById('saveFavoriteDeck');
+    if (saveFavoriteDeckCheckbox && favoriteDeckHidden) {
+        saveFavoriteDeckCheckbox.addEventListener('change', function() {
+            favoriteDeckHidden.value = this.checked ? '1' : '0';
+        });
+    }
 
     // Make validateDeckLink globally available
     window.validateDeckLink = validateDeckLink;
