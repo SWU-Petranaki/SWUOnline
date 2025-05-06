@@ -187,11 +187,11 @@ $baseUri = "/Arena";
             <ul class='rightnav'>
                 <?php
                 if (isset($_SESSION["useruid"])) {
+
                     echo "<li class='dropdown'>
                       <a href='javascript:void(0)' onclick='toggleInfoNav()' class='NavBarItem info-nav'>Info <span id='nav-tri-info' class='nav-triangle'>▼</span></a>
                       <ul id='info-dd' class='dropdown-content'>
                         <li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>
-                        <li><a href='$baseUri/UnimplementedCards.php'>Preview Cards</a></li>
                         <li><a href='$baseUri/Conduct.php'>Code of Conduct</a></li>
                       </ul>
                     </li>";
@@ -203,6 +203,7 @@ $baseUri = "/Arena";
                       </ul>
                     </li>";
                     echo "<li><a href='https://swustats.net/TCGEngine/SharedUI/MainMenu.php' target='_blank' class='NavBarItem'>SWU Stats</a></li>";
+                    echo "<li><a href='$baseUri/UnimplementedCards.php'>Preview Cards</a></li>";
                     echo "<li><a href='$baseUri/ProfilePage.php' class='NavBarItem'>Profile</a></li>";
                     echo "<li><a href='$baseUri/AccountFiles/LogoutUser.php' class='NavBarItem'>Log Out</a></li>";
                 } else {
@@ -318,46 +319,71 @@ $baseUri = "/Arena";
             overlay.classList.toggle('show');
             panel.classList.toggle('show');
         }
+
+        function closeAllDropdowns() {
+            const dropdowns = ['#info-dd', '#tools-dd'];
+            const triangles = ['#nav-tri-info', '#nav-tri-tools'];
+            dropdowns.forEach((dd, i) => {
+          document.querySelector(dd).style.display = 'none';
+          if (document.querySelector(triangles[i])) {
+              document.querySelector(triangles[i]).innerHTML = '▼';
+          }
+            });
+        }
+
         function toggleInfoNav() {
             var dropdownContent = document.querySelector('#info-dd');
-            if (dropdownContent.style.display === 'block') {
-                dropdownContent.style.display = 'none';
-            } else {
-                dropdownContent.style.display = 'block';
+            var isOpen = dropdownContent.style.display === 'block';
+            closeAllDropdowns();
+            if (!isOpen) {
+          dropdownContent.style.display = 'block';
+          var triangle = document.querySelector('#nav-tri-info');
+          if (triangle) triangle.innerHTML = '▲';
             }
-            var triangle = document.querySelector('#nav-tri-info');
-            if (triangle) triangle.innerHTML = dropdownContent.style.display === 'block' ? '▲' : '▼';
         }
+
         function toggleToolsNav() {
             var dropdownContent = document.querySelector('#tools-dd');
-            if (dropdownContent.style.display === 'block') {
-                dropdownContent.style.display = 'none';
-            } else {
-                dropdownContent.style.display = 'block';
+            var isOpen = dropdownContent.style.display === 'block';
+            closeAllDropdowns();
+            if (!isOpen) {
+          dropdownContent.style.display = 'block';
+          var triangle = document.querySelector('#nav-tri-tools');
+          if (triangle) triangle.innerHTML = '▲';
             }
-            var triangle = document.querySelector('#nav-tri-tools');
-            if (triangle) triangle.innerHTML = dropdownContent.style.display === 'block' ? '▲' : '▼';
         }
-        // Mobile Info/Tools dropdowns
+
+        function closeAllDropdownsMobile() {
+            const dropdowns = ['#info-dd-mobile', '#tools-dd-mobile'];
+            const triangles = ['#nav-tri-info-mobile', '#nav-tri-tools-mobile'];
+            dropdowns.forEach((dd, i) => {
+          document.querySelector(dd).style.display = 'none';
+          if (document.querySelector(triangles[i])) {
+              document.querySelector(triangles[i]).innerHTML = '▼';
+          }
+            });
+        }
+
         function toggleInfoNavMobile() {
             var dropdownContent = document.querySelector('#info-dd-mobile');
-            if (dropdownContent.style.display === 'block') {
-                dropdownContent.style.display = 'none';
-            } else {
-                dropdownContent.style.display = 'block';
+            var isOpen = dropdownContent.style.display === 'block';
+            closeAllDropdownsMobile();
+            if (!isOpen) {
+          dropdownContent.style.display = 'block';
+          var triangle = document.querySelector('#nav-tri-info-mobile');
+          if (triangle) triangle.innerHTML = '▲';
             }
-            var triangle = document.querySelector('#nav-tri-info-mobile');
-            if (triangle) triangle.innerHTML = dropdownContent.style.display === 'block' ? '▲' : '▼';
         }
+
         function toggleToolsNavMobile() {
             var dropdownContent = document.querySelector('#tools-dd-mobile');
-            if (dropdownContent.style.display === 'block') {
-                dropdownContent.style.display = 'none';
-            } else {
-                dropdownContent.style.display = 'block';
+            var isOpen = dropdownContent.style.display === 'block';
+            closeAllDropdownsMobile();
+            if (!isOpen) {
+          dropdownContent.style.display = 'block';
+          var triangle = document.querySelector('#nav-tri-tools-mobile');
+          if (triangle) triangle.innerHTML = '▲';
             }
-            var triangle = document.querySelector('#nav-tri-tools-mobile');
-            if (triangle) triangle.innerHTML = dropdownContent.style.display === 'block' ? '▲' : '▼';
         }
     </script>
 </body>
