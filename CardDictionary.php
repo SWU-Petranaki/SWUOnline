@@ -273,6 +273,8 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
   }
   switch($cardID)
   {
+    //card specific
+    //Spark of Rebellion
     case "1017822723": $amount += 2; break; //Rogue Operative
     case "2404916657": $amount += 2; break; //Cantina Braggart
     case "7495752423": $amount += 2; break; //Green Squadron A-Wing
@@ -284,6 +286,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "87e8807695": $amount += !LeaderAbilitiesIgnored() ? 1 : 0; break; //Leia Leader Unit
     case "8395007579": $amount += $ally->MaxHealth() - $ally->Health(); break;//Fifth Brother
     case "6208347478": $amount += SearchCount(SearchAllies($player, trait:"Spectre")) > 1 ? 1 : 0; break;//Chopper
+    //Shadows of the Galaxy
     case "3487311898": $amount += 3; break;//Clan Challengers
     case "5977238053": $amount += 2; break;//Sundari Peacekeeper
     case "1805986989": $amount += 2; break;//Modded Cohort
@@ -292,6 +295,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "5818136044": $amount += 2; break;//Xanadu Blood
     case "8991513192": $amount += SearchCount(SearchAllies($player, aspect:"Aggression")) > 1 ? 2 : 0; break;//Hunting Nexu
     case "1810342362": $amount += 2; break;//Lurking TIE Phantom
+    //Twilight of the Republic
     case "8426882030": $amount += 1; break;//Ryloth Militia
     case "8247495024": $amount += 1; break;//Seasoned Fleet Admiral
     case "5936350569": $amount += 1; break;//Jesse
@@ -302,12 +306,15 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "0683052393": $amount += IsCoordinateActive($player) ? 2 : 0; break;//Hevy
     case "9964112400": $amount += 2; break;//Rush Clovis
     case "0249398533": $amount += 1; break;//Obedient Vanguard
+    //Jump to Lightspeed
     case "0587196584": $amount += 1; break;//Independent Smuggler
     case "1034181657": $amount += SearchCount(SearchAllies($player, tokenOnly: true)) > 0 ? 1 : 0; break;//First Order TIE Fighter
     case "0756051511": $amount += 1; break;//MC30 Assault Frigate
     case "0626954301": $amount += SearchCount(SearchAllies($player, trait:"Fighter")) > 1 ? 2 : 0; break;//Flanking Fang Fighter
     case "7458361203": $amount += 1; break;//Corporate Light Cruiser
     case "2948071304": $amount += ($ally->CurrentPower(reportMode:true) + $amount) >= 6 ? 1 : 0; break;//Vonreg's TIE Interceptor
+    //Legends of the Force
+    case "6082085272": $amount += 1; break;//Forged Starfighter
     default: break;
   }
   //The Ghost JTL
@@ -1048,6 +1055,7 @@ function HasHidden($cardID, $player, $index) {
     case "3967581160"://Anakin Skywalker
     case "4389144613"://Grogu
     case "3995900674"://Tuk'ata
+    case "6082085272"://Forged Starfighter
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
