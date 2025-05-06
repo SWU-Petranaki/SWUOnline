@@ -197,6 +197,17 @@ function HasLeaderPilotInPlay($player) {
   return false;
 }
 
+function HasLeaderUnitWithTraitInPlay($player, $trait) {
+  $allies = GetAllies($player);
+  for($i = 0; $i < count($allies); $i+=AllyPieces()) {
+    if(CardIDIsLeader($allies[$i]) && TraitContains($allies[$i], $trait)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function HasMoreUnits($player) {
   $allies = &GetAllies($player);
   $theirAllies = &GetTheirAllies($player);
@@ -761,6 +772,10 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
               AddDecisionQueue("MZOP", $triggerPlayer, "READY", 1);
               AddDecisionQueue("ADDMZUSES", $triggerPlayer, "-1", 1);
             }
+            break;
+          case "2407397504"://HK-47
+            $otherPlayer = $triggerPlayer == 1 ? 2 : 1;
+            DealDamageAsync($otherPlayer, 1, "DAMAGE", $cardID, $triggerPlayer);
             break;
           default: break;
         }
