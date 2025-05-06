@@ -119,4 +119,8 @@ CreateLog($gameName);
 $currentTime = round(microtime(true) * 1000);
 $cacheVisibility = ($visibility == "public" ? "1" : "0");
 WriteCache($gameName, 1 . "!" . $currentTime . "!" . $currentTime . "!0!-1!" . $currentTime . "!!!" . $cacheVisibility . "!0!0!0!" . FormatCode($format) . "!" . $gameStatus . "!0!0!$currentTime!0!0!!!!!1!0!0" . "!0!0!0!0"); //Initialize SHMOP cache for this game
-header("Location:" . $redirectPath . "/JoinGameInput.php?gameName=$gameName&playerID=1&deck=$deck&fabdb=$decklink&format=$format&set=$set&decksToTry=$decksToTry&favoriteDeck=$favoriteDeck&favoriteDecks=$favoriteDeckLink");
+
+// Convert favoriteDeck parameter from "1" to "on" to match what JoinGameInput.php expects
+$favoriteDeckParam = ($favoriteDeck == "1") ? "on" : $favoriteDeck;
+
+header("Location:" . $redirectPath . "/JoinGameInput.php?gameName=$gameName&playerID=1&deck=$deck&fabdb=$decklink&format=$format&set=$set&decksToTry=$decksToTry&favoriteDeck=$favoriteDeckParam&favoriteDecks=$favoriteDeckLink");
