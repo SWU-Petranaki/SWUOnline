@@ -2223,7 +2223,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       WriteLog(CardLink($cardID, $cardID) . " does not resolve because it is no longer in play.");
       return;
     }
-    LayerAttackersOnAttackAbilities($uniqueID, false);
+    LayerAttackersOnAttackAbilities($uniqueID, reportMode: false);
     $layersHasOnAttack = false;
     for ($i = 0; $i < count($layers); $i += LayerPieces()) {
       if ($layers[$i + 2] == "ONATTACKABILITY") {

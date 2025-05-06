@@ -187,6 +187,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       $modifier -= LeaderAbilitiesIgnored() ? 0 : count($hand)/HandPieces();
       break;
     case "7486516061"://Concord Dawn Interceptors
+    case "8069951120"://Jedi Guardian
       if($player == $defPlayer && GetAttackTarget() == "THEIRALLY-" . $index) $modifier += 2;
       break;
     case "6769342445"://Jango Fett
