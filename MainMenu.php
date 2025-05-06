@@ -140,7 +140,7 @@ if (!empty($_SESSION['error'])) {
                 }
                 echo ("</select></div>");
               }
-              echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place!</p>";
+              echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place! <span class='help-icon'>?</span></p>";
             }
           }
           ?>
@@ -439,6 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Track if we're hovering over either the help icon or the tooltip
     let isHoveringHelp = false;
     let tooltipHideTimeout = null;
+    let tooltipShowTimeout = null; // Add timeout for showing tooltip
 
     document.addEventListener('mouseover', function(e) {
         const helpIcon = e.target.closest('.help-icon');
@@ -454,38 +455,64 @@ document.addEventListener('DOMContentLoaded', function() {
             isHoveringHelp = true;
 
             if (helpIcon) {
-                // Get tooltip content
-                const tooltipContent = `
-                    <span class="tooltip-title">Copy deck links or JSON from:</span>
-                    <a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a>
-                    <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
-                    <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
-                `;
+                // Clear any existing show timeout
+                if (tooltipShowTimeout) {
+                    clearTimeout(tooltipShowTimeout);
+                }
+                
+                // Set a short delay before showing the tooltip
+                tooltipShowTimeout = setTimeout(() => {
+                    // Get appropriate tooltip content based on context
+                    let tooltipContent = '';
+                    
+                    // Check if this is the SWU Stats link tooltip
+                    if (helpIcon.parentElement && helpIcon.parentElement.textContent.includes('Link your SWU Stats account')) {
+                        tooltipContent = `
+                          <span class="tooltip-title">SWU Stats Integration</span>
+                          <p>Connect your SWU Stats account to save and manage all your decks in one place!</p>
+                          <ol style="padding-left: 20px; margin: 5px 0;">
+                            <li style="display: list-item; list-style-type: decimal;">Log in to SWU Stats in another tab</li>
+                            <li style="display: list-item; list-style-type: decimal;">Go to your Petranaki profile and click the Link SWU Stats button</li>
+                            <li style="display: list-item; list-style-type: decimal;">Import your decks into SWU Stats with the cloud icon and click the heart icon</li>
+                          </ol>
+                        `;
+                    } else {
+                        // Default tooltip about deck links
+                        tooltipContent = `
+                            <span class="tooltip-title">Copy deck links or JSON from:</span>
+                            <a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a>
+                            <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
+                            <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
+                        `;
+                    }
 
-                // Position tooltip at fixed position relative to the icon
-                const rect = helpIcon.getBoundingClientRect();
-                globalTooltip.innerHTML = tooltipContent;
-                // Mobile: show below icon, Desktop: show above
-                if (window.innerWidth <= 768) {
-                    globalTooltip.style.left = rect.left + 'px';
-                    globalTooltip.style.top = (rect.bottom + 12) + 'px'; // 12px below icon
-                } else {
-                    globalTooltip.style.left = (rect.left - 120) + 'px'; // Center tooltip over icon
-                    globalTooltip.style.top = (rect.top - 130) + 'px'; // Position above the icon
-                }
-                globalTooltip.style.display = 'block';
-
-                // Prevent tooltips from going off-screen
-                const tooltipRect = globalTooltip.getBoundingClientRect();
-                if (tooltipRect.left < 10) {
-                    globalTooltip.style.left = '10px';
-                }
-                if (tooltipRect.right > window.innerWidth - 10) {
-                    globalTooltip.style.left = (window.innerWidth - tooltipRect.width - 10) + 'px';
-                }
-                if (tooltipRect.top < 10) {
-                    globalTooltip.style.top = (rect.bottom + 10) + 'px'; // Position below instead
-                }
+                    // Position tooltip at fixed position relative to the icon
+                    const rect = helpIcon.getBoundingClientRect();
+                    globalTooltip.innerHTML = tooltipContent;
+                    // Make the tooltip visible
+                    globalTooltip.style.display = 'block';
+                    
+                    // Mobile: show below icon, Desktop: show above
+                    if (window.innerWidth <= 768) {
+                        globalTooltip.style.left = rect.left + 'px';
+                        globalTooltip.style.top = (rect.bottom + 12) + 'px'; // 12px below icon
+                    } else {
+                        globalTooltip.style.left = (rect.left - 120) + 'px'; // Center tooltip over icon
+                        globalTooltip.style.top = (rect.top - 150) + 'px'; // Position higher above the icon
+                    }
+                    
+                    // Prevent tooltips from going off-screen
+                    const tooltipRect = globalTooltip.getBoundingClientRect();
+                    if (tooltipRect.left < 10) {
+                        globalTooltip.style.left = '10px';
+                    }
+                    if (tooltipRect.right > window.innerWidth - 10) {
+                        globalTooltip.style.left = (window.innerWidth - tooltipRect.width - 10) + 'px';
+                    }
+                    if (tooltipRect.top < 10) {
+                        globalTooltip.style.top = (rect.bottom + 10) + 'px'; // Position below instead
+                    }
+                }, 200); // 200ms delay before showing tooltip
             }
         }
     });
