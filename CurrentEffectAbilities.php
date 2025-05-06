@@ -466,7 +466,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             $remove = true;
             break;
           case "3399023235"://Fenn Rau
-      
+
             $costModifier -= 2;
             $remove = true;
             break;
@@ -533,6 +533,10 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             if ($from != "PLAY" && $from != "EQUIP" && DefinedTypesContains($cardID, "Unit", $currentPlayer) && GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == "0") {
               $costModifier += 1;
             }
+            break;
+          case "8569501777":
+            $costModifier -= 4;
+            $remove = true;
             break;
           case "7138400365"://The Invisible Hand
           case "2580909557"://Qui-Gon Jinn Leader
