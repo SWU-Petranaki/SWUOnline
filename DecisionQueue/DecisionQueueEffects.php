@@ -302,7 +302,7 @@ function ModalAbilities($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, $yularenUniqueID, 1);
       AddDecisionQueue("ADDLIMITEDPERMANENTEFFECT", $player, "$effectName,HAND," . $player, 1);
       return $yularenUniqueID;
-    case "WATTO": 
+    case "WATTO":
       switch($lastResult) {
         case 0: // Give experience
           AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY");
@@ -1341,6 +1341,26 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal " . $healed . " damage to");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, DealDamageBuilder($healed, $player, isUnitEffect:1), 1);
+      }
+      break;
+    case "SIFODYAS_LOF":
+      $totalCost = 0;
+      $cardArr = explode(",", $lastResult);
+      if($lastResult == "") $cardArr = [];
+      for($i=0; $i<count($cardArr); ++$i) {
+        $totalCost += CardCost($cardArr[$i]);
+        AddGraveyard($cardArr[$i], $player, "DECK", "TTFREE");
+      }
+      if($totalCost > 4) {
+        WriteLog("<span style='color:red;'>Combined cost greater than 4. Reverting gamestate.</span>");
+        RevertGamestate();
+        return "";
+      }
+      $deck = new Deck($player);
+      $searchLeftovers = explode(",", $deck->Bottom(true, 8 - count($cardArr)));
+      shuffle($searchLeftovers);
+      for($i=0; $i<count($searchLeftovers); ++$i) {
+        AddBottomDeck($searchLeftovers[$i], $player);
       }
       break;
     //SpecificCardLogic End
