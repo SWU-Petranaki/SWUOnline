@@ -6973,6 +6973,20 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "GROGU_LOF", 1);
       }
       break;
+    case "8569501777"://As I Have Foreseen
+      AddDecisionQueue("FINDINDICES", $currentPlayer, "TOPDECK");
+      AddDecisionQueue("DECKCARDS", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      if(HasTheForce($currentPlayer)) {
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose if you want to use the Force to play <0>", 1);
+        AddDecisionQueue("YESNO", $currentPlayer, "-", 1);
+        AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "FORESEEN_LOF", 1);
+      } else {
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "The top card of your deck is <0>");
+        AddDecisionQueue("OK", $currentPlayer, "-");
+      }
+      break;
     //PlayAbility End
     default: break;
   }

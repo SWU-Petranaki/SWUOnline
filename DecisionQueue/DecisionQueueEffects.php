@@ -1363,6 +1363,11 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddBottomDeck($searchLeftovers[$i], $player);
       }
       break;
+    case "FORESEEN_LOF":
+      UseTheForce($player);
+      AddCurrentTurnEffect("8569501777", $player, "PLAY");
+      PlayCard($dqVars[0], "DECK");
+      break;
     //SpecificCardLogic End
     default: return "";
   }
