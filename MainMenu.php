@@ -150,7 +150,7 @@ if (!empty($_SESSION['error'])) {
                 }
                 echo ("</select></div>");
               }
-              echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account in your <a href='./ProfilePage.php' target='_blank'>profile</a> to manage your decks in one place! <span class='help-icon'>?</span></p>";
+              echo "<p>Link your <a href='https://swustats.net/' target='_blank'>SWU Stats</a> account to import favorites! <span class='help-icon'>?</span></p>";
             }
           }
           ?>
