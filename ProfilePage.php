@@ -165,20 +165,30 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
         echo '<a href="./AccountFiles/SWUStatsUnlink.php"><button style="background:#d9534f;color:#fff;height:40px;">Unlink SWUStats</button></a>';
         echo '<br><br>';
       }
-      echo ("<h2>Favorite Decks</h2>");
-      $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
-      if (count($favoriteDecks) > 0) {
-          echo ("<table>");
-          echo ("<tr><td>Hero</td><td>Deck Name</td><td>Link</td><td>Delete</td></tr>");
-          for ($i = 0; $i < count($favoriteDecks); $i += 4) {
-              echo ("<tr>");
-              echo ("<td>" . CardLink($favoriteDecks[$i + 2], $favoriteDecks[$i + 2], true) . "</td>");
-              echo ("<td>" . $favoriteDecks[$i + 1] . "</td>");
-              echo ("<td>" . ParseLink($favoriteDecks[$i]) . "</td>");
-              echo ("<td><a style='text-underline-offset:5px;' href='./MenuFiles/DeleteDeck.php?decklink=" . urlencode($favoriteDecks[$i]) . "'>Delete</a></td>");
-              echo ("</tr>");
-          }
-          echo ("</table>");
+      
+      if($swuStatsLinked) {
+        echo "<h2>Favorite Decks</h2>";
+        echo '<div style="background-color: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;">';
+        echo '<p>Looking for your favorite decks? You\'ve linked your SWU Stats account, which means favorite decks are automatically linked to your favorites on SWU Stats.</p>';
+        echo '<p>Import your decks on SWU Stats, and click the heart icon. Now your favorite decks are synchronized with any apps that use the SWU Stats API!</p>';
+        echo '<p>If you prefer the old behavior, you can unlink your SWU Stats account with the button above. If you do, please leave feedback on our discord!</p>';
+        echo '</div>';
+      } else {
+        echo "<h2>Favorite Decks</h2>";
+        $favoriteDecks = LoadFavoriteDecks($_SESSION["userid"]);
+        if (count($favoriteDecks) > 0) {
+            echo ("<table>");
+            echo ("<tr><td>Hero</td><td>Deck Name</td><td>Link</td><td>Delete</td></tr>");
+            for ($i = 0; $i < count($favoriteDecks); $i += 4) {
+                echo ("<tr>");
+                echo ("<td>" . CardLink($favoriteDecks[$i + 2], $favoriteDecks[$i + 2], true) . "</td>");
+                echo ("<td>" . $favoriteDecks[$i + 1] . "</td>");
+                echo ("<td>" . ParseLink($favoriteDecks[$i]) . "</td>");
+                echo ("<td><a style='text-underline-offset:5px;' href='./MenuFiles/DeleteDeck.php?decklink=" . urlencode($favoriteDecks[$i]) . "'>Delete</a></td>");
+                echo ("</tr>");
+            }
+            echo ("</table>");
+        }
       }
       ?>
       <h2>Block List</h2>
