@@ -1540,6 +1540,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "4389144613"://Grogu
       return "A,AA";
+    case "5482818255"://Jedi Consular
+      return "A,AA";
     default: return "";
   }
 }
@@ -1879,6 +1881,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "4389144613"://Grogu
       return "Move Damage,Attack";
+    case "5482818255"://Jedi Consular
+      return "Play Unit,Attack";
     default: return "";
   }
 }
