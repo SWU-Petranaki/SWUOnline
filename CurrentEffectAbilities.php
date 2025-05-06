@@ -535,6 +535,8 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             }
             break;
           case "7138400365"://The Invisible Hand
+          case "2580909557"://Qui-Gon Jinn Leader
+          case "6def6570f5"://Qui-Gon Jinn Leader unit
             $costModifier -= 99;
             $remove = true;
             break;
@@ -1018,6 +1020,7 @@ function CurrentEffectAllyEntersPlay($player, $index)
           $ally = new Ally("MYALLY-" . $index, $player);
           $ally->Attach("2007868442");//Experience token
           break;
+        case "5387ca4af6"://Third Sister Leader Unit
         default:
           break;
       }
