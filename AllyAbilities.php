@@ -1113,6 +1113,11 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
         AddDecisionQueue("SPECIFICCARD", $player, "QUIGONJINN_UNIT_LOF", 1);
         break;
+      case "5264998537"://Owen Lars
+          AddDecisionQueue("SEARCHDECKTOPX", $player, "5;1;include-trait-Force");
+          AddDecisionQueue("ADDHAND", $player, "-", 1);
+          AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -2422,6 +2427,9 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
     //Legends of the Force
     case "b2072f156c"://Darth Maul Leader unit
     case "5472129982"://Luthen Rael
+    case "5856307533"://Merrin
+    case "8426772148"://Watto
+    case "8496493030"://Sycthe
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3609,6 +3617,34 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       ObiWanKenobiLOF($mainPlayer, true);
+      break;
+    case "5856307533"://Merrin
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to deal 2 damage to a unit?");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 2 damage to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1); 
+      AddDecisionQueue("MZOP", $mainPlayer, "DEALDAMAGE,2,$mainPlayer,1", 1);
+      break;
+    case "8426772148"://Watto
+      $otherPlayer = $mainPlayer == 1 ? 2 : 1;
+      $options = "They give an experience to a unit;They draw a card";
+      AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose one for your opponent");
+      AddDecisionQueue("CHOOSEOPTION", $otherPlayer, "$cardID&$options");
+      AddDecisionQueue("SHOWOPTIONS", $otherPlayer, "$cardID&$options");
+      AddDecisionQueue("MODAL", $mainPlayer, "WATTO");
+      break;
+    case "8496493030"://Scythe
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Inquisitor&THEIRALLY:trait=Inquisitor");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "WRITECHOICE", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "8496493030,HAND", 1);
       break;
     default: break;
   }

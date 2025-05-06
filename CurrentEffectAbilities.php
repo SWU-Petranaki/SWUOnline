@@ -279,6 +279,8 @@ function EffectAttackModifier($cardID, $playerID="")
     case "2384695376": return -2;//Heartless Tactics
     case "9667260960": return -1;//Retrofitted Airspeeder
     case "0753707056": return $subparam;//Unity of Purpose
+    //Legends of the Force
+    case "8496493030":return 2; //Sycthe
     default: return 0;
   }
 }
@@ -464,6 +466,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             $remove = true;
             break;
           case "3399023235"://Fenn Rau
+      
             $costModifier -= 2;
             $remove = true;
             break;
