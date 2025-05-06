@@ -1118,6 +1118,11 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("ADDHAND", $player, "-", 1);
           AddDecisionQueue("REVEALCARDS", $player, "-", 1);
         break;
+      case "7488326298"://Sifo-Dyas
+        AddDecisionQueue("SETDQCONTEXT", $player, "Choose any number of Clone units with combined cost 4 or less.");
+        AddDecisionQueue("SEARCHDECKTOPX", $player, "8;99;include-definedType-Unit&include-maxCost-4&include-trait-Clone");
+        AddDecisionQueue("SPECIFICCARD", $player, "SIFODYAS_LOF", 1);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -3627,7 +3632,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 2 damage to", 1);
-      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1); 
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "DEALDAMAGE,2,$mainPlayer,1", 1);
       break;
     case "8426772148"://Watto
