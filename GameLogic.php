@@ -938,9 +938,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $captives = $ally->GetCaptives(true);
           $rv = [];
           for ($i = 0; $i < count($captives); $i += SubcardPieces()) {
-            $subcard = new SubCard($ally, $i);
-            if ($subcard->Owner() == $player) {
-              $rv[] = $subcard->CardID();
+            if ($captives[$i+1] == $player) {
+              $rv[] = $captives[$i];
             }
           }
           $rv = implode(",", $rv);

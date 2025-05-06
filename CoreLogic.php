@@ -5894,21 +5894,23 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "2872203891,HAND", 1);
       break;
-    case "0693815329"://Cad Bane
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "8");
-      AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
-      for($i=0; $i<3; ++$i) {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:maxHealth={0}", 1);
-        AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1", 1);
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to capture (Max HP: {0})", 1);
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SETDQVAR", $currentPlayer, "1", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "GETHEALTH", 1);
-        AddDecisionQueue("DECDQVAR", $currentPlayer, "0", 1);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{1}", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "CAPTURE," . $playAlly->UniqueID(), 1);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-        AddDecisionQueue("LESSTHANPASS", $currentPlayer, 1, 1);
+    case "0693815329"://Cad Bane (Hostage Taker)
+      if($from != "PLAY") {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "8");
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
+        for($i=0; $i<3; ++$i) {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:maxHealth={0}", 1);
+          AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1", 1);
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to capture (Max HP: {0})", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("SETDQVAR", $currentPlayer, "1", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "GETHEALTH", 1);
+          AddDecisionQueue("DECDQVAR", $currentPlayer, "0", 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{1}", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "CAPTURE," . $playAlly->UniqueID(), 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+          AddDecisionQueue("LESSTHANPASS", $currentPlayer, 1, 1);
+        }
       }
       break;
     case "8418001763"://Huyang

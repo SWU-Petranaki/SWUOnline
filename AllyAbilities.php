@@ -140,12 +140,12 @@ function CheckUniqueCard($cardID, $allyUniqueID, $reportMode = false) {
         $uniqueAllyInPlay = $otherAlly;
         break;
       } else { //check for upgrades/pilots
-        $upgrades = $otherAlly->GetUpgrades(withMetadata:true);
+        $subcards = $otherAlly->GetSubcards();
 
-        for ($j = 0; $j < count($upgrades); $j+=SubcardPieces()) {
+        for ($j = 0; $j < count($subcards); $j+=SubcardPieces()) {
           $subcard = new SubCard($otherAlly, $j);
           if ($subcard->IsCaptive()) continue; // Ignore captives
-          if ($subcard->CardID() == $cardID && $subcard->Owner() == $player && $subcard->UniqueID() != $playedUniqueID) { // TODO: we should check for controller instead of owner
+          if ($subcard->CardID() == $cardID && $subcard->Owner() == $player && $subcard->UniqueID() != $playedUniqueID) {
             $uniqueAllyInPlay = $otherAlly;
             break;
           }
@@ -486,8 +486,10 @@ function DestroyAlly($player, $index,
     if($upgradesWithOwnerData[$i] == "8752877738" || $upgradesWithOwnerData[$i] == "2007868442") continue; // Skip Shield and Experience tokens
     if($upgradesWithOwnerData[$i] == "6911505367") $discardPileModifier = "TTFREE";//Second Chance
     if($upgradesWithOwnerData[$i] == "5942811090") {//Luke Skywalker (You Still With Me?)
-      $subcard = new SubCard($ally, $i);
-      AddLayer("TRIGGER", $subcard->Owner(), $subcard->CardID(), $subcard->TurnsInPlay()); // We're adding a trigger to prevent bugs with A New Adventure, which clears the DQ after playing the card.
+      $owner = $upgradesWithOwnerData[$i+1];
+      $cardID = $upgradesWithOwnerData[$i];
+      $turnsInPlay = $upgradesWithOwnerData[$i+5];
+      AddLayer("TRIGGER", $owner, $cardID, $turnsInPlay); // We're adding a trigger to prevent bugs with A New Adventure, which clears the DQ after playing the card.
     }
     if(!CardIdIsLeader($upgradesWithOwnerData[$i]))
       AddGraveyard($upgradesWithOwnerData[$i], $upgradesWithOwnerData[$i+1], "PLAY");
@@ -3323,7 +3325,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SABINEWREN_TWI", 1);
       break;
     case "0693815329"://Cad Bane (Hostage Taker)
-      RescueUnit($mainPlayer == 1 ? 2 : 1, "THEIRALLY-" . $attackerIndex, may:true, onlyOwned:true);
+      RescueUnit($otherPlayer, "THEIRALLY-" . $attackerIndex, may:true, onlyOwned:true);
       AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
       AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
       break;
