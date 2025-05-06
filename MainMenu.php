@@ -366,6 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const createGameButton = document.getElementById('createGameButton');
     const deckFeedback = document.getElementById('deckFeedback');
     const globalTooltip = document.getElementById('global-tooltip');
+    const userLoggedIn = <?php echo isset($_SESSION["userid"]) ? 'true' : 'false'; ?>;
 
     // Initialize with current value
     if(deckLinkInput && fabdbHidden) {
@@ -384,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Connect favorite decks dropdown to the form
-    if(favoriteDecksSelect && favoriteDeckHidden) {
+    if(userLoggedIn && favoriteDecksSelect && favoriteDeckHidden) {
         favoriteDecksSelect.addEventListener('change', function() {
             var selectedValue = favoriteDecksSelect.value;
             favoriteDeckHidden.value = selectedValue;
@@ -403,7 +404,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(selectedIndex) {
                     // Update user setting via AJAX
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'api/UpdateMyPlayerSetting.php?piece=<?= $SET_FavoriteDeckIndex ?>&value=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?>', true);
+                    xhr.open('GET', 'api/UpdateMyPlayerSetting.php?piece=<?= $SET_FavoriteDeckIndex ?>&value=' + selectedIndex + '&userid=<?= $_SESSION["userid"] ?? ''?>', true);
                     xhr.send();
                 }
             }

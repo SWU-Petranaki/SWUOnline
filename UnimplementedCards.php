@@ -18,7 +18,7 @@ $cardsList = [];
     background-attachment: fixed;
   }
 </style>
-
+<meta name="format-detection" content="telephone=no" />
 <div class="core-wrapper" style="height: auto; padding-bottom: 40px;">
     <div class="game-browser-wrapper">
       <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px; margin-bottom: 20px;">
