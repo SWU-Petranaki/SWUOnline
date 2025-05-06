@@ -89,6 +89,16 @@ if (!empty($_SESSION['error'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petranaki</title>
+    <style>
+        /* Tooltip fade-in animation */
+        #global-tooltip {
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        #global-tooltip.show-tooltip {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
 <div class="site-container">
@@ -489,8 +499,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Position tooltip at fixed position relative to the icon
                     const rect = helpIcon.getBoundingClientRect();
                     globalTooltip.innerHTML = tooltipContent;
-                    // Make the tooltip visible
+                    // Make the tooltip visible with fade-in animation
                     globalTooltip.style.display = 'block';
+                    globalTooltip.classList.remove('show-tooltip');
+                    // Add the show-tooltip class after a brief delay to trigger the fade-in animation
+                    setTimeout(() => {
+                      globalTooltip.classList.add('show-tooltip');
+                    }, 10);
                     
                     // Mobile: show below icon, Desktop: show above
                     if (window.innerWidth <= 768) {
