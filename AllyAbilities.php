@@ -1105,6 +1105,14 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       case "1636013021":
         SavageOpressLOF($player);
         break;
+      case "1270747736"://Qui-Gon Jinn unit
+        AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
+        AddDecisionQueue("MZFILTER", $player, "leader=1");
+        AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a non-leader ground unit");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+        AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+        AddDecisionQueue("SPECIFICCARD", $player, "QUIGONJINN_UNIT_LOF", 1);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
