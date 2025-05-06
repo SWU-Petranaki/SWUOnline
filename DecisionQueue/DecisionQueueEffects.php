@@ -302,6 +302,20 @@ function ModalAbilities($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, $yularenUniqueID, 1);
       AddDecisionQueue("ADDLIMITEDPERMANENTEFFECT", $player, "$effectName,HAND," . $player, 1);
       return $yularenUniqueID;
+    case "WATTO": 
+      switch($lastResult) {
+        case 0: // Give experience
+          AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY");
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give experience");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+          AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
+          break;
+        case 1: // Draw a Card
+          Draw($player);
+          break;
+        default: break;
+      }
+      return $lastResult;
     default: return "";
   }
   //ModalAbilities end
