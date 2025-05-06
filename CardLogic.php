@@ -686,7 +686,9 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       $cardID = $params[1];
       $from = $params[2];
       $resourcesPaid = $params[3];
-      ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid);
+      if(GetAttackTarget() != "NA") {
+        ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid);
+      }
       break;
     case "AMBUSH":
       $ally = new Ally($uniqueID);
