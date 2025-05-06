@@ -1275,6 +1275,7 @@ function ResolveCombatDamage($damageDone)
   global $CS_HitsWithSword;
   $wasHit = $damageDone > 0;
 
+
   PrependLayer("FINALIZECHAINLINK", $mainPlayer, "0");
 
   WriteLog("Combat resulted in <span style='color:Crimson;'>$damageDone damage</span>");
@@ -1378,6 +1379,7 @@ function FinalizeChainLink($chainClosed = false)
   global $turn, $actionPoints, $combatChain, $mainPlayer, $currentTurnEffects, $currentPlayer, $combatChainState, $actionPoints, $CCS_DamageDealt;
   global $mainClassState, $CCS_GoesWhereAfterLinkResolves, $CS_LastAttack, $CCS_LinkTotalAttack, $CS_NumSwordAttacks, $chainLinks, $chainLinkSummary;
   global $CS_AnotherWeaponGainedGoAgain, $CCS_HitThisLink, $initiativeTaken, $CS_PlayedAsUpgrade;
+  global $CCS_CachedLastDestroyed;
   $chainClosed = true;
   UpdateGameState($currentPlayer);
   BuildMainPlayerGameState();
@@ -1439,9 +1441,13 @@ function FinalizeChainLink($chainClosed = false)
   CopyCurrentTurnEffectsFromCombat();
   $hasChainedAction = FinalizeChainLinkEffects();
   ProcessAfterCombatLayer();
-
   //Don't change state until the end, in case it changes what effects are active
-  SetClassState($mainPlayer, $CS_LastAttack, $combatChain[0]);
+  if($combatChainState[$CCS_CachedLastDestroyed] != "NA") {
+    $myAttacker = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
+    SetClassState($mainPlayer, $CS_LastAttack, $myAttacker->CardID());
+  } else {
+    SetClassState($mainPlayer, $CS_LastAttack, $combatChain[0]);
+  }
 
   $combatChain = [];
   if ($chainClosed) {

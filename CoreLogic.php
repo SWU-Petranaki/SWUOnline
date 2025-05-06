@@ -6964,6 +6964,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
       }
       break;
+    case "4389144613"://Grogu
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Move Damage") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=1&THEIRALLY:damagedOnly=1");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal damage from");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "GROGU_LOF", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

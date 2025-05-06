@@ -808,6 +808,8 @@ function HasAmbush($cardID, $player, $index, $from)
     case "2913957813"://Eager Escort Fighter
     case "0728753133"://The Starhawk
     case "9667260960"://Retrofitted Airspeeder
+    //Legends of the Force
+    case "1270747736"://Qui-Gon Jinn unit
       return true;
 
     //conditional ambush
@@ -1040,8 +1042,9 @@ function HasHidden($cardID, $player, $index) {
   switch($cardID) {
     //Legends of the Force
     case "3967581160"://Anakin Skywalker
+    case "4389144613"://Grogu
       return true;
-    case "5387ca4af6":
+    case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
     default: break;
   }
@@ -1515,6 +1518,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "3357344238"://Third Sister Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "4389144613"://Grogu
+      return "A,AA";
     default: return "";
   }
 }
@@ -1852,6 +1857,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Experience";
     case "3357344238"://Third Sister Leader
       return LeaderAbilitiesIgnored() ? "" : "Play";
+    case "4389144613"://Grogu
+      return "Move Damage,Attack";
     default: return "";
   }
 }
