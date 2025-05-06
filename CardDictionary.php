@@ -471,6 +471,8 @@ function HasSentinel($cardID, $player, $index)
       global $CS_NumForcePlayed;
       if(GetClassState($player, $CS_NumForcePlayed) > 0) return true;
       break;
+    case "5573238875"://Jedi Sentinel
+      return HasTheForce($player);
     default: break;
   }
   //The Ghost JTL

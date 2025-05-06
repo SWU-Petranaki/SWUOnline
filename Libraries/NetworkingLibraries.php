@@ -2223,7 +2223,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       WriteLog(CardLink($cardID, $cardID) . " does not resolve because it is no longer in play.");
       return;
     }
-    LayerAttackersOnAttackAbilities();
+    LayerAttackersOnAttackAbilities($uniqueID, false);
     $layersHasOnAttack = false;
     for ($i = 0; $i < count($layers); $i += LayerPieces()) {
       if ($layers[$i + 2] == "ONATTACKABILITY") {
@@ -2436,7 +2436,6 @@ function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
         //AuraAttackAbilities($cardID);//FAB
         if ($from == "PLAY" && IsAlly($cardID)) {
           AllyAttackAbilities($cardID);
-          //LayerAttackersOnAttackAbilities();
         }
       }
     } else { //On chain, but not index 0
