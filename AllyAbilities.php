@@ -2415,6 +2415,7 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID=0, $reportMode=false)
     case "b2072f156c"://Darth Maul Leader unit
     case "5472129982"://Luthen Rael
     case "5856307533"://Merrin
+    case "8426772148"://Watto
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3603,7 +3604,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       ObiWanKenobiLOF($mainPlayer, true);
       break;
-case "5856307533"://Merrin
+    case "5856307533"://Merrin
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to deal 2 damage to a unit?");
       AddDecisionQueue("YESNO", $mainPlayer, "-");
       AddDecisionQueue("NOPASS", $mainPlayer, "-");
@@ -3615,6 +3616,13 @@ case "5856307533"://Merrin
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1); 
       AddDecisionQueue("MZOP", $mainPlayer, "DEALDAMAGE,2,$mainPlayer,1", 1);
       break;
+    case "8426772148"://Watto
+      $otherPlayer = $mainPlayer == 1 ? 2 : 1;
+      $options = "They give an experience to a unit;They draw a card";
+      AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose one for your opponent");
+      AddDecisionQueue("CHOOSEOPTION", $otherPlayer, "$cardID&$options");
+      AddDecisionQueue("SHOWOPTIONS", $otherPlayer, "$cardID&$options");
+      AddDecisionQueue("MODAL", $mainPlayer, "WATTO");
     default: break;
   }
 
