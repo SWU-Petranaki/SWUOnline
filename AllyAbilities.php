@@ -2437,6 +2437,7 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID, $reportMode)
           AddCurrentTurnEffect("9667260960", $mainPlayer, from:"PLAY");
         }
       }
+      break;
     //Legends of the Force
     case "b2072f156c"://Darth Maul Leader unit
     case "5472129982"://Luthen Rael
@@ -3595,18 +3596,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "MOVEUPGRADE", 1);
       break;
-    case "9667260960"://Retrofitted Airspeeder //TODO: look into this as layer
-      // This card doesn't have On Attack ability
-      if(IsAllyAttackTarget()) {
-        $target = GetAttackTarget();
-        $defAlly = new Ally($target, $defPlayer);
-        if($defAlly->CurrentArena() == "Space") {
-          AddCurrentTurnEffect("9667260960", $mainPlayer, from:"PLAY");
-        }
-      }
-      break;
     case "2995807621"://Trench Run
-      // This card doesn't have On Attack ability //TODO: look into this as layer
+      // This card doesn't have On Attack ability
       $cardIDs = Mill($defPlayer, 2);
       $cardIDs = explode(",", $cardIDs);
       if (count($cardIDs) > 0) {
