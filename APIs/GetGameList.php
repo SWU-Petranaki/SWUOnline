@@ -70,7 +70,7 @@ if ($handle = opendir($path)) {
           if(true) $response->gamesInProgress[] = $gameInProgress;
         }
       }
-      else if ($currentTime - $lastGamestateUpdate > 300000) //~5 minutes?
+      else if ($currentTime - $lastGamestateUpdate > 300_000) //5 minutes
       {
         if ($autoDeleteGames) {
           deleteDirectory($folder);
@@ -90,10 +90,12 @@ if ($handle = opendir($path)) {
         include 'APIParseGamefile.php';
         $status = $gameStatus;
         UnlockGamefile();
-      } else if ($lastRefresh == "" || $currentTime - $lastRefresh > 900000) //1 hour
+      } else if ($lastRefresh == "" || $currentTime - $lastRefresh > 900_000) //15 minutes
       {
-        deleteDirectory($folder);
-        DeleteCache($gameToken);
+        if ($autoDeleteGames) {
+          deleteDirectory($folder);
+          DeleteCache($gameToken);
+        }
       }
       if(true) {
         $openGame = new stdClass();

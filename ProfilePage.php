@@ -63,7 +63,7 @@ $(document).on('click', '#filterButton', function() {
             box-sizing: border-box;
             overflow: visible !important;
         }
-        
+
         /* Ensure profile content is properly laid out */
         .profile-flex-wrapper {
             display: flex;
@@ -73,32 +73,32 @@ $(document).on('click', '#filterButton', function() {
             padding: 0 20px;
             box-sizing: border-box;
         }
-        
+
         @media screen and (max-width: 768px) {
             .core-wrapper {
                 margin-top: 0px !important; /* More space for mobile header */
                 height: auto !important;
                 min-height: calc(100vh - 220px) !important;
             }
-            
+
             .profile-flex-wrapper {
                 flex-direction: column;
                 gap: 20px;
                 padding: 0 10px;
             }
-            
+
             .fav-decks, .profile-set-settings-wrapper {
                 width: 100% !important;
                 max-width: 100% !important;
                 margin: 0 0 15px 0 !important;
             }
-            
+
             .fav-decks.container, .profile-set-settings.container {
                 width: 100%;
                 margin: 0 0 15px 0 !important;
                 padding: 15px;
             }
-            
+
             .disclaimer {
                 left: 0;
                 right: 0;
@@ -150,7 +150,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
 
       // SWUStats Login Button
       include_once './APIKeys/APIKeys.php';
-      
+
       $userData = isset($_SESSION["useruid"]) ? LoadUserData($_SESSION["useruid"]) : NULL;
       $swuStatsLinked = isset($userData) && $userData["swustatsAccessToken"] != null;
 
@@ -165,7 +165,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
         echo '<a href="./AccountFiles/SWUStatsUnlink.php"><button style="background:#d9534f;color:#fff;height:40px;">Unlink SWUStats</button></a>';
         echo '<br><br>';
       }
-      
+
       if($swuStatsLinked) {
         echo "<h2>Favorite Decks</h2>";
         echo '<div style="background-color: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;">';
@@ -209,7 +209,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
             }
             var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
             ajaxLink += "&piece=" + <?php echo ($SET_FavoriteDeckIndex); ?>;
-            xmlhttp += `&value=${deckIndex}`;
+            ajaxLink += `&value=${deckIndex}`;
             xmlhttp.open("GET", ajaxLink, true);
             xmlhttp.send();
           }
@@ -222,7 +222,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
             }
             var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
             ajaxLink += "&piece=" + <?php echo ($SET_Cardback); ?>;
-            xmlhttp += `&value=${cardback}`;
+            ajaxLink += `&value=${cardback}`;
             xmlhttp.open("GET", ajaxLink, true);
             xmlhttp.send();
           }
@@ -235,7 +235,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
             }
             var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
             ajaxLink += "&piece=" + <?php echo ($SET_Background); ?>;
-            xmlhttp += `&value=${background}`;
+            ajaxLink += `&value=${background}`;
             xmlhttp.open("GET", ajaxLink, true);
             xmlhttp.send();
           }
