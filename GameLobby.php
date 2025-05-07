@@ -291,7 +291,8 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
             $material = GetArray($handler);
             $playerAspects = explode(",", CardAspects($material[1]));
             $base = $material[0];
-            $canSwapOutForceBase = Formats::$PreviewFormat && !IsRareBase($base)
+
+            $canSwapOutForceBase = $parsedFormat == Formats::$PreviewFormat && !IsRareBase($base)
               && $base != "0119018087" && $base != "0450346170";
             echo ("<input type='hidden' id='playerAspect' name='playerAspect' value='" . $playerAspects[0] . "'>");
             echo ("<div style='position:relative; display: inline-block;'>");
