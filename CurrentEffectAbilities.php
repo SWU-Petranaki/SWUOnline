@@ -310,19 +310,7 @@ function RemoveEffectsOnChainClose()
 
 function OnAttackEffects($attack)
 {
-  global $currentTurnEffects, $mainPlayer, $defPlayer;
-  $attackType = CardType($attack);
-  for($i = count($currentTurnEffects) - CurrentTurnPieces(); $i >= 0; $i -= CurrentTurnPieces()) {
-    $remove = false;
-    if($currentTurnEffects[$i + 1] == $mainPlayer) {
-      switch($currentTurnEffects[$i]) {
 
-        default:
-          break;
-      }
-    }
-    if($remove) RemoveCurrentTurnEffect($i);
-  }
 }
 
 function CurrentEffectBaseAttackSet($cardID)
