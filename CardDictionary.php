@@ -1066,6 +1066,7 @@ function HasHidden($cardID, $player, $index) {
     case "4389144613"://Grogu
     case "3995900674"://Tuk'ata
     case "6082085272"://Forged Starfighter
+    case "9999999990"://Attuned Fyrnock
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
