@@ -2447,6 +2447,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "5856307533"://Merrin
     case "8426772148"://Watto
     case "8496493030"://Sycthe
+    case "9999999999"://Ezra LOF
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3625,6 +3626,13 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, "WRITECHOICE", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "8496493030,HAND", 1);
+      break;
+    case "9999999999"://Ezra LOF
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Creature||MYALLY:trait=Spectre&THEIRALLY:trait=Creature||THEIRALLY:trait=Spectre");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to add experience");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       break;
     default: break;
   }
