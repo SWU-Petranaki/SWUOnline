@@ -49,6 +49,8 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-" . 47, "Aixopluc Squadron", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 48, "Kaloret Warriors", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 49, "Ruthless Raiders", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-" . 50, "Bordure Exterieure", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+
   return $rv;
 }
 

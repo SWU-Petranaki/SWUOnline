@@ -195,6 +195,10 @@ $cardBack = new stdClass();
 $cardBack->name = "Ruthless Raiders";
 $cardBack->id = 49;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Bordure Exterieure";
+$cardBack->id = 50;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {

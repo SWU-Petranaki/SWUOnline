@@ -334,6 +334,7 @@ function GetCardBack($player, $index="")
     47 => "Aixopluc_Squadron",
     48 => "KW",
     49 => "RR",
+    50 => "Bordure_Exterieure",
     default => "CardBack",
   };
 }
