@@ -2066,7 +2066,8 @@ function IsAlly($cardID, $player="")
 }
 
 //NOTE: This is for the actual attack abilities that allies have
-function LayerAttackersOnAttackAbilities($attackerUniqueID, $reportMode)
+//REMARKS: could be "while attacking" or "on attack" abilities
+function WhileAttackingAbilities($attackerUniqueID, $reportMode)
 {
   global $mainPlayer, $defPlayer, $combatChainState, $CCS_WeaponIndex, $initiativePlayer, $currentTurnEffects;
   $totalOnAttackAbilities = 0;
@@ -2470,17 +2471,9 @@ function LayerAttackersOnAttackAbilities($attackerUniqueID, $reportMode)
   for ($i =  0; $i < count($currentTurnEffects); $i += CurrentTurnEffectPieces()) {
     switch ($currentTurnEffects[$i]) {
       case "2995807621"://Trench Run
-        // This card doesn't have On Attack ability
-        $cardIDs = Mill($defPlayer, 2);
-        $cardIDs = explode(",", $cardIDs);
-        if (count($cardIDs) > 0) {
-          $damage = CardCost($cardIDs[0]);
-          if (count($cardIDs) > 1) {
-            $damage = abs($damage - CardCost($cardIDs[1]));
-          }
-        }
-        AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->MZIndex());
-        AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder($damage, $mainPlayer, isUnitEffect:true, isPreventable:false));
+        $totalOnAttackAbilities++;
+        if ($reportMode) break;
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $currentTurnEffects[$i]);
         break;
       default: break;
     }
@@ -2914,22 +2907,6 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 1 damage", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "DEALDAMAGE,1,$mainPlayer", 1);
-      break;
-    case "5464125379"://Strafing Gunship //TODO: see if this should get layered
-      // This card doesn't have On Attack ability
-      if(IsAllyAttackTarget()) {
-        $target = GetAttackTarget();
-        $defAlly = new Ally($target, $defPlayer);
-        if($defAlly->CurrentArena() == "Ground") {
-          AddCurrentTurnEffect("5464125379", $defPlayer, from:"PLAY");
-        }
-      }
-      break;
-    case "5445166624"://Clone Dive Trooper
-      // This card doesn't have On Attack ability
-      if (IsCoordinateActive($mainPlayer)) {
-        AddCurrentTurnEffect("5445166624", $defPlayer, from:"PLAY");
-      }
       break;
     case "9725921907"://Kintan Intimidator
       if(IsAllyAttackTarget()) {
@@ -3436,13 +3413,11 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       CreateTieFighter($mainPlayer);
       break;
     case "6390089966"://Banshee
-      AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->MZIndex());
-      AddDecisionQueue("MZOP", $mainPlayer, "GETDAMAGE");
-      AddDecisionQueue("SETDQVAR", $mainPlayer, 0);
+      $currentDamage = $attackerAlly->Damage();
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal {0} damage to");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal $currentDamage damage to");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder("{0}", $mainPlayer, isUnitEffect:1), 1);
+      AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder($currentDamage, $mainPlayer, isUnitEffect:1), 1);
       break;
     case "7831643253"://Red Squadron Y-Wing
       IndirectDamage($attackID, $mainPlayer, 3, true, $attackerAlly->UniqueID(), targetPlayer: $defPlayer);
@@ -3597,7 +3572,6 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, "MOVEUPGRADE", 1);
       break;
     case "2995807621"://Trench Run
-      // This card doesn't have On Attack ability
       $cardIDs = Mill($defPlayer, 2);
       $cardIDs = explode(",", $cardIDs);
       if (count($cardIDs) > 0) {

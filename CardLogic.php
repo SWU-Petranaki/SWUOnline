@@ -703,6 +703,8 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       $from = $params[2];
       $resourcesPaid = $params[3];
       if(GetAttackTarget() != "NA") {
+        global $CS_PlayIndex;
+        SetClassState($player, $CS_PlayIndex, Ally::FromUniqueId($uniqueID)->Index());
         ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid);
       }
       break;

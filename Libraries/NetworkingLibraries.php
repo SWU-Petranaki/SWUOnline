@@ -2223,7 +2223,10 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       WriteLog(CardLink($cardID, $cardID) . " does not resolve because it is no longer in play.");
       return;
     }
-    LayerAttackersOnAttackAbilities($uniqueID, reportMode: false);
+    $attacker = new Ally(AttackerMZID($currentPlayer), $currentPlayer);
+    $attackerUniqueID = $attacker->UniqueID();
+    $attackerCardID = $attacker->CardID();
+    WhileAttackingAbilities($attackerUniqueID, reportMode: false);
     $layersHasOnAttack = false;
     for ($i = 0; $i < count($layers); $i += LayerPieces()) {
       if ($layers[$i + 2] == "ONATTACKABILITY") {
@@ -2233,7 +2236,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
     }
     if($layersHasOnAttack) {
       $turn[0] = "INSTANT";
-      $params = implode(",", [$uniqueID, $cardID, $from, $resourcesPaid]);
+      $params = implode(",", [$attackerUniqueID, $attackerCardID, $from, $resourcesPaid]);
       AddLayer("TRIGGER", $currentPlayer, "CONTINUECOMBAT", $params);
       return;
     } else {

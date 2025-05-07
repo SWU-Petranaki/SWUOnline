@@ -4405,7 +4405,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6544277158"://Hotshot Maneuver
       if ($target != "-") {
         $ally = new Ally($target);
-        $totalOnAttackAbilities = LayerAttackersOnAttackAbilities($ally->UniqueID(), reportMode:true);
+        $totalOnAttackAbilities = WhileAttackingAbilities($ally->UniqueID(), reportMode:true);
         $totalOnAttackAbilities += RestoreAmount($ally->CardID(), $ally->Controller(), $ally->Index()) > 0 ? 1 : 0;
         $totalOnAttackAbilities += HasSaboteur($ally->CardID(), $ally->Controller(), $ally->Index()) ? 1 : 0;
 
