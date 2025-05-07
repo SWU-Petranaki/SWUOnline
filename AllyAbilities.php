@@ -2085,6 +2085,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   switch($myBase) {
     case "0119018087"://Shadowed Undercity
     case "0450346170"://Jedi Temple
+    case "zzzzzzz002"://red force base 28 HP
+    case "zzzzzzz003"://yellow force base 28 HP
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
         TheForceIsWithYou($mainPlayer);
     break;

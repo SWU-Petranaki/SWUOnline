@@ -114,7 +114,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap" rel="stylesheet">
   <style>
     <?php include 'PlayerColors.php' ?>
-    
+
     /* Fixed layout for the lobby panes */
     .lobby-wrapper {
       display: grid;
@@ -122,7 +122,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       gap: 10px;
       height: calc(100vh - 80px); /* Adjust height to fit viewport minus header/footer */
     }
-    
+
     /* Make all container panes scrollable */
     .game-lobby, .player-info, .deck-info {
       display: flex;
@@ -130,7 +130,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       max-height: 100%;
       overflow: hidden;
     }
-    
+
     /* Setup panel and chat panel in first column */
     .game-set-up {
       flex: 0 0 auto; /* Don't grow, don't shrink, auto height */
@@ -138,23 +138,23 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       overflow-y: auto;
       max-height: 40vh;
     }
-    
+
     .chat-log {
       flex: 1 1 auto; /* Grow, shrink, auto height */
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
-    
+
     .gamelog {
       flex: 1;
       overflow-y: auto;
     }
-    
+
     .chatbox {
       flex: 0 0 auto;
     }
-    
+
     /* Ensure the player pane doesn't get too narrow but not too wide either */
     .player-info {
       min-width: 150px;
@@ -162,18 +162,18 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       width: 100%;
       overflow-y: auto;
     }
-    
+
     /* Make deck info scrollable */
     .deck-info {
       overflow-y: auto;
     }
-    
+
     /* Adjust the card display in the player pane */
     .player-info img {
       max-width: 100%;
       height: auto;
     }
-    
+
     /* Ensure the deck display doesn't overlap */
     .deck-display {
       display: flex;
@@ -183,7 +183,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       overflow-y: auto;
       max-height: calc(100vh - 220px);
     }
-    
+
     /* Consistent card spacing */
     .deck-display > span {
       margin: 0;
@@ -191,29 +191,29 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       display: inline-block;
       box-sizing: border-box;
     }
-    
+
     /* For mobile views, stack all panes vertically with full-page scrolling */
     @media (max-width: 1024px) {
       body {
         overflow-y: auto;
       }
-      
+
       .lobby-wrapper {
         grid-template-columns: 1fr;
         height: auto;
         overflow-y: visible;
       }
-      
+
       .game-lobby, .player-info, .deck-info {
         max-height: none;
         overflow: visible;
       }
-      
+
       .game-set-up, .chat-log, .gamelog, .deck-display {
         max-height: none;
         overflow: visible;
       }
-      
+
       .player-info {
         max-width: 100%;
       }
@@ -290,14 +290,20 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
           if ($handler) {
             $material = GetArray($handler);
             $playerAspects = explode(",", CardAspects($material[1]));
+            $base = $material[0];
+            $canSwapOutForceBase = Formats::$PreviewFormat && !IsRareBase($base)
+              && $base != "0119018087" && $base != "0450346170";
             echo ("<input type='hidden' id='playerAspect' name='playerAspect' value='" . $playerAspects[0] . "'>");
-
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[1]) : "");
             echo (Card($material[1], "CardImages", ($isMobile ? 100 : 250), 0, 1, 0, 0, 0, "", "", true));
             if ($overlayURL != "")
               echo ("<img title='Portrait' style='position:absolute; z-index:1001; top: 27px; left: 0px; cursor:pointer; height:" . ($isMobile ? 100 : 250) . "; width:100%;' src='" . $overlayURL . "' />");
             echo ("</div>");
+
+            if($canSwapOutForceBase) {
+              echo "<input class='GameLobby_Button' type='button' value='Swap Out Force Base' onclick='SwapOutForceBase()'>";
+            }
 
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[0]) : "");
@@ -482,6 +488,23 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       ajaxLink += "&action=" + action;
       ajaxLink += <?php echo ("\"&authKey=" . $authKey . "\""); ?>;
         xmlhttp.open("GET", ajaxLink, true);
+      xmlhttp.send();
+    }
+
+    function SwapOutForceBase(base) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = JSON.parse(this.responseText);
+          if (response.success) {
+            alert("Force Base swapped out successfully!");
+            location.reload();
+          } else {
+            alert("Failed to swap out Force Base");
+          }
+        }
+      };
+      xmlhttp.open("GET", "SwapOutForceBase.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&authKey=<?php echo ($authKey); ?>&base=" + base, true);
       xmlhttp.send();
     }
   </script>
