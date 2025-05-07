@@ -25,12 +25,12 @@ if ($handle = opendir($path)) {
   while (false !== ($folder = readdir($handle))) {
     if ('.' === $folder) continue;
     if ('..' === $folder) continue;
-    
+
     $gameToken = $folder;
     $folder = $path . "/" . $folder . "/";
     $gs = $folder . "gamestate.txt";
     $currentTime = round(microtime(true) * 1000);
-    
+
     if (file_exists($gs)) {
       $lastGamestateUpdate = intval(GetCachePiece($gameToken, 6));
       if ($currentTime - $lastGamestateUpdate < 30000) {
@@ -53,10 +53,10 @@ if ($handle = opendir($path)) {
           $format = GetCachePiece($gameToken, 13);
           $gameInProgress->format = $format;
           $gameInProgress->formatName = FormatDisplayName($format);
-          
+
           $response->gamesInProgress[] = $gameInProgress;
         }
-      } else if ($currentTime - $lastGamestateUpdate > 900000) { // ~15 minutes
+      } else if ($currentTime - $lastGamestateUpdate > 900_000) { //15 minutes
         if ($autoDeleteGames) {
           deleteDirectory($folder);
           DeleteCache($gameToken);
