@@ -2226,7 +2226,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
     $attacker = new Ally(AttackerMZID($currentPlayer), $currentPlayer);
     $attackerUniqueID = $attacker->UniqueID();
     $attackerCardID = $attacker->CardID();
-    LayerAttackersOnAttackAbilities($attackerUniqueID, reportMode: false);
+    WhileAttackingAbilities($attackerUniqueID, reportMode: false);
     $layersHasOnAttack = false;
     for ($i = 0; $i < count($layers); $i += LayerPieces()) {
       if ($layers[$i + 2] == "ONATTACKABILITY") {
