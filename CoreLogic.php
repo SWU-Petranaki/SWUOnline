@@ -6906,6 +6906,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       }
       break;
+    case "8304104587"://Kanan Jarrus Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Shield") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Creature&MYALLY:trait=Spectre");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give a shield token to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);

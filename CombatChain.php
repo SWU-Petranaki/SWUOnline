@@ -284,7 +284,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
     case "5763330426"://The Ghost JTL (with Phantom II)
       $modifier += $ally->HasUpgrade("5306772000") ? 3 : 0;
       break;
-    //Legacy of the Force
+    //Legends of the Force
     case "1540696516"://Scimitar
       $modifier += ($ally->Damage() > 0) ? 3 : 0;
       break;
@@ -298,6 +298,13 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       break;
     case "4082337781"://Sith Legionnaire
       $modifier += (SearchCount(SearchAllies($player, aspect:"Villainy")) > 1) ? 2 : 0;
+      break;
+    case "fadc48bab2"://Kanan Jarrus Leader unit
+      if(LeaderAbilitiesIgnored()) break;
+      //see note in AllyHasStaticHealthModifier about potentially needing to check if Kanan becomes a Creature
+      $atLeastOneCreature = SearchCount(SearchAllies($player, trait:"Creature")) > 0;
+      $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
+      $modifier += ($atLeastOneCreature && $atLeastAnotherSpectre) ? 2 : 0;
       break;
     default: break;
   }

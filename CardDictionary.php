@@ -721,7 +721,7 @@ function HasOverwhelm($cardID, $player, $index)
       return SearchCount(SearchAllies($player, trait:"Mandalorian")) > 1;
     case "2948071304"://Vonreg's TIE Interceptor
       return $ally->CurrentPower(reportMode:true) >= 4;
-    //Legacy of the Force
+    //Legends of the Force
     case "1636013021"://Savage Opress
     case "2285555274"://Darth Malak
       return true;
@@ -875,7 +875,8 @@ function HasShielded($cardID, $player, $index)
   switch($cardID)
   {
     //Spark of Rebellion
-    case "b0dbca5c05"://Iden Versio Leader Unit
+    case "b0dbca5c05"://Iden Versio (SOR) Leader Unit
+    case "fadc48bab2"://Kanan Jarrus (LOF) Leader Unit
       return !LeaderAbilitiesIgnored();
     case "0700214503"://Crafty Smuggler
     case "5264521057"://Wilderness Fighter
@@ -911,7 +912,7 @@ function HasShielded($cardID, $player, $index)
     case "3770706835"://Outer Rim Outlaws
     case "2644994192"://Hondo Ohnaka
       return true;
-    //Legacy of the Force
+    //Legends of the Force
     case "3967581160"://Anakin Skywalker
     case "zzzzzzz001"://temp Darth Tyranus
       return true;
@@ -1066,7 +1067,7 @@ function HasHidden($cardID, $player, $index) {
     case "4389144613"://Grogu
     case "3995900674"://Tuk'ata
     case "6082085272"://Forged Starfighter
-    case "9999999990"://Attuned Fyrnock
+    case "1433284352"://Attuned Fyrnock
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
@@ -1166,6 +1167,9 @@ function AbilityCost($cardID)
       return $abilityName == "Deploy" ? 3 : 0;
     case "5306772000"://Phantom II
       return $abilityName == "Dock" ? 1 : 0;
+    //Legends of the Force
+    case "8304104587"://Kanan Jarrus Leader
+      return $abilityName == "Shield" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -1534,6 +1538,7 @@ function CheckJTLAbilityTypes($cardID) {
 
 function CheckLOFAbilityTypes($cardID) {
   switch($cardID) {
+    //leaders
     case "2580909557"://Qui-Gon Jinn Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "0024560758"://Darth Maul Leader
@@ -1542,6 +1547,9 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "3357344238"://Third Sister Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "8304104587"://Kanan Jarrus Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
     case "5482818255"://Jedi Consular
@@ -1875,6 +1883,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
   global $currentPlayer;
 
   switch($cardID) {
+    //leaders
     case "2580909557"://Qui-Gon Jinn Leader
       return LeaderAbilitiesIgnored() ? "" : "Bounce/Play";
     case "0024560758"://Darth Maul Leader
@@ -1883,6 +1892,9 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Experience";
     case "3357344238"://Third Sister Leader
       return LeaderAbilitiesIgnored() ? "" : "Play";
+    case "8304104587"://Kanan Jarrus Leader
+      return LeaderAbilitiesIgnored() ? "" : "Shield";
+    //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
     case "5482818255"://Jedi Consular
@@ -2345,6 +2357,8 @@ function LeaderUnit($cardID) {
       return "d12b136775";
     case "3357344238"://Third Sister
       return "5387ca4af6";
+    case "8304104587"://Kanan Jarrus
+      return "fadc48bab2";
     default: return "";
   }
 }
@@ -2508,6 +2522,8 @@ function LeaderUndeployed($cardID) {
       return "2693401411";
     case "5387ca4af6"://Third Sister
       return "3357344238";
+    case "fadc48bab2"://Kanan Jarrus
+      return "8304104587";
     default: return "";
   }
 }
