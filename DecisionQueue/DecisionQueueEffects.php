@@ -1368,6 +1368,12 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddCurrentTurnEffect("8569501777", $player, "PLAY");
       PlayCard($dqVars[0], "DECK");
       break;
+    case "LUKESKYWALKER_LOF":
+      UseTheForce($player);
+      $luke = Ally::FromUniqueId($parameterArr[1]);
+      $luke->AttachExperience();
+      $luke->AttachShield();
+      break;
     //SpecificCardLogic End
     default: return "";
   }

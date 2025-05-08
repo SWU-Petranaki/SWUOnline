@@ -242,6 +242,7 @@ function AllyHasStaticHealthModifier($cardID)
     case "3213928129"://Clone Combat Squadron
     case "6931439330"://The Ghost SOR (with Phantom II)
     case "5763330426"://The Ghost JTL (with Phantom II)
+    case "fadc48bab2"://Kanan Jarrus (LOF) Leader unit
       return true;
     default: return false;
   }
@@ -253,84 +254,77 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
   if (!$ally->Exists() || $ally->LostAbilities()) {
     return 0;
   }
+  $eachOtherFriendly = $index != $myIndex && $player == $myPlayer;
+  $eachEnemy = $player != $myPlayer;
+  $self = $index == $myIndex && $player == $myPlayer;
 
   switch($myCardID)
   {
     case "1557302740"://General Veers
-      if($index != $myIndex && $player == $myPlayer && TraitContains($cardID, "Imperial", $player)) return 1;
+      if($eachOtherFriendly && TraitContains($cardID, "Imperial", $player)) return 1;
       break;
     case "9799982630"://General Dodonna
-      if($index != $myIndex && $player == $myPlayer && TraitContains($cardID, "Rebel", $player)) return 1;
+      if($eachOtherFriendly && TraitContains($cardID, "Rebel", $player)) return 1;
       break;
     case "4339330745"://Wedge Antilles
-      if($index != $myIndex && $player == $myPlayer && TraitContains($cardID, "Vehicle", $player)) return 1;
+      if($eachOtherFriendly && TraitContains($cardID, "Vehicle", $player)) return 1;
       break;
     case "4511413808"://Follower of the Way
-      if($index == $myIndex && $player == $myPlayer) {
-        if($ally->IsUpgraded()) return 1;
-      }
+      if($self && $ally->IsUpgraded()) return 1;
       break;
     case "2260777958"://41st Elite Corps
-      if($index == $myIndex && $player == $myPlayer) {
-        if(IsCoordinateActive($player)) return 3;
-      }
+      if($self && IsCoordinateActive($player)) return 3;
       break;
     case "2265363405"://Echo
-      if($index == $myIndex && $player == $myPlayer) {
-        if(IsCoordinateActive($player)) return 2;
-      }
+      if($self && IsCoordinateActive($player)) return 2;
       break;
     case "1209133362"://332nd Stalwart
-      if($index == $myIndex && $player == $myPlayer) {
-        if(IsCoordinateActive($player)) return 1;
-      }
+      if($self && IsCoordinateActive($player)) return 1;
       break;
     case "4718895864"://Padawan Starfighter
-      if($index == $myIndex && $player == $myPlayer) {
-        if(SearchCount(SearchAllies($player, trait:"Force"))) return 1;
-      }
+      if($self && SearchCount(SearchAllies($player, trait:"Force"))) return 1;
       break;
     case "3213928129"://Clone Combat Squadron
-      if($index == $myIndex && $player == $myPlayer) {
-        return SearchCount(SearchAllies($player, arena:"Space"))-1;
-      }
+      if($self) return SearchCount(SearchAllies($player, arena:"Space")) - 1;
       break;
     case "3731235174"://Supreme Leader Snoke
-      if($player != $myPlayer) {
-        return !$ally->IsLeader() ? -2 : 0;
-      }
+      if($eachEnemy) return !$ally->IsLeader() ? -2 : 0;
       break;
     case "8418001763"://Huyang
-      if ($player == $myPlayer) {
+      if ($player == $myPlayer)
         return SearchLimitedCurrentTurnEffects($myCardID, $player) == $ally->UniqueID() ? 2 : 0;
-      }
       return 0;
     case "6097248635"://4-LOM
       return ($player == $myPlayer && CardTitle($cardID) == "Zuckuss") ? 1 : 0;
     case "1690726274"://Zuckuss
       return ($player == $myPlayer && CardTitle($cardID) == "4-LOM") ? 1 : 0;
     case "47557288d6"://Captain Rex
-      if($index != $myIndex && $player == $myPlayer && TraitContains($cardID, "Trooper", $player)) return 1;
+      if($eachOtherFriendly && TraitContains($cardID, "Trooper", $player)) return 1;
       break;
     case "0268657344"://Admiral Yularen
-      if($index != $myIndex && $player == $myPlayer && AspectContains($cardID, "Heroism", $player)) return 1;
+      if($eachOtherFriendly && AspectContains($cardID, "Heroism", $player)) return 1;
       break;
     case "9017877021"://Clone Commander Cody
-      if($index != $myIndex && $player == $myPlayer && IsCoordinateActive($player)) return 1;
+      if($eachOtherFriendly && IsCoordinateActive($player)) return 1;
       break;
     case "9811031405"://Victor Leader
-      if($index != $myIndex && $player == $myPlayer && CardArenas($cardID) == "Space") return 1;
+      if($eachOtherFriendly && CardArenas($cardID) == "Space") return 1;
       break;
     case "5052103576"://Resistance X-Wing
-      if($index == $myIndex && $player == $myPlayer) {
-        $ally = new Ally("MYALLY-" . $index, $player);
-        if($ally->HasPilot()) return 1;
-      }
+      if($self && $ally->HasPilot()) return 1;
       break;
     //The Ghost with Phantom II
     case "6931439330"://The Ghost SOR
     case "5763330426"://The Ghost JTL
       return $index == $myIndex && $ally->HasUpgrade("5306772000") ? 3 : 0;
+    //Legends of the Force
+    case "fadc48bab2"://Kanan Jarrus Leader unit
+      //right now nothing gives the Creature trait like Foundling gives Mandalorian.
+      //but if something does, then update this logic to check he's not a Creature himself..
+      $atLeastOneCreature = SearchCount(SearchAllies($player, trait:"Creature")) > 0;
+      $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
+      if($self && ($atLeastOneCreature || $atLeastAnotherSpectre)) return 2;
+      break;
     default: break;
   }
   return 0;
@@ -1855,6 +1849,8 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && DefinedTypesContains($playedCardID, "Unit");
       case "3589814405"://tactical droid commander
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
+      case "7338701361"://Luke Skywalker (A Hero's Beginning)
+        return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
       default: break;
     }
   } else { // When an opponent plays a card
@@ -2016,6 +2012,10 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
             AddDecisionQueue("ADDMZUSES", $player, "-1", 1);
           }
         }
+        break;
+      case "7338701361"://Luke Skywalker (A Hero's Beginning)
+        AddDecisionQueue("YESNO", $player, "if you wish to listen to Ben Kenobi's message. \"Use the Force, Luke...\"<br/>(" . CardLink($cardID, $cardID) . ")");
+        AddDecisionQueue("SPECIFICCARD", $player, "LUKESKYWALKER_LOF,$uniqueID", 1);
         break;
       default: break;
     }
@@ -2447,7 +2447,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "5856307533"://Merrin
     case "8426772148"://Watto
     case "8496493030"://Sycthe
-    case "9999999999"://Ezra LOF
+    case "0726963200"://Ezra LOF
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3627,12 +3627,12 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "8496493030,HAND", 1);
       break;
-    case "9999999999"://Ezra LOF
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Creature||MYALLY:trait=Spectre&THEIRALLY:trait=Creature||THEIRALLY:trait=Spectre");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to add experience");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+    case "0726963200"://Ezra LOF
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Creature&MYALLY:trait=Spectre&THEIRALLY:trait=Creature&THEIRALLY:trait=Spectre");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerAlly->Index());
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to add experience");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
       break;
     default: break;
   }
