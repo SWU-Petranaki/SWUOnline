@@ -304,7 +304,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       //see note in AllyHasStaticHealthModifier about potentially needing to check if Kanan becomes a Creature
       $atLeastOneCreature = SearchCount(SearchAllies($player, trait:"Creature")) > 0;
       $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
-      $modifier += ($atLeastOneCreature && $atLeastAnotherSpectre) ? 2 : 0;
+      $modifier += ($atLeastOneCreature || $atLeastAnotherSpectre) ? 2 : 0;
       break;
     default: break;
   }
