@@ -265,6 +265,34 @@ class Ally {
     return $this->allies[$this->index+1] == 1;
   }
 
+  function CantAttack() {
+    global $currentTurnEffects, $combatChainState, $CCS_CantAttackBase;
+
+    if($this->CardID() == "4332645242" && !$this->LostAbilities())//Corporate Defense Shuttle
+      return true;
+
+    $canAttackBase = $combatChainState[$CCS_CantAttackBase] == 0;
+    $attackTargets = GetTargetsForAttack($this, $canAttackBase);
+    switch($attackTargets) {
+      case "":
+        return true;
+      case "THEIRCHAR-0":
+        return !$canAttackBase;
+      default: break;
+    }
+
+    for($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
+      if($currentTurnEffects[$i+2] != $this->UniqueID()) continue;
+      switch($currentTurnEffects[$i]) {
+        case "3381931079"://Malevolence
+          return true;
+        default: break;
+      }
+    }
+
+    return false;
+  }
+
   function HasShield() {
     $subcards = $this->GetSubcards();
     for($i=0; $i<count($subcards); $i+=SubcardPieces()) {

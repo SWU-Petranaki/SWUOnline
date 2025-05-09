@@ -1217,13 +1217,10 @@ function GetAbilityType($cardID, $index = -1, $from="-")
 
   if($from == "PLAY" && IsAlly($cardID)) {
     $myAllies = GetAllies($currentPlayer);
-    if(isset($myAllies[$index]) && UIDIsAffectedByMalevolence($myAllies[$index + 5])) {
+    if(isset($myAllies[$index]) && Ally::FromUniqueId($myAllies[$index + 5])->CantAttack()) {
       return "";
     }
-    if($cardID == "4332645242") {
-      $ally = new Ally("MYALLY-" . $index, $currentPlayer);
-      if(!$ally->LostAbilities()) return "";//Corporate Defense Shuttle can't attack
-    }
+
     return "AA";
   }
   switch($cardID)
@@ -1280,7 +1277,7 @@ function GetAbilityTypes($cardID, $index = -1, $from="-")
       }
     }
 
-    if(UIDIsAffectedByMalevolence($ally->UniqueID())) {
+    if($ally->CantAttack()) {
       $abilityTypes = FilterOutAttackAbilityType($abilityTypes);
     }
 
@@ -1607,7 +1604,7 @@ function GetAbilityNames($cardID, $index = -1, $validate=false)
       $abilityNames = "Mill," . $abilityNames;
     }
 
-    if(UIDIsAffectedByMalevolence($ally->UniqueID())) {
+    if($ally->CantAttack()) {
       $abilityNames = FilterOutAttackAbilityName($abilityNames);
     }
   }
