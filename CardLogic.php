@@ -225,6 +225,10 @@ function HasFewerUnits($player) {
   return count($allies) < count($theirAllies);
 }
 
+function PlayerHasMalakaliLOF($player) {
+  return SearchCount(SearchAllies($player, "abcdefg002")) > 0;
+}
+
 function CopyCurrentTurnEffectsFromAfterResolveEffects()
 {
   global $currentTurnEffects, $afterResolveEffects;

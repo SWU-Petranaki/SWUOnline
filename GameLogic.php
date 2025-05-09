@@ -758,6 +758,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $sourcePlayer = count($parameterArr) > 2 ? $parameterArr[2] : ($targetPlayer == 1 ? 2 : 1);
           $fromUnitEffect = count($parameterArr) > 3 && (bool)$parameterArr[3];
           $preventable = count($parameterArr) > 4 ? $parameterArr[4] == 1 : 1;
+          $unitCardID = count($parameterArr) > 5 ? $parameterArr[5] : "";
           if($targetArr[0] == "MYALLY" || $targetArr[0] == "THEIRALLY") {
             $isAttackTarget = GetAttackTarget() == $targetMZIndex;
             $isAttacker = AttackerMZID($player) == $targetMZIndex;
@@ -766,7 +767,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             $destroyed = $ally->DealDamage($parameterArr[1],
                 enemyDamage:(count($parameterArr) > 2 && $sourcePlayer != $targetPlayer),
                 fromUnitEffect: $fromUnitEffect,
-                preventable: $preventable);
+                preventable: $preventable,
+                unitCardID: $unitCardID);
 
             if($destroyed) {
               if(($isAttackTarget || $isAttacker) && !$attackerHasOverwhelm) CloseCombatChain();

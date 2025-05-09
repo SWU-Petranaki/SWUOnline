@@ -1904,7 +1904,7 @@ function IgnoreAspectPenalty($cardID, $player, $reportMode) {
 function SelfCostModifier($cardID, $from, $reportMode=false)
 {
   global $currentPlayer, $layers;
-  global $CS_LastAttack, $CS_LayerTarget, $CS_NumClonesPlayed, $CS_PlayedAsUpgrade, $CS_NumWhenDefeatedPlayed;
+  global $CS_LastAttack, $CS_LayerTarget, $CS_NumClonesPlayed, $CS_PlayedAsUpgrade, $CS_NumWhenDefeatedPlayed, $CS_NumCreaturesPlayed;
   global $CS_NumUnitsPlayed;
 
   $modifier = 0;
@@ -2129,6 +2129,9 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
         break;
       case "0728753133"://The Starhawk
         if($reportMode) $modifier -= (CardCost($cardID) + $modifier);//TODO: find a better way to check potential costs
+        break;
+      case "abcdefg002"://Malakili
+        if(GetClassState($currentPlayer, $CS_NumCreaturesPlayed) == 0 && TraitContains($cardID, "Creature")) $modifier -= 1;
         break;
       default: break;
     }
@@ -4631,14 +4634,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("YESNO", $currentPlayer, "-");
       AddDecisionQueue("NOPASS", $currentPlayer, "-");
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYALLY-" . $playAlly->Index(), 1);
-      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:true), 1);
+      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       break;
     case "7157369742"://TIE Dagger Vanguard
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal 2 damage to");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:true), 1);
+      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       break;
     case "5830140660"://Bazine Netal
       AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
@@ -6617,7 +6620,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose units to damage", 1);
         AddDecisionQueue("MULTICHOOSEOURUNITS", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "COMBINEMYANDTHEIRINDICIES", 1);
-        AddDecisionQueue("MULTIDAMAGE", $currentPlayer, DealDamageBuilder(1, $currentPlayer, 1), 1);
+        AddDecisionQueue("MULTIDAMAGE", $currentPlayer, DealDamageBuilder(1, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       }
       break;
     case "6410144226"://Air Superiority
@@ -6944,7 +6947,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZFILTER", $currentPlayer, "status=0");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an exhausted unit to deal 2 damage to");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, 1), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       }
       break;
     case "0102737248"://Refugee of the Path
@@ -7023,7 +7026,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy ground unit to deal 2 damage to");
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, 1), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       }
       break;
     case "7691597101"://Liberated By Darkness
@@ -7305,6 +7308,9 @@ function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $
     if($alsoRest) $theirAllies[$i+1] = 1;
     if($alsoFreeze) $theirAllies[$i+3] = 1;
     $ally->DealDamage($amount, enemyDamage:true);
+  }
+  if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($source, "Creature")) {
+    return;
   }
   $allies = &GetAllies($currentPlayer);
   for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
