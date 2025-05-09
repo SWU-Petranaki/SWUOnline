@@ -6,22 +6,23 @@
 // 2? - Player causing the damage
 // 3? - Indicates if the damage is caused by unit effects (1 = yes, 0 = no)
 // 4? - Indicates if the damage is preventable (1 = yes, 0 = no) (not preventable = indirect)
-function DealDamageBuilder($damage, $sourcePlayer, $isUnitEffect = 0, $isPreventable = 1) {
+// 5? - Unit card ID (optional, used for unit effects)
+function DealDamageBuilder($damage, $sourcePlayer, $isUnitEffect = 0, $isPreventable = 1, $unitCardID = "") {
   $isUnitEffect = $isUnitEffect ? 1 : 0;
   $isPreventable = $isPreventable ? 1 : 0;
-  return "DEALDAMAGE,$damage,$sourcePlayer,$isUnitEffect,$isPreventable";
+  return "DEALDAMAGE,$damage,$sourcePlayer,$isUnitEffect,$isPreventable,$unitCardID";
 }
 
 /**
  * Builds a string for dealing damage to multiple targets
- * 
+ *
  * Parameter structure:
  * 0 - DEALMULTIDAMAGE
  * 1 - Damage amount
  * 2 - Player causing the damage
  * 3 - Indicates if the damage is caused by unit effects (1 = yes, 0 = no)
  * 4 - Indicates if the damage is preventable (1 = yes, 0 = no) (not preventable = indirect)
- * 
+ *
  * @param int $damage The amount of damage to deal
  * @param int $sourcePlayer The player causing the damage
  * @param int $isUnitEffect Whether the damage is caused by unit effects (1 = yes, 0 = no)
@@ -50,7 +51,7 @@ function MultiDistributeDamageStringBuilder($totalDamage, $sourcePlayer, $isUnit
 
 /**
  * Builds a string for assigning indirect damage
- * 
+ *
  * Parameter structure:
  * 0 - ASSIGNINDIRECTDAMAGE
  * 1 - Card ID
@@ -58,7 +59,7 @@ function MultiDistributeDamageStringBuilder($totalDamage, $sourcePlayer, $isUnit
  * 3 - Amount of damage
  * 4 - From unit effect (1 = yes, 0 = no)
  * 5 - Source modifier card ID
- * 
+ *
  * @param string $cardID The ID of the card that caused the indirect damage
  * @param int $sourcePlayer The player causing the indirect damage
  * @param int $amount The amount of damage to assign
@@ -73,12 +74,12 @@ function AssignIndirectDamageBuilder($cardID, $sourcePlayer, $amount, $fromUnitE
 
 /**
  * Builds a string for giving experience to multiple targets
- * 
+ *
  * Parameter structure:
  * 0 - MULTIGIVEEXPERIENCE
  * 1 - Amount of experience
  * 2 - Source player
- * 
+ *
  * @param int $amount The amount of experience to give
  * @param int $sourcePlayer The player giving the experience
  * @return string The formatted experience string for the decision queue

@@ -140,7 +140,8 @@ function ManualCardIsUniqueData() {
 
 function ManualHasWhenPlayedData() {
   return array(
-    'abcdefg005' => 1,
+    'abcdefg003' => true,
+    'abcdefg005' => true,
     //continue manual card when played status
   );
 }
