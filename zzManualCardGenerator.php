@@ -319,7 +319,7 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
       $fileTemp = $_FILES['cardImage']['tmp_name'];
 
       // Create target filename based on the card ID
-      $targetFileName = $fullCardId . '.webp';
+      $targetFileName = $internalId . '.webp';
 
       //the directories where the images will be saved
       $originalDir = __DIR__ . '/Images/';
