@@ -182,6 +182,11 @@ function MZAttack($player, $mzIndexOrUniqueID)
   $mainPlayer = $player;
   $defPlayer = ($player == 1 ? 2 : 1);
   $ally = new Ally($mzIndexOrUniqueID, $player);
+  if($ally->CantAttack()) {
+    WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " can't attack right now. Reverting gamestate.");
+    RevertGamestate();
+    return;
+  }
   $ally->Exhaust();
   SetClassState($player, $CS_CharacterIndex, $ally->Index());
   SetClassState($player, $CS_PlayIndex, $ally->Index());

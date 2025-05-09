@@ -1462,17 +1462,6 @@ function ObiWansAethersprite($player, $index) {
   AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
 }
 
-function UIDIsAffectedByMalevolence($uniqueID) {
-  global $currentTurnEffects;
-
-  $found = false;
-  for($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
-    $found = $found || ($currentTurnEffects[$i] == "3381931079" && $currentTurnEffects[$i+2] == $uniqueID); //Malevolence
-  }
-
-  return $found;
-}
-
 function PilotWasPlayed($player, $cardID) {
   global $CS_PlayedAsUpgrade;
   return TraitContains($cardID, "Pilot", $player) && GetClassState($player, $CS_PlayedAsUpgrade) == 1;

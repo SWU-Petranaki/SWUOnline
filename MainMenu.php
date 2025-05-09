@@ -207,7 +207,7 @@ if (!empty($_SESSION['error'])) {
                 <option value="premierf">Premier Casual</option>
                 <option value="prstrict">Premier (Best of 3)</option>
                 <option value="padawanf">Cantina Brawl</option>
-                <option value="previewf">Preview (LOF)</option>
+                <option value="previewf">Preview (Set 5)</option>
                 <option value="openform">Open Format</option>
               </select>
             </div>
@@ -283,7 +283,7 @@ if (!empty($_SESSION['error'])) {
                 $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
               }
-              echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (LOF)</option>");
+              echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 5)</option>");
               echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
               echo ("</select>");
               ?>
@@ -320,7 +320,7 @@ if (!empty($_SESSION['error'])) {
               <div style='vertical-align:middle; text-align: start;'>
                 <img src="./Images/SWUKeyArt/SWH05_KeyArt.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
                 <h3 style="margin: 15px 0; display: block;">Set 5 Previews Are Underway</h3>
-                <p>We have implemented placeholders for the missing Force Bases in Red and Yellow. To use them, load a deck with a 30-health base in the respective color in the lobby where you have the option to change.</p>               
+                <p>We have implemented placeholders for the missing Force Bases in Red and Yellow. To use them, load a deck with a 30-health base in the respective color in the lobby where you have the option to change.</p>
                 <p>As cards become available on the SWU card database, we will do our best to implement them into Petranaki as soon as possiible.</p>
                 <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">Discord server</a> to stay up-to-date, get the latest news, and share your feedback. Keep being the Legends of the Force that you are!</p>
               </div>
