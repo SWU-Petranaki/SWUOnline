@@ -335,6 +335,7 @@ function GetCardBack($player, $index="")
     48 => "KW",
     49 => "RR",
     50 => "Bordure_Exterieure",
+    51 => "CB_rtchompgg",
     default => "CardBack",
   };
 }
