@@ -18,10 +18,10 @@ function DealDamageBuilder($damage, $sourcePlayer, $isUnitEffect = 0, $isPrevent
  *
  * Parameter structure:
  * 0 - DEALMULTIDAMAGE
- * 1 - Damage amount
- * 2 - Player causing the damage
- * 3 - Indicates if the damage is caused by unit effects (1 = yes, 0 = no)
- * 4 - Indicates if the damage is preventable (1 = yes, 0 = no) (not preventable = indirect)
+ * 1 - Player causing the damage
+ * 2 - Indicates if the damage is caused by unit effects (1 = yes, 0 = no)
+ * 3 - Indicates if the damage is preventable (1 = yes, 0 = no) (not preventable = indirect)
+ * 4 - Unit card ID (optional, used for unit effects)
  *
  * @param int $damage The amount of damage to deal
  * @param int $sourcePlayer The player causing the damage
@@ -29,10 +29,10 @@ function DealDamageBuilder($damage, $sourcePlayer, $isUnitEffect = 0, $isPrevent
  * @param int $isPreventable Whether the damage is preventable (1 = yes, 0 = no)
  * @return string The formatted damage string for the decision queue
  */
-function DealMultiDamageBuilder($sourcePlayer, $isUnitEffect = 0, $isPreventable = 1) {
+function DealMultiDamageBuilder($sourcePlayer, $isUnitEffect = 0, $isPreventable = 1, $unitCardID = "") {
   $isUnitEffect = $isUnitEffect ? 1 : 0;
   $isPreventable = $isPreventable ? 1 : 0;
-  return "DEALMULTIDAMAGE,$sourcePlayer,$isUnitEffect,$isPreventable";
+  return "DEALMULTIDAMAGE,$sourcePlayer,$isUnitEffect,$isPreventable,$unitCardID";
 }
 
 // Parameter structure:
