@@ -225,6 +225,10 @@ function HasFewerUnits($player) {
   return count($allies) < count($theirAllies);
 }
 
+function PlayerHasMalakaliLOF($player) {
+  return SearchCount(SearchAllies($player, "abcdefg002")) > 0;
+}
+
 function CopyCurrentTurnEffectsFromAfterResolveEffects()
 {
   global $currentTurnEffects, $afterResolveEffects;
@@ -1460,17 +1464,6 @@ function ObiWansAethersprite($player, $index) {
   AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player", 1);
   AddDecisionQueue("PASSPARAMETER", $player, "MYALLY-" . $index, 1);
   AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
-}
-
-function UIDIsAffectedByMalevolence($uniqueID) {
-  global $currentTurnEffects;
-
-  $found = false;
-  for($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
-    $found = $found || ($currentTurnEffects[$i] == "3381931079" && $currentTurnEffects[$i+2] == $uniqueID); //Malevolence
-  }
-
-  return $found;
 }
 
 function PilotWasPlayed($player, $cardID) {

@@ -246,8 +246,8 @@ $CS_PreparationCounters = 13;           //free//number
 $CS_NextNAACardGoAgain = 14;            //free//number
 $CS_NumAlliesDestroyed = 15;
 $CS_NumWhenDefeatedPlayed = 16;
-$CS_ResolvingLayerUniqueID = 17;        //free//number
-$CS_NextWizardNAAInstant = 18;          //free//number
+$CS_ResolvingLayerUniqueID = 17;
+$CS_NumCreaturesPlayed = 18;
 $CS_ArcaneDamageTaken = 19;             //free//number
 $CS_NextNAAInstant = 20;                //free//number
 $CS_NextDamagePrevented = 21;           //free//number
@@ -491,7 +491,7 @@ function ResetClassState($player)
 {
   global $CS_NumVillainyPlayed, $CS_PlayedAsUpgrade, $CS_NumUnitsPlayed, $CS_NumNonTokenVehicleAttacks, $CS_DamagePrevention, $CS_CardsDrawn, $CS_NumBountyHuntersPlayed, $CS_NumPilotsPlayed, $CS_NumIndirectDamageGiven;
   global $CS_DamageTaken, $CS_NumForcePlayed, $CS_CharacterIndex, $CS_PlayIndex, $CS_OppIndex, $CS_OppCardActive, $CS_NumNonAttackCards;
-  global $CS_PreparationCounters, $CS_NextNAACardGoAgain, $CS_NumAlliesDestroyed, $CS_NumWhenDefeatedPlayed, $CS_ResolvingLayerUniqueID, $CS_NextWizardNAAInstant;
+  global $CS_PreparationCounters, $CS_NextNAACardGoAgain, $CS_NumAlliesDestroyed, $CS_NumWhenDefeatedPlayed, $CS_ResolvingLayerUniqueID, $CS_NumCreaturesPlayed;
   global $CS_ArcaneDamageTaken, $CS_NextNAAInstant, $CS_NextDamagePrevented, $CS_LastAttack, $CS_PlayCCIndex;
   global $CS_NumLeftPlay, $CS_NumUsesLeaderUpgrade1, $CS_NumUsesLeaderUpgrade2, $CS_AfterPlayedBy, $CS_NumAttackCards, $CS_NumPlayedFromBanish;
   global $CS_NumAttacks, $CS_DieRoll, $CS_NumMandalorianAttacks, $CS_SeparatistUnitsThatAttacked, $CS_NumFighterAttacks, $CS_LayerTarget, $CS_NumSwordAttacks;
@@ -521,7 +521,7 @@ function ResetClassState($player)
   $classState[$CS_NumAlliesDestroyed] = 0;
   $classState[$CS_NumWhenDefeatedPlayed] = 0;
   $classState[$CS_ResolvingLayerUniqueID] = -1;
-  $classState[$CS_NextWizardNAAInstant] = 0;
+  $classState[$CS_NumCreaturesPlayed] = 0;
   $classState[$CS_ArcaneDamageTaken] = 0;
   $classState[$CS_NextNAAInstant] = 0;
   $classState[$CS_NextDamagePrevented] = 0;

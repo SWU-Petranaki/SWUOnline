@@ -846,7 +846,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "8660042329"://Terentatek
       $otherPlayer = $player == 1 ? 2 : 1;
       return HasUnitWithTraitInPlay($otherPlayer, "Force");
-    case "zzzzzzz001"://temp Darth Tyranus
+    case "abcdefg001"://temp Darth Tyranus
       return HasTheForce($player);
     default: break;
   }
@@ -914,7 +914,7 @@ function HasShielded($cardID, $player, $index)
       return true;
     //Legends of the Force
     case "3967581160"://Anakin Skywalker
-    case "zzzzzzz001"://temp Darth Tyranus
+    case "abcdefg001"://temp Darth Tyranus
       return true;
     default: break;
   }
@@ -1217,13 +1217,10 @@ function GetAbilityType($cardID, $index = -1, $from="-")
 
   if($from == "PLAY" && IsAlly($cardID)) {
     $myAllies = GetAllies($currentPlayer);
-    if(isset($myAllies[$index]) && UIDIsAffectedByMalevolence($myAllies[$index + 5])) {
+    if(isset($myAllies[$index]) && Ally::FromUniqueId($myAllies[$index + 5])->CantAttack()) {
       return "";
     }
-    if($cardID == "4332645242") {
-      $ally = new Ally("MYALLY-" . $index, $currentPlayer);
-      if(!$ally->LostAbilities()) return "";//Corporate Defense Shuttle can't attack
-    }
+
     return "AA";
   }
   switch($cardID)
@@ -1280,7 +1277,7 @@ function GetAbilityTypes($cardID, $index = -1, $from="-")
       }
     }
 
-    if(UIDIsAffectedByMalevolence($ally->UniqueID())) {
+    if($ally->CantAttack()) {
       $abilityTypes = FilterOutAttackAbilityType($abilityTypes);
     }
 
@@ -1607,7 +1604,7 @@ function GetAbilityNames($cardID, $index = -1, $validate=false)
       $abilityNames = "Mill," . $abilityNames;
     }
 
-    if(UIDIsAffectedByMalevolence($ally->UniqueID())) {
+    if($ally->CantAttack()) {
       $abilityNames = FilterOutAttackAbilityName($abilityNames);
     }
   }

@@ -141,7 +141,7 @@ class Ally {
           AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=Space&THEIRALLY:arena=Space");
           AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal 1 damage to");
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-          AddDecisionQueue("MZOP", $player, DealDamageBuilder(1, $player, isUnitEffect:1),1);
+          AddDecisionQueue("MZOP", $player, DealDamageBuilder(1, $player, isUnitEffect:1, unitCardID:$this->CardID()),1);
         }
         break;
       default: break;
@@ -265,6 +265,34 @@ class Ally {
     return $this->allies[$this->index+1] == 1;
   }
 
+  function CantAttack() {
+    global $currentTurnEffects, $combatChainState, $CCS_CantAttackBase;
+
+    if($this->CardID() == "4332645242" && !$this->LostAbilities())//Corporate Defense Shuttle
+      return true;
+
+    $canAttackBase = $combatChainState[$CCS_CantAttackBase] == 0;
+    $attackTargets = GetTargetsForAttack($this, $canAttackBase);
+    switch($attackTargets) {
+      case "":
+        return true;
+      case "THEIRCHAR-0":
+        return !$canAttackBase;
+      default: break;
+    }
+
+    for($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnPieces()) {
+      if($currentTurnEffects[$i+2] != $this->UniqueID()) continue;
+      switch($currentTurnEffects[$i]) {
+        case "3381931079"://Malevolence
+          return true;
+        default: break;
+      }
+    }
+
+    return false;
+  }
+
   function HasShield() {
     $subcards = $this->GetSubcards();
     for($i=0; $i<count($subcards); $i+=SubcardPieces()) {
@@ -300,9 +328,9 @@ class Ally {
 
   //Returns true if the ally is destroyed
   function DealDamage($amount, $bypassShield = false, $fromCombat = false, &$damageDealt = NULL,
-      $enemyDamage = false, $fromUnitEffect=false, $preventable=true)
+      $enemyDamage = false, $fromUnitEffect=false, $preventable=true, $unitCardID = "")
   {
-    global $currentTurnEffects;
+    global $currentTurnEffects, $CS_PlayIndex;
     if($this->index == -1 || $amount <= 0) return false;
     if(!$preventable) $bypassShield = true;
     global $mainPlayer;
@@ -310,8 +338,14 @@ class Ally {
     if($fromCombat && !$this->LostAbilities()) {
       if($this->CardID() == "6190335038" && $this->PlayerID() == $mainPlayer && IsCoordinateActive($this->PlayerID())) return false;//Aayla Secura
     }
+
+    if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"abcdefg002")) //Malakili
+        && TraitContains($unitCardID, "Creature")) {
+      $amount = 0;
+    }
+
     //Upgrade damage prevention
-    if($preventable) {
+      if($preventable) {
       $subcards = $this->GetSubcards();
       for ($i = count($subcards) - SubcardPieces(); $i >= 0; $i -= SubcardPieces()) {
         if($subcards[$i] == "8752877738") {//Shield Token

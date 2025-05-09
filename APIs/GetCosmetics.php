@@ -199,6 +199,14 @@ $cardBack = new stdClass();
 $cardBack->name = "Bordure Exterieure";
 $cardBack->id = 50;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "RTchompGG";
+$cardBack->id = 51;
+$response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Les Cartes sur Table";
+$cardBack->id = 52;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {

@@ -668,7 +668,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $targetAlly = new Ally($lastResult, MZPlayerID($player, $lastResult));
       $damage = SearchCount(SearchAllies($player, arena:$targetAlly->CurrentArena()));
       AddDecisionQueue("PASSPARAMETER", $player, $lastResult);
-      AddDecisionQueue("MZOP", $player, DealDamageBuilder($damage,$player,isUnitEffect:1), 1);
+      AddDecisionQueue("MZOP", $player, DealDamageBuilder($damage,$player,isUnitEffect:1,unitCardID:"0827076106"), 1);
       return $lastResult;
     case "LIGHTSPEEDASSAULT":
       $ally = new Ally($lastResult);
@@ -1007,7 +1007,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY", 1);
       AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to deal " . $power . " damage to", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-      AddDecisionQueue("MZOP", $player, DealDamageBuilder($power, $player, isUnitEffect:1), 1);
+      AddDecisionQueue("MZOP", $player, DealDamageBuilder($power, $player, isUnitEffect:1, unitCardID:"8655450523"), 1);
       break;
     case "LETHALCRACKDOWN":
       $enemyAlly = new Ally($lastResult);
@@ -1189,6 +1189,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       break;
     case "VADER_UNIT_JTL":
+      $attackerCardID = $parameterArr[1];
       $pingedAlly = new Ally($lastResult);
       $enemyDamage = str_starts_with($lastResult, "MYALLY-") ? false : true;
       $defeated = $pingedAlly->DealDamage(1, enemyDamage: $enemyDamage, fromUnitEffect:true);
@@ -1197,7 +1198,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("PREPENDLASTRESULT", $player, "MYCHAR-0,THEIRCHAR-0,");
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose something to deal 1 damage to");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-        AddDecisionQueue("MZOP", $player, DealDamageBuilder(1, $player, isUnitEffect:1), 1);
+        AddDecisionQueue("MZOP", $player, DealDamageBuilder(1, $player, isUnitEffect:1, unitCardID:$attackerCardID), 1);
       }
       break;
     case "PAY_READY_TAX":
