@@ -336,6 +336,7 @@ function GetCardBack($player, $index="")
     49 => "RR",
     50 => "Bordure_Exterieure",
     51 => "CB_rtchompgg",
+    52 => "CB_les-cartes-sur-table",
     default => "CardBack",
   };
 }
