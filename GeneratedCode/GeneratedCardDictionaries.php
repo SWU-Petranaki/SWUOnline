@@ -1,5 +1,7 @@
 <?php
+include __DIR__ . '/../ManualDictionaries.php';
 function CardTitle($cardID) {
+  $manualData = ManualCardTitleData();
   $data = array (
   2579145458 => 'Luke Skywalker',
   '0dcb77795c' => 'Luke Skywalker',
@@ -1228,7 +1230,6 @@ function CardTitle($cardID) {
   1545515980 => 'Stinger Mantis',
   1270747736 => 'Qui-Gon Jinn',
   6082085272 => 'Forged Starfighter',
-  'zzzzzzz001' => 'Darth Tyranus',
   1540696516 => 'Scimitar',
   2285555274 => 'Darth Malak',
   9566815036 => 'Darth Revan\'s Lightsabers',
@@ -1252,10 +1253,11 @@ function CardTitle($cardID) {
   5125502286 => 'C-3PO',
   4363379257 => 'Chopper',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardSubtitle($cardID) {
+  $manualData = ManualCardSubtitleData();
   $data = array (
   2579145458 => 'Faithful Friend',
   '0dcb77795c' => 'Faithful Friend',
@@ -1755,7 +1757,6 @@ function CardSubtitle($cardID) {
   '0661066339' => 'Guided by the Force',
   1545515980 => 'Where Are We Going?',
   1270747736 => 'The Negotiations Will Be Short',
-  'zzzzzzz001' => 'Servant of Sidious',
   1540696516 => 'Sith Infiltrator',
   2285555274 => 'Covetous Apprentice',
   4389144613 => 'Mysterious Child',
@@ -1773,10 +1774,11 @@ function CardSubtitle($cardID) {
   5125502286 => 'Anything I Might Do?',
   4363379257 => 'War Hero',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardCost($cardID) {
+  $manualData = ManualCardCostData();
   $data = array (
   2579145458 => 6,
   '0dcb77795c' => 6,
@@ -2932,7 +2934,6 @@ function CardCost($cardID) {
   1545515980 => 5,
   1270747736 => 7,
   6082085272 => 1,
-  'zzzzzzz001' => 4,
   1540696516 => 4,
   2285555274 => 5,
   9566815036 => 2,
@@ -2954,10 +2955,11 @@ function CardCost($cardID) {
   5125502286 => 1,
   4363379257 => 2,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : 0;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }
 
 function CardHPDictionary($cardID) {
+  $manualData = ManualCardHPDictionaryData();
   $data = array (
   2579145458 => 7,
   '0dcb77795c' => 7,
@@ -3850,8 +3852,6 @@ function CardHPDictionary($cardID) {
   '754e979196' => 6,
   '0119018087' => 28,
   '0450346170' => 28,
-  'zzzzzzz002' => 28,
-  'zzzzzzz003' => 28,
   6797297267 => 8,
   '0726963200' => 5,
   8069951120 => 8,
@@ -3878,7 +3878,6 @@ function CardHPDictionary($cardID) {
   1545515980 => 6,
   1270747736 => 5,
   6082085272 => 1,
-  'zzzzzzz001' => 3,
   1540696516 => 4,
   2285555274 => 7,
   '0102737248' => 3,
@@ -3898,10 +3897,11 @@ function CardHPDictionary($cardID) {
   5125502286 => 3,
   4363379257 => 1,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : 0;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }
 
 function CardPower($cardID) {
+  $manualData = ManualCardPowerData();
   $data = array (
   2579145458 => 4,
   '0dcb77795c' => 4,
@@ -4751,7 +4751,6 @@ function CardPower($cardID) {
   1545515980 => 4,
   1270747736 => 7,
   6082085272 => 1,
-  'zzzzzzz001' => 4,
   1540696516 => 3,
   2285555274 => 4,
   4389144613 => 1,
@@ -4770,10 +4769,11 @@ function CardPower($cardID) {
   5125502286 => 1,
   4363379257 => 4,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : 0;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }
 
 function CardUpgradeHPDictionary($cardID) {
+  $manualData = ManualCardUpgradeHPDictionaryData();
   $data = array (
   6903722220 => 1,
   '0705773109' => 1,
@@ -4901,10 +4901,11 @@ function CardUpgradeHPDictionary($cardID) {
   6378343916 => 2,
   4387847003 => 1,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : 0;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }
 
 function CardUpgradePower($cardID) {
+  $manualData = ManualCardUpgradePowerData();
   $data = array (
   6903722220 => 3,
   '0705773109' => 3,
@@ -5034,10 +5035,11 @@ function CardUpgradePower($cardID) {
   6378343916 => 1,
   4387847003 => 1,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : 0;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }
 
 function CardAspects($cardID) {
+  $manualData = ManualCardAspectsData();
   $data = array (
   2579145458 => 'Vigilance,Heroism',
   '0dcb77795c' => 'Vigilance,Heroism',
@@ -6195,8 +6197,6 @@ function CardAspects($cardID) {
   '754e979196' => 'Villainy',
   '0119018087' => 'Vigilance',
   '0450346170' => 'Command',
-  'zzzzzzz002' => 'Aggression',
-  'zzzzzzz003' => 'Cunning',
   6797297267 => 'Vigilance,Villainy',
   5083905745 => 'Vigilance,Villainy',
   '0726963200' => 'Vigilance,Heroism',
@@ -6229,7 +6229,6 @@ function CardAspects($cardID) {
   1545515980 => 'Cunning,Heroism',
   1270747736 => 'Cunning,Heroism',
   6082085272 => 'Villainy',
-  'zzzzzzz001' => 'Villainy',
   1540696516 => 'Villainy',
   2285555274 => 'Villainy',
   9566815036 => 'Villainy',
@@ -6251,10 +6250,11 @@ function CardAspects($cardID) {
   5125502286 => 'Command,Heroism',
   4363379257 => 'Aggression,Heroism',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardTraits($cardID) {
+  $manualData = ManualCardTraitsData();
   $data = array (
   2579145458 => 'Force,Rebel',
   '0dcb77795c' => 'Force,Rebel',
@@ -7432,7 +7432,6 @@ function CardTraits($cardID) {
   1545515980 => 'Fringe,Vehicle,Transport',
   1270747736 => 'Force,Jedi,Republic',
   6082085272 => 'Sith,Vehicle,Fighter',
-  'zzzzzzz001' => 'Force,Separatist,Sith',
   1540696516 => 'Sith,Vehicle,Transport',
   2285555274 => 'Force,Sith',
   9566815036 => 'Item,Weapon,Lightsaber',
@@ -7455,10 +7454,11 @@ function CardTraits($cardID) {
   5125502286 => 'Republic,Droid',
   4363379257 => 'Rebel,Droid,Spectre',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardArenas($cardID) {
+  $manualData = ManualCardArenasData();
   $data = array (
   2579145458 => 'Ground',
   '0dcb77795c' => 'Ground',
@@ -8328,7 +8328,6 @@ function CardArenas($cardID) {
   1545515980 => 'Space',
   1270747736 => 'Ground',
   6082085272 => 'Space',
-  'zzzzzzz001' => 'Ground',
   1540696516 => 'Space',
   2285555274 => 'Ground',
   '0102737248' => 'Ground',
@@ -8348,10 +8347,11 @@ function CardArenas($cardID) {
   5125502286 => 'Ground',
   4363379257 => 'Ground',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function DefinedCardType($cardID) {
+  $manualData = ManualDefinedCardTypeData();
   $data = array (
   2579145458 => 'Leader',
   '0dcb77795c' => 'Leader',
@@ -9548,8 +9548,6 @@ function DefinedCardType($cardID) {
   '754e979196' => 'Leader',
   '0119018087' => 'Base',
   '0450346170' => 'Base',
-  'zzzzzzz002' => 'Base',
-  'zzzzzzz003' => 'Base',
   6797297267 => 'Unit',
   5083905745 => 'Event',
   '0726963200' => 'Unit',
@@ -9582,7 +9580,6 @@ function DefinedCardType($cardID) {
   1545515980 => 'Unit',
   1270747736 => 'Unit',
   6082085272 => 'Unit',
-  'zzzzzzz001' => 'Unit',
   1540696516 => 'Unit',
   2285555274 => 'Unit',
   9566815036 => 'Upgrade',
@@ -9606,10 +9603,11 @@ function DefinedCardType($cardID) {
   5125502286 => 'Unit',
   4363379257 => 'Unit',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "Unit";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "Unit";
 }
 
 function DefinedCardType2($cardID) {
+  $manualData = ManualDefinedCardType2Data();
   $data = array (
   2579145458 => 'Unit',
   '0dcb77795c' => 'Unit',
@@ -9770,10 +9768,11 @@ function DefinedCardType2($cardID) {
   4637578649 => 'Unit',
   '754e979196' => 'Unit',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardIsUnique($cardID) {
+  $manualData = ManualCardIsUniqueData();
   $data = array (
   2579145458 => 1,
   '0dcb77795c' => 1,
@@ -10279,7 +10278,6 @@ function CardIsUnique($cardID) {
   '0661066339' => 1,
   1545515980 => 1,
   1270747736 => 1,
-  'zzzzzzz001' => 1,
   1540696516 => 1,
   2285555274 => 1,
   9566815036 => 1,
@@ -10298,10 +10296,11 @@ function CardIsUnique($cardID) {
   5125502286 => 1,
   4363379257 => 1,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : 0;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }
 
 function HasWhenPlayed($cardID) {
+  $manualData = ManualHasWhenPlayedData();
   $data = array (
   3038238423 => true,
   9266336818 => true,
@@ -10544,10 +10543,11 @@ function HasWhenPlayed($cardID) {
   9776208290 => true,
   4988607060 => true,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : false;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : false;
 }
 
 function HasWhenDestroyed($cardID) {
+  $manualData = ManualHasWhenDestroyedData();
   $data = array (
   4786320542 => true,
   8954587682 => true,
@@ -10614,10 +10614,11 @@ function HasWhenDestroyed($cardID) {
   1636013021 => true,
   1270747736 => true,
 );
-  return isset($data[$cardID]) ? $data[$cardID] : false;
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : false;
 }
 
 function CardSet($cardID) {
+  $manualData = ManualCardSetData();
   $data = array (
   2579145458 => 'SOR',
   '0dcb77795c' => 'SOR',
@@ -11814,8 +11815,6 @@ function CardSet($cardID) {
   '754e979196' => 'LOF',
   '0119018087' => 'LOF',
   '0450346170' => 'LOF',
-  'zzzzzzz002' => 'LOF',
-  'zzzzzzz003' => 'LOF',
   6797297267 => 'LOF',
   5083905745 => 'LOF',
   '0726963200' => 'LOF',
@@ -11848,7 +11847,6 @@ function CardSet($cardID) {
   1545515980 => 'LOF',
   1270747736 => 'LOF',
   6082085272 => 'LOF',
-  'zzzzzzz001' => 'LOF',
   1540696516 => 'LOF',
   2285555274 => 'LOF',
   9566815036 => 'LOF',
@@ -11872,10 +11870,11 @@ function CardSet($cardID) {
   5125502286 => 'C25',
   4363379257 => 'C25',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function UUIDLookup($cardID) {
+  $manualData = ManualUUIDLookupData();
   $data = array (
   'SOR_005' => '2579145458',
   'SOR_010' => '6088773439',
@@ -13018,7 +13017,6 @@ function UUIDLookup($cardID) {
   'LOF_198' => '1545515980',
   'LOF_200' => '1270747736',
   'LOF_228' => '6082085272',
-  'LOF_231' => 'zzzzzzz001',//temp Darth Tyranus
   'LOF_233' => '1540696516',
   'LOF_234' => '2285555274',
   'LOF_238' => '9566815036',
@@ -13041,10 +13039,11 @@ function UUIDLookup($cardID) {
   'C25_005' => '5125502286',
   'C25_006' => '4363379257',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardIDLookup($cardID) {
+  $manualData = ManualCardIDLookupData();
   $data = array (
   2579145458 => 'SOR_005',
   '0dcb77795c' => 'SOR_005',
@@ -14273,7 +14272,6 @@ function CardIDLookup($cardID) {
   1545515980 => 'LOF_198',
   1270747736 => 'LOF_200',
   6082085272 => 'LOF_228',
-  'zzzzzzz001' => 'LOF_231',//temp Darth Tyranus
   1540696516 => 'LOF_233',
   2285555274 => 'LOF_234',
   9566815036 => 'LOF_238',
@@ -14297,10 +14295,11 @@ function CardIDLookup($cardID) {
   5125502286 => 'C25_005',
   4363379257 => 'C25_006',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardRarity($cardID) {
+  $manualData = ManualCardRarityData();
   $data = array (
   2579145458 => 'Special',
   '0dcb77795c' => 'Special',
@@ -15529,7 +15528,6 @@ function CardRarity($cardID) {
   1545515980 => 'Uncommon',
   1270747736 => 'Legendary',
   6082085272 => 'Common',
-  'zzzzzzz001' => 'Special',
   1540696516 => 'Special',
   2285555274 => 'Legendary',
   9566815036 => 'Rare',
@@ -15553,7 +15551,7 @@ function CardRarity($cardID) {
   5125502286 => 'Special',
   4363379257 => 'Special',
 );
-  return isset($data[$cardID]) ? $data[$cardID] : "";
+  if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : "";
 }
 
 function CardTitles() {
@@ -16617,7 +16615,6 @@ function LookupCardIDFromTitles($title, $subtitle) {
   'Stinger Mantis | Where Are We Going?' => 1545515980,
   'Qui-Gon Jinn | The Negotiations Will Be Short' => 1270747736,
   'Forged Starfighter' => 6082085272,
-  'Darth Tyranys | Servant Of Sidious' => 'zzzzzzz001',
   'Scimitar | Sith Infiltrator' => 1540696516,
   'Darth Malak | Covetous Apprentice' => 2285555274,
   'Darth Revan\'s Lightsabers' => 9566815036,

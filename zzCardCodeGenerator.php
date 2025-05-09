@@ -136,6 +136,7 @@
     $handler = fopen($generateFilename, "w");
 
     fwrite($handler, "<?php\r\n");
+    fwrite($handler, "include __DIR__ . '/../ManualDictionaries.php';\r\n");
 
     $DEFAULT_CARD_TITLE = "";
     $DEFAULT_CARD_SUBTITLE = "";
@@ -221,8 +222,9 @@
 
     if($language == "PHP") {
       fwrite($handler, "function " . $functionName . "(\$cardID) {\r\n");
+      fwrite($handler, "  \$manualData = Manual" . $functionName . "Data();\r\n");
       fwrite($handler, "  \$data = " . var_export($cardArray, true) . ";\r\n");
-      fwrite($handler, "  return isset(\$data[\$cardID]) ? \$data[\$cardID] : " . ($isString ? "\"" . $defaultValue . "\"" : var_export($defaultValue, true)) . ";\r\n");
+      fwrite($handler, "  if(isset(\$data[\$cardID])) return \$data[\$cardID]; else return isset(\$manualData[\$cardID]) ? \$manualData[\$cardID] : " . ($isString ? "\"" . $defaultValue . "\"" : var_export($defaultValue, true)) . ";\r\n");
       fwrite($handler, "}\r\n\r\n");
     } else if($language == "js") {
       fwrite($handler, "function " . $functionName . "(cardID) {\r\n");
