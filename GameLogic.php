@@ -1003,7 +1003,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "WRITECHOICE":
           $ally = new Ally($lastResult);
           $player = $ally->Controller();
-          LogSelectedTarget($player, $lastResult);
+          $selected = CardLink($ally->CardID(), $ally->CardID());
+          $message = LogSelectedTarget($player, $lastResult);
+          WriteLog($selected . $message);
           return $lastResult;
         case "WRITECHOICEFROMUNIQUE":
             $controller = UnitUniqueIDController($lastResult);
@@ -1012,7 +1014,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             $mzIndex = ($controller == $currentPlayer ? "MYALLY-" . $index : "THEIRALLY-" . $index);
             $ally = new Ally($mzIndex);
             $player = $ally->Controller();
-            LogSelectedTarget($player, $mzIndex);
+            WriteLog(LogSelectedTarget($player, $mzIndex));
             return $lastResult;
         default: break;
       }
@@ -1862,7 +1864,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         default: break;
       }
       $combatChainState[$CCS_AttackTargetUID] = $uid;
-      LogSelectedTarget($defPlayer, $lastResult, true);
+      WriteLog(LogSelectedTarget($defPlayer, $lastResult, true));
       return 1;
     case "STARTTURNABILITIES":
       StartTurnAbilities();
@@ -2498,9 +2500,12 @@ function LogSelectedTarget($player, $lastResult, $isAttack = false)
         }
       }
       if($isAttack) {
+        if(strLen($message) == 180){
+          $message = "Base was chosen as the attack target";//edge case for the manual bases
+        }
         $message .= " was chosen as the attack target";
       } else {
         $message .= " was chosen";
       }
-      WriteLog($message);
+      return $message;
     }
