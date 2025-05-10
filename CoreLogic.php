@@ -7052,7 +7052,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg003"://Anakin LOF
+    case "abcdefg003"://Anakin Adult LOF
     if($from != "PLAY") {
       if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
