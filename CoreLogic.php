@@ -7085,8 +7085,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("BUTTONINPUTNOPASS", $currentPlayer, $indices, 1);
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CURIOUS_FLOCK,$uniqueId", 1);
       }
-
-
+      break;
+    case "abcdefg004"://Mind Trick
+      if($from != "PLAY") {
+        $totalUnits = intval(SearchCount(SearchAllies($currentPlayer)) + intval(SearchCount(SearchAllies($otherPlayer))));
+        DQMultiUnitSelect($currentPlayer, $totalUnits, "MYALLY&THEIRALLY", "to Exhaust");
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MIND_TRICK", 1);
+      }
       break;
     //PlayAbility End
     default: break;

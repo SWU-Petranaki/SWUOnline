@@ -1383,6 +1383,27 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         Ally::FromUniqueId($uid)->AttachExperience();
       }
       break;
+    case "MIND_TRICK":
+      $selectedUnits = explode(",",$dqVars[0]);
+      $totalPower = 0;
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $totalPower += $ally->CurrentPower();
+      }
+      if($totalPower > 4) {
+        WriteLog("<span style='color:red;'>Combined power greater than 4. Reverting gamestate.</span>");
+        RevertGamestate();
+        return "";
+      }
+      $withTheForce = HasUnitWithTraitInPlay($player, "Force");
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $ally->Exhaust();
+        if($withTheForce) $ally->AddEffect("abcdefg004");
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }

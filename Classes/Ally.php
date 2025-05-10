@@ -855,6 +855,7 @@ class Ally {
         case "4531112134": //Kazuda Xiono leader side
         case "c1700fc85b": //Kazuda Xiono pilot Leader Unit
         case "9184947464": //There Is No Escape
+        case "abcdefg004": //Mind Trick
           return true;
         default: break;
       }
