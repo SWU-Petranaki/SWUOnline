@@ -7053,24 +7053,41 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "abcdefg003"://Anakin Adult LOF
-    if($from != "PLAY") {
-      if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Villainy card in your discard pile");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+      if($from != "PLAY") {
+        if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Villainy card in your discard pile");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+        }
+        if(SearchCount(SearchDiscard($currentPlayer, aspect:"Heroism")) > 0) {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Heroism card in your discard pile");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+        }
       }
-      if(SearchCount(SearchDiscard($currentPlayer, aspect:"Heroism")) > 0) {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Heroism card in your discard pile");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+      break;
+    case "abcdefg005"://Curious Flock
+      if($from != "PLAY") {
+        $resourcesAvailable = NumResourcesAvailable($currentPlayer);
+        $porgsAvailable = min($resourcesAvailable, 6);
+        $indices = "";
+        for($i=0; $i<=$porgsAvailable; ++$i) {
+          if($i > 0) $indices .= ",";
+          $indices .= $i;
+        }
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose how many extra Porgs are in this flock:");
+        AddDecisionQueue("BUTTONINPUTNOPASS", $currentPlayer, $indices, 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CURIOUS_FLOCK,$uniqueId", 1);
       }
-    }
+
+
+      break;
     //PlayAbility End
     default: break;
   }

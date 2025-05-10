@@ -1375,6 +1375,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $luke->AttachExperience();
       $luke->AttachShield();
       break;
+    case "CURIOUS_FLOCK":
+      $numChosen = $lastResult;
+      $uid = $parameterArr[1];
+      for($i=0; $i<$numChosen; ++$i) {
+        ExhaustResource($player, 1);
+        Ally::FromUniqueId($uid)->AttachExperience();
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }
