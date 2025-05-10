@@ -15559,10 +15559,9 @@ function CardTitles() {
 }
 
 function IsUnimplemented($cardID) {
-  $manualData = ManualIsUnimplementedData();
   $unimplementedCards = array (
 );
-  return isset($unimplementedCards[$cardID]) || isset($manualData[$cardID]);
+  return isset($unimplementedCards[$cardID]);
 }
 function LookupCardIDFromTitles($title, $subtitle) {
   $lookupTable = [];
