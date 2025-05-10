@@ -4,7 +4,7 @@ function ManualCardTitleData() {
     'abcdefg001' => 'Darth Tyranus',
     'abcdefg002' => 'Malakili',
     'abcdefg003' => 'Anakin Skywalker',
-    'abcdefg004' => 'Jedi Mind Trick',
+    'abcdefg004' => 'Mind Trick',
     'abcdefg005' => 'Curious Flock',
     'abcdefg006' => 'Constructed Lightsaber',
     //continue manual card titles
@@ -204,6 +204,6 @@ function ManualCardRarityData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Jedi Mind Trick|Curious Flock|Constructed Lightsaber';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber';
 }
 ?>
