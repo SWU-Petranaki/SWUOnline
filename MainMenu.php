@@ -174,7 +174,7 @@ if (!empty($_SESSION['error'])) {
       <!-- COLUMN 2: GAME ACTIONS -->
       <div class="game-action-column">
         <div class="tabs">
-          <button class="tab-button active" id="gamesTabBtn" onclick="switchTabDirect('gamesTab')">Games</button>
+          <button class="tab-button active" id="gamesTabBtn" onclick="switchTabDirect('gamesTab')">Play</button>
           <button class="tab-button" id="spectateTabBtn" onclick="switchTabDirect('spectateTab')">Spectate</button>
         </div>
 
@@ -358,10 +358,10 @@ function switchTabDirect(tabId) {
 
 // Show total games in the Games tab button
 function updateGamesTabTotal(totalGames) {
-  var gamesTabBtn = document.getElementById('gamesTabBtn');
+  var gamesTabBtn = document.getElementById('spectateTabBtn');
   if (gamesTabBtn) {
     // Remove any previous count
-    gamesTabBtn.innerHTML = 'Games' + (typeof totalGames === 'number' ? ' <span style="font-size:0.95em; color:#ffd24d;">(' + totalGames + ')</span>' : '');
+    gamesTabBtn.innerHTML = 'Spectate' + (typeof totalGames === 'number' ? ' <span style="font-size:0.95em; color:#ffd24d;">(' + totalGames + ')</span>' : '');
   }
 }
 
