@@ -202,6 +202,12 @@ function ManualCardRarityData() {
   );
 }
 
+function ManualIsUnimplementedData() {
+  return array(
+    //continue manual card unimplemented status
+  );
+}
+
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
     return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber';

@@ -17,8 +17,48 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
 }
 
 ?>
-
-<div style='padding:10px; width:80vw; max-width: 640px; height: 70vh; margin: 20vh auto;
+<style>
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group label {
+    margin-right: 8px;
+    font-weight: bold;
+  }
+  .form-control {
+    width: 100%;
+    max-width: 240px;
+    padding: 8px;
+    margin-right: 24px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  .form-group select {
+    display: inline;
+  }
+  .btn-primary {
+    width: 80%;
+    margin-left: 7.5%;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  .fc-min {
+    max-width: 120px;
+  }
+</style>
+<div style='padding:10px; width:80vw; max-width: 800px; height: 80vh; margin: 8vh auto;
   background-color:rgba(74, 74, 74, 0.9); border: 2px solid #1a1a1a; border-radius: 5px; overflow-y: scroll;'>
   <h2>Manual Card Generator</h2>
   <form method="post" action="" enctype="multipart/form-data">
@@ -26,29 +66,31 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
       <label for="cardImage">Card Image</label>
       <input type="file" name="cardImage" id="cardImage" class="form-control" accept="image/png">
     </div>
+
     <div class="form-group">
-      <label for="cardTitle">Card Title *</label>
-      <input type="text" name="cardTitle" id="cardTitle" required class="form-control">
+      <label for="cost">Card Cost <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
+      <input type="number" name="cost" id="cost" min="0" required class="form-control">
     </div>
 
     <div class="form-group">
+      <label for="cardTitle">Card Title <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
+      <input type="text" name="cardTitle" id="cardTitle" required class="form-control">
       <label for="subtitle">Subtitle</label>
       <input type="text" name="subtitle" id="subtitle" class="form-control">
     </div>
 
     <div class="form-group">
-      <label for="cost">Card Cost *</label>
-      <input type="number" name="cost" id="cost" min="0" required class="form-control">
-    </div>
-
-    <div class="form-group">
       <label for="power">Power</label>
       <input type="number" name="power" id="power" min="0" class="form-control">
+      <label for="hp">HP</label>
+      <input type="number" name="hp" id="hp" min="1" class="form-control">
     </div>
 
     <div class="form-group">
-      <label for="hp">HP</label>
-      <input type="number" name="hp" id="hp" min="1" class="form-control">
+      <label for="upgradePower">Upg. Power</label>
+      <input type="number" name="upgradePower" id="upgradePower" min="0" class="form-control">
+      <label for="upgradeHp">Upg. HP</label>
+      <input type="number" name="upgradeHp" id="upgradeHp" min="1" class="form-control">
     </div>
 
     <div class="form-group">
@@ -62,9 +104,6 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
         <option value="Heroism">Heroism</option>
         <option value="Villainy">Villainy</option>
       </select>
-    </div>
-
-    <div class="form-group">
       <label for="aspect2">Aspect 2</label>
       <select name="aspect2" id="aspect2" class="form-control">
         <option value="">None</option>
@@ -78,21 +117,18 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
     </div>
 
     <div class="form-group">
-      <label for="traits">Traits (comma separated) *</label>
+      <label for="traits">Traits (comma separated) <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
       <input type="text" name="traits" id="traits" required class="form-control">
     </div>
 
     <div class="form-group">
-      <label for="arena">Arena</label>
+    <label for="arena">Arena</label>
       <select name="arena" id="arena" class="form-control">
         <option value="">None</option>
         <option value="Ground">Ground</option>
         <option value="Space">Space</option>
       </select>
-    </div>
-
-    <div class="form-group">
-      <label for="cardType">Card Type *</label>
+      <label for="cardType">Card Type <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
       <select name="cardType" id="cardType" required class="form-control">
         <option value="Unit">Unit</option>
         <option value="Event">Event</option>
@@ -100,27 +136,18 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
         <option value="Upgrade">Upgrade</option>
         <option value="Base">Base</option>
       </select>
-    </div>
-
-    <div class="form-group">
       <label>
         <input type="checkbox" name="isUnique" value="1"> Unique
       </label>
     </div>
 
     <div class="form-group">
-      <label for="setCode">Set Code *</label>
-      <input type="text" name="setCode" id="setCode" value="LOF" required class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="cardNumber">Card ID *</label>
-      <input type="text" name="cardNumber" id="cardNumber" required class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="rarity">Rarity *</label>
-      <select name="rarity" id="rarity" required class="form-control">
+      <label for="setCode">Set Code <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
+      <input type="text" name="setCode" id="setCode" value="LOF" required class="form-control fc-min">
+      <label for="cardNumber">Card ID <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
+      <input type="text" name="cardNumber" id="cardNumber" required class="form-control fc-min">
+      <label for="rarity">Rarity <span style="color: yellowgreen; font-weight: bolder;">✸</span></label>
+      <select name="rarity" id="rarity" required class="form-control fc-min">
         <option value="Common">Common</option>
         <option value="Uncommon">Uncommon</option>
         <option value="Rare">Rare</option>
@@ -139,6 +166,8 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
     $cost = $_POST['cost'];
     $power = isset($_POST['power']) && $_POST['power'] !== '' ? $_POST['power'] : null;
     $hp = isset($_POST['hp']) && $_POST['hp'] !== '' ? $_POST['hp'] : null;
+    $upgradePower = isset($_POST['upgradePower']) && $_POST['upgradePower'] !== '' ? $_POST['upgradePower'] : null;
+    $upgradeHp = isset($_POST['upgradeHp']) && $_POST['upgradeHp'] !== '' ? $_POST['upgradeHp'] : null;
     $aspect1 = $_POST['aspect1'];
     $aspect2 = $_POST['aspect2'];
     $traits = $_POST['traits'];
@@ -230,6 +259,24 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
       );
     }
 
+    // Update upgrade HP if not null
+    if ($upgradeHp !== null) {
+      $fileContent = preg_replace(
+      "/\/\/continue manual card upgrade HP dictionary/",
+      "'$internalId' => $upgradeHp,\n    //continue manual card upgrade HP dictionary",
+      $fileContent
+      );
+    }
+
+    // Update upgrade power if not null
+    if ($upgradePower !== null) {
+      $fileContent = preg_replace(
+      "/\/\/continue manual card upgrade powers/",
+      "'$internalId' => $upgradePower,\n    //continue manual card upgrade powers",
+      $fileContent
+      );
+    }
+
     // Update aspects
     if (!empty($aspects)) {
       $fileContent = preg_replace(
@@ -303,6 +350,13 @@ if ($useruid != "OotTheMonk" && $useruid != "love" && $useruid != "ninin" && $us
     $fileContent = preg_replace(
       "/\/\/to be added to the CardTitles function output\s*return '(.*)';/",
       "//to be added to the CardTitles function output\n    return '$1|" . addslashes($cardTitle) . "';",
+      $fileContent
+    );
+
+    //Update the IsUnimplementedData function
+    $fileContent = preg_replace(
+      "/\/\/continue manual card unimplemented status/",
+      "'$internalId' => true,\n    //continue manual card unimplemented status",
       $fileContent
     );
 

@@ -200,8 +200,9 @@
     }
 
     fwrite($handler, "function IsUnimplemented(\$cardID) {\r\n");
+    fwrite($handler, "  \$manualData = ManualIsUnimplementedData();\r\n");
     fwrite($handler, "  \$unimplementedCards = " . var_export($unimplementedCards, true) . ";\r\n");
-    fwrite($handler, "  return isset(\$unimplementedCards[\$cardID]);\r\n");
+    fwrite($handler, "  return isset(\$unimplementedCards[\$cardID]) || isset(\$manualData[\$cardID]);\r\n");
     fwrite($handler, "}\r\n");
   }
 
