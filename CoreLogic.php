@@ -7052,6 +7052,25 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "abcdefg003"://Anakin LOF
+    if($from != "PLAY") {
+      if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Villainy card in your discard pile");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+      }
+      if(SearchCount(SearchDiscard($currentPlayer, aspect:"Heroism")) > 0) {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Heroism card in your discard pile");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+      }
+    }
     //PlayAbility End
     default: break;
   }
