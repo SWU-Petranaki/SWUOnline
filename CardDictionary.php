@@ -120,6 +120,10 @@ function RestoreAmount($cardID, $player, $index)
       case "9430527677"://Hera Syndulla Pilot
         $amount += 1;
         break;
+      case "abcdefg006"://Constructed Lightsaber
+          if(AspectContains($cardID, "Heroism", $player))
+          $amount += 2;
+          break;
     }
   }
   switch($cardID)
@@ -270,6 +274,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
   {
     if($upgrades[$i] == "2007876522") $amount += 2;//Clone Cohort
     if($upgrades[$i] == "0587196584") $amount += 1;//Independent Smuggler
+    if($upgrades[$i] == "abcdefg006") if(AspectContains($cardID, "Villainy", $player)) $amount += 2;
   }
   switch($cardID)
   {
@@ -376,6 +381,10 @@ function HasSentinel($cardID, $player, $index)
       case "9706341387"://Jarek Yeager
         $hasSentinel = SearchCount(SearchAllies($player, arena:"Ground")) > 0
           && SearchCount(SearchAllies($player, arena:"Space")) > 0;
+          break;
+      case "abcdefg006"://Constructed Lightsaber
+        if(!AspectContains($cardID, "Villainy", $player) && !(AspectContains($cardID, "Heroism", $player))) $hasSentinel = true;
+        break;
       default: break;
     }
   }
@@ -2106,6 +2115,8 @@ function UpgradeFilter($cardID)
       return "trait!=Capital_Ship&trait!=Transport";
     case "5306772000"://Phantom II
       return "cardID!=6931439330&cardID!=5763330426";
+    case "abcdefg006"://Constructed Lightsaber
+      return "trait!=Force";
     default: return "";
   }
 }
