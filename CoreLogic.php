@@ -7283,8 +7283,7 @@ function DestroyAllAllies($player="", $spareFilter="")
       $otherPlayerAlliesUniqueIDs[] = $otherPlayerAllies[$i+5];
     }
   }
-
-  //Destroy all those allies.
+  //cache any when theirs defeated triggers
   $cacheTriggers = [];
 
   foreach ($currentPlayerAlliesUniqueIDs as $UID) {
@@ -7295,23 +7294,54 @@ function DestroyAllAllies($player="", $spareFilter="")
       $cacheTriggers[] = $triggers;
     }
   }
-
+  $defaultSpecialData = [
+    "saveNalaSeForLast" => false,
+    "nalaSeId" => -1,
+    "saveKrellForLast" => false,
+    "krellId" => -1
+  ];
+  //now destroy their allies
+  $specialData = $defaultSpecialData;
   foreach ($otherPlayerAlliesUniqueIDs as $UID) {
     $ally = new Ally($UID, $otherPlayer);
     if($spareUpgraded && $ally->IsUpgraded()) continue;
+    if(CheckForFriendlyDefeatedExceptions($ally, $specialData)) continue;
     $ally->Destroy();
   }
+  if($specialData['saveNalaSeForLast']) Ally::FromUniqueId($specialData['nalaSeId'])->Destroy();
+  if($specialData['saveKrellForLast']) Ally::FromUniqueId($specialData['krellId'])->Destroy();
+
+  //now desroy my allies
+  $specialData = $defaultSpecialData;
   foreach ($currentPlayerAlliesUniqueIDs as $UID) {
     $ally = new Ally($UID, $currentPlayer);
     if($spareUpgraded && $ally->IsUpgraded()) continue;
+    if(CheckForFriendlyDefeatedExceptions($ally, $specialData)) continue;
     $ally->Destroy();
   }
+  if($specialData['saveNalaSeForLast']) Ally::FromUniqueId($specialData['nalaSeId'])->Destroy();
+  if($specialData['saveKrellForLast']) Ally::FromUniqueId($specialData['krellId'])->Destroy();
 
   if(count($cacheTriggers) > 0) {
     foreach ($cacheTriggers as $triggers) {
       LayerTheirsDestroyedTriggers($otherPlayer, $triggers);
     }
   }
+}
+
+function CheckForFriendlyDefeatedExceptions(Ally $ally, &$specialData) {
+  switch($ally->CardID()) {
+    case "f05184bd91"://Nala Se
+      $specialData['saveNalaSeForLast'] = true;
+      $specialData['nalaSeId'] = $ally->UniqueID();
+      return true;
+    case "9353672706"://General Krell
+      $specialData['saveKrellForLast'] = true;
+      $specialData['krellId'] = $ally->UniqueID();
+      return true;
+  }
+
+  return false;
 }
 
 function DamagePlayerAllies($player, $damage, $source, $type="-", $arena="")
