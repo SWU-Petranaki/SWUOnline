@@ -3434,7 +3434,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, $amount . "-", 1);
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Deal " . $amount . " damage divided as you choose", 1);
         AddDecisionQueue("MAYMULTIDAMAGEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1, unitCardID:$ally->CardID()), 1);
       }
       break;
     case "3974134277"://Prepare for Takeoff

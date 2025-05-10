@@ -686,6 +686,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $sourcePlayer = $parameterArr[1];
           $isUnitEffect = $parameterArr[2];
           $isPreventable = $parameterArr[3];
+          $unitCardID = $parameterArr[4];
           $targets = explode(",", $lastResult);
           $damagedTargets = [];
 
@@ -697,7 +698,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               $ally = new Ally($targetUniqueID);
               $isEnemeyDamage = $sourcePlayer != $ally->Controller();
               $currentHealth = $ally->Health();
-              $destroyed = $ally->DealDamage($targetDamage, enemyDamage:$isEnemeyDamage, fromUnitEffect:$isUnitEffect, preventable:$isPreventable);
+              $destroyed = $ally->DealDamage($targetDamage, enemyDamage:$isEnemeyDamage, fromUnitEffect:$isUnitEffect, preventable:$isPreventable, unitCardID:$unitCardID);
               if ($destroyed || $ally->Health() < $currentHealth) {
                 $damagedTargets[] = $targetUniqueID;
               }
