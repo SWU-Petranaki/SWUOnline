@@ -922,7 +922,7 @@ function HasShielded($cardID, $player, $index)
     case "2644994192"://Hondo Ohnaka
       return true;
     //Legends of the Force
-    case "3967581160"://Anakin Skywalker
+    case "3967581160"://Anakin Skywalker Child LOF
     case "abcdefg001"://temp Darth Tyranus
       return true;
     default: break;
@@ -1072,7 +1072,7 @@ function HasHidden($cardID, $player, $index) {
   //card specific
   switch($cardID) {
     //Legends of the Force
-    case "3967581160"://Anakin Skywalker
+    case "3967581160"://Anakin Skywalker Child LOF
     case "4389144613"://Grogu
     case "3995900674"://Tuk'ata
     case "6082085272"://Forged Starfighter
