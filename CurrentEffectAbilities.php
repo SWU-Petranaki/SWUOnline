@@ -281,6 +281,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "0753707056": return $subparam;//Unity of Purpose
     //Legends of the Force
     case "8496493030":return 2; //Sycthe
+    case "abcdefg003": return -3;//Anakin Skywalker LOF
     default: return 0;
   }
 }
