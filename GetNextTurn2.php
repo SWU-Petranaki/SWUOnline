@@ -1,5 +1,9 @@
 <?php
 
+// Set error reporting to suppress warnings but keep fatal errors
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', '0');
+
 include 'Libraries/HTTPLibraries.php';
 include 'Libraries/NetworkingLibraries.php';
 include 'Libraries/GameFormats.php';
