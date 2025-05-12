@@ -1617,6 +1617,12 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "YESPASS":
       if($lastResult == "YES") return "PASS";
       return 1;
+    case "USETHEFORCE":
+      if(HasTheForce($player)) {
+        UseTheForce($player);
+        return 1;
+      }
+      return "PASS";
     case "ATTACKEREXISTSORPASS":
       if(!Ally::FromUniqueId($parameter)->Exists()) return "PASS";
       return 1;

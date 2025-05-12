@@ -20,7 +20,7 @@ function MZDestroy($player, $lastResult)
 {
   $lastResultArr = explode(",", $lastResult);
   $otherPlayer = ($player == 1 ? 2 : 1);
-  for ($i = 0; $i < count($lastResultArr); ++$i) {
+  for ($i = count($lastResultArr) - 1; $i >= 0; --$i) {
     $mzIndex = explode("-", $lastResultArr[$i]);
     switch ($mzIndex[0]) {
       case "MYHAND": $lastResult = DiscardCard($player, $mzIndex[1]); break;

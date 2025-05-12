@@ -6928,9 +6928,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6797297267"://Darth Sidious
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
-          AddDecisionQueue("YESNO", $currentPlayer, "if you want use The Force");
-          AddDecisionQueue("NOPASS", $currentPlayer, "-");
-          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DARTHSIDIOUS_LOF", 1);
+          DQAskToUseTheForce($currentPlayer);
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:maxHealth=3&THEIRALLY:maxHealth=3", 1);
+          AddDecisionQueue("MZFILTER", $currentPlayer, "trait=Sith", 1);
+          AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
         }
       }
       break;
@@ -6989,7 +6990,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose if you want to use the Force to play <0>", 1);
         AddDecisionQueue("YESNO", $currentPlayer, "-", 1);
         AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "FORESEEN_LOF", 1);
+        AddDecisionQueue("USETHEFORCE", $currentPlayer, "-", 1);
+        AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("OP", $currentPlayer, "PLAYCARD,DECK", 1);
       } else {
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "The top card of your deck is <0>");
         AddDecisionQueue("OK", $currentPlayer, "-");
@@ -7102,9 +7106,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "abcdefg009"://Talzin's Assassin
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
-          AddDecisionQueue("YESNO", $currentPlayer, "if you want to use The Force");
+          DQAskToUseTheForce($currentPlayer);
           AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
-          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "TALZINS_ASSASSIN", 1);
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY", 1);
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg009,HAND", 1);
         }
       }
       break;
@@ -7476,6 +7485,12 @@ function UseTheForce($player) {
   $char[4] = "0";
   AddEvent("FORCETOKEN", "$player!0");
   WriteLog("Player " . $player . " used the Force.");
+}
+
+function DQAskToUseTheForce($player) {
+  AddDecisionQueue("YESNO", $player, "Choose if you want to use the Force");
+  AddDecisionQueue("NOPASS", $player, "-", 1);
+  AddDecisionQueue("USETHEFORCE", $player, "-", 1);
 }
 
 function DQTakeControlOfANonLeaderUnit($player) {

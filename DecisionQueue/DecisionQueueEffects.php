@@ -1287,28 +1287,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $player, "8105698374,HAND", 1);
       break;
     //Legends of the Force
-    case "DARTHSIDIOUS_LOF":
-      UseTheForce($player);
-      $myIndices = SearchAllies($player);
-      $myIndices = $myIndices == "" ? [] : explode(",", $myIndices);
-      $theirIndices = SearchAllies($otherPlayer);
-      $theirIndices = $theirIndices == "" ? [] : explode(",", $theirIndices);
-      $allAllyUIDs = [];
-      foreach ($myIndices as $index) {
-        $ally = new Ally("MYALLY-" . $index, $player);
-        $allAllyUIDs[] = $ally->UniqueID();
-      }
-      foreach ($theirIndices as $index) {
-        $ally = new Ally("MYALLY-" . $index, $otherPlayer);
-        $allAllyUIDs[] = $ally->UniqueID();
-      }
-      foreach ($allAllyUIDs as $uid) {
-        $ally = Ally::FromUniqueId($uid);
-        if (!TraitContains($ally->CardID(), "Sith", $ally->Controller()) && $ally->Health() <= 3) {
-          $ally->Destroy();
-        }
-      }
-      break;
     case "SAVAGEOPRESS_LOF":
       if($lastResult == "YES") {
         UseTheForce($player);
@@ -1366,17 +1344,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddBottomDeck($searchLeftovers[$i], $player);
       }
       break;
-    case "FORESEEN_LOF":
-      UseTheForce($player);
-      AddCurrentTurnEffect("8569501777", $player, "PLAY");
-      PlayCard($dqVars[0], "DECK");
-      break;
-    case "LUKESKYWALKER_LOF":
-      UseTheForce($player);
-      $luke = Ally::FromUniqueId($parameterArr[1]);
-      $luke->AttachExperience();
-      $luke->AttachShield();
-      break;
     case "CURIOUS_FLOCK":
       $numChosen = $lastResult;
       $uid = $parameterArr[1];
@@ -1405,24 +1372,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally->Exhaust();
         if($withTheForce) $ally->AddEffect("abcdefg004");
       }
-      break;
-    case "KARIS_LOF":
-      UseTheForce($player);
-      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -2/-2");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-      AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
-      AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg007", 1);
-      break;
-    case "TALZINS_ASSASSIN":
-      UseTheForce($player);
-      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -3/-3");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-      AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,3", 1);
-      AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg009,HAND", 1);
       break;
     //SpecificCardLogic End
     default: return "";
