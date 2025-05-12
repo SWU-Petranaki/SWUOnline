@@ -7317,7 +7317,7 @@ function DestroyAllAllies($player="", $spareFilter="")
     $ally = new Ally($UID, $currentPlayer);
     if($spareUpgraded && $ally->IsUpgraded()) continue;
     if(CheckForFriendlyDefeatedExceptions($ally, $specialData)) continue;
-    $ally->Destroy();
+    $ally->Destroy(enemyEffects:false);
   }
   if($specialData['saveNalaSeForLast']) Ally::FromUniqueId($specialData['nalaSeId'])->Destroy();
   if($specialData['saveKrellForLast']) Ally::FromUniqueId($specialData['krellId'])->Destroy();
