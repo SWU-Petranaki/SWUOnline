@@ -1406,6 +1406,15 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         if($withTheForce) $ally->AddEffect("abcdefg004");
       }
       break;
+    case "KARIS_LOF":
+      UseTheForce($player);
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -2/-2");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
+      AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg007,HAND", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

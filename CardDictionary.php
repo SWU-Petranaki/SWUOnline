@@ -1086,6 +1086,16 @@ function HasHidden($cardID, $player, $index) {
   return false;
 }
 
+function WhenDefeatedWasUseForceAbility($cardID) {
+  return match ($cardID) {
+    //Legends of the Force
+    "1636013021" //Savage Opress
+    ,"abcdefg007"//Karis
+      => true,
+    default => false,
+  };
+}
+
 //FAB
 // function MemoryCost($cardID, $player)
 // {
