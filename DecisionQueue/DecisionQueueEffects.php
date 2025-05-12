@@ -1289,15 +1289,17 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     //Legends of the Force
     case "DARTHSIDIOUS_LOF":
       UseTheForce($player);
-      $myIndices = SearchAllies($player) ? explode(",", SearchAllies($player)) : [];
-      $theirIndices = SearchAllies($otherPlayer) ? explode(",", SearchAllies($otherPlayer)) : [];
+      $myIndices = SearchAllies($player);
+      $myIndices = $myIndices == "" ? [] : explode(",", $myIndices);
+      $theirIndices = SearchAllies($otherPlayer);
+      $theirIndices = $theirIndices == "" ? [] : explode(",", $theirIndices);
       $allAllyUIDs = [];
       foreach ($myIndices as $index) {
         $ally = new Ally("MYALLY-" . $index, $player);
         $allAllyUIDs[] = $ally->UniqueID();
       }
       foreach ($theirIndices as $index) {
-        $ally = new Ally("THEIRALLY-" . $index, $otherPlayer);
+        $ally = new Ally("MYALLY-" . $index, $otherPlayer);
         $allAllyUIDs[] = $ally->UniqueID();
       }
       foreach ($allAllyUIDs as $uid) {

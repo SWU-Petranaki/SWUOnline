@@ -323,14 +323,11 @@ function IsAbilityLayer($cardID)
 
 function AddLayer($cardID, $player, $parameter, $target = "-", $additionalCosts = "-", $uniqueID = "-", $append = false)
 {
-  global $layers, $dqState;
+  global $layers, $dqState, $CS_CachedDQStateLayers;
 
   if ($append || $cardID == "TRIGGER") {
     array_push($layers, $cardID, $player, $parameter, $target, $additionalCosts, $uniqueID, GetUniqueId());
-    if(IsAbilityLayer($cardID)) {
-      $orderableIndex = intval($dqState[8]);
-      if($orderableIndex == -1) $dqState[8] = LayerPieces();
-    }
+    if(IsAbilityLayer($cardID)) UpdateDQStateLayers($player);
     return LayerPieces();
   }
 
@@ -343,13 +340,20 @@ function AddLayer($cardID, $player, $parameter, $target = "-", $additionalCosts 
   array_unshift($layers, $player);
   array_unshift($layers, $cardID);
 
-  if (IsAbilityLayer($cardID)) {
-    $orderableIndex = intval($dqState[8]);
-    if($orderableIndex == -1) $dqState[8] = 0;
-    else $dqState[8] += LayerPieces();
-  } else $dqState[8] = -1; //If it's not a trigger, it's not orderable
+  if (IsAbilityLayer($cardID)) UpdateDQStateLayers($player);
+  else $dqState[8] = -1; //If it's not a trigger, it's not orderable
 
   return count($layers);//How far it is from the end
+}
+
+function UpdateDQStateLayers($player) {
+  global $dqState, $layers, $CS_CachedDQStateLayers;
+  if(LayersHaveTriggersToResolve() && GetClassState($player, $CS_CachedDQStateLayers) != -1) {
+    $dqState[8] = GetClassState($player, $CS_CachedDQStateLayers);
+  }
+  $orderableIndex = intval($dqState[8]);
+  if($orderableIndex == -1) $dqState[8] = LayerPieces();
+  else $dqState[8] += LayerPieces();
 }
 
 function AddDecisionQueue($phase, $player, $parameter, $subsequent = 0, $makeCheckpoint = 0)

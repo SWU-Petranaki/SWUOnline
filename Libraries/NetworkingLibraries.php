@@ -349,7 +349,20 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       for ($i = $index; $i < $index + LayerPieces(); ++$i)
         $layer[] = $layers[$i];
       $counter = 0;
-      for ($i = $index + LayerPieces(); $i < ($index + LayerPieces() * 2); ++$i) {
+      $nextLayer = $index + LayerPieces();
+      $secondNextLayer = $index + LayerPieces() * 2;
+      if ($layers[$index + 2] != "ONATTACKABILITY" && $layers[$nextLayer + 2] == "ONATTACKABILITY" && $layers[$secondNextLayer + 2] == "CONTINUECOMBAT") {
+        for ($i = $nextLayer; $i < $nextLayer + LayerPieces(); ++$i) {
+          $layers[$i - LayerPieces()] = $layers[$i];
+        }
+        for ($i = $secondNextLayer; $i < $secondNextLayer + LayerPieces(); ++$i) {
+          $layers[$i - LayerPieces()] = $layers[$i];
+        }
+        $counter = 0;
+        for ($i = $secondNextLayer; $i < $secondNextLayer + LayerPieces(); ++$i) {
+          $layers[$i] = $layer[$counter++];
+        }
+      } else for ($i = $index + LayerPieces(); $i < ($index + LayerPieces() * 2); ++$i) {
         $layers[$i - LayerPieces()] = $layers[$i];
         $layers[$i] = $layer[$counter++];
       }
@@ -362,7 +375,22 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       for ($i = $index; $i < $index + LayerPieces(); ++$i)
         $layer[] = $layers[$i];
       $counter = 0;
-      for ($i = $index - LayerPieces(); $i < $index; ++$i) {
+      $prevLayer = $index - LayerPieces();
+      $secondPrevLayer = $index - LayerPieces() * 2;
+      if (isset($layers[$prevLayer]) && isset($layers[$secondPrevLayer])
+          && $layers[$index + 2] != "ONATTACKABILITY" && $layers[$secondPrevLayer + 2] == "ONATTACKABILITY" && $layers[$prevLayer + 2] == "CONTINUECOMBAT") {
+        for ($i = $prevLayer; $i < $prevLayer + LayerPieces(); ++$i) {
+          $layers[$i + LayerPieces()] = $layers[$i];
+        }
+        for ($i = $secondPrevLayer; $i < $secondPrevLayer + LayerPieces(); ++$i) {
+          $layers[$i + LayerPieces()] = $layers[$i];
+        }
+        $counter = 0;
+        for ($i = $secondPrevLayer; $i < $secondPrevLayer + LayerPieces(); ++$i) {
+          $layers[$i] = $layer[$counter++];
+        }
+      }
+      else for ($i = $index - LayerPieces(); $i < $index; ++$i) {
         $layers[$i + LayerPieces()] = $layers[$i];
         $layers[$i] = $layer[$counter++];
       }
@@ -456,6 +484,10 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $isPass = true;
       $otherPlayer = ($playerID == 1 ? 2 : 1);
       $roundPass = $initiativeTaken == ($otherPlayer + 2);
+      if(LayersHaveTriggersToResolve()) {
+        global $CS_CachedDQStateLayers;
+        SetClassState($playerID, $CS_CachedDQStateLayers, $dqState[8]);
+      }
       $dqState[8] = -1;
       if ($turn[0] == "M" && $initiativeTaken != 1 && !$roundPass)
         $initiativeTaken = $currentPlayer + 2;
@@ -1372,7 +1404,7 @@ function ResolveMultichooseXSet($data, $chkInput, &$input) {
 function FinalizeChainLink($chainClosed = false)
 {
   global $turn, $actionPoints, $combatChain, $mainPlayer, $currentTurnEffects, $currentPlayer, $combatChainState, $actionPoints, $CCS_DamageDealt;
-  global $mainClassState, $CCS_GoesWhereAfterLinkResolves, $CS_LastAttack, $CCS_LinkTotalAttack, $CS_NumSwordAttacks, $chainLinks, $chainLinkSummary;
+  global $mainClassState, $CCS_GoesWhereAfterLinkResolves, $CS_LastAttack, $CCS_LinkTotalAttack, $chainLinks, $chainLinkSummary;
   global $CS_AnotherWeaponGainedGoAgain, $CCS_HitThisLink, $initiativeTaken, $CS_PlayedAsUpgrade;
   global $CCS_CachedLastDestroyed;
   $chainClosed = true;

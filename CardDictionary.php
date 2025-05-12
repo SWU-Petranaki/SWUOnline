@@ -1317,12 +1317,14 @@ function GetAbilityTypes($cardID, $index = -1, $from="-")
   }
   else if(DefinedTypesContains($cardID, "Leader", $currentPlayer)) {
     $char = &GetPlayerCharacter($currentPlayer);
-    if($char[CharacterPieces() + 1] == 1) $abilityTypes = "";
-    if($char[CharacterPieces() + 2] == 0) {
-      //Chancellor Palpatine Leader + Darth Sidious Leader
-      if(IsNotFlipatine($char) && IsNotExhaustedTrench($char)) {
-        if($abilityTypes != "") $abilityTypes .= ",";
-        $abilityTypes .= "A";
+    if(count($char) > CharacterPieces()) {
+      if($char[CharacterPieces() + 1] == 1) $abilityTypes = "";
+      if($char[CharacterPieces() + 2] == 0) {
+        //Chancellor Palpatine Leader + Darth Sidious Leader
+        if(IsNotFlipatine($char) && IsNotExhaustedTrench($char)) {
+          if($abilityTypes != "") $abilityTypes .= ",";
+          $abilityTypes .= "A";
+        }
       }
     }
   }
