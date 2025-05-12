@@ -10,6 +10,7 @@ function ManualCardTitleData() {
     'abcdefg007' => 'Karis',
     'abcdefg008' => 'Ataru Onslaught',
     'abcdefg009' => 'Talzin\'s Assassin',
+    'abcdefg010' => 'Dume',
     //continue manual card titles
     'zzzzzzz002' => 'Sith Temple (Placeholder)',
     'zzzzzzz003' => 'Hidden Jedi Temple (Placeholder)',
@@ -22,6 +23,7 @@ function ManualCardSubtitleData() {
     'abcdefg002' => 'Loving Rancor Keeper',
     'abcdefg003' => 'Champion Of Mortis',
     'abcdefg007' => 'We Don\'t Like Strangers',
+    'abcdefg010' => 'Redeem The Future',
     //continue manual card subtitles
   );
 }
@@ -37,6 +39,7 @@ function ManualCardCostData() {
     'abcdefg007' => 2,
     'abcdefg008' => 2,
     'abcdefg009' => 4,
+    'abcdefg010' => 4,
     //continue manual card costs
   );
 }
@@ -49,6 +52,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg005' => 1,
     'abcdefg007' => 4,
     'abcdefg009' => 4,
+    'abcdefg010' => 7,
     //continue manual card HP dictionary
     'zzzzzzz002' => 28,
     'zzzzzzz003' => 28,
@@ -63,6 +67,7 @@ function ManualCardPowerData() {
     'abcdefg005' => 1,
     'abcdefg007' => 2,
     'abcdefg009' => 4,
+    'abcdefg010' => 2,
     //continue manual card powers
   );
 }
@@ -90,6 +95,7 @@ function ManualCardAspectsData() {
     'abcdefg007' => 'Vigilance,Villainy',
     'abcdefg008' => 'Aggression',
     'abcdefg009' => 'Vigilance,Villainy',
+    'abcdefg010' => 'Vigilance,Vigilance',
     //continue manual card aspects
     'zzzzzzz002' => 'Aggression',
     'zzzzzzz003' => 'Cunning',
@@ -107,6 +113,7 @@ function ManualCardTraitsData() {
     'abcdefg007' => 'Force,Night',
     'abcdefg008' => 'Learned',
     'abcdefg009' => 'Force,Night',
+    'abcdefg010' => 'Force,Creature',
     //continue manual card traits
   );
 }
@@ -119,6 +126,7 @@ function ManualCardArenasData() {
     'abcdefg005' => 'Ground',
     'abcdefg007' => 'Ground',
     'abcdefg009' => 'Ground',
+    'abcdefg010' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -134,6 +142,7 @@ function ManualDefinedCardTypeData() {
     'abcdefg007' => 'Unit',
     'abcdefg008' => 'Event',
     'abcdefg009' => 'Unit',
+    'abcdefg010' => 'Unit',
     //continue manual card types
     'zzzzzzz002' => 'Base',
     'zzzzzzz003' => 'Base',
@@ -150,6 +159,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg007' => 'Unit',
     'abcdefg008' => 'Event',
     'abcdefg009' => 'Unit',
+    'abcdefg010' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -191,6 +201,7 @@ function ManualCardSetData() {
     'abcdefg007' => 'LOF',
     'abcdefg008' => 'LOF',
     'abcdefg009' => 'LOF',
+    'abcdefg010' => 'LOF',
     //continue manual card sets
     'zzzzzzz002' => 'LOF',
     'zzzzzzz003' => 'LOF',
@@ -208,6 +219,7 @@ function ManualUUIDLookupData() {
     'LOF_031' => 'abcdefg007',
     'LOF_174' => 'abcdefg008',
     'LOF_035' => 'abcdefg009',
+    'LOF_055' => 'abcdefg010',
     //continue manual UUID lookups
   );
 }
@@ -223,6 +235,7 @@ function ManualCardIDLookupData() {
     'abcdefg007' => 'LOF_031',
     'abcdefg008' => 'LOF_174',
     'abcdefg009' => 'LOF_035',
+    'abcdefg010' => 'LOF_055',
     //continue manual card ID lookups
   );
 }
@@ -238,18 +251,20 @@ function ManualCardRarityData() {
     'abcdefg007' => 'Uncommon',
     'abcdefg008' => 'Uncommon',
     'abcdefg009' => 'Common',
+    'abcdefg010' => 'Rare',
     //continue manual card rarities
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg010' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume';
 }
 ?>
