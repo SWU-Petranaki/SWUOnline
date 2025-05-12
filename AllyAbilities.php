@@ -1120,6 +1120,13 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("SEARCHDECKTOPX", $player, "8;99;include-definedType-Unit&include-maxCost-4&include-trait-Clone");
         AddDecisionQueue("SPECIFICCARD", $player, "SIFODYAS_LOF", 1);
         break;
+      case "abcdefg007"://Karis
+        if(HasTheForce($player)) {
+          AddDecisionQueue("YESNO", $player, "if you want use The Force");
+          AddDecisionQueue("NOPASS", $player, "-");
+          AddDecisionQueue("SPECIFICCARD", $player, "KARIS_LOF", 1);
+        }
+        break;
       //AllyDestroyedAbility End
       default: break;
     }

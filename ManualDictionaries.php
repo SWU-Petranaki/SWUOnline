@@ -7,6 +7,7 @@ function ManualCardTitleData() {
     'abcdefg004' => 'Mind Trick',
     'abcdefg005' => 'Curious Flock',
     'abcdefg006' => 'Constructed Lightsaber',
+    'abcdefg007' => 'Karis',
     //continue manual card titles
     'zzzzzzz002' => 'Sith Temple (Placeholder)',
     'zzzzzzz003' => 'Hidden Jedi Temple (Placeholder)',
@@ -18,6 +19,7 @@ function ManualCardSubtitleData() {
     'abcdefg001' => 'Servant Of Sidious',
     'abcdefg002' => 'Loving Rancor Keeper',
     'abcdefg003' => 'Champion Of Mortis',
+    'abcdefg007' => 'We Don\'t Like Strangers',
     //continue manual card subtitles
   );
 }
@@ -30,6 +32,7 @@ function ManualCardCostData() {
     'abcdefg004' => 2,
     'abcdefg005' => 1,
     'abcdefg006' => 3,
+    'abcdefg007' => 2,
     //continue manual card costs
   );
 }
@@ -40,6 +43,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg002' => 4,
     'abcdefg003' => 7,
     'abcdefg005' => 1,
+    'abcdefg007' => 4,
     //continue manual card HP dictionary
     'zzzzzzz002' => 28,
     'zzzzzzz003' => 28,
@@ -52,6 +56,7 @@ function ManualCardPowerData() {
     'abcdefg002' => 1,
     'abcdefg003' => 5,
     'abcdefg005' => 1,
+    'abcdefg007' => 2,
     //continue manual card powers
   );
 }
@@ -76,6 +81,7 @@ function ManualCardAspectsData() {
     'abcdefg002' => 'Command',
     'abcdefg003' => 'Vigilance',
     'abcdefg004' => 'Cunning,Heroism',
+    'abcdefg007' => 'Vigilance,Villainy',
     //continue manual card aspects
     'zzzzzzz002' => 'Aggression',
     'zzzzzzz003' => 'Cunning',
@@ -90,6 +96,7 @@ function ManualCardTraitsData() {
     'abcdefg004' => 'Force,Trick',
     'abcdefg005' => 'Creature',
     'abcdefg006' => 'Item,Weapon,Lightsaber',
+    'abcdefg007' => 'Force,Night',
     //continue manual card traits
   );
 }
@@ -100,6 +107,7 @@ function ManualCardArenasData() {
     'abcdefg002' => 'Ground',
     'abcdefg003' => 'Ground',
     'abcdefg005' => 'Ground',
+    'abcdefg007' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -112,6 +120,7 @@ function ManualDefinedCardTypeData() {
     'abcdefg004' => 'Event',
     'abcdefg005' => 'Unit',
     'abcdefg006' => 'Upgrade',
+    'abcdefg007' => 'Unit',
     //continue manual card types
     'zzzzzzz002' => 'Base',
     'zzzzzzz003' => 'Base',
@@ -125,6 +134,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg004' => 'Event',
     'abcdefg005' => 'Unit',
     'abcdefg006' => 'Upgrade',
+    'abcdefg007' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -134,6 +144,7 @@ function ManualCardIsUniqueData() {
     'abcdefg001' => 1,
     'abcdefg002' => 1,
     'abcdefg003' => 1,
+    'abcdefg007' => 1,
     //continue manual card unique status
   );
 }
@@ -148,6 +159,7 @@ function ManualHasWhenPlayedData() {
 
 function ManualHasWhenDestroyedData() {
   return array(
+    'abcdefg007' => true,
     //continue manual card when destroyed status
   );
 }
@@ -160,6 +172,7 @@ function ManualCardSetData() {
     'abcdefg004' => 'LOF',
     'abcdefg005' => 'LOF',
     'abcdefg006' => 'LOF',
+    'abcdefg007' => 'LOF',
     //continue manual card sets
     'zzzzzzz002' => 'LOF',
     'zzzzzzz003' => 'LOF',
@@ -174,6 +187,7 @@ function ManualUUIDLookupData() {
     'LOF_202' => 'abcdefg004',
     'LOF_255' => 'abcdefg005',
     'LOF_261' => 'abcdefg006',
+    'LOF_031' => 'abcdefg007',
     //continue manual UUID lookups
   );
 }
@@ -186,6 +200,7 @@ function ManualCardIDLookupData() {
     'abcdefg004' => 'LOF_202',
     'abcdefg005' => 'LOF_255',
     'abcdefg006' => 'LOF_261',
+    'abcdefg007' => 'LOF_031',
     //continue manual card ID lookups
   );
 }
@@ -198,6 +213,7 @@ function ManualCardRarityData() {
     'abcdefg004' => 'Rare',
     'abcdefg005' => 'Common',
     'abcdefg006' => 'Legendary',
+    'abcdefg007' => 'Uncommon',
     //continue manual card rarities
   );
 }
@@ -210,6 +226,6 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis';
 }
 ?>

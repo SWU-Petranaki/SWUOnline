@@ -858,7 +858,8 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
               $dd=DeserializeAllyDestroyData($arr[1]);
               AllyDestroyedAbility($player, $target, $dd["UniqueID"], $dd["LostAbilities"],$dd["IsUpgraded"],$dd["Upgrades"],$dd["UpgradesWithOwnerData"],
                 $dd["LastPower"],$dd["LastRemainingHP"]);
-              CheckThrawnJTL($player, $arr[1], $target);
+              if(!WhenDefeatedWasUseForceAbility($target))
+                CheckThrawnJTL($player, $arr[1], $target);
               break;
             case "ALLYRESOURCE":
               $rd=DeserializeResourceData($arr[1]);
