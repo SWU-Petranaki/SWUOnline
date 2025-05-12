@@ -7093,6 +7093,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MIND_TRICK", 1);
       }
       break;
+    case "abcdefg008"://Ataru Onslaught
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:maxAttack=4;trait=Force&THEIRALLY:maxAttack=4;trait=Force");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to ready");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      break;
+    case "abcdefg009"://Talzin's Assassin
+      if($from != "PLAY") {
+        if(HasTheForce($currentPlayer)) {
+          AddDecisionQueue("YESNO", $currentPlayer, "if you want to use The Force");
+          AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "TALZINS_ASSASSIN", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }

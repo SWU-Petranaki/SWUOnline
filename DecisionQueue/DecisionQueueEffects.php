@@ -1413,7 +1413,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
       AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg007,HAND", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg007", 1);
+      break;
+    case "TALZINS_ASSASSIN":
+      UseTheForce($player);
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -3/-3");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,3", 1);
+      AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg009,HAND", 1);
       break;
     //SpecificCardLogic End
     default: return "";

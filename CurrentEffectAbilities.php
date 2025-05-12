@@ -283,6 +283,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "8496493030": return 2; //Sycthe
     case "abcdefg003": return -3;//Anakin Skywalker Adult LOF
     case "abcdefg007": return -2;//Karis
+    case "abcdefg009": return -3;//Talzin's Assassin
     default: return 0;
   }
 }
