@@ -1122,9 +1122,13 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         break;
       case "abcdefg007"://Karis
         if(HasTheForce($player)) {
-          AddDecisionQueue("YESNO", $player, "if you want use The Force");
-          AddDecisionQueue("NOPASS", $player, "-");
-          AddDecisionQueue("SPECIFICCARD", $player, "KARIS_LOF", 1);
+          DQAskToUseTheForce($player);
+          AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -2/-2", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+          AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
+          AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg007", 1);
         }
         break;
       //AllyDestroyedAbility End
@@ -1494,7 +1498,7 @@ function AllyPlayedAsUpgradeAbility($cardID, $player, $targetAlly) {
         AddDecisionQueue("YESNO", $player, "if you want to attack with " . CardLink($targetAlly->CardID(), $targetAlly->CardID()));
         AddDecisionQueue("NOPASS", $player, "-");
         AddDecisionQueue("PASSPARAMETER", $player, $targetAlly->MZIndex(), 1);
-        AddDecisionQueue("ADDCURRENTEFFECT", $player, "6720065735", 1);
+        AddDecisionQueue("ADDCURRENTEFFECT", $player, $cardID, 1);
         AddDecisionQueue("MZOP", $player, "ATTACK", 1);
       }
       break;
@@ -2021,8 +2025,14 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         }
         break;
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
-        AddDecisionQueue("YESNO", $player, "if you wish to listen to Ben Kenobi's message. \"Use the Force, Luke...\"<br/>(" . CardLink($cardID, $cardID) . ")");
-        AddDecisionQueue("SPECIFICCARD", $player, "LUKESKYWALKER_LOF,$uniqueID", 1);
+        if(HasTheForce($player)) {
+          AddDecisionQueue("YESNO", $player, "if you wish to listen to Ben Kenobi's message. \"Use the Force, Luke...\"<br/>(" . CardLink($cardID, $cardID) . ")");
+          AddDecisionQueue("NOPASS", $player, "-", 1);
+          AddDecisionQueue("USETHEFORCE", $player, "-", 1);
+          AddDecisionQueue("PASSPARAMETER", $player, $uniqueID, 1);
+          AddDecisionQueue("MZOP", $player, "ADDSHIELD", 1);
+          AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
+        }
         break;
       default: break;
     }
