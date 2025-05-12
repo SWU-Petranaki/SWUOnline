@@ -170,6 +170,7 @@ function ManualCardIsUniqueData() {
     'abcdefg002' => 1,
     'abcdefg003' => 1,
     'abcdefg007' => 1,
+    'abcdefg010' => 1,
     //continue manual card unique status
   );
 }
