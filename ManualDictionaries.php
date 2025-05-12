@@ -8,6 +8,8 @@ function ManualCardTitleData() {
     'abcdefg005' => 'Curious Flock',
     'abcdefg006' => 'Constructed Lightsaber',
     'abcdefg007' => 'Karis',
+    'abcdefg008' => 'Ataru Onslaught',
+    'abcdefg009' => 'Talzin\'s Assassin',
     //continue manual card titles
     'zzzzzzz002' => 'Sith Temple (Placeholder)',
     'zzzzzzz003' => 'Hidden Jedi Temple (Placeholder)',
@@ -33,6 +35,8 @@ function ManualCardCostData() {
     'abcdefg005' => 1,
     'abcdefg006' => 3,
     'abcdefg007' => 2,
+    'abcdefg008' => 2,
+    'abcdefg009' => 4,
     //continue manual card costs
   );
 }
@@ -44,6 +48,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg003' => 7,
     'abcdefg005' => 1,
     'abcdefg007' => 4,
+    'abcdefg009' => 4,
     //continue manual card HP dictionary
     'zzzzzzz002' => 28,
     'zzzzzzz003' => 28,
@@ -57,6 +62,7 @@ function ManualCardPowerData() {
     'abcdefg003' => 5,
     'abcdefg005' => 1,
     'abcdefg007' => 2,
+    'abcdefg009' => 4,
     //continue manual card powers
   );
 }
@@ -82,6 +88,8 @@ function ManualCardAspectsData() {
     'abcdefg003' => 'Vigilance',
     'abcdefg004' => 'Cunning,Heroism',
     'abcdefg007' => 'Vigilance,Villainy',
+    'abcdefg008' => 'Aggression',
+    'abcdefg009' => 'Vigilance,Villainy',
     //continue manual card aspects
     'zzzzzzz002' => 'Aggression',
     'zzzzzzz003' => 'Cunning',
@@ -97,6 +105,8 @@ function ManualCardTraitsData() {
     'abcdefg005' => 'Creature',
     'abcdefg006' => 'Item,Weapon,Lightsaber',
     'abcdefg007' => 'Force,Night',
+    'abcdefg008' => 'Learned',
+    'abcdefg009' => 'Force,Night',
     //continue manual card traits
   );
 }
@@ -108,6 +118,7 @@ function ManualCardArenasData() {
     'abcdefg003' => 'Ground',
     'abcdefg005' => 'Ground',
     'abcdefg007' => 'Ground',
+    'abcdefg009' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -121,6 +132,8 @@ function ManualDefinedCardTypeData() {
     'abcdefg005' => 'Unit',
     'abcdefg006' => 'Upgrade',
     'abcdefg007' => 'Unit',
+    'abcdefg008' => 'Event',
+    'abcdefg009' => 'Unit',
     //continue manual card types
     'zzzzzzz002' => 'Base',
     'zzzzzzz003' => 'Base',
@@ -135,6 +148,8 @@ function ManualDefinedCardType2Data() {
     'abcdefg005' => 'Unit',
     'abcdefg006' => 'Upgrade',
     'abcdefg007' => 'Unit',
+    'abcdefg008' => 'Event',
+    'abcdefg009' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -173,6 +188,8 @@ function ManualCardSetData() {
     'abcdefg005' => 'LOF',
     'abcdefg006' => 'LOF',
     'abcdefg007' => 'LOF',
+    'abcdefg008' => 'LOF',
+    'abcdefg009' => 'LOF',
     //continue manual card sets
     'zzzzzzz002' => 'LOF',
     'zzzzzzz003' => 'LOF',
@@ -188,6 +205,8 @@ function ManualUUIDLookupData() {
     'LOF_255' => 'abcdefg005',
     'LOF_261' => 'abcdefg006',
     'LOF_031' => 'abcdefg007',
+    'LOF_174' => 'abcdefg008',
+    'LOF_035' => 'abcdefg009',
     //continue manual UUID lookups
   );
 }
@@ -201,6 +220,8 @@ function ManualCardIDLookupData() {
     'abcdefg005' => 'LOF_255',
     'abcdefg006' => 'LOF_261',
     'abcdefg007' => 'LOF_031',
+    'abcdefg008' => 'LOF_174',
+    'abcdefg009' => 'LOF_035',
     //continue manual card ID lookups
   );
 }
@@ -214,18 +235,22 @@ function ManualCardRarityData() {
     'abcdefg005' => 'Common',
     'abcdefg006' => 'Legendary',
     'abcdefg007' => 'Uncommon',
+    'abcdefg008' => 'Uncommon',
+    'abcdefg009' => 'Common',
     //continue manual card rarities
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg008' => true,
+    'abcdefg009' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin';
 }
 ?>
