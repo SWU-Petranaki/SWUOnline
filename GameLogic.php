@@ -832,13 +832,13 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           break;
         case "ADDEXPERIENCE":
           $ally = new Ally($lastResult);
-          $ally->Attach("2007868442");//Experience token
+          $ally->AttachExperience();
           break;
         case "MULTIADDEXPERIENCE":
           $arr = explode(",", $dqVars[0]);
           for($i = 0; $i < count($arr); ++$i) {
             $ally = new Ally($arr[$i], $player);
-            $ally->Attach("2007868442"); //Experience token
+            $ally->AttachExperience();
           }
           break;
         case "MOVEARENA":
