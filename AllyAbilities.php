@@ -1552,6 +1552,14 @@ function AllyStartRegroupPhaseAbilities($player) {
       case "7489502985"://Contracted Hunter
         $ally->Destroy();
         break;
+      case "abcdefg010"://Dume
+        for($j=0; $j<count($allies); $j+=AllyPieces()) {
+          if($allies[$j] == "abcdefg010") continue;
+          if(TraitContains($allies[$j], "Vehicle")) continue;
+          $innerAlly = new Ally("MYALLY-" . $j, $player);
+          $innerAlly->AttachExperience();
+        }
+        break;
       default: break;
     }
 
