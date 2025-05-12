@@ -573,12 +573,21 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
 
       // Add reorder buttons for ability layers if applicable
       if (IsAbilityLayer($layers[$i]) && ($dqState[8] >= $i || LayersHaveTriggersToResolve()) && $playerID == $mainPlayer) {
+        $currentLayerId = $layers[$i + 2];
+        $nextLayerId = $layers[$i + $layerPieces + 2] ?? '';
         if ($i < $dqState[8]) {
-          if($layers[$i + LayerPieces() + 2] != "CONTINUECOMBAT")
+          if($i != count($layers) - $layerPieces && $currentLayerId != "CONTINUECOMBAT" && ($nextLayerId == '' || $nextLayerId != "CONTINUECOMBAT"))
             $content .= "<span class='reorder-button'>" . CreateButton($playerID, ">", 31, $i, "18px", useInput: true) . "</span>";
         }
-        if ($i > 0 && $cardId != "CONTINUECOMBAT") {
-          $content .= "<span class='reorder-button'>" . CreateButton($playerID, "<", 32, $i, "18px", useInput: true) . "</span>";
+        $prevLayerId = $layers[$i - $layerPieces + 2] ?? '';
+        if ($i > 0 && $currentLayerId != "CONTINUECOMBAT")
+        {
+          $showButton = false;
+          if ($currentLayerId == "ONATTACKABILITY" && $prevLayerId == "ONATTACKABILITY")
+            $showButton = true;
+          else if($currentLayerId != "ONATTACKABILITY")
+            $showButton = true;
+          if($showButton) $content .= "<span class='reorder-button'>" . CreateButton($playerID, "<", 32, $i, "18px", useInput: true) . "</span>";
         }
       }
 
