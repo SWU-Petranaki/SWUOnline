@@ -1746,15 +1746,15 @@ function AllyAttackAbilities($attackID)
   switch($attackID) {
     default: break;
   }
+  $defAlly = new Ally(GetAttackTarget(), $defPlayer);
   for($i = 0; $i < count($allies); $i += AllyPieces()) {
     switch($allies[$i]) {
       case "20f21b4948"://Jyn Erso Leader Unit
-        AddCurrentTurnEffect("20f21b4948", $defPlayer);
+        AddCurrentTurnEffect("20f21b4948", $defPlayer, "PLAY", $defAlly->UniqueID());
         break;
       case "8107876051"://Enfys Nest (Marauder)
         if($combatChainState[$CCS_IsAmbush] == 1) {
-          $target = new Ally(GetAttackTarget(), $defPlayer);
-          AddCurrentTurnEffect("8107876051", $defPlayer, "PLAY", $target->UniqueID());
+          AddCurrentTurnEffect("8107876051", $defPlayer, "PLAY", $defAlly->UniqueID());
         }
         break;
       default: break;
@@ -2382,7 +2382,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         $target = GetAttackTarget();
         $defAlly = new Ally($target, $defPlayer);
         if($defAlly->CurrentArena() == "Ground") {
-          AddCurrentTurnEffect("5464125379", $defPlayer, from:"PLAY");
+          AddCurrentTurnEffect("5464125379", $defPlayer, "PLAY", $defAlly->UniqueID());
         }
       }
       break;
