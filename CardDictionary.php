@@ -1090,7 +1090,7 @@ function WhenDefeatedWasUseForceAbility($cardID) {
   return match ($cardID) {
     //Legends of the Force
     "1636013021" //Savage Opress
-    ,"abcdefg007"//Karis
+    ,"1991532931"//Karis
       => true,
     default => false,
   };
@@ -1567,7 +1567,7 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "8304104587"://Kanan Jarrus Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "abcdefgMTL"://Mother Talzin Leader
+    case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
@@ -1914,7 +1914,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "8304104587"://Kanan Jarrus Leader
       return LeaderAbilitiesIgnored() ? "" : "Shield";
-    case "abcdefgMTL"://Mother Talzin Leader
+    case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "Debuff";
     //non-leaders
     case "4389144613"://Grogu
@@ -2383,8 +2383,8 @@ function LeaderUnit($cardID) {
       return "5387ca4af6";
     case "8304104587"://Kanan Jarrus
       return "fadc48bab2";
-    case "abcdefgMTL"://Mother Talzin
-      return "abcdefg014";
+    case "2520636620"://Mother Talzin
+      return "32fd8db633";
     default: return "";
   }
 }
@@ -2550,8 +2550,8 @@ function LeaderUndeployed($cardID) {
       return "3357344238";
     case "fadc48bab2"://Kanan Jarrus
       return "8304104587";
-    case "abcdefg014"://Mother Talzin
-      return "abcdefgMTL";
+    case "32fd8db633"://Mother Talzin
+      return "2520636620";
     default: return "";
   }
 }
