@@ -1370,6 +1370,19 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         if($withTheForce) $ally->AddEffect("abcdefg004");
       }
       break;
+    case "OLDDAKA_LOF":
+      $target = new Ally($lastResult, $player);
+      $cardID = $target->CardID();
+      $canPlayFromDiscard = $target->Owner() == $target->Controller();
+      $target->Destroy();
+      if($canPlayFromDiscard) {
+        AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD:definedType=Unit;cardID=$cardID");
+        AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to play for free (or pass to skip)");
+        AddDecisionQueue("ADDCURRENTEFFECT", $player, "abcdefg011", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+        AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }

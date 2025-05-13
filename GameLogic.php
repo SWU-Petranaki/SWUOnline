@@ -1368,6 +1368,13 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               }
             }
             break;
+          case "cardTitle":
+            $mzArr = explode("-", $arr[$i]);
+            if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
+              $ally = new Ally($arr[$i]);
+              if($ally->HasTitle($params[1])) $match = true;
+            }
+            break;
           default: break;
         }
         if($invertedMatching && !$match) unset($arr[$i]);
