@@ -7122,13 +7122,23 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "abcdefg013"://Soresu Stance
       global $CS_AfterPlayedBy;
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit;trait=Force");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a <b>Force</b> unit to play");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit to play");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
       AddDecisionQueue("SETCLASSSTATE", $currentPlayer, $CS_AfterPlayedBy, 1);
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+      break;
+    case "abcdefg011"://Old Daka
+      if($from != "PLAY") {
+        $cardTitle = CardTitle($cardID);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:definedType=Unit;trait=Night");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "cardTitle=$cardTitle");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to sacrifice");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "OLDDAKA_LOF", 1);
+      }
       break;
     //PlayAbility End
     default: break;

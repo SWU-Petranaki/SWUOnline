@@ -314,6 +314,11 @@ class Ally {
     return false;
   }
 
+  function HasTitle($cardTitle) {
+    $spacesTitle = str_replace("_", " ", $cardTitle);
+    return CardTitle($this->CardID()) == $spacesTitle;
+  }
+
   function WasHealed() {
     return $this->allies[$this->index+14] == 1;
   }
