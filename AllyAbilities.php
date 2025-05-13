@@ -1056,10 +1056,8 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to give -1/-1", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-        AddDecisionQueue("SETDQVAR", $player, 0, 1);
         AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
         AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "1397553238,PLAY", 1);
-        AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
         AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,1", 1);
         break;
       case "8779760486"://Raddus
@@ -1126,9 +1124,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
           AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -2/-2", 1);
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-          AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
           AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
           AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg007", 1);
+          AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
         }
         break;
       //AllyDestroyedAbility End
@@ -2666,10 +2664,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=$arena");
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give -1/-1", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $mainPlayer, 0, 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0086781673,PLAY", 1);
-      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,1", 1);
       break;
     case "2532510371"://Trace Martez pilot
@@ -3229,10 +3225,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=Space");
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give -2/-2", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $mainPlayer, 0, 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "6436543702,HAND", 1);
-      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,2", 1);
       break;
     case "7000286964"://Vulture Interceptor Wing
@@ -3240,10 +3234,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give -1/-1", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $mainPlayer, 0, 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "7000286964,HAND", 1);
-      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,1", 1);
       break;
     case "2282198576"://Anakin Skywalker

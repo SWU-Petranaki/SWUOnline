@@ -2315,10 +2315,8 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
                   AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
                   AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -2/-2", 1);
                   AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-                  AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
                   AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
                   AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "3399023235-2,HAND", 1);
-                  AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
                   AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,2", 1);
                 }
                 break;
