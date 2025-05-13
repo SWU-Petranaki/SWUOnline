@@ -123,8 +123,8 @@ function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardAr
     if($usesUuid) $sideboardArr[$i]->id = CardIDLookup($sideboardArr[$i]->id);
     $sideboardArr[$i]->id = CardIDOverride($sideboardArr[$i]->id);
     $cardID = CardUUIDOverride(UUIDLookup($sideboardArr[$i]->id));
-    $sideboardSize += $sideboardArr[$i]->count;
-    if(CardSet($cardID) == $previewSet && $format != Formats::$OpenFormat) {
+      $sideboardSize += $sideboardArr[$i]->count;
+    if(CardSet($cardID) == $previewSet && ($format != Formats::$PreviewFormat || $format != Formats::$OpenFormat)) {
       if(!in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
     }
     if(!IsAllowed($cardID, $format) && !in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
