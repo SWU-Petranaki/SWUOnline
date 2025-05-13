@@ -124,9 +124,6 @@ function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardAr
     $sideboardArr[$i]->id = CardIDOverride($sideboardArr[$i]->id);
     $cardID = CardUUIDOverride(UUIDLookup($sideboardArr[$i]->id));
       $sideboardSize += $sideboardArr[$i]->count;
-    if(CardSet($cardID) == $previewSet && ($format != Formats::$PreviewFormat || $format != Formats::$OpenFormat)) {
-      if(!in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
-    }
     if(!IsAllowed($cardID, $format) && !in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
     $found = false;
     for($j=0; $j<count($totalCopies); ++$j) {
