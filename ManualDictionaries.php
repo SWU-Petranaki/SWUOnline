@@ -11,6 +11,9 @@ function ManualCardTitleData() {
     'abcdefg008' => 'Ataru Onslaught',
     'abcdefg009' => 'Talzin\'s Assassin',
     'abcdefg010' => 'Dume',
+    'abcdefg011' => 'Old Daka',
+    'abcdefg012' => 'Nightsister Warrior',
+    'abcdefg013' => 'Soresu Stance',
     //continue manual card titles
     'zzzzzzz002' => 'Sith Temple (Placeholder)',
     'zzzzzzz003' => 'Hidden Jedi Temple (Placeholder)',
@@ -24,6 +27,7 @@ function ManualCardSubtitleData() {
     'abcdefg003' => 'Champion Of Mortis',
     'abcdefg007' => 'We Don\'t Like Strangers',
     'abcdefg010' => 'Redeem The Future',
+    'abcdefg011' => 'Oldest And Wisest',
     //continue manual card subtitles
   );
 }
@@ -40,6 +44,9 @@ function ManualCardCostData() {
     'abcdefg008' => 2,
     'abcdefg009' => 4,
     'abcdefg010' => 4,
+    'abcdefg011' => 5,
+    'abcdefg012' => 2,
+    'abcdefg013' => 1,
     //continue manual card costs
   );
 }
@@ -53,6 +60,8 @@ function ManualCardHPDictionaryData() {
     'abcdefg007' => 4,
     'abcdefg009' => 4,
     'abcdefg010' => 7,
+    'abcdefg011' => 6,
+    'abcdefg012' => 2,
     //continue manual card HP dictionary
     'zzzzzzz002' => 28,
     'zzzzzzz003' => 28,
@@ -68,6 +77,8 @@ function ManualCardPowerData() {
     'abcdefg007' => 2,
     'abcdefg009' => 4,
     'abcdefg010' => 2,
+    'abcdefg011' => 6,
+    'abcdefg012' => 2,
     //continue manual card powers
   );
 }
@@ -96,6 +107,9 @@ function ManualCardAspectsData() {
     'abcdefg008' => 'Aggression',
     'abcdefg009' => 'Vigilance,Villainy',
     'abcdefg010' => 'Vigilance,Vigilance',
+    'abcdefg011' => 'Vigilance,Villainy',
+    'abcdefg012' => 'Vigilance',
+    'abcdefg013' => 'Vigilance',
     //continue manual card aspects
     'zzzzzzz002' => 'Aggression',
     'zzzzzzz003' => 'Cunning',
@@ -114,6 +128,9 @@ function ManualCardTraitsData() {
     'abcdefg008' => 'Learned',
     'abcdefg009' => 'Force,Night',
     'abcdefg010' => 'Force,Creature',
+    'abcdefg011' => 'Force,Night',
+    'abcdefg012' => 'Force,Night',
+    'abcdefg013' => 'Learned',
     //continue manual card traits
   );
 }
@@ -127,6 +144,8 @@ function ManualCardArenasData() {
     'abcdefg007' => 'Ground',
     'abcdefg009' => 'Ground',
     'abcdefg010' => 'Ground',
+    'abcdefg011' => 'Ground',
+    'abcdefg012' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -143,6 +162,9 @@ function ManualDefinedCardTypeData() {
     'abcdefg008' => 'Event',
     'abcdefg009' => 'Unit',
     'abcdefg010' => 'Unit',
+    'abcdefg011' => 'Unit',
+    'abcdefg012' => 'Unit',
+    'abcdefg013' => 'Event',
     //continue manual card types
     'zzzzzzz002' => 'Base',
     'zzzzzzz003' => 'Base',
@@ -160,6 +182,9 @@ function ManualDefinedCardType2Data() {
     'abcdefg008' => 'Event',
     'abcdefg009' => 'Unit',
     'abcdefg010' => 'Unit',
+    'abcdefg011' => 'Unit',
+    'abcdefg012' => 'Unit',
+    'abcdefg013' => 'Event',
     //continue manual card types 2
   );
 }
@@ -171,6 +196,7 @@ function ManualCardIsUniqueData() {
     'abcdefg003' => 1,
     'abcdefg007' => 1,
     'abcdefg010' => 1,
+    'abcdefg011' => 1,
     //continue manual card unique status
   );
 }
@@ -180,6 +206,7 @@ function ManualHasWhenPlayedData() {
     'abcdefg003' => true,
     'abcdefg005' => true,
     'abcdefg009' => true,
+    'abcdefg011' => true,
     //continue manual card when played status
   );
 }
@@ -187,6 +214,7 @@ function ManualHasWhenPlayedData() {
 function ManualHasWhenDestroyedData() {
   return array(
     'abcdefg007' => true,
+    'abcdefg012' => true,
     //continue manual card when destroyed status
   );
 }
@@ -203,6 +231,9 @@ function ManualCardSetData() {
     'abcdefg008' => 'LOF',
     'abcdefg009' => 'LOF',
     'abcdefg010' => 'LOF',
+    'abcdefg011' => 'LOF',
+    'abcdefg012' => 'LOF',
+    'abcdefg013' => 'LOF',
     //continue manual card sets
     'zzzzzzz002' => 'LOF',
     'zzzzzzz003' => 'LOF',
@@ -221,6 +252,9 @@ function ManualUUIDLookupData() {
     'LOF_174' => 'abcdefg008',
     'LOF_035' => 'abcdefg009',
     'LOF_055' => 'abcdefg010',
+    'LOF_036' => 'abcdefg011',
+    'LOF_059' => 'abcdefg012',
+    'LOF_076' => 'abcdefg013',
     //continue manual UUID lookups
   );
 }
@@ -237,6 +271,9 @@ function ManualCardIDLookupData() {
     'abcdefg008' => 'LOF_174',
     'abcdefg009' => 'LOF_035',
     'abcdefg010' => 'LOF_055',
+    'abcdefg011' => 'LOF_036',
+    'abcdefg012' => 'LOF_059',
+    'abcdefg013' => 'LOF_076',
     //continue manual card ID lookups
   );
 }
@@ -253,18 +290,24 @@ function ManualCardRarityData() {
     'abcdefg008' => 'Uncommon',
     'abcdefg009' => 'Common',
     'abcdefg010' => 'Rare',
+    'abcdefg011' => 'Uncommon',
+    'abcdefg012' => 'Common',
+    'abcdefg013' => 'Uncommon',
     //continue manual card rarities
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg011' => true,
+    'abcdefg012' => true,
+    'abcdefg013' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance';
 }
 ?>
