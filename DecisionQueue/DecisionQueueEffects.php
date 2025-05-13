@@ -276,12 +276,12 @@ function ModalAbilities($player, $parameter, $lastResult)
           AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:hasPilotOnly=1");
           AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move a Pilot from.");
           AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
-          AddDecisionQueue("SETDQVAR", $player, "1", 1);
+          AddDecisionQueue("SETDQVAR", $player, "0", 1);
           AddDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
           AddDecisionQueue("FILTER", $player, "LastResult-include-trait-Pilot", 1);
           AddDecisionQueue("SETDQCONTEXT", $player, "Choose a pilot upgrade to move.", 1);
           AddDecisionQueue("CHOOSECARD", $player, "<-", 1);
-          AddDecisionQueue("SETDQVAR", $player, "0", 1);
+          AddDecisionQueue("SETDQVAR", $player, "1", 1);
           AddDecisionQueue("PASSPARAMETER", $player, "1", 1);
           AddDecisionQueue("SETCLASSSTATE", $player, $CS_PlayedAsUpgrade, 1);
           AddDecisionQueue("PASSPARAMETER", $player, $uniqueID, 1);
@@ -883,29 +883,28 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       return 1;
     case "SURVIVORS'GAUNTLET":
-      $prefix = str_starts_with($dqVars[1], "MY") ? "MY" : "THEIR";
+      $prefix = str_starts_with($dqVars[0], "MY") ? "MY" : "THEIR";
       AddDecisionQueue("MULTIZONEINDICES", $player, $prefix . "ALLY", 1);
-      AddDecisionQueue("MZFILTER", $player, "filterUpgradeEligible={0}", 1);
-      AddDecisionQueue("MZFILTER", $player, "index=" . $dqVars[1], 1);
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <0> to.", 1);
+      AddDecisionQueue("MZFILTER", $player, "filterUpgradeEligible={1}", 1);
+      AddDecisionQueue("MZFILTER", $player, "index=" . $dqVars[0], 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <1> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
       return 1;
     case "PREVIZSLA":
-      $upgradeID = $dqVars[0];
+      $upgradeID = $dqVars[1];
       $upgradeCost = CardCost($upgradeID);
       if(NumResourcesAvailable($player) >= $upgradeCost) {
         AddDecisionQueue("YESNO", $player, "if you want to pay " . $upgradeCost . " to steal " . CardName($upgradeID), 1);
         AddDecisionQueue("NOPASS", $player, "-", 1);
         AddDecisionQueue("PAYRESOURCES", $player, $upgradeCost . ",1", 1);
         $preIndex = "MYALLY-" . SearchAlliesForCard($player, "3086868510");
+        //Check if DQ effect returns "PASS"
         if(DecisionQueueStaticEffect("MZFILTER", $player, "filterUpgradeEligible=" . $upgradeID, $preIndex) != "PASS") {
           AddDecisionQueue("PASSPARAMETER", $player, $preIndex, 1);
           AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
         }
         else {
-          AddDecisionQueue("PASSPARAMETER", $player, $dqVars[1], 1);
-          AddDecisionQueue("SETDQVAR", $player, "0", 1);
           AddDecisionQueue("PASSPARAMETER", $player, $upgradeID, 1);
           AddDecisionQueue("OP", $player, "DEFEATUPGRADE", 1);
         }
@@ -1247,10 +1246,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       break;
     case "UWINGLANDER":
-      $ally = Ally::FromUniqueId($parameterArr[1]);
-      AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex(), 1);
-      AddDecisionQueue("SETDQVAR", $player, "1", 1);
-      if(PilotingCost($lastResult) > -1) {
+      $upgradeID = $dqVars[1];
+      if(PilotingCost($upgradeID) > -1) {
         global $CS_PlayedAsUpgrade;
         SetClassState($player, $CS_PlayedAsUpgrade, 1);
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:trait=Vehicle", 1);
@@ -1258,9 +1255,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("PASSREVERT", $player, "-");
       } else {
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:trait=Vehicle");
-        AddDecisionQueue("MZFILTER", $player, "filterUpgradeEligible={0}", 1);
+        AddDecisionQueue("MZFILTER", $player, "filterUpgradeEligible={1}", 1);
       }
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <0> to.", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <1> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
       break;

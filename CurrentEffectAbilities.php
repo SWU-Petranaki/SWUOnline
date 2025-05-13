@@ -284,6 +284,8 @@ function EffectAttackModifier($cardID, $playerID="")
     case "abcdefg003": return -3;//Anakin Skywalker Adult LOF
     case "abcdefg007": return -2;//Karis
     case "abcdefg009": return -3;//Talzin's Assassin
+    case "abcdefgMTL": return -1;//Mother Talzin Leader
+    case "abcdefg014"; return -1;//Mother Talzin Leader unit
     default: return 0;
   }
 }

@@ -900,12 +900,12 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $rv = implode(",", $ally->GetUpgrades());
           return $rv == "" ? "PASS" : $rv;
         case "MOVEUPGRADE":
-          //DQVars[0]: upgrade card ID
-          //DQVars[1]: mzSource (e.g. MYALLY-0, MYDISCARD-0)
+          //DQVars[0]: mzSource (e.g. MYALLY-0, MYDISCARD-0)
+          //DQVars[1]: upgrade card ID
           //LastResult: mzTarget/targetUniqueID (e.g. MYALLY-0, 12)
           $targetAlly = new Ally($lastResult);
-          $upgradeID = $dqVars[0];
-          $mzSource = $dqVars[1];
+          $mzSource = $dqVars[0];
+          $upgradeID = $dqVars[1];
           $mzSourceArr = explode("-", $mzSource);
           $upgradeOwnerID = null;
           [$epicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($targetAlly->GetUpgrades(withMetadata:true), $upgradeID);

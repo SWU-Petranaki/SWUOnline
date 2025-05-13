@@ -403,7 +403,7 @@ function HasSentinel($cardID, $player, $index)
     case "5707383130"://Bendu
     case "8918765832"://Chewbacca
     case "4631297392"://Devastator
-    case "8301e8d7ef"://Chewbacca Leader
+    case "8301e8d7ef"://Chewbacca Leader unit
     case "4786320542"://Obi-Wan Kenobi
     case "3896582249"://Redemption
     case "2855740390"://Lieutenant Childsen
@@ -1567,6 +1567,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "8304104587"://Kanan Jarrus Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "abcdefgMTL"://Mother Talzin Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -1912,6 +1914,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "8304104587"://Kanan Jarrus Leader
       return LeaderAbilitiesIgnored() ? "" : "Shield";
+    case "abcdefgMTL"://Mother Talzin Leader
+      return LeaderAbilitiesIgnored() ? "" : "Debuff";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
@@ -2379,6 +2383,8 @@ function LeaderUnit($cardID) {
       return "5387ca4af6";
     case "8304104587"://Kanan Jarrus
       return "fadc48bab2";
+    case "abcdefgMTL"://Mother Talzin
+      return "abcdefg014";
     default: return "";
   }
 }
@@ -2544,6 +2550,8 @@ function LeaderUndeployed($cardID) {
       return "3357344238";
     case "fadc48bab2"://Kanan Jarrus
       return "8304104587";
+    case "abcdefg014"://Mother Talzin
+      return "abcdefgMTL";
     default: return "";
   }
 }

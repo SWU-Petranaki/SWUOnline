@@ -126,13 +126,14 @@ function CompletesAttackEffect($cardID) {
       InvisibleHandJTL($mainPlayer);
       break;
     case "8544209291"://U-Wing Lander
-      $uid = $attackerAlly->UniqueID();
-      AddDecisionQueue("PASSPARAMETER", $mainPlayer,$uid);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "MYALLY-" . $attackerAlly->Index(), 1);
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer,$attackerAlly->UniqueID(), 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUPGRADES", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose an upgrade to move.", 1);
       AddDecisionQueue("CHOOSECARD", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
-      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "UWINGLANDER,$uid", 1);
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "1", 1);
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "UWINGLANDER", 1);
       break;
     case "6def6570f5"://Qui-Gon Jinn Leader unit
       QuiGonJinnLOF($mainPlayer, true);

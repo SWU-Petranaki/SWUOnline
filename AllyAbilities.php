@@ -1129,6 +1129,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
         }
         break;
+      case "abcdefg012"://Nightsister Warrior
+        Draw($player);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -1171,12 +1174,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           CreateBattleDroid($player);
           break;
         case "1555775184"://Roger Roger
-          AddDecisionQueue("PASSPARAMETER", $player, $upgrades[$i]);
-          AddDecisionQueue("SETDQVAR", $player, "0");
           AddDecisionQueue("FINDINDICES", $player, "MYDISCARD," . $upgrades[$i]);
+          AddDecisionQueue("SETDQVAR", $player, "0");
+          AddDecisionQueue("PASSPARAMETER", $player, $upgrades[$i]);
           AddDecisionQueue("SETDQVAR", $player, "1");
           AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:cardID=3463348370");
-          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to attach <0>", 1);
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to attach <1>", 1);
           AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
           AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
           break;
@@ -1789,8 +1792,8 @@ function AllyAttackedAbility($attackTarget, $index) {
         AddCurrentTurnEffect("1323728003", $mainPlayer, from:"PLAY");
         break;
       case "7501988286"://Death Star Plans
-        $dqVars[0] = "7501988286";
-        $dqVars[1] = $attackTarget;
+        $dqVars[0] = $ally->MZIndex();
+        $dqVars[1] = "7501988286";
         AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY");
         AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly unit to steal the Death Star Plans");
         AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
@@ -2472,6 +2475,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "8496493030"://Sycthe
     case "0726963200"://Ezra LOF
     case "d12b136775"://Obi-Wan Kenobi Leader unit
+    case "abcdefg014"://Mother Talzin Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
@@ -3580,16 +3584,16 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:hasUpgradeOnly=true&THEIRALLY:hasUpgradeOnly=true");
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to take an upgrade from.");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $mainPlayer, "1", 1);
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUPGRADES", 1);
       AddDecisionQueue("FILTER", $mainPlayer, "LastResult-exclude-trait-Pilot", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose an upgrade to take.", 1);
       AddDecisionQueue("CHOOSECARD", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "1", 1);
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY",1);
-      AddDecisionQueue("MZFILTER", $mainPlayer, "filterUpgradeEligible={0}", 1);
+      AddDecisionQueue("MZFILTER", $mainPlayer, "filterUpgradeEligible={1}", 1);
       AddDecisionQueue("MZFILTER", $mainPlayer, "index={1}", 1);
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to move <0> to.", 1);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to move <1> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "MOVEUPGRADE", 1);
       break;
@@ -3652,6 +3656,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to add experience");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
+    case "abcdefg014"://Mother Talzin Leader unit
+      MotherTalzinLOF($mainPlayer, true);
       break;
     default: break;
   }
@@ -3953,11 +3960,11 @@ function PreVizslaSHD($player) {
   AddDecisionQueue("MZFILTER", $player, "trait=Vehicle", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to steal an upgrade from.", 1);
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "1", 1);
+  AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to steal.", 1);
   AddDecisionQueue("CHOOSECARD", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("SETDQVAR", $player, "1", 1);
   AddDecisionQueue("SPECIFICCARD", $player, "PREVIZSLA", 1);
 }
 

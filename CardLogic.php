@@ -1385,14 +1385,14 @@ function ShuttleST149($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:hasUpgradeOnly=token&THEIRALLY:hasUpgradeOnly=token");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move a token upgrade from.", 1);
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "1", 1);
+  AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
   AddDecisionQueue("FILTER", $player, "LastResult-include-isToken-true", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a token upgrade to move.", 1);
   AddDecisionQueue("CHOOSECARD", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("SETDQVAR", $player, "1", 1);
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
-  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <0> to.", 1);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <1> to.", 1);
   AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
 }
@@ -1433,6 +1433,17 @@ function ObiWanKenobiLOF($player, $flipped) {
   if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
+}
+
+function MotherTalzinLOF($player, $flipped) {
+  AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -1/-1");
+  if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+  else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+  if($flipped) AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg014,HAND", 1);
+  else AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefgMTL,HAND", 1);
+  AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,1", 1);
 }
 
 function CountPilotUnitsAndPilotUpgrades($player, $other=false) {
