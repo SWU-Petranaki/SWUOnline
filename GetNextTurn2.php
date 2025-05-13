@@ -585,7 +585,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
           $showButton = false;
           if ($currentLayerId == "ONATTACKABILITY" && $prevLayerId == "ONATTACKABILITY")
             $showButton = true;
-          else if($currentLayerId != "ONATTACKABILITY")
+          else if($currentLayerId != "ONATTACKABILITY" && $prevLayerId != "CONTINUECOMBAT")
             $showButton = true;
           if($showButton) $content .= "<span class='reorder-button'>" . CreateButton($playerID, "<", 32, $i, "18px", useInput: true) . "</span>";
         }

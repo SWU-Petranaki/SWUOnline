@@ -2550,7 +2550,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         $target = GetAttackTarget();
         $defAlly = new Ally($target);
         $defAlly->AddRoundHealthModifier(-2);
-        AddCurrentTurnEffect("8495694166", $defPlayer, from:"PLAY");
+        AddCurrentTurnEffect($cardID, $defPlayer, from:"PLAY", uniqueID:$defAlly->UniqueID());
       }
       break;
     case "3525325147"://Vambrace Grappleshot
