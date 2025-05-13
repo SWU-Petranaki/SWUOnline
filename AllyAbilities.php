@@ -1129,6 +1129,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
         }
         break;
+      case "abcdefg012"://Nightsister Warrior
+        Draw($player);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -2472,6 +2475,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "8496493030"://Sycthe
     case "0726963200"://Ezra LOF
     case "d12b136775"://Obi-Wan Kenobi Leader unit
+    case "abcdefg014"://Mother Talzin Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
@@ -3652,6 +3656,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to add experience");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
+    case "abcdefg014"://Mother Talzin Leader unit
+      MotherTalzinLOF($mainPlayer, true);
       break;
     default: break;
   }

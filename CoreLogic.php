@@ -6907,6 +6907,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
       break;
+    case "abcdefgMTL"://Mother Talzin Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Debuff") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          MotherTalzinLOF($currentPlayer, false);
+        }
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
@@ -7107,6 +7119,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "abcdefg013"://Soresu Stance
+      global $CS_AfterPlayedBy;
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit;trait=Force");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a <b>Force</b> unit to play");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+      AddDecisionQueue("SETCLASSSTATE", $currentPlayer, $CS_AfterPlayedBy, 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7244,6 +7267,11 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "3357344238,HAND", 1);
+      break;
+    case "abcdefg013"://Soresu Stance
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       break;
     default: break;
   }

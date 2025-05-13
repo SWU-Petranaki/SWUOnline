@@ -1435,6 +1435,17 @@ function ObiWanKenobiLOF($player, $flipped) {
   AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
 }
 
+function MotherTalzinLOF($player, $flipped) {
+  AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -1/-1");
+  if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+  else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+  if($flipped) AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg014,HAND", 1);
+  else AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefgMTL,HAND", 1);
+  AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,1", 1);
+}
+
 function CountPilotUnitsAndPilotUpgrades($player, $other=false) {
   $count = $other ? -1 : 0;
   $count += SearchCount(SearchAllies($player, trait:"Pilot"));

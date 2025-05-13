@@ -2480,6 +2480,8 @@ function CurrentTurnEffectsPlayingUnit($player) {
     case "3572356139"://Chewbacca (Walking Carpet)
     //Jump to Lightspeed
     case "3658069276"://Lando Calrissian leader
+    //Legends of the Force
+    case "abcdefg013"://Soresu Stance
       return true;
   }
 
