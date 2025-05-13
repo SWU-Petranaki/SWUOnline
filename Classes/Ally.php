@@ -277,7 +277,8 @@ class Ally {
       case "":
         return true;
       case "THEIRCHAR-0":
-        return !$canAttackBase;
+        if(!$canAttackBase) return true;
+        break;
       default: break;
     }
 
