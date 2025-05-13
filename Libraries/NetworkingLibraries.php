@@ -2265,6 +2265,23 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       $turn[0] = "INSTANT";
       $params = implode(",", [$attackerUniqueID, $attackerCardID, $from, $resourcesPaid]);
       AddLayer("TRIGGER", $currentPlayer, "CONTINUECOMBAT", $params);
+      //if any layers are Ambush layers, put them after combat
+      $tempData = [[]];
+      for ($i = 0; $i < count($layers); $i += LayerPieces()) {
+        if ($layers[$i + 2] == "AMBUSH") {
+          $tempData[0][] = $layers[$i]; unset($layers[$i]);
+          $tempData[0][] = $layers[$i + 1]; unset($layers[$i + 1]);
+          $tempData[0][] = $layers[$i + 2]; unset($layers[$i + 2]);
+          $tempData[0][] = $layers[$i + 3]; unset($layers[$i + 3]);
+          $tempData[0][] = $layers[$i + 4]; unset($layers[$i + 4]);
+          $tempData[0][] = $layers[$i + 5]; unset($layers[$i + 5]);
+          $tempData[0][] = $layers[$i + 6]; unset($layers[$i + 6]);
+          array_values($layers);
+        }
+      }
+      if (count($tempData[0]) > 0) {
+        $layers = array_merge($layers, $tempData[0]);
+      }
       return;
     } else {
       ContinueCombat($uniqueID, $cardID, $currentPlayer, $from, $resourcesPaid);

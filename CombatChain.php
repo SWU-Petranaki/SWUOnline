@@ -26,7 +26,7 @@ function ProcessHitEffect($cardID)
         AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=Ground");
         AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to deal 3 damage", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(3, $mainPlayer, isUnitEffect:1, isUnitEffect:$cardID), 1);
+        AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(3, $mainPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       }
       break;
     case "3280523224"://Rukh
