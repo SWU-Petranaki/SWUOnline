@@ -1385,14 +1385,14 @@ function ShuttleST149($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:hasUpgradeOnly=token&THEIRALLY:hasUpgradeOnly=token");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move a token upgrade from.", 1);
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "1", 1);
+  AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
   AddDecisionQueue("FILTER", $player, "LastResult-include-isToken-true", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a token upgrade to move.", 1);
   AddDecisionQueue("CHOOSECARD", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("SETDQVAR", $player, "1", 1);
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
-  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <0> to.", 1);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move <1> to.", 1);
   AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "MOVEUPGRADE", 1);
 }
