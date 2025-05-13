@@ -3296,10 +3296,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to debuff");
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
         AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
         AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "7109944284-" . $amount . ",HAND", 1);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH," . $amount, 1);
       }
       break;
@@ -3519,10 +3517,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -2/-2", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "3208391441,HAND", 1);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,2", 1);
       break;
     case "4036958275"://Hello There
@@ -3530,10 +3526,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZFILTER", $currentPlayer, "turns=>0");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -4/-4", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "4036958275,HAND", 1);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,4", 1);
       break;
     case "5013214638"://Equalize
@@ -5875,10 +5869,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -1/-1", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
         AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
         AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "5333016146,HAND", 1);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,1", 1);
       }
       break;
@@ -6735,10 +6727,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -5/-5", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
         AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
         AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "3782661648,HAND", 1);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,5", 1);
       break;
     case "4159101997"://Crackshot V-Wing
@@ -7062,17 +7052,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Villainy card in your discard pile");
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
           AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
         }
         if(SearchCount(SearchDiscard($currentPlayer, aspect:"Heroism")) > 0) {
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Heroism card in your discard pile");
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
           AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
         }
       }
       break;
@@ -7111,9 +7101,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY", 1);
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3", 1);
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
           AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg009,HAND", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
         }
       }
       break;
