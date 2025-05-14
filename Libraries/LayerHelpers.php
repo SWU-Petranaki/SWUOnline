@@ -128,13 +128,13 @@ function GetAllyWhenDestroyFriendlyEffects($player, $destroyedCardID, $destroyed
 
 
 function SerializeAllyDestroyData($uniqueID, $lostAbilities, $isUpgraded, $upgrades, $upgradesWithOwnerData,
-  $lastPower, $lastRemainingHP)
+  $lastPower, $lastRemainingHP, $owner)
 {
     $upgradesSerialized = implode(",",$upgrades);
     foreach($upgradesWithOwnerData as $key => $value) if(!($key&1)) unset($upgradesWithOwnerData[$key]);
     $upgradeOwnersSerialized = implode(",", $upgradesWithOwnerData);
 
-    return implode(LAYER_DATA_SEPARATOR,[$uniqueID, $lostAbilities, $isUpgraded, $upgradesSerialized, $upgradeOwnersSerialized, $lastPower, $lastRemainingHP]);
+    return implode(LAYER_DATA_SEPARATOR,[$uniqueID, $lostAbilities, $isUpgraded, $upgradesSerialized, $upgradeOwnersSerialized, $lastPower, $lastRemainingHP, $owner]);
 }
 
 function DeserializeAllyDestroyData($data) {
@@ -151,6 +151,7 @@ function DeserializeAllyDestroyData($data) {
     }
     $lastPower=$arr[5];
     $lastRemainingHP=$arr[6];
+    $owner=$arr[7];
 
     return [
         "UniqueID" => $uniqueID,
@@ -160,6 +161,7 @@ function DeserializeAllyDestroyData($data) {
         "UpgradesWithOwnerData" => $upgradesWithOwnerData,
         "LastPower" => $lastPower,
         "LastRemainingHP" => $lastRemainingHP,
+        "Owner" => $owner,
     ];
 }
 

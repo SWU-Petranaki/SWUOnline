@@ -105,12 +105,13 @@ function IsBannedIP() {
 
 function logUserIP() {
   $watchFor = [
-    "Bulwark",
     "wonderwonder",
     "wonderbread",
     "wonderbreader",
     "johhony",
-    "jelyroll"
+    "jelyroll",
+    "polloganadora",
+    "LolloCava"
   ];
   // Check if the user is Brubraz and log their IP if so
   if (isset($_SESSION["useruid"])

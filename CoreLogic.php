@@ -7519,7 +7519,7 @@ function UseTheForce($player) {
 }
 
 function DQAskToUseTheForce($player, $withNoPass=true) {
-  AddDecisionQueue("YESNO", $player, "Choose if you want to use the Force");
+  AddDecisionQueue("YESNO", $player, "if you want to use the Force");
   if($withNoPass) AddDecisionQueue("NOPASS", $player, "-", 1);
   AddDecisionQueue("USETHEFORCE", $player, "-", 1);
 }

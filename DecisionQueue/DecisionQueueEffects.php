@@ -1078,7 +1078,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $trigger = $data[2];
       $dd=DeserializeAllyDestroyData($trigger);
       AllyDestroyedAbility($player, $target, $dd["UniqueID"], $dd["LostAbilities"],$dd["IsUpgraded"],$dd["Upgrades"],$dd["UpgradesWithOwnerData"],
-        $dd["LastPower"], $dd["LastRemainingHP"]);
+        $dd["LastPower"], $dd["LastRemainingHP"], $dd["Owner"]);
       if($leaderUnitSide == "1") {
         $thrawnLeaderUnit = new Ally("MYALLY-" . SearchAlliesForCard($player, "53207e4131"));
         if($thrawnLeaderUnit->Exists()) {
@@ -1382,6 +1382,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       }
+      break;
+    case "EETHKOTH_LOF":
+      $owner = $parameterArr[1];
+      $from = $owner == $player ? "MYDISCARD" : "THEIRDISCARD";
+      $mzID = SearchMultizone($owner, "$from:cardID=abcdefg013");
+      $first = explode(",", $mzID)[0];
+      MZMoveCard($player, "", "MYRESOURCES", mzIndex: $first);
+      ExhaustResource($player);
       break;
     //SpecificCardLogic End
     default: return "";
