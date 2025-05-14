@@ -1411,6 +1411,21 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex());
       AddDecisionQueue("MZOP", $player, "ATTACK");
       break;
+    case "LUMINOUSBEINGS":
+      $numCards = count($lastResult);
+      ShuffleToBottomDeck($lastResult, $player);
+      DQMultiUnitSelect($player, $numCards, "MYALLY", "to give +4/+4");
+      AddDecisionQueue("SPECIFICCARD", $player, "LUMINOUSBEINGS-BUFF", 1);
+      break;
+    case "LUMINOUSBEINGS-BUFF":
+      $selectedUnits = explode(",",$dqVars[0]);
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $ally->AddEffect("6801641285");
+        $ally->AddRoundHealthModifier(4);
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }

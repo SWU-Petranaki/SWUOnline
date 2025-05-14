@@ -6025,9 +6025,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       break;
     case "7579458834"://Reprocess
+      //Choose up to 4 units in your discard pile
       AddDecisionQueue("FINDINDICES", $currentPlayer, "GYUNITS");
       AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "4-");
       AddDecisionQueue("MULTICHOOSEDISCARD", $currentPlayer, "<-");
+      //specific card "Reprocess"
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "REPROCESS", 1);
       break;
     case "8414572243"://Enfys Nest (Champion of Justice)
@@ -7169,7 +7171,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "6801641285"://Luminous Beings
-
+      AddDecisionQueue("FINDINDICES", $currentPlayer, "GYUNITSTRAIT,Force");
+      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-");
+      AddDecisionQueue("MULTICHOOSEDISCARD", $currentPlayer, "<-");
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LUMINOUSBEINGS", 1);
       break;
     //PlayAbility End
     default: break;

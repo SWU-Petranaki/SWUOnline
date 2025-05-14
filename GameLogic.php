@@ -302,6 +302,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $rv = $subparam . "-" . $spaceAllies;
           break;
         case "GYUNITS": $rv = SearchDiscard($player, definedType:"Unit"); break;
+        case "GYUNITSTRAIT": $rv = SearchDiscard($player, definedType:"Unit", trait:$subparam); break;
         case "GYTYPE": $rv = SearchDiscard($player, $subparam); break;
         case "GYAA": $rv = SearchDiscard($player, "AA"); break;
         case "GYNAA": $rv = SearchDiscard($player, "A"); break;
