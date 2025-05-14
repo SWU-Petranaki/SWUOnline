@@ -8,8 +8,8 @@ function ManualCardTitleData() {
     'abcdefg010' => 'Dume',
     'abcdefg013' => 'Eeth Koth',
     //continue manual card titles
-    'zzzzzzz002' => 'Sith Temple (Placeholder)',
-    'zzzzzzz003' => 'Hidden Jedi Temple (Placeholder)',
+    'zzzzzzz010' => 'Fortress Vader',
+    'zzzzzzz011' => 'Crystal Caves',
   );
 }
 
@@ -42,8 +42,8 @@ function ManualCardHPDictionaryData() {
     'abcdefg010' => 7,
     'abcdefg013' => 4,
     //continue manual card HP dictionary
-    'zzzzzzz002' => 28,
-    'zzzzzzz003' => 28,
+    'zzzzzzz010' => 28,
+    'zzzzzzz011' => 28,
   );
 }
 
@@ -79,8 +79,8 @@ function ManualCardAspectsData() {
     'abcdefg010' => 'Vigilance,Vigilance',
     'abcdefg013' => 'Command,Heroism',
     //continue manual card aspects
-    'zzzzzzz002' => 'Aggression',
-    'zzzzzzz003' => 'Cunning',
+    'zzzzzzz010' => 'Aggression',
+    'zzzzzzz011' => 'Cunning',
   );
 }
 
@@ -115,8 +115,8 @@ function ManualDefinedCardTypeData() {
     'abcdefg010' => 'Unit',
     'abcdefg013' => 'Unit',
     //continue manual card types
-    'zzzzzzz002' => 'Base',
-    'zzzzzzz003' => 'Base',
+    'zzzzzzz010' => 'Base',
+    'zzzzzzz011' => 'Base',
   );
 }
 
@@ -160,8 +160,8 @@ function ManualCardSetData() {
     'abcdefg010' => 'LOF',
     'abcdefg013' => 'LOF',
     //continue manual card sets
-    'zzzzzzz002' => 'LOF',
-    'zzzzzzz003' => 'LOF',
+    'zzzzzzz010' => 'LOF',
+    'zzzzzzz011' => 'LOF',
   );
 }
 
@@ -174,6 +174,8 @@ function ManualUUIDLookupData() {
     'LOF_055' => 'abcdefg010',
     'LOF_097' => 'abcdefg013',
     //continue manual UUID lookups
+    'LOF_026' => 'zzzzzzz010',
+    'LOF_029' => 'zzzzzzz011',
   );
 }
 
@@ -186,6 +188,8 @@ function ManualCardIDLookupData() {
     'abcdefg010' => 'LOF_055',
     'abcdefg013' => 'LOF_097',
     //continue manual card ID lookups
+    'zzzzzzz010' => 'LOF_026',
+    'zzzzzzz011' => 'LOF_029',
   );
 }
 
@@ -198,6 +202,8 @@ function ManualCardRarityData() {
     'abcdefg010' => 'Rare',
     'abcdefg013' => 'Rare',
     //continue manual card rarities
+    'zzzzzzz010' => 'Common',
+    'zzzzzzz011' => 'Common',
   );
 }
 

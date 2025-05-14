@@ -292,8 +292,8 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
             $playerAspects = explode(",", CardAspects($material[1]));
             $base = $material[0];
 
-            $canSwapOutForceBase = $parsedFormat == Formats::$PreviewFormat && !IsRareBase($base)
-              && $base != "0119018087" && $base != "0450346170";
+            //$canSwapOutForceBase = $parsedFormat == Formats::$PreviewFormat && !IsRareBase($base)
+              //&& $base != "0119018087" && $base != "0450346170";
             echo ("<input type='hidden' id='playerAspect' name='playerAspect' value='" . $playerAspects[0] . "'>");
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[1]) : "");
@@ -301,10 +301,6 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
             if ($overlayURL != "")
               echo ("<img title='Portrait' style='position:absolute; z-index:1001; top: 27px; left: 0px; cursor:pointer; height:" . ($isMobile ? 100 : 250) . "; width:100%;' src='" . $overlayURL . "' />");
             echo ("</div>");
-
-            if($canSwapOutForceBase) {
-              echo "<input class='GameLobby_Button' type='button' value='Swap Out Force Base' onclick='SwapOutForceBase()'>";
-            }
 
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[0]) : "");
@@ -492,22 +488,22 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       xmlhttp.send();
     }
 
-    function SwapOutForceBase(base) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var response = JSON.parse(this.responseText);
-          if (response.success) {
-            alert("Force Base swapped out successfully!");
-            location.reload();
-          } else {
-            alert("Failed to swap out Force Base");
-          }
-        }
-      };
-      xmlhttp.open("GET", "SwapOutForceBase.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&authKey=<?php echo ($authKey); ?>&base=" + base, true);
-      xmlhttp.send();
-    }
+    // function SwapOutForceBase(base) {
+    //   var xmlhttp = new XMLHttpRequest();
+    //   xmlhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //       var response = JSON.parse(this.responseText);
+    //       if (response.success) {
+    //         alert("Force Base swapped out successfully!");
+    //         location.reload();
+    //       } else {
+    //         alert("Failed to swap out Force Base");
+    //       }
+    //     }
+    //   };
+    //   xmlhttp.open("GET", "SwapOutForceBase.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&authKey=<?php echo ($authKey); ?>&base=" + base, true);
+    //   xmlhttp.send();
+    // }
   </script>
 </body>
 </html>
