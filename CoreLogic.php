@@ -7081,7 +7081,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg005"://Curious Flock
+    case "4974236883"://Curious Flock
       if($from != "PLAY") {
         $resourcesAvailable = NumResourcesAvailable($currentPlayer);
         $porgsAvailable = min($resourcesAvailable, 6);
@@ -7142,6 +7142,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "OLDDAKA_LOF", 1);
       }
+      break;
+    case "0612354523"://Youngling Padawan
+      if($from != "PLAY") TheForceIsWithYou($currentPlayer);
       break;
     //PlayAbility End
     default: break;

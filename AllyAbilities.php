@@ -1129,7 +1129,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
         }
         break;
-      case "abcdefg012"://Nightsister Warrior
+      case "6772792435"://Nightsister Warrior
         Draw($player);
         break;
       case "abcdefg013"://Eeth Koth
@@ -1137,6 +1137,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           DQAskToUseTheForce($player);
           AddDecisionQueue("SPECIFICCARD", $player, "EETHKOTH_LOF,$owner", 1);
         }
+        break;
+      case "0958021533"://Acolyte of the Beyond
+        TheForceIsWithYou($player);
         break;
       //AllyDestroyedAbility End
       default: break;
@@ -2503,6 +2506,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       //immediate effect. no layer
       AddCurrentTurnEffect($attackerCardID, $mainPlayer, from:"PLAY");
+      break;
+    case "0958021533"://Acolyte of the Beyond
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      TheForceIsWithYou($mainPlayer);
       break;
     default: break;
   }
