@@ -562,18 +562,12 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       break;
     case "RESTOCK":
-      $arr = [];
-      for($i = count($lastResult); $i >= 0; --$i) {
-        if($lastResult[$i] != "") $arr[] = RemoveGraveyard($player, $lastResult[$i]);
-      }
-      RevealCards(implode(",", $arr), $player);
-      if(count($arr) > 0) {
-        RandomizeArray($arr);
-        $deck = new Deck($player);
-        for($i=0; $i<count($arr); ++$i) {
-          $deck->Add($arr[$i]);
-        }
-      }
+      ShuffleToBottomDeck($lastResult, $player);
+      break;
+    case "REPROCESS":
+      $numCards = count($lastResult);
+      ShuffleToBottomDeck($lastResult, $player);
+      for($i=0;$i<$numCards;++$i) CreateBattleDroid($player);
       break;
     case "BAMBOOZLE":
       $upgradesReturned = [];
@@ -1416,6 +1410,21 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "8834515285,HAND"); //Maz Kanata
       AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex());
       AddDecisionQueue("MZOP", $player, "ATTACK");
+      break;
+    case "LUMINOUSBEINGS":
+      $numCards = count($lastResult);
+      ShuffleToBottomDeck($lastResult, $player);
+      DQMultiUnitSelect($player, $numCards, "MYALLY", "to give +4/+4");
+      AddDecisionQueue("SPECIFICCARD", $player, "LUMINOUSBEINGS-BUFF", 1);
+      break;
+    case "LUMINOUSBEINGS-BUFF":
+      $selectedUnits = explode(",",$dqVars[0]);
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $ally->AddEffect("6801641285");
+        $ally->AddRoundHealthModifier(4);
+      }
       break;
     //SpecificCardLogic End
     default: return "";

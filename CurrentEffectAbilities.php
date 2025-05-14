@@ -287,6 +287,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "2520636620": return -1;//Mother Talzin Leader
     case "32fd8db633"; return -1;//Mother Talzin Leader unit
     case "8834515285": return 2;//Maz Kanata
+    case "6801641285": return 4;//Luminous Beings
     default: return 0;
   }
 }
