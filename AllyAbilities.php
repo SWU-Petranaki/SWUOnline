@@ -1129,7 +1129,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
         }
         break;
-      case "abcdefg012"://Nightsister Warrior
+      case "6772792435"://Nightsister Warrior
         Draw($player);
         break;
       case "abcdefg013"://Eeth Koth

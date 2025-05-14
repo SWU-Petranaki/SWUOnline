@@ -855,7 +855,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "8660042329"://Terentatek
       $otherPlayer = $player == 1 ? 2 : 1;
       return HasUnitWithTraitInPlay($otherPlayer, "Force");
-    case "abcdefg001"://temp Darth Tyranus
+    case "4347039495"://Darth Tyranus
       return HasTheForce($player);
     default: break;
   }
@@ -923,7 +923,7 @@ function HasShielded($cardID, $player, $index)
       return true;
     //Legends of the Force
     case "3967581160"://Anakin Skywalker Child LOF
-    case "abcdefg001"://temp Darth Tyranus
+    case "4347039495"://Darth Tyranus
       return true;
     default: break;
   }

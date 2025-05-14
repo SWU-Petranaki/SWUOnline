@@ -7081,7 +7081,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg005"://Curious Flock
+    case "4974236883"://Curious Flock
       if($from != "PLAY") {
         $resourcesAvailable = NumResourcesAvailable($currentPlayer);
         $porgsAvailable = min($resourcesAvailable, 6);
