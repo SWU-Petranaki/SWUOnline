@@ -9,6 +9,7 @@ function ManualCardTitleData() {
     'abcdefg006' => 'Constructed Lightsaber',
     'abcdefg010' => 'Dume',
     'abcdefg012' => 'Nightsister Warrior',
+    'abcdefg013' => 'Eeth Koth',
     //continue manual card titles
     'zzzzzzz002' => 'Sith Temple (Placeholder)',
     'zzzzzzz003' => 'Hidden Jedi Temple (Placeholder)',
@@ -21,6 +22,7 @@ function ManualCardSubtitleData() {
     'abcdefg002' => 'Loving Rancor Keeper',
     'abcdefg003' => 'Champion Of Mortis',
     'abcdefg010' => 'Redeem The Future',
+    'abcdefg013' => 'Spiritual Warrior',
     //continue manual card subtitles
   );
 }
@@ -35,6 +37,7 @@ function ManualCardCostData() {
     'abcdefg006' => 3,
     'abcdefg010' => 4,
     'abcdefg012' => 2,
+    'abcdefg013' => 4,
     //continue manual card costs
   );
 }
@@ -47,6 +50,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg005' => 1,
     'abcdefg010' => 7,
     'abcdefg012' => 2,
+    'abcdefg013' => 4,
     //continue manual card HP dictionary
     'zzzzzzz002' => 28,
     'zzzzzzz003' => 28,
@@ -61,6 +65,7 @@ function ManualCardPowerData() {
     'abcdefg005' => 1,
     'abcdefg010' => 2,
     'abcdefg012' => 2,
+    'abcdefg013' => 5,
     //continue manual card powers
   );
 }
@@ -87,6 +92,7 @@ function ManualCardAspectsData() {
     'abcdefg004' => 'Cunning,Heroism',
     'abcdefg010' => 'Vigilance,Vigilance',
     'abcdefg012' => 'Vigilance',
+    'abcdefg013' => 'Command,Heroism',
     //continue manual card aspects
     'zzzzzzz002' => 'Aggression',
     'zzzzzzz003' => 'Cunning',
@@ -103,6 +109,7 @@ function ManualCardTraitsData() {
     'abcdefg006' => 'Item,Weapon,Lightsaber',
     'abcdefg010' => 'Force,Creature',
     'abcdefg012' => 'Force,Night',
+    'abcdefg013' => 'Force,Jedi,Republic',
     //continue manual card traits
   );
 }
@@ -115,6 +122,7 @@ function ManualCardArenasData() {
     'abcdefg005' => 'Ground',
     'abcdefg010' => 'Ground',
     'abcdefg012' => 'Ground',
+    'abcdefg013' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -129,6 +137,7 @@ function ManualDefinedCardTypeData() {
     'abcdefg006' => 'Upgrade',
     'abcdefg010' => 'Unit',
     'abcdefg012' => 'Unit',
+    'abcdefg013' => 'Unit',
     //continue manual card types
     'zzzzzzz002' => 'Base',
     'zzzzzzz003' => 'Base',
@@ -137,6 +146,7 @@ function ManualDefinedCardTypeData() {
 
 function ManualDefinedCardType2Data() {
   return array(
+    'abcdefg013' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -147,6 +157,7 @@ function ManualCardIsUniqueData() {
     'abcdefg002' => 1,
     'abcdefg003' => 1,
     'abcdefg010' => 1,
+    'abcdefg013' => 1,
     //continue manual card unique status
   );
 }
@@ -162,6 +173,7 @@ function ManualHasWhenPlayedData() {
 function ManualHasWhenDestroyedData() {
   return array(
     'abcdefg012' => true,
+    'abcdefg013' => true,
     //continue manual card when destroyed status
   );
 }
@@ -176,6 +188,7 @@ function ManualCardSetData() {
     'abcdefg006' => 'LOF',
     'abcdefg010' => 'LOF',
     'abcdefg012' => 'LOF',
+    'abcdefg013' => 'LOF',
     //continue manual card sets
     'zzzzzzz002' => 'LOF',
     'zzzzzzz003' => 'LOF',
@@ -192,6 +205,7 @@ function ManualUUIDLookupData() {
     'LOF_261' => 'abcdefg006',
     'LOF_055' => 'abcdefg010',
     'LOF_059' => 'abcdefg012',
+    'LOF_097' => 'abcdefg013',
     //continue manual UUID lookups
   );
 }
@@ -206,6 +220,7 @@ function ManualCardIDLookupData() {
     'abcdefg006' => 'LOF_261',
     'abcdefg010' => 'LOF_055',
     'abcdefg012' => 'LOF_059',
+    'abcdefg013' => 'LOF_097',
     //continue manual card ID lookups
   );
 }
@@ -220,18 +235,20 @@ function ManualCardRarityData() {
     'abcdefg006' => 'Legendary',
     'abcdefg010' => 'Rare',
     'abcdefg012' => 'Common',
+    'abcdefg013' => 'Rare',
     //continue manual card rarities
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg013' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth';
 }
 ?>
