@@ -7176,6 +7176,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTICHOOSEDISCARD", $currentPlayer, "<-");
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LUMINOUSBEINGS", 1);
       break;
+    case "7012130030"://Paladin Training Corvette
+      if($from != "PLAY") {
+        DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Force", "to give an experience to");
+        AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
