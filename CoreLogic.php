@@ -7182,6 +7182,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       }
       break;
+    case "7074896971"://J-Type Nubian Starship
+      Draw($currentPlayer);
+      break;
     //PlayAbility End
     default: break;
   }
