@@ -1409,7 +1409,7 @@ function CaptainPhasmaUnit($player, $phasmaIndex) {
 
 function SavageOpressLOF($player) {
   if(HasTheForce($player)) {
-    DQAskToUseTheForce($player);
+    DQAskToUseTheForce($player, withNoPass:false);
     AddDecisionQueue("SPECIFICCARD", $player, "SAVAGEOPRESS_LOF", 1);
   } else {
     DealDamageAsync($player, 9, "DAMAGE", "1636013021", $player);
