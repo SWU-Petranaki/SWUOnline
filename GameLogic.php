@@ -1620,14 +1620,14 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       return $lastResult;
     case "NOPASS":
       if($lastResult == "NO") return "PASS";
-      return 1;
+      return $lastResult;
     case "YESPASS":
       if($lastResult == "YES") return "PASS";
-      return 1;
+      return $lastResult;
     case "USETHEFORCE":
       if(HasTheForce($player)) {
         UseTheForce($player);
-        return 1;
+        return $lastResult;
       }
       return "PASS";
     case "ATTACKEREXISTSORPASS":

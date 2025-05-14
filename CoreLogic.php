@@ -7518,9 +7518,9 @@ function UseTheForce($player) {
   WriteLog("Player " . $player . " used the Force.");
 }
 
-function DQAskToUseTheForce($player) {
+function DQAskToUseTheForce($player, $withNoPass=true) {
   AddDecisionQueue("YESNO", $player, "Choose if you want to use the Force");
-  AddDecisionQueue("NOPASS", $player, "-", 1);
+  if($withNoPass) AddDecisionQueue("NOPASS", $player, "-", 1);
   AddDecisionQueue("USETHEFORCE", $player, "-", 1);
 }
 
