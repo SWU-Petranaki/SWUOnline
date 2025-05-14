@@ -2119,6 +2119,7 @@ function UpgradeFilter($cardID)
     case "0741296536"://Ahsoka's Padawan Lightsaber
     case "0875550518"://Grievous's Wheel Bike
     case "2167393423"://Darth Maul's Lightsaber
+    case "3445044882"://Qui-Gon Jinn's Lightsaber
       return "trait=Vehicle";
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment

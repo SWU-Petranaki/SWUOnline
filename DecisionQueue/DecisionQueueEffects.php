@@ -1391,6 +1391,32 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       MZMoveCard($player, "", "MYRESOURCES", mzIndex: $first);
       ExhaustResource($player);
       break;
+    case "QGJSABER_LOF":
+      $selectedUnits = explode(",",$dqVars[0]);
+      $totalCost = 0;
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $totalCost += CardCost($ally->CardID());
+      }
+      if($totalCost > 6) {
+        WriteLog("<span style='color:red;'>Combined cost greater than 6. Reverting gamestate.</span>");
+        RevertGamestate();
+        return "";
+      }
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $ally->Exhaust();
+      }
+      break;
+    case "MAZKANATA_LOF":
+      $ally = new Ally($lastResult, $player);
+      AddDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID());
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "8834515285,HAND"); //Maz Kanata
+      AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex());
+      AddDecisionQueue("MZOP", $player, "ATTACK");
+      break;
     //SpecificCardLogic End
     default: return "";
   }
