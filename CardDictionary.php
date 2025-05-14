@@ -320,6 +320,8 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "2948071304": $amount += ($ally->CurrentPower(reportMode:true) + $amount) >= 6 ? 1 : 0; break;//Vonreg's TIE Interceptor
     //Legends of the Force
     case "6082085272": $amount += 1; break;//Forged Starfighter
+    case "2290426901": $amount += 3; break;//Thralls of the Coven
+    case "4043787241": $amount += 3; break;//Strikeship
     default: break;
   }
   //The Ghost JTL
@@ -733,6 +735,7 @@ function HasOverwhelm($cardID, $player, $index)
     //Legends of the Force
     case "1636013021"://Savage Opress
     case "2285555274"://Darth Malak
+    case "4043787241"://Strikeship
       return true;
     default: break;
   }
@@ -833,6 +836,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "9667260960"://Retrofitted Airspeeder
     //Legends of the Force
     case "1270747736"://Qui-Gon Jinn unit
+    case "7529152088"://Depa Billaba
       return true;
 
     //conditional ambush
@@ -1010,6 +1014,7 @@ function HasSaboteur($cardID, $player, $index)
     case "81a416eb1f"://Rio Durant leader unit
     case "3310100725"://Insurgent Saboteurs
     case "1107172562"://Orbiting K-Wing
+    case "7529152088"://Depa Billaba
       return true;
 
     //conditional saboteur
@@ -1077,6 +1082,7 @@ function HasHidden($cardID, $player, $index) {
     case "3995900674"://Tuk'ata
     case "6082085272"://Forged Starfighter
     case "1433284352"://Attuned Fyrnock
+    case "2897264390"://Witch of the Mist
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();

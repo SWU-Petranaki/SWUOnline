@@ -1138,6 +1138,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
           AddDecisionQueue("SPECIFICCARD", $player, "EETHKOTH_LOF,$owner", 1);
         }
         break;
+      case "0958021533"://Acolyte of the Beyond
+        TheForceIsWithYou($player);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -2503,6 +2506,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       //immediate effect. no layer
       AddCurrentTurnEffect($attackerCardID, $mainPlayer, from:"PLAY");
+      break;
+    case "0958021533"://Acolyte of the Beyond
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      TheForceIsWithYou($mainPlayer);
       break;
     default: break;
   }

@@ -7143,6 +7143,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "OLDDAKA_LOF", 1);
       }
       break;
+    case "0612354523"://Youngling Padawan
+      if($from != "PLAY") TheForceIsWithYou($currentPlayer);
+      break;
     //PlayAbility End
     default: break;
   }
