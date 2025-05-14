@@ -1141,6 +1141,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       case "0958021533"://Acolyte of the Beyond
         TheForceIsWithYou($player);
         break;
+    case "7074896971"://J-Type Nubian Starship
+      PummelHit($player);
+      break;
       //AllyDestroyedAbility End
       default: break;
     }
