@@ -282,10 +282,10 @@ function EffectAttackModifier($cardID, $playerID="")
     //Legends of the Force
     case "8496493030": return 2; //Sycthe
     case "abcdefg003": return -3;//Anakin Skywalker Adult LOF
-    case "abcdefg007": return -2;//Karis
-    case "abcdefg009": return -3;//Talzin's Assassin
-    case "abcdefgMTL": return -1;//Mother Talzin Leader
-    case "abcdefg014"; return -1;//Mother Talzin Leader unit
+    case "1991532931": return -2;//Karis
+    case "2410965424": return -3;//Talzin's Assassin
+    case "2520636620": return -1;//Mother Talzin Leader
+    case "32fd8db633"; return -1;//Mother Talzin Leader unit
     default: return 0;
   }
 }
@@ -539,7 +539,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
           case "7138400365"://The Invisible Hand
           case "2580909557"://Qui-Gon Jinn Leader
           case "6def6570f5"://Qui-Gon Jinn Leader unit
-          case "abcdefg011"://Old Daka
+          case "0564229530"://Old Daka
             $costModifier -= 99;
             $remove = true;
             break;

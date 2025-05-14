@@ -2105,9 +2105,12 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
       default: break;
     }
   }
-  if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0 && SearchUpgradesForCard($currentPlayer, "7501988286") != ""){//Death Star Plans
+  //Death Star Plans
+  if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0
+      && SearchUpgradesForCard($currentPlayer, "7501988286") != ""
+      && DefinedCardType($cardID) == "Unit"
+      && GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == 0)
     $modifier -= SearchCount(SearchUpgradesForCard($currentPlayer, "7501988286"));
-  }
   //My ally cost modifier
   $allies = &GetAllies($currentPlayer);
   for($i=0; $i<count($allies); $i+=AllyPieces())
@@ -6907,7 +6910,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
       break;
-    case "abcdefgMTL"://Mother Talzin Leader
+    case "2520636620"://Mother Talzin Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Debuff") {
         if(!HasTheForce($currentPlayer)) {
@@ -7099,13 +7102,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MIND_TRICK", 1);
       }
       break;
-    case "abcdefg008"://Ataru Onslaught
+    case "6736342819"://Ataru Onslaught
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:maxAttack=4;trait=Force&THEIRALLY:maxAttack=4;trait=Force");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to ready");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
       break;
-    case "abcdefg009"://Talzin's Assassin
+    case "2410965424"://Talzin's Assassin
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
           DQAskToUseTheForce($currentPlayer);
@@ -7114,12 +7117,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3", 1);
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg009,HAND", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "2410965424,HAND", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
         }
       }
       break;
-    case "abcdefg013"://Soresu Stance
+    case "8032269906"://Soresu Stance
       global $CS_AfterPlayedBy;
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit;trait=Force");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit to play");
@@ -7130,7 +7133,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
-    case "abcdefg011"://Old Daka
+    case "0564229530"://Old Daka
       if($from != "PLAY") {
         $cardTitle = CardTitle($cardID);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:definedType=Unit;trait=Night");
@@ -7278,7 +7281,7 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "3357344238,HAND", 1);
       break;
-    case "abcdefg013"://Soresu Stance
+    case "8032269906"://Soresu Stance
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);

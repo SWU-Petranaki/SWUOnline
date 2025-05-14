@@ -1378,7 +1378,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       if($canPlayFromDiscard) {
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD:definedType=Unit;cardID=$cardID");
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to play for free (or pass to skip)");
-        AddDecisionQueue("ADDCURRENTEFFECT", $player, "abcdefg011", 1);
+        AddDecisionQueue("ADDCURRENTEFFECT", $player, "0564229530", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       }

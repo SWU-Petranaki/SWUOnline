@@ -1441,8 +1441,8 @@ function MotherTalzinLOF($player, $flipped) {
   if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
-  if($flipped) AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefg014,HAND", 1);
-  else AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "abcdefgMTL,HAND", 1);
+  if($flipped) AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "32fd8db633", 1);
+  else AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "2520636620", 1);
   AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,1", 1);
 }
 

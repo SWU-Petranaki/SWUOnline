@@ -2498,7 +2498,7 @@ function CurrentTurnEffectsPlayingUnit($player) {
     //Jump to Lightspeed
     case "3658069276"://Lando Calrissian leader
     //Legends of the Force
-    case "abcdefg013"://Soresu Stance
+    case "8032269906"://Soresu Stance
       return true;
   }
 
