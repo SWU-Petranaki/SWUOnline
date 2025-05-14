@@ -7155,6 +7155,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("OP", $currentPlayer, "PLAYCARD,DECK", 1);
       }
       break;
+    case "3445044882":
+      if(CardTitle(GetMZCard($currentPlayer, $target)) == "Qui-Gon Jinn") {
+        $totalUnits = intval(SearchCount(SearchAllies($currentPlayer)) + intval(SearchCount(SearchAllies($otherPlayer))));
+        DQMultiUnitSelect($currentPlayer, $totalUnits, "MYALLY&THEIRALLY", "to exhaust (combined 6 power or less)");
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "QGJSABER_LOF", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
