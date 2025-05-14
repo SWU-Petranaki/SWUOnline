@@ -433,7 +433,7 @@ function DestroyAlly($player, $index,
       || UpgradesContainWhenDefeated($upgrades)
       || CurrentEffectsContainWhenDefeated($player, $uniqueID);
     if(!$lostAbilities && $shouldLayerDestroyTriggers)
-      $whenDestroyData=SerializeAllyDestroyData($uniqueID,$lostAbilities,$isUpgraded,$upgrades,$upgradesWithOwnerData,$lastPower,$lastRemainingHP);
+      $whenDestroyData=SerializeAllyDestroyData($uniqueID,$lostAbilities,$isUpgraded,$upgrades,$upgradesWithOwnerData,$lastPower,$lastRemainingHP,$owner);
     if($isSuperlaserTech && !$lostAbilities)
       $whenResourceData=SerializeResourceData("PLAY","DOWN",0,"0","-1");
     if(!$lostAbilities && ($hasBounty || UpgradesContainBounty($upgrades)))
@@ -857,7 +857,7 @@ function AllyLeavesPlayAbility($player, $index)
   }
 }
 
-function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUpgraded, $upgrades, $upgradesWithOwnerData, $lastPower, $lastRemainingHp)
+function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUpgraded, $upgrades, $upgradesWithOwnerData, $lastPower, $lastRemainingHp, $owner)
 {
   global $initiativePlayer, $currentTurnEffects;
 
@@ -1131,6 +1131,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         break;
       case "abcdefg012"://Nightsister Warrior
         Draw($player);
+        break;
+      case "abcdefg013"://Eeth Koth
+        if(HasTheForce($player)) {
+          DQAskToUseTheForce($player);
+          AddDecisionQueue("SPECIFICCARD", $player, "EETHKOTH_LOF,$owner", 1);
+        }
         break;
       //AllyDestroyedAbility End
       default: break;
