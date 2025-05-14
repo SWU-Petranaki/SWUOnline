@@ -2444,6 +2444,10 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
+    case "3389903389"://Black One JTL
+      if (ControlsNamedCard($mainPlayer, "Poe Dameron"))
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
     case "1990020761"://Shuttle Tydirium
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -2849,12 +2853,10 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       DealDamageAsync($defPlayer, 1, "DAMAGE", "51e8757e4c", sourcePlayer:$mainPlayer);
       break;
     case "3389903389"://Black One JTL
-      if (ControlsNamedCard($mainPlayer, "Poe Dameron")) {
-        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 1 damage to");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(1, $mainPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
-      }
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 1 damage to");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(1, $mainPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
       break;
     case "8395007579"://Fifth Brother
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to deal 1 damage to Fifth Brother?");
