@@ -535,6 +535,10 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             $costModifier -= 2;
             $remove = true;
             break;
+          case "1553569317"://Kelleran Beq
+            $costModifier -= 3;
+            $remove = true;
+            break;
           //modified for free from hand
           case "7138400365"://The Invisible Hand
           case "2580909557"://Qui-Gon Jinn Leader

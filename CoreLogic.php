@@ -7146,6 +7146,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "0612354523"://Youngling Padawan
       if($from != "PLAY") TheForceIsWithYou($currentPlayer);
       break;
+    case "1553569317"://Kelleran Beq
+      if($from != "PLAY") {
+        AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "7;1;include-definedType-Unit");
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("OP", $currentPlayer, "PLAYCARD,DECK", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
