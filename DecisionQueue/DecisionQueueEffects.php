@@ -562,18 +562,12 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       break;
     case "RESTOCK":
-      $arr = [];
-      for($i = count($lastResult); $i >= 0; --$i) {
-        if($lastResult[$i] != "") $arr[] = RemoveGraveyard($player, $lastResult[$i]);
-      }
-      RevealCards(implode(",", $arr), $player);
-      if(count($arr) > 0) {
-        RandomizeArray($arr);
-        $deck = new Deck($player);
-        for($i=0; $i<count($arr); ++$i) {
-          $deck->Add($arr[$i]);
-        }
-      }
+      ShuffleToBottomDeck($lastResult, $player);
+      break;
+    case "REPROCESS":
+      $numCards = count($lastResult);
+      ShuffleToBottomDeck($lastResult, $player);
+      for($i=0;$i<$numCards;++$i) CreateBattleDroid($player);
       break;
     case "BAMBOOZLE":
       $upgradesReturned = [];
