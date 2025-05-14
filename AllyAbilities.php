@@ -3993,11 +3993,11 @@ function SurvivorsGauntletSHD($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:hasUpgradeOnly=true&THEIRALLY:hasUpgradeOnly=true");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move an upgrade from.", 1);
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "1", 1);
+  AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to move.", 1);
   AddDecisionQueue("CHOOSECARD", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("SETDQVAR", $player, "1", 1);
   AddDecisionQueue("SPECIFICCARD", $player, "SURVIVORS'GAUNTLET", 1);
 }
 
