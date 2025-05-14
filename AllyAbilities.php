@@ -2102,7 +2102,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   } else {
     $attackerAlly = new Ally($attackerUniqueID);
   }
-  $attackerIndex = $attackerAlly->Index();
   $attackID = $attackerAlly->CardID();
   if($attackerAlly->LostAbilities()) return;
 
@@ -2148,23 +2147,21 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       case "3525325147"://Vambrace Grappleshot
         $totalOnAttackAbilities++;
         if ($reportMode) break;
-        if(IsAllyAttackTarget()) {
+        if(IsAllyAttackTarget())
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
-        }
         break;
       case "6471336466"://Vambrace Flamethrower
         $totalOnAttackAbilities++;
         if ($reportMode) break;
-        if(SearchCount(SearchAllies($defPlayer, arena:"Ground")) > 0) {
+        if(SearchCount(SearchAllies($defPlayer, arena:"Ground")) > 0)
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
-        }
         break;
       case "3141660491"://The Darksaber
         $totalOnAttackAbilities++;
         if ($reportMode) break;
-        if(SearchCount(SearchAllies($mainPlayer, trait:"Mandalorian")) > 0) {
+        $attachedIsMandalorian = TraitContains($attackerAlly->CardID(), "Mandalorian", $mainPlayer);
+        if(SearchCount(SearchAllies($mainPlayer, trait:"Mandalorian")) > ($attachedIsMandalorian ? 1 : 0))
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
-        }
         break;
       case "0414253215"://General's Blade
         if(TraitContains($attackerAlly->CardID(), "Jedi", $mainPlayer)) {
@@ -2181,8 +2178,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         if ($reportMode) break;
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
-
-      //Jump to Lightspeed
       case "4573745395"://Bossk pilot
         $totalOnAttackAbilities++;
         if ($reportMode) break;
@@ -2219,14 +2214,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   // Ally Abilities
   $attackerCardID = $attackerAlly->CardID();
   switch($attackerCardID) {
-    case "3468546373"://General Rieekan
+    //Spark of Rebellion
     case "6931439330"://The Ghost
-    case "1503633301"://Survivors' Gauntlet
-    case "8380936981"://Jabba's Rancor
-    case "3086868510"://Pre Vizsla
-    case "1304452249"://Covetous Rivals
-    case "5818136044"://Xanadu Blood
-    case "7533529264"://Wolffe
     case "8009713136"://C-3PO
     case "8691800148"://Reinforcement Walker
     case "7728042035"://Chimaera
@@ -2240,7 +2229,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "59cd013a2d"://Grand Moff Tarkin Leader Unit
     case "8240629990"://Avenger
     case "5449704164"://2-1B Surgical Droid
-    case "6570091935"://Tranquility
     case "51e8757e4c"://Sabine Wren Leader Unit
     case "8395007579"://Fifth Brother
     case "6827598372"://Grand Inquisitor Leader Unit
@@ -2250,70 +2238,10 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "3646264648"://Sabine Wren (Explosives Artist)
     case "5e90bd91b0"://Han Solo Leader Unit
     case "6c5b96c7ef"://Emperor Palpatine Leader Unit
-    case "8190373087"://Gentle Giant
-    case "2522489681"://Zorii Bliss
-    case "4534554684"://Freetown Backup
-    case "4721657243"://Kihraxz Heavy Fighter
-    case "5511838014"://Kuiil
-    case "9472541076"://Grey Squadron Y-Wing
-    case "7291903225"://Rickety Quadjumper
-    case "7171636330"://Chain Code Collector
-    case "a579b400c0"://Bo-Katan Kryze
-    case "7982524453"://Fennec Shand
-    case "3622749641"://Krrsantan
-    case "9115773123"://Coruscant Dissident
-    case "e091d2a983"://Rey Leader Unit
-    case "5632569775"://Lom Pyke
-    case "0398102006"://The Invisible Hand
-    case "2585318816"://Resolute
-    case "1039176181"://Kalani
-    case "5966087637"://Poe Dameron
-    case "1320229479"://Multi-Troop Transport
-    case "8862896760"://Maul
-    case "5080989992"://Rose Tico
-    case "9040137775"://Principled Outlaw
-    case "0196346374"://Rey (Keeping the Past)
-    case "6263178121"://Kylo Ren (Killing the Past)
-    case "8903067778"://Finn leader unit
-    case "c9ff9863d7"://Hunter (Outcast Sergeant)
-    case "9734237871"://Ephant Mon
-    case "7922308768"://Valiant Assault Ship
-    case "7789777396"://Mister Bones
-    case "0ee1e18cf4"://Obi-wan Kenobi
-    case "6412545836"://Morgan Elsbeth
-    case "6436543702"://Providence Destroyer
-    case "7000286964"://Vulture Interceptor Wing
-    case "6fa73a45ed"://Count Dooku Leader Unit
-    case "0038286155"://Chancellor Palpatine
-    case "0354710662"://Saw Gerrera (Resistance Is Not Terrorism)
-    case "0021045666"://San Hill
-    case "1314547987"://Shaak Ti
-    case "9964112400"://Rush Clovis
-    case "6648824001"://Obi-Wan's Aethersprite
-    case "1641175580"://Kit Fisto
-    case "12122bc0b1"://Wat Tambor
-    case "b7caecf9a3"://Nute Gunray
-    case "fb7af4616c"://General Grievious
-    case "3556557330"://Asajj Ventress (Count Dooku's Assassin)
-    case "f8e0c65364"://Asajj Ventress (deployed leader)
-    case "2843644198"://Sabine Wren (You Can Count On Me)
-    case "4ae6d91ddc"://Padme Amidala
-    case "3033790509"://Captain Typho
-    case "4489623180"://Ziro the Hutt
-    case "9216621233"://Jar Jar Binks
-    case "8414572243"://Enfys Nest (Champion of Justice)
-    case "7979348081"://Kraken
-    case "4776553531"://General Grievous (Trophy Collector)
-    case "6406254252"://Soulless One (Customized for Grievous)
+    case "7533529264"://Wolffe
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      break;
-    case "0693815329"://Cad Bane (Hostage Taker)
-      $totalOnAttackAbilities++;
-      if ($reportMode) break;
-      if(Ally::FromUniqueId($attackerUniqueID)->HasCaptive())
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
     case "9568000754"://R2-D2
       $totalOnAttackAbilities++;
@@ -2350,18 +2278,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       }
       break;
-    case "8307804692"://Padme Admidala
-      if(IsCoordinateActive($mainPlayer)) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
-      break;
-    case "3389903389"://Black One JTL
-      $totalOnAttackAbilities++;
-      if ($reportMode) break;
-      if (ControlsNamedCard($mainPlayer, "Poe Dameron")) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
-      break;
     case "4156799805"://Boba Fett (Disintegrator)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -2386,30 +2302,116 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         }
       }
       break;
+    //Shadows of the Galaxy
+    case "3468546373"://General Rieekan
+    case "8190373087"://Gentle Giant
+    case "2522489681"://Zorii Bliss
+    case "4534554684"://Freetown Backup
+    case "4721657243"://Kihraxz Heavy Fighter
+    case "5511838014"://Kuiil
+    case "9472541076"://Grey Squadron Y-Wing
+    case "7291903225"://Rickety Quadjumper
+    case "7171636330"://Chain Code Collector
+    case "a579b400c0"://Bo-Katan Kryze
+    case "7982524453"://Fennec Shand
+    case "3622749641"://Krrsantan
+    case "9115773123"://Coruscant Dissident
+    case "e091d2a983"://Rey Leader Unit
+    case "5632569775"://Lom Pyke
+    case "5966087637"://Poe Dameron
+    case "5080989992"://Rose Tico
+    case "9040137775"://Principled Outlaw
+    case "0196346374"://Rey (Keeping the Past)
+    case "6263178121"://Kylo Ren (Killing the Past)
+    case "8903067778"://Finn leader unit
+    case "c9ff9863d7"://Hunter (Outcast Sergeant)
+    case "9734237871"://Ephant Mon
+    case "7922308768"://Valiant Assault Ship
+    case "1503633301"://Survivors' Gauntlet
+    case "8380936981"://Jabba's Rancor
+    case "3086868510"://Pre Vizsla
+    case "1304452249"://Covetous Rivals
+    case "5818136044"://Xanadu Blood
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    case "8862896760"://Maul
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(SearchCount(SearchAllies($mainPlayer, trait:"Underworld")) > 1)
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    case "9725921907"://Kintan Intimidator
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(IsAllyAttackTarget())
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    case "9951020952"://Koska Reeves
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if($attackerAlly->IsUpgraded())
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    //Twilight of the Republic
+    case "7789777396"://Mister Bones
+    case "0ee1e18cf4"://Obi-wan Kenobi
+    case "6412545836"://Morgan Elsbeth
+    case "6436543702"://Providence Destroyer
+    case "7000286964"://Vulture Interceptor Wing
+    case "6fa73a45ed"://Count Dooku Leader Unit
+    case "0038286155"://Chancellor Palpatine
+    case "0354710662"://Saw Gerrera (Resistance Is Not Terrorism)
+    case "0021045666"://San Hill
+    case "1314547987"://Shaak Ti
+    case "9964112400"://Rush Clovis
+    case "6648824001"://Obi-Wan's Aethersprite
+    case "1641175580"://Kit Fisto
+    case "12122bc0b1"://Wat Tambor
+    case "b7caecf9a3"://Nute Gunray
+    case "fb7af4616c"://General Grievious
+    case "3556557330"://Asajj Ventress (Count Dooku's Assassin)
+    case "f8e0c65364"://Asajj Ventress (deployed leader)
+    case "2843644198"://Sabine Wren (You Can Count On Me)
+    case "4ae6d91ddc"://Padme Amidala
+    case "3033790509"://Captain Typho
+    case "4489623180"://Ziro the Hutt
+    case "9216621233"://Jar Jar Binks
+    case "8414572243"://Enfys Nest (Champion of Justice)
+    case "7979348081"://Kraken
+    case "4776553531"://General Grievous (Trophy Collector)
+    case "6406254252"://Soulless One (Customized for Grievous)
+    case "6570091935"://Tranquility
+    case "0398102006"://The Invisible Hand
+    case "2585318816"://Resolute
+    case "1039176181"://Kalani
+    case "1320229479"://Multi-Troop Transport
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    case "8307804692"://Padme Admidala
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(IsCoordinateActive($mainPlayer))
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
+    case "0693815329"://Cad Bane (Hostage Taker)
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(Ally::FromUniqueId($attackerUniqueID)->HasCaptive())
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      break;
     case "5445166624"://Clone Dive Trooper
       // This card doesn't have On Attack ability
       if (IsCoordinateActive($mainPlayer)) {
         AddCurrentTurnEffect("5445166624", $defPlayer, from:"PLAY");
       }
       break;
-    case "9725921907"://Kintan Intimidator
-      $totalOnAttackAbilities++;
-      if ($reportMode) break;
-      if(IsAllyAttackTarget()) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
-      break;
-    case "9951020952"://Koska Reeves
-      $totalOnAttackAbilities++;
-      if ($reportMode) break;
-      if($attackerAlly->IsUpgraded()) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
-      break;
     case "2282198576"://Anakin Skywalker
-      if(IsCoordinateActive($mainPlayer)) {
+      if(IsCoordinateActive($mainPlayer))
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
       break;
     //Jump to Lightspeed
     case "2778554011"://General Draven
@@ -2446,16 +2448,14 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       $card = Mill($mainPlayer, 1);
-      if(CardCostIsOdd($card)) {
+      if(CardCostIsOdd($card))
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
       break;
     case "4573745395"://Bossk
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      if(IsAllyAttackTarget()) {
+      if(IsAllyAttackTarget())
         AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
-      }
       break;
     case "9667260960"://Retrofitted Airspeeder
       // This card doesn't have On Attack ability
@@ -3219,6 +3219,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "6412545836"://Morgan Elsbeth
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerAlly->Index());
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to sacrifice to draw a card");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "DESTROY,$mainPlayer", 1);
