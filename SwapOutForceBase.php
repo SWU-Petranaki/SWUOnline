@@ -69,8 +69,8 @@ $aspect = CardAspects($charPieces[0]);
 $newBase = match($aspect) {
   "Vigilance" => "0119018087",
   "Command" => "0450346170",
-  "Aggression" => "zzzzzzz002",
-  "Cunning" => "zzzzzzz003",
+  "Aggression" => "zzzzzzz010",
+  "Cunning" => "zzzzzzz011",
   default => $charPieces[0]
 };
 
