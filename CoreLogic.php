@@ -7155,11 +7155,20 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("OP", $currentPlayer, "PLAYCARD,DECK", 1);
       }
       break;
-    case "3445044882":
+    case "3445044882"://Qui-Gon Jinn's Lightsaber
       if(CardTitle(GetMZCard($currentPlayer, $target)) == "Qui-Gon Jinn") {
         $totalUnits = intval(SearchCount(SearchAllies($currentPlayer)) + intval(SearchCount(SearchAllies($otherPlayer))));
         DQMultiUnitSelect($currentPlayer, $totalUnits, "MYALLY&THEIRALLY", "to exhaust (combined 6 power or less)");
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "QGJSABER_LOF", 1);
+      }
+      break;
+    case "8834515285"://Maz Kanata
+      if($from != "PLAY") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Force");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit to attack with");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MAZKANATA_LOF", 1);
       }
       break;
     //PlayAbility End

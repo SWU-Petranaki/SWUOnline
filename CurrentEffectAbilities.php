@@ -286,6 +286,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "2410965424": return -3;//Talzin's Assassin
     case "2520636620": return -1;//Mother Talzin Leader
     case "32fd8db633"; return -1;//Mother Talzin Leader unit
+    case "8834515285": return 2;//Maz Kanata
     default: return 0;
   }
 }
@@ -934,6 +935,8 @@ function IsCombatEffectActive($cardID)
     case "6413979593"://Punch it
     case "1355075014"://Air Assault
     case "9667260960"://Retrofitted Airspeeder
+    //Legends of the Force
+    case "8834515285"://Maz Kanata
       return true;
     default: return false;
   }

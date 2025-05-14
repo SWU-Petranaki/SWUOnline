@@ -1410,6 +1410,13 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally->Exhaust();
       }
       break;
+    case "MAZKANATA_LOF":
+      $ally = new Ally($lastResult, $player);
+      AddDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID());
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "8834515285,HAND"); //Maz Kanata
+      AddDecisionQueue("PASSPARAMETER", $player, $ally->MZIndex());
+      AddDecisionQueue("MZOP", $player, "ATTACK");
+      break;
     //SpecificCardLogic End
     default: return "";
   }
