@@ -192,6 +192,19 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
       }
       ?>
       <h2>Block List</h2>
+      <?php
+      $myBlockedPlayers = LoadBlockedPlayers($_SESSION["userid"]);
+      if (count($myBlockedPlayers) > 0) {
+          echo ("<table>");
+          echo ("<tr><td>Blocked Player</td></tr>");
+          for ($i = 0; $i < count($myBlockedPlayers); $i += 2) {
+              echo ("<tr>");
+              echo ("<td>" . $myBlockedPlayers[$i+1] . "</td>");
+              echo ("</tr>");
+          }
+          echo ("</table>");
+      }
+      ?>
       <form class="form-resetpwd" action="includes/BlockUser.php" method="post">
           <input class="block-input" type="text" name="userToBlock" placeholder="User to block">
           <button type="submit" name="block-user-submit">Block</button>

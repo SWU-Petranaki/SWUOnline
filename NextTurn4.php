@@ -541,6 +541,17 @@
         // Copy it to clipboard
         document.execCommand("copy");
       }
+
+      function ShowBlockOpponentForm() {
+        var form = document.getElementById('blockOppForm');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+            document.getElementById('blockOppButton').textContent = 'Hide';
+        } else {
+            form.style.display = 'none';
+            document.getElementById('blockOppButton').textContent = 'Block Opponent';
+        }
+      }
     </script>
 
     <script src="./jsInclude250308.js"></script>

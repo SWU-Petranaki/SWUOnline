@@ -552,7 +552,7 @@ function LoadBlockedPlayers($playerId)
 	if ($playerId == "") return [];
 	$output = [];
 	$conn = GetDBConnection();
-	$sql = "select blockedPlayer from `blocklist` where blockingPlayer=(?)";
+  $sql = "select blockedPlayer, usersuid from `blocklist` B join `users` U on U.usersId = B.blockedPlayer where blockingPlayer=(?)";
 	$stmt = mysqli_stmt_init($conn);
 	if (mysqli_stmt_prepare($stmt, $sql)) {
 		mysqli_stmt_bind_param($stmt, "s", $playerId);
@@ -560,6 +560,7 @@ function LoadBlockedPlayers($playerId)
 		$data = mysqli_stmt_get_result($stmt);
 		while ($row = mysqli_fetch_array($data, MYSQLI_NUM)) {
 			$output[] = $row[0];
+      $output[] = $row[1];
 		}
 		mysqli_stmt_close($stmt);
 	}

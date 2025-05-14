@@ -74,6 +74,7 @@ switch ($popupType) {
         $content = "";
         $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict);
         $content .= CreateButton($playerID, "Report Bug", 100003, 0, "24px") . "<BR>";
+        $content .= BlockOpponentButtons($playerID);
       }
       $content .= "</div>";
       $time = ($playerID == 1 ? $p1TotalTime : $p2TotalTime);
@@ -103,7 +104,6 @@ switch ($popupType) {
     $otherPlayer = ($playerID == 1 ? 2 : 1);
     if($playerID == 3) echo (CreatePopup("theirDiscardPopup", $theirDiscard, 1, 0, "Opponent's Discard Zone", DiscardPieces()));
     else echo (CreatePopup("theirDiscardPopup", [], 1, 0, "Opponent's Discard", 1, DiscardUI($otherPlayer)));
-    break;
     break;
   case "theirSoulPopup":
     echo (CreatePopup("theirSoulPopup", $theirSoul, 1, 0, "Opponent's Soul"));
