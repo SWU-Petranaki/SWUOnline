@@ -2105,9 +2105,12 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
       default: break;
     }
   }
-  if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0 && SearchUpgradesForCard($currentPlayer, "7501988286") != ""){//Death Star Plans
+  //Death Star Plans
+  if(GetClassState($currentPlayer, $CS_NumUnitsPlayed) == 0
+      && SearchUpgradesForCard($currentPlayer, "7501988286") != ""
+      && DefinedCardType($cardID) == "Unit"
+      && GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == 0)
     $modifier -= SearchCount(SearchUpgradesForCard($currentPlayer, "7501988286"));
-  }
   //My ally cost modifier
   $allies = &GetAllies($currentPlayer);
   for($i=0; $i<count($allies); $i+=AllyPieces())
