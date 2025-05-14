@@ -2839,7 +2839,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
       break;
     case "8240629990"://Avenger
-      MZChooseAndDestroy($defPlayer, "MYALLY", filter: "leader=1", context: "Choose a unit to destroy");
+      MZChooseAndDestroy($defPlayer, "MYALLY", filter: "leader=1", context: "Choose a unit to defeat.");
       break;
     case "5449704164"://2-1B Surgical Droid
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY");

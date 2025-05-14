@@ -575,6 +575,8 @@ function HasGrit($cardID, $player, $index)
     case "9832122703"://Luminara Unduli
       return IsCoordinateActive($player);
     //Legends of the Force
+    case "8633377277"://Pong Krell
+      return true;
     case "2352895392"://Plo Koon
       return HasTheForce($player);
     default: break;

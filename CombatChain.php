@@ -138,6 +138,13 @@ function CompletesAttackEffect($cardID) {
     case "6def6570f5"://Qui-Gon Jinn Leader unit
       QuiGonJinnLOF($mainPlayer, true);
       break;
+    case "8633377277"://Pong Krell
+      $lessThanCurrenPower = $attackerAlly->CurrentPower() - 1;
+      MZChooseAndDestroy($mainPlayer,
+        "MYALLY:maxHealth=$lessThanCurrenPower&THEIRALLY:maxHealth=$lessThanCurrenPower",
+        may:true,
+        context:"You may choose a unit with less than " . ($lessThanCurrenPower + 1) . " health to defeat.");
+      break;
     default: break;
   }
 }
