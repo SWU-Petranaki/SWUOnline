@@ -60,14 +60,14 @@ if($playerID == 2 && isset($_SESSION["userid"])) {
   $theyBlockedMe = false;
 
   $myBlockedPlayers = LoadBlockedPlayers($_SESSION["userid"]);
-  for($i=0; $i<count($myBlockedPlayers); ++$i) {
+  for($i=0; $i<count($myBlockedPlayers); $i+=2) {
     if($myBlockedPlayers[$i] == $p1id) {
       $iBlockedThem = true;
       break;
     }
   }
   $theirBlockedPlayers = LoadBlockedPlayers($p1id);
-  for($i=0; $i<count($theirBlockedPlayers); ++$i) {
+  for($i=0; $i<count($theirBlockedPlayers); $i+=2) {
     if($theirBlockedPlayers[$i] == $_SESSION["userid"]) {
       $theyBlockedMe = true;
       break;
