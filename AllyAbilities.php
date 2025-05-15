@@ -2725,7 +2725,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     //Legends of the Force
     case "0412810079"://Sith Holocron
-      AddDecisionQueue("YESNO", $mainPlayer, "Deal damage to buff this attack?");
+      AddDecisionQueue("YESNO", $mainPlayer, "to deal damage to buff this attack");
       AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly unit to deal 2 damage to", 1);

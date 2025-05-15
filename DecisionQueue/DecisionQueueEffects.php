@@ -316,6 +316,26 @@ function ModalAbilities($player, $parameter, $lastResult)
         default: break;
       }
       return $lastResult;
+    case "9069308523"://Impossible Escape
+      switch($lastResult) {
+        case 0://Exhaust a friendly unit
+          AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY");
+          AddDecisionQueue("MZFILTER", $player, "status=1");
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a friendly unit to exhaust");
+          AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+          AddDecisionQueue("MZOP", $player, "REST", 1);
+          break;
+        case 1://Use the Force
+          UseTheForce($player);
+          break;
+        default: break;
+      }
+      AddDecisionQueue("DRAW", $player, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose an enemy unit to exhaust");
+      AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "REST", 1);
+      break;
     default: return "";
   }
   //ModalAbilities end
