@@ -1326,7 +1326,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("OPT", $owner, "<-", 1);
       break;
     case "GROGU_LOF":
-      $target = new Ally($lastResult, $player);
+      $allyPlayer = MZPlayerID($player, $lastResult);
+      $target = new Ally($lastResult, $allyPlayer);
       $healed = $target->Heal(2);
       if ($healed > 0) {
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
