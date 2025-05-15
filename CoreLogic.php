@@ -2861,11 +2861,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "GUERILLAINSURGENCY");
       break;
     case "7202133736"://Waylay
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to return to hand");
-      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "BOUNCE", 1);
+      DQWaylay($currentPlayer);
       break;
     case "5283722046"://Spare the Target
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
@@ -6599,7 +6595,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "2614693321"://Salvage
       global $CS_AfterPlayedBy;
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYDISCARD:definedType=Unit&trait=Vehicle");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYDISCARD:definedType=Unit;trait=Vehicle");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
@@ -7183,16 +7179,24 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "7074896971"://J-Type Nubian Starship
-      Draw($currentPlayer);
+      if($from != "PLAY") Draw($currentPlayer);
       break;
     case "5390030381"://Infused Brawler
       if($from != "PLAY") {
-      if(HasTheForce($currentPlayer)) {
-        DQAskToUseTheForce($currentPlayer); 
-        AddDecisionQueue("NOPASS", $currentPlayer, "-");
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYALLY-" . $playAlly->Index(), 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "INFUSED-BRAWLER", 1);
+        if(HasTheForce($currentPlayer)) {
+          DQAskToUseTheForce($currentPlayer);
+          AddDecisionQueue("NOPASS", $currentPlayer, "-");
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYALLY-" . $playAlly->Index(), 1);
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "INFUSED-BRAWLER", 1);
+        }
       }
+      break;
+    case "9021149512"://The Will of the Force
+      DQWaylay($currentPlayer);
+      if(HasTheForce($currentPlayer)) {
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "WILLOFTHEFORCE", 1);
       }
       break;
     //PlayAbility End
@@ -7583,6 +7587,14 @@ function DQTakeControlOfANonLeaderUnit($player) {
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
   AddDecisionQueue("MZOP", $player, "TAKECONTROL", 1);
+}
+
+function DQWaylay($player) {
+  AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+  AddDecisionQueue("MZFILTER", $player, "leader=1");
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to return to hand");
+  AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
 }
 
 function ShuffleToBottomDeck($cards, $player) {
