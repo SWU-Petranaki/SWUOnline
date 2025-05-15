@@ -987,6 +987,9 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       AddDecisionQueue("NOPASS", $player, "-",1);
       AddDecisionQueue("USEWHENPLAYED", $player, $target, 1);
       break;
+    case "2508430135"://Oggdo Bogdo
+      Ally::FromUniqueId($target)->Heal(2);
+      break;
     default: break;
   }
 }

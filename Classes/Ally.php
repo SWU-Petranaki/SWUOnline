@@ -270,6 +270,8 @@ class Ally {
 
     if($this->CardID() == "4332645242" && !$this->LostAbilities())//Corporate Defense Shuttle
       return true;
+    if($this->CardID() == "2508430135" && $this->Damage() == 0 && !$this->LostAbilities())//Oggdo Bogdo
+      return true;
 
     $canAttackBase = $combatChainState[$CCS_CantAttackBase] == 0;
     $attackTargets = GetTargetsForAttack($this, $canAttackBase);
