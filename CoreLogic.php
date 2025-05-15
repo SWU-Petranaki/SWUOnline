@@ -7227,6 +7227,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
+    case "abcdefg014"://Kit Fistos Aethersprite
+      WriteLog("inside");
+      DefeatUpgrade($currentPlayer);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KITFISTOAETHERSPRITE", 1);
+      break;
     //PlayAbility End
     default: break;
   }

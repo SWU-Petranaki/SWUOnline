@@ -964,6 +964,7 @@ function HasSaboteur($cardID, $player, $index)
       //Jump to Lightspeed
       case "3272995563": return false;//In The Heat of Battle
       case "8656409691": return true;//Rio Durant leader
+      case "abcdefg014": return true;//Kit Fisto Aethersprite
       default: break;
     }
   }
