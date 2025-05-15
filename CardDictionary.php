@@ -485,6 +485,9 @@ function HasSentinel($cardID, $player, $index)
       return SearchCount(SearchAllies($player, trait:"Vehicle")) > 0;
     case "5763330426"://The Ghost
       return $ally->IsUpgraded();
+    //Legends of the Force
+    case "0775347605"://Chirrut Imwe
+      return true;
     case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
       global $CS_NumForcePlayed;
       if(GetClassState($player, $CS_NumForcePlayed) > 0) return true;
@@ -1244,7 +1247,7 @@ function GetAbilityType($cardID, $index = -1, $from="-")
   global $currentPlayer, $mainPlayer;
 
   if($from == "PLAY" && IsAlly($cardID)) {
-    $myAllies = GetAllies($currentPlayer);
+    $myAllies = GetAllies($mainPlayer);
     if(isset($myAllies[$index]) && Ally::FromUniqueId($myAllies[$index + 5])->CantAttack()) {
       return "";
     }
