@@ -1837,6 +1837,13 @@ function AllyAttackedAbility($attackTarget, $index) {
     case "6300552434"://Gold Leader
       AddCurrentTurnEffect("6300552434", $mainPlayer, from:"PLAY");
       break;
+    case "0775347605"://Chirrut Imwe
+      $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
+      $uniqueID = $attackerAlly->UniqueID();
+      DQAskToUseTheForce($defPlayer);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, $uniqueID, 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0775347605,PLAY", 1);
+      break;
     default: break;
   }
 }
