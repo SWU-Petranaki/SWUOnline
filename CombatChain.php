@@ -145,6 +145,9 @@ function CompletesAttackEffect($cardID) {
         may:true,
         context:"You may choose a unit with less than " . ($lessThanCurrenPower + 1) . " health to defeat.");
       break;
+    case "5390030381"://Infused Brawler
+      $attackerAlly->DefeatUpgrade("2007868442");
+      break;
     default: break;
   }
 }

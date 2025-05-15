@@ -1142,8 +1142,8 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         TheForceIsWithYou($player);
         break;
     case "7074896971"://J-Type Nubian Starship
-      PummelHit($player);
-      break;
+        PummelHit($player);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -1883,6 +1883,8 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
         return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
+      case "4145147486"://Kylo Ren LOF
+        return DefinedTypesContains($playedCardID, "Upgrade");
       default: break;
     }
   } else { // When an opponent plays a card
@@ -2053,6 +2055,14 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("PASSPARAMETER", $player, $uniqueID, 1);
           AddDecisionQueue("MZOP", $player, "ADDSHIELD", 1);
           AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
+        }
+        break;
+      case "4145147486"://Kylo Ren LOF
+        if(HasTheForce($player)) {
+          AddDecisionQueue("YESNO", $player, "if you want to use the force and draw a card");
+          AddDecisionQueue("NOPASS", $player, "-", 1);
+          AddDecisionQueue("USETHEFORCE", $player, "-", 1);
+          AddDecisionQueue("DRAW", $player, "-", 1);
         }
         break;
       default: break;

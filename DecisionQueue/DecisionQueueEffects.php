@@ -1426,6 +1426,12 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally->AddRoundHealthModifier(4);
       }
       break;
+    case "INFUSED-BRAWLER":
+      $controller = MZPlayerID($player, $lastResult);
+      $ally = new Ally($lastResult, $controller);
+      $ally->AttachExperience();
+      $ally->AttachExperience();
+      break;
     //SpecificCardLogic End
     default: return "";
   }
