@@ -2122,8 +2122,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   switch($myBase) {
     case "0119018087"://Shadowed Undercity
     case "0450346170"://Jedi Temple
-    case "zzzzzzz002"://red force base 28 HP
-    case "zzzzzzz003"://yellow force base 28 HP
+    case "zzzzzzz010"://Fortress Vader
+    case "zzzzzzz011"://Crystal Caves
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
         TheForceIsWithYou($mainPlayer);
     break;
@@ -3993,11 +3993,11 @@ function SurvivorsGauntletSHD($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:hasUpgradeOnly=true&THEIRALLY:hasUpgradeOnly=true");
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to move an upgrade from.", 1);
   AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "1", 1);
+  AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to move.", 1);
   AddDecisionQueue("CHOOSECARD", $player, "<-", 1);
-  AddDecisionQueue("SETDQVAR", $player, "0", 1);
+  AddDecisionQueue("SETDQVAR", $player, "1", 1);
   AddDecisionQueue("SPECIFICCARD", $player, "SURVIVORS'GAUNTLET", 1);
 }
 
