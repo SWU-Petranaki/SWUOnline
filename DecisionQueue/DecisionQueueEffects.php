@@ -1432,6 +1432,11 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $ally->AttachExperience();
       $ally->AttachExperience();
       break;
+    case "WILLOFTHEFORCE":
+      $mzIndex = $dqVars[0];
+      $owner = str_starts_with($mzIndex, "MY") ? $player : $otherPlayer;
+      DiscardRandom($owner, "9021149512");
+      break;
     //SpecificCardLogic End
     default: return "";
   }
