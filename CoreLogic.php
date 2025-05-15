@@ -7185,6 +7185,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "7074896971"://J-Type Nubian Starship
       Draw($currentPlayer);
       break;
+    case "5390030381"://Infused Brawler
+      if($from != "PLAY") {
+      if(HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer); 
+        AddDecisionQueue("NOPASS", $currentPlayer, "-");
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYALLY-" . $playAlly->Index(), 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "INFUSED-BRAWLER", 1);
+      }
+      }
+      break;
     //PlayAbility End
     default: break;
   }
