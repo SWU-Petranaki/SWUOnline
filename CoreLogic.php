@@ -7199,6 +7199,26 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "WILLOFTHEFORCE", 1);
       }
       break;
+    case "9069308523"://Impossible Escape
+        if(HasTheForce($currentPlayer)) {
+          $options = "Exhaust a friendly unit;Use the Force";
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose one");
+          AddDecisionQueue("CHOOSEOPTION", $currentPlayer, "$cardID&$options");
+          AddDecisionQueue("SHOWOPTIONS", $currentPlayer, "$cardID&$options");
+          AddDecisionQueue("MODAL", $currentPlayer, "9069308523");
+        } else {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+          AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to exhaust");
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+          AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy unit to exhaust");
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+        }
+      break;
     //PlayAbility End
     default: break;
   }
