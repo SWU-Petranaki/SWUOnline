@@ -288,6 +288,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "32fd8db633"; return -1;//Mother Talzin Leader unit
     case "8834515285": return 2;//Maz Kanata
     case "6801641285": return 4;//Luminous Beings
+    case "0412810079": return 2;//Sith Holocron
     default: return 0;
   }
 }
@@ -937,7 +938,9 @@ function IsCombatEffectActive($cardID)
     case "1355075014"://Air Assault
     case "9667260960"://Retrofitted Airspeeder
     //Legends of the Force
+    case "2167393423"://Darth Maul's Lightsaber
     case "8834515285"://Maz Kanata
+    case "0412810079"://Sith Holocron
       return true;
     default: return false;
   }

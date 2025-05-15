@@ -2196,6 +2196,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       case "1938453783"://Armed to the Teeth
       case "6775521270"://Inspiring Mentor
       case "5016817239"://Superheavy Ion Cannon
+      case "0412810079"://Sith Holocron
         $totalOnAttackAbilities++;
         if ($reportMode) break;
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
@@ -2714,11 +2715,21 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       }
       break;
     case "6079255999"://Darth Vader pilot unit
-      $attackerCardID = $attackerAlly->CardID();
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to deal 1 damage to");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "VADER_UNIT_JTL,$attackerCardID", 1);
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "VADER_UNIT_JTL,$attackID", 1);
+      break;
+    //Legends of the Force
+    case "0412810079"://Sith Holocron
+      AddDecisionQueue("YESNO", $mainPlayer, "Deal damage to buff this attack?");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly unit to deal 2 damage to", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:1, unitCardID:$attackID), 1);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0412810079,PLAY", 1);
       break;
     //end upgrades
     case "3468546373"://General Rieekan
