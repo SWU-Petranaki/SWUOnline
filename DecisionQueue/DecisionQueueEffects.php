@@ -1458,6 +1458,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $owner = str_starts_with($mzIndex, "MY") ? $player : $otherPlayer;
       DiscardRandom($owner, "9021149512");
       break;
+    case "KITFISTOAETHERSPRITE":
+      PrependDecisionQueue("SPECIFICCARD", $player, "KITFISTOAETHERSPRITE", 1);
+      PrependDecisionQueue("OP", $player, "DEFEATUPGRADE", 1);
+      PrependDecisionQueue("MAYCHOOSECARD", $player, "<-", 1);
+      PrependDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to defeat", 1);
+      PrependDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
+      PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

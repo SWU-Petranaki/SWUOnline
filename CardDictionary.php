@@ -166,6 +166,7 @@ function RestoreAmount($cardID, $player, $index)
     case "6797297267": $amount += 2; break;//Darth Sidious
     case "754e979196": $amount += 1; break;//Darth Revan Leader Unit
     case "5264998537": $amount += 2; break;//Owen Lars
+    case "abcdefg015": $amount += 1; break;//Village Tender
     default: break;
   }
   //The Ghost JTL
@@ -963,6 +964,7 @@ function HasSaboteur($cardID, $player, $index)
       //Jump to Lightspeed
       case "3272995563": return false;//In The Heat of Battle
       case "8656409691": return true;//Rio Durant leader
+      case "abcdefg014": return true;//Kit Fisto Aethersprite
       default: break;
     }
   }
@@ -1089,6 +1091,7 @@ function HasHidden($cardID, $player, $index) {
     case "6082085272"://Forged Starfighter
     case "1433284352"://Attuned Fyrnock
     case "2897264390"://Witch of the Mist
+    case "abcdefg015"://Village Tender
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
