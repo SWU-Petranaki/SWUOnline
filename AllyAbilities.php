@@ -1457,6 +1457,9 @@ function OnKillAbility($player, $uniqueID)
     case "6769342445"://Jango Fett
       Draw($mainPlayer);
       break;
+    case "2508430135"://Oggdo Bogdo
+      AddLayer("TRIGGER", $mainPlayer, "2508430135", $attackerAlly->UniqueID());
+      break;
     default: break;
   }
 }
