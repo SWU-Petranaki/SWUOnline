@@ -174,19 +174,38 @@ if ($decklink != "") {
     echo "Error Message: " . $errorMessage . "<BR>";
     exit;
   }
-
+  $previewSet = "LOF";
   $deckObj = json_decode($json);
   $deckName = $deckObj->metadata->{"name"};
-  $leader = !$usesUuid ? UUIDLookup($deckObj->leader->id) : $deckObj->leader->id;
-  $character = $leader;//TODO: Change to leader name
-  if($leader == "") {
+  $setCodeLeader = $deckObj->leader->id;
+  $leader = !$usesUuid ? UUIDLookup($setCodeLeader) : $setCodeLeader;
+  if($leader == "" && str_starts_with($setCodeLeader, $previewSet . "_")) {
+    $_SESSION['error'] = "<div>⚠️ Error: Leader $setCodeLeader is not available yet in Petranaki.<br/>Please tell the devs on our Discord to add it manually.</div>";
+    header("Location: " . $redirectPath . "/MainMenu.php");
+    WriteGameFile();
+    exit;
+  }
+  else if($leader == "") {
     $_SESSION['error'] = "<div>⚠️ Error: Deck link not supported. <br/>Make sure it is not private and that the deck link is correct.</div>";
     header("Location: " . $redirectPath . "/MainMenu.php");
     WriteGameFile();
     exit;
   }
   $deckFormat = 1;
-  $base = !$usesUuid ? UUIDLookup($deckObj->base->id) : $deckObj->base->id;
+  $baseSetCode = $deckObj->base->id;
+  $base = !$usesUuid ? UUIDLookup($baseSetCode) : $baseSetCode;
+  if($base == "" && str_starts_with($baseSetCode, $previewSet . "_")) {
+    $_SESSION['error'] = "<div>⚠️ Error: Base $baseSetCode is not available yet in Petranaki.<br/>Please tell the devs on our Discord to add it manually.</div>";
+    header("Location: " . $redirectPath . "/MainMenu.php");
+    WriteGameFile();
+    exit;
+  }
+  else if($base == "") {
+    $_SESSION['error'] = "<div>⚠️ Error: Deck link not supported. <br/>Make sure it is not private and that the deck link is correct.</div>";
+    header("Location: " . $redirectPath . "/MainMenu.php");
+    WriteGameFile();
+    exit;
+  }
   $deck = $deckObj->deck;
   $sideboard = $deckObj->sideboard;
   if(!IsAllowed($leader, $format)) {
@@ -218,7 +237,7 @@ if ($decklink != "") {
         }, $validation->UnavailableCards())) . "</ul></div>";
     }
     header("Location: " . $redirectPath . "/MainMenu.php");
-      WriteGameFile();
+    WriteGameFile();
     exit;
   }
   $cards = $validation->CardString();
