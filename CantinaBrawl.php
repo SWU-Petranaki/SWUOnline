@@ -80,12 +80,7 @@ include_once 'Header.php';
   <p class="ref-page-brawl-rule-detail">
     (Any Leader allowed, No Rare bases, no Special rarity cards unless they are a Leader or have a Common variant)
   </p>
-  <br/>
-  <p>
-    More Coming Very Soon!
-  </p>
-  <br/><br/><br/>
-  <div style="display: none;">
+
   <h2>Sandcrawler:</h2>
   <p>
     Try winning with whatever junk you can salvage from the desert! Construct a deck without any Rare or Legendary cards!
@@ -99,15 +94,21 @@ include_once 'Header.php';
     Fight for freedom as the Rebellion, or help bring order to the galaxy as the Galactic Empire! Your Leader and each Unit in your deck must have either the REBEL or IMPERIAL trait!
   </p>
   <p class="ref-page-brawl-rule-detail">
-    (Events and Upgrades are unaffected)
+    (Bases, Events, and Upgrades are unaffected)
   </p>
 
+  <br/>
+  <p>
+    More Coming Very Soon!
+  </p>
+  <br/><br/><br/>
+  <div style="display: none;">
   <h2>The Clone Wars:</h2>
   <p>
     Simulate one of the many battles that were waged across the galaxy during The Clone Wars. Your Leader and each Unit in your deck must have either the REPUBLIC or SEPARATIST trait!
   </p>
   <p class="ref-page-brawl-rule-detail">
-    (Events and Upgrades are unaffected)
+    (Bases, Events, and Upgrades are unaffected)
   </p>
   </div>
   <div style="display: none;">
