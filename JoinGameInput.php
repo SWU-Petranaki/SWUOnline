@@ -210,9 +210,15 @@ if ($decklink != "") {
         . implode("", array_map(function($x) {
           return "<li>" . JsHtmlTitleAndSub($x) . "</li>";
         }, $validation->InvalidCards())) . "</ul></div>";
+    } else if(count($validation->UnavailableCards()) > 0) {
+      $rejectionDetail = $validation->RejectionDetail($format);
+      $_SESSION['error'] .= "<div><div><h3>" . $rejectionDetail . "</h3><h2>Unavailable Cards:</h2></div><ul>"
+        . implode("", array_map(function($x) {
+          return "<li>" . JsHtmlTitleAndSub($x) . "</li>";
+        }, $validation->UnavailableCards())) . "</ul></div>";
     }
     header("Location: " . $redirectPath . "/MainMenu.php");
-    WriteGameFile();
+      WriteGameFile();
     exit;
   }
   $cards = $validation->CardString();
@@ -307,6 +313,7 @@ header("Location: " . $redirectPath . "/GameLobby.php?gameName=$gameName&playerI
 
 function JsHtmlTitleAndSub($cardID) {
   $forJS = CardTitle($cardID);
+  if($forJS == "") return $cardID;
   if(CardSubtitle($cardID) != "") $forJS .= " (" . CardSubtitle($cardID) . ")";
   return str_replace("'", "\'", $forJS);
 }

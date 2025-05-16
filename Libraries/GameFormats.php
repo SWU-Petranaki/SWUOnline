@@ -45,12 +45,15 @@ class DeckValidation {
   private string $_cardString = "";
   private string $_sideboardString = "";
 
-  public function __construct($errorCode, $invalidCards, $tooManyCopies, $cardString, $sideboardString) {
+  private array $_unavailableCards = [];
+
+  public function __construct($errorCode, $invalidCards, $tooManyCopies, $cardString, $sideboardString, $unavailableCards) {
     $this->_errorCode = $errorCode;
     $this->_invalidCards = $invalidCards;
     $this->_tooManyCopies = $tooManyCopies;
     $this->_cardString = $cardString;
     $this->_sideboardString = $sideboardString;
+    $this->_unavailableCards = $unavailableCards;
   }
 
   public function Error($format) {
@@ -62,6 +65,7 @@ class DeckValidation {
       ValidationCode::FormatInvalid => "⚠️ Your deck contains cards that are not allowed in the $display Format",
       ValidationCode::TooManyCopies => "⚠️ Your deck is valid, but it contains too many copies of one or more cards",
       ValidationCode::TooFewCopies => "⚠️ Your deck is valid, but it contains too few copies of one or more cards",
+      ValidationCode::CardsUnavailable => "⚠️ Your deck contains cards that are not available in Petranaki yet",
       default => "",
     };
   }
@@ -82,6 +86,10 @@ class DeckValidation {
     return $this->_sideboardString;
   }
 
+  public function UnavailableCards() {
+    return $this->_unavailableCards;
+  }
+
   public function RejectionDetail($format) {
     return match($format) {
       Formats::$PadawanFormat => "Only Common cards are allowed, with the exception of Leaders. No Rare Bases are allowed, and no Special rarity cards unless they are a Leader or have a Common variant.",
@@ -94,19 +102,20 @@ class DeckValidation {
 }
 
 function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardArr): DeckValidation {
-  $previewSet = "LOF";
   $deckSize = 0;
   $cards = "";
   $invalidCards = [];
   $totalCopies = [];
   $tooManyCopies = [];
+  $unavailableCards = [];
   for($i=0; $i<count($deckArr); ++$i) {
     if($usesUuid) $deckArr[$i]->id = CardIDLookup($deckArr[$i]->id);
     $deckArr[$i]->id = CardIDOverride($deckArr[$i]->id);
     $cardID = UUIDLookup($deckArr[$i]->id);
     $cardID = CardUUIDOverride($cardID);
     $deckSize += $deckArr[$i]->count;
-    if(!IsAllowed($cardID, $format) && !in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
+    if($cardID == "") $unavailableCards[] = $deckArr[$i]->id;
+    else if(!IsAllowed($cardID, $format) && !in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
     $totalCopies[] = ["id" => $cardID, "count" => $deckArr[$i]->count];
     for($j=0; $j<$deckArr[$i]->count; ++$j) {
       if($cards != "") $cards .= " ";
@@ -114,7 +123,7 @@ function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardAr
     }
   }
   if($deckSize < (50 + DeckModifier($base)) && $format != Formats::$OpenFormat) {
-    return new DeckValidation(ValidationCode::DeckSize, [], [], "", "");
+    return new DeckValidation(ValidationCode::DeckSize, [], [], "", "", []);
   }
   $sideboardSize = 0;
   $sideboardCards = "";
@@ -124,7 +133,8 @@ function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardAr
     $sideboardArr[$i]->id = CardIDOverride($sideboardArr[$i]->id);
     $cardID = CardUUIDOverride(UUIDLookup($sideboardArr[$i]->id));
       $sideboardSize += $sideboardArr[$i]->count;
-    if(!IsAllowed($cardID, $format) && !in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
+    if($cardID == "") $unavailableCards[] = $deckArr[$i]->id;
+    else if(!IsAllowed($cardID, $format) && !in_array($cardID, $invalidCards)) $invalidCards[] = $cardID;
     $found = false;
     for($j=0; $j<count($totalCopies); ++$j) {
       if($totalCopies[$j]["id"] == $cardID) {
@@ -145,15 +155,18 @@ function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardAr
     }
   }
   if($format == Formats::$PremierStrict && $sideboardSize > 10) {
-    return new DeckValidation(ValidationCode::SideboardSize, [], [], "", "");
+    return new DeckValidation(ValidationCode::SideboardSize, [], [], "", "", []);
   }
   if(count($invalidCards) > 0) {
-    return new DeckValidation(ValidationCode::FormatInvalid, $invalidCards, $tooManyCopies, "", "");
+    return new DeckValidation(ValidationCode::FormatInvalid, $invalidCards, $tooManyCopies, "", "", $unavailableCards);
   }
   if(count($tooManyCopies) > 0) {
-    return new DeckValidation(ValidationCode::TooManyCopies, $invalidCards, $tooManyCopies, "", "");
+    return new DeckValidation(ValidationCode::TooManyCopies, $invalidCards, $tooManyCopies, "", "", $unavailableCards);
   }
-  return new DeckValidation(ValidationCode::Valid, [], [], $cards, $sideboardCards);
+  if(count($unavailableCards) > 0) {
+    return new DeckValidation(ValidationCode::CardsUnavailable, $invalidCards, [], "", "", $unavailableCards);
+  }
+  return new DeckValidation(ValidationCode::Valid, [], [], $cards, $sideboardCards, []);
 }
 
 function DeckModifier($base): int {
@@ -326,6 +339,8 @@ enum ValidationCode: int {
   case DeckMax = 4;
   case TooManyCopies = 5;
   case TooFewCopies = 6;
+
+  case CardsUnavailable = 7;
 }
 
 
