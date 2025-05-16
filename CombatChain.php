@@ -289,7 +289,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       $modifier += SearchCount(SearchAllies($otherPlayer, damagedOnly:true));
       break;
     case "3213928129"://Clone Combat Squadron
-      $modifier += SearchCount(SearchAllies($player, arena:"Space"))-1;
+      $modifier += (SearchCount(SearchAllies($player, arena:"Space")) - 1);
       break;
     case "6931439330"://The Ghost SOR (with Phantom II)
     case "5763330426"://The Ghost JTL (with Phantom II)
@@ -317,6 +317,10 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
       $modifier += ($atLeastOneCreature || $atLeastAnotherSpectre) ? 2 : 0;
       break;
+    case "abcdefg018"://Kit Fisto Leader unit
+      if(LeaderAbilitiesIgnored()) break;
+      $modifier += (SearchCount(SearchAllies($player, trait:"Jedi")) - 1);
+      break;
     default: break;
   }
 
@@ -341,7 +345,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
 
 function BlockModifier($cardID, $from, $resourcesPaid)
 {
-  global $defPlayer, $mainPlayer, $CS_ArcaneDamageTaken, $combatChain, $chainLinks;
+  global $defPlayer, $mainPlayer, $combatChain, $chainLinks;
   $blockModifier = 0;
   switch($cardID) {
 

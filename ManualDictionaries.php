@@ -11,9 +11,11 @@ function ManualCardTitleData() {
     'abcdefg015' => 'Village Tender',
     'abcdefg016' => 'Directed by the Force',
     'abcdefg017' => 'Shien Flurry',
+    'abcdefg018' => 'Kit Fisto',
     //continue manual card titles
     'zzzzzzz010' => 'Fortress Vader',
     'zzzzzzz011' => 'Crystal Caves',
+    'zzzzzzz020' => 'Kit Fisto'
   );
 }
 
@@ -24,7 +26,9 @@ function ManualCardSubtitleData() {
     'abcdefg010' => 'Redeem The Future',
     'abcdefg013' => 'Spiritual Warrior',
     'abcdefg014' => 'Good Hunting',
+    'abcdefg018' => 'Focused Jedi Master',
     //continue manual card subtitles
+    'zzzzzzz020' => 'Focused Jedi Master',
   );
 }
 
@@ -40,7 +44,9 @@ function ManualCardCostData() {
     'abcdefg015' => 1,
     'abcdefg016' => 1,
     'abcdefg017' => 1,
+    'abcdefg018' => 5,
     //continue manual card costs
+    'zzzzzzz020' => 5,
   );
 }
 
@@ -52,6 +58,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg013' => 4,
     'abcdefg014' => 5,
     'abcdefg015' => 3,
+    'abcdefg018' => 6,
     //continue manual card HP dictionary
     'zzzzzzz010' => 28,
     'zzzzzzz011' => 28,
@@ -66,6 +73,7 @@ function ManualCardPowerData() {
     'abcdefg013' => 5,
     'abcdefg014' => 4,
     'abcdefg015' => 1,
+    'abcdefg018' => 1,
     //continue manual card powers
   );
 }
@@ -95,9 +103,11 @@ function ManualCardAspectsData() {
     'abcdefg015' => 'Command',
     'abcdefg016' => 'Command',
     'abcdefg017' => 'Cunning',
+    'abcdefg018' => 'Aggression,Heroism',
     //continue manual card aspects
     'zzzzzzz010' => 'Aggression',
     'zzzzzzz011' => 'Cunning',
+    'zzzzzzz020' => 'Aggression,Heroism',
   );
 }
 
@@ -113,7 +123,9 @@ function ManualCardTraitsData() {
     'abcdefg015' => 'Ewok',
     'abcdefg016' => 'Force',
     'abcdefg017' => 'Learned',
+    'abcdefg018' => 'Force,Jedi,Republic',
     //continue manual card traits
+    'zzzzzzz020' => 'Force,Jedi,Republic',
   );
 }
 
@@ -125,6 +137,7 @@ function ManualCardArenasData() {
     'abcdefg013' => 'Ground',
     'abcdefg014' => 'Space',
     'abcdefg015' => 'Ground',
+    'abcdefg018' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -141,9 +154,11 @@ function ManualDefinedCardTypeData() {
     'abcdefg015' => 'Unit',
     'abcdefg016' => 'Event',
     'abcdefg017' => 'Event',
+    'abcdefg018' => 'Leader',
     //continue manual card types
     'zzzzzzz010' => 'Base',
     'zzzzzzz011' => 'Base',
+    'zzzzzzz020' => 'Leader',
   );
 }
 
@@ -154,6 +169,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg015' => 'Unit',
     'abcdefg016' => 'Event',
     'abcdefg017' => 'Event',
+    'abcdefg018' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -165,7 +181,9 @@ function ManualCardIsUniqueData() {
     'abcdefg010' => 1,
     'abcdefg013' => 1,
     'abcdefg014' => 1,
+    'abcdefg018' => 1,
     //continue manual card unique status
+    'zzzzzzz020' => 1,
   );
 }
 
@@ -196,9 +214,11 @@ function ManualCardSetData() {
     'abcdefg015' => 'LOF',
     'abcdefg016' => 'LOF',
     'abcdefg017' => 'LOF',
+    'abcdefg018' => 'LOF',
     //continue manual card sets
     'zzzzzzz010' => 'LOF',
     'zzzzzzz011' => 'LOF',
+    'zzzzzzz020' => 'LOF',
   );
 }
 
@@ -217,6 +237,7 @@ function ManualUUIDLookupData() {
     //continue manual UUID lookups
     'LOF_026' => 'zzzzzzz010',
     'LOF_029' => 'zzzzzzz011',
+    'LOF_011' => 'zzzzzzz020',
   );
 }
 
@@ -232,9 +253,11 @@ function ManualCardIDLookupData() {
     'abcdefg015' => 'LOF_107',
     'abcdefg016' => 'LOF_123',
     'abcdefg017' => 'LOF_220',
+    'abcdefg018' => 'LOF_011',
     //continue manual card ID lookups
     'zzzzzzz010' => 'LOF_026',
     'zzzzzzz011' => 'LOF_029',
+    'zzzzzzz020' => 'LOF_011',
   );
 }
 
@@ -250,9 +273,11 @@ function ManualCardRarityData() {
     'abcdefg015' => 'Common',
     'abcdefg016' => 'Uncommon',
     'abcdefg017' => 'Uncommon',
+    'abcdefg018' => 'Common',
     //continue manual card rarities
     'zzzzzzz010' => 'Common',
     'zzzzzzz011' => 'Common',
+    'zzzzzzz020' => 'Common',
   );
 }
 
@@ -265,6 +290,6 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto';
 }
 ?>

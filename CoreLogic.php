@@ -384,7 +384,7 @@ function DealDamageAsync($player, $damage, $type="DAMAGE", $source="NA", $source
 
 function FinalizeDamage($player, $damage, $damageThreatened, $type, $source)
 {
-  global $otherPlayer, $CS_DamageTaken, $combatChainState, $CCS_AttackTotalDamage, $CS_ArcaneDamageTaken, $defPlayer, $mainPlayer;
+  global $otherPlayer, $CS_DamageTaken, $combatChainState, $CCS_AttackTotalDamage, $defPlayer, $mainPlayer;
   global $CCS_AttackFused;
   $classState = &GetPlayerClassState($player);
   $otherPlayer = $player == 1 ? 2 : 1;
@@ -4631,10 +4631,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       break;
     case "7157369742"://TIE Dagger Vanguard
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal 2 damage to");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
+      DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true",unitCardID:$cardID);
       break;
     case "5830140660"://Bazine Netal
       AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
@@ -6917,13 +6914,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "zzzzzzz020"://Kit Fisto Leader
+      global $CS_NumJediAttacks;
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Deal Damage" && GetClassState($currentPlayer, $CS_NumJediAttacks) > 0) {
+        DQPingUnit($currentPlayer, 2, isUnitEffect:false, may:false);
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal 2 damage to");
-      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer), 1);
+      DQPingUnit($currentPlayer, 2, isUnitEffect:false, may:false);
       break;
     case "6797297267"://Darth Sidious
       if($from != "PLAY") {
@@ -6944,11 +6945,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       //When Played
       if($from != "PLAY") {
         //You may deal 2 damage to an exhausted unit.
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-        AddDecisionQueue("MZFILTER", $currentPlayer, "status=0");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an exhausted unit to deal 2 damage to");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
+        DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzFilter:"status=0", context:"an exhausted unit", unitCardID:$cardID);
       }
       break;
     case "0102737248"://Refugee of the Path
@@ -7027,10 +7024,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       //When Played: if you have the initiative,
       if($from != "PLAY" && $initiativePlayer == $currentPlayer) {
         //Deal 2 damage to an enemy ground unit.
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy ground unit to deal 2 damage to");
-        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer, isUnitEffect:1, unitCardID:$cardID), 1);
+        DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:false, mzSearch:"THEIRALLY:arena=Ground", context:"an enemy ground unit", unitCardID:$cardID);
       }
       break;
     case "7691597101"://Liberated By Darkness
@@ -7629,6 +7623,17 @@ function DQWaylay($player) {
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to return to hand");
   AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
+}
+
+function DQPingUnit($player, $amount, $isUnitEffect, $may, $mzSearch = "MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $sourcePlayer="", $preventable=1, $unitCardID="") {
+  if($sourcePlayer == "") $sourcePlayer = $player;
+  $isUnitEffect = $isUnitEffect ? 1 : 0;
+  $preventable = $preventable ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context to deal $amount damage to");
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, DealDamageBuilder(2, $sourcePlayer, $isUnitEffect, $preventable, $unitCardID), 1);
 }
 
 function ShuffleToBottomDeck($cards, $player) {
