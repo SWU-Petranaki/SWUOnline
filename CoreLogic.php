@@ -6899,7 +6899,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "8304104587"://Kanan Jarrus Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Shield") {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Creature&MYALLY:trait=Spectre");
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Creature&MYALLY:trait=Spectre&THEIRALLY:trait=Creature&THEIRALLY:trait=Spectre");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give a shield token to");
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);

@@ -924,6 +924,7 @@ function IsCombatEffectActive($cardID)
     case "6669050232"://Grim Resolve
     case "2395430106"://Republic Tactical Officer
     case "6406254252"://Soulless One
+    case "6190335038"://Aayla Secura
     //Jump to Lightspeed
     case "6354077246"://Black Squadron Scout Wing
     case "0616724418"://Han Solo Leader
