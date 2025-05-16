@@ -206,7 +206,7 @@ if (!empty($_SESSION['error'])) {
                 <option value="all">All Formats</option>
                 <option value="premierf">Premier Casual</option>
                 <option value="prstrict">Premier (Best of 3)</option>
-                <option value="padawanf">Cantina Brawl</option>
+                <option value="civilwar">Cantina Brawl</option>
                 <option value="previewf">Preview (Set 5)</option>
                 <option value="openform">Open Format</option>
               </select>
@@ -234,9 +234,10 @@ if (!empty($_SESSION['error'])) {
               </span>
               <select id="spectateFormatFilter" class="styled-dropdown">
                 <option value="all">All Formats</option>
-                <option value="premier">Premier Casual</option>
-                <option value="premier-bo3">Premier (Best of 3)</option>
-                <option value="cantina">Cantina Brawl</option>
+                <option value="premierf">Premier Casual</option>
+                <option value="prstrict">Premier (Best of 3)</option>
+                <option value="civilwar">Cantina Brawl</option>
+                <option value="previewf">Preview (Set 5)</option>
                 <option value="openform">Open Format</option>
               </select>
             </div>
@@ -279,7 +280,7 @@ if (!empty($_SESSION['error'])) {
               if($canSeeQueue) {
                 echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
                 //Cantina Brawl Format; Update this to rotate formats
-                $funFormatBackendName = Formats::$PadawanFormat;
+                $funFormatBackendName = Formats::$GalacticCivilWar;
                 $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
               }
