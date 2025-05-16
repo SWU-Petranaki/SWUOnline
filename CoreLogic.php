@@ -7222,8 +7222,19 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
     case "abcdefg014"://Kit Fistos Aethersprite
-      DefeatUpgrade($currentPlayer);
-      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KITFISTOAETHERSPRITE", 1);
+      if($from != "PLAY") {
+        DefeatUpgrade($currentPlayer);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KITFISTOAETHERSPRITE", 1);
+      }
+      break;
+    case "abcdefg017"://Shien Flurry
+      global $CS_AfterPlayedBy;
+      SetClassState($currentPlayer, $CS_AfterPlayedBy, $cardID);
+      AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit;trait=Force");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit to play");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD");
       break;
     //PlayAbility End
     default: break;
@@ -7369,6 +7380,11 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      break;
+    case "abcdefg017"://Shien Flurry
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg017,HAND", 1);
       break;
     default: break;
   }

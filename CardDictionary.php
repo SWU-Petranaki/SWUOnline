@@ -778,6 +778,9 @@ function HasAmbush($cardID, $player, $index, $from)
       case "2b13cefced"://Fennec Shand Leader Unit
         AddDecisionQueue("REMOVECURRENTEFFECT", $player, "2b13cefced");
         return true;
+      case "abcdefg017"://Shien Flurry
+        AddDecisionQueue("REMOVECURRENTEFFECT", $player, "abcdefg017");
+        return true;
       default: break;
     }
   }
@@ -964,7 +967,6 @@ function HasSaboteur($cardID, $player, $index)
       //Jump to Lightspeed
       case "3272995563": return false;//In The Heat of Battle
       case "8656409691": return true;//Rio Durant leader
-      case "abcdefg014": return true;//Kit Fisto Aethersprite
       default: break;
     }
   }
@@ -1024,6 +1026,7 @@ function HasSaboteur($cardID, $player, $index)
     case "1107172562"://Orbiting K-Wing
     //Legends of the Force
     case "7529152088"://Depa Billaba
+    case "abcdefg014"://Kit Fisto's Aethersprite
     case "abcdefg018"://Kit Fisto Leader unit
       return true;
 

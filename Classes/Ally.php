@@ -352,6 +352,11 @@ class Ally {
       $amount = 0;
     }
 
+    if($amount > 0 && $this->HasEffect("abcdefg017")) {
+      $amount -= 2;
+      AddDecisionQueue("REMOVECURRENTEFFECT", $this->Controller(), "abcdefg017");
+    }
+
     //Upgrade damage prevention
       if($preventable) {
       $subcards = $this->GetSubcards();
