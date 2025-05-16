@@ -1022,7 +1022,9 @@ function HasSaboteur($cardID, $player, $index)
     case "81a416eb1f"://Rio Durant leader unit
     case "3310100725"://Insurgent Saboteurs
     case "1107172562"://Orbiting K-Wing
+    //Legends of the Force
     case "7529152088"://Depa Billaba
+    case "abcdefg018"://Kit Fisto Leader unit
       return true;
 
     //conditional saboteur
@@ -1204,6 +1206,8 @@ function AbilityCost($cardID)
     //Legends of the Force
     case "8304104587"://Kanan Jarrus Leader
       return $abilityName == "Shield" ? 1 : 0;
+    case "zzzzzzz020"://Kit Fisto Leader
+      return $abilityName == "Deal Damage" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -1584,6 +1588,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "zzzzzzz020"://Kit Fisto Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -1931,6 +1937,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Shield";
     case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "Debuff";
+    case "zzzzzzz020"://Kit Fisto Leader
+      return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
@@ -2402,6 +2410,8 @@ function LeaderUnit($cardID) {
       return "fadc48bab2";
     case "2520636620"://Mother Talzin
       return "32fd8db633";
+    case "zzzzzzz020"://Kit Fisto
+      return "abcdefg018";
     default: return "";
   }
 }
@@ -2569,6 +2579,8 @@ function LeaderUndeployed($cardID) {
       return "8304104587";
     case "32fd8db633"://Mother Talzin
       return "2520636620";
+    case "abcdefg018"://Kit Fisto
+      return "zzzzzzz020";
     default: return "";
   }
 }

@@ -2426,7 +2426,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
 function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
   global $combatChainState, $defPlayer, $SET_PassDRStep;
   global $CCS_LinkBaseAttack, $CCS_AttackUniqueID, $CCS_AttackPlayedFrom, $CCS_WeaponIndex;
-  global $CS_PlayIndex, $CS_PlayCCIndex, $CS_NumAttacks, $CS_NumMandalorianAttacks, $CS_SeparatistUnitsThatAttacked, $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks;
+  global $CS_PlayIndex, $CS_PlayCCIndex, $CS_NumAttacks, $CS_NumMandalorianAttacks, $CS_SeparatistUnitsThatAttacked, $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks, $CS_NumJediAttacks;
 
   $upgrades = "-";
   $definedCardType = CardType($cardID);
@@ -2473,6 +2473,8 @@ function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
           IncrementClassState($player, $CS_NumFighterAttacks);
         if(TraitContains($cardID, "Vehicle", $player, $index) && !IsToken($cardID))
           IncrementClassState($player, $CS_NumNonTokenVehicleAttacks);
+        if(TraitContains($cardID, "Jedi", $player, $index))
+          IncrementClassState($player, $CS_NumJediAttacks);
         //end increment Trait attacks
         ArsenalAttackAbilities();
         OnAttackEffects($cardID);
