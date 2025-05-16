@@ -2424,6 +2424,13 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
+    case "6190335038"://Aayla Secura
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(IsCoordinateActive($mainPlayer))
+        //immediate effect. no layer
+        AddCurrentTurnEffect($attackerCardID, $mainPlayer, "PLAY", $attackerAlly->UniqueID());
+      break;
     case "8307804692"://Padme Admidala
       $totalOnAttackAbilities++;
       if ($reportMode) break;

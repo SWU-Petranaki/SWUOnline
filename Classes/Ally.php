@@ -344,7 +344,7 @@ class Ally {
     global $mainPlayer;
     if(!$fromCombat && $preventable && $this->AvoidsDamage($enemyDamage)) return;
     if($fromCombat && !$this->LostAbilities()) {
-      if($this->CardID() == "6190335038" && $this->PlayerID() == $mainPlayer && IsCoordinateActive($this->PlayerID())) return false;//Aayla Secura
+      if($this->CardID() == "6190335038" && $this->PlayerID() == $mainPlayer && $this->HasEffect("6190335038")) return false;//Aayla Secura
     }
 
     if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"abcdefg002")) //Malakili
@@ -669,6 +669,15 @@ class Ally {
 
   function AddEffect($effectID, $from="") {
     AddCurrentTurnEffect($effectID, $this->PlayerID(), from:$from, uniqueID:$this->UniqueID());
+  }
+
+  function HasEffect($effectID) {
+    global $currentTurnEffects;
+    for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnEffectPieces()) {
+      if($currentTurnEffects[$i] == $effectID && $currentTurnEffects[$i+1] == $this->PlayerID() && $currentTurnEffects[$i+2] == $this->UniqueID())
+        return true;
+    }
+    return false;
   }
 
   function AttachExperience() {
