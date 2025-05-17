@@ -1280,7 +1280,8 @@ function GetAbilityType($cardID, $index = -1, $from="-")
     case "8327910265"://Energy Conversion Lab (ECL)
       return "A";
     case "abcdefg022"://Mystic Monastery
-      return "A";
+      $char = &GetPlayerCharacter($currentPlayer);
+      return $char[5] > 0 ? "A" : "";
     case "abcdefg024"://Tomb of Eilram
       return CountReadyAllies($currentPlayer) > 0 ? "A" : "";
     //end bases
@@ -2680,7 +2681,6 @@ function DoesEffectGrantDominate($cardID)
 function CharacterNumUsesPerTurn($cardID)
 {
   switch ($cardID) {
-
     default: return 1;
   }
 }
