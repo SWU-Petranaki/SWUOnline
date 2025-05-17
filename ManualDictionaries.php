@@ -80,14 +80,14 @@ function ManualCardPowerData() {
 
 function ManualCardUpgradeHPDictionaryData() {
   return array(
-    'abcdefg006' => 2,
+    'abcdefg006' => 3,
     //continue manual card upgrade HP dictionary
   );
 }
 
 function ManualCardUpgradePowerData() {
   return array(
-    'abcdefg006' => 3,
+    'abcdefg006' => 2,
     //continue manual card upgrade powers
   );
 }
