@@ -1907,6 +1907,8 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return true;
       case "0199085444"://Lux Bonteri
         return $resourcesPaid < CardCost($playedCardID);
+      case "abcdefg020"://Adi Gallia
+        return DefinedTypesContains($playedCardID, "Event", $currentPlayer);
       default: break;
     }
   }
@@ -2110,6 +2112,9 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("CHOOSEOPTION", $player, "$cardID&$options");
         AddDecisionQueue("SHOWOPTIONS", $player, "$cardID&$options");
         AddDecisionQueue("MODAL", $player, "LUXBONTERI");
+        break;
+      case "abcdefg020"://Adi Gallia
+        DealDamageAsync($otherPlayer, 1, "DAMAGE", "abcdefg020", sourcePlayer:$player);
         break;
       default: break;
     }
