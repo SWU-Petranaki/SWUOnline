@@ -140,6 +140,7 @@ function CharacterStartRegroupPhaseAbilities($player) {
         //If you control a unit with 4 or more remaining HP, the Force is with you
         if(SearchCount(SearchAllies($player, minHealth:4)) > 0)
           TheForceIsWithYou($player);
+        break;
       default:
         break;
     }
@@ -339,6 +340,10 @@ function EquipPayAdditionalCosts($cardIndex, $from)
     case "2429341052"://Security Complex
     case "8327910265"://Energy Conversion Lab (ECL)
       $character[$cardIndex+1] = 0;
+      break;
+    case "abcdefg022"://Mystic Monastery
+      break;
+    case "abcdefg024"://Tomb of Eilram
       break;
     default:
       --$character[$cardIndex+5];
