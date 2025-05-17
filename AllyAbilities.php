@@ -2850,6 +2850,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give Raid 2");
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "WRITECHOICEFROMUNIQUE", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0256267292,HAND", 1);
       break;
     case "02199f9f1e"://Grand Admiral Thrawn Leader Unit
