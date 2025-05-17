@@ -290,6 +290,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "6801641285": return 4;//Luminous Beings
     case "0412810079": return 2;//Sith Holocron
     case "0775347605": return -2;//Chirrut Imwe
+    case "abdefg019": return 1;//Niman Strike
     default: return 0;
   }
 }
@@ -944,6 +945,7 @@ function IsCombatEffectActive($cardID)
     case "8834515285"://Maz Kanata
     case "0412810079"://Sith Holocron
     case "0775347605"://Chirrut Imwe
+    case "abdefg019"://Niman Strike
       return true;
     default: return false;
   }

@@ -7236,6 +7236,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD");
       break;
+    case "abcdefg019"://Niman Strike
+      AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "abdefg019");
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7248,15 +7251,22 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
   }
 }
 
-function AttackWithMyUnitEvenIfExhaustedNoBases($player) {
+function AttackWithMyUnitEvenIfExhaustedNoBases($player, $traitOnly="", $withCombatEffect="") {
   global $CCS_CantAttackBase;
-  AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY", 1);
-  AddDecisionQueue("SETDQCONTEXT", $player, "Choose an ally to attack with");
+  $search = $traitOnly == "" ? "MYALLY" : "MYALLY:trait=$traitOnly";
+  $context = $traitOnly == "" ? "unit" : "$traitOnly unit";
+  AddDecisionQueue("MULTIZONEINDICES", $player, $search, 1);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose a $context to attack with");
   AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("PASSPARAMETER", $player, 1, 1);
   AddDecisionQueue("SETCOMBATCHAINSTATE", $player, $CCS_CantAttackBase, 1);
   AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+  if($withCombatEffect != "") {
+    AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+    AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "$withCombatEffect,PLAY", 1);
+    AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+  }
   AddDecisionQueue("MZOP", $player, "ATTACK", 1);
 }
 
