@@ -510,6 +510,7 @@ function PlayerWon($playerID, $concededMatch = false)
 {
   global $winner, $turn, $gameName, $p1id, $p2id, $p1uid, $p2uid, $conceded, $currentRound;
   global $p1DeckLink, $p2DeckLink, $inGameStatus, $GameStatus_Over, $firstPlayer, $p1deckbuilderID, $p2deckbuilderID;
+  global $p1SWUStatsToken, $p2SWUStatsToken;
 
   if($turn[0] == "OVER" && !$concededMatch) return;
   include_once "./MenuFiles/ParseGamefile.php";

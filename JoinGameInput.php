@@ -271,12 +271,14 @@ if ($decklink != "") {
 if ($playerID == 1) {
   $p1uid = ($_SESSION["useruid"] ?? "Player 1");
   $p1id = ($_SESSION["userid"] ?? "");
+  $p1SWUStatsToken = ($_SESSION["swustatsAccessToken"] ?? "");
   $p1IsPatron = (isset($_SESSION["isPatron"]) ? "1" : "");
   $p1ContentCreatorID = ($_SESSION["patreonEnum"] ?? "");
   $playerNames[1] = $p1uid;
 } else if ($playerID == 2) {
   $p2uid = ($_SESSION["useruid"] ?? "Player 2");
   $p2id = ($_SESSION["userid"] ?? "");
+  $p2SWUStatsToken = ($_SESSION["swustatsAccessToken"] ?? "");
   $p2IsPatron = (isset($_SESSION["isPatron"]) ? "1" : "");
   $p2ContentCreatorID = ($_SESSION["patreonEnum"] ?? "");
   $playerNames[2] = $p2uid;

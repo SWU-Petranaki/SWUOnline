@@ -119,6 +119,8 @@ $p1uid = "-";
 $p2uid = "-";
 $p1id = "-";
 $p2id = "-";
+$p1SWUStatsToken = "-";
+$p2SWUStatsToken = "-";
 $hostIP = $_SERVER['REMOTE_ADDR'];
 
 $filename = "../Games/" . $gameName . "/GameFile.txt";
