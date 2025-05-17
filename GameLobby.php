@@ -297,14 +297,17 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
             echo ("<input type='hidden' id='playerAspect' name='playerAspect' value='" . $playerAspects[0] . "'>");
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[1]) : "");
-            echo (Card($material[1], "CardImages", ($isMobile ? 100 : 250), 0, 1, 0, 0, 0, "", "", true));
+            $isUnimplemented = IsUnimplemented($material[1]);
+            echo (Card($material[1], "CardImages", ($isMobile ? 100 : 250), 0, 1, 0, 0, 0, "", "", true, isUnimplemented:$isUnimplemented));
+
             if ($overlayURL != "")
               echo ("<img title='Portrait' style='position:absolute; z-index:1001; top: 27px; left: 0px; cursor:pointer; height:" . ($isMobile ? 100 : 250) . "; width:100%;' src='" . $overlayURL . "' />");
             echo ("</div>");
 
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[0]) : "");
-            echo (Card($material[0], "CardImages", ($isMobile ? 100 : 250), 0, 1, 0, 0, 0, "", "", true));
+            $isUnimplemented = IsUnimplemented($material[0]);
+            echo (Card($material[0], "CardImages", ($isMobile ? 100 : 250), 0, 1, 0, 0, 0, "", "", true, isUnimplemented:$isUnimplemented));
             if ($overlayURL != "")
               echo ("<img title='Portrait' style='position:absolute; z-index:1001; top: 27px; left: 0px; cursor:pointer; height:" . ($isMobile ? 100 : 250) . "; width:" . ($isMobile ? 100 : 250) . ";' src='" . $overlayURL . "' />");
             echo ("</div>");
