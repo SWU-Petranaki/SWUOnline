@@ -49,6 +49,8 @@
   $p2ContentCreatorID = trim(fgets($gameFileHandler));
   $p1SideboardSubmitted = trim(fgets($gameFileHandler));
   $p2SideboardSubmitted = trim(fgets($gameFileHandler));
+  $p1SWUStatsToken = trim(fgets($gameFileHandler));
+  $p2SWUStatsToken = trim(fgets($gameFileHandler));
 
   $MGS_Initial = 0;
   $MGS_Player2Joined = 1;
