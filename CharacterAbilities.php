@@ -218,11 +218,13 @@ function ResetCharacter($player) {
   $char = &GetPlayerCharacter($player);
   for ($i = 0; $i < count($char); $i += CharacterPieces()) {
     if ($char[$i+7] == 1) $char[$i+1] = 0; //Destroy if it was flagged for destruction
-    if ($char[$i+1] != 0) {
-      $char[$i+1] = 2;
+    if ($char[$i] != "abcdefg022") {//Mystic Monastery
+      if ($char[$i+1] != 0) {
+        $char[$i+1] = 2;//status (dimmed when exhausted)
+      }
+      $char[$i+5] = CharacterNumUsesPerTurn($char[$i]);//num uses for leaders
     }
-    $char[$i+5] = CharacterNumUsesPerTurn($char[$i]);
-    $char[$i+10] = 0;
+    $char[$i+10] = 0;//damage/healing counters for bases
   }
 }
 
@@ -340,8 +342,6 @@ function EquipPayAdditionalCosts($cardIndex, $from)
     case "2429341052"://Security Complex
     case "8327910265"://Energy Conversion Lab (ECL)
       $character[$cardIndex+1] = 0;
-      break;
-    case "abcdefg022"://Mystic Monastery
       break;
     case "abcdefg024"://Tomb of Eilram
       break;

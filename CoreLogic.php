@@ -7240,6 +7240,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "abdefg019");
       break;
     case "abcdefg022"://Mystic Monastery
+      TheForceIsWithYou($currentPlayer);
       break;
     case "abcdefg024"://Tomb of Eilram
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
