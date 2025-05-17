@@ -24,7 +24,7 @@ function SearchCharacter($player, $type = "", $definedType = "", $maxCost = -1, 
 //   return SearchInner($searchPitch, $player, "PITCH", PitchPieces(), $type, $definedType, $maxCost, $minCost, $aspect, $arena, $hasBountyOnly, $hasUpgradeOnly, $trait, $damagedOnly, $maxAttack, $maxHealth, $frozenOnly, $hasNegCounters, $hasEnergyCounters, $tokenOnly, $minAttack, $keyword, $defeatedThisPhase, $cardTitle, $hasWhenDefeatedOnly);
 // }
 
-function SearchDiscard($player, $type = "", $definedType = "", $maxCost = -1, $minCost = -1, $aspect = "", $arena = "", $hasBountyOnly = false, $hasUpgradeOnly = false, $trait = -1, $maxAttack = -1, $maxHealth = -1, $frozenOnly = false, $hasNegCounters = false, $hasEnergyCounters = false, $tokenOnly = false, $minAttack = false, $keyword = false, $defeatedThisPhase = null, $cardTitle = "", $hasWhenDefeatedOnly = false, $minHealth)
+function SearchDiscard($player, $type = "", $definedType = "", $maxCost = -1, $minCost = -1, $aspect = "", $arena = "", $hasBountyOnly = false, $hasUpgradeOnly = false, $trait = -1, $maxAttack = -1, $maxHealth = -1, $frozenOnly = false, $hasNegCounters = false, $hasEnergyCounters = false, $tokenOnly = false, $minAttack = false, $keyword = false, $defeatedThisPhase = null, $cardTitle = "", $hasWhenDefeatedOnly = false, $minHealth = false)
 {
   $discard = &GetDiscard($player);
   return SearchInner($discard, $player, "DISCARD", DiscardPieces(), $type, $definedType, $maxCost, $minCost, $aspect, $arena, $hasBountyOnly, $hasUpgradeOnly, $trait, false, false, false, $maxAttack, $maxHealth, $frozenOnly, $hasNegCounters, $hasEnergyCounters, $tokenOnly, $minAttack, $keyword, $defeatedThisPhase, $cardTitle, $hasWhenDefeatedOnly, $minHealth);
@@ -42,7 +42,7 @@ function SearchCombatChainLink($player, $type = "", $definedType = "", $maxCost 
   return SearchInner($combatChain, $player, "CC", CombatChainPieces(), $type, $definedType, $maxCost, $minCost, $aspect, $arena, $hasBountyOnly, $hasUpgradeOnly, $trait, $damagedOnly, $canAddPilot, $hasPilotOnly, $maxAttack, $maxHealth, $frozenOnly, $hasNegCounters, $hasEnergyCounters, $tokenOnly, $minAttack, $keyword, $defeatedThisPhase, $cardTitle, $hasWhenDefeatedOnly, $minHealth);
 }
 
-function SearchResources($player, $type = "", $definedType = "", $maxCost = -1, $minCost = -1, $aspect = "", $arena = "", $hasBountyOnly = false, $hasUpgradeOnly = false, $trait = -1, $maxAttack = -1, $maxHealth = -1, $frozenOnly = false, $hasNegCounters = false, $hasEnergyCounters = false, $tokenOnly = false, $minAttack = false, $keyword = false, $defeatedThisPhase = null, $cardTitle = "", $hasWhenDefeatedOnly = false, $minHealth)
+function SearchResources($player, $type = "", $definedType = "", $maxCost = -1, $minCost = -1, $aspect = "", $arena = "", $hasBountyOnly = false, $hasUpgradeOnly = false, $trait = -1, $maxAttack = -1, $maxHealth = -1, $frozenOnly = false, $hasNegCounters = false, $hasEnergyCounters = false, $tokenOnly = false, $minAttack = false, $keyword = false, $defeatedThisPhase = null, $cardTitle = "", $hasWhenDefeatedOnly = false, $minHealth = false)
 {
   $arsenal = &GetArsenal($player);
   return SearchInner($arsenal, $player, "ARSENAL", ArsenalPieces(), $type, $definedType, $maxCost, $minCost, $aspect, $arena, $hasBountyOnly, $hasUpgradeOnly, $trait, false, false, false, $maxAttack, $maxHealth, $frozenOnly, $hasNegCounters, $hasEnergyCounters, $tokenOnly, $minAttack, $keyword, $defeatedThisPhase, $cardTitle, $hasWhenDefeatedOnly, $minHealth);
