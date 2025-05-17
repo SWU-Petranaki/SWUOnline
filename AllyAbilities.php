@@ -181,8 +181,8 @@ function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpg
     case "b0dbca5c05"://Iden Versio Leader Unit
     case "2407397504"://HK-47
       return true;
-    case "2649829005"://Agent Kallus
-      return $wasUnique && $numUses > 0;
+    case "2649829005"://Agent Kallus 
+      return $wasUnique && $numUses > 0 && $uniqueID != $destroyedUniqueID;;
     case "8687233791"://Punishing One
       $ally = new Ally($uniqueID);
       return $ally->IsExhausted() && $wasUpgraded && $numUses > 0;
