@@ -103,6 +103,9 @@ function RestoreAmount($cardID, $player, $index)
       case "7924461681"://Leia Organa
         $amount += 1;
         break;
+      case "abcdefg025"://Yaddle
+        $amount += 1;
+        break;
       default: break;
     }
   }
@@ -167,6 +170,7 @@ function RestoreAmount($cardID, $player, $index)
     case "754e979196": $amount += 1; break;//Darth Revan Leader Unit
     case "5264998537": $amount += 2; break;//Owen Lars
     case "abcdefg015": $amount += 1; break;//Village Tender
+    case "abcdefg025": $amount += 1; break;//Yaddle
     default: break;
   }
   //The Ghost JTL

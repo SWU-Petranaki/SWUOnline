@@ -373,7 +373,6 @@ function ManualIsUnimplementedData() {
     'abcdefg022' => true,
     'abcdefg023' => true,
     'abcdefg024' => true,
-    'abcdefg025' => true,
     //continue manual card unimplemented status
   );
 }

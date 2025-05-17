@@ -2196,10 +2196,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
       case "0414253215"://General's Blade
-        if(TraitContains($attackerAlly->CardID(), "Jedi", $mainPlayer)) {
+        if(TraitContains($attackID, "Jedi", $mainPlayer)) {
+          //immediate effect. no layer
           $totalOnAttackAbilities++;
           if ($reportMode) break;
-          PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+          AddCurrentTurnEffect("0414253215", $mainPlayer, from:"PLAY");
         }
         break;
       case "7280213969"://Smuggling Compartment
@@ -2544,6 +2545,17 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       //immediate effect. no layer
       TheForceIsWithYou($mainPlayer);
       break;
+    case "abcdefg025"://Yaddle
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      $allies = &GetAllies($mainPlayer);
+      for ($i = 0; $i < count($allies); $i += AllyPieces()) {
+        if (TraitContains($allies[$i], "Jedi") && $allies[$i+5] != $attackerAlly->UniqueID()) {
+          AddCurrentTurnEffect("abcdefg025", $mainPlayer, "PLAY", $allies[$i+5]);
+        }
+      }
+      break;
     default: break;
   }
 
@@ -2649,11 +2661,6 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "REST", 1);
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SUPERHEAVYIONCANNON", 1);
-      break;
-    case "0414253215"://General's Blade
-      if(TraitContains($attackerAlly->CardID(), "Jedi", $mainPlayer)) {
-        AddCurrentTurnEffect($cardID, $mainPlayer, from:"PLAY");
-      }
       break;
     //Jump to Lightspeed
     case "3f0b5622a7"://Asajj pilot Leader Unit
