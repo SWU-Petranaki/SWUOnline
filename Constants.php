@@ -243,7 +243,7 @@ $CS_NumNonTokenVehicleAttacks = 3;
 $CS_DamagePrevention = 4;
 $CS_CardsDrawn = 5;
 $CS_DamageTaken = 6;
-$CS_NumForcePlayed = 7;
+$CS_NumForceUnitsPlayed = 7;
 $CS_CantSkipPhase = 8;
 $CS_CharacterIndex = 9;
 $CS_PlayIndex = 10;
@@ -497,7 +497,7 @@ function ResetChainLinkState()
 function ResetClassState($player)
 {
   global $CS_NumVillainyPlayed, $CS_PlayedAsUpgrade, $CS_NumUnitsPlayed, $CS_NumNonTokenVehicleAttacks, $CS_DamagePrevention, $CS_CardsDrawn, $CS_NumBountyHuntersPlayed, $CS_NumPilotsPlayed, $CS_NumIndirectDamageGiven;
-  global $CS_DamageTaken, $CS_NumForcePlayed, $CS_CharacterIndex, $CS_PlayIndex, $CS_OppIndex, $CS_OppCardActive, $CS_NumNonAttackCards;
+  global $CS_DamageTaken, $CS_NumForceUnitsPlayed, $CS_CharacterIndex, $CS_PlayIndex, $CS_OppIndex, $CS_OppCardActive, $CS_NumNonAttackCards;
   global $CS_PreparationCounters, $CS_NextNAACardGoAgain, $CS_NumAlliesDestroyed, $CS_NumWhenDefeatedPlayed, $CS_ResolvingLayerUniqueID, $CS_NumCreaturesPlayed;
   global $CS_NumJediAttacks, $CS_NextNAAInstant, $CS_NextDamagePrevented, $CS_LastAttack, $CS_PlayCCIndex;
   global $CS_NumLeftPlay, $CS_NumUsesLeaderUpgrade1, $CS_NumUsesLeaderUpgrade2, $CS_AfterPlayedBy, $CS_NumAttackCards, $CS_NumPlayedFromBanish;
@@ -517,7 +517,7 @@ function ResetClassState($player)
   $classState[$CS_DamagePrevention] = 0;
   $classState[$CS_CardsDrawn] = 0;
   $classState[$CS_DamageTaken] = 0;
-  $classState[$CS_NumForcePlayed] = 0;
+  $classState[$CS_NumForceUnitsPlayed] = 0;
   $classState[$CS_CantSkipPhase] = 0;
   $classState[$CS_CharacterIndex] = 0;
   $classState[$CS_PlayIndex] = -1;

@@ -494,8 +494,8 @@ function HasSentinel($cardID, $player, $index)
     case "0775347605"://Chirrut Imwe
       return true;
     case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
-      global $CS_NumForcePlayed;
-      if(GetClassState($player, $CS_NumForcePlayed) > 0) return true;
+      global $CS_NumForceUnitsPlayed;
+      if(GetClassState($player, $CS_NumForceUnitsPlayed) > 0) return true;
       break;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);

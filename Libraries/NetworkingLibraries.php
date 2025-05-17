@@ -1690,7 +1690,7 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
   global $decisionQueue, $CS_PlayIndex, $CS_OppIndex, $CS_OppCardActive, $CS_PlayUniqueID, $CS_LayerPlayIndex, $CS_LastDynCost, $CS_NumCardsPlayed;
   global $CS_DynCostResolved, $CS_NumVillainyPlayed, $CS_NumEventsPlayed, $CS_NumClonesPlayed;
   global $CS_PlayedAsUpgrade, $CS_NumWhenDefeatedPlayed, $CS_NumBountyHuntersPlayed, $CS_NumPilotsPlayed, $CS_NumFirstOrderPlayed;
-  global $CS_NumForcePlayed;
+  global $CS_NumForceUnitsPlayed;
   global $CS_NumUnitsPlayed;
   $resources = &GetResources($currentPlayer);
   $dynCostResolved = intval($dynCostResolved);
@@ -1892,8 +1892,9 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
         IncrementClassState($currentPlayer, $CS_NumClonesPlayed);
       if (TraitContains($cardID, "First Order", $currentPlayer))
         IncrementClassState($currentPlayer, $CS_NumFirstOrderPlayed);
-      if (TraitContains($cardID, "Force", $currentPlayer))
-        IncrementClassState($currentPlayer, $CS_NumForcePlayed);
+      if (TraitContains($cardID, "Force", $currentPlayer)
+          && DefinedCardType($cardID) == "Unit" && GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == 0)
+        IncrementClassState($currentPlayer, $CS_NumForceUnitsPlayed);
       //end increment NumPlayed traits
     }
     if ($playType == "A" || $playType == "AA") {
