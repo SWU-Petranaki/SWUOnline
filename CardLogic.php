@@ -1476,6 +1476,15 @@ function CountUniqueAlliesOfTrait($player, $trait) {
   return $count;
 }
 
+function CountReadyAllies($player) {
+  $count = 0;
+  $allies = &GetAllies($player);
+  for($i=0; $i<count($allies); $i+=AllyPieces()) {
+    if($allies[$i+1] == 2) $count += 1;
+  }
+  return $count;
+}
+
 function ObiWansAethersprite($player, $index) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=Space&THEIRALLY:arena=Space", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to deal 2 damage to", 1);

@@ -1631,6 +1631,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         return $lastResult;
       }
       return "PASS";
+    case "THEFORCEISWITHYOU":
+      TheForceIsWithYou($player);
+      return $lastResult;
     case "ATTACKEREXISTSORPASS":
       if(!Ally::FromUniqueId($parameter)->Exists()) return "PASS";
       return 1;
