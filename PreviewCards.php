@@ -53,6 +53,7 @@ $cardsList = [];
                   $filename = $card['filename'];
 
                   // Get image dimensions
+                  $file = glob("./UnimplementedCards/$filename")[0];
                   list($width, $height) = getimagesize($file);
                   $isLandscape = $width > $height;
 
