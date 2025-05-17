@@ -1270,6 +1270,7 @@ function GetAbilityType($cardID, $index = -1, $from="-")
   }
   switch($cardID)
   {
+    //bases
     case "2569134232"://Jedha City
       return "A";
     case "1393827469"://Tarkintown
@@ -1278,6 +1279,11 @@ function GetAbilityType($cardID, $index = -1, $from="-")
       return "A";
     case "8327910265"://Energy Conversion Lab (ECL)
       return "A";
+    case "abcdefg022"://Mystic Monastery
+      return "A";
+    case "abcdefg024"://Tomb of Eilram
+      return CountReadyAllies($currentPlayer) > 0 ? "A" : "";
+    //end bases
     case "4626028465"://Boba Fett Leader
     case "7440067052"://Hera Syndulla Leader
     case "8560666697"://Director Krennic Leader

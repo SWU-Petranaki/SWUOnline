@@ -7239,6 +7239,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "abcdefg019"://Niman Strike
       AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "abdefg019");
       break;
+    case "abcdefg022"://Mystic Monastery
+      break;
+    case "abcdefg024"://Tomb of Eilram
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to exhaust");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      AddDecisionQueue("THEFORCEISWITHYOU", $currentPlayer, "-", 1);
+      break;
     //PlayAbility End
     default: break;
   }
