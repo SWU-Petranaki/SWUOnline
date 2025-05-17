@@ -1430,8 +1430,10 @@ function QuiGonJinnLOF($player, $flipped) {
 }
 
 function ObiWanKenobiLOF($player, $flipped) {
+  if($flipped) $obiwanIndex = explode(",", "MYALLY-" . SearchAlliesForCard($player, "d12b136775"))[0];
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
   AddDecisionQueue("MZFILTER", $player, "hasExperience=1");
+  if($flipped) AddDecisionQueue("MZFILTER", $player, "index=" . $obiwanIndex);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give 1 experience token to");
   if($flipped) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
