@@ -18,6 +18,18 @@ function ProcessHitEffect($cardID)
     }
   }
 
+  //check for base effects
+  $char = &GetPlayerCharacter($mainPlayer);
+  for($i=0; $i<count($char); $i+=CharacterPieces()) {
+    switch($char[$i]) {
+      case "abcdefg023"://Temple of Destruction
+        if(GetAttackTarget() == "THEIRCHAR-0" && $combatChainState[$CCS_DamageDealt] >= 3)
+          TheForceIsWithYou($mainPlayer);
+        break;
+      default: break;
+    }
+  }
+
   switch($cardID)
   {
     //Spark of Rebellion

@@ -136,6 +136,10 @@ function CharacterStartRegroupPhaseAbilities($player) {
       case "0254929700"://Doctor Aphra
         Mill($player, 1);
         break;
+      case "abcdefg021"://Vergence Temple
+        //If you control a unit with 4 or more remaining HP, the Force is with you
+        if(SearchCount(SearchAllies($player, minHealth:4)) > 0)
+          TheForceIsWithYou($player);
       default:
         break;
     }
@@ -378,7 +382,7 @@ function CharacterHasWhenPlayCardAbility($player, $characterIndex, $playedCardID
       case "9005139831"://The Mandalorian Leader
         return $character->IsReady() && (DefinedTypesContains($playedCardID, "Upgrade", $player) || PilotWasPlayed($player, $playedCardID));
       case "9334480612"://Boba Fett (Daimyo)
-        return $character->IsReady() 
+        return $character->IsReady()
           && DefinedTypesContains($playedCardID, "Unit", $player)
           && !PilotWasPlayed($player, $playedCardID)
           && HasKeyword($playedCardID, "Any", $player);
