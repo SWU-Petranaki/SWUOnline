@@ -143,7 +143,7 @@ function loginFromCookie()
 {
 	$token = $_COOKIE["rememberMeToken"];
 	$conn = GetDBConnection();
-	$sql = "SELECT usersId, usersUid, usersEmail, patreonAccessToken, patreonRefreshToken, patreonEnum, isBanned FROM users WHERE rememberMeToken=?";
+	$sql = "SELECT usersId, usersUid, usersEmail, patreonAccessToken, patreonRefreshToken, patreonEnum, isBanned, swustatsAccessToken FROM users WHERE rememberMeToken=?";
 	$stmt = mysqli_stmt_init($conn);
 	if (mysqli_stmt_prepare($stmt, $sql)) {
 		mysqli_stmt_bind_param($stmt, "s", $token);
@@ -160,6 +160,7 @@ function loginFromCookie()
 			$patreonRefreshToken = $row[4];
 			$_SESSION["patreonEnum"] = $row[5];
 			$_SESSION["isBanned"] = $row[6];
+			$_SESSION["swustatsAccessToken"] = $row[7];
 			try {
 				PatreonLogin($patreonAccessToken);
 			} catch (\Exception $e) {
@@ -377,25 +378,19 @@ function SerializeGameResult($player, $DeckLink, $deckAfterSB, $gameID = "", $op
 	}
 	for ($i = 0; $i < count($deduplicatedDeck); ++$i) {
 		$deck["cardResults"][$i] = [];
-		$deck["cardResults"][$i]["cardId"] = GetNormalCardID($deduplicatedDeck[$i]);
+		$deck["cardResults"][$i]["cardId"] = $deduplicatedDeck[$i];
 		$deck["cardResults"][$i]["played"] = 0;
-		$deck["cardResults"][$i]["blocked"] = 0;
-		$deck["cardResults"][$i]["pitched"] = 0;
 		$deck["cardResults"][$i]["resourced"] = 0;
 		$deck["cardResults"][$i]["activated"] = 0;
 		$deck["cardResults"][$i]["drawn"] = 0;
 		$deck["cardResults"][$i]["discarded"] = 0;
-		$deck["cardResults"][$i]["cardName"] = CardName($deduplicatedDeck[$i]);
-		//$deck["cardResults"][$i]["pitchValue"] = PitchValue($deduplicatedDeck[$i]);
 	}
 	$cardStats = &GetCardStats($player);
 	for ($i = 0; $i < count($cardStats); $i += CardStatPieces()) {
 		for ($j = 0; $j < count($deck["cardResults"]); ++$j) {
-			if ($deck["cardResults"][$j]["cardId"] == GetNormalCardID($cardStats[$i])) {
+			if ($deck["cardResults"][$j]["cardId"] == $cardStats[$i]) {
 				$deck["cardResults"][$j]["played"] = $cardStats[$i + $CardStats_TimesPlayed];
-				$deck["cardResults"][$j]["blocked"] = $cardStats[$i + $CardStats_TimesActivated];
 				$deck["cardResults"][$j]["activated"] = $cardStats[$i + $CardStats_TimesActivated];
-				$deck["cardResults"][$j]["pitched"] = $cardStats[$i + $CardStats_TimesResourced];
 				$deck["cardResults"][$j]["resourced"] = $cardStats[$i + $CardStats_TimesResourced];
 				$deck["cardResults"][$j]["drawn"] = $cardStats[$i + $CardStats_TimesDrawn];
 				$deck["cardResults"][$j]["discarded"] = $cardStats[$i + $CardStats_TimesDiscarded];
@@ -416,29 +411,6 @@ function SerializeGameResult($player, $DeckLink, $deckAfterSB, $gameID = "", $op
 		$deck["turnResults"][$i]["damageTaken"] = $otherPlayerTurnStats[$i + $TurnStats_DamageDealt];
 	}
 	return json_encode($deck);
-}
-
-function GetNormalCardID($cardID)
-{
-	switch ($cardID) {
-		case "MON405":
-			return "BOL002";
-		case "MON400":
-			return "BOL006";
-		case "MON407":
-			return "CHN002";
-		case "MON401":
-			return "CHN006";
-		case "MON406":
-			return "LEV002";
-		case "MON400":
-			return "LEV005";
-		case "MON404":
-			return "PSM002";
-		case "MON402":
-			return "PSM007";
-	}
-	return $cardID;
 }
 
 function SavePatreonTokens($accessToken, $refreshToken)
