@@ -1746,6 +1746,8 @@ function CheckSHDAbilityNames($cardID, $index, $validate) {
 
   switch($cardID) {
     case "1480894253"://Kylo Ren
+      $hand = &GetHand($currentPlayer);
+      if(count($hand) == 0) return LeaderAbilitiesIgnored() ? "" : "";
       return LeaderAbilitiesIgnored() ? "" : "Buff Attack";
     case "6722700037"://Doctor Pershing
       return "Draw,Attack";
