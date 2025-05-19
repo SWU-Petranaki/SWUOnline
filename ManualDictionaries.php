@@ -285,6 +285,7 @@ function ManualHasWhenPlayedData() {
 function ManualHasWhenDestroyedData() {
   return array(
     'abcdefg013' => true,
+    'abcdefg027' => true,
     //continue manual card when destroyed status
   );
 }
@@ -411,8 +412,6 @@ function ManualCardRarityData() {
 function ManualIsUnimplementedData() {
   return array(
     'abcdefg026' => true,
-    'abcdefg027' => true,
-    'abcdefg028' => true,
     //continue manual card unimplemented status
   );
 }
