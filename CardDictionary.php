@@ -327,6 +327,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "6082085272": $amount += 1; break;//Forged Starfighter
     case "2290426901": $amount += 3; break;//Thralls of the Coven
     case "4043787241": $amount += 3; break;//Strikeship
+    case "abcdefg028": $amount += 2; break;//Aurra Sing LOF
     default: break;
   }
   //The Ghost JTL
@@ -1101,6 +1102,7 @@ function HasHidden($cardID, $player, $index) {
     case "1433284352"://Attuned Fyrnock
     case "2897264390"://Witch of the Mist
     case "abcdefg015"://Village Tender
+    case "abcdefg028"://Aurra Sing LOF
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
