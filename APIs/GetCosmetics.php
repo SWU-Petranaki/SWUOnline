@@ -207,6 +207,10 @@ $cardBack = new stdClass();
 $cardBack->name = "Les Cartes sur Table";
 $cardBack->id = 52;
 $response->cardBacks[] = $cardBack;
+$cardBack = new stdClass();
+$cardBack->name = "Against The Galaxy";
+$cardBack->id = 53;
+$response->cardBacks[] = $cardBack;
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {
