@@ -19,6 +19,9 @@ function ManualCardTitleData() {
     'abcdefg023' => 'Temple Of Destruction',
     'abcdefg024' => 'Tomb Of Eilram',
     'abcdefg025' => 'Yaddle',
+    'abcdefg026' => 'Drengir Spawn',
+    'abcdefg027' => ' The Legacy Run',
+    'abcdefg028' => 'Aurra Sing',
     //continue manual card titles
     'zzzzzzz010' => 'Fortress Vader',
     'zzzzzzz011' => 'Crystal Caves',
@@ -36,6 +39,8 @@ function ManualCardSubtitleData() {
     'abcdefg018' => 'Focused Jedi Master',
     'abcdefg020' => 'Stern And Focused',
     'abcdefg025' => 'A Chance To Make Things Right',
+    'abcdefg027' => 'Doomed Debris',
+    'abcdefg028' => 'Patient and Deadly',
     //continue manual card subtitles
     'zzzzzzz020' => 'Focused Jedi Master',
   );
@@ -61,6 +66,9 @@ function ManualCardCostData() {
     'abcdefg023' => 0,
     'abcdefg024' => 0,
     'abcdefg025' => 2,
+    'abcdefg026' => 4,
+    'abcdefg027' => 5,
+    'abcdefg028' => 2,
     //continue manual card costs
     'zzzzzzz020' => 5,
   );
@@ -81,6 +89,9 @@ function ManualCardHPDictionaryData() {
     'abcdefg023' => 25,
     'abcdefg024' => 25,
     'abcdefg025' => 4,
+    'abcdefg026' => 3,
+    'abcdefg027' => 3,
+    'abcdefg028' => 4,
     //continue manual card HP dictionary
     'zzzzzzz010' => 28,
     'zzzzzzz011' => 28,
@@ -98,6 +109,9 @@ function ManualCardPowerData() {
     'abcdefg018' => 1,
     'abcdefg020' => 2,
     'abcdefg025' => 2,
+    'abcdefg026' => 3,
+    'abcdefg027' => 3,
+    'abcdefg028' => 1,
     //continue manual card powers
   );
 }
@@ -135,6 +149,9 @@ function ManualCardAspectsData() {
     'abcdefg023' => 'Aggression',
     'abcdefg024' => 'Cunning',
     'abcdefg025' => 'Vigilance,Heroism',
+    'abcdefg026' => 'Command,Villainy',
+    'abcdefg027' => 'Cunning',
+    'abcdefg028' => 'Cunning,Villainy',
     //continue manual card aspects
     'zzzzzzz010' => 'Aggression',
     'zzzzzzz011' => 'Cunning',
@@ -162,6 +179,9 @@ function ManualCardTraitsData() {
     'abcdefg023' => 'Malachor',
     'abcdefg024' => 'Zeffo',
     'abcdefg025' => 'Force,Jedi,Republic',
+    'abcdefg026' => 'Creature',
+    'abcdefg027' => 'Republic,Vehicle,Transport',
+    'abcdefg028' => 'Underworld,Bounty Hunter',
     //continue manual card traits
     'zzzzzzz020' => 'Force,Jedi,Republic',
   );
@@ -178,6 +198,9 @@ function ManualCardArenasData() {
     'abcdefg018' => 'Ground',
     'abcdefg020' => 'Ground',
     'abcdefg025' => 'Ground',
+    'abcdefg026' => 'Ground',
+    'abcdefg027' => 'Space',
+    'abcdefg028' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -202,6 +225,9 @@ function ManualDefinedCardTypeData() {
     'abcdefg023' => 'Base',
     'abcdefg024' => 'Base',
     'abcdefg025' => 'Unit',
+    'abcdefg026' => 'Unit',
+    'abcdefg027' => 'Unit',
+    'abcdefg028' => 'Unit',
     //continue manual card types
     'zzzzzzz010' => 'Base',
     'zzzzzzz011' => 'Base',
@@ -224,6 +250,9 @@ function ManualDefinedCardType2Data() {
     'abcdefg023' => 'Base',
     'abcdefg024' => 'Base',
     'abcdefg025' => 'Unit',
+    'abcdefg026' => 'Unit',
+    'abcdefg027' => 'Unit',
+    'abcdefg028' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -238,6 +267,8 @@ function ManualCardIsUniqueData() {
     'abcdefg018' => 1,
     'abcdefg020' => 1,
     'abcdefg025' => 1,
+    'abcdefg027' => 1,
+    'abcdefg028' => 1,
     //continue manual card unique status
     'zzzzzzz020' => 1,
   );
@@ -278,6 +309,9 @@ function ManualCardSetData() {
     'abcdefg023' => 'LOF',
     'abcdefg024' => 'LOF',
     'abcdefg025' => 'LOF',
+    'abcdefg026' => 'LOF',
+    'abcdefg027' => 'LOF',
+    'abcdefg028' => 'LOF',
     //continue manual card sets
     'zzzzzzz010' => 'LOF',
     'zzzzzzz011' => 'LOF',
@@ -304,6 +338,9 @@ function ManualUUIDLookupData() {
     'LOF_025' => 'abcdefg023',
     'LOF_028' => 'abcdefg024',
     'LOF_045' => 'abcdefg025',
+    'LOF_86' => 'abcdefg026',
+    'LOF_213' => 'abcdefg027',
+    'LOF_179' => 'abcdefg028',
     //continue manual UUID lookups
     'LOF_026' => 'zzzzzzz010',
     'LOF_029' => 'zzzzzzz011',
@@ -331,6 +368,9 @@ function ManualCardIDLookupData() {
     'abcdefg023' => 'LOF_025',
     'abcdefg024' => 'LOF_028',
     'abcdefg025' => 'LOF_045',
+    'abcdefg026' => 'LOF_86',
+    'abcdefg027' => 'LOF_213',
+    'abcdefg028' => 'LOF_179',
     //continue manual card ID lookups
     'zzzzzzz010' => 'LOF_026',
     'zzzzzzz011' => 'LOF_029',
@@ -358,6 +398,9 @@ function ManualCardRarityData() {
     'abcdefg023' => 'Rare',
     'abcdefg024' => 'Rare',
     'abcdefg025' => 'Rare',
+    'abcdefg026' => 'Rare',
+    'abcdefg027' => 'Legendary',
+    'abcdefg028' => 'Uncommon',
     //continue manual card rarities
     'zzzzzzz010' => 'Common',
     'zzzzzzz011' => 'Common',
@@ -367,12 +410,15 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg026' => true,
+    'abcdefg027' => true,
+    'abcdefg028' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto|Yaddle|Niman Strike|Adi Gallia|Vergence Temple|Mystic Monastery|Temple Of Destruction|Tomb Of Eilram';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto|Yaddle|Niman Strike|Adi Gallia|Vergence Temple|Mystic Monastery|Temple Of Destruction|Tomb Of Eilram|Drengir Spawn| The Legacy Run|Aurra Sing';
 }
 ?>
