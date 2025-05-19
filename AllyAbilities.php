@@ -1144,6 +1144,14 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "7074896971"://J-Type Nubian Starship
         PummelHit($player);
         break;
+    case "abcdefg027"://The Legacy Run
+      WriteLog("testing");
+        AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
+        AddDecisionQueue("PREPENDLASTRESULT", $player, "6-"); 
+        AddDecisionQueue("SETDQCONTEXT", $player, "Deal 6 damage divided as you choose", 1);
+        AddDecisionQueue("MAYMULTIDAMAGEMULTIZONE", $player, "<-", 1);
+        AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
+        break;
       //AllyDestroyedAbility End
       default: break;
     }
