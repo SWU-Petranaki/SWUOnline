@@ -1468,6 +1468,18 @@ function OnKillAbility($player, $uniqueID)
     case "2508430135"://Oggdo Bogdo
       AddLayer("TRIGGER", $mainPlayer, "2508430135", $attackerAlly->UniqueID());
       break;
+    case "abcdefg026"://Drengir Spawn
+      if(IsAllyAttackTarget()) {
+        $target = GetAttackTarget();
+        $defAlly = new Ally($target, $defPlayer);
+        if($defAlly->Health() <= 0 && $attackerAlly->Health() > $defAlly->CurrentPower()) {
+          $cost = CardCost($defAlly->CardID());
+          for($i=0; $i<$cost; ++$i) {
+            $attackerAlly->AttachExperience();
+          }
+        }
+      }
+      break;
     default: break;
   }
 }
