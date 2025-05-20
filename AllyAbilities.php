@@ -1468,7 +1468,7 @@ function OnKillAbility($player, $uniqueID)
     case "2508430135"://Oggdo Bogdo
       AddLayer("TRIGGER", $mainPlayer, "2508430135", $attackerAlly->UniqueID());
       break;
-    case "abcdefg026"://Drengier Spawn
+    case "abcdefg026"://Drengir Spawn
       if(IsAllyAttackTarget()) {
         $target = GetAttackTarget();
         $defAlly = new Ally($target, $defPlayer);
