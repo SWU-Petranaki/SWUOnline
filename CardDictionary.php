@@ -748,6 +748,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "2285555274"://Darth Malak
     case "4043787241"://Strikeship
     case "4145147486"://Kylo Ren LOF
+    case "abcdefg026"://Drengir Spawn
       return true;
     default: break;
   }
