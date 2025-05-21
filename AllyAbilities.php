@@ -181,7 +181,7 @@ function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpg
     case "b0dbca5c05"://Iden Versio Leader Unit
     case "2407397504"://HK-47
       return true;
-    case "2649829005"://Agent Kallus 
+    case "2649829005"://Agent Kallus
       return $wasUnique && $numUses > 0 && $uniqueID != $destroyedUniqueID;;
     case "8687233791"://Punishing One
       $ally = new Ally($uniqueID);
@@ -1147,7 +1147,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "abcdefg027"://The Legacy Run
       WriteLog("testing");
         AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
-        AddDecisionQueue("PREPENDLASTRESULT", $player, "6-"); 
+        AddDecisionQueue("PREPENDLASTRESULT", $player, "6-");
         AddDecisionQueue("SETDQCONTEXT", $player, "Deal 6 damage divided as you choose", 1);
         AddDecisionQueue("MAYMULTIDAMAGEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
@@ -2580,6 +2580,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
           AddCurrentTurnEffect("abcdefg025", $mainPlayer, "PLAY", $allies[$i+5]);
         }
       }
+      break;
+    case "abcdefg031"://Grand Inquisitor Leader unit
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      AddCurrentTurnEffect($attackID, $defPlayer, from:"PLAY");
       break;
     default: break;
   }

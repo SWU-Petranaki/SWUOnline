@@ -290,7 +290,9 @@ function EffectAttackModifier($cardID, $playerID="")
     case "6801641285": return 4;//Luminous Beings
     case "0412810079": return 2;//Sith Holocron
     case "0775347605": return -2;//Chirrut Imwe
-    case "abdefg019": return 1;//Niman Strike
+    case "abcdefg019": return 1;//Niman Strike
+    case "zzzzzzz021": return -2;//Grand Inquisitor Leader
+    case "abcdefg031": return -2;//Grand Inquisitor Leader unit
     default: return 0;
   }
 }
@@ -945,7 +947,9 @@ function IsCombatEffectActive($cardID)
     case "8834515285"://Maz Kanata
     case "0412810079"://Sith Holocron
     case "0775347605"://Chirrut Imwe
-    case "abdefg019"://Niman Strike
+    case "abcdefg019"://Niman Strike
+    case "zzzzzzz021"://Grand Inquisitor Leader
+    case "abcdefg031"://Grand Inquisitor Leader unit
       return true;
     default: return false;
   }
