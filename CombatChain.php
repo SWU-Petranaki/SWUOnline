@@ -186,154 +186,156 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       break;
     default: break;
   }
-  switch($cardID) {
-    //Spark of Rebellion
-    case "3988315236"://Seasoned Shoretrooper
-      $modifier += NumResources($player) >= 6 ? 2 : 0;
-      break;
-    case "6348804504"://Ardent Sympathizer
-      $modifier += $initiativePlayer == $player ? 2 : 0;
-      break;
-    case "4619930426"://First Legion Snowtrooper
-      if(count($combatChain) == 0 || $combatChain[0] !== "4619930426" || $player == $defPlayer) break;
-      $target = GetAttackTarget();
-      if($target == "THEIRCHAR-0") break;
-      $defAlly = new Ally($target, $defPlayer);
-      $modifier += $defAlly->IsDamaged() ? 2 : 0;
-      break;
-    case "7648077180"://97th Legion
-      $modifier += NumResources($player);
-      break;
-    //Shadows of the Galaxy
-    case "8def61a58e"://Kylo Ren
-      $hand = &GetHand($player);
-      $modifier -= LeaderAbilitiesIgnored() ? 0 : count($hand)/HandPieces();
-      break;
-    case "7486516061"://Concord Dawn Interceptors
-    case "8069951120"://Jedi Guardian
-      if($player == $defPlayer && GetAttackTarget() == "THEIRALLY-" . $index) $modifier += 2;
-      break;
-    case "6769342445"://Jango Fett
-      if(IsAllyAttackTarget() && $player == $mainPlayer) {
-        $defAlly = new Ally(GetAttackTarget(), $defPlayer);
-        if($defAlly->HasBounty()) $modifier += 3;
-      }
-      break;
-    case "4511413808"://Follower of the Way
-      if($ally->IsUpgraded()) $modifier += 1;
-      break;
-    case "58f9f2d4a0"://Dr. Aphra
-      $discard = &GetDiscard($player);
-      $costs = [];
-      for($i = 0; $i < count($discard); $i += DiscardPieces()) {
-        $cost = CardCost($discard[$i]);
-        $costs[$cost] = true;
-      }
-      if(count($costs) >= 5) $modifier += 3;
-      break;
-    case "8305828130"://Warbird Stowaway
-      $modifier += $initiativePlayer == $player ? 2 : 0;
-      break;
-    //Twilight of the Republic
-    case "2265363405"://Echo
-      if(IsCoordinateActive($player)) $modifier += 2;
-      break;
-    case "1209133362"://332nd Stalwart
-      if(IsCoordinateActive($player)) $modifier += 1;
-      break;
-    case "4718895864"://Padawan Starfighter
-      if(SearchCount(SearchAllies($player, trait:"Force"))) return 1;
-      break;
-    case "9227411088"://Clone Heavy Gunner
-      if(IsCoordinateActive($player)) $modifier += 2;
-      break;
-    case "7224a2074a"://Ahsoka Tahno
-      if(IsCoordinateActive($player)) $modifier += 2;
-      break;
-    case "11299cc72f"://Pre Viszla
-      $hand = &GetHand($player);
-      if(count($hand)/HandPieces() >= 6) $modifier += 2;
-      break;
-    case "24a81d97b5"://Anakin Skywalker Leader Unit
-      if(LeaderAbilitiesIgnored()) break;
-      $modifier += floor(GetHealth($player)/5);
-      break;
-    case "8139901441"://Bo-Katan Kryze
-      if(SearchCount(SearchAllies($player, trait:"Trooper")) > 1) $modifier += 1;
-      break;
-    case "1368135704"://Relentless Rocket Droid
-      if(SearchCount(SearchAllies($player, trait:"Trooper")) > 1) $modifier += 2;
-      break;
-    case "4551109857"://Anakin's Interceptor
-      if(!$ally->LostAbilities() &&GetHealth($player) >= 15) $modifier += 2;
-      break;
-    case "7099699830"://Jyn Erso
-      global $CS_NumAlliesDestroyed;
-      if(GetClassState($otherPlayer, $CS_NumAlliesDestroyed) > 0) $modifier += 1;
-      break;
-    //Jump to Lightspeed
-    case "3389903389"://Black One JTL
-      if ($ally->IsUpgraded()) $modifier += 1;
-      break;
-    case "2177194044"://Swarming Vulture Droid
-      $modifier += (SearchCount(SearchAllies($player, cardTitle:"Swarming Vulture Droid")) - 1);
-      break;
-    case "8845408332"://Millennium Falcon (Get Out and Push)
-      $upgrades = $ally->GetUpgrades();
-      for($i = 0; $i < count($upgrades); ++$i) {
-        if(TraitContains($upgrades[$i], "Pilot", $player)) $modifier += 1;
-      }
-      break;
-    case "1463418669"://IG-88
-      $modifier += SearchCount(SearchAllies($otherPlayer, damagedOnly:true)) > 0 ? 3 : 0;
-      break;
-    case "6610553087"://Nien Nunb
-      $modifier += CountPilotUnitsAndPilotUpgrades($player, other: true);
-      break;
-    case "5422802110"://D'Qar Cargo Frigate
-      if(!$ally->LostAbilities()) $modifier -= $ally->Damage();
-      break;
-    case "5052103576"://Resistance X-Wing
-      if($ally->HasPilot()) $modifier += 1;
-      break;
-    case "4203363893"://War Juggernaut
-      $modifier += SearchCount(SearchAllies($player, damagedOnly:true));
-      $modifier += SearchCount(SearchAllies($otherPlayer, damagedOnly:true));
-      break;
-    case "3213928129"://Clone Combat Squadron
-      $modifier += (SearchCount(SearchAllies($player, arena:"Space")) - 1);
-      break;
-    case "6931439330"://The Ghost SOR (with Phantom II)
-    case "5763330426"://The Ghost JTL (with Phantom II)
-      $modifier += $ally->HasUpgrade("5306772000") ? 3 : 0;
-      break;
-    //Legends of the Force
-    case "1540696516"://Scimitar
-      $modifier += ($ally->Damage() > 0) ? 3 : 0;
-      break;
-    case "9722568619"://Captain Enoch
-      $discard = &GetDiscard($player);
-      $count = 0;
-      for($i=0; $i<count($discard); $i+=DiscardPieces()) {
-        if(TraitContains($discard[$i], "Trooper", $player)) ++$count;
-      }
-      $modifier += $count;
-      break;
-    case "4082337781"://Sith Legionnaire
-      $modifier += (SearchCount(SearchAllies($player, aspect:"Villainy")) > 1) ? 2 : 0;
-      break;
-    case "fadc48bab2"://Kanan Jarrus Leader unit
-      if(LeaderAbilitiesIgnored()) break;
-      //see note in AllyHasStaticHealthModifier about potentially needing to check if Kanan becomes a Creature
-      $atLeastOneCreature = SearchCount(SearchAllies($player, trait:"Creature")) > 0;
-      $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
-      $modifier += ($atLeastOneCreature || $atLeastAnotherSpectre) ? 2 : 0;
-      break;
-    case "abcdefg018"://Kit Fisto Leader unit
-      if(LeaderAbilitiesIgnored()) break;
-      $modifier += (SearchCount(SearchAllies($player, trait:"Jedi")) - 1);
-      break;
-    default: break;
+  if(!$ally->LostAbilities()) {
+    switch($cardID) {
+      //Spark of Rebellion
+      case "3988315236"://Seasoned Shoretrooper
+        $modifier += NumResources($player) >= 6 ? 2 : 0;
+        break;
+      case "6348804504"://Ardent Sympathizer
+        $modifier += $initiativePlayer == $player ? 2 : 0;
+        break;
+      case "4619930426"://First Legion Snowtrooper
+        if(count($combatChain) == 0 || $combatChain[0] !== "4619930426" || $player == $defPlayer) break;
+        $target = GetAttackTarget();
+        if($target == "THEIRCHAR-0") break;
+        $defAlly = new Ally($target, $defPlayer);
+        $modifier += $defAlly->IsDamaged() ? 2 : 0;
+        break;
+      case "7648077180"://97th Legion
+        $modifier += NumResources($player);
+        break;
+      //Shadows of the Galaxy
+      case "8def61a58e"://Kylo Ren
+        $hand = &GetHand($player);
+        $modifier -= LeaderAbilitiesIgnored() ? 0 : count($hand)/HandPieces();
+        break;
+      case "7486516061"://Concord Dawn Interceptors
+      case "8069951120"://Jedi Guardian
+        if($player == $defPlayer && GetAttackTarget() == "THEIRALLY-" . $index) $modifier += 2;
+        break;
+      case "6769342445"://Jango Fett
+        if(IsAllyAttackTarget() && $player == $mainPlayer) {
+          $defAlly = new Ally(GetAttackTarget(), $defPlayer);
+          if($defAlly->HasBounty()) $modifier += 3;
+        }
+        break;
+      case "4511413808"://Follower of the Way
+        if($ally->IsUpgraded()) $modifier += 1;
+        break;
+      case "58f9f2d4a0"://Dr. Aphra
+        $discard = &GetDiscard($player);
+        $costs = [];
+        for($i = 0; $i < count($discard); $i += DiscardPieces()) {
+          $cost = CardCost($discard[$i]);
+          $costs[$cost] = true;
+        }
+        if(count($costs) >= 5) $modifier += 3;
+        break;
+      case "8305828130"://Warbird Stowaway
+        $modifier += $initiativePlayer == $player ? 2 : 0;
+        break;
+      //Twilight of the Republic
+      case "2265363405"://Echo
+        if(IsCoordinateActive($player)) $modifier += 2;
+        break;
+      case "1209133362"://332nd Stalwart
+        if(IsCoordinateActive($player)) $modifier += 1;
+        break;
+      case "4718895864"://Padawan Starfighter
+        if(SearchCount(SearchAllies($player, trait:"Force"))) return 1;
+        break;
+      case "9227411088"://Clone Heavy Gunner
+        if(IsCoordinateActive($player)) $modifier += 2;
+        break;
+      case "7224a2074a"://Ahsoka Tahno
+        if(IsCoordinateActive($player)) $modifier += 2;
+        break;
+      case "11299cc72f"://Pre Viszla
+        $hand = &GetHand($player);
+        if(count($hand)/HandPieces() >= 6) $modifier += 2;
+        break;
+      case "24a81d97b5"://Anakin Skywalker Leader Unit
+        if(LeaderAbilitiesIgnored()) break;
+        $modifier += floor(GetHealth($player)/5);
+        break;
+      case "8139901441"://Bo-Katan Kryze
+        if(SearchCount(SearchAllies($player, trait:"Trooper")) > 1) $modifier += 1;
+        break;
+      case "1368135704"://Relentless Rocket Droid
+        if(SearchCount(SearchAllies($player, trait:"Trooper")) > 1) $modifier += 2;
+        break;
+      case "4551109857"://Anakin's Interceptor
+        if(!$ally->LostAbilities() &&GetHealth($player) >= 15) $modifier += 2;
+        break;
+      case "7099699830"://Jyn Erso
+        global $CS_NumAlliesDestroyed;
+        if(GetClassState($otherPlayer, $CS_NumAlliesDestroyed) > 0) $modifier += 1;
+        break;
+      //Jump to Lightspeed
+      case "3389903389"://Black One JTL
+        if ($ally->IsUpgraded()) $modifier += 1;
+        break;
+      case "2177194044"://Swarming Vulture Droid
+        $modifier += (SearchCount(SearchAllies($player, cardTitle:"Swarming Vulture Droid")) - 1);
+        break;
+      case "8845408332"://Millennium Falcon (Get Out and Push)
+        $upgrades = $ally->GetUpgrades();
+        for($i = 0; $i < count($upgrades); ++$i) {
+          if(TraitContains($upgrades[$i], "Pilot", $player)) $modifier += 1;
+        }
+        break;
+      case "1463418669"://IG-88
+        $modifier += SearchCount(SearchAllies($otherPlayer, damagedOnly:true)) > 0 ? 3 : 0;
+        break;
+      case "6610553087"://Nien Nunb
+        $modifier += CountPilotUnitsAndPilotUpgrades($player, other: true);
+        break;
+      case "5422802110"://D'Qar Cargo Frigate
+        $modifier -= $ally->Damage();
+        break;
+      case "5052103576"://Resistance X-Wing
+        if($ally->HasPilot()) $modifier += 1;
+        break;
+      case "4203363893"://War Juggernaut
+        $modifier += SearchCount(SearchAllies($player, damagedOnly:true));
+        $modifier += SearchCount(SearchAllies($otherPlayer, damagedOnly:true));
+        break;
+      case "3213928129"://Clone Combat Squadron
+        $modifier += (SearchCount(SearchAllies($player, arena:"Space")) - 1);
+        break;
+      case "6931439330"://The Ghost SOR (with Phantom II)
+      case "5763330426"://The Ghost JTL (with Phantom II)
+        $modifier += $ally->HasUpgrade("5306772000") ? 3 : 0;
+        break;
+      //Legends of the Force
+      case "1540696516"://Scimitar
+        $modifier += ($ally->Damage() > 0) ? 3 : 0;
+        break;
+      case "9722568619"://Captain Enoch
+        $discard = &GetDiscard($player);
+        $count = 0;
+        for($i=0; $i<count($discard); $i+=DiscardPieces()) {
+          if(TraitContains($discard[$i], "Trooper", $player)) ++$count;
+        }
+        $modifier += $count;
+        break;
+      case "4082337781"://Sith Legionnaire
+        $modifier += (SearchCount(SearchAllies($player, aspect:"Villainy")) > 1) ? 2 : 0;
+        break;
+      case "fadc48bab2"://Kanan Jarrus Leader unit
+        if(LeaderAbilitiesIgnored()) break;
+        //see note in AllyHasStaticHealthModifier about potentially needing to check if Kanan becomes a Creature
+        $atLeastOneCreature = SearchCount(SearchAllies($player, trait:"Creature")) > 0;
+        $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
+        $modifier += ($atLeastOneCreature || $atLeastAnotherSpectre) ? 2 : 0;
+        break;
+      case "abcdefg018"://Kit Fisto Leader unit
+        if(LeaderAbilitiesIgnored()) break;
+        $modifier += (SearchCount(SearchAllies($player, trait:"Jedi")) - 1);
+        break;
+      default: break;
+    }
   }
 
   if(!IsMultiTargetAttackActive() && GetAttackTarget() != "NA" && count($currentTurnEffects) > 0) {
