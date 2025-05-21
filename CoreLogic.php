@@ -7251,6 +7251,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       AddDecisionQueue("THEFORCEISWITHYOU", $currentPlayer, "-", 1);
       break;
+    case "abcdefg029"://Crushing Blow
+      MZChooseAndDestroy($currentPlayer, "MYALLY:maxCost=2&THEIRALLY:maxCost=2", filter:"leader=1");
+      break;
+    case "abcdefg030"://Purge Trooper
+        DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY:trait=Force&THEIRALLY:trait=Force", context:"a Force unit", unitCardID:$cardID);
+      break;
     //PlayAbility End
     default: break;
   }
