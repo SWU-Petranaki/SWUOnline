@@ -328,6 +328,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "2290426901": $amount += 3; break;//Thralls of the Coven
     case "4043787241": $amount += 3; break;//Strikeship
     case "abcdefg028": $amount += 2; break;//Aurra Sing LOF
+    case "abcdefg034": $amount += 3; break;//Nihil Maurader
     default: break;
   }
   //The Ghost JTL
