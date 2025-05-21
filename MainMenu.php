@@ -194,6 +194,220 @@ if (!empty($_SESSION['error'])) {
               </button>
             </div>
           </div>
+          <div class="create-game-summary">
+              <div class="quick-match-container">
+                <div class="summary-actions" style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                  <span style="white-space: nowrap; margin-right: 5px;">Quick Match:</span>
+                  <div class="filter-dropdown-wrapper" style="flex: 1; margin-top: 10px;">
+                    <select id="quickMatchFormat" class="styled-dropdown">
+                      <option value="premierf" <?php echo (FormatCode('premierf') == $defaultFormat ? "selected" : ""); ?>>Premier Casual</option>
+                      <?php if($canSeeQueue) { ?>
+                      <option value="prstrict" <?php echo (FormatCode('prstrict') == $defaultFormat ? "selected" : ""); ?>>Premier (Best of 3)</option>
+                      <option value="civilwar" <?php echo (FormatCode('civilwar') == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option>
+                      <?php } ?>
+                      <option value="previewf" <?php echo (FormatCode('previewf') == $defaultFormat ? "selected" : ""); ?>>Preview (Set 5)</option>
+                      <option value="openform" <?php echo (FormatCode('openform') == $defaultFormat ? "selected" : ""); ?>>Open Format</option>
+                    </select>
+                  </div>
+                  <button id="findQuickMatch" class="create-btn">Find Game</button>
+                </div>
+                <div id="quickMatchStatus" class="quick-match-status"></div>
+              </div>
+
+              <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                const findQuickMatchBtn = document.getElementById('findQuickMatch');
+                const quickMatchFormat = document.getElementById('quickMatchFormat');
+                const quickMatchStatus = document.getElementById('quickMatchStatus');
+
+                if (findQuickMatchBtn) {
+                  findQuickMatchBtn.addEventListener('click', function() {
+                    // Check if a valid deck is selected
+                    const deckLink = document.getElementById('deckLink').value;
+                    if (!deckLink || deckLink.trim() === '' || !validateDeckLink(deckLink)) {
+                      quickMatchStatus.textContent = 'Please select a valid deck first';
+                      quickMatchStatus.className = 'quick-match-status error';
+                      return;
+                    }
+
+                    // Show loading status
+                    quickMatchStatus.textContent = 'Searching for games...';
+                    quickMatchStatus.className = 'quick-match-status loading';
+
+                    // Get selected format
+                    const selectedFormat = quickMatchFormat.value;
+
+                    // Fetch open games
+                    fetch('APIs/GetOpenGames.php')
+                      .then(response => response.json())
+                      .then(data => {
+                        // Find first game matching the selected format
+                        const matchingGame = data.openGames?.find(game => game.format === selectedFormat);
+
+                        if (matchingGame) {
+                          // Game found - join it
+                          quickMatchStatus.textContent = `Game found! Joining ${matchingGame.description || 'Game #' + matchingGame.gameName}...`;
+                          quickMatchStatus.className = 'quick-match-status success';
+
+                          // Check if the game is still available before joining
+                          fetch('APIs/GetOpenGames.php')
+                            .then(response => response.json())
+                            .then(latestData => {
+                              // Check if the game still exists in the open games list
+                              const isStillAvailable = latestData.openGames?.some(game => game.gameName === matchingGame.gameName);
+
+                              if (!isStillAvailable) {
+                                // Game is no longer available, create a new game instead
+                                quickMatchStatus.textContent = 'Game no longer available. Creating a new game...';
+                                quickMatchStatus.className = 'quick-match-status warning';
+
+                                // Create form to create a new game
+                                const form = document.createElement('form');
+                                form.method = 'GET';
+                                form.action = `${window.location.origin}/Arena/CreateGame.php`;
+
+                                // Add format
+                                const formatInput = document.createElement('input');
+                                formatInput.type = 'hidden';
+                                formatInput.name = 'format';
+                                formatInput.value = selectedFormat;
+                                form.appendChild(formatInput);
+
+                                // Add deck
+                                const fabdbInput = document.createElement('input');
+                                fabdbInput.type = 'hidden';
+                                fabdbInput.name = 'fabdb';
+                                fabdbInput.value = document.getElementById('deckLink').value;
+                                form.appendChild(fabdbInput);
+
+                                // Add visibility (public for quick match)
+                                const visibilityInput = document.createElement('input');
+                                visibilityInput.type = 'hidden';
+                                visibilityInput.name = 'visibility';
+                                visibilityInput.value = 'public';
+                                form.appendChild(visibilityInput);
+
+                                // Add game description
+                                const descriptionInput = document.createElement('input');
+                                descriptionInput.type = 'hidden';
+                                descriptionInput.name = 'gameDescription';
+                                descriptionInput.value = 'Quick Match';
+                                form.appendChild(descriptionInput);
+
+                                // Add save preference if checked
+                                const saveDeck = document.getElementById('saveFavoriteDeck');
+                                if (saveDeck && saveDeck.checked) {
+                                  const favDeckInput = document.createElement('input');
+                                  favDeckInput.type = 'hidden';
+                                  favDeckInput.name = 'favoriteDeck';
+                                  favDeckInput.value = 'on';
+                                  form.appendChild(favDeckInput);
+                                }
+
+                                // Submit form
+                                document.body.appendChild(form);
+                                form.submit();
+                                return;
+                              } else {
+                                // Create form to join game
+                                const form = document.createElement('form');
+                                form.method = 'GET';
+                                form.action = `${window.location.origin}/Arena/JoinGameInput.php`;
+
+                                // Add game name
+                                const gameNameInput = document.createElement('input');
+                                gameNameInput.type = 'hidden';
+                                gameNameInput.name = 'gameName';
+                                gameNameInput.value = matchingGame.gameName;
+                                form.appendChild(gameNameInput);
+
+                                // Add player ID
+                                const playerIDInput = document.createElement('input');
+                                playerIDInput.type = 'hidden';
+                                playerIDInput.name = 'playerID';
+                                playerIDInput.value = '2';
+                                form.appendChild(playerIDInput);
+
+                                // Add deck
+                                const fabdbInput = document.createElement('input');
+                                fabdbInput.type = 'hidden';
+                                fabdbInput.name = 'fabdb';
+                                fabdbInput.value = document.getElementById('deckLink').value;
+                                form.appendChild(fabdbInput);
+
+                                // Add save preference if checked
+                                const saveDeck = document.getElementById('saveFavoriteDeck');
+                                if (saveDeck && saveDeck.checked) {
+                                  const favDeckInput = document.createElement('input');
+                                  favDeckInput.type = 'hidden';
+                                  favDeckInput.name = 'favoriteDeck';
+                                  favDeckInput.value = 'on';
+                                  form.appendChild(favDeckInput);
+                                }
+
+                                // Submit form
+                                document.body.appendChild(form);
+                                form.submit();
+                              }
+                            });
+                        } else {
+                          // No matching games found - create a new game
+                          quickMatchStatus.textContent = 'No games found. Creating a new game...';
+                          quickMatchStatus.className = 'quick-match-status loading';
+
+                          // Create form to create a new game
+                          const form = document.createElement('form');
+                          form.method = 'GET';
+                          form.action = `${window.location.origin}/Arena/CreateGame.php`;
+
+                          // Add format
+                          const formatInput = document.createElement('input');
+                          formatInput.type = 'hidden';
+                          formatInput.name = 'format';
+                          formatInput.value = selectedFormat;
+                          form.appendChild(formatInput);
+
+                          // Add deck
+                          const fabdbInput = document.createElement('input');
+                          fabdbInput.type = 'hidden';
+                          fabdbInput.name = 'fabdb';
+                          fabdbInput.value = document.getElementById('deckLink').value;
+                          form.appendChild(fabdbInput);
+
+                          // Add visibility (public for quick match)
+                          const visibilityInput = document.createElement('input');
+                          visibilityInput.type = 'hidden';
+                          visibilityInput.name = 'visibility';
+                          visibilityInput.value = 'public';
+                          form.appendChild(visibilityInput);
+
+                          // Add game description
+                          const descriptionInput = document.createElement('input');
+                          descriptionInput.type = 'hidden';
+                          descriptionInput.name = 'gameDescription';
+                          descriptionInput.value = 'Quick Match';
+                          form.appendChild(descriptionInput);
+
+                          // Add save preference if checked
+                          const saveDeck = document.getElementById('saveFavoriteDeck');
+                          if (saveDeck && saveDeck.checked) {
+                            const favDeckInput = document.createElement('input');
+                            favDeckInput.type = 'hidden';
+                            favDeckInput.name = 'favoriteDeck';
+                            favDeckInput.value = 'on';
+                            form.appendChild(favDeckInput);
+                          }
+
+                          // Submit form
+                          document.body.appendChild(form);
+                          form.submit();
+                        }
+                      });
+                    });
+                }
+              });
+              </script>
+          </div>
           <!-- Filters and refresh button are now part of the Games tab only -->
           <div class="game-list-filters">
             <div class="filter-dropdown-wrapper">
