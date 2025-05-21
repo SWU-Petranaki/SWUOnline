@@ -2511,6 +2511,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
     case "3389903389"://Black One JTL
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
       if (ControlsNamedCard($mainPlayer, "Poe Dameron"))
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
       break;
