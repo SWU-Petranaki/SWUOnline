@@ -6922,6 +6922,23 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DQPingUnit($currentPlayer, 2, isUnitEffect:false, may:false);
       }
       break;
+    case "zzzzzzz021"://Grand Inquisitor Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Attack") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          AddCurrentTurnEffect($cardID, $otherPlayer);
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+          AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to attack with");
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+        }
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
@@ -7238,7 +7255,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD");
       break;
     case "abcdefg019"://Niman Strike
-      AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "abdefg019");
+      AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "abcdefg019");
       break;
     case "abcdefg022"://Mystic Monastery
       TheForceIsWithYou($currentPlayer);

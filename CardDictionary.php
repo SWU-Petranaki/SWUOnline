@@ -903,10 +903,12 @@ function HasShielded($cardID, $player, $index)
   }
   switch($cardID)
   {
-    //Spark of Rebellion
+    //leaders when deployed
     case "b0dbca5c05"://Iden Versio (SOR) Leader Unit
     case "fadc48bab2"://Kanan Jarrus (LOF) Leader Unit
-      return !LeaderAbilitiesIgnored();
+    case "abcdefg031"://Grand Inquisitor Leader Unit
+        return !LeaderAbilitiesIgnored();
+    //Spark of Rebellion
     case "0700214503"://Crafty Smuggler
     case "5264521057"://Wilderness Fighter
     case "9950828238"://Seventh Fleet Defender
@@ -1607,6 +1609,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz020"://Kit Fisto Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "zzzzzzz021"://Grand Inquisitor Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -1958,6 +1962,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Debuff";
     case "zzzzzzz020"://Kit Fisto Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
+    case "zzzzzzz021"://Grand Inquisitor Leader
+      return LeaderAbilitiesIgnored() ? "" : "Attack";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
@@ -2431,6 +2437,8 @@ function LeaderUnit($cardID) {
       return "32fd8db633";
     case "zzzzzzz020"://Kit Fisto
       return "abcdefg018";
+    case "zzzzzzz021"://Grand Inquisitor
+      return "abcdefg031";
     default: return "";
   }
 }
@@ -2600,6 +2608,8 @@ function LeaderUndeployed($cardID) {
       return "2520636620";
     case "abcdefg018"://Kit Fisto
       return "zzzzzzz020";
+    case "abcdefg031"://Grand Inquisitor
+      return "zzzzzzz021";
     default: return "";
   }
 }
