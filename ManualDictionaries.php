@@ -26,6 +26,7 @@ function ManualCardTitleData() {
     'abcdefg030' => 'Purge Trooper',
     'abcdefg031' => 'Grand Inquisitor',
     'abcdefg032' => 'Nameless Terror',
+    'abcdefg033' => 'Gungi',
     //continue manual card titles
     'zzzzzzz010' => 'Fortress Vader',
     'zzzzzzz011' => 'Crystal Caves',
@@ -47,6 +48,7 @@ function ManualCardSubtitleData() {
     'abcdefg027' => 'Doomed Debris',
     'abcdefg028' => 'Patient and Deadly',
     'abcdefg031' => 'Stories Travel Quickly',
+    'abcdefg033' => 'Finding Himself',
     //continue manual card subtitles
     'zzzzzzz020' => 'Focused Jedi Master',
     'zzzzzzz021' => 'Stories Travel Quickly',
@@ -80,6 +82,7 @@ function ManualCardCostData() {
     'abcdefg030' => 3,
     'abcdefg031' => 5,
     'abcdefg032' => 3,
+    'abcdefg033' => 2,
     //continue manual card costs
     'zzzzzzz020' => 5,
     'zzzzzzz021' => 5,
@@ -107,6 +110,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg030' => 2,
     'abcdefg031' => 5,
     'abcdefg032' => 3,
+    'abcdefg033' => 5,
     //continue manual card HP dictionary
     'zzzzzzz010' => 28,
     'zzzzzzz011' => 28,
@@ -130,6 +134,7 @@ function ManualCardPowerData() {
     'abcdefg030' => 4,
     'abcdefg032' => 3,
     'abcdefg031' => 3,
+    'abcdefg033' => 2,
     //continue manual card powers
   );
 }
@@ -174,6 +179,7 @@ function ManualCardAspectsData() {
     'abcdefg030' => 'Aggression,Villainy',
     'abcdefg031' => 'Cunning,Villainy',
     'abcdefg032' => 'Vigilance,Villainy',
+    'abcdefg033' => 'Command,Heroism',
     //continue manual card aspects
     'zzzzzzz010' => 'Aggression',
     'zzzzzzz011' => 'Cunning',
@@ -209,6 +215,7 @@ function ManualCardTraitsData() {
     'abcdefg030' => 'Imperial,Trooper',
     'abcdefg031' => 'Force,Imperial,Inquisitor',
     'abcdefg032' => 'Creature',
+    'abcdefg033' => 'Force,Jedi,Wookiee',
     //continue manual card traits
     'zzzzzzz020' => 'Force,Jedi,Republic',
     'zzzzzzz021' => 'Force,Imperial,Inquisitor',
@@ -232,6 +239,7 @@ function ManualCardArenasData() {
     'abcdefg030' => 'Ground',
     'abcdefg031' => 'Ground',
     'abcdefg032' => 'Ground',
+    'abcdefg033' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -263,6 +271,7 @@ function ManualDefinedCardTypeData() {
     'abcdefg030' => 'Unit',
     'abcdefg031' => 'Leader',
     'abcdefg032' => 'Unit',
+    'abcdefg033' => 'Unit',
     //continue manual card types
     'zzzzzzz010' => 'Base',
     'zzzzzzz011' => 'Base',
@@ -293,6 +302,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg030' => 'Unit',
     'abcdefg031' => 'Unit',
     'abcdefg032' => 'Unit',
+    'abcdefg033' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -311,6 +321,7 @@ function ManualCardIsUniqueData() {
     'abcdefg028' => 1,
     'abcdefg029' => 1,
     'abcdefg031' => 1,
+    'abcdefg033' => 1,
     //continue manual card unique status
     'zzzzzzz020' => 1,
     'zzzzzzz021' => 1,
@@ -361,6 +372,7 @@ function ManualCardSetData() {
     'abcdefg030' => 'LOF',
     'abcdefg031' => 'LOF',
     'abcdefg032' => 'LOF',
+    'abcdefg033' => 'LOF',
     //continue manual card sets
     'zzzzzzz010' => 'LOF',
     'zzzzzzz011' => 'LOF',
@@ -394,6 +406,7 @@ function ManualUUIDLookupData() {
     'LOF_077' => 'abcdefg029',
     'LOF_133' => 'abcdefg030',
     'LOF_033' => 'abcdefg032',
+    'LOF_093' => 'abcdefg033',
     //continue manual UUID lookups
     'LOF_026' => 'zzzzzzz010',
     'LOF_029' => 'zzzzzzz011',
@@ -429,6 +442,7 @@ function ManualCardIDLookupData() {
     'abcdefg030' => 'LOF_133',
     'abcdefg031' => 'LOF_014',
     'abcdefg032' => 'LOF_033',
+    'abcdefg033' => 'LOF_093',
     //continue manual card ID lookups
     'zzzzzzz010' => 'LOF_026',
     'zzzzzzz011' => 'LOF_029',
@@ -464,6 +478,7 @@ function ManualCardRarityData() {
     'abcdefg030' => 'Common',
     'abcdefg031' => 'Common',
     'abcdefg032' => 'Uncommon',
+    'abcdefg033' => 'Uncommon',
     //continue manual card rarities
     'zzzzzzz010' => 'Common',
     'zzzzzzz011' => 'Common',
@@ -481,6 +496,6 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto|Yaddle|Niman Strike|Adi Gallia|Vergence Temple|Mystic Monastery|Temple Of Destruction|Tomb Of Eilram|Drengir Spawn| The Legacy Run|Aurra Sing|Crushing Blow|Purge Trooper|Grand Inquisitor|Nameless Terror';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto|Yaddle|Niman Strike|Adi Gallia|Vergence Temple|Mystic Monastery|Temple Of Destruction|Tomb Of Eilram|Drengir Spawn| The Legacy Run|Aurra Sing|Crushing Blow|Purge Trooper|Grand Inquisitor|Nameless Terror|Gungi';
 }
 ?>
