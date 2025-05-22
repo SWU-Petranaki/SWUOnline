@@ -134,6 +134,18 @@ function AddCurrentTurnEffect($cardID, $player, $from = "", $uniqueID = -1, $las
   array_push($currentTurnEffects, $cardID, $player, $uniqueID, CurrentTurnEffectUses($cardID), $lastingType);
 }
 
+function SearchCurrentTurnEffects2($cardID, $player = -1, $uniqueID = -1)
+{
+  global $currentTurnEffects;
+  for($i = count($currentTurnEffects) - CurrentTurnEffectPieces(); $i >= 0; $i -= CurrentTurnEffectPieces()) {
+    if(($currentTurnEffects[$i] == $cardID || $cardID == "") &&
+      ($player == -1 || $currentTurnEffects[$i + 1] == $player) &&
+      ($uniqueID == -1 || $currentTurnEffects[$i + 2] == $uniqueID) &&
+      $currentTurnEffects[$i + 3] > 0) return true;
+  }
+  return false;
+}
+
 function RemovePhaseEffects() {
   global $currentTurnEffects;
   for ($i = count($currentTurnEffects) - CurrentTurnPieces(); $i >= 0; $i -= CurrentTurnPieces()) {
