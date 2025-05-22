@@ -16300,38 +16300,7 @@ function CardTitles() {
 function IsUnimplemented($cardID) {
   $manualData = ManualIsUnimplementedData();
   $unimplementedCards = array (
-  '0124168291' => true,
-  1028870559 => true,
-  1146162009 => true,
-  1160624693 => true,
-  1978321046 => true,
-  2699176260 => true,
-  3092212109 => true,
-  3595375406 => true,
-  3688574857 => true,
-  3822427538 => true,
-  4236013558 => true,
-  4352576521 => true,
-  4460062481 => true,
-  4627342747 => true,
-  4741025404 => true,
-  4808722909 => true,
-  5396502974 => true,
-  5917432593 => true,
-  5960134941 => true,
-  '5b24706856' => true,
-  6523135540 => true,
-  7034168160 => true,
-  7078597376 => true,
-  7204128611 => true,
-  7793687843 => true,
-  7877401512 => true,
-  7981459508 => true,
-  '90e2d4d83e' => true,
-  9434212852 => true,
-  9453163990 => true,
   9702812601 => true,
-  'abcdefg032' => true,
 );
   return isset($unimplementedCards[$cardID]) || isset($manualData[$cardID]);
 }
