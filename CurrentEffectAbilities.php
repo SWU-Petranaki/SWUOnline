@@ -281,7 +281,8 @@ function EffectAttackModifier($cardID, $playerID="")
     case "0753707056": return $subparam;//Unity of Purpose
     //Legends of the Force
     case "8496493030": return 2; //Sycthe
-    case "abcdefg003": return -3;//Anakin Skywalker Adult LOF
+    case "abcdefg003": return -3;//Anakin Skywalker Adult//TODO: remove later
+    case "4236013558": return -3;//Anakin Skywalker Adult
     case "1991532931": return -2;//Karis
     case "2410965424": return -3;//Talzin's Assassin
     case "2520636620": return -1;//Mother Talzin Leader
@@ -291,8 +292,11 @@ function EffectAttackModifier($cardID, $playerID="")
     case "0412810079": return 2;//Sith Holocron
     case "0775347605": return -2;//Chirrut Imwe
     case "abcdefg019": return 1;//Niman Strike
+    case "5960134941": return 1;//Niman Strike
     case "zzzzzzz021": return -2;//Grand Inquisitor Leader
+    case "5917432593": return -2;//Grand Inquisitor Leader
     case "abcdefg031": return -2;//Grand Inquisitor Leader unit
+    case "5b24706856": return -2;//Grand Inquisitor Leader unit
     default: return 0;
   }
 }
@@ -947,8 +951,11 @@ function IsCombatEffectActive($cardID)
     case "0412810079"://Sith Holocron
     case "0775347605"://Chirrut Imwe
     case "abcdefg019"://Niman Strike
+    case "5960134941"://Niman Strike
     case "zzzzzzz021"://Grand Inquisitor Leader
+    case "5917432593"://Grand Inquisitor Leader
     case "abcdefg031"://Grand Inquisitor Leader unit
+    case "5b24706856"://Grand Inquisitor Leader unit
       return true;
     default: return false;
   }

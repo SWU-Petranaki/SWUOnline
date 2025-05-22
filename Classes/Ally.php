@@ -351,10 +351,15 @@ class Ally {
         && TraitContains($unitCardID, "Creature")) {
       $amount = 0;
     }
-
+    //TODO: remove later
     if($amount > 0 && $this->HasEffect("abcdefg017")) {
       $amount -= 2;
       AddDecisionQueue("REMOVECURRENTEFFECT", $this->Controller(), "abcdefg017");
+    }
+
+    if($amount > 0 && $this->HasEffect("7981459508")) {
+      $amount -= 1;
+      AddDecisionQueue("REMOVECURRENTEFFECT", $this->Controller(), "7981459508");
     }
 
     //Upgrade damage prevention
@@ -878,6 +883,7 @@ class Ally {
         case "c1700fc85b": //Kazuda Xiono pilot Leader Unit
         case "9184947464": //There Is No Escape
         case "abcdefg004": //Mind Trick
+        case "1146162009": //Mind Trick
           return true;
         default: break;
       }

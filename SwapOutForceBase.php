@@ -1,5 +1,5 @@
 <?php
-ob_start();
+/*ob_start();
 include "CardDictionary.php";
 include "HostFiles/Redirector.php";
 include "Libraries/UILibraries2.php";
@@ -83,3 +83,5 @@ echo json_encode(array(
   "success" => true,
   "deckFileLine" => $newBase,
 ));
+*/
+?>

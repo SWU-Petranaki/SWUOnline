@@ -104,6 +104,7 @@ function RestoreAmount($cardID, $player, $index)
         $amount += 1;
         break;
       case "abcdefg025"://Yaddle
+      case "4808722909"://Yaddle
         $amount += 1;
         break;
       default: break;
@@ -124,6 +125,7 @@ function RestoreAmount($cardID, $player, $index)
         $amount += 1;
         break;
       case "abcdefg006"://Constructed Lightsaber
+      case "3688574857"://Constructed Lightsaber
           if(AspectContains($cardID, "Heroism", $player))
           $amount += 2;
           break;
@@ -170,7 +172,9 @@ function RestoreAmount($cardID, $player, $index)
     case "754e979196": $amount += 1; break;//Darth Revan Leader Unit
     case "5264998537": $amount += 2; break;//Owen Lars
     case "abcdefg015": $amount += 1; break;//Village Tender
+    case "1978321046": $amount += 1; break;//Village Tender
     case "abcdefg025": $amount += 1; break;//Yaddle
+    case "4808722909": $amount += 1; break;//Yaddle
     default: break;
   }
   //The Ghost JTL
@@ -279,7 +283,10 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
   {
     if($upgrades[$i] == "2007876522") $amount += 2;//Clone Cohort
     if($upgrades[$i] == "0587196584") $amount += 1;//Independent Smuggler
-    if($upgrades[$i] == "abcdefg006") if(AspectContains($cardID, "Villainy", $player)) $amount += 2;
+    if($upgrades[$i] == "abcdefg006")//Constructed Lightsaber
+      if(AspectContains($cardID, "Villainy", $player)) $amount += 2;
+    if($upgrades[$i] == "3688574857")//Constructed Lightsaber
+      if(AspectContains($cardID, "Villainy", $player)) $amount += 2;
   }
   switch($cardID)
   {
@@ -327,8 +334,10 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "6082085272": $amount += 1; break;//Forged Starfighter
     case "2290426901": $amount += 3; break;//Thralls of the Coven
     case "4043787241": $amount += 3; break;//Strikeship
-    case "abcdefg028": $amount += 2; break;//Aurra Sing LOF
-    case "abcdefg034": $amount += 3; break;//Nihil Maurader
+    case "abcdefg028": $amount += 2; break;//Aurra Sing
+    case "7877401512": $amount += 2; break;//Aurra Sing
+    case "abcdefg034": $amount += 3; break;//Nihil Marauder
+    case "4460062481": $amount += 3; break;//Nihil Marauder
     default: break;
   }
   //The Ghost JTL
@@ -340,6 +349,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
 
   if($amount > 0 && $ally->LostAbilities()) return 0;
   if(SearchAlliesForCard($player, "abcdefg035")) $amount*=2;//Marchion Ro
+  if(SearchAlliesForCard($player, "4627342747")) $amount*=2;//Marchion Ro
   return $amount;
 }
 
@@ -393,6 +403,7 @@ function HasSentinel($cardID, $player, $index)
           && SearchCount(SearchAllies($player, arena:"Space")) > 0;
           break;
       case "abcdefg006"://Constructed Lightsaber
+      case "3688574857"://Constructed Lightsaber
         if(!AspectContains($cardID, "Villainy", $player) && !(AspectContains($cardID, "Heroism", $player))) $hasSentinel = true;
         break;
       default: break;
@@ -751,6 +762,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "4043787241"://Strikeship
     case "4145147486"://Kylo Ren LOF
     case "abcdefg026"://Drengir Spawn
+    case "3092212109"://Drengir Spawn
       return true;
     default: break;
   }
@@ -787,7 +799,8 @@ function HasAmbush($cardID, $player, $index, $from)
         AddDecisionQueue("REMOVECURRENTEFFECT", $player, "2b13cefced");
         return true;
       case "abcdefg017"://Shien Flurry
-        AddDecisionQueue("REMOVECURRENTEFFECT", $player, "abcdefg017");
+      case "7981459508"://Shien Flurry
+        AddDecisionQueue("REMOVECURRENTEFFECT", $player, "7981459508");
         return true;
       default: break;
     }
@@ -909,6 +922,7 @@ function HasShielded($cardID, $player, $index)
     case "b0dbca5c05"://Iden Versio (SOR) Leader Unit
     case "fadc48bab2"://Kanan Jarrus (LOF) Leader Unit
     case "abcdefg031"://Grand Inquisitor Leader Unit
+    case "5b24706856"://Grand Inquisitor Leader Unit
         return !LeaderAbilitiesIgnored();
     //Spark of Rebellion
     case "0700214503"://Crafty Smuggler
@@ -1037,7 +1051,9 @@ function HasSaboteur($cardID, $player, $index)
     //Legends of the Force
     case "7529152088"://Depa Billaba
     case "abcdefg014"://Kit Fisto's Aethersprite
+    case "1028870559"://Kit Fisto's Aethersprite
     case "abcdefg018"://Kit Fisto Leader unit
+    case "90e2d4d83e"://Kit Fisto Leader unit
       return true;
 
     //conditional saboteur
@@ -1100,14 +1116,16 @@ function HasHidden($cardID, $player, $index) {
   //card specific
   switch($cardID) {
     //Legends of the Force
-    case "3967581160"://Anakin Skywalker Child LOF
+    case "3967581160"://Anakin Skywalker Child
     case "4389144613"://Grogu
     case "3995900674"://Tuk'ata
     case "6082085272"://Forged Starfighter
     case "1433284352"://Attuned Fyrnock
     case "2897264390"://Witch of the Mist
     case "abcdefg015"://Village Tender
-    case "abcdefg028"://Aurra Sing LOF
+    case "1978321046"://Village Tender
+    case "abcdefg028"://Aurra Sing
+    case "7877401512"://Aurra Sing
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
@@ -1221,6 +1239,7 @@ function AbilityCost($cardID)
     case "8304104587"://Kanan Jarrus Leader
       return $abilityName == "Shield" ? 1 : 0;
     case "zzzzzzz020"://Kit Fisto Leader
+    case "3822427538"://Kit Fisto Leader
       return $abilityName == "Deal Damage" ? 1 : 0;
     default: break;
   }
@@ -1287,9 +1306,11 @@ function GetAbilityType($cardID, $index = -1, $from="-")
     case "8327910265"://Energy Conversion Lab (ECL)
       return "A";
     case "abcdefg022"://Mystic Monastery
+    case "9434212852"://Mystic Monastery
       $char = &GetPlayerCharacter($currentPlayer);
       return $char[5] > 0 ? "A" : "";
     case "abcdefg024"://Tomb of Eilram
+    case "2699176260"://Tomb of Eilram
       return CountReadyAllies($currentPlayer) > 0 ? "A" : "";
     //end bases
     case "4626028465"://Boba Fett Leader
@@ -1610,8 +1631,10 @@ function CheckLOFAbilityTypes($cardID) {
     case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz020"://Kit Fisto Leader
+    case "3822427538"://Kit Fisto Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz021"://Grand Inquisitor Leader
+    case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
@@ -1963,8 +1986,10 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "Debuff";
     case "zzzzzzz020"://Kit Fisto Leader
+    case "3822427538"://Kit Fisto Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     case "zzzzzzz021"://Grand Inquisitor Leader
+    case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "Attack";
     //non-leaders
     case "4389144613"://Grogu
@@ -2183,6 +2208,7 @@ function UpgradeFilter($cardID)
     case "5306772000"://Phantom II
       return "cardID!=6931439330&cardID!=5763330426";
     case "abcdefg006"://Constructed Lightsaber
+    case "3688574857"://Constructed Lightsaber
     case "0412810079"://Sith Holocron
       return "trait!=Force";
     default: return "";
@@ -2439,8 +2465,12 @@ function LeaderUnit($cardID) {
       return "32fd8db633";
     case "zzzzzzz020"://Kit Fisto
       return "abcdefg018";
+    case "3822427538"://Kit Fisto
+      return "90e2d4d83e";
     case "zzzzzzz021"://Grand Inquisitor
       return "abcdefg031";
+    case "5917432593"://Grand Inquisitor
+      return "5b24706856";
     default: return "";
   }
 }
@@ -2610,8 +2640,12 @@ function LeaderUndeployed($cardID) {
       return "2520636620";
     case "abcdefg018"://Kit Fisto
       return "zzzzzzz020";
+    case "90e2d4d83e"://Kit Fisto
+      return "3822427538";
     case "abcdefg031"://Grand Inquisitor
       return "zzzzzzz021";
+    case "5b24706856"://Grand Inquisitor
+      return "5917432593";
     default: return "";
   }
 }
