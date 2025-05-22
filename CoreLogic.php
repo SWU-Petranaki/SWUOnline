@@ -1233,7 +1233,10 @@ function TraitContains($cardID, $trait, $player="", $index=-1) {
     if ($ally->IsCloned() && $trait == "Clone") return true;
   }
   $cardTrait = CardTraits($cardID);
-  if($trait == "Force" && SearchCurrentTurnEffects2("9702812601", $player)) return false;
+  if($trait == "Force" && SearchCurrentTurnEffects("9702812601", $player)){
+     WriteLog("Nameless Terror prevented Force Trait"); 
+     return false;
+  }
   return DelimStringContains($cardTrait, $trait);
 }
 
