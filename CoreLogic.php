@@ -5935,11 +5935,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "3596811933"://Disruptive Burst
-      $theirAllies = &GetTheirAllies($currentPlayer);
-      for ($i = 0; $i < count($theirAllies); $i += AllyPieces()) {
-        $theirAlly = new Ally("THEIRALLY-" . $i);
-        $theirAlly->AddRoundHealthModifier(-1);
+      $otherPlayer = $currentPlayer == 1 ? 2 : 1;
+      $theirAllies = &GetAllies($otherPlayer);
+      for ($i = count($theirAllies) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
+        $theirAlly = new Ally("MYALLY-" . $i, $otherPlayer);
         $theirAlly->AddEffect("3596811933", "PLAY");
+        $theirAlly->AddRoundHealthModifier(-1);
       }
       break;
     case "2870878795"://Padme Amidala
