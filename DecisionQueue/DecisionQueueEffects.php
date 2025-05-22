@@ -1382,7 +1382,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
         $ally = new Ally($selectedUnits[$i], $allyPlayer);
         $ally->Exhaust();
-        if($withTheForce) $ally->AddEffect("abcdefg004");
+        if($withTheForce) $ally->AddEffect("1146162009");
       }
       break;
     case "OLDDAKA_LOF":
@@ -1402,6 +1402,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $owner = $parameterArr[1];
       $from = $owner == $player ? "MYDISCARD" : "THEIRDISCARD";
       $mzID = SearchMultizone($owner, "$from:cardID=abcdefg013");
+      if($mzID == '') $mzID = SearchMultizone($owner, "$from:cardID=1160624693");
       $first = explode(",", $mzID)[0];
       MZMoveCard($player, "", "MYRESOURCES", mzIndex: $first);
       ExhaustResource($player);

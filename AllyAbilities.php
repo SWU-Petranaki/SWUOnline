@@ -1133,6 +1133,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         Draw($player);
         break;
       case "abcdefg013"://Eeth Koth
+      case "1160624693"://Eeth Koth
         if(HasTheForce($player)) {
           DQAskToUseTheForce($player);
           AddDecisionQueue("SPECIFICCARD", $player, "EETHKOTH_LOF,$owner", 1);
@@ -1145,13 +1146,13 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         PummelHit($player);
         break;
     case "abcdefg027"://The Legacy Run
-      WriteLog("testing");
-        AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
-        AddDecisionQueue("PREPENDLASTRESULT", $player, "6-");
-        AddDecisionQueue("SETDQCONTEXT", $player, "Deal 6 damage divided as you choose", 1);
-        AddDecisionQueue("MAYMULTIDAMAGEMULTIZONE", $player, "<-", 1);
-        AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
-        break;
+    case "7793687843"://The Legacy Run
+      AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
+      AddDecisionQueue("PREPENDLASTRESULT", $player, "6-");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Deal 6 damage divided as you choose", 1);
+      AddDecisionQueue("MAYMULTIDAMAGEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
+      break;
       //AllyDestroyedAbility End
       default: break;
     }
@@ -1469,6 +1470,7 @@ function OnKillAbility($player, $uniqueID)
       AddLayer("TRIGGER", $mainPlayer, "2508430135", $attackerAlly->UniqueID());
       break;
     case "abcdefg026"://Drengir Spawn
+    case "3092212109"://Drengir Spawn
       if(IsAllyAttackTarget()) {
         $target = GetAttackTarget();
         $defAlly = new Ally($target, $defPlayer);
@@ -1589,8 +1591,10 @@ function AllyStartRegroupPhaseAbilities($player) {
         $ally->Destroy();
         break;
       case "abcdefg010"://Dume
+      case "6523135540"://Dume
         for($j=0; $j<count($allies); $j+=AllyPieces()) {
           if($allies[$j] == "abcdefg010") continue;
+          if($allies[$j] == "6523135540") continue;
           if(TraitContains($allies[$j], "Vehicle")) continue;
           $innerAlly = new Ally("MYALLY-" . $j, $player);
           $innerAlly->AttachExperience();
@@ -1928,6 +1932,7 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
       case "0199085444"://Lux Bonteri
         return $resourcesPaid < CardCost($playedCardID);
       case "abcdefg020"://Adi Gallia
+      case "4741025404"://Adi Gallia
         return DefinedTypesContains($playedCardID, "Event", $currentPlayer);
       default: break;
     }
@@ -2134,7 +2139,8 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("MODAL", $player, "LUXBONTERI");
         break;
       case "abcdefg020"://Adi Gallia
-        DealDamageAsync($otherPlayer, 1, "DAMAGE", "abcdefg020", sourcePlayer:$player);
+      case "4741025404"://Adi Gallia
+        DealDamageAsync($otherPlayer, 1, "DAMAGE", "4741025404", sourcePlayer:$player);
         break;
       default: break;
     }
@@ -2168,7 +2174,9 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "0119018087"://Shadowed Undercity
     case "0450346170"://Jedi Temple
     case "zzzzzzz010"://Fortress Vader
+    case "5396502974"://Fortress Vader
     case "zzzzzzz011"://Crystal Caves
+    case "4352576521"://Crystal Caves
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
         TheForceIsWithYou($mainPlayer);
     break;
@@ -2573,17 +2581,19 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       TheForceIsWithYou($mainPlayer);
       break;
     case "abcdefg025"://Yaddle
+    case "4808722909"://Yaddle
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       //immediate effect. no layer
       $allies = &GetAllies($mainPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
         if (TraitContains($allies[$i], "Jedi") && $allies[$i+5] != $attackerAlly->UniqueID()) {
-          AddCurrentTurnEffect("abcdefg025", $mainPlayer, "PLAY", $allies[$i+5]);
+          AddCurrentTurnEffect("4808722909", $mainPlayer, "PLAY", $allies[$i+5]);
         }
       }
       break;
     case "abcdefg031"://Grand Inquisitor Leader unit
+    case "5b24706856"://Grand Inquisitor Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       //immediate effect. no layer
