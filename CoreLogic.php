@@ -1233,6 +1233,10 @@ function TraitContains($cardID, $trait, $player="", $index=-1) {
     if ($ally->IsCloned() && $trait == "Clone") return true;
   }
   $cardTrait = CardTraits($cardID);
+  if($trait == "Force" && SearchCurrentTurnEffects("9702812601", $player)){
+     WriteLog("Nameless Terror prevented Force Trait"); 
+     return false;
+  }
   return DelimStringContains($cardTrait, $trait);
 }
 
@@ -7331,6 +7335,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "abcdefg030"://Purge Trooper
     case "3595375406"://Purge Trooper
         DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY:trait=Force&THEIRALLY:trait=Force", context:"a Force unit", unitCardID:$cardID);
+      break;
+    case "9702812601"://Nameless Terror
+      if($from != "PLAY") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:trait=Force&MYALLY:trait=Force");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to exhaust");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      }
       break;
     //PlayAbility End
     default: break;

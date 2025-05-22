@@ -2561,6 +2561,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "8496493030"://Sycthe
     case "0726963200"://Ezra LOF
     case "d12b136775"://Obi-Wan Kenobi Leader unit
+    case "9702812601"://Nameless Terror
     case "32fd8db633"://Mother Talzin Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3775,6 +3776,10 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "32fd8db633"://Mother Talzin Leader unit
       MotherTalzinLOF($mainPlayer, true);
+      break;
+    case "9702812601"://Nameless Terror
+      $otherPlayer = $mainPlayer == 1 ? 2 : 1;
+      AddCurrentTurnEffect("9702812601", $otherPlayer, "PLAY");
       break;
     default: break;
   }

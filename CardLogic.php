@@ -134,6 +134,7 @@ function AddCurrentTurnEffect($cardID, $player, $from = "", $uniqueID = -1, $las
   array_push($currentTurnEffects, $cardID, $player, $uniqueID, CurrentTurnEffectUses($cardID), $lastingType);
 }
 
+
 function RemovePhaseEffects() {
   global $currentTurnEffects;
   for ($i = count($currentTurnEffects) - CurrentTurnPieces(); $i >= 0; $i -= CurrentTurnPieces()) {
