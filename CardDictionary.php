@@ -764,6 +764,8 @@ function HasOverwhelm($cardID, $player, $index)
     case "abcdefg026"://Drengir Spawn
     case "3092212109"://Drengir Spawn
       return true;
+    case "abcdefg036"://Avar Kriss Leader unit
+      return HasTheForce($player);
     default: break;
   }
   //The Ghost JTL
@@ -1636,6 +1638,8 @@ function CheckLOFAbilityTypes($cardID) {
     case "zzzzzzz021"://Grand Inquisitor Leader
     case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "zzzzzzz022"://Avar Kriss Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -1991,6 +1995,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "zzzzzzz021"://Grand Inquisitor Leader
     case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "Attack";
+    case "zzzzzzz022"://Avar Kriss Leader
+      return LeaderAbilitiesIgnored() ? "" : "Meditate";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
@@ -2471,6 +2477,8 @@ function LeaderUnit($cardID) {
       return "abcdefg031";
     case "5917432593"://Grand Inquisitor
       return "5b24706856";
+    case "zzzzzzz022"://Avar Kriss
+      return "abcdefg036";
     default: return "";
   }
 }
@@ -2646,6 +2654,8 @@ function LeaderUndeployed($cardID) {
       return "zzzzzzz021";
     case "5b24706856"://Grand Inquisitor
       return "5917432593";
+    case "abcdefg036"://Avar Kriss
+      return "zzzzzzz022";
     default: return "";
   }
 }

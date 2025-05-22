@@ -35,6 +35,7 @@ function ManualCardTitleData() {
     'zzzzzzz011' => 'Crystal Caves',
     'zzzzzzz020' => 'Kit Fisto',
     'zzzzzzz021' => 'Grand Inquisitor',
+    'zzzzzzz022' => 'Avar Kriss',
   );
 }
 
@@ -57,6 +58,7 @@ function ManualCardSubtitleData() {
     //continue manual card subtitles
     'zzzzzzz020' => 'Focused Jedi Master',
     'zzzzzzz021' => 'Stories Travel Quickly',
+    'zzzzzzz022' => 'Marshal Of Starlight',
   );
 }
 
@@ -94,6 +96,7 @@ function ManualCardCostData() {
     //continue manual card costs
     'zzzzzzz020' => 5,
     'zzzzzzz021' => 5,
+    'zzzzzzz022' => 9,
   );
 }
 
@@ -202,6 +205,7 @@ function ManualCardAspectsData() {
     'zzzzzzz011' => 'Cunning',
     'zzzzzzz020' => 'Aggression,Heroism',
     'zzzzzzz021' => 'Cunning,Villainy',
+    'zzzzzzz022' => 'Command,Heroism',
   );
 }
 
@@ -239,6 +243,7 @@ function ManualCardTraitsData() {
     //continue manual card traits
     'zzzzzzz020' => 'Force,Jedi,Republic',
     'zzzzzzz021' => 'Force,Imperial,Inquisitor',
+    'zzzzzzz022' => 'Force,Jedi,Republic',
   );
 }
 
@@ -297,12 +302,13 @@ function ManualDefinedCardTypeData() {
     'abcdefg033' => 'Unit',
     'abcdefg034' => 'Unit',
     'abcdefg035' => 'Unit',
-    'abcdefg036' => 'Unit',
+    'abcdefg036' => 'Leader',
     //continue manual card types
     'zzzzzzz010' => 'Base',
     'zzzzzzz011' => 'Base',
     'zzzzzzz020' => 'Leader',
     'zzzzzzz021' => 'Leader',
+    'zzzzzzz022' => 'Leader',
   );
 }
 
@@ -356,6 +362,7 @@ function ManualCardIsUniqueData() {
     //continue manual card unique status
     'zzzzzzz020' => 1,
     'zzzzzzz021' => 1,
+    'zzzzzzz022' => 1,
   );
 }
 
@@ -412,6 +419,7 @@ function ManualCardSetData() {
     'zzzzzzz011' => 'LOF',
     'zzzzzzz020' => 'LOF',
     'zzzzzzz021' => 'LOF',
+    'zzzzzzz022' => 'LOF',
   );
 }
 
@@ -443,12 +451,12 @@ function ManualUUIDLookupData() {
     'LOF_093' => 'abcdefg033',
     'LOF_182' => 'abcdefg034',
     'LOF_186' => 'abcdefg035',
-    'LOF_007' => 'abcdefg036',
     //continue manual UUID lookups
     'LOF_026' => 'zzzzzzz010',
     'LOF_029' => 'zzzzzzz011',
     'LOF_011' => 'zzzzzzz020',
     'LOF_014' => 'zzzzzzz021',
+    'LOF_007' => 'zzzzzzz022',
   );
 }
 
@@ -482,12 +490,12 @@ function ManualCardIDLookupData() {
     'abcdefg033' => 'LOF_093',
     'abcdefg034' => 'LOF_182',
     'abcdefg035' => 'LOF_186',
-    'abcdefg036' => 'LOF_007',
     //continue manual card ID lookups
     'zzzzzzz010' => 'LOF_026',
     'zzzzzzz011' => 'LOF_029',
     'zzzzzzz020' => 'LOF_011',
     'zzzzzzz021' => 'LOF_014',
+    'zzzzzzz022' => 'LOF_007',
   );
 }
 
@@ -527,13 +535,13 @@ function ManualCardRarityData() {
     'zzzzzzz011' => 'Common',
     'zzzzzzz020' => 'Common',
     'zzzzzzz021' => 'Common',
+    'zzzzzzz022' => 'Rare',
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
     'abcdefg032' => true,
-    'abcdefg036' => true,
     //continue manual card unimplemented status
   );
 }
