@@ -954,7 +954,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player,1" , 1);
         break;
-      case "x9151673075"://Cobb Vanth
+      case "9151673075"://Cobb Vanth
         AddDecisionQueue("SEARCHDECKTOPX", $player, "10;1;include-definedType-Unit&include-maxCost-2");
         AddDecisionQueue("ADDDISCARD", $player, "HAND,TTFREE", 1);
         AddDecisionQueue("REVEALCARDS", $player, "-", 1);
