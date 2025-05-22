@@ -2504,6 +2504,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($cardID == "8520821318") {//Poe Dameron JTL leader
         $notEnoughResources = $abilityName == "Deploy" && NumResources($currentPlayer) < 5;
       }
+      if($cardID == "zzzzzzz022") {//Avar Kriss LOF leader
+        global $CS_NumTimesUsedTheForce;
+        $notEnoughResources = $abilityName == "Deploy" && NumResources($currentPlayer) + intval(GetClassState($currentPlayer, $CS_NumTimesUsedTheForce)) < 9;
+      }
       if($notEnoughResources) {
         WriteLog("You don't control enough resources to deploy that leader; reverting the game state.");
         RevertGamestate();
@@ -6941,6 +6945,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "zzzzzzz022"://Avar Kriss Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Meditate") TheForceIsWithYou($currentPlayer);
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
@@ -7640,11 +7648,11 @@ function IsMultiTargetAttackActive() {
   return isset($combatChainState[$CCS_MultiAttackTargets]) && $combatChainState[$CCS_MultiAttackTargets]!=="-";
 }
 
-function AddPreparationCounters($player, $amount=1)
-{
-  global $CS_PreparationCounters;
-  IncrementClassState($player, $CS_PreparationCounters, $amount);
-}
+// function AddPreparationCounters($player, $amount=1)//FAB
+// {
+//   global $CS_PreparationCounters;
+//   IncrementClassState($player, $CS_PreparationCounters, $amount);
+// }
 
 function Mill($player, $amount)
 {
@@ -7687,11 +7695,13 @@ function TheForceIsWithYou($player) {
 }
 
 function UseTheForce($player) {
+  global $CS_NumTimesUsedTheForce;
   $char = &GetPlayerCharacter($player);
   if($char[4] == "0") return;
   $char[4] = "0";
   AddEvent("FORCETOKEN", "$player!0");
   WriteLog("Player " . $player . " used the Force.");
+  IncrementClassState($player, $CS_NumTimesUsedTheForce);
 }
 
 function DQAskToUseTheForce($player, $withNoPass=true) {

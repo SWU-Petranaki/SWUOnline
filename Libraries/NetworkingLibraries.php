@@ -2182,7 +2182,7 @@ function PayAbilityAdditionalCosts($cardID)
 
 function PayAdditionalCosts($cardID, $from)
 {
-  global $currentPlayer, $CS_AdditionalCosts, $CS_CharacterIndex, $CS_PlayIndex, $CS_PreparationCounters;
+  global $currentPlayer, $CS_AdditionalCosts, $CS_CharacterIndex, $CS_PlayIndex;
   if (RequiresDiscard($cardID)) {
     $discarded = DiscardRandom($currentPlayer, $cardID);
     if ($discarded == "") {
