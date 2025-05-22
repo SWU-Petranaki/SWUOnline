@@ -1556,187 +1556,206 @@ function CanConfirmPhase($phase) {
   }
 }
 
-  function CanPassPhase($phase)
+function CanPassPhase($phase)
+{
+  global $combatChainState, $CCS_RequiredEquipmentBlock, $currentPlayer, $turn;
+  global $CS_CantSkipPhase;
+  if(GetClassState($currentPlayer, $CS_CantSkipPhase) == 1) return 0;
+  if($phase == "B" && HaveUnblockedEquip($currentPlayer) && NumEquipBlock() < $combatChainState[$CCS_RequiredEquipmentBlock]) return false;
+  switch($phase)
   {
-    global $combatChainState, $CCS_RequiredEquipmentBlock, $currentPlayer, $turn;
-    global $CS_CantSkipPhase;
-    if(GetClassState($currentPlayer, $CS_CantSkipPhase) == 1) return 0;
-    if($phase == "B" && HaveUnblockedEquip($currentPlayer) && NumEquipBlock() < $combatChainState[$CCS_RequiredEquipmentBlock]) return false;
-    switch($phase)
-    {
-      case "P": return 0;
-      case "CHOOSEDECK": return 0;
-      case "HANDTOPBOTTOM": return 0;
-      case "CHOOSECOMBATCHAIN": return 0;
-      case "CHOOSECHARACTER": return 0;
-      case "CHOOSEHAND": return 0;
-      case "CHOOSEHANDCANCEL": return 0;
-      case "MULTICHOOSEDISCARD": return 0;
-      case "CHOOSEDISCARDCANCEL": return 0;
-      case "CHOOSEARCANE": return 0;
-      case "CHOOSEARSENAL": return 0;
-      case "CHOOSEDISCARD": return 0;
-      case "MULTICHOOSEHAND": return 0;
-      case "MULTICHOOSEUNIT": return 0;
-      case "MULTICHOOSETHEIRUNIT": return 0;
-      case "MULTICHOOSEOURUNITS": return 0;
-      case "MULTICHOOSEMULTIZONE": return 0;
-      case "MULTICHOOSEMYUNITSANDBASE": return 0;
-      case "MULTICHOOSETHEIRUNITSANDBASE": return 0;
-      case "MULTICHOOSEOURUNITSANDBASE": return 0;
-      case "CHOOSEMULTIZONE": return 0;
-      case "CHOOSEBANISH": return 0;
-      case "BUTTONINPUTNOPASS": return 0;
-      case "CHOOSEFIRSTPLAYER": return 0;
-      case "MULTICHOOSEDECK": return 0;
-      case "CHOOSEPERMANENT": return 0;
-      case "MULTICHOOSETEXT": return 0; // Deprecated, use CHOOSEOPTION instead
-      case "CHOOSEOPTION": return 0;
-      case "CHOOSEMYSOUL": return 0;
-      case "OVER": return 0;
-      case "YESNO": return 0;
-      case "INDIRECTDAMAGEMULTIZONE": return 0;
-      case "MULTIDAMAGEMULTIZONE": return 0;
-      case "MULTIHEALMULTIZONE": return 0;
-      case "PARTIALMULTIDAMAGEMULTIZONE":
-      case "MAYMULTIDAMAGEMULTIZONE":
-      case "PARTIALMULTIHEALMULTIZONE":
-      case "MAYMULTIHEALMULTIZONE":
-        $parsedParams = ParseDQParameter($turn[0], $turn[1], $turn[2]);
-        $allies = $parsedParams["allies"];
-        $characters = $parsedParams["characters"];
+    case "P": return 0;
+    case "CHOOSEDECK": return 0;
+    case "HANDTOPBOTTOM": return 0;
+    case "CHOOSECOMBATCHAIN": return 0;
+    case "CHOOSECHARACTER": return 0;
+    case "CHOOSEHAND": return 0;
+    case "CHOOSEHANDCANCEL": return 0;
+    case "MULTICHOOSEDISCARD": return 0;
+    case "CHOOSEDISCARDCANCEL": return 0;
+    case "CHOOSEARCANE": return 0;
+    case "CHOOSEARSENAL": return 0;
+    case "CHOOSEDISCARD": return 0;
+    case "MULTICHOOSEHAND": return 0;
+    case "MULTICHOOSEUNIT": return 0;
+    case "MULTICHOOSETHEIRUNIT": return 0;
+    case "MULTICHOOSEOURUNITS": return 0;
+    case "MULTICHOOSEMULTIZONE": return 0;
+    case "MULTICHOOSEMYUNITSANDBASE": return 0;
+    case "MULTICHOOSETHEIRUNITSANDBASE": return 0;
+    case "MULTICHOOSEOURUNITSANDBASE": return 0;
+    case "CHOOSEMULTIZONE": return 0;
+    case "CHOOSEBANISH": return 0;
+    case "BUTTONINPUTNOPASS": return 0;
+    case "CHOOSEFIRSTPLAYER": return 0;
+    case "MULTICHOOSEDECK": return 0;
+    case "CHOOSEPERMANENT": return 0;
+    case "MULTICHOOSETEXT": return 0; // Deprecated, use CHOOSEOPTION instead
+    case "CHOOSEOPTION": return 0;
+    case "CHOOSEMYSOUL": return 0;
+    case "OVER": return 0;
+    case "YESNO": return 0;
+    case "INDIRECTDAMAGEMULTIZONE": return 0;
+    case "MULTIDAMAGEMULTIZONE": return 0;
+    case "MULTIHEALMULTIZONE": return 0;
+    case "PARTIALMULTIDAMAGEMULTIZONE":
+    case "MAYMULTIDAMAGEMULTIZONE":
+    case "PARTIALMULTIHEALMULTIZONE":
+    case "MAYMULTIHEALMULTIZONE":
+      $parsedParams = ParseDQParameter($turn[0], $turn[1], $turn[2]);
+      $allies = $parsedParams["allies"];
+      $characters = $parsedParams["characters"];
 
-        foreach ($allies as $ally) {
-          $ally = new Ally($ally);
-          if ($ally->Counters() > 0) {
-            return 0;
-          }
+      foreach ($allies as $ally) {
+        $ally = new Ally($ally);
+        if ($ally->Counters() > 0) {
+          return 0;
         }
+      }
 
-        foreach ($characters as $character) {
-          $character = new Character($character);
-          if ($character->Counters() > 0) {
-            return 0;
-          }
+      foreach ($characters as $character) {
+        $character = new Character($character);
+        if ($character->Counters() > 0) {
+          return 0;
         }
+      }
 
-        return 1;
-      default: return 1;
+      return 1;
+    default: return 1;
+  }
+}
+
+function ResolveGoAgain($cardID, $player, $from)
+{
+  global $actionPoints;
+  ++$actionPoints;
+}
+
+function PitchDeck($player, $index)
+{
+  $deck = &GetDeck($player);
+  $cardID = RemovePitch($player, $index);
+  $deck[] = $cardID;
+}
+
+function GetUniqueId()
+{
+  global $permanentUniqueIDCounter;
+  ++$permanentUniqueIDCounter;
+  return $permanentUniqueIDCounter;
+}
+
+function IsHeroAttackTarget()
+{
+  $target = explode("-", GetAttackTarget());
+  return $target[0] == "THEIRCHAR";
+}
+
+function IsAllyAttackTarget()
+{
+  $target = GetAttackTarget();
+  if($target == "NA") return false;
+  $targetArr = explode("-", $target);
+  return $targetArr[0] == "THEIRALLY";
+}
+
+function AttackIndex()
+{
+  global $combatChainState, $CCS_WeaponIndex;
+  return $combatChainState[$CCS_WeaponIndex];
+}
+
+function IsAttackTargetRested()
+{
+  global $defPlayer;
+  $target = GetAttackTarget();
+  $mzArr = explode("-", $target);
+  if($mzArr[0] == "ALLY" || $mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY")
+  {
+    $allies = &GetAllies($defPlayer);
+    return $allies[$mzArr[1]+1] == 1;
+  }
+  else
+  {
+    $char = &GetPlayerCharacter($defPlayer);
+    return $char[1] == 1;
+  }
+}
+
+function IsSpecificAllyAttackTarget($player, $index)
+{
+  $mzTarget = GetAttackTarget();
+  $mzArr = explode("-", $mzTarget);
+  if($mzArr[0] == "ALLY" || $mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY")
+  {
+    return $index == intval($mzArr[1]);
+  }
+  return false;
+}
+
+function IsAllyAttacking()
+{
+  global $combatChain;
+  if(count($combatChain) == 0) return false;
+  return IsAlly($combatChain[0]);
+}
+
+function IsSpecificAllyAttacking($player, $index)
+{
+  global $combatChain, $combatChainState, $CCS_WeaponIndex, $mainPlayer;
+  if(count($combatChain) == 0) return false;
+  if($mainPlayer != $player) return false;
+  $weaponIndex = intval($combatChainState[$CCS_WeaponIndex]);
+  if($weaponIndex == -1) return false;
+  if($weaponIndex != $index) return false;
+  if(!IsAlly($combatChain[0])) return false;
+  return true;
+}
+
+function TargetAlly() {
+  global $mainPlayer, $CS_LayerTarget;
+  $target = GetClassState($mainPlayer, $CS_LayerTarget);
+  $ally = new Ally($target);
+  return $ally;
+}
+
+function AttackerAlly() {
+  global $mainPlayer;
+  $attackerMZ = AttackerMZID($mainPlayer);
+  $ally = new Ally($attackerMZ, $mainPlayer);
+  return $ally;
+}
+
+function AttackerMZID($player)
+{
+  global $combatChainState, $CCS_WeaponIndex, $mainPlayer;
+  if($player == $mainPlayer) return "MYALLY-" . $combatChainState[$CCS_WeaponIndex];
+  else return "THEIRALLY-" . $combatChainState[$CCS_WeaponIndex];
+}
+
+function ClearAttacker() {
+  global $combatChainState, $CCS_WeaponIndex;
+  $combatChainState[$CCS_WeaponIndex] = -1;
+}
+
+function DefendingPlayerHasUnits($arena="") {
+  global $defPlayer;
+  $units = SearchMultiZone($defPlayer, "MYALLY");
+  if ($arena != "") {
+    //filter out units that are not in the specified arena
+    $unitsArr = explode(",", $units);
+    $units = "";
+    for ($i = 0; $i < count($unitsArr); $i++) {
+      $ally = new Ally($unitsArr[$i]);
+      if ($ally->CurrentArena() == $arena) {
+        if ($units != "") $units .= ",";
+        $units .= $unitsArr[$i];
+      }
     }
   }
 
-  function ResolveGoAgain($cardID, $player, $from)
-  {
-    global $actionPoints;
-    ++$actionPoints;
-  }
-
-  function PitchDeck($player, $index)
-  {
-    $deck = &GetDeck($player);
-    $cardID = RemovePitch($player, $index);
-    $deck[] = $cardID;
-  }
-
-  function GetUniqueId()
-  {
-    global $permanentUniqueIDCounter;
-    ++$permanentUniqueIDCounter;
-    return $permanentUniqueIDCounter;
-  }
-
-  function IsHeroAttackTarget()
-  {
-    $target = explode("-", GetAttackTarget());
-    return $target[0] == "THEIRCHAR";
-  }
-
-  function IsAllyAttackTarget()
-  {
-    $target = GetAttackTarget();
-    if($target == "NA") return false;
-    $targetArr = explode("-", $target);
-    return $targetArr[0] == "THEIRALLY";
-  }
-
-  function AttackIndex()
-  {
-    global $combatChainState, $CCS_WeaponIndex;
-    return $combatChainState[$CCS_WeaponIndex];
-  }
-
-  function IsAttackTargetRested()
-  {
-    global $defPlayer;
-    $target = GetAttackTarget();
-    $mzArr = explode("-", $target);
-    if($mzArr[0] == "ALLY" || $mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY")
-    {
-      $allies = &GetAllies($defPlayer);
-      return $allies[$mzArr[1]+1] == 1;
-    }
-    else
-    {
-      $char = &GetPlayerCharacter($defPlayer);
-      return $char[1] == 1;
-    }
-  }
-
-  function IsSpecificAllyAttackTarget($player, $index)
-  {
-    $mzTarget = GetAttackTarget();
-    $mzArr = explode("-", $mzTarget);
-    if($mzArr[0] == "ALLY" || $mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY")
-    {
-      return $index == intval($mzArr[1]);
-    }
-    return false;
-  }
-
-  function IsAllyAttacking()
-  {
-    global $combatChain;
-    if(count($combatChain) == 0) return false;
-    return IsAlly($combatChain[0]);
-  }
-
-  function IsSpecificAllyAttacking($player, $index)
-  {
-    global $combatChain, $combatChainState, $CCS_WeaponIndex, $mainPlayer;
-    if(count($combatChain) == 0) return false;
-    if($mainPlayer != $player) return false;
-    $weaponIndex = intval($combatChainState[$CCS_WeaponIndex]);
-    if($weaponIndex == -1) return false;
-    if($weaponIndex != $index) return false;
-    if(!IsAlly($combatChain[0])) return false;
-    return true;
-  }
-
-  function TargetAlly() {
-    global $mainPlayer, $CS_LayerTarget;
-    $target = GetClassState($mainPlayer, $CS_LayerTarget);
-    $ally = new Ally($target);
-    return $ally;
-  }
-
-  function AttackerAlly() {
-    global $mainPlayer;
-    $attackerMZ = AttackerMZID($mainPlayer);
-    $ally = new Ally($attackerMZ, $mainPlayer);
-    return $ally;
-  }
-
-  function AttackerMZID($player)
-  {
-    global $combatChainState, $CCS_WeaponIndex, $mainPlayer;
-    if($player == $mainPlayer) return "MYALLY-" . $combatChainState[$CCS_WeaponIndex];
-    else return "THEIRALLY-" . $combatChainState[$CCS_WeaponIndex];
-  }
-
-  function ClearAttacker() {
-    global $combatChainState, $CCS_WeaponIndex;
-    $combatChainState[$CCS_WeaponIndex] = -1;
-  }
+  return $units != "";
+}
 
 function IsSpecificAuraAttacking($player, $index)
 {

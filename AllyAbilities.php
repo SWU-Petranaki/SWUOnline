@@ -2199,7 +2199,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         if(TraitContains($attackID, "Force", $mainPlayer)) {
           $totalOnAttackAbilities++;
           if ($reportMode) break;
-          PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+          if(DefendingPlayerHasUnits(arena:"Ground"))
+            PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
         break;
       case "8495694166"://Jedi Lightsaber
@@ -2279,8 +2280,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   }
 
   // Ally Abilities
-  $attackerCardID = $attackerAlly->CardID();
-  switch($attackerCardID) {
+  switch($attackID) {
     //Spark of Rebellion
     case "6931439330"://The Ghost
     case "8009713136"://C-3PO
@@ -2308,55 +2308,55 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "7533529264"://Wolffe
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "9568000754"://R2-D2
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       $deck = &GetDeck($mainPlayer);
       if(count($deck) > 0)
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "4299027717"://Mining Guild Tie Fighter
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(NumResourcesAvailable($mainPlayer) >= 2) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     case "4599464590"://Rugged Survivors
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(HasLeader($mainPlayer)) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     case "3613174521"://Outer Rim Headhunter
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(HasLeader($mainPlayer)) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     case "1746195484"://Jedha Agitator
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if (HasLeader($mainPlayer)){
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     case "4156799805"://Boba Fett (Disintegrator)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(IsAllyAttackTarget()) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     case "6432884726"://Steadfast Battalion
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(HasLeader($mainPlayer)) {
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     case "5464125379"://Strafing Gunship
@@ -2385,7 +2385,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "9115773123"://Coruscant Dissident
     case "e091d2a983"://Rey Leader Unit
     case "5632569775"://Lom Pyke
-    case "5966087637"://Poe Dameron
     case "5080989992"://Rose Tico
     case "9040137775"://Principled Outlaw
     case "0196346374"://Rey (Keeping the Past)
@@ -2401,25 +2400,32 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "5818136044"://Xanadu Blood
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      break;
+    case "5966087637"://Poe Dameron
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if (count(GetHand($mainPlayer)) > 0) {
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
       break;
     case "8862896760"://Maul
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(SearchCount(SearchAllies($mainPlayer, trait:"Underworld")) > 1)
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "9725921907"://Kintan Intimidator
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(IsAllyAttackTarget())
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "9951020952"://Koska Reeves
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if($attackerAlly->IsUpgraded())
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     //Twilight of the Republic
     case "7789777396"://Mister Bones
@@ -2456,26 +2462,26 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "1320229479"://Multi-Troop Transport
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "6190335038"://Aayla Secura
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(IsCoordinateActive($mainPlayer))
         //immediate effect. no layer
-        AddCurrentTurnEffect($attackerCardID, $mainPlayer, "PLAY", $attackerAlly->UniqueID());
+        AddCurrentTurnEffect($attackID, $mainPlayer, "PLAY", $attackerAlly->UniqueID());
       break;
     case "8307804692"://Padme Admidala
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(IsCoordinateActive($mainPlayer))
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "0693815329"://Cad Bane (Hostage Taker)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(Ally::FromUniqueId($attackerUniqueID)->HasCaptive())
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "5445166624"://Clone Dive Trooper
       // This card doesn't have On Attack ability
@@ -2485,7 +2491,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       break;
     case "2282198576"://Anakin Skywalker
       if(IsCoordinateActive($mainPlayer))
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     //Jump to Lightspeed
     case "2778554011"://General Draven
@@ -2516,26 +2522,26 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "2644994192"://Hondo Ohnaka
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "3389903389"://Black One JTL
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if (ControlsNamedCard($mainPlayer, "Poe Dameron"))
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "1990020761"://Shuttle Tydirium
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       $card = Mill($mainPlayer, 1);
       if(CardCostIsOdd($card))
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "4573745395"://Bossk
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(IsAllyAttackTarget())
-        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "9667260960"://Retrofitted Airspeeder
       // This card doesn't have On Attack ability
@@ -2558,21 +2564,21 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "32fd8db633"://Mother Talzin Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackerCardID);
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "5387ca4af6"://Third Sister Leader Unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if (!LeaderAbilitiesIgnored()) {
         //immediate effect. no layer
-        AddCurrentTurnEffect($attackerCardID, $mainPlayer, from:"PLAY");
+        AddCurrentTurnEffect($attackID, $mainPlayer, from:"PLAY");
       }
       break;
     case "0661066339"://Qui-Gon Jinn's Aethersprite
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       //immediate effect. no layer
-      AddCurrentTurnEffect($attackerCardID, $mainPlayer, from:"PLAY");
+      AddCurrentTurnEffect($attackID, $mainPlayer, from:"PLAY");
       break;
     case "0958021533"://Acolyte of the Beyond
       $totalOnAttackAbilities++;
