@@ -1322,8 +1322,10 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $owner = $ally->Owner();
       $cardID = $ally->CardID();
       RemoveAlly($controller, $ally->Index());
-      AddDecisionQueue("PASSPARAMETER", $owner, $cardID, 1);
-      AddDecisionQueue("OPT", $owner, "<-", 1);
+      if(!IsToken($cardID)) {
+        AddDecisionQueue("PASSPARAMETER", $owner, $cardID, 1);
+        AddDecisionQueue("OPT", $owner, "<-", 1);
+      }
       break;
     case "GROGU_LOF":
       $allyPlayer = MZPlayerID($player, $lastResult);
