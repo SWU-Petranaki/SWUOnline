@@ -1234,7 +1234,7 @@ function TraitContains($cardID, $trait, $player="", $index=-1) {
   }
   $cardTrait = CardTraits($cardID);
   if($trait == "Force" && SearchCurrentTurnEffects("9702812601", $player)){
-     WriteLog("Nameless Terror prevented Force Trait"); 
+     WriteLog("Nameless Terror prevented Force Trait");
      return false;
   }
   return DelimStringContains($cardTrait, $trait);
@@ -7330,6 +7330,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
       break;
+    case "abcdefg037"://Vernestra Rwoh
+      if($from != "PLAY") {
+        if(HasTheForce($currentPlayer)) {
+          DQAskToUseTheForce($currentPlayer);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $uniqueId, 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+        }
+      }
     //PlayAbility End
     default: break;
   }
