@@ -577,9 +577,9 @@ function ContinueDecisionQueue($lastResult = "")
           }
         }
         else {
-          SetClassState($player, $CS_PlayIndex, $params[2]); //This is like a parameter to PlayCardEffect and other functions
+          SetClassState($player, $CS_PlayIndex, $params[2] ?? "-1"); //This is like a parameter to PlayCardEffect and other functions
           SetClassState($player, $CS_PlayedWithExploit, 0);
-          PlayCardEffect($cardID, $params[0], $params[1], $target, $additionalCosts, $params[3], $params[2]);
+          PlayCardEffect($cardID, $params[0], $params[1] ?? 0, $target, $additionalCosts, $params[3] ?? "-1", $params[2] ?? -1);
           ClearDieRoll($player);
         }
       }

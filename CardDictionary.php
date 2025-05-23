@@ -2175,8 +2175,6 @@ function UpgradeFilter($cardID)
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment
       return "trait!=Vehicle";
-    case "8055390529"://Traitorous
-      return "maxCost=3";
     case "1368144544"://Imprisoned
     case "7718080954"://Frozen in Carbonite
     case "6911505367"://Second Chance

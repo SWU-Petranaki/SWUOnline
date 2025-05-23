@@ -16388,7 +16388,6 @@ function CardTitles() {
 function IsUnimplemented($cardID) {
   $manualData = ManualIsUnimplementedData();
   $unimplementedCards = array (
-  2277278592 => true,
   'JEDITEMPLEGUARDS' => true,
   'JEDIVECTOR' => true,
 );

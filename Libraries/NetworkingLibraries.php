@@ -1892,9 +1892,6 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
         IncrementClassState($currentPlayer, $CS_NumClonesPlayed);
       if (TraitContains($cardID, "First Order", $currentPlayer))
         IncrementClassState($currentPlayer, $CS_NumFirstOrderPlayed);
-      if (TraitContains($cardID, "Force", $currentPlayer)
-          && DefinedCardType($cardID) == "Unit" && GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == 0)
-        IncrementClassState($currentPlayer, $CS_NumForceUnitsPlayed);
       //end increment NumPlayed traits
     }
     if ($playType == "A" || $playType == "AA") {
@@ -2403,6 +2400,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
         }
       }
     }
+    //if unit is played
     if ($from != "PLAY" && $from != "EQUIP" && $from != "CHAR") {
       $playedAsUpgrade = GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == "1";
       if (!$playedAsUpgrade && HasShielded($cardID, $currentPlayer, $index)) {
@@ -2411,6 +2409,10 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       if (!$playedAsUpgrade && HasAmbush($cardID, $currentPlayer, $index, $from)) {
         AddLayer("TRIGGER", $currentPlayer, "AMBUSH", "-", "-", $uniqueID);
       }
+      //increment "units played" counts
+      global $CS_NumForceUnitsPlayed;
+      if (DefinedCardType($cardID) == "Unit" && !$playedAsUpgrade && TraitContains($cardID, "Force", $currentPlayer))
+        IncrementClassState($currentPlayer, $CS_NumForceUnitsPlayed);
       AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID, $resourcesPaid);
     }
     if (!$openedChain)
