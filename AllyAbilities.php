@@ -2565,6 +2565,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "d12b136775"://Obi-Wan Kenobi Leader unit
     case "9702812601"://Nameless Terror
     case "32fd8db633"://Mother Talzin Leader unit
+    case "3363314608"://Jedi Starfighter
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3782,6 +3783,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "9702812601"://Nameless Terror
       $otherPlayer = $mainPlayer == 1 ? 2 : 1;
       AddCurrentTurnEffect("9702812601", $otherPlayer, "PLAY");
+      break;
+    case "3363314608"://Jedi Starfighter
+      DQPingUnit($mainPlayer, 1, isUnitEffect:true, may:true, mzSearch: "MYALLY:arena=Space&THEIRALLY:arena=Space");
       break;
     default: break;
   }
