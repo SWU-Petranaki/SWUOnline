@@ -762,8 +762,9 @@ function HasOverwhelm($cardID, $player, $index)
     case "2285555274"://Darth Malak
     case "4043787241"://Strikeship
     case "4145147486"://Kylo Ren LOF
-    case "abcdefg026"://Drengir Spawn
+    case "abcdefg026"://Drengir Spawn//TODO: remove this
     case "3092212109"://Drengir Spawn
+    case "9757688123"://Mace Windu
       return true;
     case "abcdefg036"://Avar Kriss Leader unit
       return HasTheForce($player);
