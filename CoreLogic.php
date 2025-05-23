@@ -3038,7 +3038,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "4536594859"://Medal Ceremony
       DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
-
       break;
     case "6515891401"://Karabast
       $ally = new Ally($target);
@@ -7343,6 +7342,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if(HasTheForce($currentPlayer)) {
         UseTheForce($currentPlayer);
         DQPingUnit($currentPlayer, 3, isUnitEffect:false, may:false);
+      }
+      break;
+    case "abcdefg039"://Priestesses of the Force
+      if(HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        DQMultiUnitSelect($currentPlayer, 5, "MYALLY&THEIRALLY", "to give a shield token to");
+        AddDecisionQueue("MZOP", $currentPlayer, "MULTIADDSHIELD", 1);
       }
       break;
     //PlayAbility End
