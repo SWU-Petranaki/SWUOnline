@@ -95,7 +95,7 @@ function AddCharacter($cardID, $player, $counters=0, $status=2)
   $char[] = "P" . $player . (CardIDIsBase($cardID) ? "BASE" : "LEADER");
   $char[] = 0;
   //Num uses
-  $char[] = ($cardID == "abcdefg022" || $cardID == "9434212852")//Mystic Monastery
+  $char[] = ($cardID == "9434212852")//Mystic Monastery
     ? 3
     : 1;
   $char[] = 0;

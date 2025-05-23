@@ -22,7 +22,6 @@ function ProcessHitEffect($cardID)
   $char = &GetPlayerCharacter($mainPlayer);
   for($i=0; $i<count($char); $i+=CharacterPieces()) {
     switch($char[$i]) {
-      case "abcdefg023"://Temple of Destruction
       case "9453163990"://Temple of Destruction
         if(GetAttackTarget() == "THEIRCHAR-0" && $combatChainState[$CCS_DamageDealt] >= 3)
           TheForceIsWithYou($mainPlayer);
@@ -331,7 +330,6 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
         $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
         $modifier += ($atLeastOneCreature || $atLeastAnotherSpectre) ? 2 : 0;
         break;
-      case "abcdefg018"://Kit Fisto Leader unit
       case "90e2d4d83e"://Kit Fisto Leader unit
         if(LeaderAbilitiesIgnored()) break;
         $modifier += (SearchCount(SearchAllies($player, trait:"Jedi")) - 1);
