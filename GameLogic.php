@@ -842,6 +842,16 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             $ally->AttachExperience();
           }
           break;
+        case "MULTIADDSHIELD":
+          $arr = explode(",", $dqVars[0]);
+          for($i = 0; $i < count($arr); ++$i) {
+            $mzPieces = explode("-", $arr[$i]);
+            $index = $mzPieces[1];
+            $allyPlayer = $mzPieces[0] == "MYALLY" ? $player : ($player == 1 ? 2 : 1);
+            $ally = new Ally("MYALLY-" . $index, $allyPlayer);
+            $ally->Attach("8752877738");
+          }
+          break;
         case "MOVEARENA":
           $ally = new Ally($lastResult);
           $ally->MoveArena($parameterArr[1]);
