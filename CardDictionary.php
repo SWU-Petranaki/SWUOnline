@@ -171,6 +171,7 @@ function RestoreAmount($cardID, $player, $index)
     case "5264998537": $amount += 2; break;//Owen Lars
     case "1978321046": $amount += 1; break;//Village Tender
     case "4808722909": $amount += 1; break;//Yaddle
+    case "abcdefg040": $amount += 2; break;//Jedi Temple Guards
     default: break;
   }
   //The Ghost JTL
@@ -860,6 +861,7 @@ function HasAmbush($cardID, $player, $index, $from)
     //Legends of the Force
     case "1270747736"://Qui-Gon Jinn unit
     case "7529152088"://Depa Billaba
+    case "abcdefg040"://Jedi Temple Guards
       return true;
 
     //conditional ambush
