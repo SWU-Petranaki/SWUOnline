@@ -506,6 +506,7 @@ function HasSentinel($cardID, $player, $index)
       return $ally->IsUpgraded();
     //Legends of the Force
     case "0775347605"://Chirrut Imwe
+    case "7504035101"://Loth-Wolf
       return true;
     case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
       global $CS_NumForceUnitsPlayed;
