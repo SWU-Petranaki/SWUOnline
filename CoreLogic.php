@@ -7338,6 +7338,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
         }
       }
+      break;
+    case "abcdefg038"://Sorcerous Blast
+      if(HasTheForce($currentPlayer)) {
+        UseTheForce($currentPlayer);
+        DQPingUnit($currentPlayer, 3, isUnitEffect:false, may:false);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
