@@ -181,12 +181,12 @@ if ($useruid != "OotTheMonk" && $useruid != "test" && $useruid != "ninin" && $us
     // Generate a unique internal ID
     // Get the latest abcdefg ID by finding the highest number
     include './ManualDictionaries.php';
-    $uuidData = ManualUUIDLookupData();
+    $uuidData = ManualCardSetData();
     $highestNum = 0;
 
     foreach ($uuidData as $cardId => $internalId) {
       // Check if the internal ID matches the pattern 'abcdefg' followed by numbers
-      if (preg_match('/^abcdefg(\d+)$/', $internalId, $matches)) {
+      if (preg_match('/^abcdefg(\d+)$/', $cardId, $matches)) {
         $num = intval($matches[1]);
         if ($num > $highestNum) {
           $highestNum = $num;

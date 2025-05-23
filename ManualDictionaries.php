@@ -29,6 +29,9 @@ function ManualCardTitleData() {
     'abcdefg034' => 'Nihil Marauder',
     'abcdefg035' => 'Marchion Ro',
     'abcdefg036' => 'Avar Kriss',
+    'abcdefg037' => 'Vernestra Rwoh',
+    'abcdefg038' => 'Sorcerous Blast',
+    'abcdefg039' => 'Priestesses of the Force',
     //continue manual card titles
     'zzzzzzz010' => 'Fortress Vader',
     'zzzzzzz011' => 'Crystal Caves',
@@ -54,6 +57,8 @@ function ManualCardSubtitleData() {
     'abcdefg033' => 'Finding Himself',
     'abcdefg035' => 'Eye of the Nihil',
     'abcdefg036' => 'Marshal Of Starlight',
+    'abcdefg037' => 'Precocious Knight',
+    'abcdefg039' => 'Eternal',
     //continue manual card subtitles
     'zzzzzzz020' => 'Focused Jedi Master',
     'zzzzzzz021' => 'Stories Travel Quickly',
@@ -91,6 +96,9 @@ function ManualCardCostData() {
     'abcdefg034' => 3,
     'abcdefg035' => 6,
     'abcdefg036' => 9,
+    'abcdefg037' => 3,
+    'abcdefg038' => 1,
+    'abcdefg039' => 7,
     //continue manual card costs
     'zzzzzzz020' => 5,
     'zzzzzzz021' => 5,
@@ -122,6 +130,8 @@ function ManualCardHPDictionaryData() {
     'abcdefg034' => 5,
     'abcdefg035' => 7,
     'abcdefg036' => 10,
+    'abcdefg037' => 4,
+    'abcdefg039' => 8,
     //continue manual card HP dictionary
     'zzzzzzz010' => 28,
     'zzzzzzz011' => 28,
@@ -148,6 +158,8 @@ function ManualCardPowerData() {
     'abcdefg034' => 1,
     'abcdefg035' => 6,
     'abcdefg036' => 4,
+    'abcdefg037' => 3,
+    'abcdefg039' => 6,
     //continue manual card powers
   );
 }
@@ -195,6 +207,9 @@ function ManualCardAspectsData() {
     'abcdefg034' => 'Cunning,Villainy',
     'abcdefg035' => 'Cunning,Villainy',
     'abcdefg036' => 'Command,Heroism',
+    'abcdefg037' => 'Cunning,Heroism',
+    'abcdefg038' => 'Aggression',
+    'abcdefg039' => 'Vigilance',
     //continue manual card aspects
     'zzzzzzz010' => 'Aggression',
     'zzzzzzz011' => 'Cunning',
@@ -234,6 +249,9 @@ function ManualCardTraitsData() {
     'abcdefg034' => 'Underworld,Trooper,Nihil',
     'abcdefg035' => 'Underworld,Nihil',
     'abcdefg036' => 'Force,Jedi,Republic',
+    'abcdefg037' => 'Force,Jedi',
+    'abcdefg038' => 'Force',
+    'abcdefg039' => 'Force',
     //continue manual card traits
     'zzzzzzz020' => 'Force,Jedi,Republic',
     'zzzzzzz021' => 'Force,Imperial,Inquisitor',
@@ -261,6 +279,8 @@ function ManualCardArenasData() {
     'abcdefg034' => 'Ground',
     'abcdefg035' => 'Ground',
     'abcdefg036' => 'Ground',
+    'abcdefg037' => 'Ground',
+    'abcdefg039' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -295,6 +315,9 @@ function ManualDefinedCardTypeData() {
     'abcdefg034' => 'Unit',
     'abcdefg035' => 'Unit',
     'abcdefg036' => 'Leader',
+    'abcdefg037' => 'Unit',
+    'abcdefg038' => 'Event',
+    'abcdefg039' => 'Unit',
     //continue manual card types
     'zzzzzzz010' => 'Base',
     'zzzzzzz011' => 'Base',
@@ -329,6 +352,9 @@ function ManualDefinedCardType2Data() {
     'abcdefg034' => 'Unit',
     'abcdefg035' => 'Unit',
     'abcdefg036' => 'Unit',
+    'abcdefg037' => 'Unit',
+    'abcdefg038' => 'Event',
+    'abcdefg039' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -350,6 +376,8 @@ function ManualCardIsUniqueData() {
     'abcdefg033' => 1,
     'abcdefg035' => 1,
     'abcdefg036' => 1,
+    'abcdefg037' => 1,
+    'abcdefg039' => 1,
     //continue manual card unique status
     'zzzzzzz020' => 1,
     'zzzzzzz021' => 1,
@@ -404,6 +432,9 @@ function ManualCardSetData() {
     'abcdefg034' => 'LOF',
     'abcdefg035' => 'LOF',
     'abcdefg036' => 'LOF',
+    'abcdefg037' => 'LOF',
+    'abcdefg038' => 'LOF',
+    'abcdefg039' => 'LOF',
     //continue manual card sets
     'zzzzzzz010' => 'LOF',
     'zzzzzzz011' => 'LOF',
@@ -440,6 +471,9 @@ function ManualUUIDLookupData() {
     'LOF_093' => 'abcdefg033',
     'LOF_182' => 'abcdefg034',
     'LOF_186' => 'abcdefg035',
+    'LOF_195' => 'abcdefg037',
+    'LOF_172' => 'abcdefg038',
+    'LOF_072' => 'abcdefg039',
     //continue manual UUID lookups
     'LOF_026' => 'zzzzzzz010',
     'LOF_029' => 'zzzzzzz011',
@@ -478,6 +512,9 @@ function ManualCardIDLookupData() {
     'abcdefg033' => 'LOF_093',
     'abcdefg034' => 'LOF_182',
     'abcdefg035' => 'LOF_186',
+    'abcdefg037' => 'LOF_195',
+    'abcdefg038' => 'LOF_172',
+    'abcdefg039' => 'LOF_072',
     //continue manual card ID lookups
     'zzzzzzz010' => 'LOF_026',
     'zzzzzzz011' => 'LOF_029',
@@ -517,6 +554,9 @@ function ManualCardRarityData() {
     'abcdefg034' => 'Common',
     'abcdefg035' => 'Legendary',
     'abcdefg036' => 'Rare',
+    'abcdefg037' => 'Rare',
+    'abcdefg038' => 'Common',
+    'abcdefg039' => 'Uncommon',
     //continue manual card rarities
     'zzzzzzz010' => 'Common',
     'zzzzzzz011' => 'Common',
@@ -528,12 +568,15 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg037' => true,
+    'abcdefg038' => true,
+    'abcdefg039' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto|Yaddle|Niman Strike|Adi Gallia|Vergence Temple|Mystic Monastery|Temple Of Destruction|Tomb Of Eilram|Drengir Spawn| The Legacy Run|Aurra Sing|Crushing Blow|Purge Trooper|Grand Inquisitor|Nameless Terror|Gungi|Nihil Marauder|Marchion Ro|Avar Kriss';
+    return '|Darth Tyranus|Malakili|Anakin Skywalker|Mind Trick|Curious Flock|Constructed Lightsaber|Karis|Ataru Onslaught|Talzin\'s Assassin|Dume|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Eeth Koth|Kit Fisto\'s Aethersprite|Village Tender|Directed by the Force|Shien Flurry|Kit Fisto|Yaddle|Niman Strike|Adi Gallia|Vergence Temple|Mystic Monastery|Temple Of Destruction|Tomb Of Eilram|Drengir Spawn| The Legacy Run|Aurra Sing|Crushing Blow|Purge Trooper|Grand Inquisitor|Nameless Terror|Gungi|Nihil Marauder|Marchion Ro|Avar Kriss|Vernestra Rwoh|Sorcerous Blast|Priestesses of the Force';
 }
 ?>
