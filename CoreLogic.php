@@ -7351,6 +7351,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "MULTIADDSHIELD", 1);
       }
       break;
+    case "9757688123"://Mace Windu
+      if($from != "PLAY" && HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        DQPingUnit($currentPlayer, 4, isUnitEffect:true, may:false, subsequent:true);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7766,13 +7772,14 @@ function DQWaylay($player) {
   AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
 }
 
-function DQPingUnit($player, $amount, $isUnitEffect, $may, $mzSearch = "MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $sourcePlayer="", $preventable=1, $unitCardID="") {
+function DQPingUnit($player, $amount, $isUnitEffect, $may, $mzSearch = "MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $sourcePlayer="", $preventable=1, $unitCardID="", $subsequent=false) {
   if($sourcePlayer == "") $sourcePlayer = $player;
+  $subsequent = $subsequent ? 1 : 0;
   $isUnitEffect = $isUnitEffect ? 1 : 0;
   $preventable = $preventable ? 1 : 0;
-  AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch);
-  if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter);
-  AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context to deal $amount damage to");
+  AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context to deal $amount damage to", $subsequent);
   AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("MZOP", $player, DealDamageBuilder($amount, $sourcePlayer, $isUnitEffect, $preventable, $unitCardID), 1);
 }
