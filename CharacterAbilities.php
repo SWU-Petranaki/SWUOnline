@@ -136,7 +136,6 @@ function CharacterStartRegroupPhaseAbilities($player) {
       case "0254929700"://Doctor Aphra
         Mill($player, 1);
         break;
-      case "abcdefg021"://Vergence Temple
       case "7204128611"://Vergence Temple
         //If you control a unit with 4 or more remaining HP, the Force is with you
         if(SearchCount(SearchAllies($player, minHealth:4)) > 0)
@@ -219,7 +218,7 @@ function ResetCharacter($player) {
   $char = &GetPlayerCharacter($player);
   for ($i = 0; $i < count($char); $i += CharacterPieces()) {
     if ($char[$i+7] == 1) $char[$i+1] = 0; //Destroy if it was flagged for destruction
-    if ($char[$i] != "abcdefg022" && $char[$i] != "9434212852") {//Mystic Monastery
+    if ($char[$i] != "9434212852") {//Mystic Monastery
       if ($char[$i+1] != 0) {
         $char[$i+1] = 2;//status (dimmed when exhausted)
       }
@@ -344,7 +343,6 @@ function EquipPayAdditionalCosts($cardIndex, $from)
     case "8327910265"://Energy Conversion Lab (ECL)
       $character[$cardIndex+1] = 0;
       break;
-    case "abcdefg024"://Tomb of Eilram
     case "2699176260"://Tomb of Eilram
       break;
     default:

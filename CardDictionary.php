@@ -103,7 +103,6 @@ function RestoreAmount($cardID, $player, $index)
       case "7924461681"://Leia Organa
         $amount += 1;
         break;
-      case "abcdefg025"://Yaddle
       case "4808722909"://Yaddle
         $amount += 1;
         break;
@@ -124,7 +123,6 @@ function RestoreAmount($cardID, $player, $index)
       case "9430527677"://Hera Syndulla Pilot
         $amount += 1;
         break;
-      case "abcdefg006"://Constructed Lightsaber
       case "3688574857"://Constructed Lightsaber
           if(AspectContains($cardID, "Heroism", $player))
           $amount += 2;
@@ -171,9 +169,7 @@ function RestoreAmount($cardID, $player, $index)
     case "6797297267": $amount += 2; break;//Darth Sidious
     case "754e979196": $amount += 1; break;//Darth Revan Leader Unit
     case "5264998537": $amount += 2; break;//Owen Lars
-    case "abcdefg015": $amount += 1; break;//Village Tender
     case "1978321046": $amount += 1; break;//Village Tender
-    case "abcdefg025": $amount += 1; break;//Yaddle
     case "4808722909": $amount += 1; break;//Yaddle
     default: break;
   }
@@ -283,8 +279,6 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
   {
     if($upgrades[$i] == "2007876522") $amount += 2;//Clone Cohort
     if($upgrades[$i] == "0587196584") $amount += 1;//Independent Smuggler
-    if($upgrades[$i] == "abcdefg006")//Constructed Lightsaber
-      if(AspectContains($cardID, "Villainy", $player)) $amount += 2;
     if($upgrades[$i] == "3688574857")//Constructed Lightsaber
       if(AspectContains($cardID, "Villainy", $player)) $amount += 2;
   }
@@ -334,9 +328,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "6082085272": $amount += 1; break;//Forged Starfighter
     case "2290426901": $amount += 3; break;//Thralls of the Coven
     case "4043787241": $amount += 3; break;//Strikeship
-    case "abcdefg028": $amount += 2; break;//Aurra Sing
     case "7877401512": $amount += 2; break;//Aurra Sing
-    case "abcdefg034": $amount += 3; break;//Nihil Marauder
     case "4460062481": $amount += 3; break;//Nihil Marauder
     default: break;
   }
@@ -348,7 +340,6 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     $amount += RaidAmount("5763330426", $player, $theGhostIndex, $reportMode);
 
   if($amount > 0 && $ally->LostAbilities()) return 0;
-  if(SearchAlliesForCard($player, "abcdefg035")) $amount*=2;//Marchion Ro
   if(SearchAlliesForCard($player, "4627342747")) $amount*=2;//Marchion Ro
   return $amount;
 }
@@ -402,7 +393,6 @@ function HasSentinel($cardID, $player, $index)
         $hasSentinel = SearchCount(SearchAllies($player, arena:"Ground")) > 0
           && SearchCount(SearchAllies($player, arena:"Space")) > 0;
           break;
-      case "abcdefg006"://Constructed Lightsaber
       case "3688574857"://Constructed Lightsaber
         if(!AspectContains($cardID, "Villainy", $player) && !(AspectContains($cardID, "Heroism", $player))) $hasSentinel = true;
         break;
@@ -762,7 +752,6 @@ function HasOverwhelm($cardID, $player, $index)
     case "2285555274"://Darth Malak
     case "4043787241"://Strikeship
     case "4145147486"://Kylo Ren LOF
-    case "abcdefg026"://Drengir Spawn//TODO: remove this
     case "3092212109"://Drengir Spawn
     case "9757688123"://Mace Windu
       return true;
@@ -802,7 +791,6 @@ function HasAmbush($cardID, $player, $index, $from)
       case "2b13cefced"://Fennec Shand Leader Unit
         AddDecisionQueue("REMOVECURRENTEFFECT", $player, "2b13cefced");
         return true;
-      case "abcdefg017"://Shien Flurry
       case "7981459508"://Shien Flurry
         AddDecisionQueue("REMOVECURRENTEFFECT", $player, "7981459508");
         return true;
@@ -925,7 +913,6 @@ function HasShielded($cardID, $player, $index)
     //leaders when deployed
     case "b0dbca5c05"://Iden Versio (SOR) Leader Unit
     case "fadc48bab2"://Kanan Jarrus (LOF) Leader Unit
-    case "abcdefg031"://Grand Inquisitor Leader Unit
     case "5b24706856"://Grand Inquisitor Leader Unit
         return !LeaderAbilitiesIgnored();
     //Spark of Rebellion
@@ -1054,9 +1041,7 @@ function HasSaboteur($cardID, $player, $index)
     case "1107172562"://Orbiting K-Wing
     //Legends of the Force
     case "7529152088"://Depa Billaba
-    case "abcdefg014"://Kit Fisto's Aethersprite
     case "1028870559"://Kit Fisto's Aethersprite
-    case "abcdefg018"://Kit Fisto Leader unit
     case "90e2d4d83e"://Kit Fisto Leader unit
       return true;
 
@@ -1126,9 +1111,7 @@ function HasHidden($cardID, $player, $index) {
     case "6082085272"://Forged Starfighter
     case "1433284352"://Attuned Fyrnock
     case "2897264390"://Witch of the Mist
-    case "abcdefg015"://Village Tender
     case "1978321046"://Village Tender
-    case "abcdefg028"://Aurra Sing
     case "7877401512"://Aurra Sing
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
@@ -1242,7 +1225,6 @@ function AbilityCost($cardID)
     //Legends of the Force
     case "8304104587"://Kanan Jarrus Leader
       return $abilityName == "Shield" ? 1 : 0;
-    case "zzzzzzz020"://Kit Fisto Leader
     case "3822427538"://Kit Fisto Leader
       return $abilityName == "Deal Damage" ? 1 : 0;
     default: break;
@@ -1309,11 +1291,9 @@ function GetAbilityType($cardID, $index = -1, $from="-")
       return "A";
     case "8327910265"://Energy Conversion Lab (ECL)
       return "A";
-    case "abcdefg022"://Mystic Monastery
     case "9434212852"://Mystic Monastery
       $char = &GetPlayerCharacter($currentPlayer);
       return $char[5] > 0 ? "A" : "";
-    case "abcdefg024"://Tomb of Eilram
     case "2699176260"://Tomb of Eilram
       return CountReadyAllies($currentPlayer) > 0 ? "A" : "";
     //end bases
@@ -1634,10 +1614,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz020"://Kit Fisto Leader
     case "3822427538"://Kit Fisto Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz021"://Grand Inquisitor Leader
     case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz022"://Avar Kriss Leader
@@ -1991,10 +1969,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Shield";
     case "2520636620"://Mother Talzin Leader
       return LeaderAbilitiesIgnored() ? "" : "Debuff";
-    case "zzzzzzz020"://Kit Fisto Leader
     case "3822427538"://Kit Fisto Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
-    case "zzzzzzz021"://Grand Inquisitor Leader
     case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "Attack";
     case "zzzzzzz022"://Avar Kriss Leader
@@ -2215,7 +2191,6 @@ function UpgradeFilter($cardID)
       return "trait!=Capital_Ship&trait!=Transport";
     case "5306772000"://Phantom II
       return "cardID!=6931439330&cardID!=5763330426";
-    case "abcdefg006"://Constructed Lightsaber
     case "3688574857"://Constructed Lightsaber
     case "0412810079"://Sith Holocron
       return "trait!=Force";
@@ -2471,12 +2446,8 @@ function LeaderUnit($cardID) {
       return "fadc48bab2";
     case "2520636620"://Mother Talzin
       return "32fd8db633";
-    case "zzzzzzz020"://Kit Fisto
-      return "abcdefg018";
     case "3822427538"://Kit Fisto
       return "90e2d4d83e";
-    case "zzzzzzz021"://Grand Inquisitor
-      return "abcdefg031";
     case "5917432593"://Grand Inquisitor
       return "5b24706856";
     case "zzzzzzz022"://Avar Kriss
@@ -2648,12 +2619,8 @@ function LeaderUndeployed($cardID) {
       return "8304104587";
     case "32fd8db633"://Mother Talzin
       return "2520636620";
-    case "abcdefg018"://Kit Fisto
-      return "zzzzzzz020";
     case "90e2d4d83e"://Kit Fisto
       return "3822427538";
-    case "abcdefg031"://Grand Inquisitor
-      return "zzzzzzz021";
     case "5b24706856"://Grand Inquisitor
       return "5917432593";
     case "abcdefg036"://Avar Kriss

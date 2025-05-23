@@ -1132,7 +1132,6 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       case "6772792435"://Nightsister Warrior
         Draw($player);
         break;
-      case "abcdefg013"://Eeth Koth
       case "1160624693"://Eeth Koth
         if(HasTheForce($player)) {
           DQAskToUseTheForce($player);
@@ -1145,7 +1144,6 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "7074896971"://J-Type Nubian Starship
         PummelHit($player);
         break;
-    case "abcdefg027"://The Legacy Run
     case "7793687843"://The Legacy Run
       AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
       AddDecisionQueue("PREPENDLASTRESULT", $player, "6-");
@@ -1470,7 +1468,6 @@ function OnKillAbility($player, $uniqueID)
     case "2508430135"://Oggdo Bogdo
       AddLayer("TRIGGER", $mainPlayer, "2508430135", $attackerAlly->UniqueID());
       break;
-    case "abcdefg026"://Drengir Spawn
     case "3092212109"://Drengir Spawn
       if(IsAllyAttackTarget()) {
         $target = GetAttackTarget();
@@ -1591,10 +1588,8 @@ function AllyStartRegroupPhaseAbilities($player) {
       case "7489502985"://Contracted Hunter
         $ally->Destroy();
         break;
-      case "abcdefg010"://Dume
       case "6523135540"://Dume
         for($j=0; $j<count($allies); $j+=AllyPieces()) {
-          if($allies[$j] == "abcdefg010") continue;
           if($allies[$j] == "6523135540") continue;
           if(TraitContains($allies[$j], "Vehicle")) continue;
           $innerAlly = new Ally("MYALLY-" . $j, $player);
@@ -1932,7 +1927,6 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return true;
       case "0199085444"://Lux Bonteri
         return $resourcesPaid < CardCost($playedCardID);
-      case "abcdefg020"://Adi Gallia
       case "4741025404"://Adi Gallia
         return DefinedTypesContains($playedCardID, "Event", $currentPlayer);
       default: break;
@@ -2139,7 +2133,6 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("SHOWOPTIONS", $player, "$cardID&$options");
         AddDecisionQueue("MODAL", $player, "LUXBONTERI");
         break;
-      case "abcdefg020"://Adi Gallia
       case "4741025404"://Adi Gallia
         DealDamageAsync($otherPlayer, 1, "DAMAGE", "4741025404", sourcePlayer:$player);
         break;
@@ -2174,9 +2167,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   switch($myBase) {
     case "0119018087"://Shadowed Undercity
     case "0450346170"://Jedi Temple
-    case "zzzzzzz010"://Fortress Vader//TODO: remove this
     case "5396502974"://Fortress Vader
-    case "zzzzzzz011"://Crystal Caves//TODO: remove this
     case "4352576521"://Crystal Caves
     case "8710346686"://Strangled Cliffs
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
@@ -2591,7 +2582,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       //immediate effect. no layer
       TheForceIsWithYou($mainPlayer);
       break;
-    case "abcdefg025"://Yaddle
     case "4808722909"://Yaddle
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -2603,7 +2593,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         }
       }
       break;
-    case "abcdefg031"://Grand Inquisitor Leader unit
     case "5b24706856"://Grand Inquisitor Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;

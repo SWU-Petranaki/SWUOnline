@@ -6928,7 +6928,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "zzzzzzz020"://Kit Fisto Leader
     case "3822427538"://Kit Fisto Leader
       global $CS_NumJediAttacks;
       $abilityName = GetResolvedAbilityName($cardID, $from);
@@ -6936,7 +6935,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DQPingUnit($currentPlayer, 2, isUnitEffect:false, may:false);
       }
       break;
-    case "zzzzzzz021"://Grand Inquisitor Leader
     case "5917432593"://Grand Inquisitor Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Attack") {
@@ -7087,26 +7085,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg003"://Anakin Adult LOF//TODO: remove later
-      if($from != "PLAY") {
-        if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Villainy card in your discard pile");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
-        }
-        if(SearchCount(SearchDiscard($currentPlayer, aspect:"Heroism")) > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Heroism card in your discard pile");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg003,HAND", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
-        }
-      }
-      break;
     case "4236013558"://Anakin Adult LOF
       if($from != "PLAY") {
         if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
@@ -7141,7 +7119,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CURIOUS_FLOCK,$uniqueId", 1);
       }
       break;
-    case "abcdefg004"://Mind Trick
     case "1146162009"://Mind Trick
       if($from != "PLAY") {
         $totalUnits = intval(SearchCount(SearchAllies($currentPlayer)) + intval(SearchCount(SearchAllies($otherPlayer))));
@@ -7271,7 +7248,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
         }
       break;
-    case "abcdefg016"://Directed by the Force
     case "7078597376"://Directed by the Force
       TheForceIsWithYou($currentPlayer);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");
@@ -7280,14 +7256,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
-    case "abcdefg014"://Kit Fisto's Aethersprite
     case "1028870559"://Kit Fisto's Aethersprite
       if($from != "PLAY") {
         DefeatUpgrade($currentPlayer);
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KITFISTOAETHERSPRITE", 1);
       }
       break;
-    case "abcdefg017"://Shien Flurry
     case "7981459508"://Shien Flurry
       global $CS_AfterPlayedBy;
       SetClassState($currentPlayer, $CS_AfterPlayedBy, $cardID);
@@ -7297,15 +7271,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD");
       break;
-    case "abcdefg019"://Niman Strike
     case "5960134941"://Niman Strike
       AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "5960134941");
       break;
-    case "abcdefg022"://Mystic Monastery
     case "9434212852"://Mystic Monastery
       TheForceIsWithYou($currentPlayer);
       break;
-    case "abcdefg024"://Tomb of Eilram
     case "2699176260"://Tomb of Eilram
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
@@ -7317,7 +7288,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "abcdefg029"://Crushing Blow
       MZChooseAndDestroy($currentPlayer, "MYALLY:maxCost=2&THEIRALLY:maxCost=2", filter:"leader=1");
       break;
-    case "abcdefg030"://Purge Trooper
     case "3595375406"://Purge Trooper
         DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY:trait=Force&THEIRALLY:trait=Force", context:"a Force unit", unitCardID:$cardID);
       break;
@@ -7523,7 +7493,6 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       break;
-    case "abcdefg017"://Shien Flurry
     case "7981459508"://Shien Flurry
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
