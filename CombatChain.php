@@ -337,6 +337,10 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       case "abcdefg036"://Avar Kriss Leadeer unit
         $modifier += HasTheForce($player) ? 4 : 0;
         break;
+      case "abcdefg041"://Jedi Vector
+        $modifier += SearchCount(SearchAllies($player, trait:"Jedi")) > 1 ? 1 : 0; //Another Jedi
+        $modifier += SearchCount(SearchUpgrades($player, trait:"Lightsaber")) > 0 ? 1 : 0; //Lightsaber upgrade
+        break;
       default: break;
     }
   }
