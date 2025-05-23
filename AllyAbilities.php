@@ -182,7 +182,7 @@ function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpg
     case "2407397504"://HK-47
       return true;
     case "2649829005"://Agent Kallus
-      return $wasUnique && $numUses > 0 && $uniqueID != $destroyedUniqueID;;
+      return $wasUnique && $numUses > 0 && $uniqueID != $destroyedUniqueID;
     case "8687233791"://Punishing One
       $ally = new Ally($uniqueID);
       return $ally->IsExhausted() && $wasUpgraded && $numUses > 0;
@@ -1369,6 +1369,7 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
 
       if ($bossk->NumUses() > 0) {
         AddDecisionQueue("NOALLYUNIQUEIDPASS", $opponent, $bossk->UniqueID());
+        AddDecisionQueue("NUMUSESZEROPASS", $opponent, $bossk->UniqueID(), 1);
         AddDecisionQueue("PASSPARAMETER", $opponent, $bountyCardID, 1);
         AddDecisionQueue("SETDQVAR", $opponent, 0, 1);
         AddDecisionQueue("SETDQCONTEXT", $opponent, "Do you want to collect the bounty for <0> again with Bossk?", 1);
@@ -2219,7 +2220,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       case "6471336466"://Vambrace Flamethrower
         $totalOnAttackAbilities++;
         if ($reportMode) break;
-        if(SearchCount(SearchAllies($defPlayer, arena:"Ground")) > 0)
+        if(DefendingPlayerHasUnits(arena:"Ground"))
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
       case "3141660491"://The Darksaber

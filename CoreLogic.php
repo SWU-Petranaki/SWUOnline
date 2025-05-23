@@ -1744,21 +1744,7 @@ function ClearAttacker() {
 
 function DefendingPlayerHasUnits($arena="") {
   global $defPlayer;
-  $units = SearchMultiZone($defPlayer, "MYALLY");
-  if ($arena != "") {
-    //filter out units that are not in the specified arena
-    $unitsArr = explode(",", $units);
-    $units = "";
-    for ($i = 0; $i < count($unitsArr); $i++) {
-      $ally = new Ally($unitsArr[$i]);
-      if ($ally->CurrentArena() == $arena) {
-        if ($units != "") $units .= ",";
-        $units .= $unitsArr[$i];
-      }
-    }
-  }
-
-  return $units != "";
+  return SearchCount(SearchAllies($defPlayer, arena:$arena)) > 0;
 }
 
 function IsSpecificAuraAttacking($player, $index)
