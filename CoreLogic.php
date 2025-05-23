@@ -7768,7 +7768,7 @@ function DQPingUnit($player, $amount, $isUnitEffect, $may, $mzSearch = "MYALLY&T
   if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context to deal $amount damage to");
   AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("MZOP", $player, DealDamageBuilder(2, $sourcePlayer, $isUnitEffect, $preventable, $unitCardID), 1);
+  AddDecisionQueue("MZOP", $player, DealDamageBuilder($amount, $sourcePlayer, $isUnitEffect, $preventable, $unitCardID), 1);
 }
 
 function ShuffleToBottomDeck($cards, $player) {
