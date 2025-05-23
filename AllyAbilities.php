@@ -2566,6 +2566,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "9702812601"://Nameless Terror
     case "32fd8db633"://Mother Talzin Leader unit
     case "3363314608"://Jedi Starfighter
+    case "2277278592"://Darth Vader
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3786,6 +3787,13 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "3363314608"://Jedi Starfighter
       DQPingUnit($mainPlayer, 1, isUnitEffect:true, may:true, mzSearch: "MYALLY:arena=Space&THEIRALLY:arena=Space");
+      break;
+    case "2277278592"://Darth Vader
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "hasShield=0");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit with a shield to defeat");
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "DESTROY,$mainPlayer", 1);
       break;
     default: break;
   }

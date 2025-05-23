@@ -7357,6 +7357,20 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DQPingUnit($currentPlayer, 4, isUnitEffect:true, may:false, subsequent:true);
       }
       break;
+    case "2277278592"://Darth Vader
+      if($from != "PLAY") {
+        // Give a shield to a friendly unit
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give a shield to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+        // Give a shield to an enemy unit
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy unit to give a shield to", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
