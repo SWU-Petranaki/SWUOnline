@@ -268,10 +268,17 @@ class Ally {
   function CantAttack() {
     global $currentTurnEffects, $combatChainState, $CCS_CantAttackBase;
 
-    if($this->CardID() == "4332645242" && !$this->LostAbilities())//Corporate Defense Shuttle
-      return true;
-    if($this->CardID() == "2508430135" && $this->Damage() == 0 && !$this->LostAbilities())//Oggdo Bogdo
-      return true;
+    switch($this->CardID()) {
+      case "4332645242": //Corporate Defense Shuttle
+      case "7504035101": //Loth-Wolf
+        if(!$this->LostAbilities()) return true;
+        break;
+      case "2508430135": //Oggdo Bogdo
+        if($this->Damage() == 0 && !$this->LostAbilities()) return true;
+        break;
+      default:
+        break;
+    }
 
     $canAttackBase = $combatChainState[$CCS_CantAttackBase] == 0;
     $attackTargets = GetTargetsForAttack($this, $canAttackBase);

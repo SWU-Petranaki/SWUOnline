@@ -2174,10 +2174,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   switch($myBase) {
     case "0119018087"://Shadowed Undercity
     case "0450346170"://Jedi Temple
-    case "zzzzzzz010"://Fortress Vader
+    case "zzzzzzz010"://Fortress Vader//TODO: remove this
     case "5396502974"://Fortress Vader
-    case "zzzzzzz011"://Crystal Caves
+    case "zzzzzzz011"://Crystal Caves//TODO: remove this
     case "4352576521"://Crystal Caves
+    case "8710346686"://Strangled Cliffs
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
         TheForceIsWithYou($mainPlayer);
     break;
