@@ -1326,6 +1326,15 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               else if($params[1] == 0 && !$hasXp) $match = true;
             }
             break;
+          case "hasShield":
+            $mzArr = explode("-", $arr[$i]);
+            if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
+              $ally = new Ally($arr[$i]);
+              $hasShield = $ally->HasShield();
+              if($params[1] == 1 && $hasShield) $match = true;
+              else if($params[1] == 0 && !$hasShield) $match = true;
+            }
+            break;
           case "unique":
             $mzArr = explode("-", $arr[$i]);
             if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
