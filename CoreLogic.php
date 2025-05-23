@@ -7096,7 +7096,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           UseTheForce($currentPlayer);
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
-          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
           AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
           AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
         }
