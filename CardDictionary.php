@@ -756,7 +756,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "3092212109"://Drengir Spawn
     case "9757688123"://Mace Windu
       return true;
-    case "abcdefg036"://Avar Kriss Leader unit
+    case "e6dc0d1cee"://Avar Kriss Leader unit
       return HasTheForce($player);
     default: break;
   }
@@ -2452,8 +2452,6 @@ function LeaderUnit($cardID) {
       return "90e2d4d83e";
     case "5917432593"://Grand Inquisitor
       return "5b24706856";
-    case "zzzzzzz022"://Avar Kriss
-      return "abcdefg036";
     case "0092239541"://Avar Kriss
       return "e6dc0d1cee";
     default: return "";
@@ -2627,8 +2625,6 @@ function LeaderUndeployed($cardID) {
       return "3822427538";
     case "5b24706856"://Grand Inquisitor
       return "5917432593";
-    case "abcdefg036"://Avar Kriss
-      return "zzzzzzz022";
     case "e6dc0d1cee"://Avar Kriss
       return "0092239541";
     default: return "";
