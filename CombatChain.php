@@ -334,7 +334,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
         if(LeaderAbilitiesIgnored()) break;
         $modifier += (SearchCount(SearchAllies($player, trait:"Jedi")) - 1);
         break;
-      case "abcdefg036"://Avar Kriss Leadeer unit
+      case "e6dc0d1cee"://Avar Kriss Leadeer unit
         $modifier += HasTheForce($player) ? 4 : 0;
         break;
       case "0035741177"://Jedi Vector
