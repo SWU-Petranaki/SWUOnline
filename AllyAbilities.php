@@ -3950,15 +3950,14 @@ function AllyCardDiscarded($player, $discardedID) {
     switch($allies[$i]) {
       case "6910883839"://Migs Mayfield
         $ally = new Ally("MYALLY-" . $i, $player);
-        if($ally->NumUses() > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
-          AddDecisionQueue("PREPENDLASTRESULT", $player, "MYCHAR-0,THEIRCHAR-0,");
-          AddDecisionQueue("SETDQCONTEXT", $player, "Choose something to deal 2 damage to");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-          AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
-          AddDecisionQueue("PASSPARAMETER", $player, "MYALLY-" . $i, 1);
-          AddDecisionQueue("ADDMZUSES", $player, "-1", 1);
-        }
+        AddDecisionQueue("NUMUSESZEROPASS", $player, $ally->UniqueID(), 1);
+        AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $player, "MYCHAR-0,THEIRCHAR-0,", 1);
+        AddDecisionQueue("SETDQCONTEXT", $player, "Choose something to deal 2 damage to", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+        AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
+        AddDecisionQueue("PASSPARAMETER", $player, "MYALLY-" . $i, 1);
+        AddDecisionQueue("ADDMZUSES", $player, "-1", 1);
         break;
       default: break;
     }
@@ -3969,15 +3968,14 @@ function AllyCardDiscarded($player, $discardedID) {
     switch($allies[$i]) {
       case "6910883839"://Migs Mayfield
         $ally = new Ally("MYALLY-" . $i, $otherPlayer);
-        if($ally->NumUses() > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY&THEIRALLY");
-          AddDecisionQueue("PREPENDLASTRESULT", $otherPlayer, "MYCHAR-0,THEIRCHAR-0,");
-          AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose something to deal 2 damage to");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $otherPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $otherPlayer, "DEALDAMAGE,2,$player,1", 1);
-          AddDecisionQueue("PASSPARAMETER", $otherPlayer, "MYALLY-" . $i, 1);
-          AddDecisionQueue("ADDMZUSES", $otherPlayer, "-1", 1);
-        }
+        AddDecisionQueue("NUMUSESZEROPASS", $player, $ally->UniqueID(), 1);
+        AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY&THEIRALLY", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $otherPlayer, "MYCHAR-0,THEIRCHAR-0,", 1);
+        AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose something to deal 2 damage to", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $otherPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $otherPlayer, "DEALDAMAGE,2,$player,1", 1);
+        AddDecisionQueue("PASSPARAMETER", $otherPlayer, "MYALLY-" . $i, 1);
+        AddDecisionQueue("ADDMZUSES", $otherPlayer, "-1", 1);
         break;
       default: break;
     }
