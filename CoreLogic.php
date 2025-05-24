@@ -549,6 +549,7 @@ function PlayerWon($playerID, $concededMatch = false)
 
 function SendSWUStatsResults() {
   global $gameName, $firstPlayer, $winner, $currentRound, $p1id, $p2id, $p1DeckLink, $p2DeckLink, $SWUStatsAPIKey;
+  global $p1SWUStatsToken, $p2SWUStatsToken;
   include_once "./APIKeys/APIKeys.php";
 
   $url = 'https://swustats.net/TCGEngine/APIs/SubmitGameResult.php';
@@ -584,6 +585,8 @@ function SendSWUStatsResults() {
     'winnerHealth' => $winnerHealth,
     'winnerDeck' => $winnerDeck,
     'loserDeck' => $loserDeck,
+    'p1SWUStatsToken' => $p1SWUStatsToken,
+    'p2SWUStatsToken' => $p2SWUStatsToken,
     'player1' => SerializeGameResult(1, "", file_get_contents("./Games/" . $gameName . "/p1Deck.txt"), $gameName, $p2Hero, "", "", $p2BaseColor, $p1Hero, $p1Base),
     'player2' => SerializeGameResult(2, "", file_get_contents("./Games/" . $gameName . "/p2Deck.txt"), $gameName, $p1Hero, "", "", $p1BaseColor, $p2Hero, $p2Base)
   ]);
