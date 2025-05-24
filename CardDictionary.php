@@ -1621,6 +1621,7 @@ function CheckLOFAbilityTypes($cardID) {
     case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz022"://Avar Kriss Leader
+    case "0092239541"://Avar Kriss Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
@@ -1976,6 +1977,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "5917432593"://Grand Inquisitor Leader
       return LeaderAbilitiesIgnored() ? "" : "Attack";
     case "zzzzzzz022"://Avar Kriss Leader
+    case "0092239541"://Avar Kriss Leader
       return LeaderAbilitiesIgnored() ? "" : "Meditate";
     //non-leaders
     case "4389144613"://Grogu
@@ -2452,6 +2454,8 @@ function LeaderUnit($cardID) {
       return "5b24706856";
     case "zzzzzzz022"://Avar Kriss
       return "abcdefg036";
+    case "0092239541"://Avar Kriss
+      return "e6dc0d1cee";
     default: return "";
   }
 }
@@ -2625,6 +2629,8 @@ function LeaderUndeployed($cardID) {
       return "5917432593";
     case "abcdefg036"://Avar Kriss
       return "zzzzzzz022";
+    case "e6dc0d1cee"://Avar Kriss
+      return "0092239541";
     default: return "";
   }
 }

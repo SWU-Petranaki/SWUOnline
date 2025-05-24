@@ -2513,7 +2513,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($cardID == "8520821318") {//Poe Dameron JTL leader
         $notEnoughResources = $abilityName == "Deploy" && NumResources($currentPlayer) < 5;
       }
-      if($cardID == "zzzzzzz022") {//Avar Kriss LOF leader
+      if($cardID == "zzzzzzz022" || $cardID == "0092239541") {//Avar Kriss LOF leader
         global $CS_NumTimesUsedTheForce;
         $notEnoughResources = $abilityName == "Deploy" && NumResources($currentPlayer) + intval(GetClassState($currentPlayer, $CS_NumTimesUsedTheForce)) < 9;
       }
@@ -6953,6 +6953,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "zzzzzzz022"://Avar Kriss Leader
+    case "0092239541"://Avar Kriss Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Meditate") TheForceIsWithYou($currentPlayer);
       break;
@@ -7300,6 +7301,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "abcdefg037"://Vernestra Rwoh
+    case "2940037100"://Vernestra Rwoh
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
           DQAskToUseTheForce($currentPlayer);
@@ -7309,12 +7311,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "abcdefg038"://Sorcerous Blast
+    case "6001143439"://Sorcerous Blast
       if(HasTheForce($currentPlayer)) {
         UseTheForce($currentPlayer);
         DQPingUnit($currentPlayer, 3, isUnitEffect:false, may:false);
       }
       break;
     case "abcdefg039"://Priestesses of the Force
+    case "7012013186"://Priestesses of the Force
       if(HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
         DQMultiUnitSelect($currentPlayer, 5, "MYALLY&THEIRALLY", "to give a shield token to");
