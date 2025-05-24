@@ -669,7 +669,7 @@ class Ally {
           $leaderUndeployed = LeaderUndeployed($subcardID);
           if($leaderUndeployed != "") {
             $usedEpicAction = $epicAction || (GetClassState($this->Owner(), $CS_CachedLeader1EpicAction) == 1);
-            AddCharacter($leaderUndeployed, $this->playerID, counters:$usedEpicAction ? 1 : 0, status:1);
+            AddCharacter($leaderUndeployed, $ownerId, counters:$usedEpicAction ? 1 : 0, status:1);
           }
         }
 
