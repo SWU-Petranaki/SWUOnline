@@ -1053,12 +1053,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         ShuttleST149($player);
         break;
       case "1397553238"://Desperate Commando
-        AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to give -1/-1", 1);
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-        AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
-        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "1397553238,PLAY", 1);
-        AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,1", 1);
+        DQDebuffUnit($player, $otherPlayer, $cardID, 1, from:"PLAY");//maybe from "DEFEAT" would be better? currently not used
         break;
       case "8779760486"://Raddus
         AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
@@ -1121,12 +1116,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       case "1991532931"://Karis
         if(HasTheForce($player)) {
           DQAskToUseTheForce($player);
-          AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
-          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give -2/-2", 1);
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
-          AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "1991532931", 1);
-          AddDecisionQueue("MZOP", $player, "REDUCEHEALTH,2", 1);
+          DQDebuffUnit($player, $otherPlayer, $cardID, 2, subsequent:true);
         }
         break;
       case "6772792435"://Nightsister Warrior
@@ -2765,12 +2755,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "0086781673"://Tam Ryvora pilot
       $arena = $attackerAlly->CurrentArena();
-      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=$arena");
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give -1/-1", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0086781673,PLAY", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,1", 1);
+      DQDebuffUnit($mainPlayer, $defPlayer, $attackID, 1,
+        may:false, mzSearch:"THEIRALLY:arena=$arena", context:"a $arena unit", from:"PLAY");
       break;
     case "2532510371"://Trace Martez pilot
       for($i=0; $i<2;++$i) {
@@ -3336,21 +3322,13 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "6436543702"://Providence Destroyer
       $otherPlayer = $mainPlayer == 1 ? 2 : 1;
-      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=Space");
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give -2/-2", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "6436543702,HAND", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,2", 1);
+      DQDebuffUnit($mainPlayer, $otherPlayer, $attackID, 2,
+        may:false, mzSearch:"THEIRALLY:arena=Space", context:"a Space unit", from:"PLAY");
       break;
     case "7000286964"://Vulture Interceptor Wing
       $otherPlayer = $mainPlayer == 1 ? 2 : 1;
-      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give -1/-1", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "7000286964,HAND", 1);
-      AddDecisionQueue("MZOP", $mainPlayer, "REDUCEHEALTH,1", 1);
+      DQDebuffUnit($mainPlayer, $otherPlayer, $attackID, 1,
+        may:false, mzSearch:"THEIRALLY", context:"an enemy unit", from:"PLAY");
       break;
     case "2282198576"://Anakin Skywalker
       if(IsCoordinateActive($mainPlayer)) {
