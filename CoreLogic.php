@@ -3308,12 +3308,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       global $CS_NumAlliesDestroyed;
       if($from != "PLAY") {
         $amount = GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0 ? 6 : 3;
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to debuff");
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "7109944284-" . $amount . ",HAND", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH," . $amount, 1);
+        DQDebuffUnit($currentPlayer, $otherPlayer, "$cardID-$amount", $amount, may:false, mzSearch:"THEIRALLY");
       }
       break;
     case "7366340487"://Outmaneuver
@@ -3529,21 +3524,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "3208391441"://Make an Opening
       Restore(2, $currentPlayer);
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -2/-2", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "3208391441,HAND", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,2", 1);
+      DQDebuffUnit($currentPlayer,  $otherPlayer, $cardID, 2);
       break;
     case "4036958275"://Hello There
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "turns=>0");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -4/-4", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "4036958275,HAND", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,4", 1);
+      DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 4, may:false, mzFilter:"turns=>0");
       break;
     case "5013214638"://Equalize
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
@@ -5189,16 +5173,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $ally->DealDamage($damage);
       break;
     case "9999079491"://Mystic Reflection
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to debuff", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, 0, 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "9999079491,HAND", 1);
-      if(SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) {
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,2", 1);
-      }
+      $healthDebuffAmount = HasUnitWithTraitInPlay($currentPlayer, "Force") ? 2 : 0;
+      DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 2, $healthDebuffAmount, false, "THEIRALLY");
       break;
     case "5576996578"://Endless Legions
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ENDLESSLEGIONS");
@@ -5877,14 +5853,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "5333016146"://Rune Haako
       global $CS_NumAlliesDestroyed;
-      if(GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -1/-1", 1);
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "5333016146,HAND", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,1", 1);
-      }
+      if(GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0)
+        DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 1);
       break;
     case "6064906790"://Nute Gunray
       WriteLog(DefinedCardType($cardID));
@@ -6736,12 +6706,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "CAT_AND_MOUSE", 1);
       break;
     case "3782661648"://Out the Airlock
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give -5/-5", 1);
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "3782661648,HAND", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,5", 1);
+        DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 5, may:false);
       break;
     case "4159101997"://Crackshot V-Wing
       if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, trait:"Fighter")) <= 1) {
@@ -7092,20 +7057,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "4236013558"://Anakin Adult LOF
       if($from != "PLAY") {
         if(SearchCount(SearchDiscard($currentPlayer, aspect:"Villainy")) > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Villainy card in your discard pile");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "4236013558,HAND", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+          DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 3, context: "a unit (for having a Villainy card in your discard pile)", may:true);
         }
         if(SearchCount(SearchDiscard($currentPlayer, aspect:"Heroism")) > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3 for having a Heroism card in your discard pile");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "4236013558,HAND", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+          DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 3, context: "a unit (for having a Heroism card in your discard pile)", may:true);
         }
       }
       break;
@@ -7141,12 +7096,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         if(HasTheForce($currentPlayer)) {
           DQAskToUseTheForce($currentPlayer);
           AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY", 1);
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give -3/-3", 1);
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "2410965424,HAND", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,3", 1);
+          DQDebuffUnit($currentPlayer, $otherPlayer, $cardID, 3, subsequent:true);
         }
       }
       break;
@@ -7849,6 +7799,21 @@ function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter=
   AddDecisionQueue("PASSPARAMETER", $player, "0");
   AddDecisionQueue("SETCLASSSTATE", $player, $CS_CantSkipPhase);
   AddDecisionQueue("PASSPARAMETER", $player, "{1}");
+}
+
+function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
+    $healthDebuff="-", $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $from="HAND", $subsequent=false) {
+  $healthDebuff = $healthDebuff == "-" ? $attackDebuff : $healthDebuff;
+  $subsequent = $subsequent ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $currentPlayer, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose $context to give -$attackDebuff/-$healthDebuff", 1);
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "$effectID,$from", 1);
+  if($healthDebuff > 0) {
+    AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,$healthDebuff", 1);
+  }
 }
 
 //target type return values
