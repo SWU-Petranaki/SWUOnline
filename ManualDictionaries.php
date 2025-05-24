@@ -7,8 +7,6 @@ function ManualCardTitleData() {
     'abcdefg037' => 'Vernestra Rwoh',
     'abcdefg038' => 'Sorcerous Blast',
     'abcdefg039' => 'Priestesses of the Force',
-    'abcdefg040' => 'Jedi Temple Guards',
-    'abcdefg041' => 'Jedi Vector',
     //continue manual card titles
     'zzzzzzz022' => 'Avar Kriss',
   );
@@ -33,8 +31,6 @@ function ManualCardCostData() {
     'abcdefg037' => 3,
     'abcdefg038' => 1,
     'abcdefg039' => 7,
-    'abcdefg040' => 4,
-    'abcdefg041' => 2,
     //continue manual card costs
     'zzzzzzz022' => 9,
   );
@@ -46,8 +42,6 @@ function ManualCardHPDictionaryData() {
     'abcdefg036' => 10,
     'abcdefg037' => 4,
     'abcdefg039' => 8,
-    'abcdefg040' => 4,
-    'abcdefg041' => 3,
     //continue manual card HP dictionary
   );
 }
@@ -58,8 +52,6 @@ function ManualCardPowerData() {
     'abcdefg036' => 4,
     'abcdefg037' => 3,
     'abcdefg039' => 6,
-    'abcdefg040' => 2,
-    'abcdefg041' => 1,
     //continue manual card powers
   );
 }
@@ -84,8 +76,6 @@ function ManualCardAspectsData() {
     'abcdefg037' => 'Cunning,Heroism',
     'abcdefg038' => 'Aggression',
     'abcdefg039' => 'Vigilance',
-    'abcdefg040' => 'Command',
-    'abcdefg041' => 'Heroism',
     //continue manual card aspects
     'zzzzzzz022' => 'Command,Heroism',
   );
@@ -99,8 +89,6 @@ function ManualCardTraitsData() {
     'abcdefg037' => 'Force,Jedi',
     'abcdefg038' => 'Force',
     'abcdefg039' => 'Force',
-    'abcdefg040' => 'Force,Jedi',
-    'abcdefg041' => 'Jedi,Vehicle,Fighter',
     //continue manual card traits
     'zzzzzzz022' => 'Force,Jedi,Republic',
   );
@@ -112,8 +100,6 @@ function ManualCardArenasData() {
     'abcdefg036' => 'Ground',
     'abcdefg037' => 'Ground',
     'abcdefg039' => 'Ground',
-    'abcdefg040' => 'Ground',
-    'abcdefg041' => 'Space',
     //continue manual card arenas
   );
 }
@@ -126,8 +112,6 @@ function ManualDefinedCardTypeData() {
     'abcdefg037' => 'Unit',
     'abcdefg038' => 'Event',
     'abcdefg039' => 'Unit',
-    'abcdefg040' => 'Unit',
-    'abcdefg041' => 'Unit',
     //continue manual card types
     'zzzzzzz022' => 'Leader',
   );
@@ -140,8 +124,6 @@ function ManualDefinedCardType2Data() {
     'abcdefg037' => 'Unit',
     'abcdefg038' => 'Event',
     'abcdefg039' => 'Unit',
-    'abcdefg040' => 'Unit',
-    'abcdefg041' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -180,8 +162,6 @@ function ManualCardSetData() {
     'abcdefg037' => 'LOF',
     'abcdefg038' => 'LOF',
     'abcdefg039' => 'LOF',
-    'abcdefg040' => 'LOF',
-    'abcdefg041' => 'LOF',
     //continue manual card sets
     'zzzzzzz022' => 'LOF',
   );
@@ -194,8 +174,6 @@ function ManualUUIDLookupData() {
     'LOF_195' => 'abcdefg037',
     'LOF_172' => 'abcdefg038',
     'LOF_072' => 'abcdefg039',
-    'LOF_113' => 'abcdefg040',
-    'LOF_244' => 'abcdefg041',
     //continue manual UUID lookups
     'LOF_007' => 'zzzzzzz022',
   );
@@ -208,8 +186,6 @@ function ManualCardIDLookupData() {
     'abcdefg037' => 'LOF_195',
     'abcdefg038' => 'LOF_172',
     'abcdefg039' => 'LOF_072',
-    'abcdefg040' => 'LOF_113',
-    'abcdefg041' => 'LOF_244',
     //continue manual card ID lookups
     'zzzzzzz022' => 'LOF_007',
   );
@@ -223,8 +199,6 @@ function ManualCardRarityData() {
     'abcdefg037' => 'Rare',
     'abcdefg038' => 'Common',
     'abcdefg039' => 'Uncommon',
-    'abcdefg040' => 'Common',
-    'abcdefg041' => 'Uncommon',
     //continue manual card rarities
     'zzzzzzz022' => 'Rare',
   );
@@ -238,6 +212,6 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Avar Kriss|Vernestra Rwoh|Sorcerous Blast|Priestesses of the Force|Jedi Temple Guards|Jedi Vector';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Avar Kriss|Vernestra Rwoh|Sorcerous Blast|Priestesses of the Force';
 }
 ?>
