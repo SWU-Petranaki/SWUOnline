@@ -74,6 +74,7 @@ function SearchUpgrades($player, $maxCost=-1, $minCost=-1, $aspect="", $trait=""
     $ally = new Ally("MYALLY-" . $i, $player);
     $upgrades = $ally->GetUpgrades(withMetadata:true);
     for($j=0;$j<count($upgrades);$j+=SubcardPieces()) {
+      if($upgrades[$j+6] != $player) continue;
       if($maxCost > -1 && CardCost($upgrades[$j]) > $maxCost) continue;
       if($minCost > -1 && CardCost($upgrades[$j]) < $minCost) continue;
       if($aspect != "" && !AspectContains($upgrades[$j], $aspect, $player)) continue;

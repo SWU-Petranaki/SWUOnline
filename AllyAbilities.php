@@ -283,6 +283,7 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
       break;
     case "4718895864"://Padawan Starfighter
       if($self && SearchCount(SearchAllies($player, trait:"Force"))) return 1;
+      else if($self && SearchCount(SearchUpgrades($player, trait:"Force"))) return 1;
       break;
     case "3213928129"://Clone Combat Squadron
       if($self) return SearchCount(SearchAllies($player, arena:"Space")) - 1;
@@ -480,10 +481,10 @@ function DestroyAlly($player, $index,
     if($upgradesWithOwnerData[$i] == "8752877738" || $upgradesWithOwnerData[$i] == "2007868442") continue; // Skip Shield and Experience tokens
     if($upgradesWithOwnerData[$i] == "6911505367") $discardPileModifier = "TTFREE";//Second Chance
     if($upgradesWithOwnerData[$i] == "5942811090") {//Luke Skywalker (You Still With Me?)
-      $owner = $upgradesWithOwnerData[$i+1];
+      $controller = $upgradesWithOwnerData[$i+6];
       $cardID = $upgradesWithOwnerData[$i];
       $turnsInPlay = $upgradesWithOwnerData[$i+5];
-      AddLayer("TRIGGER", $owner, $cardID, $turnsInPlay); // We're adding a trigger to prevent bugs with A New Adventure, which clears the DQ after playing the card.
+      AddLayer("TRIGGER", $controller, $cardID, $turnsInPlay); // We're adding a trigger to prevent bugs with A New Adventure, which clears the DQ after playing the card.
     }
     if(!CardIdIsLeader($upgradesWithOwnerData[$i]))
       AddGraveyard($upgradesWithOwnerData[$i], $upgradesWithOwnerData[$i+1], "PLAY");

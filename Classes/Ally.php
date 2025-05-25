@@ -632,11 +632,12 @@ class Ally {
     $this->allies[$this->index+1] = 1;
   }
 
-  function AddSubcard($cardID, $ownerID = null, $asPilot = false, $epicAction = false, $turnsInPlay = 0) {
+  function AddSubcard($cardID, $ownerID = null, $asPilot = false, $epicAction = false, $turnsInPlay = 0, $controllerID = null) {
     $subCardUniqueID = GetUniqueId();
     $ownerID = $ownerID ?? $this->playerID;
-    if($this->allies[$this->index+4] == "-") $this->allies[$this->index+4] = $cardID . "," . $ownerID . "," . ($asPilot ? "1" : "0") . "," . $subCardUniqueID . "," . ($epicAction ? "1" : "0") . ",$turnsInPlay,0,0";
-    else $this->allies[$this->index+4] = $this->allies[$this->index+4] . "," . $cardID . "," . $ownerID . "," . ($asPilot ? "1" : "0") . "," . $subCardUniqueID . "," . ($epicAction ? "1" : "0") . ",$turnsInPlay,0,0";
+    $controllerID = $controllerID ?? $ownerID;
+    if($this->allies[$this->index+4] == "-") $this->allies[$this->index+4] = $cardID . "," . $ownerID . "," . ($asPilot ? "1" : "0") . "," . $subCardUniqueID . "," . ($epicAction ? "1" : "0") . ",$turnsInPlay,$controllerID,0";
+    else $this->allies[$this->index+4] = $this->allies[$this->index+4] . "," . $cardID . "," . $ownerID . "," . ($asPilot ? "1" : "0") . "," . $subCardUniqueID . "," . ($epicAction ? "1" : "0") . ",$turnsInPlay,$controllerID,0";
 
     if($asPilot) {
       AddLayer("TRIGGER", $ownerID, "UNITPLAYEDASUPGRADE", $cardID, $this->UniqueID());
@@ -656,6 +657,7 @@ class Ally {
         $isPilot = $subcard->IsPilot();
         $epicAction = $subcard->FromEpicAction();
         $turnsInPlay = $subcard->TurnsInPlay();
+        $controller = $subcard->Controller();
 
         for ($j = SubcardPieces() - 1; $j >= 0; $j--) {
           unset($subcards[$i+$j]);
@@ -664,7 +666,7 @@ class Ally {
         $subcards = array_values($subcards);
         $this->allies[$this->index + 4] = count($subcards) > 0 ? implode(",", $subcards) : "-";
         if(DefinedTypesContains($subcardID, "Upgrade") || $isPilot)
-          UpgradeDetached($subcardID, $this->playerID, "MYALLY-" . $this->index, $turnsInPlay, $ownerId, $skipDestroy);
+          UpgradeDetached($subcardID, $this->playerID, "MYALLY-" . $this->index, $turnsInPlay, $controller, $skipDestroy, $movingPilot);
         if(CardIDIsLeader($subcardID) && !$movingPilot) {
           $leaderUndeployed = LeaderUndeployed($subcardID);
           if($leaderUndeployed != "") {
@@ -700,9 +702,10 @@ class Ally {
     return $this->Attach("8752877738"); //Shield token
   }
 
-  function Attach($cardID, $ownerID = null, $epicAction = false, $turnsInPlay = 0) {
+  function Attach($cardID, $ownerID = null, $epicAction = false, $turnsInPlay = 0, $takesControl = false) {
     $receivingPilot = $this->ReceivingPilot($cardID) || IsUnconventionalPilot($cardID);
-    $subcardUniqueID = $this->AddSubcard($cardID, $ownerID, $receivingPilot, $epicAction, $turnsInPlay);
+    $controllerID = $takesControl ? $this->Controller() : $ownerID;
+    $subcardUniqueID = $this->AddSubcard($cardID, $ownerID, $receivingPilot, $epicAction, $turnsInPlay, $controllerID);
     //Pilot attach side effects
     if($receivingPilot) {
       switch($this->CardID()) {
@@ -1033,6 +1036,10 @@ class SubCard {
 
   function SetOwner($owner) {
     $this->subcards[$this->index+1] = $owner;
+  }
+
+  function Controller() {
+    return $this->subcards[$this->index+6];
   }
 
   function IsPilot() {

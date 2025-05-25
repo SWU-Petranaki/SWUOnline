@@ -919,6 +919,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $upgradeID = $dqVars[1];
           $mzSourceArr = explode("-", $mzSource);
           $upgradeOwnerID = null;
+          $sourceCardID = count($parameterArr) > 1 ? $parameterArr[1] : "NA";
+          $takesControl = EffectTakesControlOfUpgrade($sourceCardID) && $mzSourceArr[0] == "THEIRALLY";
           [$epicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($targetAlly->GetUpgrades(withMetadata:true), $upgradeID);
 
           switch ($mzSourceArr[0]) {
@@ -944,7 +946,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             global $CS_PlayedAsUpgrade;
             SetClassState($player, $CS_PlayedAsUpgrade, 1);
           }
-          $targetAlly->Attach($upgradeID, $upgradeOwnerID, $epicAction ?? false, $turnsInPlay ?? 0);
+          $targetAlly->Attach($upgradeID, $upgradeOwnerID, $epicAction ?? false, $turnsInPlay ?? 0, $takesControl);
           CheckHealthAllAllies();
           return $lastResult;
         case "GETOWNEDCAPTIVES":

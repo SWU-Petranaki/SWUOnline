@@ -1502,6 +1502,14 @@ function PilotWasPlayed($player, $cardID) {
   return TraitContains($cardID, "Pilot", $player) && GetClassState($player, $CS_PlayedAsUpgrade) == 1;
 }
 
+function EffectTakesControlOfUpgrade($cardID) {
+  switch($cardID) {
+    case "6452159858"://Evidence of the Crime
+      return true;
+    default: return false;
+  }
+}
+
 function TupleFirstUpgradeWithCardID($upgrades, $cardID) {
   for($i=0; $i<count($upgrades); $i+=SubcardPieces()) {
     if($upgrades[$i] == $cardID) {

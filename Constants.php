@@ -220,16 +220,9 @@ function EventPieces()
 //4 - attached as epic action
 //5 - turns in play
 //6 - controllerID
-//7 - captives array string (eg. "abcdefg000;2;4;abcdefg000;2;0")
-  //0 - cardID
-  //1 - ownerID
-  //2 - turns in play
+//7 - //free/unused
 function SubcardPieces(){
   return 8;
-}
-
-function SubcardCaptivePieces(){
-  return 3;
 }
 
 $SHMOP_CURRENTPLAYER = 9;

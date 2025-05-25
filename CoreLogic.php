@@ -5257,7 +5257,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZFILTER", $currentPlayer, "filterUpgradeEligible={1}", 1);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to move <1> to.", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "MOVEUPGRADE", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "MOVEUPGRADE,$cardID", 1);
       break;
     case "3399023235"://Fenn Rau
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Upgrade");
