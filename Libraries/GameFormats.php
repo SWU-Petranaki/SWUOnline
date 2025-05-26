@@ -29,10 +29,10 @@ class Formats {//keep these to 8 chars exactly for predictable SHMOP cache lengt
       //7 =>
       8 => Formats::$GalacticCivilWar,
       9 => Formats::$CloneWars,
-      10 => Formats::$GreyJedi,
-      11 => Formats::$GroundAssault,
-      12 => Formats::$AllWingsReportIn,
-      13 => Formats::$NowThereAreThreeOfThem,
+      //10 => Formats::$GreyJedi,
+      //11 => Formats::$GroundAssault,
+      //12 => Formats::$AllWingsReportIn,
+      //13 => Formats::$NowThereAreThreeOfThem,
       default => Formats::$PremierFormat,
     };
   }
