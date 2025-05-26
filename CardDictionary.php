@@ -958,6 +958,7 @@ function HasShielded($cardID, $player, $index)
     //Legends of the Force
     case "3967581160"://Anakin Skywalker Child LOF
     case "4347039495"://Darth Tyranus
+    case "abcdefg031"://Shin Hati
       return true;
     default: break;
   }
@@ -1119,6 +1120,7 @@ function HasHidden($cardID, $player, $index) {
     case "1978321046"://Village Tender
     case "7877401512"://Aurra Sing
     case "abcdefg030"://Eye of Sion
+    case "abcdefg031"://Shin Hati
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
