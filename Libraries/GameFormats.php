@@ -10,10 +10,10 @@ class Formats {//keep these to 8 chars exactly for predictable SHMOP cache lengt
   public static $SandcrawlerFormat = "sndcrawl";
   public static $GalacticCivilWar = "civilwar";
   public static $CloneWars = "clonewar";
-  public static $GreyJedi = "greyjedi";//TODO
-  public static $GroundAssault = "bothgrnd";//TODO
-  public static $AllWingsReportIn = "bothspce";//TODO
-  public static $NowThereAreThreeOfThem = "nta3othm";//TODO
+  //public static $GreyJedi = "greyjedi";//TODO
+  //public static $GroundAssault = "bothgrnd";//TODO
+  //public static $AllWingsReportIn = "bothspce";//TODO
+  //public static $NowThereAreThreeOfThem = "nta3othm";//TODO
   //public static $NoLuck = "no_luckf";//TODO
 
   public static function FromCode($code) {
