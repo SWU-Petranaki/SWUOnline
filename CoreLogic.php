@@ -7298,6 +7298,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
       break;
+    case "abcdefg032"://Baylan Skoll
+      if($from != "PLAY" && HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:maxCost=4&THEIRALLY:maxCost=4", 1);
+        AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-leader unit to bounce and replay");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "BOUNCE", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "BAYLANSKOLL", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

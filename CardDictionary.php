@@ -1121,6 +1121,7 @@ function HasHidden($cardID, $player, $index) {
     case "7877401512"://Aurra Sing
     case "abcdefg030"://Eye of Sion
     case "abcdefg031"://Shin Hati
+    case "abcdefg032"://Baylan Skoll
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
