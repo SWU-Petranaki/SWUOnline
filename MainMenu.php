@@ -81,6 +81,10 @@ if (!empty($_SESSION['error'])) {
   </script>";
 }
 
+//Cantina Brawl Format; Update this to rotate formats
+$funFormatBackendName = Formats::$GalacticCivilWar;
+$funFormatDisplayName = FormatDisplayName($funFormatBackendName);
+
 // Now start HTML output after all PHP processing is done
 ?>
 <!DOCTYPE html>
@@ -203,7 +207,7 @@ if (!empty($_SESSION['error'])) {
                       <option value="premierf" <?php echo (FormatCode('premierf') == $defaultFormat ? "selected" : ""); ?>>Premier Casual</option>
                       <?php if($canSeeQueue) { ?>
                       <option value="prstrict" <?php echo (FormatCode('prstrict') == $defaultFormat ? "selected" : ""); ?>>Premier (Best of 3)</option>
-                      <option value="civilwar" <?php echo (FormatCode('civilwar') == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option>
+                      <option value="<?php echo $funFormatBackendName?>" <?php echo (FormatCode($funFormatBackendName) == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option>
                       <?php } ?>
                       <option value="previewf" <?php echo (FormatCode('previewf') == $defaultFormat ? "selected" : ""); ?>>Preview (Set 5)</option>
                       <option value="openform" <?php echo (FormatCode('openform') == $defaultFormat ? "selected" : ""); ?>>Open Format</option>
@@ -420,7 +424,7 @@ if (!empty($_SESSION['error'])) {
                 <option value="all">All Formats</option>
                 <option value="premierf">Premier Casual</option>
                 <option value="prstrict">Premier (Best of 3)</option>
-                <option value="civilwar">Cantina Brawl</option>
+                <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
                 <option value="previewf">Preview (Set 5)</option>
                 <option value="openform">Open Format</option>
               </select>
@@ -450,7 +454,7 @@ if (!empty($_SESSION['error'])) {
                 <option value="all">All Formats</option>
                 <option value="premierf">Premier Casual</option>
                 <option value="prstrict">Premier (Best of 3)</option>
-                <option value="civilwar">Cantina Brawl</option>
+                <option value="<?php $funFormatBackendName?>">Cantina Brawl</option>
                 <option value="previewf">Preview (Set 5)</option>
                 <option value="openform">Open Format</option>
               </select>
@@ -493,9 +497,6 @@ if (!empty($_SESSION['error'])) {
               echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
               if($canSeeQueue) {
                 echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
-                //Cantina Brawl Format; Update this to rotate formats
-                $funFormatBackendName = Formats::$GalacticCivilWar;
-                $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
               }
               echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 5)</option>");
