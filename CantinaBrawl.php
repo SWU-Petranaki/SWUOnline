@@ -9,6 +9,7 @@ include_once 'Header.php';
     padding: 2rem;
     margin-left: auto;
     margin-right: auto;
+    margin-top: auto;
     backdrop-filter: blur(16px);
     border-radius: 16px;
     display: flex;
