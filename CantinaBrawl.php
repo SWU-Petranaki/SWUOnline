@@ -43,7 +43,7 @@ include_once 'Header.php';
   <h1>Cantina Brawl</h1>
   <br/><br/>
   <p>
-      Welcome to the Cantina! Prepare to Brawl! Currently featured: <span class="ref-page-brawl-current">Padawan</span>
+      Welcome to the Cantina! Prepare to Brawl! Currently featured: <span class="ref-page-brawl-current">Galactic Civil War</span>
   </p>
   <hr/>
   <h2>What is Cantina Brawl?</h2>
