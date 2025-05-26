@@ -172,6 +172,7 @@ function RestoreAmount($cardID, $player, $index)
     case "1978321046": $amount += 1; break;//Village Tender
     case "4808722909": $amount += 1; break;//Yaddle
     case "6745607382": $amount += 2; break;//Jedi Temple Guards
+    case "abcdefg030": $anmount += 1; break;//Eye of Sion
     default: break;
   }
   //The Ghost JTL
@@ -755,6 +756,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "4145147486"://Kylo Ren LOF
     case "3092212109"://Drengir Spawn
     case "9757688123"://Mace Windu
+    case "abcdefg030"://Eye of Sion
       return true;
     case "e6dc0d1cee"://Avar Kriss Leader unit
       return HasTheForce($player);
@@ -862,6 +864,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "1270747736"://Qui-Gon Jinn unit
     case "7529152088"://Depa Billaba
     case "6745607382"://Jedi Temple Guards
+    case "abcdefg030"://Eye of Sion
       return true;
 
     //conditional ambush
@@ -955,6 +958,7 @@ function HasShielded($cardID, $player, $index)
     //Legends of the Force
     case "3967581160"://Anakin Skywalker Child LOF
     case "4347039495"://Darth Tyranus
+    case "abcdefg031"://Shin Hati
       return true;
     default: break;
   }
@@ -1115,6 +1119,9 @@ function HasHidden($cardID, $player, $index) {
     case "2897264390"://Witch of the Mist
     case "1978321046"://Village Tender
     case "7877401512"://Aurra Sing
+    case "abcdefg030"://Eye of Sion
+    case "abcdefg031"://Shin Hati
+    case "abcdefg032"://Baylan Skoll
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
