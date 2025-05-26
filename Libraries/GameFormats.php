@@ -298,8 +298,8 @@ function CardInRotation($format, $cardID): bool {
 function CardExceedsNumCopies($format, $cardID, $count): bool {
   if($format == Formats::$OpenFormat) return false;
   //restrictions for specific formats
-  if($format == Formats::$NowThereAreThreeOfThem)
-    return $count > 10;
+  // if($format == Formats::$NowThereAreThreeOfThem)
+  //   return $count > 10;
   //all other formats
   switch($cardID) {
     case "2177194044"://Swarming Vulture Droid
@@ -311,8 +311,8 @@ function CardExceedsNumCopies($format, $cardID, $count): bool {
 
 function CardSubceedsNumCopies($format, $cardID, $count): bool {
   //restrictions for specific formats
-  if($format == Formats::$NowThereAreThreeOfThem)
-    return $count < 10;
+  // if($format == Formats::$NowThereAreThreeOfThem)
+  //   return $count < 10;
   //all other formats
   return false;
 }
