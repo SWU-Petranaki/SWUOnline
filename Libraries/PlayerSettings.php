@@ -649,12 +649,6 @@ function FormatCode($format)
       return 8;
     case "clonewar":
       return 9;
-    case "onepprem":
-      return 101;
-    case "onepopen":
-      return 102;
-    case "m1puzzle";
-      return 201;
     default:
       return -1;
   }

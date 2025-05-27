@@ -2,7 +2,6 @@
 
 include "CardDictionary.php";
 include 'Libraries/HTTPLibraries.php';
-include 'Libraries/NetworkingLibraries.php';
 include_once "Libraries/PlayerSettings.php";
 include_once "Assets/patreon-php-master/src/PatreonDictionary.php";
 
@@ -72,7 +71,7 @@ if ($authKey != $targetAuth) {
 }
 
 
-if ($kickPlayerTwo && !IsOnePlayerMode()) {
+if ($kickPlayerTwo) {
 
   $numP2Disconnects = IncrementCachePiece($gameName, 11);
   if($numP2Disconnects >= 3)
@@ -98,56 +97,32 @@ if ($lastUpdate != 0 && $cacheVal < $lastUpdate) {
 
   $setupContent = "";
   $showSubmit = false;
-  if(!IsOnePlayerMode()) {
-    if ($playerID == 1 && $gameStatus < $MGS_Player2Joined) {
-      if($visibility == "private") {
-        if($p1id == "") {
-          $setupContent .= "<p>&#10071;This is a private lobby. You need to log in for matchmaking.</p>";
-        }
-        else {
-          $setupContent .= "<p>&#10071;This is a private lobby. You will need to invite an opponent.</p>";
-        }
+  if ($playerID == 1 && $gameStatus < $MGS_Player2Joined) {
+    if($visibility == "private") {
+      if($p1id == "") {
+        $setupContent .= "<p>&#10071;This is a private lobby. You need to log in for matchmaking.</p>";
       }
-
-      $setupContent .= "<p>Waiting for another player to join.</p>";
-      $setupContent .= "<div class='invite-link-wrapper'>";
-      $setupContent .= "<input class='GameLobby_Input invite-link' onclick='copyText()' type='text' id='gameLink' value='" . $redirectPath . "/JoinGame.php?gameName=$gameName&playerID=2'>";
-      $setupContent .= "<button class='GameLobby_Button' onclick='copyText()'>Copy Invite Link</button>";
-      $setupContent .= "</div>";
-    } else if ($gameStatus == $MGS_ChooseFirstPlayer) {
-      if ($playerID == $firstPlayerChooser) {
-        $setupContent .= "<p>You won the initiative choice.</p>";
-        $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Go First' onclick='SubmitFirstPlayer(1)' style='margin-right:20px; text-align:center;'>";
-        $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Go Second' onclick='SubmitFirstPlayer(2)' style='text-align:center;'>";
-      } else {
-        $setupContent .= "<p>Waiting for other player to choose who goes first.</p>";
+      else {
+        $setupContent .= "<p>&#10071;This is a private lobby. You will need to invite an opponent.</p>";
       }
-    } else if ($gameStatus > $MGS_ChooseFirstPlayer && ($playerID == 2 || $p1SideboardSubmitted != "1") && ($playerID == 1 || $p2SideboardSubmitted != "1")) {
-      $showSubmit = true;
     }
-  } else {
-    if ($gameStatus == $MGS_Initial) {
-      $setupContent .= "<p>This is a single player game. You can start the game by choosing if you want to go first.</p>";
+
+    $setupContent .= "<p>Waiting for another player to join.</p>";
+    $setupContent .= "<div class='invite-link-wrapper'>";
+    $setupContent .= "<input class='GameLobby_Input invite-link' onclick='copyText()' type='text' id='gameLink' value='" . $redirectPath . "/JoinGame.php?gameName=$gameName&playerID=2'>";
+    $setupContent .= "<button class='GameLobby_Button' onclick='copyText()'>Copy Invite Link</button>";
+    $setupContent .= "</div>";
+  } else if ($gameStatus == $MGS_ChooseFirstPlayer) {
+    if ($playerID == $firstPlayerChooser) {
+      $setupContent .= "<p>You won the initiative choice.</p>";
       $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Go First' onclick='SubmitFirstPlayer(1)' style='margin-right:20px; text-align:center;'>";
       $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Go Second' onclick='SubmitFirstPlayer(2)' style='text-align:center;'>";
-    } else if ($gameStatus == $MGS_P2Sideboard) {
-      //if a first player has already been chosen, then manually submit both sideboards
-      if ($firstPlayer != 0) {
-        //set both sideboards to submitted
-        $p1SideboardSubmitted = "1";
-        $p2SideboardSubmitted = "1";
-        SetCachePiece($gameName, 5, $p1SideboardSubmitted);
-        SetCachePiece($gameName, 8, $p2SideboardSubmitted);
-        $gameStatus = $MGS_P2Sideboard;
-        SetCachePiece($gameName, 14, $gameStatus);
-        GamestateUpdated($gameName);
-        WriteGameFile();
-        $setupContent .= "<p>Sideboarding Player 2 is not yet implemented for single player mode.</p>";
-        $showSubmit = true;
-      }
+    } else {
+      $setupContent .= "<p>Waiting for other player to choose who goes first.</p>";
     }
+  } else if ($gameStatus > $MGS_ChooseFirstPlayer && ($playerID == 2 || $p1SideboardSubmitted != "1") && ($playerID == 1 || $p2SideboardSubmitted != "1")) {
+    $showSubmit = true;
   }
-
   $data["setupContent"] = $setupContent;
   $data["showSubmit"] = $showSubmit;
 

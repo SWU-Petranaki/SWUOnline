@@ -3,7 +3,6 @@
 include "Libraries/HTTPLibraries.php";
 include "Libraries/SHMOPLibraries.php";
 include "Libraries/GameFormats.php";
-include "Libraries/NetworkingLibraries.php";
 include "APIKeys/APIKeys.php";
 include_once 'includes/functions.inc.php';
 include_once 'includes/dbh.inc.php';
@@ -18,6 +17,8 @@ include_once 'LZCompressor/LZReverseDictionary.php';
 include_once 'LZCompressor/LZString.php';
 include_once 'LZCompressor/LZUtil.php';
 include_once 'LZCompressor/LZUtil16.php';
+
+use LZCompressor\LZString as LZString;
 
 session_start();
 if (!isset($_SESSION["userid"])) {
@@ -37,7 +38,6 @@ if (!IsGameNameValid($gameName)) {
 $playerID = intval($_GET["playerID"]);
 $deck = TryGet("deck");
 $decklink = $_GET["fabdb"];
-$decklinkP2 = TryGet("fabdbP2", "");
 $decksToTry = TryGet("decksToTry");
 $favoriteDeck = TryGet("favoriteDeck", "0");
 $favoriteDeckLink = TryGet("favoriteDecks", "0");
@@ -119,95 +119,6 @@ $usesUuid = false;
 if ($decklink != "") {
   if ($playerID == 1) $p1DeckLink = $decklink;
   else if ($playerID == 2) $p2DeckLink = $decklink;
-  LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID, $favoriteDeck, $usesUuid);
-  if($playerID == 1 && IsOnePlayerMode() && $decklinkP2 != "") {
-    $p2DeckLink = $decklinkP2;
-    LoadPlayerDeck($decklinkP2, $redirectPath, $format, $gameName, 2, $favoriteDeck, $usesUuid);
-  }
-} else {
-  $_SESSION['error'] = '⚠️ Deck link is empty. Did you maybe copy your deck link into the Game Name field?';
-  header("Location: " . $redirectPath . "/MainMenu.php");
-  WriteGameFile();
-  exit;
-  // copy($deckFile, "./Games/" . $gameName . "/p" . $playerID . "Deck.txt");
-  // copy($deckFile, "./Games/" . $gameName . "/p" . $playerID . "DeckOrig.txt");
-}
-
-if ($playerID == 1) {
-  $p1uid = ($_SESSION["useruid"] ?? "Player 1");
-  $p1id = ($_SESSION["userid"] ?? "");
-  $p1SWUStatsToken = ($_SESSION["swustatsAccessToken"] ?? "");
-  $p1IsPatron = (isset($_SESSION["isPatron"]) ? "1" : "");
-  $p1ContentCreatorID = ($_SESSION["patreonEnum"] ?? "");
-  $playerNames[1] = $p1uid;
-} else if ($playerID == 2) {
-  $p2uid = ($_SESSION["useruid"] ?? "Player 2");
-  $p2id = ($_SESSION["userid"] ?? "");
-  $p2SWUStatsToken = ($_SESSION["swustatsAccessToken"] ?? "");
-  $p2IsPatron = (isset($_SESSION["isPatron"]) ? "1" : "");
-  $p2ContentCreatorID = ($_SESSION["patreonEnum"] ?? "");
-  $playerNames[2] = $p2uid;
-}
-
-if ($matchup == "") {
-  if ($playerID == 2) {
-
-    $gameStatus = $MGS_Player2Joined;
-    if (file_exists("./Games/" . $gameName . "/gamestate.txt")) unlink("./Games/" . $gameName . "/gamestate.txt");
-
-    $firstPlayerChooser = 1;
-    $p1roll = 0;
-    $p2roll = 0;
-    $tries = 10;
-    while ($p1roll == $p2roll && $tries > 0) {
-      $p1roll = rand(1, 6) + rand(1, 6);
-      $p2roll = rand(1, 6) + rand(1, 6);
-      WriteLog("$p1uid rolled $p1roll and $p2uid rolled $p2roll.");
-      --$tries;
-    }
-    $firstPlayerChooser = ($p1roll > $p2roll ? 1 : 2);
-    $playerName = $playerNames[$firstPlayerChooser];
-    WriteLog("$playerName chooses who goes first.");
-    $gameStatus = $MGS_ChooseFirstPlayer;
-    $joinerIP = $_SERVER['REMOTE_ADDR'];
-  }
-
-  if ($playerID == 2 && !IsOnePlayerMode()) $p2Key = hash("sha256", rand() . rand() . rand());
-
-  WriteGameFile();
-  SetCachePiece($gameName, $playerID + 1, strval(round(microtime(true) * 1000)));
-  SetCachePiece($gameName, $playerID + 3, "0");
-  SetCachePiece($gameName, $playerID + 6, $leader ?? "-");
-  SetCachePiece($gameName, $playerID + 19, $base ?? "-");
-  SetCachePiece($gameName, 14, $gameStatus);
-  GamestateUpdated($gameName);
-
-  //$authKey = ($playerID == 1 ? $p1Key : $p2Key);
-  //$_SESSION["authKey"] = $authKey;
-  $domain = (!empty(getenv("DOMAIN")) ? getenv("DOMAIN") : "petranaki.net");
-  if ($playerID == 1) {
-    $_SESSION["p1AuthKey"] = $p1Key;
-    setcookie("lastAuthKey", $p1Key, time() + 86400, "/", $domain);
-    if(IsOnePlayerMode() && $decklinkP2 != "") {
-      $_SESSION["p2AuthKey"] = $p2Key;
-    }
-  } else if ($playerID == 2) {
-    $_SESSION["p2AuthKey"] = $p2Key;
-    setcookie("lastAuthKey", $p2Key, time() + 86400, "/", $domain);
-  }
-}
-
-session_write_close();
-header("Location: " . $redirectPath . "/GameLobby.php?gameName=$gameName&playerID=$playerID");
-
-function JsHtmlTitleAndSub($cardID) {
-  $forJS = CardTitle($cardID);
-  if($forJS == "") return $cardID;
-  if(CardSubtitle($cardID) != "") $forJS .= " (" . CardSubtitle($cardID) . ")";
-  return str_replace("'", "\'", $forJS);
-}
-
-function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID, $favoriteDeck, $usesUuid) {
   $originalLink = $decklink;
 
   if(str_contains($decklink, "swustats.net")) {
@@ -239,7 +150,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
     $errorMessage = curl_error($curl);
     curl_close($curl);
     $json = $apiDeck;
-    //echo($json);
+    echo($json);
   }
   else if(str_contains($decklink, "sw-unlimited-db.com/decks")) {
     $decklinkArr = explode("/", $decklink);
@@ -252,7 +163,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
     $errorMessage = curl_error($curl);
     curl_close($curl);
     $json = $apiDeck;
-    //echo($json);
+    echo($json);
   }
   else $json = $decklink;
 
@@ -348,4 +259,82 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
     $saveLink = count($saveLink) > 1 ? $saveLink[1] : $originalLink;
     addFavoriteDeck($_SESSION["userid"], $saveLink, $deckName, $leader, $deckFormat);
   }
+} else {
+  $_SESSION['error'] = '⚠️ Deck link is empty. Did you maybe copy your deck link into the Game Name field?';
+  header("Location: " . $redirectPath . "/MainMenu.php");
+  WriteGameFile();
+  exit;
+  // copy($deckFile, "./Games/" . $gameName . "/p" . $playerID . "Deck.txt");
+  // copy($deckFile, "./Games/" . $gameName . "/p" . $playerID . "DeckOrig.txt");
+}
+
+if ($playerID == 1) {
+  $p1uid = ($_SESSION["useruid"] ?? "Player 1");
+  $p1id = ($_SESSION["userid"] ?? "");
+  $p1SWUStatsToken = ($_SESSION["swustatsAccessToken"] ?? "");
+  $p1IsPatron = (isset($_SESSION["isPatron"]) ? "1" : "");
+  $p1ContentCreatorID = ($_SESSION["patreonEnum"] ?? "");
+  $playerNames[1] = $p1uid;
+} else if ($playerID == 2) {
+  $p2uid = ($_SESSION["useruid"] ?? "Player 2");
+  $p2id = ($_SESSION["userid"] ?? "");
+  $p2SWUStatsToken = ($_SESSION["swustatsAccessToken"] ?? "");
+  $p2IsPatron = (isset($_SESSION["isPatron"]) ? "1" : "");
+  $p2ContentCreatorID = ($_SESSION["patreonEnum"] ?? "");
+  $playerNames[2] = $p2uid;
+}
+
+if ($matchup == "") {
+  if ($playerID == 2) {
+
+    $gameStatus = $MGS_Player2Joined;
+    if (file_exists("./Games/" . $gameName . "/gamestate.txt")) unlink("./Games/" . $gameName . "/gamestate.txt");
+
+    $firstPlayerChooser = 1;
+    $p1roll = 0;
+    $p2roll = 0;
+    $tries = 10;
+    while ($p1roll == $p2roll && $tries > 0) {
+      $p1roll = rand(1, 6) + rand(1, 6);
+      $p2roll = rand(1, 6) + rand(1, 6);
+      WriteLog("$p1uid rolled $p1roll and $p2uid rolled $p2roll.");
+      --$tries;
+    }
+    $firstPlayerChooser = ($p1roll > $p2roll ? 1 : 2);
+    $playerName = $playerNames[$firstPlayerChooser];
+    WriteLog("$playerName chooses who goes first.");
+    $gameStatus = $MGS_ChooseFirstPlayer;
+    $joinerIP = $_SERVER['REMOTE_ADDR'];
+  }
+
+  if ($playerID == 2) $p2Key = hash("sha256", rand() . rand() . rand());
+
+  WriteGameFile();
+  SetCachePiece($gameName, $playerID + 1, strval(round(microtime(true) * 1000)));
+  SetCachePiece($gameName, $playerID + 3, "0");
+  SetCachePiece($gameName, $playerID + 6, $leader ?? "-");
+  SetCachePiece($gameName, $playerID + 19, $base ?? "-");
+  SetCachePiece($gameName, 14, $gameStatus);
+  GamestateUpdated($gameName);
+
+  //$authKey = ($playerID == 1 ? $p1Key : $p2Key);
+  //$_SESSION["authKey"] = $authKey;
+  $domain = (!empty(getenv("DOMAIN")) ? getenv("DOMAIN") : "petranaki.net");
+  if ($playerID == 1) {
+    $_SESSION["p1AuthKey"] = $p1Key;
+    setcookie("lastAuthKey", $p1Key, time() + 86400, "/", $domain);
+  } else if ($playerID == 2) {
+    $_SESSION["p2AuthKey"] = $p2Key;
+    setcookie("lastAuthKey", $p2Key, time() + 86400, "/", $domain);
+  }
+}
+
+session_write_close();
+header("Location: " . $redirectPath . "/GameLobby.php?gameName=$gameName&playerID=$playerID");
+
+function JsHtmlTitleAndSub($cardID) {
+  $forJS = CardTitle($cardID);
+  if($forJS == "") return $cardID;
+  if(CardSubtitle($cardID) != "") $forJS .= " (" . CardSubtitle($cardID) . ")";
+  return str_replace("'", "\'", $forJS);
 }

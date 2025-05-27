@@ -4,7 +4,6 @@ ob_start();
 include "HostFiles/Redirector.php";
 include "Libraries/HTTPLibraries.php";
 include "Libraries/SHMOPLibraries.php";
-include "Libraries/NetworkingLibraries.php";
 include_once "WriteLog.php";
 include_once "Libraries/PlayerSettings.php";
 include_once 'Assets/patreon-php-master/src/PatreonDictionary.php';
@@ -16,7 +15,6 @@ ob_end_clean();
 
 $deck = TryGET("deck");
 $decklink = TryGET("fabdb");
-$decklinkP2 = TryGET("fabdbP2", "");
 $deckTestMode = TryGET("deckTestMode", "");
 $format = TryGET("format");
 $visibility = TryGET("visibility");
@@ -62,7 +60,7 @@ if($visibility == "public" && $deckTestMode != "" && !isset($_SESSION["userid"])
   exit;
 }
 
-if(isset($_SESSION["userid"]) && !IsOnePlayerMode())
+if(isset($_SESSION["userid"]))
 {
   //Save game creation settings
   if(isset($favoriteDeckIndex))
@@ -103,7 +101,7 @@ if ($deckTestMode != "") {
 $firstPlayerChooser = "";
 $firstPlayer = 1;
 $p1Key = hash("sha256", rand() . rand());
-$p2Key = IsOnePlayerMode() ? $p1Key : hash("sha256", rand() . rand() . rand());
+$p2Key = hash("sha256", rand() . rand() . rand());
 $p1uid = "-";
 $p2uid = "-";
 $p1id = "-";
@@ -127,4 +125,4 @@ WriteCache($gameName, 1 . "!" . $currentTime . "!" . $currentTime . "!0!-1!" . $
 // Convert favoriteDeck parameter from "1" to "on" to match what JoinGameInput.php expects
 $favoriteDeckParam = ($favoriteDeck == "1") ? "on" : $favoriteDeck;
 
-header("Location:" . $redirectPath . "/JoinGameInput.php?gameName=$gameName&playerID=1&deck=$deck&fabdb=$decklink&format=$format&set=$set&decksToTry=$decksToTry&favoriteDeck=$favoriteDeckParam&favoriteDecks=$favoriteDeckLink&fabdbP2=$decklinkP2");
+header("Location:" . $redirectPath . "/JoinGameInput.php?gameName=$gameName&playerID=1&deck=$deck&fabdb=$decklink&format=$format&set=$set&decksToTry=$decksToTry&favoriteDeck=$favoriteDeckParam&favoriteDecks=$favoriteDeckLink");
