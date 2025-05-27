@@ -158,7 +158,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
     /* Ensure the player pane doesn't get too narrow but not too wide either */
     .player-info {
       min-width: 150px;
-      max-width: 180px;
+      max-width: 240px;
       width: 100%;
       overflow-y: auto;
     }
@@ -261,7 +261,6 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       </div>
 
       <div class="player-info container bg-yellow">
-
         <h2>Players</h2>
         <div id="my-info">
           <?php
@@ -291,9 +290,6 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
             $material = GetArray($handler);
             $playerAspects = explode(",", CardAspects($material[1]));
             $base = $material[0];
-
-            //$canSwapOutForceBase = $parsedFormat == Formats::$PreviewFormat && !IsRareBase($base)
-              //&& $base != "0119018087" && $base != "0450346170";
             echo ("<input type='hidden' id='playerAspect' name='playerAspect' value='" . $playerAspects[0] . "'>");
             echo ("<div style='position:relative; display: inline-block;'>");
             $overlayURL = ($contentCreator != null ? $contentCreator->HeroOverlayURL($material[1]) : "");

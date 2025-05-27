@@ -196,8 +196,9 @@ $baseUri = "/Arena";
                       </ul>
                     </li>";
                     echo "<li class='dropdown'>
-                      <a href='javascript:void(0)' onclick='toggleToolsNav()' class='NavBarItem info-nav'>Tools <span id='nav-tri-tools' class='nav-triangle'>▼</span></a>
+                      <a href='javascript:void(0)' onclick='toggleToolsNav()' class='NavBarItem info-nav'>Tools/Apps <span id='nav-tri-tools' class='nav-triangle'>▼</span></a>
                       <ul id='tools-dd' class='dropdown-content'>
+                        <li><a href='$baseUri/Tools/OnePlayerMode.php'>One Player Mode (Beta)</a></li>
                         <li><a href='$baseUri/Tools/ShuffleIntegrity.php'>Shuffle Integrity</a></li>
                         <li><a href='$baseUri/Tools/MeleeToJson.php'>Melee To JSON</a></li>
                       </ul>
