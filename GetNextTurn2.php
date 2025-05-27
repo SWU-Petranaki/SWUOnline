@@ -105,7 +105,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     break;
   $cacheArr = explode(SHMOPDelimiter(), $readCache);
   $cacheVal = intval($cacheArr[0]);
-  if ($isGamePlayer) {
+  if ($isGamePlayer && !IsOnePlayerMode()) {
     SetCachePiece($gameName, $playerID + 1, $currentTime);
     $otherP = ($playerID == 1 ? 2 : 1);
     $oppLastTime = intval($cacheArr[$otherP]);
@@ -117,7 +117,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $lastActionWarning = intval($cacheArr[17]);
     $finalWarning = intval($cacheArr[18]);
 
-    if (!IsOnePlayerMode() && $gameState == 6 && $timeDiff > 10_000 && $oppStatus == "0") {
+    if ($gameState == 6 && $timeDiff > 10_000 && $oppStatus == "0") {
       WriteLog("Player $otherP has disconnected.");
       $opponentDisconnected = true;
       SetCachePiece($gameName, $otherP + 3, "2");
