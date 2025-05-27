@@ -173,6 +173,7 @@ function RestoreAmount($cardID, $player, $index)
     case "4808722909": $amount += 1; break;//Yaddle
     case "6745607382": $amount += 2; break;//Jedi Temple Guards
     case "abcdefg030": $amount += 1; break;//Eye of Sion
+    case "abcdefg033": $amount += 2; break;//Magistrate's Scout
     default: break;
   }
   //The Ghost JTL
@@ -959,6 +960,7 @@ function HasShielded($cardID, $player, $index)
     case "3967581160"://Anakin Skywalker Child LOF
     case "4347039495"://Darth Tyranus
     case "abcdefg031"://Shin Hati
+    case "abcdefg035"://Itinerant Warrior
       return true;
     default: break;
   }

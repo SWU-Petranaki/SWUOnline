@@ -6,6 +6,9 @@ function ManualCardTitleData() {
     'abcdefg030' => 'Eye of Sion',
     'abcdefg031' => 'Shin Hati',
     'abcdefg032' => 'Baylon Skoll',
+    'abcdefg033' => 'Magistrate\'s Scout',
+    'abcdefg034' => 'Morgan Elsbeth',
+    'abcdefg035' => 'Itinerant Warrior',
     //continue manual card titles
   );
 }
@@ -16,6 +19,7 @@ function ManualCardSubtitleData() {
     'abcdefg030' => 'To Peridea',
     'abcdefg031' => 'Overeager Apprentice',
     'abcdefg032' => 'Enigmatic Master',
+    'abcdefg034' => 'Following the Call',
     //continue manual card subtitles
   );
 }
@@ -27,6 +31,9 @@ function ManualCardCostData() {
     'abcdefg030' => 6,
     'abcdefg031' => 3,
     'abcdefg032' => 5,
+    'abcdefg033' => 3,
+    'abcdefg034' => 5,
+    'abcdefg035' => 4,
     //continue manual card costs
   );
 }
@@ -37,6 +44,9 @@ function ManualCardHPDictionaryData() {
     'abcdefg030' => 7,
     'abcdefg031' => 2,
     'abcdefg032' => 5,
+    'abcdefg033' => 4,
+    'abcdefg034' => 6,
+    'abcdefg035' => 4,
     //continue manual card HP dictionary
   );
 }
@@ -47,6 +57,9 @@ function ManualCardPowerData() {
     'abcdefg030' => 4,
     'abcdefg031' => 4,
     'abcdefg032' => 5,
+    'abcdefg033' => 2,
+    'abcdefg034' => 3,
+    'abcdefg035' => 4,
     //continue manual card powers
   );
 }
@@ -70,6 +83,9 @@ function ManualCardAspectsData() {
     'abcdefg030' => 'Command,Villainy',
     'abcdefg031' => 'Cunning,Villainy',
     'abcdefg032' => 'Cunning,Villainy',
+    'abcdefg033' => 'Vigilance,Villainy',
+    'abcdefg034' => 'Command,Villainy',
+    'abcdefg035' => 'Vigilance,Heroism',
     //continue manual card aspects
   );
 }
@@ -81,6 +97,9 @@ function ManualCardTraitsData() {
     'abcdefg030' => 'Imperial,Vehicle,Transport',
     'abcdefg031' => 'Force,Fringe',
     'abcdefg032' => 'Force,Fringe',
+    'abcdefg033' => 'Imperial,Trooper',
+    'abcdefg034' => 'Force,Imperial,Night',
+    'abcdefg035' => 'Force,Jedi',
     //continue manual card traits
   );
 }
@@ -91,6 +110,9 @@ function ManualCardArenasData() {
     'abcdefg030' => 'Space',
     'abcdefg031' => 'Ground',
     'abcdefg032' => 'Ground',
+    'abcdefg033' => 'Ground',
+    'abcdefg034' => 'Ground',
+    'abcdefg035' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -102,6 +124,9 @@ function ManualDefinedCardTypeData() {
     'abcdefg030' => 'Unit',
     'abcdefg031' => 'Unit',
     'abcdefg032' => 'Unit',
+    'abcdefg033' => 'Unit',
+    'abcdefg034' => 'Leader',
+    'abcdefg035' => 'Unit',
     //continue manual card types
   );
 }
@@ -112,6 +137,9 @@ function ManualDefinedCardType2Data() {
     'abcdefg030' => 'Unit',
     'abcdefg031' => 'Unit',
     'abcdefg032' => 'Unit',
+    'abcdefg033' => 'Unit',
+    'abcdefg034' => 'Leader',
+    'abcdefg035' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -123,6 +151,7 @@ function ManualCardIsUniqueData() {
     'abcdefg030' => 1,
     'abcdefg031' => 1,
     'abcdefg032' => 1,
+    'abcdefg034' => 1,
     //continue manual card unique status
   );
 }
@@ -130,6 +159,7 @@ function ManualCardIsUniqueData() {
 function ManualHasWhenPlayedData() {
   return array(
     'abcdefg032' => 1,
+    'abcdefg035' => 1,
     //continue manual card when played status
   );
 }
@@ -147,6 +177,9 @@ function ManualCardSetData() {
     'abcdefg030' => 'LOF',
     'abcdefg031' => 'LOF',
     'abcdefg032' => 'LOF',
+    'abcdefg033' => 'LOF',
+    'abcdefg034' => 'LOF',
+    'abcdefg035' => 'LOF',
     //continue manual card sets
   );
 }
@@ -158,6 +191,9 @@ function ManualUUIDLookupData() {
     'LOF_088' => 'abcdefg030',
     'LOF_183' => 'abcdefg031',
     'LOF_185' => 'abcdefg032',
+    'LOF_032' => 'abcdefg033',
+    'LOF_005' => 'abcdefg034',
+    'LOF_048' => 'abcdefg035',
     //continue manual UUID lookups
   );
 }
@@ -169,6 +205,9 @@ function ManualCardIDLookupData() {
     'abcdefg030' => 'LOF_088',
     'abcdefg031' => 'LOF_183',
     'abcdefg032' => 'LOF_185',
+    'abcdefg033' => 'LOF_032',
+    'abcdefg034' => 'LOF_005',
+    'abcdefg035' => 'LOF_048',
     //continue manual card ID lookups
   );
 }
@@ -180,18 +219,23 @@ function ManualCardRarityData() {
     'abcdefg030' => 'Rare',
     'abcdefg031' => 'Uncommon',
     'abcdefg032' => 'Uncommon',
+    'abcdefg033' => 'Common',
+    'abcdefg034' => 'Rare',
+    'abcdefg035' => 'Common',
     //continue manual card rarities
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg034' => true,
+    'abcdefg035' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Eye of Sion|Shin Hati|Baylon Skoll';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Eye of Sion|Shin Hati|Baylon Skoll|Magistrate\'s Scout|Morgan Elsbeth|Itinerant Warrior';
 }
 ?>

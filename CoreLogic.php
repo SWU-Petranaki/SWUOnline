@@ -7310,6 +7310,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "BAYLANSKOLL", 1);
       }
       break;
+    // case "abcdefg035"://Itinerant Warrior TODO TEST
+    //   if($from != "PLAY") {
+    //     if(HasTheForce($currentPlayer)) {
+    //       DQAskToUseTheForce($currentPlayer);
+    //       AddDecisionQueue("HEAL", $currentPlayer, "3", 1);  
+    //     }
+    //   }
     //PlayAbility End
     default: break;
   }
