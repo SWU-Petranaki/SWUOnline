@@ -122,6 +122,8 @@
         if (event.keyCode === 117) SubmitInput(10000, ""); //U = undo
         //if (event.keyCode === 104) SubmitInput(3, "&cardID=0"); //H = hero ability//FAB
         if (event.keyCode === 109) TogglePopup("menuPopup"); //M = open menu
+        //W key
+        if (event.keyCode === 119) SwitchPlayerWindow();
         <?php
         if (count($myCharacter) > CharacterPieces() && CardType($myCharacter[CharacterPieces()]) == "W") echo ("if(event.keyCode === 108) SubmitInput(3, '&cardID=" . CharacterPieces() . "');"); //L = left weapon
         if (count($myCharacter) > (CharacterPieces() * 2) && CardType($myCharacter[CharacterPieces() * 2]) == "W") echo ("if(event.keyCode === 114) SubmitInput(3, '&cardID=" . (CharacterPieces() * 2) . "');"); //R = right weapon
@@ -787,6 +789,7 @@
 
       function SwitchPlayerWindow() {
         const isOnePlayerMode = <?php echo IsOnePlayerMode() ? 'true' : 'false'; ?> == true;
+        if(!isOnePlayerMode) return;
         const redirectUrl = "<?php echo "$redirectPath/NextTurn4.php?gameName=$gameName&playerID=$otherPlayerID";?>";
         if(isOnePlayerMode) {
           window.location.href = redirectUrl;
