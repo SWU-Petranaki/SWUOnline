@@ -552,9 +552,10 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             $remove = true;
             break;
           case "b70416cfea"://Morgan Elsbeth Leader unit
-            if(CardSharesAnyKeywordWithAllies($cardID, $currentPlayer))
-              $costModifier -= 1;
-            $remove = true;
+            if($from != "PLAY") {
+              if(CardSharesAnyKeywordWithAllies($cardID, $currentPlayer)) $costModifier -= 1;
+              $remove = true;
+            }
             break;
           //modified for free from hand
           case "7138400365"://The Invisible Hand
