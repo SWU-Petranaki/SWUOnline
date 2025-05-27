@@ -1,9 +1,6 @@
 <head>
 
     <style>
-      body {
-        background-color: #111111;
-      }
       @keyframes move {
         from {margin-top: 0;}
         to {margin-top: -50px;}
@@ -559,7 +556,7 @@
 
       function CheckReloadNeeded(lastUpdate) {
         clearTimeout(_connectionHealthCheck);
-
+        
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
           if (this.readyState == 4) {
@@ -567,7 +564,7 @@
               // Reset retry count on success
               _currentRetryCount = 0;
               _lastSuccessfulPoll = Date.now();
-
+              
               if (this.responseText == "NaN") {} //Do nothing, game is invalid
               else if (this.responseText.split("REMATCH")[0] == "1234") {
                 location.replace('GameLobby.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&authKey=<?php echo ($authKey); ?>');
@@ -687,27 +684,27 @@
             }
           }
         };
-
+        
         // Add timeout handling
         xmlhttp.timeout = _requestTimeout;
         xmlhttp.ontimeout = function() {
           handlePollingError("Request timed out");
         };
-
+        
         // Add error handling
         xmlhttp.onerror = function() {
           handlePollingError("Network error occurred");
         };
-
+        
         var dimensions = "&windowWidth=" + window.innerWidth + "&windowHeight=" + window.innerHeight;
         var lcpEl = document.getElementById("lastCurrentPlayer");
         var lastCurrentPlayer = "&lastCurrentPlayer=" + (!lcpEl ? "0" : lcpEl.innerHTML);
-
+        
         if (lastUpdate == "NaN") window.location.replace("https://www.petranaki.net/game/MainMenu.php");
         else {
           xmlhttp.open("GET", "GetNextTurn2.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&lastUpdate=" + lastUpdate + lastCurrentPlayer + "&authKey=<?php echo ($authKey); ?>" + dimensions, true);
           xmlhttp.send();
-
+          
           // Set up health check to recover from hanging connections
           _connectionHealthCheck = setTimeout(function() {
             // If we haven't received a response for twice the timeout period, abort and retry
@@ -719,22 +716,22 @@
           }, _requestTimeout * 2);
         }
       }
-
+      
       function handlePollingError(errorMessage, forceRetry = false) {
         console.log("Polling error: " + errorMessage);
-
+        
         // Implement exponential backoff for retries
         if (_currentRetryCount < _maxRetryCount || forceRetry) {
           _currentRetryCount++;
-
+          
           // Calculate delay with exponential backoff
           var retryDelay = Math.min(_baseRetryDelay * Math.pow(2, _currentRetryCount - 1), _maxRetryDelay);
-
+          
           // Add jitter to prevent all clients from retrying simultaneously
           retryDelay = Math.floor(retryDelay * (0.8 + Math.random() * 0.4));
-
+          
           console.log("Retrying in " + retryDelay + "ms (Attempt " + _currentRetryCount + "/" + _maxRetryCount + ")");
-
+          
           // Retry after delay
           setTimeout(function() {
             var lcpEl = document.getElementById("lastCurrentPlayer");
@@ -762,7 +759,7 @@
             reload();
           };
           document.body.appendChild(recoverMessage);
-
+          
           // Still try to recover automatically after a longer delay
           setTimeout(function() {
             if (document.body.contains(recoverMessage)) {
@@ -782,14 +779,6 @@
         } else {
             form.style.display = 'none';
             document.getElementById('blockOppButton').textContent = 'Block Opponent';
-        }
-      }
-
-      function SwitchPlayerWindow() {
-        const isOnePlayerMode = <?php echo IsOnePlayerMode() ? 'true' : 'false'; ?> == true;
-        const redirectUrl = "<?php echo "$redirectPath/NextTurn4.php?gameName=$gameName&playerID=$otherPlayerID";?>";
-        if(isOnePlayerMode) {
-          window.location.href = redirectUrl;
         }
       }
     </script>

@@ -117,7 +117,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $lastActionWarning = intval($cacheArr[17]);
     $finalWarning = intval($cacheArr[18]);
 
-    if (!IsOnePlayerMode() && $gameState == 6 && $timeDiff > 10_000 && $oppStatus == "0") {
+    if ($gameState == 6 && $timeDiff > 10_000 && $oppStatus == "0") {
       WriteLog("Player $otherP has disconnected.");
       $opponentDisconnected = true;
       SetCachePiece($gameName, $otherP + 3, "2");
@@ -363,9 +363,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Now display the screen for this turn
   echo ("<div class='display-game-screen'>");
   echo ("<div class='status-wrapper'>");
-  if(IsOnePlayerMode() && $playerID != 3) {
-    echo ("&nbsp;<button onclick=SwitchPlayerWindow()>Switch Player Window</button>&nbsp;&nbsp;&nbsp;");
-  }
+
   echo (($manualMode ? "<span style='color: " . $fontColor . "; text-shadow: 2px 0 0 " . $borderColor . ", 0 -2px 0 " . $borderColor . ", 0 2px 0 " . $borderColor . ", -2px 0 0 " . $borderColor . ";'>Add to hand: </span><input id='manualAddCardToHand' type='text' /><input class='manualAddCardToHand-button' type='button' value='Add' onclick='AddCardToHand()' />&nbsp;" : ""));
 
   //Tell the player what to pick
@@ -398,7 +396,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     }
     echo ("</span>");
   }
-
   if (IsManualMode($playerID))
     echo ("&nbsp;" . CreateButton($playerID, "Turn Off Manual Mode", 26, $SET_ManualMode . "-0", "18px", "", "", true));
 
