@@ -534,6 +534,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
               $costModifier += 1;
             }
             break;
+          //Legends of the Force
           case "8569501777"://As I Have Foreseen
             $costModifier -= 4;
             $remove = true;
@@ -544,6 +545,15 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             break;
           case "1553569317"://Kelleran Beq
             $costModifier -= 3;
+            $remove = true;
+            break;
+          case "5045607736"://Morgan Elsbeth Leader
+            $costModifier -= 1;
+            $remove = true;
+            break;
+          case "b70416cfea"://Morgan Elsbeth Leader unit
+            if(CardSharesAnyKeywordWithAllies($cardID, $currentPlayer))
+              $costModifier -= 1;
             $remove = true;
             break;
           //modified for free from hand
@@ -559,6 +569,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
           default: break;
         }
       }
+      //end CurrentEffectCostModifiers
       if($remove && !$reportMode) RemoveCurrentTurnEffect($i);
     }
   }

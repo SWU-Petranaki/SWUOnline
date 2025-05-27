@@ -2592,6 +2592,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       //immediate effect. no layer
       AddCurrentTurnEffect($attackID, $defPlayer, from:"PLAY");
       break;
+    case "b70416cfea"://Morgan Elsbeth Leader unit
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      AddCurrentTurnEffect($attackID, $mainPlayer, from:"PLAY");
+      break;
     default: break;
   }
 
