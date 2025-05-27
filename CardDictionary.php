@@ -172,7 +172,7 @@ function RestoreAmount($cardID, $player, $index)
     case "1978321046": $amount += 1; break;//Village Tender
     case "4808722909": $amount += 1; break;//Yaddle
     case "6745607382": $amount += 2; break;//Jedi Temple Guards
-    case "abcdefg030": $anmount += 1; break;//Eye of Sion
+    case "abcdefg030": $amount += 1; break;//Eye of Sion
     default: break;
   }
   //The Ghost JTL
