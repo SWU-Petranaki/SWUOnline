@@ -7332,7 +7332,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
           DQAskToUseTheForce($currentPlayer);
-          AddDecisionQueue("HEAL", $otherPlayer, "3", 1); //TOOD - give option to heal 3 damage from an enemy base
+          AddDecisionQueue("HEAL", $currentPlayer, "3", 1); //TOOD - give option to heal 3 damage from an enemy base
         }
       }
     case "0531276830"://Ki-Adi Mundi
