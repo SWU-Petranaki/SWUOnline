@@ -536,7 +536,7 @@ function PlayerWon($playerID, $concededMatch = false)
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
       $isDev = getenv("STAGE") == "dev";
-      if(!$isDev) SendSWUStatsResults();
+      if(!$isDev && !IsOnePlayerMode()) SendSWUStatsResults();
     }
   } catch (Exception $e) {
 

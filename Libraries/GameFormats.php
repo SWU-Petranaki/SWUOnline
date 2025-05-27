@@ -1,5 +1,6 @@
 <?php
-class Formats {//keep these to 8 chars exactly for predictable SHMOP cache lengths
+//keep these to 8 chars exactly for predictable SHMOP cache lengths
+class Formats {
   //basic formats
   public static $PremierFormat = "premierf";
   public static $PremierStrict = "prstrict";
@@ -15,6 +16,11 @@ class Formats {//keep these to 8 chars exactly for predictable SHMOP cache lengt
   //public static $AllWingsReportIn = "bothspce";//TODO
   //public static $NowThereAreThreeOfThem = "nta3othm";//TODO
   //public static $NoLuck = "no_luckf";//TODO
+
+  //single player formats
+  public static $OnePlayerPremier = "onepprem";
+  public static $OnePlayerOpen = "onepopen";
+  public static $Mobyus1Puzzles = "m1puzzle";
 
   public static function FromCode($code) {
     $code = intval($code ?? 0);
@@ -33,6 +39,9 @@ class Formats {//keep these to 8 chars exactly for predictable SHMOP cache lengt
       //11 => Formats::$GroundAssault,
       //12 => Formats::$AllWingsReportIn,
       //13 => Formats::$NowThereAreThreeOfThem,
+      101 => Formats::$OnePlayerPremier,
+      102 => Formats::$OnePlayerOpen,
+      201 => Formats::$Mobyus1Puzzles,
       default => Formats::$PremierFormat,
     };
   }
@@ -184,12 +193,13 @@ function IsAllowed($cardID, $format): bool {
     "4002861992",//DJ Blatent Thief
     "5696041568"//Triple Dark Raid
   ];
-  if($format == Formats::$OpenFormat) return true;
+  if($format == Formats::$OpenFormat || $format == Formats::$OnePlayerOpen) return true;
   if(!CardInRotation($format, $cardID)) return false;
   return match($format) {
     //All cards in rotation are allowed except for banned cards
     Formats::$PremierFormat,
     Formats::$PremierStrict,
+    Formats::$OnePlayerPremier,
     Formats::$PreviewFormat
       => !in_array($cardID, $banned)
       ,
@@ -236,6 +246,10 @@ function IsRareBase($cardID) {
     ,"4301437393"//Thermal Oscillator
     ,"9586661707"//Nabat Village
     ,"1672815328"//Lake Country
+    ,"7204128611"//Vergence Temple
+    ,"9434212852"//Mystic Monastery
+    ,"9453163990"//Temple of Destruction
+    ,"2699176260"//Tomb of Eilram
       => true,
     default => false
   };
@@ -284,7 +298,7 @@ function CardInRotation($format, $cardID): bool {
   $civiWarRotation = $previewRotation;
   $cloneWarRotation = $previewRotation;
   return match($format) {
-    Formats::$PremierFormat, Formats::$PremierStrict => in_array(CardSet($cardID), $premierRotation),
+    Formats::$PremierFormat, Formats::$PremierStrict, Formats::$OnePlayerPremier => in_array(CardSet($cardID), $premierRotation),
     Formats::$PadawanFormat => in_array(CardSet($cardID), $padawanRotation),
     Formats::$SandcrawlerFormat => in_array(CardSet($cardID), $sandcrawlerRotation),
     Formats::$PreviewFormat => in_array(CardSet($cardID), $previewRotation),
