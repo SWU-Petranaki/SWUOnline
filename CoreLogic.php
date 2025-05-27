@@ -7288,7 +7288,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DQPingUnit($currentPlayer, 3, isUnitEffect:false, may:false);
       }
       break;
-    case "abcdefg039"://Priestesses of the Force
     case "7012013186"://Priestesses of the Force
       if(HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
@@ -7336,6 +7335,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     //       AddDecisionQueue("HEAL", $currentPlayer, "3", 1);
     //     }
     //   }
+    case "0531276830"://Ki-Adi Mundi
+      //When Played:
+      if($from != "PLAY") {
+        //You may use the force (lose your Force token).
+        if(HasTheForce($currentPlayer)) {
+          DQAskToUseTheForce($currentPlayer);
+          //If you do, draw 2 cards.
+          AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+          AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }
