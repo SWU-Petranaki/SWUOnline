@@ -1570,6 +1570,10 @@ function AllyStartRegroupPhaseAbilities($player) {
 
     // Check ally abilities
     switch ($allies[$i]) {
+      case "d1a7b76ae7"://Chirrut Imwe
+        $ally->AddEffect("d1a7b76ae7");
+        $ally->DefeatIfNoRemainingHP();
+        break;
       case "0216922902"://The Zillo Beast
         $ally->Heal(5);
         break;
@@ -1636,9 +1640,7 @@ function AllyEndRegroupPhaseAbilities($player) {
 
     switch($allies[$i]) {
       case "d1a7b76ae7"://Chirrut Imwe
-        if ($ally->Health() <= 0) {
-          DestroyAlly($player, $i);
-        }
+        SearchCurrentTurnEffects("d1a7b76ae7", $player, remove: true);
         break;
       case "1785627279"://Millennium Falcon
         AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to pay 1 to keep Millennium Falcon running?");

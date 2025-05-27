@@ -489,6 +489,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         "PLAYCARDABILITY" => "When Played",
         "ATTACKABILITY" => "On Attack",
         "ACTIVATEDABILITY" => "Ability",
+        "ENDREGROUPPHASE" => "End Regroup"
       ];
 
       if ($layer == "TRIGGER") {
@@ -578,18 +579,21 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       // Add reorder buttons for ability layers if applicable
       if (IsAbilityLayer($layers[$i]) && ($dqState[8] >= $i || LayersHaveTriggersToResolve()) && $playerID == $mainPlayer) {
         $currentLayerId = $layers[$i + 2];
+        if($currentLayerId == "-") $currentLayerId = $layers[$i];
         $nextLayerId = $layers[$i + $layerPieces + 2] ?? '';
+        if($nextLayerId == "-") $nextLayerId = $layers[$i + $layerPieces];
         if ($i < $dqState[8]) {
-          if($i != count($layers) - $layerPieces && $currentLayerId != "CONTINUECOMBAT" && ($nextLayerId == '' || $nextLayerId != "CONTINUECOMBAT"))
+          if($i != count($layers) - $layerPieces && !IsPhaseLayer($currentLayerId) && ($nextLayerId == '' || !IsPhaseLayer($nextLayerId)))
             $content .= "<span class='reorder-button'>" . CreateButton($playerID, ">", 31, $i, "18px", useInput: true) . "</span>";
         }
         $prevLayerId = $layers[$i - $layerPieces + 2] ?? '';
-        if ($i > 0 && $currentLayerId != "CONTINUECOMBAT")
+        if($prevLayerId == "-") $prevLayerId = $layers[$i - $layerPieces];
+        if ($i > 0 && !IsPhaseLayer($currentLayerId))
         {
           $showButton = false;
           if ($currentLayerId == "ONATTACKABILITY" && $prevLayerId == "ONATTACKABILITY")
             $showButton = true;
-          else if($currentLayerId != "ONATTACKABILITY" && $prevLayerId != "CONTINUECOMBAT")
+          else if($currentLayerId != "ONATTACKABILITY" && !IsPhaseLayer($prevLayerId))
             $showButton = true;
           if($showButton) $content .= "<span class='reorder-button'>" . CreateButton($playerID, "<", 32, $i, "18px", useInput: true) . "</span>";
         }

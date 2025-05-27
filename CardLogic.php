@@ -322,6 +322,29 @@ function IsAbilityLayer($cardID)
   return $cardID == "TRIGGER" || $cardID == "PLAYABILITY" || $cardID == "PLAYCARDABILITY" || $cardID == "ONATTACKABILITY" || $cardID == "ATTACKABILITY" || $cardID == "ACTIVATEDABILITY" || $cardID == "WHENPLAYCARDABILITY";
 }
 
+function IsPhaseLayer($layerName) {
+  return match($layerName) {
+    "CONTINUECOMBAT", "STARTREGROUPPHASE", "ENDREGROUPPHASE", "STARTACTIONPHASE", "ENDACTIONPHASE",
+      => true,
+    default => false
+  };
+}
+
+function CheckForEndRegroupLayer(&$layers) {
+  $endRegroupIndex = -1;
+
+  for($i=0; $i<count($layers); $i+=LayerPieces()) {
+    if($layers[$i] == "ENDREGROUPPHASE") {
+      $endRegroupIndex = $i;
+      break;
+    }
+  }
+  if($endRegroupIndex != -1 && $endRegroupIndex != (count($layers) - LayerPieces())) {
+    $endRegroupLayer = array_splice($layers, $endRegroupIndex, LayerPieces());
+    $layers = array_merge($layers, $endRegroupLayer);
+  }
+}
+
 function AddLayer($cardID, $player, $parameter, $target = "-", $additionalCosts = "-", $uniqueID = "-", $append = false)
 {
   global $layers, $dqState, $CS_CachedDQStateLayers;
@@ -329,6 +352,7 @@ function AddLayer($cardID, $player, $parameter, $target = "-", $additionalCosts 
   if ($append || $cardID == "TRIGGER") {
     array_push($layers, $cardID, $player, $parameter, $target, $additionalCosts, $uniqueID, GetUniqueId());
     if(IsAbilityLayer($cardID)) UpdateDQStateLayers($player);
+    CheckForEndRegroupLayer($layers);
     return LayerPieces();
   }
 
@@ -891,17 +915,14 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       }
       break;
     case "9642863632": //Bounty Hunter's Quarry
-      global $CS_AfterPlayedBy;
       AddDecisionQueue("SEARCHDECKTOPX", $player, $target . ";1;include-definedType-Unit&include-maxCost-3");
       AddDecisionQueue("SETDQVAR", $player, "0", 1);
       AddDecisionQueue("ADDCURRENTEFFECT", $player, "9642863632", 1);
-      AddDecisionQueue("PASSPARAMETER", $player, "9642863632", 1);
-      AddDecisionQueue("SETCLASSSTATE", $player, $CS_AfterPlayedBy, 1);
       AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       AddDecisionQueue("OP", $player, "PLAYCARD,DECK", 1);
       break;
     case "7642980906"://Stolen Landspeeder
-      AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD:cardID=" . "7642980906");
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD:cardID=7642980906");
       AddDecisionQueue("SETDQCONTEXT", $player, "Click the Stolen Landspeeder to play it for free.", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("ADDCURRENTEFFECT", $player, "7642980906", 1);//Cost discount and experience adding.
@@ -1054,7 +1075,7 @@ function ShouldHoldPriority($player, $layerCard = "")
 }
 
 function StartRegroupPhase() {
-  global $initiativePlayer, $mainPlayer;
+  global $initiativePlayer, $mainPlayer, $decisionQueue, $layers, $currentTurnEffects;
 
   // 5.5.1 A) Start of the regroup phase.
   // Any lasting effects that expire when the regroup phase starts expire now.
@@ -1076,6 +1097,14 @@ function StartRegroupPhase() {
   CurrentEffectStartRegroupPhaseAbilities();
   ProcessDecisionQueue();
 
+  // End regroup phase
+  AddLayer("ENDREGROUPPHASE", $mainPlayer, "-");
+  ProcessDecisionQueue();
+}
+
+function EndRegroupPhase() {
+  global $mainPlayer, $initiativePlayer;
+
   // Draw cards and resource them
   $otherPlayer = $initiativePlayer == 1 ? 2 : 1;
   AddDecisionQueue("BACKUPSTARTTURN", $initiativePlayer, "-"); // Make a checkpoint before drawing cards, even though new turns starts at the start of the action phase
@@ -1084,33 +1113,9 @@ function StartRegroupPhase() {
   AddDecisionQueue("DRAW", $otherPlayer, "0");
   AddDecisionQueue("DRAW", $otherPlayer, "0");
   MZMoveCard($initiativePlayer, "MYHAND", "MYRESOURCES", may:true, context:"Choose a card to resource", silent:true);
-  AddDecisionQueue("AFTERRESOURCE", $initiativePlayer, "HAND", 1);
+  AddDecisionQueue("AFTERRESOURCE", $initiativePlayer, "HAND");
   MZMoveCard($otherPlayer, "MYHAND", "MYRESOURCES", may:true, context:"Choose a card to resource", silent:true);
-  AddDecisionQueue("AFTERRESOURCE", $otherPlayer, "HAND", 1);
-  ProcessDecisionQueue();
-
-  // End regroup phase
-  AddLayer("ENDREGROUPPHASE", $mainPlayer, "-");
-  ProcessDecisionQueue();
-}
-
-function EndRegroupPhase() {
-  global $mainPlayer;
-
-  // Reset characters, allies, and resources
-  ResetCharacter(1);
-  ResetCharacter(2);
-  ResetAllies(1);
-  ResetAllies(2);
-  ResetResources(1);
-  ResetResources(2);
-
-  // Trigger abilities
-  CharacterEndRegroupPhaseAbilities(1);
-  CharacterEndRegroupPhaseAbilities(2);
-  AllyEndRegroupPhaseAbilities(1);
-  AllyEndRegroupPhaseAbilities(2);
-  CurrentEffectEndRegroupPhaseAbilities();
+  AddDecisionQueue("AFTERRESOURCE", $otherPlayer, "HAND");
   ProcessDecisionQueue();
 
   // End turn procedure
