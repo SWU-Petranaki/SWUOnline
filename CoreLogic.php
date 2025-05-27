@@ -7299,6 +7299,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "abcdefg032"://Baylan Skoll
+    case "4729355863"://Baylan Skoll
       if($from != "PLAY" && HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
         AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
@@ -7314,7 +7315,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     //   if($from != "PLAY") {
     //     if(HasTheForce($currentPlayer)) {
     //       DQAskToUseTheForce($currentPlayer);
-    //       AddDecisionQueue("HEAL", $currentPlayer, "3", 1);  
+    //       AddDecisionQueue("HEAL", $currentPlayer, "3", 1);
     //     }
     //   }
     //PlayAbility End

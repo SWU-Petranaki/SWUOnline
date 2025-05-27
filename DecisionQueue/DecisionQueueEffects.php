@@ -1473,10 +1473,10 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $owner = str_starts_with($lastResult, "MY") ? $player : ($player == 1 ? 2 : 1);
       $lastResult = str_replace("THEIR", "MY", $lastResult);
       $cardID = &GetHand($owner)[explode("-", $lastResult)[1]];
-      PrependDecisionQueue("REMOVECURRENTEFFECT", $owner, "abcdefg032", 1);
+      PrependDecisionQueue("REMOVECURRENTEFFECT", $owner, "4729355863", 1);
       PrependDecisionQueue("MZOP", $owner, "PLAYCARD", 1);
       PrependDecisionQueue("PASSPARAMETER", $owner, $lastResult, 1);
-      PrependDecisionQueue("ADDCURRENTEFFECT", $owner, "abcdefg032", 1);
+      PrependDecisionQueue("ADDCURRENTEFFECT", $owner, "4729355863", 1);
       PrependDecisionQueue("NOPASS", $owner, "-", 1);
       PrependDecisionQueue("YESNO", $owner, "if you want to play " . CardLink($cardID, $cardID) . " for free");
       return 1;
