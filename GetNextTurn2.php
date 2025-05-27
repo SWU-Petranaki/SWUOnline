@@ -364,7 +364,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   echo ("<div class='display-game-screen'>");
   echo ("<div class='status-wrapper'>");
   if(IsOnePlayerMode() && $playerID != 3) {
-    echo ("&nbsp;<button onclick=SwitchPlayerWindow()>Switch Player Window</button>&nbsp;&nbsp;&nbsp;");
+    echo ("&nbsp;<button onclick=SwitchPlayerWindow()>Switch Player Window (W)</button>&nbsp;&nbsp;&nbsp;");
   }
   echo (($manualMode ? "<span style='color: " . $fontColor . "; text-shadow: 2px 0 0 " . $borderColor . ", 0 -2px 0 " . $borderColor . ", 0 2px 0 " . $borderColor . ", -2px 0 0 " . $borderColor . ";'>Add to hand: </span><input id='manualAddCardToHand' type='text' /><input class='manualAddCardToHand-button' type='button' value='Add' onclick='AddCardToHand()' />&nbsp;" : ""));
 
