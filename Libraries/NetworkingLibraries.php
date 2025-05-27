@@ -889,6 +889,7 @@ function ArenabotSpan() {
 }
 
 function GetCurrentFormat() {
+  include_once "./Libraries/GameFormats.php";
   global $format, $gameName;
 
   if($format === null) {
