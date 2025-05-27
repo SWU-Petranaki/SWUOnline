@@ -7328,13 +7328,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "BAYLANSKOLL", 1);
       }
       break;
-    // case "abcdefg035"://Itinerant Warrior TODO TEST
-    //   if($from != "PLAY") {
-    //     if(HasTheForce($currentPlayer)) {
-    //       DQAskToUseTheForce($currentPlayer);
-    //       AddDecisionQueue("HEAL", $currentPlayer, "3", 1);
-    //     }
-    //   }
+    case "7323186775"://Itinerant Warrior
+      if($from != "PLAY") {
+        if(HasTheForce($currentPlayer)) {
+          DQAskToUseTheForce($currentPlayer);
+          AddDecisionQueue("HEAL", $otherPlayer, "3", 1); //TOOD - give option to heal 3 damage from an enemy base
+        }
+      }
     case "0531276830"://Ki-Adi Mundi
       //When Played:
       if($from != "PLAY") {
