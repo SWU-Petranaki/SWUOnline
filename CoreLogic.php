@@ -6920,10 +6920,30 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "zzzzzzz022"://Avar Kriss Leader
     case "0092239541"://Avar Kriss Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Meditate") TheForceIsWithYou($currentPlayer);
+      break;
+    case "5045607736"://Morgan Elsbeth Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Play") {
+        $keywordsInPlay = GetAllAlliesKeywords($currentPlayer);
+        $mzSearch = "";
+        foreach ($keywordsInPlay as $keyword) {
+          $mzSearch .= "MYHAND:keyword=$keyword&";
+        }
+        if($mzSearch != "") {
+          $mzSearch = rtrim($mzSearch, "&");
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch);
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+        }
+      }
       break;
     //end LOF leaders
     case "5083905745"://Drain Essence
@@ -7253,7 +7273,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
       break;
-    case "abcdefg037"://Vernestra Rwoh
     case "2940037100"://Vernestra Rwoh
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
@@ -7263,7 +7282,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg038"://Sorcerous Blast
     case "6001143439"://Sorcerous Blast
       if(HasTheForce($currentPlayer)) {
         UseTheForce($currentPlayer);

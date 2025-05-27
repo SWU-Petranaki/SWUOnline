@@ -1493,6 +1493,58 @@ function CountReadyAllies($player) {
   return $count;
 }
 
+function GetAllAlliesKeywords($player) {
+  $allies = &GetAllies($player);
+  $keywords = [];
+  for($i=0; $i<count($allies); $i+=AllyPieces()) {
+    if(HasKeyword($allies[$i], "Any")) {
+      $keywords = array_merge($keywords, GetKeywords($allies[$i], $player, $i));
+    }
+  }
+
+  return array_unique($keywords);
+}
+
+function CardSharesAnyKeywordWithAllies($cardID, $player) {
+  $cardKeywords = GetKeywords($cardID, $player);
+  $allKeywords = GetAllAlliesKeywords($player);
+
+  foreach($cardKeywords as $keyword) {
+    if(in_array($keyword, $allKeywords)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function GetKeywords($cardID, $player = "", $index = -1) {
+  $allKeywords = [
+    "Smuggle",
+    "Raid",
+    "Grit",
+    "Restore",
+    "Bounty",
+    "Overwhelm",
+    "Saboteur",
+    "Shielded",
+    "Sentinel",
+    "Ambush",
+    "Coordinate",
+    "Exploit",
+    "Piloting",
+    "Hidden",
+  ];
+  $keywords = [];
+  foreach($allKeywords as $keyword) {
+    if(HasKeyword($cardID, $keyword, $player, $index)) {
+      $keywords[] = $keyword;
+    }
+  }
+
+  return $keywords;
+}
+
 function ObiWansAethersprite($player, $index) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=Space&THEIRALLY:arena=Space", 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to deal 2 damage to", 1);

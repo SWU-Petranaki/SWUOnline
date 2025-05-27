@@ -19,8 +19,6 @@ include_once "WriteLog.php";
 include_once "./Libraries/NetworkingLibraries.php";
 include_once "./Libraries/GameFormats.php";
 
-
-
 function ParseDQParameter($phase, $player, $parameter) {
   switch ($phase) {
     case "PARTIALMULTIDAMAGEMULTIZONE":
