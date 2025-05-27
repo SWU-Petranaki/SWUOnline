@@ -105,7 +105,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     break;
   $cacheArr = explode(SHMOPDelimiter(), $readCache);
   $cacheVal = intval($cacheArr[0]);
-  if ($isGamePlayer) {
+  if ($isGamePlayer && !IsOnePlayerMode()) {
     SetCachePiece($gameName, $playerID + 1, $currentTime);
     $otherP = ($playerID == 1 ? 2 : 1);
     $oppLastTime = intval($cacheArr[$otherP]);
@@ -363,7 +363,9 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Now display the screen for this turn
   echo ("<div class='display-game-screen'>");
   echo ("<div class='status-wrapper'>");
-
+  if(IsOnePlayerMode() && $playerID != 3) {
+    echo ("&nbsp;<button onclick=SwitchPlayerWindow()>Switch Player Window (W)</button>&nbsp;&nbsp;&nbsp;");
+  }
   echo (($manualMode ? "<span style='color: " . $fontColor . "; text-shadow: 2px 0 0 " . $borderColor . ", 0 -2px 0 " . $borderColor . ", 0 2px 0 " . $borderColor . ", -2px 0 0 " . $borderColor . ";'>Add to hand: </span><input id='manualAddCardToHand' type='text' /><input class='manualAddCardToHand-button' type='button' value='Add' onclick='AddCardToHand()' />&nbsp;" : ""));
 
   //Tell the player what to pick
@@ -396,6 +398,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     }
     echo ("</span>");
   }
+
   if (IsManualMode($playerID))
     echo ("&nbsp;" . CreateButton($playerID, "Turn Off Manual Mode", 26, $SET_ManualMode . "-0", "18px", "", "", true));
 
@@ -489,6 +492,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         "PLAYCARDABILITY" => "When Played",
         "ATTACKABILITY" => "On Attack",
         "ACTIVATEDABILITY" => "Ability",
+        "ENDREGROUPPHASE" => "End Regroup"
       ];
 
       if ($layer == "TRIGGER") {
@@ -578,18 +582,21 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       // Add reorder buttons for ability layers if applicable
       if (IsAbilityLayer($layers[$i]) && ($dqState[8] >= $i || LayersHaveTriggersToResolve()) && $playerID == $mainPlayer) {
         $currentLayerId = $layers[$i + 2];
+        if($currentLayerId == "-") $currentLayerId = $layers[$i];
         $nextLayerId = $layers[$i + $layerPieces + 2] ?? '';
+        if($nextLayerId == "-") $nextLayerId = $layers[$i + $layerPieces];
         if ($i < $dqState[8]) {
-          if($i != count($layers) - $layerPieces && $currentLayerId != "CONTINUECOMBAT" && ($nextLayerId == '' || $nextLayerId != "CONTINUECOMBAT"))
+          if($i != count($layers) - $layerPieces && !IsPhaseLayer($currentLayerId) && ($nextLayerId == '' || !IsPhaseLayer($nextLayerId)))
             $content .= "<span class='reorder-button'>" . CreateButton($playerID, ">", 31, $i, "18px", useInput: true) . "</span>";
         }
         $prevLayerId = $layers[$i - $layerPieces + 2] ?? '';
-        if ($i > 0 && $currentLayerId != "CONTINUECOMBAT")
+        if($prevLayerId == "-") $prevLayerId = $layers[$i - $layerPieces];
+        if ($i > 0 && !IsPhaseLayer($currentLayerId))
         {
           $showButton = false;
           if ($currentLayerId == "ONATTACKABILITY" && $prevLayerId == "ONATTACKABILITY")
             $showButton = true;
-          else if($currentLayerId != "ONATTACKABILITY" && $prevLayerId != "CONTINUECOMBAT")
+          else if($currentLayerId != "ONATTACKABILITY" && !IsPhaseLayer($prevLayerId))
             $showButton = true;
           if($showButton) $content .= "<span class='reorder-button'>" . CreateButton($playerID, "<", 32, $i, "18px", useInput: true) . "</span>";
         }

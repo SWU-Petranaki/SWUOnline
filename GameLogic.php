@@ -2067,7 +2067,17 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       if($parameter < 0) WriteLog(CardLink($character[$lastResult], $character[$lastResult]) . " got a negative defense counter");
       return $lastResult;
     case "AFTERRESOURCE":
-      LogPlayCardStats($player, $lastResult, $parameter, type:"RESOURCED");
+      if($lastResult != "PASS")
+        LogPlayCardStats($player, $lastResult, $parameter, type:"RESOURCED");
+      // Reset characters, allies, and resources
+      ResetCharacter($player);
+      ResetAllies($player);
+      ResetResources($player);
+      // Trigger abilities
+      CharacterEndRegroupPhaseAbilities($player);
+      AllyEndRegroupPhaseAbilities($player);
+      if($player == 2)//only run once
+        CurrentEffectEndRegroupPhaseAbilities();
       return $lastResult;
     case "REMOVECOUNTER":
       $character = &GetPlayerCharacter($player);

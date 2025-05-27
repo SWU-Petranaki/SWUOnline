@@ -576,7 +576,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         break;
       }
       $undoCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 27 : 28)));
-      if (!$isDev && $undoCount >= 10) {
+      if (!$isDev && !IsOnePlayerMode() && $undoCount >= 10) {
         WriteLog("Player $playerID has exceeded the maximum number of undos per round. Repeated undos will result in a game loss.");
         IncrementCachePiece($gameName, ($playerID == 1 ? 27 : 28));
         if($undoCount >= 15){
@@ -597,7 +597,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
     case 10003: //Revert to prior turn
       $isDev = getenv("STAGE") === "dev";
       $revertCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 29 : 30)));
-      if ($revertCount >= 3 && !$isDev) {
+      if (!$isDev && !IsOnePlayerMode() && $revertCount >= 3) {
         WriteLog("Player $playerID has exceeded the maximum number of reverts per round. Repeated reverts will result in a game loss.");
         IncrementCachePiece($gameName, ($playerID == 1 ? 29 : 30));
         if($revertCount >= 6){
@@ -889,6 +889,7 @@ function ArenabotSpan() {
 }
 
 function GetCurrentFormat() {
+  include_once "./Libraries/GameFormats.php";
   global $format, $gameName;
 
   if($format === null) {
@@ -896,6 +897,11 @@ function GetCurrentFormat() {
   }
 
   return is_numeric($format) ? Formats::FromCode($format) : $format;
+}
+
+function IsOnePlayerMode() {
+  $parsedFormat = GetCurrentFormat();
+  return $parsedFormat == "onepprem" || $parsedFormat == "onepopen";
 }
 
 function BestOf3IsOver() {
@@ -936,6 +942,8 @@ function IsModeAsync($mode)
     case 103:
       return true;
     case 104:
+      return true;
+    case 200:
       return true;
     case 10000:
       return true;
