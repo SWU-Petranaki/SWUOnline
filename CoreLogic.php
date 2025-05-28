@@ -6999,7 +6999,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "4389144613"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Move Damage") {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=1&THEIRALLY:damagedOnly=1");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal up to 2 damage", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "2-", 1);
