@@ -3151,7 +3151,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "1349057156"://Strike True
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to it's power");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to its power");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "POWER", 1);
       AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "DEALDAMAGE,", 1);
@@ -7371,6 +7371,19 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           }
         }
       }
+      break;
+    case "abcdefg038"://Protect the Pod
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "trait=Vehicle");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to its remaining HP");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETHEALTH", 1);
+      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "DEALDAMAGE,", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to damage");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "{0},$currentPlayer,1", 1);
       break;
     //PlayAbility End
     default: break;
