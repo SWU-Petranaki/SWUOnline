@@ -7816,7 +7816,6 @@ function PlayRequiresTarget($cardID)
   {
     case "8679831560": return 2;//Repair
     case "8981523525": return 6;//Moment of Peace
-    case "0867878280": return -1;//It Binds All Things
     case "2587711125": return 6;//Disarm
     case "6515891401": return 7;//Karabast
     case "2651321164": return 6;//Tactical Advantage
