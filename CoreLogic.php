@@ -2909,14 +2909,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "0867878280"://It Binds All Things
-      $ally = new Ally($target);
-      $amountHealed = $ally->Heal(3);
-      if(SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal " . $amountHealed . " damage to");
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,$amountHealed,$currentPlayer", 1);
-      }
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Heal up to 3 damage", 1);
+        AddDecisionQueue("PARTIALMULTIHEALMULTIZONE", $currentPlayer, "<-", 1);   
+        AddDecisionQueue("MZOP", $currentPlayer, "MULTIHEAL", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, $uniqueId . "-", 1);
+        if(SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) {
+              AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEALRESTOREDAMAGE", 1); // This is always restoring 1, no matter how much is healed
+        }
       break;
     case "1021495802"://Cantina Bouncer
       if($from != "PLAY") {
@@ -6997,10 +6999,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "4389144613"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Move Damage") {
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=1&THEIRALLY:damagedOnly=1");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal damage from");
-        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "GROGU_LOF", 1);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal up to 2 damage", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "2-", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Heal up to 2 damage", 1);
+        AddDecisionQueue("PARTIALMULTIHEALMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "MULTIHEAL", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, $uniqueId . "-", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEALRESTOREDAMAGE", 1);
       }
       break;
     case "8569501777"://As I Have Foreseen
@@ -7809,7 +7816,7 @@ function PlayRequiresTarget($cardID)
   {
     case "8679831560": return 2;//Repair
     case "8981523525": return 6;//Moment of Peace
-    case "0867878280": return 6;//It Binds All Things
+    case "0867878280": return -1;//It Binds All Things
     case "2587711125": return 6;//Disarm
     case "6515891401": return 7;//Karabast
     case "2651321164": return 6;//Tactical Advantage
