@@ -1327,11 +1327,12 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("OPT", $owner, "<-", 1);
       }
       break;
-    case "GROGU_LOF":
-      $allyPlayer = MZPlayerID($player, $lastResult);
-      $target = new Ally($lastResult, $allyPlayer);
-      $healed = $target->Heal(2);
-      if ($healed > 0) {
+    case "DEALRESTOREDAMAGE":
+      $args = explode("-", $lastResult);
+      $ally = new Ally($args[0], $player);
+      $healed = $args[1];
+      WriteLog($healed);
+      if ($healed > 0) {  
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal " . $healed . " damage to");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
