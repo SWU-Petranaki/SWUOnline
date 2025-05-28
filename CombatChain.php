@@ -119,7 +119,7 @@ function CompletesAttackEffect($cardID) {
       break;
     case "0518313150"://Embo
       if(GetAttackTarget() == "NA") {//This means the target was defeated
-        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:damagedOnly=1&THEIRALLY:damagedOnly=1");
         AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to heal up to 2 damage", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
         AddDecisionQueue("PREPENDLASTRESULT", $mainPlayer, "2-", 1);
