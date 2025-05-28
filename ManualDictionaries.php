@@ -166,6 +166,7 @@ function ManualHasWhenPlayedData() {
   return array(
     'abcdefg032' => 1,
     'abcdefg035' => 1,
+    'abcdefg036' => 1,
     //continue manual card when played status
   );
 }
@@ -238,8 +239,6 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
-    'abcdefg036' => true,
-    'abcdefg037' => true,
     'abcdefg038' => true,
     //continue manual card unimplemented status
   );

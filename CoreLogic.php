@@ -7358,6 +7358,20 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "abcdefg036"://Dooku
+      //When Played:
+      if($from != "PLAY") {
+        $hiddenUnits = SearchAllies($currentPlayer, keyword:"Hidden");
+        if(SearchCount($hiddenUnits) > 0) {
+          $hiddenAllies = explode(",", $hiddenUnits);
+          for($i=0; $i<count($hiddenAllies); ++$i) {
+            $ally = new Ally("MYALLY-" . $hiddenAllies[$i], $currentPlayer);
+            if($ally->UniqueID() != $uniqueId)
+              $ally->AddEffect($cardID, $from);
+          }
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }

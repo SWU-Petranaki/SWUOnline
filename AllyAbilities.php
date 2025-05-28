@@ -1707,6 +1707,7 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
     switch($currentTurnEffects[$i]) {
       case "2012334456"://On Top of Things
+      case "abcdefg036"://Dooku LOF unit
         return false;
       default: break;
     }
