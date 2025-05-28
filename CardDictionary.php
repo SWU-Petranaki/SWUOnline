@@ -501,6 +501,7 @@ function HasSentinel($cardID, $player, $index)
     //Legends of the Force
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
+    case "abcdefg037'"://Graceful Purrgil
       return true;
     case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
       global $CS_NumForceUnitsPlayed;
@@ -1131,6 +1132,7 @@ function HasHidden($cardID, $player, $index) {
     case "5221323929"://Shin Hati
     case "abcdefg032"://Baylan Skoll
     case "4729355863"://Baylan Skoll
+    case "abcdefg036"://Dooku
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
