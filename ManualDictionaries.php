@@ -272,7 +272,6 @@ function ManualCardIDLookupData() {
     'abcdefg037' => 'LOF_069',
     'abcdefg038' => 'LOF_128',
     'abcdefg039' => 'LOF_079',
-    'abcdefg040' => 'LOF_003',
     'abcdefg041' => 'LOF_047',
     'abcdefg042' => 'LOF_119',
     //continue manual card ID lookups
