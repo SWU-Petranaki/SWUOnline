@@ -302,11 +302,8 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
-    'abcdefg039' => true,
-    'abcdefg040' => true,
     'abcdefg041' => true,
     //continue manual card unimplemented status
-    'zzzzzzz001' => true,
   );
 }
 

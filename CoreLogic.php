@@ -5865,7 +5865,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         CreateBattleDroid($currentPlayer);
       }
       break;
-    case "2872203891"://General Grievious
+    case "2872203891"://General Grievous
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give Sentinel");
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Droid&THEIRALLY:trait=Droid");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
@@ -6947,6 +6947,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "zzzzzzz001"://Ahsoka Tano Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Sentinel") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY", context:"a unit to give Sentinel to");
+        }
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
@@ -7907,6 +7919,17 @@ function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
   if($healthDebuff > 0) {
     AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,$healthDebuff", 1);
   }
+}
+
+function DQChooseAUnitToGiveEffect($currentPlayer, $effectID, $from, $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $subsequent=false) {
+  $subsequent = $subsequent ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $currentPlayer, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose $context", 1);
+  AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "WRITECHOICE", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);
 }
 
 //target type return values
