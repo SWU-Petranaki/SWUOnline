@@ -7229,6 +7229,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
         }
       break;
+    case "abcdefg039"://Shatterpoint
+      $options = "Defeat 3 or less HP;Use the Force to defeat";
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose one");
+      AddDecisionQueue("CHOOSEOPTION", $currentPlayer, "$cardID&$options");
+      AddDecisionQueue("SHOWOPTIONS", $currentPlayer, "$cardID&$options");
+      AddDecisionQueue("MODAL", $currentPlayer, "abcdefg039");
+      break;
     case "7078597376"://Directed by the Force
       TheForceIsWithYou($currentPlayer);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");

@@ -336,6 +336,19 @@ function ModalAbilities($player, $parameter, $lastResult)
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "REST", 1);
       break;
+    case "abcdefg039":
+      switch($lastResult) {
+        case 0://Defeat 3 or less HP
+          MZChooseAndDestroy($player, "MYALLY:maxHealth=3&THEIRALLY:maxHealth=3", filter:"leader=1");
+          break;
+        case 1://Use the Force to defeat
+          if(HasTheForce($player)) {
+            UseTheForce($player);
+            MZChooseAndDestroy($player, "MYALLY&THEIRALLY", filter:"leader=1");
+          }
+          break;
+        default: break;
+      }
     default: return "";
   }
   //ModalAbilities end
@@ -1332,7 +1345,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $ally = new Ally($args[0], $player);
       $healed = $args[1];
       WriteLog($healed);
-      if ($healed > 0) {  
+      if ($healed > 0) {
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal " . $healed . " damage to");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);

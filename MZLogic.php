@@ -16,7 +16,7 @@ function MZAttach($player, $mzIndex, $cardID) {
   }
 }
 
-function MZDestroy($player, $lastResult)
+function MZDestroy($player, $lastResult, $parameter="-")
 {
   $lastResultArr = explode(",", $lastResult);
   $otherPlayer = ($player == 1 ? 2 : 1);
@@ -29,11 +29,11 @@ function MZDestroy($player, $lastResult)
       case "THEIRCHAR": $lastResult = DestroyCharacter($otherPlayer, $mzIndex[1]); break;
       case "MYALLY":
         $ally = new Ally("MYALLY-" . $mzIndex[1], $player);
-        $lastResult = $ally->Destroy();
+        $lastResult = $ally->Destroy(enemyEffects: $player != $parameter);
         break;
       case "THEIRALLY":
         $ally = new Ally("MYALLY-" . $mzIndex[1], $otherPlayer);
-        $lastResult = $ally->Destroy();
+        $lastResult = $ally->Destroy(enemyEffects: $player != $parameter);
         break;
       // case "MYAURAS": $lastResult = DestroyAura($player, $mzIndex[1]); break;
       // case "THEIRAURAS": $lastResult = DestroyAura($otherPlayer, $mzIndex[1]); break;
@@ -522,7 +522,7 @@ function MZChooseAndDestroy($player, $search, $may=false, $filter="", $context="
   if($filter != "") AddDecisionQueue("MZFILTER", $player, $filter);
   if($may) AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
   else AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
-  AddDecisionQueue("MZDESTROY", $player, "-", 1);
+  AddDecisionQueue("MZDESTROY", $player, $player, 1);
 }
 
 function GetMZType($mzIndex) {
