@@ -367,8 +367,8 @@ function HasSentinel($cardID, $player, $index)
       case "3468546373": $hasSentinel = true; break;//General Rieekan
       case "2359136621": $hasSentinel = true; break;//Guarding The Way
       case "9070397522": return false;//SpecForce Soldier
-      case "2872203891": $hasSentinel = true; break;//General Grievous
-      case "fb7af4616c": $hasSentinel = true; break;//General Grievous
+      case "2872203891": $hasSentinel = true; break;//General Grievous Leader
+      case "fb7af4616c": $hasSentinel = true; break;//General Grievous Leader unit
       case "3272995563": $hasSentinel = true; break;//In The Heat of Battle
       case "1039828081": if ($cardID == "1039828081") {$hasSentinel = true;} break;//Calculating MagnaGuard
       case "3033790509": $hasSentinel = true; break;//Captain Typho
@@ -377,6 +377,9 @@ function HasSentinel($cardID, $player, $index)
         break;
       case "7214707216": $hasSentinel = true; break;//Diversion
       case "2301911685": $hasSentinel = true; break;//Timely Reinforcements
+      //Legends of the Force
+      case "zzzzzzz001": $hasSentinel = true; break;//Ahsoka Tano Leader
+      case "abcdefg040": $hasSentinel = true; break;//Ahsoka Tano Leader unit
       default: break;
     }
   }
@@ -1527,7 +1530,7 @@ function CheckTWIAbilityTypes($cardID) {
   switch($cardID) {
     case "2870878795"://Padme Amidala
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "2872203891"://General Grievious
+    case "2872203891"://General Grievous
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "6064906790"://Nute Gunray
       return LeaderAbilitiesIgnored() ? "" : "A";
@@ -1641,6 +1644,8 @@ function CheckLOFAbilityTypes($cardID) {
     case "0092239541"://Avar Kriss Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "5045607736"://Morgan Elsbeth Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    case "zzzzzzz001"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
@@ -1877,7 +1882,7 @@ function CheckTWIAbilityNames($cardID, $index, $validate) {
       else return "Return,Attack";
     case "2870878795"://Padme Amidala
       return LeaderAbilitiesIgnored() ? "" : "Draw";
-    case "2872203891"://General Grievious
+    case "2872203891"://General Grievous
       return LeaderAbilitiesIgnored() ? "" : "Sentinel";
     case "6064906790"://Nute Gunray
       return LeaderAbilitiesIgnored() ? "" : "Droid";
@@ -1999,6 +2004,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Meditate";
     case "5045607736"://Morgan Elsbeth Leader
       return LeaderAbilitiesIgnored() ? "" : "Play";
+    case "zzzzzzz001"://Ahsoka Tano Leader
+      return LeaderAbilitiesIgnored() ? "" : "Sentinel";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
@@ -2412,7 +2419,7 @@ function LeaderUnit($cardID) {
       return "e71f6f766c";
     case "6064906790"://Nute Gunray
       return "b7caecf9a3";
-    case "2872203891"://General Grievious
+    case "2872203891"://General Grievous
       return "fb7af4616c";
     case "2870878795"://Padme Amidala
       return "4ae6d91ddc";
@@ -2476,6 +2483,8 @@ function LeaderUnit($cardID) {
       return "e6dc0d1cee";
     case "5045607736"://Morgan Elsbeth
       return "b70416cfea";
+    case "zzzzzzz001"://Ahsoka Tano
+      return "abcdefg040";
     default: return "";
   }
 }
@@ -2587,7 +2596,7 @@ function LeaderUndeployed($cardID) {
       return "2847868671";
     case "b7caecf9a3"://Nute Gunray
       return "6064906790";
-    case "fb7af4616c"://General Grievious
+    case "fb7af4616c"://General Grievous
       return "2872203891";
     case "4ae6d91ddc"://Padme Amidala
       return "2870878795";
@@ -2651,6 +2660,8 @@ function LeaderUndeployed($cardID) {
       return "0092239541";
     case "b70416cfea"://Morgan Elsbeth
       return "5045607736";
+    case "abcdefg040"://Ahsoka Tano
+      return "zzzzzzz001";
     default: return "";
   }
 }
