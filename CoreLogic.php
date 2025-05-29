@@ -6183,7 +6183,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "0011262813"://Wedge Antilles Leader
-      if(GetResolvedAbilityName($cardID) == "Play") {
+      $vehiclesAvailableToPilot = SearchCount(SearchAllies($currentPlayer, canAddPilot:true));
+      if(GetResolvedAbilityName($cardID) == "Play" && $vehiclesAvailableToPilot > 0) {
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a pilot to play", 1);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:keyword=Piloting", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
