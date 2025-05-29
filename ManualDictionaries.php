@@ -10,7 +10,12 @@ function ManualCardTitleData() {
     'abcdefg036' => 'Dooku',
     'abcdefg037' => 'Graceful Purrgil',
     'abcdefg038' => 'Protect The Pod',
+    'abcdefg039' => 'Shatterpoint',
+    'abcdefg040' => 'Ahsoka Tano',
+    'abcdefg041' => 'T-6 Shuttle 1974',
+    'abcdefg042' => 'Hyperspace Wayfarer',
     //continue manual card titles
+    'zzzzzzz001' => 'Ahsoka Tano',
   );
 }
 
@@ -21,7 +26,10 @@ function ManualCardSubtitleData() {
     'abcdefg032' => 'Enigmatic Master',
     'abcdefg034' => 'Following the Call',
     'abcdefg036' => 'It Is Too Late',
+    'abcdefg040' => 'Fighting For Peace',
+    'abcdefg041' => 'Stay Close',
     //continue manual card subtitles
+    'zzzzzzz001' => 'Fighting For Peace',
   );
 }
 
@@ -36,7 +44,12 @@ function ManualCardCostData() {
     'abcdefg036' => 4,
     'abcdefg037' => 5,
     'abcdefg038' => 4,
+    'abcdefg039' => 4,
+    'abcdefg040' => 6,
+    'abcdefg041' => 3,
+    'abcdefg042' => 6,
     //continue manual card costs
+    'zzzzzzz001' => 6,
   );
 }
 
@@ -49,6 +62,9 @@ function ManualCardHPDictionaryData() {
     'abcdefg035' => 4,
     'abcdefg036' => 4,
     'abcdefg037' => 7,
+    'abcdefg040' => 6,
+    'abcdefg041' => 4,
+    'abcdefg042' => 10,
     //continue manual card HP dictionary
   );
 }
@@ -62,6 +78,9 @@ function ManualCardPowerData() {
     'abcdefg035' => 4,
     'abcdefg036' => 5,
     'abcdefg037' => 2,
+    'abcdefg040' => 5,
+    'abcdefg041' => 3,
+    'abcdefg042' => 4,
     //continue manual card powers
   );
 }
@@ -89,7 +108,12 @@ function ManualCardAspectsData() {
     'abcdefg036' => 'Cunning',
     'abcdefg037' => 'Vigilance',
     'abcdefg038' => 'Command',
+    'abcdefg039' => 'Vigilance',
+    'abcdefg040' => 'Vigilance,Heroism',
+    'abcdefg041' => 'Vigilance,Heroism',
+    'abcdefg042' => 'Command',
     //continue manual card aspects
+    'zzzzzzz001' => 'Vigilance,Heroism',
   );
 }
 
@@ -104,7 +128,12 @@ function ManualCardTraitsData() {
     'abcdefg036' => 'Force,Jedi',
     'abcdefg037' => 'Creature',
     'abcdefg038' => 'Tactic',
+    'abcdefg039' => 'Force',
+    'abcdefg040' => 'Force,Fringe',
+    'abcdefg041' => 'Fringe,Vehicle,Transport',
+    'abcdefg042' => 'Creature',
     //continue manual card traits
+    'zzzzzzz001' => 'Force,Fringe',
   );
 }
 
@@ -117,6 +146,9 @@ function ManualCardArenasData() {
     'abcdefg035' => 'Ground',
     'abcdefg036' => 'Ground',
     'abcdefg037' => 'Space',
+    'abcdefg040' => 'Ground',
+    'abcdefg041' => 'Space',
+    'abcdefg042' => 'Space',
     //continue manual card arenas
   );
 }
@@ -132,7 +164,12 @@ function ManualDefinedCardTypeData() {
     'abcdefg036' => 'Unit',
     'abcdefg037' => 'Unit',
     'abcdefg038' => 'Event',
+    'abcdefg039' => 'Event',
+    'abcdefg040' => 'Leader',
+    'abcdefg041' => 'Unit',
+    'abcdefg042' => 'Unit',
     //continue manual card types
+    'zzzzzzz001' => 'Leader',
   );
 }
 
@@ -146,6 +183,10 @@ function ManualDefinedCardType2Data() {
     'abcdefg036' => 'Unit',
     'abcdefg037' => 'Unit',
     'abcdefg038' => 'Event',
+    'abcdefg039' => 'Event',
+    'abcdefg040' => 'Unit',
+    'abcdefg041' => 'Unit',
+    'abcdefg042' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -158,7 +199,10 @@ function ManualCardIsUniqueData() {
     'abcdefg032' => 1,
     'abcdefg034' => 1,
     'abcdefg036' => 1,
+    'abcdefg040' => 1,
+    'abcdefg041' => 1,
     //continue manual card unique status
+    'zzzzzzz001' => 1,
   );
 }
 
@@ -188,7 +232,12 @@ function ManualCardSetData() {
     'abcdefg036' => 'LOF',
     'abcdefg037' => 'LOF',
     'abcdefg038' => 'LOF',
+    'abcdefg039' => 'LOF',
+    'abcdefg040' => 'LOF',
+    'abcdefg041' => 'LOF',
+    'abcdefg042' => 'LOF',
     //continue manual card sets
+    'zzzzzzz001' => 'LOF',
   );
 }
 
@@ -203,7 +252,11 @@ function ManualUUIDLookupData() {
     'LOF_211' => 'abcdefg036',
     'LOF_069' => 'abcdefg037',
     'LOF_128' => 'abcdefg038',
+    'LOF_079' => 'abcdefg039',
+    'LOF_047' => 'abcdefg041',
+    'LOF_119' => 'abcdefg042',
     //continue manual UUID lookups
+    'LOF_003' => 'zzzzzzz001',
   );
 }
 
@@ -218,7 +271,12 @@ function ManualCardIDLookupData() {
     'abcdefg036' => 'LOF_211',
     'abcdefg037' => 'LOF_069',
     'abcdefg038' => 'LOF_128',
+    'abcdefg039' => 'LOF_079',
+    'abcdefg040' => 'LOF_003',
+    'abcdefg041' => 'LOF_047',
+    'abcdefg042' => 'LOF_119',
     //continue manual card ID lookups
+    'zzzzzzz001' => 'LOF_003',
   );
 }
 
@@ -233,18 +291,27 @@ function ManualCardRarityData() {
     'abcdefg036' => 'Uncommon',
     'abcdefg037' => 'Common',
     'abcdefg038' => 'Common',
+    'abcdefg039' => 'Uncommon',
+    'abcdefg040' => 'Common',
+    'abcdefg041' => 'Rare',
+    'abcdefg042' => 'Common',
     //continue manual card rarities
+    'zzzzzzz001' => 'Common',
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg039' => true,
+    'abcdefg040' => true,
+    'abcdefg041' => true,
     //continue manual card unimplemented status
+    'zzzzzzz001' => true,
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer';
 }
 ?>
