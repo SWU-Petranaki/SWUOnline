@@ -1833,7 +1833,6 @@ function AllyAttackedAbility($attackTarget, $index) {
   }
   switch($attackTarget) {
     case "8918765832"://Chewbacca (Loyal Companion)
-      $ally = new Ally("MYALLY-" . $index, $defPlayer);
       $ally->Ready();
       break;
     case "8228196561"://Clan Saxon Gauntlet
@@ -1857,6 +1856,12 @@ function AllyAttackedAbility($attackTarget, $index) {
       DQAskToUseTheForce($defPlayer);
       AddDecisionQueue("PASSPARAMETER", $mainPlayer, $uniqueID, 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0775347605,PLAY", 1);
+      break;
+    case "abcdefg041"://T-6 Shuttle 1974
+      AddDecisionQueue("YESNO", $defPlayer, "Do you want to add experience to this unit (before combat damage is dealt)?", 1);
+      AddDecisionQueue("NOPASS", $defPlayer, "-", 1);
+      AddDecisionQueue("PASSPARAMETER", $defPlayer, $ally->UniqueID(), 1);
+      AddDecisionQueue("MZOP", $defPlayer, "ADDEXPERIENCE", 1);
       break;
     default: break;
   }
