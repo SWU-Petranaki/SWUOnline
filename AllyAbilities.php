@@ -1915,10 +1915,14 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && DefinedTypesContains($playedCardID, "Unit");
       case "3589814405"://tactical droid commander
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
+      //Legends of the Force
+      case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+        return DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID)
+          && TraitContains($playedCardID, "Force", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
         return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
       case "4145147486"://Kylo Ren LOF
-        return DefinedTypesContains($playedCardID, "Upgrade");
+        return DefinedTypesContains($playedCardID, "Upgrade") && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
       default: break;
     }
   } else { // When an opponent plays a card
@@ -2082,6 +2086,10 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
             AddDecisionQueue("ADDMZUSES", $player, "-1", 1);
           }
         }
+        break;
+      //Legends of the Force
+      case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+        $ally->AddEffect($cardID, $playedFrom);
         break;
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
         if(HasTheForce($player)) {
