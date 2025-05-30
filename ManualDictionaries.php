@@ -16,6 +16,7 @@ function ManualCardTitleData() {
     'abcdefg042' => 'Hyperspace Wayfarer',
     'abcdefg043' => 'Pounce',
     'abcdefg044' => 'Grappling Guardian',
+    'abcdefg045' => 'Mythosaur',
     //continue manual card titles
     'zzzzzzz001' => 'Ahsoka Tano',
   );
@@ -30,6 +31,7 @@ function ManualCardSubtitleData() {
     'abcdefg036' => 'It Is Too Late',
     'abcdefg040' => 'Fighting For Peace',
     'abcdefg041' => 'Stay Close',
+    'abcdefg045' => 'Folklore Awakened',
     //continue manual card subtitles
     'zzzzzzz001' => 'Fighting For Peace',
   );
@@ -52,6 +54,7 @@ function ManualCardCostData() {
     'abcdefg042' => 6,
     'abcdefg043' => 2,
     'abcdefg044' => 7,
+    'abcdefg045' => 9,
     //continue manual card costs
     'zzzzzzz001' => 6,
   );
@@ -70,6 +73,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg041' => 4,
     'abcdefg042' => 10,
     'abcdefg044' => 9,
+    'abcdefg045' => 10,
     //continue manual card HP dictionary
   );
 }
@@ -87,6 +91,7 @@ function ManualCardPowerData() {
     'abcdefg041' => 3,
     'abcdefg042' => 4,
     'abcdefg044' => 3,
+    'abcdefg045' => 10,
     //continue manual card powers
   );
 }
@@ -120,6 +125,7 @@ function ManualCardAspectsData() {
     'abcdefg042' => 'Command',
     'abcdefg043' => 'Cunning',
     'abcdefg044' => 'Vigilance',
+    'abcdefg045' => 'Vigilance',
     //continue manual card aspects
     'zzzzzzz001' => 'Vigilance,Heroism',
   );
@@ -142,6 +148,7 @@ function ManualCardTraitsData() {
     'abcdefg042' => 'Creature',
     'abcdefg043' => 'Trick',
     'abcdefg044' => 'Creature',
+    'abcdefg045' => 'Mandalorian,Creature',
     //continue manual card traits
     'zzzzzzz001' => 'Force,Fringe',
   );
@@ -160,6 +167,7 @@ function ManualCardArenasData() {
     'abcdefg041' => 'Space',
     'abcdefg042' => 'Space',
     'abcdefg044' => 'Space',
+    'abcdefg045' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -181,6 +189,7 @@ function ManualDefinedCardTypeData() {
     'abcdefg042' => 'Unit',
     'abcdefg043' => 'Event',
     'abcdefg044' => 'Unit',
+    'abcdefg045' => 'Unit',
     //continue manual card types
     'zzzzzzz001' => 'Leader',
   );
@@ -202,6 +211,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg042' => 'Unit',
     'abcdefg043' => 'Event',
     'abcdefg044' => 'Unit',
+    'abcdefg045' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -216,6 +226,7 @@ function ManualCardIsUniqueData() {
     'abcdefg036' => 1,
     'abcdefg040' => 1,
     'abcdefg041' => 1,
+    'abcdefg045' => 1,
     //continue manual card unique status
     'zzzzzzz001' => 1,
   );
@@ -254,6 +265,7 @@ function ManualCardSetData() {
     'abcdefg042' => 'LOF',
     'abcdefg043' => 'LOF',
     'abcdefg044' => 'LOF',
+    'abcdefg045' => 'LOF',
     //continue manual card sets
     'zzzzzzz001' => 'LOF',
   );
@@ -275,6 +287,7 @@ function ManualUUIDLookupData() {
     'LOF_119' => 'abcdefg042',
     'LOF_224' => 'abcdefg043',
     'LOF_071' => 'abcdefg044',
+    'LOF_073' => 'abcdefg045',
     //continue manual UUID lookups
     'LOF_003' => 'zzzzzzz001',
   );
@@ -296,6 +309,7 @@ function ManualCardIDLookupData() {
     'abcdefg042' => 'LOF_119',
     'abcdefg043' => 'LOF_224',
     'abcdefg044' => 'LOF_071',
+    'abcdefg045' => 'LOF_073',
     //continue manual card ID lookups
     'zzzzzzz001' => 'LOF_003',
   );
@@ -318,6 +332,7 @@ function ManualCardRarityData() {
     'abcdefg042' => 'Common',
     'abcdefg043' => 'Common',
     'abcdefg044' => 'Common',
+    'abcdefg045' => 'Legendary',
     //continue manual card rarities
     'zzzzzzz001' => 'Common',
   );
@@ -325,12 +340,13 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg045' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer|Pounce|Grappling Guardian';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer|Pounce|Grappling Guardian|Mythosaur';
 }
 ?>
