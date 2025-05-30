@@ -7417,11 +7417,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     default: break;
   }
 
-  if($from != "PLAY" && $from != "EQUIP" && $from != "CHAR" && SearchCurrentTurnEffects("0661066339", $currentPlayer, remove:true)) {//Qui-Gon Jinn's Aethersprite
-    if(HasWhenPlayed($cardID)) {
-      $data = "$cardID,$resourcesPaid,$target,$additionalCosts,$uniqueId";
-      AddLayer("TRIGGER", $currentPlayer, "0661066339", $data);
-    }
+  if($from != "PLAY" && $from != "EQUIP" && $from != "CHAR"
+    && HasWhenPlayed($cardID)
+    && SearchCurrentTurnEffects("0661066339", $currentPlayer, remove:true)) {//Qui-Gon Jinn's Aethersprite
+    $data = "$cardID,$resourcesPaid,$target,$additionalCosts,$uniqueId";
+    AddLayer("TRIGGER", $currentPlayer, "0661066339", $data);
   }
 }
 

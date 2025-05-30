@@ -1982,7 +1982,7 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose which ability to activate");
       AddDecisionQueue("BUTTONINPUT", $currentPlayer, $names);
 
-      if (LeaderCanPilot($cardID) && SearchCount(SearchAllies($currentPlayer, canAddPilot: true))) {
+      if (LeaderCanPilot($cardID) && SearchCount(SearchAllies($currentPlayer, trait:"Vehicle", canAddPilot: true))) {
         AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
         AddDecisionQueue("SETDQVAR", $currentPlayer, "1");
         AddDecisionQueue("NOTEQUALPASS", $currentPlayer, "Deploy");
@@ -2006,7 +2006,7 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
       AddDecisionQueue("MZOP", $currentPlayer, "EXPLOIT,$cardID", 1);
     }
     $pilotCost = PilotingCost($cardID, $currentPlayer);
-    if ($pilotCost >= 0 && !CurrentTurnEffectsPlayingUnit($currentPlayer) && SearchCount(SearchAllies($currentPlayer, canAddPilot: true)) > 0) {
+    if ($pilotCost >= 0 && !CurrentTurnEffectsPlayingUnit($currentPlayer) && SearchCount(SearchAllies($currentPlayer, trait:"Vehicle", canAddPilot: true)) > 0) {
       if (!SearchCurrentTurnEffects("0011262813", $currentPlayer)) {//Wedge Antilles Leader
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose to play as a pilot or unit");
         AddDecisionQueue("BUTTONINPUT", $currentPlayer, "Pilot,Unit");
