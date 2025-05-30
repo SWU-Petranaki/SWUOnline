@@ -487,6 +487,11 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFor
       xmlhttp.send();
     }
 
+    function RandomizePlayer() {
+      var num = Math.floor(Math.random() * 2) + 1;
+      SubmitFirstPlayer(num);
+    }
+
     // function SwapOutForceBase(base) {
     //   var xmlhttp = new XMLHttpRequest();
     //   xmlhttp.onreadystatechange = function() {
