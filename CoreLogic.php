@@ -3491,15 +3491,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "3809048641"://Surprise Strike
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to attack and give +3");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "3809048641,HAND", 1);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+      DQAttackWithEffect($currentPlayer, $cardID, $from);
       break;
     case "3038238423"://Fleet Lieutenant
       if($from != "PLAY") {
@@ -7405,6 +7397,19 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "{0},$currentPlayer,1", 1);
       break;
+    case "abcdefg043"://Pounce
+      DQAttackWithEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY:trait=Creature", context:"Choose a Creature unit to attack with");
+      break;
+    case "abcdefg044"://Grappling Guardian
+      //When Played:
+      if($from != "PLAY") {
+        //You may defeat a space unit with 6 or less remaining HP.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:maxHealth=6;arena=Space&THEIRALLY:maxHealth=6;arena=Space");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Space unit to defeat");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7931,6 +7936,19 @@ function DQChooseAUnitToGiveEffect($currentPlayer, $effectID, $from, $may=true, 
   AddDecisionQueue("MZOP", $currentPlayer, "WRITECHOICE", 1);
   AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
   AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);
+}
+
+function DQAttackWithEffect($currentPlayer, $effectID, $from, $mzSearch = "MYALLY", $context = "Choose a unit to attack with", $subsequent = false) {
+  $subsequent = $subsequent ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
+  AddDecisionQueue("MZFILTER", $currentPlayer, "status=1", $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $currentPlayer, $context, $subsequent);
+  AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+  AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);
+  AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
 }
 
 //target type return values
