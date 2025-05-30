@@ -1417,7 +1417,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "EETHKOTH_LOF":
       $owner = $parameterArr[1];
       $from = $owner == $player ? "MYDISCARD" : "THEIRDISCARD";
-      $mzID = SearchMultizone($owner, "$from:cardID=1160624693");
+      $mzID = SearchMultizone($player, "$from:cardID=1160624693");
       $first = explode(",", $mzID)[0];
       MZMoveCard($player, "", "MYRESOURCES", mzIndex: $first);
       ExhaustResource($player);
