@@ -379,7 +379,7 @@ function SearchAlliesUniqueIDForTrait($player, $trait) {
   $allies = &GetAllies($player);
   $cardList = [];
   for ($i = 0; $i < count($allies); $i += AllyPieces()) {
-    if (TraitContains($allies[$i], $trait)) {
+    if (TraitContains($allies[$i], $trait, $player)) {
       $cardList[] = $allies[$i + 5];
     }
   }

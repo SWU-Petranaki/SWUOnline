@@ -1215,7 +1215,7 @@ function TraitContainsAll($cardID, $traits, $player="", $index=-1) {
   return true;
 }
 
-function TraitContains($cardID, $trait, $player="", $index=-1) {
+function TraitContains($cardID, $trait, $player, $index=-1) {
   $trait = str_replace("_", " ", $trait); //"MZALLCARDTRAITORPASS" and possibly other decision queue options call this function with $trait having been underscoreified, so I undo that here.
   $isBase = CardIDIsBase($cardID);
   $isLeaderSide = CardIDIsLeader($cardID) && LeaderUndeployed($cardID) == "";
@@ -1240,6 +1240,9 @@ function TraitContains($cardID, $trait, $player="", $index=-1) {
      WriteLog("Nameless Terror prevented Force Trait");
      return false;
   }
+  if($player != 0 && PlayerHasMythosaurActive($player) && CardIDIsLeader($cardID) && $trait == "Mandalorian") {
+    return true;
+  }
   return DelimStringContains($cardTrait, $trait);
 }
 
@@ -1247,10 +1250,10 @@ function AllyTraitContainsOrUpgradeTraitContains($allyUniqueID, $trait) {
   $ally = new Ally($allyUniqueID);
   $upgrades = $ally->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {
-    if (TraitContains($upgrades[$i], $trait)) return true;
+    if (TraitContains($upgrades[$i], $trait, $ally->Controller())) return true;
   }
 
-  return TraitContains($ally->CardID(), $trait);
+  return TraitContains($ally->CardID(), $trait,$ally->Controller());
 }
 
 function HasKeyword($cardID, $keyword, $player="", $index=-1){
@@ -1889,14 +1892,14 @@ function SameWeaponEquippedTwice()
 
 function IgnoreAspectPenalty($cardID, $player, $reportMode) {
   global $myClassState, $CS_NumClonesPlayed, $CS_LayerTarget, $currentTurnEffects;
-  if(TraitContains($cardID, "Spectre")) {
+  if(TraitContains($cardID, "Spectre", $player)) {
     return !LeaderAbilitiesIgnored() && (HeroCard($player) == "7440067052" || SearchAlliesForCard($player, "80df3928eb") != ""); //Hera Syndulla (Spectre Two)
   }
-  if (TraitContains($cardID, "Clone")) {
+  if (TraitContains($cardID, "Clone", $player)) {
     return (SearchAlliesForCard($player, "1386874723") != "" && GetClassState($player, $CS_NumClonesPlayed) < 1) //Omega (Part of the Squad)
       || (!LeaderAbilitiesIgnored() && (HeroCard($player) == "2742665601" || SearchAlliesForCard($player, "f05184bd91") != "")); //Nala Se (Kaminoan Prime Minister)
   }
-  if(TraitContains($cardID, "Lightsaber")) {
+  if(TraitContains($cardID, "Lightsaber", $player)) {
     $findGrievous = SearchAlliesForCard($player, "4776553531");//General Grievous  (Trophy Collector)
     return $findGrievous != "" && ($reportMode || $myClassState[$CS_LayerTarget] == "MYALLY-$findGrievous");
   }
@@ -2147,7 +2150,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
         if($reportMode) $modifier -= (CardCost($cardID) + $modifier);//TODO: find a better way to check potential costs
         break;
       case "abcdefg002"://Malakili
-        if(GetClassState($currentPlayer, $CS_NumCreaturesPlayed) == 0 && TraitContains($cardID, "Creature")) $modifier -= 1;
+        if(GetClassState($currentPlayer, $CS_NumCreaturesPlayed) == 0 && TraitContains($cardID, "Creature", $currentPlayer)) $modifier -= 1;
         break;
       default: break;
     }
@@ -6022,7 +6025,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "1272825113"://In Defense of Kamino
       $allies = &GetAllies($currentPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
-        if (TraitContains($allies[$i], "Republic")) {
+        if (TraitContains($allies[$i], "Republic", $currentPlayer)) {
           AddCurrentTurnEffect("1272825113", $currentPlayer, "PLAY", $allies[$i+5]);
         }
       }
@@ -7053,7 +7056,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       for($i=count($theirAllies)-AllyPieces(); $i>=0; $i-=AllyPieces())
       {
         $ally = new Ally("MYALLY-" . $i, $otherPlayer);
-        if(!TraitContains($theirAllies[$i], "Vehicle")) $ally->DealDamage(2);
+        if(!TraitContains($theirAllies[$i], "Vehicle", $currentPlayer)) $ally->DealDamage(2);
       }
       break;
     case "5737712611"://Jedi Knight
@@ -7716,7 +7719,7 @@ function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $
     if($alsoFreeze) $theirAllies[$i+3] = 1;
     $ally->DealDamage($amount, enemyDamage:true);
   }
-  if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($source, "Creature")) {
+  if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($source, "Creature", $currentPlayer)) {
     return;
   }
   $allies = &GetAllies($currentPlayer);
@@ -7971,7 +7974,7 @@ function GetArcaneTargetIndices($player, $target)
     $theirAllies = &GetAllies($otherPlayer);
     for($i=0; $i<count($theirAllies); $i+=AllyPieces()) {
       $cardID = $theirAllies[$i];
-      if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle")) {
+      if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle", $otherPlayer)) {
         continue;
       }
 
@@ -7981,7 +7984,7 @@ function GetArcaneTargetIndices($player, $target)
     $myAllies = &GetAllies($player);
     for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
       $cardID = $myAllies[$i];
-      if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle")) {
+      if (CardIDIsLeader($cardID) || TraitContains($cardID, "Vehicle", $player)) {
         continue;
       }
       $rvArr[] = "MYALLY-" . $i;

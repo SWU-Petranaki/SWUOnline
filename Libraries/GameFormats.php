@@ -219,13 +219,13 @@ function IsAllowed($cardID, $format): bool {
     Formats::$GalacticCivilWar => DefinedCardType($cardID) == "Base"
         || DefinedCardType($cardID) == "Event"
         || DefinedCardType($cardID) == "Upgrade"
-        || TraitContains($cardID, "Rebel") || TraitContains($cardID, "Imperial")
+        || TraitContains($cardID, "Rebel", 0) || TraitContains($cardID, "Imperial", 0)
       ,
     //Only Republic and Separatist leaders and units
     Formats::$CloneWars => !DefinedCardType($cardID) == "Base"
         || DefinedCardType($cardID) == "Event"
         || DefinedCardType($cardID) == "Upgrade"
-        || TraitContains($cardID, "Republic") || TraitContains($cardID, "Separatist")
+        || TraitContains($cardID, "Republic", 0) || TraitContains($cardID, "Separatist", 0)
       ,
     default => false,
   };

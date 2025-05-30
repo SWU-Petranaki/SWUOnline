@@ -202,7 +202,7 @@ function HasLeaderUnitWithTraitInPlay($player, $trait) {
   $allies = GetAllies($player);
   for($i = 0; $i < count($allies); $i+=AllyPieces()) {
     $ally = Ally::FromUniqueId($allies[$i+5]);
-    if($ally->IsLeader() && TraitContains($allies[$i], $trait)) {
+    if($ally->IsLeader() && TraitContains($allies[$i], $trait, $player)) {
       return true;
     }
   }
