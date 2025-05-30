@@ -256,7 +256,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
         if($index != $i) $amount += 1;
         break;
       case "9921128444"://General Hux
-        if($index != $i && TraitContains($cardID, "First Order")) $amount += 1;
+        if($index != $i && TraitContains($cardID, "First Order", $player)) $amount += 1;
         break;
       default: break;
     }
@@ -969,6 +969,7 @@ function HasShielded($cardID, $player, $index)
     case "abcdefg031"://Shin Hati
     case "5221323929"://Shin Hati
     case "7323186775"://Itinerant Warrior
+    case "abcdefg045"://Mythosaur
       return true;
     default: break;
   }
@@ -1059,7 +1060,6 @@ function HasSaboteur($cardID, $player, $index)
     case "7529152088"://Depa Billaba
     case "1028870559"://Kit Fisto's Aethersprite
     case "90e2d4d83e"://Kit Fisto Leader unit
-    case "abcdefg045"://Mythosaur
       return true;
 
     //conditional saboteur

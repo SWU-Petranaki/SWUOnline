@@ -175,6 +175,11 @@ function LeaderAbilitiesIgnored() {
   return AnyPlayerHasAlly("4602353389");//Brain Invaders
 }
 
+function PlayerHasMythosaurActive($player) {
+  $mythosaurIndex = SearchAlliesForCard($player, "abcdefg045"); //Mythosaur
+  return $mythosaurIndex != "" && !Ally::FromMyIndex("MYALLY-" . $mythosaurIndex, $player)->LostAbilities();
+}
+
 function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpgraded) {
   switch($cardID) {
     case "1664771721"://Gideon Hask
@@ -1503,7 +1508,7 @@ function AllyPlayedAsUpgradeAbility($cardID, $player, $targetAlly) {
       AddDecisionQueue("MZOP", $player, "REST", 1);
       break;
     case "7700932371"://Boba Fett
-      $damage = TraitContains($targetAlly->CardID(), "Transport") ? 2 : 1;
+      $damage = TraitContains($targetAlly->CardID(), "Transport", $targetAlly->Controller()) ? 2 : 1;
       AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
       AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal $damage damage", 1);
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
@@ -1586,7 +1591,7 @@ function AllyStartRegroupPhaseAbilities($player) {
       case "6523135540"://Dume
         for($j=0; $j<count($allies); $j+=AllyPieces()) {
           if($allies[$j] == "6523135540") continue;
-          if(TraitContains($allies[$j], "Vehicle")) continue;
+          if(TraitContains($allies[$j], "Vehicle", $player)) continue;
           $innerAlly = new Ally("MYALLY-" . $j, $player);
           $innerAlly->AttachExperience();
         }
@@ -2588,7 +2593,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       //immediate effect. no layer
       $allies = &GetAllies($mainPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
-        if (TraitContains($allies[$i], "Jedi") && $allies[$i+5] != $attackerAlly->UniqueID()) {
+        if (TraitContains($allies[$i], "Jedi", $mainPlayer) && $allies[$i+5] != $attackerAlly->UniqueID()) {
           AddCurrentTurnEffect("4808722909", $mainPlayer, "PLAY", $allies[$i+5]);
         }
       }

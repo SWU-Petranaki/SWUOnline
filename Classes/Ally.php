@@ -355,7 +355,7 @@ class Ally {
     }
 
     if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"abcdefg002")) //Malakili
-        && TraitContains($unitCardID, "Creature")) {
+        && TraitContains($unitCardID, "Creature", $this->Controller())) {
       $amount = 0;
     }
 
@@ -494,7 +494,7 @@ class Ally {
           $power += CountPilotUnitsAndPilotUpgrades($this->PlayerID(), other: true);
           break;
         case "81a416eb1f":
-          $power += TraitContains($this->CardID(), "Transport") ? 1 : 0;
+          $power += TraitContains($this->CardID(), "Transport", $this->Controller()) ? 1 : 0;
         default:
           break;
       }
@@ -984,12 +984,20 @@ class Ally {
 
   function AvoidsBounce() {
     global $mainPlayer;
+    $isOrHasChewbaccaJTL = $this->CardID() == "7208848194"|| $this->HasUpgrade("7208848194");//Chewbacca
+    $hasMythosaurEffect = PlayerHasMythosaurActive($this->Controller()) && $this->IsUpgraded();
     return $mainPlayer != $this->playerID
       && !$this->LostAbilities()
       && ($this->HasUpgrade("9003830954")//Shadowed Intentions
-      || $this->CardID() == "7208848194"//Chewbacca
-      || $this->HasUpgrade("7208848194"))//Chewbacca
+      || $isOrHasChewbaccaJTL || $hasMythosaurEffect)
     ;
+  }
+
+  function AvoidsExhaust() {
+    //TODO: find all places that call DQ "REST" or exhaust and check if they should be avoided (will need sources for enemy effects)
+    $hasMythosaurEffect = PlayerHasMythosaurActive($this->Controller()) && $this->IsUpgraded();
+
+    return $hasMythosaurEffect;
   }
 }
 

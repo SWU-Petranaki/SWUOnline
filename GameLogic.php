@@ -932,7 +932,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             default: break;
           }
           //temp hack, will revise upgrade filters later
-          $upgradeIsPilot = TraitContains($upgradeID, "Pilot");
+          $upgradeIsPilot = TraitContains($upgradeID, "Pilot", $player);
           if($upgradeID != "5375722883" && $upgradeIsPilot) {
             if(!$targetAlly->CanAddPilot()) {
               WriteLog("Cannot add pilot to " . CardLink($targetAlly->CardID(), $targetAlly->CardID()) . ". Reverting gamestate.");
