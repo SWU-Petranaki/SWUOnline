@@ -118,16 +118,51 @@
       //Note: 96 = Card Size
 
       function Hotkeys(event) {
-        if (event.keyCode === 32) { if(document.getElementById("passConfirm").innerText == "false" || confirm("Do you want to skip arsenal?")) SubmitInput(99, ""); } //Space = pass
-        if (event.keyCode === 117) SubmitInput(10000, ""); //U = undo
-        //if (event.keyCode === 104) SubmitInput(3, "&cardID=0"); //H = hero ability//FAB
-        if (event.keyCode === 109) TogglePopup("menuPopup"); //M = open menu
-        //W key
-        if (event.keyCode === 119) SwitchPlayerWindow();
-        <?php
-        if (count($myCharacter) > CharacterPieces() && CardType($myCharacter[CharacterPieces()]) == "W") echo ("if(event.keyCode === 108) SubmitInput(3, '&cardID=" . CharacterPieces() . "');"); //L = left weapon
-        if (count($myCharacter) > (CharacterPieces() * 2) && CardType($myCharacter[CharacterPieces() * 2]) == "W") echo ("if(event.keyCode === 114) SubmitInput(3, '&cardID=" . (CharacterPieces() * 2) . "');"); //R = right weapon
-        ?>
+        switch (event.keyCode) {
+          case 32: // Space = pass
+            if(document.getElementById("passConfirm").innerText == "false" || confirm("Do you want to skip arsenal?"))
+              SubmitInput(99, "");
+            break;
+          case 85: // U = undo
+          case 117: // u
+            SubmitInput(10000, "");
+            break;
+          case 77: // M = open "M"enu
+          case 109: // m
+            TogglePopup("menuPopup");
+            break;
+          case 87: // W = player "W"indow
+          case 119: // w
+            SwitchPlayerWindow();
+            break;
+          case 66: // B = activate "B"ase
+          case 98: // b
+            ActivateBase();
+            break;
+          case 76: // L = activate "L"eader
+          case 108: // l
+            ActivateLeader();
+            break;
+          case 73: // I = Claim "I"nitiative
+          case 105: // i
+            ClaimInitiative();
+            break;
+          case 82: // R = toggle my "R"esources
+          case 114: // r
+            ToggleMyResources();
+            break;
+          case 68: // D = toggle my "D"iscard
+          case 100: // D
+            ToggleMyDiscard();
+            break;
+          case 69: // E = toggle "E"nemy Discard
+          case 101: // e
+            ToggleTheirDiscard();
+            break;
+          default: break;
+        }
+        //1-9 keys
+        if (event.keyCode >= 49 && event.keyCode <= 57) ProcessNumberKey(event.keyCode - 48);
       }
 
       function ProcessInputLink(player, mode, input, event = 'onmousedown', fullRefresh = false) {
@@ -786,14 +821,102 @@
             document.getElementById('blockOppButton').textContent = 'Block Opponent';
         }
       }
-
-      function SwitchPlayerWindow() {
+      //hotkeys
+      function SwitchPlayerWindow() {//W
         const isOnePlayerMode = <?php echo IsOnePlayerMode() ? 'true' : 'false'; ?> == true;
         if(!isOnePlayerMode) return;
         const redirectUrl = "<?php echo "$redirectPath/NextTurn4.php?gameName=$gameName&playerID=$otherPlayerID";?>";
         if(isOnePlayerMode) {
           window.location.href = redirectUrl;
         }
+      }
+      function ActivateBase() {//B
+        const base = document.getElementById("P<?= $playerID ?>BASE");
+        const link = base?.querySelector("a");
+        if (link) link.click();
+      }
+      function ActivateLeader() {//L
+        const leader = document.getElementById("P<?= $playerID ?>LEADER");
+        const link = leader?.querySelector("a");
+        if (link) link.click();
+      }
+      function ClaimInitiative() {//I
+        const claimButton = document.querySelector("button.claimButton");
+        if (claimButton) {
+          claimButton.click();
+        }
+      }
+      function ToggleMyResources() {//R
+        const myResources = document.querySelector("div.my-resources div.resources");
+        if (myResources) {
+          myResources.click();
+        }
+      }
+      function ToggleMyDiscard() {//D
+        const myDiscard = document.querySelector('div.my-discard a img');
+        if (myDiscard) {
+          myDiscard.click();
+        }
+      }
+      function ToggleTheirDiscard() {//Shift+D
+        const theirDiscard = document.querySelector('div.their-discard a img');
+        if (theirDiscard) {
+          theirDiscard.click();
+        }
+      }
+      function ProcessNumberKey(index) {
+        index = parseInt(index);
+        if (isNaN(index) || index < 1 || index > 9) return;
+        //check for YESNO div
+        const yesNoPopup = document.getElementById("YESNO");
+        if (yesNoPopup && index == 1) {
+          const yesButton = yesNoPopup.querySelector("div button:nth-of-type(1)");
+          if (yesButton) {
+            yesButton.click();
+            return;
+          }
+        } else if (yesNoPopup && index == 2) {
+          const noButton = yesNoPopup.querySelector("div button:nth-of-type(2)");
+          if (noButton) {
+            noButton.click();
+            return;
+          }
+        } else if (yesNoPopup) {
+          return;
+        }
+        //check for BUTTONINPUT div
+        const buttonInput = document.getElementById("BUTTONINPUT");
+        if (buttonInput) {
+          const button = buttonInput.querySelector(`div button:nth-of-type(${index})`);
+          if (button) {
+            button.click();
+            return;
+          }
+        }
+        //resources
+        const resourceElem = document.getElementById("myResourcePopup");
+        if (resourceElem && resourceElem.style.display === "inline") {
+          const resourceCard = resourceElem.querySelector(`div:nth-of-type(2) a:nth-of-type(${index}) img`);
+          if (resourceCard) {
+            resourceCard.click();
+            return;
+          }
+        }
+        //discard (could be yours or theirs)
+        let discardElem = document.getElementById("myDiscardPopup");
+        if (!discardElem) discardElem = document.getElementById("theirDiscardPopup");
+        if (discardElem && discardElem.style.display === "inline") {
+          const discardCard = discardElem.querySelector(`div:nth-of-type(2) a:nth-of-type(${index}) img.cardImage`);
+          if (discardCard) {
+            discardCard.click();
+            return;
+          }
+        }
+        //check hand last
+        const handElem = document.getElementById("myHand");
+        if(!handElem) return;
+        const handCard = handElem.querySelector(`span:nth-of-type(${index}) a`);
+        if (handCard) return handCard.click();
       }
     </script>
 
