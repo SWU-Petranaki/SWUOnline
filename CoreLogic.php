@@ -7270,7 +7270,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit;trait=Force");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit to play");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD");
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
     case "5960134941"://Niman Strike
       AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "5960134941");
