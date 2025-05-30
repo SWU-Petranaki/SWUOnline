@@ -1707,6 +1707,7 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
     switch($currentTurnEffects[$i]) {
       case "2012334456"://On Top of Things
+      case "abcdefg036"://Dooku LOF unit
         return false;
       default: break;
     }
@@ -1832,7 +1833,6 @@ function AllyAttackedAbility($attackTarget, $index) {
   }
   switch($attackTarget) {
     case "8918765832"://Chewbacca (Loyal Companion)
-      $ally = new Ally("MYALLY-" . $index, $defPlayer);
       $ally->Ready();
       break;
     case "8228196561"://Clan Saxon Gauntlet
@@ -1856,6 +1856,12 @@ function AllyAttackedAbility($attackTarget, $index) {
       DQAskToUseTheForce($defPlayer);
       AddDecisionQueue("PASSPARAMETER", $mainPlayer, $uniqueID, 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0775347605,PLAY", 1);
+      break;
+    case "abcdefg041"://T-6 Shuttle 1974
+      AddDecisionQueue("YESNO", $defPlayer, "Do you want to add experience to this unit (before combat damage is dealt)?", 1);
+      AddDecisionQueue("NOPASS", $defPlayer, "-", 1);
+      AddDecisionQueue("PASSPARAMETER", $defPlayer, $ally->UniqueID(), 1);
+      AddDecisionQueue("MZOP", $defPlayer, "ADDEXPERIENCE", 1);
       break;
     default: break;
   }
@@ -2429,7 +2435,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "1641175580"://Kit Fisto
     case "12122bc0b1"://Wat Tambor
     case "b7caecf9a3"://Nute Gunray
-    case "fb7af4616c"://General Grievious
+    case "fb7af4616c"://General Grievous
     case "3556557330"://Asajj Ventress (Count Dooku's Assassin)
     case "f8e0c65364"://Asajj Ventress (deployed leader)
     case "2843644198"://Sabine Wren (You Can Count On Me)
@@ -2551,6 +2557,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "32fd8db633"://Mother Talzin Leader unit
     case "3363314608"://Jedi Starfighter
     case "2277278592"://Darth Vader
+    case "abcdefg040"://Ahsoka Tano Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3401,7 +3408,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "b7caecf9a3"://Nute Gunray
       CreateBattleDroid($mainPlayer);
       break;
-    case "fb7af4616c"://General Grievious
+    case "fb7af4616c"://General Grievous
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to give Sentinel");
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Droid&THEIRALLY:trait=Droid");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
@@ -3770,6 +3777,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit with a shield to defeat");
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "DESTROY,$mainPlayer", 1);
+      break;
+    case "abcdefg040"://Ahsoka Tano Leader unit
+      DQChooseAUnitToGiveEffect($mainPlayer, $cardID, "PLAY", mzSearch:"MYALLY", context:"a unit to give Sentinel to");
       break;
     default: break;
   }

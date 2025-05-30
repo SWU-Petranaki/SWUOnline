@@ -2913,11 +2913,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "3-", 1);
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Heal up to 3 damage", 1);
-        AddDecisionQueue("PARTIALMULTIHEALMULTIZONE", $currentPlayer, "<-", 1);   
+        AddDecisionQueue("PARTIALMULTIHEALMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "MULTIHEAL", 1);
-        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, $uniqueId . "-", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "-", 1);
         if(SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) {
-              AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEALRESTOREDAMAGE", 1); // This is always restoring 1, no matter how much is healed
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEALRESTOREDAMAGE", 1);
         }
       break;
     case "1021495802"://Cantina Bouncer
@@ -3151,7 +3151,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "1349057156"://Strike True
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to it's power");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to its power");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "POWER", 1);
       AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "DEALDAMAGE,", 1);
@@ -5865,7 +5865,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         CreateBattleDroid($currentPlayer);
       }
       break;
-    case "2872203891"://General Grievious
+    case "2872203891"://General Grievous
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to give Sentinel");
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Droid&THEIRALLY:trait=Droid");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
@@ -6183,7 +6183,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "0011262813"://Wedge Antilles Leader
-      if(GetResolvedAbilityName($cardID) == "Play") {
+      $vehiclesAvailableToPilot = SearchCount(SearchAllies($currentPlayer, canAddPilot:true));
+      if(GetResolvedAbilityName($cardID) == "Play" && $vehiclesAvailableToPilot > 0) {
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a pilot to play", 1);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:keyword=Piloting", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
@@ -6947,6 +6948,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "zzzzzzz001"://Ahsoka Tano Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Sentinel") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY", context:"a unit to give Sentinel to");
+        }
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
@@ -7229,6 +7242,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
         }
       break;
+    case "abcdefg039"://Shatterpoint
+      $options = "Defeat 3 or less HP;Use the Force to defeat";
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose one");
+      AddDecisionQueue("CHOOSEOPTION", $currentPlayer, "$cardID&$options");
+      AddDecisionQueue("SHOWOPTIONS", $currentPlayer, "$cardID&$options");
+      AddDecisionQueue("MODAL", $currentPlayer, "abcdefg039");
+      break;
     case "7078597376"://Directed by the Force
       TheForceIsWithYou($currentPlayer);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to play");
@@ -7250,7 +7270,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit;trait=Force");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit to play");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD");
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
     case "5960134941"://Niman Strike
       AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer, "Force", "5960134941");
@@ -7339,9 +7359,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") {
         if(HasTheForce($currentPlayer)) {
           DQAskToUseTheForce($currentPlayer);
-          AddDecisionQueue("HEAL", $currentPlayer, "3", 1); //TOOD - give option to heal 3 damage from an enemy base
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0,THEIRCHAR-0", 1);
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a base to heal", 1);
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,3", 1);
         }
       }
+      break;
     case "0531276830"://Ki-Adi Mundi
       //When Played:
       if($from != "PLAY") {
@@ -7353,6 +7377,33 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
         }
       }
+      break;
+    case "abcdefg036"://Dooku
+      //When Played:
+      if($from != "PLAY") {
+        $hiddenUnits = SearchAllies($currentPlayer, keyword:"Hidden");
+        if(SearchCount($hiddenUnits) > 0) {
+          $hiddenAllies = explode(",", $hiddenUnits);
+          for($i=0; $i<count($hiddenAllies); ++$i) {
+            $ally = new Ally("MYALLY-" . $hiddenAllies[$i], $currentPlayer);
+            if($ally->UniqueID() != $uniqueId)
+              $ally->AddEffect($cardID, $from);
+          }
+        }
+      }
+      break;
+    case "abcdefg038"://Protect the Pod
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "trait=Vehicle");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to its remaining HP");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETHEALTH", 1);
+      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "DEALDAMAGE,", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to damage");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "{0},$currentPlayer,1", 1);
       break;
     //PlayAbility End
     default: break;
@@ -7812,7 +7863,6 @@ function PlayRequiresTarget($cardID)
   {
     case "8679831560": return 2;//Repair
     case "8981523525": return 6;//Moment of Peace
-    case "0867878280": return -1;//It Binds All Things
     case "2587711125": return 6;//Disarm
     case "6515891401": return 7;//Karabast
     case "2651321164": return 6;//Tactical Advantage
@@ -7870,6 +7920,17 @@ function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
   if($healthDebuff > 0) {
     AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,$healthDebuff", 1);
   }
+}
+
+function DQChooseAUnitToGiveEffect($currentPlayer, $effectID, $from, $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $subsequent=false) {
+  $subsequent = $subsequent ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $currentPlayer, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose $context", 1);
+  AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "WRITECHOICE", 1);
+  AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);
 }
 
 //target type return values

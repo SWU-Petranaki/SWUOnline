@@ -2157,7 +2157,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
       return $lastResult;
     case "MZDESTROY":
-      return MZDestroy($player, $lastResult);
+      return MZDestroy($player, $lastResult, $parameter);
     case "MZUNDESTROY":
       return MZUndestroy($player, $parameter, $lastResult);
     // case "MZBANISH"://FAB

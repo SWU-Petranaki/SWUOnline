@@ -359,8 +359,8 @@ class Ally {
       $amount = 0;
     }
 
-    if($amount > 0 && $this->HasEffect("7981459508")) {
-      $amount -= 1;
+    if($amount > 0 && $this->HasEffect("7981459508")) {//Shien Flurry
+      $amount -= 2;
       AddDecisionQueue("REMOVECURRENTEFFECT", $this->Controller(), "7981459508");
     }
 
