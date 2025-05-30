@@ -345,6 +345,11 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $fontSize = 36;
     $left = 85;
     $top = 15;
+  } else if ($turn[0] == "INSTANT") {
+    $passLabel = "Confirm Triggers";
+    $fontSize = 24;
+    $left = 85;
+    $top = 15;
   } else {
     $passLabel = "Pass";
     $fontSize = 36;
