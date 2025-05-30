@@ -1059,6 +1059,7 @@ function HasSaboteur($cardID, $player, $index)
     case "7529152088"://Depa Billaba
     case "1028870559"://Kit Fisto's Aethersprite
     case "90e2d4d83e"://Kit Fisto Leader unit
+    case "abcdefg045"://Mythosaur
       return true;
 
     //conditional saboteur
