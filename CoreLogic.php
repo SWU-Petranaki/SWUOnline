@@ -7259,7 +7259,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "1028870559"://Kit Fisto's Aethersprite
       if($from != "PLAY") {
-        DefeatUpgrade($currentPlayer);
+        DefeatUpgrade($currentPlayer, may: true);
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KITFISTOAETHERSPRITE", 1);
       }
       break;
