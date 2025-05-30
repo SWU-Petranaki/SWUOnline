@@ -128,8 +128,9 @@ if ($lastUpdate != 0 && $cacheVal < $lastUpdate) {
   } else {
     if ($gameStatus == $MGS_Initial) {
       $setupContent .= "<p>This is a single player game. You can start the game by choosing if you want to go first.</p>";
-      $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Go First' onclick='SubmitFirstPlayer(1)' style='margin-right:20px; text-align:center;'>";
-      $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Go Second' onclick='SubmitFirstPlayer(2)' style='text-align:center;'>";
+      $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Player 1 has initiative' onclick='SubmitFirstPlayer(1)' style='margin-right:20px; text-align:center;'>";
+      $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Player 2 has initiative' onclick='SubmitFirstPlayer(2)' style='text-align:center;'>";
+      $setupContent .= "<input class='GameLobby_Button' type='button' name='action' value='Randomize initiative' onclick='RandomizePlayer()' style='margin-left:20px; text-align:center;'>";
     } else if ($gameStatus == $MGS_P2Sideboard) {
       //if a first player has already been chosen, then manually submit both sideboards
       if ($firstPlayer != 0) {
