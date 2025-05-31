@@ -180,14 +180,15 @@ function PlayerHasMythosaurActive($player) {
   return $mythosaurIndex != "" && !Ally::FromMyIndex("MYALLY-" . $mythosaurIndex, $player)->LostAbilities();
 }
 
-function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpgraded) {
+function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpgraded, $destroyedUniqueID) {
+  if($uniqueID == $destroyedUniqueID) return false;//band aid fix. this can be done better..
   switch($cardID) {
     case "1664771721"://Gideon Hask
     case "b0dbca5c05"://Iden Versio Leader Unit
     case "2407397504"://HK-47
       return true;
     case "2649829005"://Agent Kallus
-      return $wasUnique && $numUses > 0 && $uniqueID != $destroyedUniqueID;
+      return $wasUnique && $numUses > 0;
     case "8687233791"://Punishing One
       $ally = new Ally($uniqueID);
       return $ally->IsExhausted() && $wasUpgraded && $numUses > 0;
