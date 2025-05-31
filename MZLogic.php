@@ -185,7 +185,7 @@ function MZAttack($player, $mzIndexOrUniqueID)
     RevertGamestate();
     return;
   }
-  $ally->Exhaust();
+  $ally->Exhaust(false);
   SetClassState($player, $CS_CharacterIndex, $ally->Index());
   SetClassState($player, $CS_PlayIndex, $ally->Index());
   $abilityIndex = GetAbilityIndex($ally->CardID(), $ally->Index(), "Attack");
@@ -272,6 +272,7 @@ function MZFreeze($target)
 
 function MZRest($player, $target)
 {
+  global $currentPlayer;
   $pieces = explode("-", $target);
   $player = (str_starts_with($pieces[0], "MY") ? $player : ($player == 1 ? 2 : 1));
   $zone = &GetMZZone($player, $pieces[0]);
@@ -280,7 +281,11 @@ function MZRest($player, $target)
       $zone[$pieces[1]+1] = 1;
       break;
     case "THEIRALLY": case "MYALLY":
-      $zone[$pieces[1]+1] = 1;
+      $ally = new Ally("MYALLY-" . $pieces[1], $player);
+      if($player != $currentPlayer && !$ally->AvoidsExhaust())
+        $zone[$pieces[1]+1] = 1;
+      else
+        WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " avoided exhaust.");
       break;
     case "MYITEMS": case "THEIRITEMS":
       $zone[$pieces[1]+2] = 1;

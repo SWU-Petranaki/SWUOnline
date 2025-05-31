@@ -2951,8 +2951,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "6663619377"://AT-AT Suppressor
       if($from != "PLAY"){
-        ExhaustAllAllies("Ground", 1);
-        ExhaustAllAllies("Ground", 2);
+        ExhaustAllAllies("Ground", 1, $currentPlayer);
+        ExhaustAllAllies("Ground", 2, $currentPlayer);
       }
       break;
     case "6931439330"://The Ghost
@@ -4779,7 +4779,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "1973545191"://Unexpected Escape
       $owner = MZPlayerID($currentPlayer, $target);
       $ally = new Ally($target, $owner);
-      $ally->Exhaust();
+      $ally->Exhaust(enemyEffects:$currentPlayer != $ally->Controller());
       RescueUnit($currentPlayer, $target);
       break;
     case "9552605383"://L3-37
@@ -5597,7 +5597,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "8061497086"://Perilous Position
       $ally = new Ally($target, MZPlayerID($currentPlayer, $target));
-      $ally->Exhaust();
+      $ally->Exhaust(enemyEffects:$currentPlayer != $ally->Controller());
       $ally->DefeatIfNoRemainingHP();
       break;
     case "8345985976"://Trade Federation Shuttle
@@ -7589,14 +7589,14 @@ function MemoryRevealRandom($player, $returnIndex=false)
   return $wasRevealed ? ($returnIndex ? $toReveal : $index) : ($returnIndex ? -1 : "");
 }
 
-function ExhaustAllAllies($arena, $player)
+function ExhaustAllAllies($arena, $player, $sourcePlayer)
 {
   $allies = &GetAllies($player);
   for($i=0; $i<count($allies); $i+=AllyPieces())
   {
     $ally = new Ally("MYALLY-" . $i, $player);
     if($ally->CurrentArena() == $arena) {
-      $ally->Exhaust();
+      $ally->Exhaust(enemyEffects:$sourcePlayer != $ally->Controller());
     }
   }
 }
