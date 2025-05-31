@@ -1917,7 +1917,7 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
       //Legends of the Force
       case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
-        return DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID)
+        return !$thisAlly->HasEffect($cardID) && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID)
           && TraitContains($playedCardID, "Force", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
         return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);

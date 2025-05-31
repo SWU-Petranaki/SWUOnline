@@ -7205,7 +7205,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           DQAskToUseTheForce($currentPlayer);
           AddDecisionQueue("NOPASS", $currentPlayer, "-");
           AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYALLY-" . $playAlly->Index(), 1);
-          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "INFUSED-BRAWLER", 1);
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "INFUSEDBRAWLER", 1);
         }
       }
       break;
