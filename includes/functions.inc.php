@@ -121,6 +121,44 @@ function createUser($conn, $username, $email, $pwd, $reportingServer = false)
 	exit();
 }
 
+function GetUserIDFromUsername($username) {
+  $conn = GetDBConnection();
+  $sql = "SELECT usersId FROM users WHERE usersUid = ?;";
+  $stmt = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt, $sql)) {
+    return null;
+  }
+
+  mysqli_stmt_bind_param($stmt, "s", $username);
+  mysqli_stmt_execute($stmt);
+  $data = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_array($data, MYSQLI_NUM);
+  mysqli_stmt_close($stmt);
+  mysqli_close($conn);
+
+  if ($row == null || count($row) == 0) return null;
+  return $row[0];
+}
+
+function GetUserEmailFromID($userID) {
+  $conn = GetDBConnection();
+  $sql = "SELECT usersEmail FROM users WHERE usersId = ?;";
+  $stmt = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt, $sql)) {
+    return null;
+  }
+
+  mysqli_stmt_bind_param($stmt, "s", $userID);
+  mysqli_stmt_execute($stmt);
+  $data = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_array($data, MYSQLI_NUM);
+  mysqli_stmt_close($stmt);
+  mysqli_close($conn);
+
+  if ($row == null || count($row) == 0) return null;
+  return $row[0];
+}
+
 function CreateUserAPI($conn, $username, $email, $pwd)
 {
 	$conn = GetDBConnection();
