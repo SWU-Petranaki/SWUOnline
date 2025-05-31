@@ -810,11 +810,11 @@ class Ally {
     return null;
   }
 
-  function HasUpgrade($upgradeID) {
+  function HasUpgrade($upgradeID, $uniqueID = "") {
     if($this->index == -1) return false;
-    $upgrades = $this->GetUpgrades();
-    for($i=0; $i<count($upgrades); $i++) {
-      if($upgrades[$i] == $upgradeID) {
+    $upgrades = $this->GetUpgrades(withMetadata:true);
+    for($i=0; $i<count($upgrades); $i+=SubcardPieces()) {
+      if($upgrades[$i] == $upgradeID && ($uniqueID == "" || $upgrades[$i+3] == $uniqueID)) {
         return true;
       }
     }

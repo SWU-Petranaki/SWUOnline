@@ -2332,7 +2332,7 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
           AddMemory($cardID, $currentPlayer, $from, "DOWN");
           break;
         case "ATTACHTARGET":
-          MZAttach($currentPlayer, $target, $cardID);
+          $uniqueID = MZAttach($currentPlayer, $target, $cardID);
           //When you play an upgrade on this unit (e.g. Fenn Rau)
           $mzArr = explode("-", $target);
           if ($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
@@ -2424,10 +2424,6 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
       if (!$playedAsUpgrade && HasAmbush($cardID, $currentPlayer, $index, $from)) {
         AddLayer("TRIGGER", $currentPlayer, "AMBUSH", "-", "-", $uniqueID);
       }
-      //increment "units played" counts
-      global $CS_NumForceUnitsPlayed;
-      if (DefinedCardType($cardID) == "Unit" && !$playedAsUpgrade && TraitContains($cardID, "Force", $currentPlayer))
-        IncrementClassState($currentPlayer, $CS_NumForceUnitsPlayed);
       AddWhenPlayCardAbilityLayers($cardID, $from, $uniqueID, $resourcesPaid);
     }
     if (!$openedChain)

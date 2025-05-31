@@ -378,6 +378,7 @@ function HasSentinel($cardID, $player, $index)
       case "7214707216": $hasSentinel = true; break;//Diversion
       case "2301911685": $hasSentinel = true; break;//Timely Reinforcements
       //Legends of the Force
+      case "6059510270": $hasSentinel = true; break;//Obi-Wan Kenobi (Protective Padawan)
       case "zzzzzzz001": $hasSentinel = true; break;//Ahsoka Tano Leader
       case "abcdefg040": $hasSentinel = true; break;//Ahsoka Tano Leader unit
       default: break;
@@ -506,10 +507,6 @@ function HasSentinel($cardID, $player, $index)
     case "7504035101"://Loth-Wolf
     case "abcdefg037"://Graceful Purrgil
       return true;
-    case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
-      global $CS_NumForceUnitsPlayed;
-      if(GetClassState($player, $CS_NumForceUnitsPlayed) > 0) return true;
-      break;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);
     default: break;

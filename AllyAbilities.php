@@ -1891,7 +1891,7 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
       case "6354077246"://Black Squadron Scout Wing
         $target = TargetAlly();
-        return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID() && !$target->IsExhausted();
+        return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID();
       case "3952758746"://Toro Calican
         return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Bounty Hunter", $player) && $thisAlly->NumUses() > 0;
       case "724979d608"://Cad Bane Leader Unit
@@ -1915,10 +1915,14 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && DefinedTypesContains($playedCardID, "Unit");
       case "3589814405"://tactical droid commander
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
+      //Legends of the Force
+      case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+        return !$thisAlly->HasEffect($cardID) && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID)
+          && TraitContains($playedCardID, "Force", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
         return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
       case "4145147486"://Kylo Ren LOF
-        return DefinedTypesContains($playedCardID, "Upgrade");
+        return DefinedTypesContains($playedCardID, "Upgrade") && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
       default: break;
     }
   } else { // When an opponent plays a card
@@ -2049,11 +2053,11 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("MZOP", $player, "REST", 1);
         break;
       case "6354077246"://Black Squadron Scout Wing
-        if ($ally->Exists() && !$ally->IsExhausted()) {
+        if($ally->Exists() && !$ally->IsExhausted()) {
           AddDecisionQueue("YESNO", $player, "if you want to attack with " . CardLink($cardID, $cardID));
           AddDecisionQueue("NOPASS", $player, "-");
           AddDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID(), 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "6354077246,PLAY", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, $cardID, 1);
           AddDecisionQueue("MZOP", $player, "ATTACK", 1);
         }
         break;
@@ -2082,6 +2086,10 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
             AddDecisionQueue("ADDMZUSES", $player, "-1", 1);
           }
         }
+        break;
+      //Legends of the Force
+      case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+        $ally->AddEffect($cardID, $playedFrom);
         break;
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
         if(HasTheForce($player)) {
