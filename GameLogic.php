@@ -554,7 +554,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "REST":
           $ally = new Ally($lastResult);
           if (!$ally->Exists()) return "PASS";
-          $ally->Exhaust();
+          if(!$ally->Exhaust($player != $ally->Controller())) return "PASS";
           break;
       }
       return $lastResult;
@@ -873,7 +873,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           [$fromEpicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($upgrades, $lastResult);
           $attachedAlly->RemoveSubcard($lastResult, moving:true);
           $newUID = PlayAlly($lastResult, $attachedAlly->Owner(), epicAction:$fromEpicAction, turnsInPlay: $turnsInPlay);
-          if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust();
+          if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust(false);
           return $newUID;
         case "FALLENPILOTUPGRADE":
           $params = explode(",", $lastResult);
@@ -1019,7 +1019,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $player = $ally->Controller();
           $selected = CardLink($ally->CardID(), $ally->CardID());
           $message = LogSelectedTarget($player, $lastResult);
-          WriteLog($selected . $message);
+          WriteLog($message);
           return $lastResult;
         case "WRITECHOICEFROMUNIQUE":
             $controller = UnitUniqueIDController($lastResult);
@@ -2074,8 +2074,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       // Trigger abilities
       CharacterEndRegroupPhaseAbilities($player);
       AllyEndRegroupPhaseAbilities($player);
-      if($player == 2)//only run once
-        CurrentEffectEndRegroupPhaseAbilities();
+      CurrentEffectEndRegroupPhaseAbilities();
       return $lastResult;
     case "REMOVECOUNTER":
       $character = &GetPlayerCharacter($player);
@@ -2124,7 +2123,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       SetClassState($player, $CS_AbilityIndex, $index);
       if(IsAlly($parameter, $player)) {
         $ally = new Ally("MYALLY-" . GetClassState($player, $CS_PlayIndex), $player);
-        if(AllyDoesAbilityExhaust($parameter)) $ally->Exhaust();
+        if(AllyDoesAbilityExhaust($parameter)) $ally->Exhaust(false);
       }
       $names = explode(",", GetAbilityNames($parameter, GetClassState($player, $CS_PlayIndex)));
       $ability = implode(" ", explode("_", $names[$index]));
@@ -2138,7 +2137,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         SetClassState($player, $CS_AbilityIndex, $index);
         if(IsAlly($parameter, $otherPlayer) && TheirAllyDoesAbilityExhaust($parameter)) {
           $ally = new Ally("MYALLY-" . GetClassState($player, $CS_PlayIndex), $player);
-          $ally->Exhaust();
+          $ally->Exhaust(false);
         }
         $names = explode(",", GetOpponentControlledAbilityNames($parameter));
         $ability = implode(" ", explode("_", $names[$index]));
