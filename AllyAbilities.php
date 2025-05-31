@@ -1891,7 +1891,7 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
         return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
       case "6354077246"://Black Squadron Scout Wing
         $target = TargetAlly();
-        return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID() && !$target->IsExhausted();
+        return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID();
       case "3952758746"://Toro Calican
         return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Bounty Hunter", $player) && $thisAlly->NumUses() > 0;
       case "724979d608"://Cad Bane Leader Unit
@@ -2053,11 +2053,11 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("MZOP", $player, "REST", 1);
         break;
       case "6354077246"://Black Squadron Scout Wing
-        if ($ally->Exists() && !$ally->IsExhausted()) {
+        if($ally->Exists() && !$ally->IsExhausted()) {
           AddDecisionQueue("YESNO", $player, "if you want to attack with " . CardLink($cardID, $cardID));
           AddDecisionQueue("NOPASS", $player, "-");
           AddDecisionQueue("PASSPARAMETER", $player, $ally->UniqueID(), 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "6354077246,PLAY", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, $cardID, 1);
           AddDecisionQueue("MZOP", $player, "ATTACK", 1);
         }
         break;

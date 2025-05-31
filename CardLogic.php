@@ -967,7 +967,7 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       AddDecisionQueue("MZOP", $player, "CAPTURE," . $uniqueID, 1);
       break;
     //Jump to Lightspeed
-    case "9831674351":
+    case "9831674351"://Boba Fett Leader pilot
       AddDecisionQueue("YESNO", $player, "if you want use Boba Fett's ability");
       AddDecisionQueue("NOPASS", $player, "-");
       AddDecisionQueue("EXHAUSTCHARACTER", $player, FindCharacterIndex($player, "9831674351"), 1);
@@ -1003,6 +1003,7 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
         AddDecisionQueue("MZOP", $player, "BOUNCE", 1);
       }
       break;
+    //Legends of the Force
     case "0661066339"://Qui-Gon Jinn's Aethersprite
       $cardID = explode(",", $target)[0];
       AddDecisionQueue("YESNO", $player, "if you want to use " . CardLink($cardID, $cardID) . "'s 'When Played' ability again");
