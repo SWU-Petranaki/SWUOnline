@@ -28,10 +28,10 @@ include_once 'Header.php';
   <h2>Change Your Password</h2>
   <div class="change-password-form-form">
     <form action="includes/change-password.inc.php" method="post">
-      <div>
+      <!-- <div> doesn't actually do anything
         <label for="currentpwd">Current Password</label>
         <input type="password" name="currentpwd" id="currentpwd">
-      </div>
+      </div> -->
       <div>
         <label for="newpwd">New Password</label>
         <input type="password" name="newpwd" id="newpwd">

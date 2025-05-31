@@ -5,6 +5,20 @@
     return isset($_SESSION['useruid']);
   }
 
+  function IsUserLoggedInAsMod()
+  {
+    if(!IsUserLoggedIn()) return false;
+    $useruid = $_SESSION["useruid"];
+    return $useruid === "OotTheMonk" || $useruid === "love" || $useruid === "ninin" || $useruid === "Brubraz" || $useruid === "Mobyus1";
+  }
+
+  function IsUserLoggedInAsSqlMod()
+  {
+    if(!IsUserLoggedIn()) return false;
+    $useruid = $_SESSION["useruid"];
+    return $useruid === "OotTheMonk" || $useruid === "love" || $useruid === "ninin" || $useruid === "Brubraz";
+  }
+
   function LoggedInUser()
   {
     CheckSession();
