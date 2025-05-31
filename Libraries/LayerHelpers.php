@@ -77,7 +77,7 @@ function GetAllyWhenDestroyTheirsEffects($mainPlayer, $player,
     $allies = &GetAllies($player);
     for($i=0;$i<count($allies);$i+=AllyPieces()) {
       $ally = new Ally("MYALLY-$i", $player);
-      if(!$ally->LostAbilities() && HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded)) {
+      if(!$ally->LostAbilities() && HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded, $destroyedUniqueID)) {
         array_unshift($triggers, implode(";",$destroyedUpgradesWithOwnerData));
         array_unshift($triggers, $ally->UniqueID());
         array_unshift($triggers, $player);
@@ -88,7 +88,7 @@ function GetAllyWhenDestroyTheirsEffects($mainPlayer, $player,
     $allies = &GetAllies($player);
     for($i=0;$i<count($allies);$i+=AllyPieces()) {
       $ally = new Ally("MYALLY-$i", $player);
-      if(!$ally->LostAbilities() && HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded)) {
+      if(!$ally->LostAbilities() && HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded, $destroyedUniqueID)) {
         array_unshift($triggers, implode(";",$destroyedUpgradesWithOwnerData));
         array_unshift($triggers, $ally->UniqueID());
         array_unshift($triggers, $player);
@@ -98,7 +98,7 @@ function GetAllyWhenDestroyTheirsEffects($mainPlayer, $player,
     if($combatChainState[$CCS_CachedLastDestroyed] != "NA") {
       $ally = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
       $otherPlayer = $player == "1" ? "2" : "1";
-      if(HasWhenEnemyDestroyed($ally[0], $ally[5], $ally[8], $destroyedWasUnique, $destroyedWasUpgraded)) {
+      if(HasWhenEnemyDestroyed($ally[0], $ally[5], $ally[8], $destroyedWasUnique, $destroyedWasUpgraded, $destroyedUniqueID)) {
         array_unshift($triggers, implode(";",$destroyedUpgradesWithOwnerData));
         array_unshift($triggers, $ally[5]);
         array_unshift($triggers, $otherPlayer);

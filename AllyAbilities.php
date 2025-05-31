@@ -180,14 +180,15 @@ function PlayerHasMythosaurActive($player) {
   return $mythosaurIndex != "" && !Ally::FromMyIndex("MYALLY-" . $mythosaurIndex, $player)->LostAbilities();
 }
 
-function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpgraded) {
+function HasWhenEnemyDestroyed($cardID, $uniqueID, $numUses, $wasUnique, $wasUpgraded, $destroyedUniqueID) {
+  if($uniqueID == $destroyedUniqueID) return false;//band aid fix. this can be done better..
   switch($cardID) {
     case "1664771721"://Gideon Hask
     case "b0dbca5c05"://Iden Versio Leader Unit
     case "2407397504"://HK-47
       return true;
     case "2649829005"://Agent Kallus
-      return $wasUnique && $numUses > 0 && $uniqueID != $destroyedUniqueID;
+      return $wasUnique && $numUses > 0;
     case "8687233791"://Punishing One
       $ally = new Ally($uniqueID);
       return $ally->IsExhausted() && $wasUpgraded && $numUses > 0;
@@ -763,8 +764,6 @@ function TheirAllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Take Control";
     default: return true;
   }
-
-
 }
 
 function AllyHealth($cardID, $playerID="")
@@ -2682,7 +2681,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         WriteLog("Vambrace Grappleshot exhausts the defender");
         $target = GetAttackTarget();
         $defAlly = new Ally($target);
-        $defAlly->Exhaust();
+        $defAlly->Exhaust(enemyEffects:true);
       }
       break;
     case "6471336466"://Vambrace Flamethrower
@@ -2736,7 +2735,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       if(IsAllyAttackTarget()) {
         $target = GetAttackTarget();
         $defAlly = new Ally($target, $defPlayer);
-        $defAlly->Exhaust();
+        $defAlly->Exhaust(enemyEffects:true);
         $defAlly->DealDamage(1, fromUnitEffect:true);
       }
       break;
@@ -3066,7 +3065,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       if(IsAllyAttackTarget()) {
         $target = GetAttackTarget();
         $defAlly = new Ally($target, $defPlayer);
-        $defAlly->Exhaust();
+        $defAlly->Exhaust(enemyEffects:true);
       }
       break;
     case "8190373087"://Gentle Giant
@@ -3584,14 +3583,6 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "6648978613"://Fett's Firespray (Feared Silhouettte)
       $damage = ControlsNamedCard($mainPlayer, "Boba Fett") ? 2 : 1;
       IndirectDamage($attackID, $mainPlayer, $damage, true, $attackerAlly->UniqueID());
-      break;
-    case "4573745395"://Bossk
-      if(IsAllyAttackTarget()) {
-        $target = GetAttackTarget();
-        $defAlly = new Ally($target, $defPlayer);
-        $defAlly->Exhaust();
-        $defAlly->DealDamage(1, fromUnitEffect:true);
-      }
       break;
     case "3278986026"://Rafa Martez
       RafaMartezJTL($mainPlayer);
