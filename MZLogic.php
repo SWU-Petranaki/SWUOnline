@@ -185,7 +185,7 @@ function MZAttack($player, $mzIndexOrUniqueID)
     RevertGamestate();
     return;
   }
-  $ally->Exhaust(false);
+  $ally->Exhaust();
   SetClassState($player, $CS_CharacterIndex, $ally->Index());
   SetClassState($player, $CS_PlayIndex, $ally->Index());
   $abilityIndex = GetAbilityIndex($ally->CardID(), $ally->Index(), "Attack");

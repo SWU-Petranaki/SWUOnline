@@ -873,7 +873,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           [$fromEpicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($upgrades, $lastResult);
           $attachedAlly->RemoveSubcard($lastResult, moving:true);
           $newUID = PlayAlly($lastResult, $attachedAlly->Owner(), epicAction:$fromEpicAction, turnsInPlay: $turnsInPlay);
-          if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust(false);
+          if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust();
           return $newUID;
         case "FALLENPILOTUPGRADE":
           $params = explode(",", $lastResult);
@@ -2123,7 +2123,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       SetClassState($player, $CS_AbilityIndex, $index);
       if(IsAlly($parameter, $player)) {
         $ally = new Ally("MYALLY-" . GetClassState($player, $CS_PlayIndex), $player);
-        if(AllyDoesAbilityExhaust($parameter)) $ally->Exhaust(false);
+        if(AllyDoesAbilityExhaust($parameter)) $ally->Exhaust();
       }
       $names = explode(",", GetAbilityNames($parameter, GetClassState($player, $CS_PlayIndex)));
       $ability = implode(" ", explode("_", $names[$index]));
@@ -2137,7 +2137,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         SetClassState($player, $CS_AbilityIndex, $index);
         if(IsAlly($parameter, $otherPlayer) && TheirAllyDoesAbilityExhaust($parameter)) {
           $ally = new Ally("MYALLY-" . GetClassState($player, $CS_PlayIndex), $player);
-          $ally->Exhaust(false);
+          $ally->Exhaust();
         }
         $names = explode(",", GetOpponentControlledAbilityNames($parameter));
         $ability = implode(" ", explode("_", $names[$index]));

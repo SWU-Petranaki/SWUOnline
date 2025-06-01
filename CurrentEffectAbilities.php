@@ -833,7 +833,7 @@ function CurrentEffectEndRegroupPhaseAbilities() {
       case "8800836530"://No Good To Me Dead
         $ally = new Ally($uniqueID, $player);
         if(!$ally->IsExhausted())
-          $ally->Exhaust(false);
+          $ally->Exhaust();
         break;
       default: break;
     }
