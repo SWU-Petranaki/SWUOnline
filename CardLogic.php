@@ -903,6 +903,10 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
     case "UNITPLAYEDASUPGRADE":
       AllyPlayedAsUpgradeAbility($target, $player, Ally::FromUniqueId($additionalCosts));
       break;
+    case "UWINGPLAYCARD":
+      AddCurrentTurnEffect("8506660490", $player);
+      PlayCard($target, "DECK");
+      break;
     case "5942811090": //Luke Skywalker (You Still With Me?)
       LukePilotPlotArmor($player, $target);
       break;

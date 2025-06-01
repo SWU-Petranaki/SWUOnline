@@ -514,6 +514,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
             return "On Attack";
           case "CONTINUECOMBAT":
             return "Combat";
+          case "UWINGPLAYCARD":
+            return "Play Card";
           default: break;
         }
       }
@@ -582,6 +584,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         $cardId = $layers[$i + 3];
       if ($cardId == "ONATTACKABILITY")
         $cardId = $layers[$i + 3];
+      if ($cardId == "UWINGPLAYCARD")
+        $cardId = $layers[$i+3];
       $content .= "<div class='tile' style='max-width:{$cardSize}px;'>" . Card($cardId, "concat", $cardSize, 0, 1, 0, $layerColor, $counters, controller: $layerController);
 
       // Add reorder buttons for ability layers if applicable
