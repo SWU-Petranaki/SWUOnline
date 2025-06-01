@@ -204,12 +204,12 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                   <span style="white-space: nowrap; margin-right: 5px;">Quick Match:</span>
                   <div class="filter-dropdown-wrapper" style="flex: 1; margin-top: 10px;">
                     <select id="quickMatchFormat" class="styled-dropdown">
-                      <option value="premierf" <?php echo (FormatCode('premierf') == $defaultFormat ? "selected" : ""); ?>>Premier Casual</option>
                       <?php if($canSeeQueue) { ?>
-                      <option value="prstrict" <?php echo (FormatCode('prstrict') == $defaultFormat ? "selected" : ""); ?>>Premier (Best of 3)</option>
-                      <option value="<?php echo $funFormatBackendName?>" <?php echo (FormatCode($funFormatBackendName) == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option>
+                        <option value="premierf" <?php echo (FormatCode('premierf') == $defaultFormat ? "selected" : ""); ?>>Premier Casual</option>
+                        <option value="prstrict" <?php echo (FormatCode('prstrict') == $defaultFormat ? "selected" : ""); ?>>Premier (Best of 3)</option>
+                        <option value="<?php echo $funFormatBackendName?>" <?php echo (FormatCode($funFormatBackendName) == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option>
+                        <option value="previewf" <?php echo (FormatCode('previewf') == $defaultFormat ? "selected" : ""); ?>>Preview (Set 5)</option>
                       <?php } ?>
-                      <option value="previewf" <?php echo (FormatCode('previewf') == $defaultFormat ? "selected" : ""); ?>>Preview (Set 5)</option>
                       <option value="openform" <?php echo (FormatCode('openform') == $defaultFormat ? "selected" : ""); ?>>Open Format</option>
                     </select>
                   </div>
@@ -241,20 +241,20 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                     // Get selected format
                     const selectedFormat = quickMatchFormat.value;
 
-                    // Fetch open games
-                    fetch('APIs/GetOpenGames.php')
+                    // Fetch open games for user
+                    fetch('APIs/GetOpenGames.php?forCurrentPlayer=true')
                       .then(response => response.json())
                       .then(data => {
-                        // Find first game matching the selected format
-                        const matchingGame = data.openGames?.find(game => game.format === selectedFormat);
+                        // Find first game matching the selected format and also match on not blocked by user and user not blocked by them
+                        const matchingGame = data.openGames?.filter(game => game.format === selectedFormat);
 
                         if (matchingGame) {
-                          // Game found - join it
+                          // Game found
                           quickMatchStatus.textContent = `Game found! Joining ${matchingGame.description || 'Game #' + matchingGame.gameName}...`;
                           quickMatchStatus.className = 'quick-match-status success';
 
                           // Check if the game is still available before joining
-                          fetch('APIs/GetOpenGames.php')
+                          fetch('APIs/GetOpenGames.php?forCurrentPlayer=true')
                             .then(response => response.json())
                             .then(latestData => {
                               // Check if the game still exists in the open games list
@@ -421,12 +421,14 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 </svg>
               </span>
               <select id="formatFilter" class="styled-dropdown">
-                <option value="all">All Formats</option>
-                <option value="premierf">Premier Casual</option>
-                <option value="prstrict">Premier (Best of 3)</option>
-                <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
-                <option value="previewf">Preview (Set 5)</option>
-                <option value="openform">Open Format</option>
+                <?php if($canSeeQueue) { ?>
+                  <option value="all">All Formats</option>
+                  <option value="premierf">Premier Casual</option>
+                  <option value="prstrict">Premier (Best of 3)</option>
+                  <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
+                  <option value="previewf">Preview (Set 5)</option>
+                <?php } ?>
+                  <option value="openform">Open Format</option>
               </select>
             </div>
             <button id="refreshGameList" class="refresh-btn" title="Refresh game list">
@@ -451,11 +453,13 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 </svg>
               </span>
               <select id="spectateFormatFilter" class="styled-dropdown">
-                <option value="all">All Formats</option>
-                <option value="premierf">Premier Casual</option>
-                <option value="prstrict">Premier (Best of 3)</option>
-                <option value="<?php $funFormatBackendName?>">Cantina Brawl</option>
-                <option value="previewf">Preview (Set 5)</option>
+                <?php if($canSeeQueue) { ?>
+                  <option value="all">All Formats</option>
+                  <option value="premierf">Premier Casual</option>
+                  <option value="prstrict">Premier (Best of 3)</option>
+                  <option value="<?php $funFormatBackendName?>">Cantina Brawl</option>
+                  <option value="previewf">Preview (Set 5)</option>
+                <?php } ?>
                 <option value="openform">Open Format</option>
               </select>
             </div>
@@ -494,12 +498,12 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
               $openFormat = Formats::$OpenFormat;
               echo ("<br><label for='format' class='SelectDeckInput'>Format</label>");
               echo ("<select name='format' id='format'>");
-              echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
               if($canSeeQueue) {
+                echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
                 echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
                 echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
+                echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 5)</option>");
               }
-              echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 5)</option>");
               echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
               echo ("</select>");
               ?>
@@ -1032,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadOpenGames() {
     document.getElementById('gameListLoading').style.display = 'block';
     document.getElementById('gameListContent').innerHTML = '';
-    fetch('APIs/GetOpenGames.php')
+    fetch('APIs/GetOpenGames.php?forCurrentPlayer=true')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

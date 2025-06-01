@@ -22,6 +22,8 @@ $response->openGames = [];
 $response->canSeeQueue = IsUserLoggedIn();
 $response->totalGames = 0; // Will only count actual active games
 $isUserBanned = isset($_SESSION["userid"]) ? IsBanned($_SESSION["userid"]) : false;
+$forCurrentPlayer = isset($_GET["forCurrentPlayer"]) ? boolval($_GET["forCurrentPlayer"]) : false;
+$currentUserID = ($forCurrentPlayer && isset($_SESSION["userid"])) ? $_SESSION["userid"] : null;
 
 if ($handle = opendir($path)) {
   while (false !== ($folder = readdir($handle))) {
@@ -66,6 +68,14 @@ if ($handle = opendir($path)) {
             $gameStatus = trim(fgets($gameFileHandler));
             $format = trim(fgets($gameFileHandler));
             $visibility = trim(fgets($gameFileHandler));
+            $firstPlayerChooser = trim(fgets($gameFileHandler));
+            $firstPlayer = trim(fgets($gameFileHandler));
+            $p1Key = trim(fgets($gameFileHandler));
+            $p2Key = trim(fgets($gameFileHandler));
+            $p1uid = trim(fgets($gameFileHandler));
+            $p2uid = trim(fgets($gameFileHandler));
+            $p1id = trim(fgets($gameFileHandler));
+            $p2id = trim(fgets($gameFileHandler));
             $gameDescription = trim(fgets($gameFileHandler));
 
             flock($gameFileHandler, LOCK_UN);
@@ -102,6 +112,31 @@ if ($handle = opendir($path)) {
 
         // Only include if user is not banned or if the format is shadowblitz/shadowcc for banned users
         $shouldInclude = !$isUserBanned || ($format == "shadowblitz" || $format == "shadowcc");
+
+        //if "forCurrentPlayer" is set, only include game if game creator did not block the player or if the player didn't block the creator
+        if ($forCurrentPlayer) {
+          $iBlockedThem = false;
+          $theyBlockedMe = false;
+
+          $myBlockedPlayers = LoadBlockedPlayers($currentUserID);
+          for($i=0; $i<count($myBlockedPlayers); $i+=2) {
+            if($myBlockedPlayers[$i] == $p1id) {
+              $iBlockedThem = true;
+              break;
+            }
+          }
+          $theirBlockedPlayers = LoadBlockedPlayers($p1id);
+          for($i=0; $i<count($theirBlockedPlayers); $i+=2) {
+            if($theirBlockedPlayers[$i] == $currentUserID) {
+              $theyBlockedMe = true;
+              break;
+            }
+          }
+
+          if ($iBlockedThem || $theyBlockedMe) {
+            $shouldInclude = false;
+          }
+        }
 
         if ($shouldInclude) {
           $response->openGames[] = $openGame;
