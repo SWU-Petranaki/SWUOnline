@@ -887,7 +887,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       if (count($resourceIndices) == 0) return "PASS";
 
       AddDecisionQueue("PASSPARAMETER", $player, implode(",", $resourceIndices));
-      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to play for free");
+      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to play for free<br/>When Played effects will resolve in the order selected");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-");
       AddDecisionQueue("SETDQVAR", $player, "0", 1);
       AddDecisionQueue("PASSPARAMETER", $player, "5576996578", 1);
