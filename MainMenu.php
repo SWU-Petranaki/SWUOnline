@@ -246,7 +246,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                       .then(response => response.json())
                       .then(data => {
                         // Find first game matching the selected format and also match on not blocked by user and user not blocked by them
-                        const matchingGame = data.openGames?.filter(game => game.format === selectedFormat);
+                        const matchingGame = data.openGames?.find(game => game.format === selectedFormat);
 
                         if (matchingGame) {
                           // Game found
