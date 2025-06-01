@@ -41,7 +41,7 @@
 
     <?php
     if (!file_exists("./Games/" . $gameName . "/")) {
-      echo ("Game does not exist");
+      echo ("<p style='color:white'>Game does not exist</p>");
       exit;
     }
 
