@@ -549,14 +549,15 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $cardArr = explode(",", $lastResult);
       if($lastResult == "") $cardArr = [];
       for($i=0; $i<count($cardArr); ++$i) {
-        AddCurrentTurnEffect("8968669390", $player);
-        PlayCard($cardArr[$i], "DECK");
         $totalCost += CardCost($cardArr[$i]);
       }
       if($totalCost > 7) {
         WriteLog("<span style='color:red;'>Too many units played. Let's just say we'd like to avoid any Imperial entanglements. Reverting gamestate.</span>");
         RevertGamestate();
         return "";
+      }
+      for($i=0; $i<count($cardArr); ++$i) {
+        AddLayer("TRIGGER", $player, "UWINGPLAYCARD", $cardArr[$i]);
       }
       $deck = new Deck($player);
       $searchLeftovers = explode(",", $deck->Bottom(true, 10 - count($cardArr)));
@@ -887,7 +888,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       if (count($resourceIndices) == 0) return "PASS";
 
       AddDecisionQueue("PASSPARAMETER", $player, implode(",", $resourceIndices));
-      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to play for free");
+      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to play for free<br/>When Played effects will resolve in the order selected");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-");
       AddDecisionQueue("SETDQVAR", $player, "0", 1);
       AddDecisionQueue("PASSPARAMETER", $player, "5576996578", 1);
