@@ -152,6 +152,144 @@ if ($decklink != "") {
     $json = $apiDeck;
     echo($json);
   }
+  else if(str_contains($decklink, "melee.gg")) {
+          // Use the original URL for melee.gg decklists
+      $decklinkArr = explode("/", $decklink);
+      $assetSource = 2;
+      $assetSourceID = substr(trim($decklinkArr[count($decklinkArr) - 1]), 0, 31);
+      
+      // Fetch the HTML content from melee.gg
+      $curl = curl_init();
+      curl_setopt($curl, CURLOPT_URL, $decklink);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+      $htmlContent = curl_exec($curl);
+      $apiInfo = curl_getinfo($curl);
+      $errorMessage = curl_error($curl);
+      curl_close($curl);
+      
+      if(!empty($htmlContent)) {
+        // Create a DOM parser
+        $dom = new DOMDocument();
+        @$dom->loadHTML($htmlContent);
+        $xpath = new DOMXPath($dom);
+        
+        // Create the structure that matches our expected format
+        $deckObj = new stdClass();
+        
+        // Extract deck title
+        $deckTitleNodes = $xpath->query("//div[@class='decklist-title']");
+        $deckTitle = "";
+        if($deckTitleNodes->length > 0) {
+          $deckTitle = trim($deckTitleNodes->item(0)->nodeValue);
+          
+          // Add metadata with the deck name
+          $deckObj->metadata = new stdClass();
+          $deckObj->metadata->name = $deckTitle;
+        }
+        
+        // Extract cards from the HTML
+        $deckObj->deck = [];
+        $deckObj->sideboard = [];
+        
+        // Find all card categories
+        $categoryNodes = $xpath->query("//div[@class='decklist-category']");
+        foreach($categoryNodes as $categoryNode) {
+          // Get category title
+          $categoryTitleNodes = $xpath->query(".//div[@class='decklist-category-title']", $categoryNode);
+          $categoryTitle = "";
+          if($categoryTitleNodes->length > 0) {
+            $categoryTitle = trim($categoryTitleNodes->item(0)->nodeValue);
+          }
+          
+          // Skip processing if we already have leader and base from title
+          if($categoryTitle == "Leader (1)" || $categoryTitle == "Base (1)") {
+            // If leader wasn't found in the title, try to extract it here
+            if($categoryTitle == "Leader (1)" && (!isset($deckObj->leader) || !isset($deckObj->leader->id))) {
+              $cardNodes = $xpath->query(".//div[@class='decklist-record']", $categoryNode);
+              if($cardNodes->length > 0) {
+                $cardNode = $cardNodes->item(0);
+                $nameNodes = $xpath->query(".//a[@class='decklist-record-name']", $cardNode);
+                if($nameNodes->length > 0) {
+                  $cardName = trim($nameNodes->item(0)->nodeValue);
+                  $deckObj->leader = new stdClass();
+                  // Use the shared helper function
+                  $cardNameParts = explode('|', $cardName);
+                  $cardTitle = trim($cardNameParts[0]);
+                  $cardSubtitle = trim($cardNameParts[1]);
+                  $id = LookupCardIDFromTitles($cardTitle, $cardSubtitle ?? null);
+                  $leaderSetCode = CardIDLookup($id);
+                  if($leaderSetCode != null) {
+                    $deckObj->leader->id = $leaderSetCode;
+                    $deckObj->leader->count = 1;
+                  }
+                }
+              }
+            }
+            
+            // If base wasn't found in the title, try to extract it here
+            if($categoryTitle == "Base (1)" && (!isset($deckObj->base) || !isset($deckObj->base->id))) {
+              $cardNodes = $xpath->query(".//div[@class='decklist-record']", $categoryNode);
+              if($cardNodes->length > 0) {
+                $cardNode = $cardNodes->item(0);
+                $nameNodes = $xpath->query(".//a[@class='decklist-record-name']", $cardNode);
+                if($nameNodes->length > 0) {
+                  $cardName = trim($nameNodes->item(0)->nodeValue);
+                  $deckObj->base = new stdClass();
+                  // Use the shared helper function
+                  $cardNameParts = explode('|', $cardName);
+                  $cardTitle = trim($cardNameParts[0]);
+                  $cardSubtitle = trim($cardNameParts[1]);
+                  $id = LookupCardIDFromTitles($cardTitle, $cardSubtitle ?? null);
+                  $baseSetCode = CardIDLookup($id);
+                  if($baseSetCode != null) {
+                    $deckObj->base->id = $baseSetCode;
+                    $deckObj->base->count = 1;
+                  }
+                }
+              }
+            }
+            continue;
+          }
+          
+          // Process cards in this category
+          $cardNodes = $xpath->query(".//div[@class='decklist-record']", $categoryNode);
+          foreach($cardNodes as $cardNode) {
+            $quantityNodes = $xpath->query(".//span[@class='decklist-record-quantity']", $cardNode);
+            $nameNodes = $xpath->query(".//a[@class='decklist-record-name']", $cardNode);
+            
+            if($quantityNodes->length > 0 && $nameNodes->length > 0) {
+              $quantity = intval(trim($quantityNodes->item(0)->nodeValue));
+              $cardName = trim($nameNodes->item(0)->nodeValue);
+              echo($cardName . " - " . $quantity . "<br/>");
+              // Find card ID - use the shared helper function
+              $cardNameParts = explode('|', $cardName);
+              $cardTitle = trim($cardNameParts[0]);
+              $cardSubtitle = trim($cardNameParts[1]);
+              $id = LookupCardIDFromTitles($cardTitle, $cardSubtitle ?? null);
+              $cardSetCode = CardIDLookup($id);
+              if($cardSetCode != null) {
+                $cardObject = new stdClass();
+                $cardObject->id = $cardSetCode;
+                $cardObject->count = $quantity;
+                
+                // Add to appropriate list based on category
+                if(stripos($categoryTitle, "Sideboard") !== false) {
+                  $deckObj->sideboard[] = $cardObject;
+                } else {
+                  $deckObj->deck[] = $cardObject;
+                }
+              } else {
+                // Log cards that weren't found (for debugging)
+              }
+            }
+          }
+        }
+        
+        // Convert back to JSON string
+        $json = json_encode($deckObj);
+      }
+  }
   else if(str_contains($decklink, "sw-unlimited-db.com/decks")) {
     $decklinkArr = explode("/", $decklink);
 	  $deckId = trim($decklinkArr[count($decklinkArr) - 1]);
