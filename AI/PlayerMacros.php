@@ -2,7 +2,7 @@
 
 function ProcessMacros()
 {
-  global $currentPlayer, $turn, $actionPoints, $mainPlayer, $layers, $decisionQueue, $numPass, $initiativeTaken, $initiativePlayer;
+  global $currentPlayer, $turn, $actionPoints, $mainPlayer, $layers, $decisionQueue, $dqState, $numPass, $initiativeTaken, $initiativePlayer;
   $somethingChanged = true;
   for($i=0; $i<$numPass; ++$i)
   {
@@ -42,7 +42,7 @@ function ProcessMacros()
           else if(count($decisionQueue) == 0 && $layers[count($layers)-LayerPieces()+2] == "CONTINUECOMBAT" && count($layers) == (LayerPieces() * 2) && HoldPrioritySetting($currentPlayer) != "1")
           {
             $somethingChanged = true;
-            CloseDecisionQueue();
+            $dqState[8] = "-1"; //Orderable index (what layer after which triggers can be reordered)
             PassInput(true);
           }
         }
