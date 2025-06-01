@@ -397,6 +397,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("PASSPARAMETER", $player, $dqVars[0], 1);
         AddDecisionQueue("OP", $player, "MZTONORMALINDICES");
         AddDecisionQueue("MZOP", $player, "MULTICHOOSEATTACKTARGETS,2", 1);
+      } else {
+        SetAttackTarget("THEIRCHAR-0");
       }
       break;
     case "AFINEADDITION":
