@@ -709,6 +709,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         tooltipContent = `
                             <span class="tooltip-title">Copy deck links or JSON from:</span>
                             <a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a>
+                            <a href="https://melee.gg/" target="_blank" class="tooltip-link">Melee.gg</a>
                             <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
                             <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
                         `;
@@ -756,7 +757,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const enteringHelpIcon = e.relatedTarget && e.relatedTarget.closest('.help-icon');
         const enteringTooltip = e.relatedTarget && e.relatedTarget.closest('#global-tooltip');
 
-        // If we're leaving either the help icon or tooltip and not entering the other
+        // If we're leaving either the help icon or the tooltip and not entering the other
         if ((leavingHelpIcon || leavingTooltip) && !enteringHelpIcon && !enteringTooltip) {
             // Set a short timeout before hiding the tooltip to allow for small gaps in mouse movement
             tooltipHideTimeout = setTimeout(() => {
@@ -768,7 +769,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to validate deck link
     function validateDeckLink(url) {
-        const validDomains = ['swustats.net', 'swudb.com', 'sw-unlimited-db.com'];
+        const validDomains = ['swustats.net', 'swudb.com', 'sw-unlimited-db.com', 'melee.gg'];
         const joinButtons = document.querySelectorAll('.join-btn');
 
         if (!url || url.trim() === '') {
