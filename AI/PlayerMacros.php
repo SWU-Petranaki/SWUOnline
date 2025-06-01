@@ -2,7 +2,7 @@
 
 function ProcessMacros()
 {
-  global $currentPlayer, $turn, $actionPoints, $mainPlayer, $layers, $decisionQueue, $numPass, $initiativeTaken, $initiativePlayer;
+  global $currentPlayer, $turn, $actionPoints, $mainPlayer, $layers, $decisionQueue, $dqState, $numPass, $initiativeTaken, $initiativePlayer;
   $somethingChanged = true;
   for($i=0; $i<$numPass; ++$i)
   {
@@ -22,12 +22,6 @@ function ProcessMacros()
       else if($turn[0] == "CHOOSEARCANE" && $turn[2] == "0") { $somethingChanged = true; ContinueDecisionQueue("0"); }
       else if($turn[0] == "CHOOSEARSENAL" && $turn[2] == "0") { $somethingChanged = true; ContinueDecisionQueue($turn[2]); }
       else if((count($decisionQueue) == 0 || $decisionQueue[0] == "INSTANT") && count($layers) > 0 && $layers[count($layers)-LayerPieces()] == "ENDSTEP" && count($layers) < (LayerPieces() * 3)) { $somethingChanged = true; PassInput(true); }
-      else if(count($decisionQueue) == 0
-        && $turn[0] == "INSTANT"
-        && LayersIsOnlyOneOnAttackAndCombat($currentPlayer))
-      {
-        //TODO: see where this condition should go to auto-pass
-      }
       else if($turn[0] == "INSTANT" || ($turn[0] == "M" && ($actionPoints == 0 || $currentPlayer != $mainPlayer)))
       {
         if(HoldPrioritySetting($currentPlayer) == 0 && !HasPlayableCard($currentPlayer, $turn[0]))
@@ -44,6 +38,12 @@ function ProcessMacros()
             $subtype = CardSubType($layers[2]);
             //if(DelimStringContains($subtype, "Aura") && GetAuraGemState($layers[1], $layers[2]) == 0) { $somethingChanged = true; PassInput(true); }
             if(DelimStringContains($subtype, "Item") && GetItemGemState($layers[1], $layers[2]) == 0) { $somethingChanged = true; PassInput(true); }
+          }
+          else if(count($decisionQueue) == 0 && $layers[count($layers)-LayerPieces()+2] == "CONTINUECOMBAT" && count($layers) == (LayerPieces() * 2) && HoldPrioritySetting($currentPlayer) != "1")
+          {
+            $somethingChanged = true;
+            $dqState[8] = "-1"; //Orderable index (what layer after which triggers can be reordered)
+            PassInput(true);
           }
         }
       }
