@@ -943,6 +943,13 @@ function GetMZCardLink($player, $MZ)
 {
   $params = explode("-", $MZ);
   $zoneDS = &GetMZZone($player, $params[0]);
+  if ($zoneDS == "") {
+    //try uniqueID
+    $ally = Ally::FromUniqueId($MZ);
+    if($ally->Exists())
+      return CardLink($ally->CardID(), $ally->CardID());
+  }
+
   $index = $params[1];
   if($index == "") return "";
   return CardLink($zoneDS[$index], $zoneDS[$index]);

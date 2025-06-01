@@ -554,7 +554,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "REST":
           $ally = new Ally($lastResult);
           if (!$ally->Exists()) return "PASS";
-          $ally->Exhaust();
+          if(!$ally->Exhaust($player != $ally->Controller())) return "PASS";
           break;
       }
       return $lastResult;
@@ -1019,7 +1019,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $player = $ally->Controller();
           $selected = CardLink($ally->CardID(), $ally->CardID());
           $message = LogSelectedTarget($player, $lastResult);
-          WriteLog($selected . $message);
+          WriteLog($message);
           return $lastResult;
         case "WRITECHOICEFROMUNIQUE":
             $controller = UnitUniqueIDController($lastResult);
@@ -2074,8 +2074,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       // Trigger abilities
       CharacterEndRegroupPhaseAbilities($player);
       AllyEndRegroupPhaseAbilities($player);
-      if($player == 2)//only run once
-        CurrentEffectEndRegroupPhaseAbilities();
+      CurrentEffectEndRegroupPhaseAbilities();
       return $lastResult;
     case "REMOVECOUNTER":
       $character = &GetPlayerCharacter($player);

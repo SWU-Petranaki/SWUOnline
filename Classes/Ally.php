@@ -627,10 +627,16 @@ class Ally {
     return true;
   }
 
-  function Exhaust() {
+  function Exhaust($enemyEffects=false) {
     if($this->index == -1) return;
+    if($enemyEffects && $this->AvoidsExhaust()) {
+      WriteLog(CardLink($this->CardID(), $this->CardID()) . " cannot be exhausted by enemy card abilities.");
+      return false;
+    }
     AddEvent("EXHAUST", $this->UniqueID());
     $this->allies[$this->index+1] = 1;
+
+    return true;
   }
 
   function AddSubcard($cardID, $ownerID = null, $asPilot = false, $epicAction = false, $turnsInPlay = 0, $controllerID = null) {
@@ -684,6 +690,17 @@ class Ally {
 
   function AddEffect($effectID, $from="") {
     AddCurrentTurnEffect($effectID, $this->PlayerID(), from:$from, uniqueID:$this->UniqueID());
+  }
+
+  function RemoveEffect($effectID) {
+    global $currentTurnEffects;
+    for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnEffectPieces()) {
+      if($currentTurnEffects[$i] == $effectID && $currentTurnEffects[$i+1] == $this->PlayerID() && $currentTurnEffects[$i+2] == $this->UniqueID()) {
+        RemoveCurrentTurnEffect($i);
+        return true;
+      }
+    }
+    return false;
   }
 
   function HasEffect($effectID) {
@@ -994,7 +1011,6 @@ class Ally {
   }
 
   function AvoidsExhaust() {
-    //TODO: find all places that call DQ "REST" or exhaust and check if they should be avoided (will need sources for enemy effects)
     $hasMythosaurEffect = PlayerHasMythosaurActive($this->Controller()) && $this->IsUpgraded();
 
     return $hasMythosaurEffect;

@@ -37,8 +37,8 @@ function ModalAbilities($player, $parameter, $lastResult)
       return $lastResult;
     case "OUTMANEUVER":
       $arena = $lastResult == 0 ? "Space" : "Ground";
-      ExhaustAllAllies($arena, 1);
-      ExhaustAllAllies($arena, 2);
+      ExhaustAllAllies($arena, 1, $player);
+      ExhaustAllAllies($arena, 2, $player);
       return $lastResult;
     case "EZRABRIDGER":
       switch($lastResult) {
@@ -717,7 +717,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "ALLWINGSREPORTIN":
       foreach ($lastResult as $index) {
         $ally = new Ally("MYALLY-" . $index, $player);
-        $ally->Exhaust();
+        $ally->Exhaust(enemyEffects: false);
         CreateXWing($player);
       }
       return $lastResult;
@@ -1055,7 +1055,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
 
         $ally = new Ally($targets[$i]);
         if ($ally->Exists()) {
-          $ally->Exhaust();
+          $ally->Exhaust(enemyEffects:$player != $ally->Controller());
         }
       }
       break;
@@ -1171,7 +1171,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $enemyAlly = new Ally($lastResult);
       $enemyArena = $enemyAlly->CurrentArena();
       $enemyPower = $enemyAlly->CurrentPower();
-      $enemyAlly->Exhaust();
+      $enemyAlly->Exhaust(true);
       AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=" . $enemyArena . ";maxAttack=" . $enemyPower);
       AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit in the same arena to ready", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
@@ -1397,7 +1397,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       for($i=0; $i<count($selectedUnits); ++$i) {
         $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
         $ally = new Ally($selectedUnits[$i], $allyPlayer);
-        $ally->Exhaust();
+        $ally->Exhaust($player != $allyPlayer);
         if($withTheForce) $ally->AddEffect("1146162009");
       }
       break;
@@ -1438,7 +1438,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       for($i=0; $i<count($selectedUnits); ++$i) {
         $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
         $ally = new Ally($selectedUnits[$i], $allyPlayer);
-        $ally->Exhaust();
+        $ally->Exhaust($player != $allyPlayer);
       }
       break;
     case "MAZKANATA_LOF":
