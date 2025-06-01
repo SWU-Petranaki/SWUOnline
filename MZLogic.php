@@ -280,16 +280,9 @@ function MZRest($player, $target)
     case "MYCHAR": case "THEIRCHAR":
       $zone[$pieces[1]+1] = 1;
       break;
-    case "THEIRALLY":
+    case "THEIRALLY": case "MYALLY":
       $ally = new Ally("MYALLY-" . $pieces[1], $player);
-      if(!$ally->AvoidsExhaust())
-        $ally->Exhaust(enemyEffects:true);
-      else
-        WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " avoided exhaust.");
-      break;
-    case "MYALLY":
-      $ally = new Ally("MYALLY-" . $pieces[1], $player);
-      $ally->Exhaust();
+      $ally->Exhaust(enemyEffects:$pieces[0] == "THEIRALLY");
       break;
     case "MYITEMS": case "THEIRITEMS":
       $zone[$pieces[1]+2] = 1;
