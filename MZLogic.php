@@ -282,8 +282,8 @@ function MZRest($player, $target)
       break;
     case "THEIRALLY": case "MYALLY":
       $ally = new Ally("MYALLY-" . $pieces[1], $player);
-      if($player != $currentPlayer && !$ally->AvoidsExhaust())
-        $zone[$pieces[1]+1] = 1;
+      if(!$ally->AvoidsExhaust())
+        $ally->Exhaust($player != $currentPlayer);
       else
         WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " avoided exhaust.");
       break;
