@@ -704,6 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         tooltipContent = `
                             <span class="tooltip-title">Copy deck links or JSON from:</span>
                             <a href="https://swustats.net/" target="_blank" class="tooltip-link">SWU Stats</a>
+                            <a href="https://melee.gg/" target="_blank" class="tooltip-link">Melee.gg</a>
                             <a href="https://www.swudb.com/" target="_blank" class="tooltip-link">SWUDB</a>
                             <a href="https://sw-unlimited-db.com/" target="_blank" class="tooltip-link">SW-Unlimited-DB</a>
                         `;
