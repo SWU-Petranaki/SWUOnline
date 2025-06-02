@@ -7030,7 +7030,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       for($i=count($theirAllies)-AllyPieces(); $i>=0; $i-=AllyPieces())
       {
         $ally = new Ally("MYALLY-" . $i, $otherPlayer);
-        if(!TraitContains($theirAllies[$i], "Vehicle", $currentPlayer)) $ally->DealDamage(2);
+        if(!TraitContains($theirAllies[$i], "Vehicle", $currentPlayer)) $ally->DealDamage(2, enemyDamage:true);
       }
       break;
     case "5737712611"://Jedi Knight
