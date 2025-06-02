@@ -332,7 +332,7 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
       $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
       if($self && ($atLeastOneCreature || $atLeastAnotherSpectre)) return 2;
       break;
-    case "abcdefg047"://Supreamcy
+    case "abcdefg047"://Supremacy
       if($eachOtherFriendly && TraitContains($cardID, "Vehicle", $player)) return 6;
       break;
     default: break;
