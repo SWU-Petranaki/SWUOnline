@@ -838,7 +838,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "MULTIADDEXPERIENCE":
           $arr = explode(",", $dqVars[0]);
           for($i = 0; $i < count($arr); ++$i) {
-            $ally = new Ally($arr[$i], $player);
+            $mzPieces = explode("-", $arr[$i]);
+            $allyPlayer = $mzPieces[0] == "MYALLY" ? $player : ($player == 1 ? 2 : 1);
+            $ally = new Ally("MYALLY-" . $mzPieces[1], $allyPlayer);
             $ally->AttachExperience();
           }
           break;

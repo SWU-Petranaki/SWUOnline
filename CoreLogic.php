@@ -3018,7 +3018,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "4536594859"://Medal Ceremony
-      DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
+      DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Rebel&THEIRALLY:trait=Rebel", "to give an experience to", "numAttacks=0");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       break;
     case "6515891401"://Karabast
