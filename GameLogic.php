@@ -619,22 +619,24 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           }
           return $lastResult;
         case "CHANGEATTACKTARGET": SetAttackTarget($lastResult); return $lastResult;
-        case "MULTICHOOSEATTACKTARGETS":
-          $numOptions=$parameterArr[1];
-          if($numOptions===1) {
-            AddDecisionQueue("PASSPARAMETER", $player, "THEIRALLY-$lastResult", 1);
-            AddDecisionQueue("PROCESSATTACKTARGET", $player, "-", 1);
-            AddDecisionQueue("PASSPARAMETER", $player, 0, 1);
+        case "MULTIATTACKTARGET":
+          if ($lastResult==="Units") {
+            $dqVars[0]=str_replace("THEIRCHAR-0,", "", $dqVars[0]);
+            DQMultiUnitSelect($player, 2, "THEIRALLY", "to attack", customIndices:$dqVars[0]);
+            AddDecisionQueue("MZOP", $player, "PROCESSMULTIATTACKTARGET", 1);
           } else {
-            AddDecisionQueue("PREPENDLASTRESULT", $player, "$numOptions-", 1);
-            AddDecisionQueue("SETDQCONTEXT", $player, "Choose up to $numOptions units to target");
-            AddDecisionQueue("MULTICHOOSETHEIRUNIT", $player, "<-", 1);
-            AddDecisionQueue("IMPLODELASTRESULT", $player, ",", 1);
-            AddDecisionQueue("SETCOMBATCHAINSTATE", $player, $CCS_MultiAttackTargets, 1);
-            AddDecisionQueue("PROCESSATTACKTARGET", $player, "MULTI", 1);
-            //since we couldn't use the ability names for this, we need to pass 0 to the PlayCard function
-            AddDecisionQueue("PASSPARAMETER", $player, 0, 1);
+            SetAttackTarget("THEIRCHAR-0");
           }
+          break;
+        case "PROCESSMULTIATTACKTARGET":
+          $targets = explode(",", str_replace("THEIRALLY-", "", $dqVars[0]));
+          sort($targets, SORT_STRING);
+          $targets = implode(",", $targets);
+          AddDecisionQueue("PASSPARAMETER", $player, $targets, 1);
+          AddDecisionQueue("SETCOMBATCHAINSTATE", $player, $CCS_MultiAttackTargets, 1);
+          AddDecisionQueue("PROCESSATTACKTARGET", $player, "MULTI", 1);
+          //since we couldn't use the ability names for this, we need to pass 0 to the PlayCard function
+          AddDecisionQueue("PASSPARAMETER", $player, 0, 1);
           break;
         case "COMBINEMYANDTHEIRINDICIES"://to be used after "MULTICHOOSEOURUNITS"
           $theirs=$lastResult[0];
@@ -1795,11 +1797,11 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $type = (count($params) > 2 ? $params[2] : "-");
       // if(!CanDamageBePrevented($player, $damage, "DAMAGE")) $lastResult = 0;//FAB
       $damage -= intval($lastResult);
-      if($type == "COMBAT")
+      if($type == "COMBAT" || $type == "OVERWHELM")
       {
         $dqState[6] = $damage;
       }
-      $damage = DealDamageAsync($player, $damage, $type, $source);
+      $damage = DealDamageAsync($player, $damage, $type, $source, $mainPlayer);
       return $damage;
     // case "AFTERQUELL"://FAB
     //   $maxQuell = GetClassState($player, $CS_MaxQuellUsed);
