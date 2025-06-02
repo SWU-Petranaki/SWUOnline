@@ -328,48 +328,22 @@ function DealDamageAsync($player, $damage, $type="DAMAGE", $source="NA", $source
   $damage = max($damage, 0);
   $damageThreatened = $damage;
   $damage = CurrentEffectPreventDamagePrevention($player, $type, $damage, $source);
-  // $preventable = CanDamageBePrevented($player, $damage, $type, $source);//FAB
-  // if($preventable)
-  // {
-  //   $damage = CurrentEffectPreventDamagePrevention($player, $type, $damage, $source);
-  //   if(ConsumeDamagePrevention($player)) return 0;//If damage can be prevented outright, don't use up your limited damage prevention
-  //   if($type == "ARCANE")
-  //   {
-  //     if($damage <= $classState[$CS_ArcaneDamagePrevention])
-  //     {
-  //       $classState[$CS_ArcaneDamagePrevention] -= $damage;
-  //       $damage = 0;
-  //     }
-  //     else
-  //     {
-  //       $damage -= $classState[$CS_ArcaneDamagePrevention];
-  //       $classState[$CS_ArcaneDamagePrevention] = 0;
-  //     }
-  //   }
-  //   if($damage <= $classState[$CS_DamagePrevention])
-  //   {
-  //     $classState[$CS_DamagePrevention] -= $damage;
-  //     $damage = 0;
-  //   }
-  //   else
-  //   {
-  //     $damage -= $classState[$CS_DamagePrevention];
-  //     $classState[$CS_DamagePrevention] = 0;
-  //   }
-  // }
-
-  //else: CR 2.0 6.4.10h If damage is not prevented, damage prevention effects are not consumed
-  $damage = max($damage, 0);
-  //$damage = CurrentEffectDamagePrevention($player, $type, $damage, $source, $preventable);//FAB
-  //$damage = AuraTakeDamageAbilities($player, $damage, $type);//FAB
-  //$damage = PermanentTakeDamageAbilities($player, $damage, $type);//FAB
-  //$damage = ItemTakeDamageAbilities($player, $damage, $type);
-  //if($damage == 1 && $preventable && SearchItemsForCard("EVR069", $player) != "") $damage = 0;//Must be last//FAB
-  // $dqVars[0] = $damage;
-  if($type == "COMBAT") $dqState[6] = $damage;
+  if($type == "COMBAT" || $type == "OVERWHELM") $dqState[6] = $damage;
   FinalizeDamage($player, $damage, $damageThreatened, $type, $source);
   if ($damage > 0) {
-    CheckBobaFettJTL($player, $sourcePlayer != $player, $type == "COMBAT" || $type == "OVERWHELM");
+    $fromCombat = $type == "COMBAT" || $type == "OVERWHELM";
+    CheckBobaFettJTL($player, $sourcePlayer != $player, $fromCombat);
+    //check for base effects
+    $char = &GetPlayerCharacter($sourcePlayer);
+    for($i=0; $i<count($char); $i+=CharacterPieces()) {
+      switch($char[$i]) {
+        case "9453163990"://Temple of Destruction
+          if($fromCombat && $damage >= 3)
+            TheForceIsWithYou($sourcePlayer);
+          break;
+        default: break;
+      }
+    }
   }
   return $damage;
 }
@@ -3897,7 +3871,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to attack with");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "8297630396", 1);
@@ -7890,16 +7864,20 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="", $cantSkip=false) {
-  global $CS_CantSkipPhase;
+function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="", $cantSkip=false, $customIndices="") {
+  global $CS_CantSkipPhase, $dqVars;
   if($cantSkip) SetClassState($player, $CS_CantSkipPhase, 1);
   AddDecisionQueue("PASSPARAMETER", $player, "-");
   AddDecisionQueue("SETDQVAR", $player, "0");
   AddDecisionQueue("SETDQVAR", $player, "1");
   for ($i = $numUnits; $i > 0; $i--) {
-    AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
+    if($customIndices == "") {
+      AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
+      if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, 1);
+    } else {
+      AddDecisionQueue("PASSPARAMETER", $player, $customIndices, 1);
+    }
     AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
-    if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, 1);
     AddDecisionQueue("SETDQCONTEXT", $player, "Choose" . ($cantSkip ? "" : " up to") . " $i unit" . ($i > 1 ? "s " : " ") . $title, 1);
     AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "0", 1);

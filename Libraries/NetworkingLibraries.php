@@ -1145,6 +1145,7 @@ function ResolveMultiTarget(Ally $attacker, $mainPlayer, $defPlayer)
   $attackerDamage = $attacker->CurrentPower();
   $multiTargetAllyIDs = explode(",", $combatChainState[$CCS_MultiAttackTargets]);
   $numTargets = count($multiTargetAllyIDs);
+  $totalDamageBack = 0;
   for ($i = 0; $i < $numTargets; ++$i) {
     $defAlly = new Ally("MYALLY-$multiTargetAllyIDs[$i]", $defPlayer);
     if ($hasSaboteur) $defAlly->DefeatAllShields();
@@ -1167,8 +1168,9 @@ function ResolveMultiTarget(Ally $attacker, $mainPlayer, $defPlayer)
     $destroyed = $defAlly->DealDamage($modifiedDamage, $hasSaboteur, fromCombat: true, enemyDamage: true, fromUnitEffect: true);
     if ($i + 1 == $numTargets)
       $combatChainState[$CCS_MultiAttackTargets] = "-";
-    $attackerDestroyed = $attackerDestroyed || $attacker->DealDamage($defDamage, fromCombat: true, enemyDamage: true, fromUnitEffect: true);
+    $totalDamageBack += $defDamage;
     if ($destroyed) {
+      if(ShouldCombatDamageFirst()) $totalDamageBack -= $defDamage;
       if ($hasOverwhelm && $excess > 0) {
         DealDamageAsync($defPlayer, $excess, "OVERWHELM", $attackerID, sourcePlayer: $mainPlayer);
         WriteLog("OVERWHELM : <span style='color:Crimson;'>$excess damage</span> done on base");
@@ -1179,6 +1181,7 @@ function ResolveMultiTarget(Ally $attacker, $mainPlayer, $defPlayer)
     }
     ProcessDecisionQueue();
   }
+  $attackerDestroyed = $attacker->DealDamage($totalDamageBack, fromCombat: true, enemyDamage: true, fromUnitEffect: true);
   if (!$attackerDestroyed) {
     CompletesAttackEffect($attackerID);
   }
@@ -2159,7 +2162,7 @@ function Attack($attackerCardID)
           AddDecisionQueue("SETDQVAR", $mainPlayer, 0, 1);
           AddDecisionQueue("PASSPARAMETER", $mainPlayer, "Units", 1);
         }
-        AddDecisionQueue("SPECIFICCARD", $mainPlayer, "MAUL_TWI," . $attacker->Index(), 1);
+        AddDecisionQueue("MZOP", $mainPlayer, "MULTIATTACKTARGET", 1);
         break;
       default:
         PrependDecisionQueue("PROCESSATTACKTARGET", $mainPlayer, "-");

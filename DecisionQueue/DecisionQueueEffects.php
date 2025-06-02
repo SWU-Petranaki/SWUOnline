@@ -391,16 +391,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $ally1->DealDamage($ally2->CurrentPower(), fromUnitEffect:true);
       $ally2->DealDamage($ally1Power, fromUnitEffect:true);
       break;
-    case "MAUL_TWI":
-      if ($lastResult==="Units") {
-        $dqVars[0]=str_replace("THEIRCHAR-0,", "", $dqVars[0]);
-        AddDecisionQueue("PASSPARAMETER", $player, $dqVars[0], 1);
-        AddDecisionQueue("OP", $player, "MZTONORMALINDICES");
-        AddDecisionQueue("MZOP", $player, "MULTICHOOSEATTACKTARGETS,2", 1);
-      } else {
-        SetAttackTarget("THEIRCHAR-0");
-      }
-      break;
     case "AFINEADDITION":
       switch($lastResult)
       {
