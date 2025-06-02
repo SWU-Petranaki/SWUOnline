@@ -17,6 +17,10 @@ function ManualCardTitleData() {
     'abcdefg043' => 'Pounce',
     'abcdefg044' => 'Grappling Guardian',
     'abcdefg045' => 'Mythosaur',
+    'abcdefg046' => 'Exegol Patroller',
+    'abcdefg047' => 'Supremacy',
+    'abcdefg048' => 'Second Sister',
+    'abcdefg049' => 'Supremacy TIE/sf',
     //continue manual card titles
     'zzzzzzz001' => 'Ahsoka Tano',
   );
@@ -32,6 +36,8 @@ function ManualCardSubtitleData() {
     'abcdefg040' => 'Fighting For Peace',
     'abcdefg041' => 'Stay Close',
     'abcdefg045' => 'Folklore Awakened',
+    'abcdefg047' => 'Of Unimaginable Size',
+    'abcdefg048' => 'Seeking the Holocron',
     //continue manual card subtitles
     'zzzzzzz001' => 'Fighting For Peace',
   );
@@ -55,6 +61,10 @@ function ManualCardCostData() {
     'abcdefg043' => 2,
     'abcdefg044' => 7,
     'abcdefg045' => 9,
+    'abcdefg046' => 2,
+    'abcdefg047' => 12,
+    'abcdefg048' => 4,
+    'abcdefg049' => 3,
     //continue manual card costs
     'zzzzzzz001' => 6,
   );
@@ -74,6 +84,10 @@ function ManualCardHPDictionaryData() {
     'abcdefg042' => 10,
     'abcdefg044' => 9,
     'abcdefg045' => 10,
+    'abcdefg046' => 1,
+    'abcdefg047' => 12,
+    'abcdefg048' => 6,
+    'abcdefg049' => 3,
     //continue manual card HP dictionary
   );
 }
@@ -92,6 +106,10 @@ function ManualCardPowerData() {
     'abcdefg042' => 4,
     'abcdefg044' => 3,
     'abcdefg045' => 10,
+    'abcdefg046' => 3,
+    'abcdefg047' => 12,
+    'abcdefg048' => 3,
+    'abcdefg049' => 3,
     //continue manual card powers
   );
 }
@@ -126,6 +144,10 @@ function ManualCardAspectsData() {
     'abcdefg043' => 'Cunning',
     'abcdefg044' => 'Vigilance',
     'abcdefg045' => 'Vigilance',
+    'abcdefg046' => 'Command,Villainy',
+    'abcdefg047' => 'Command,Villainy',
+    'abcdefg048' => 'Cunning,Villainy',
+    'abcdefg049' => 'Vigilance,Villainy',
     //continue manual card aspects
     'zzzzzzz001' => 'Vigilance,Heroism',
   );
@@ -149,6 +171,10 @@ function ManualCardTraitsData() {
     'abcdefg043' => 'Trick',
     'abcdefg044' => 'Creature',
     'abcdefg045' => 'Mandalorian,Creature',
+    'abcdefg046' => 'First Order,Sith,Vehicle,Fighter',
+    'abcdefg047' => 'First Order,Vehicle,Capital Ship',
+    'abcdefg048' => 'Force,Imperial,Inquisitor',
+    'abcdefg049' => 'First Order, Vehicle, Fighter',
     //continue manual card traits
     'zzzzzzz001' => 'Force,Fringe',
   );
@@ -168,6 +194,10 @@ function ManualCardArenasData() {
     'abcdefg042' => 'Space',
     'abcdefg044' => 'Space',
     'abcdefg045' => 'Ground',
+    'abcdefg046' => 'Space',
+    'abcdefg047' => 'Space',
+    'abcdefg048' => 'Ground',
+    'abcdefg049' => 'Space',
     //continue manual card arenas
   );
 }
@@ -190,6 +220,10 @@ function ManualDefinedCardTypeData() {
     'abcdefg043' => 'Event',
     'abcdefg044' => 'Unit',
     'abcdefg045' => 'Unit',
+    'abcdefg046' => 'Unit',
+    'abcdefg047' => 'Unit',
+    'abcdefg048' => 'Unit',
+    'abcdefg049' => 'Unit',
     //continue manual card types
     'zzzzzzz001' => 'Leader',
   );
@@ -212,6 +246,10 @@ function ManualDefinedCardType2Data() {
     'abcdefg043' => 'Event',
     'abcdefg044' => 'Unit',
     'abcdefg045' => 'Unit',
+    'abcdefg046' => 'Unit',
+    'abcdefg047' => 'Unit',
+    'abcdefg048' => 'Unit',
+    'abcdefg049' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -227,6 +265,8 @@ function ManualCardIsUniqueData() {
     'abcdefg040' => 1,
     'abcdefg041' => 1,
     'abcdefg045' => 1,
+    'abcdefg047' => 1,
+    'abcdefg048' => 1,
     //continue manual card unique status
     'zzzzzzz001' => 1,
   );
@@ -266,6 +306,10 @@ function ManualCardSetData() {
     'abcdefg043' => 'LOF',
     'abcdefg044' => 'LOF',
     'abcdefg045' => 'LOF',
+    'abcdefg046' => 'LOF',
+    'abcdefg047' => 'LOF',
+    'abcdefg048' => 'LOF',
+    'abcdefg049' => 'LOF',
     //continue manual card sets
     'zzzzzzz001' => 'LOF',
   );
@@ -288,6 +332,10 @@ function ManualUUIDLookupData() {
     'LOF_224' => 'abcdefg043',
     'LOF_071' => 'abcdefg044',
     'LOF_073' => 'abcdefg045',
+    'LOF_080' => 'abcdefg046',
+    'LOF_089' => 'abcdefg047',
+    'LOF_184' => 'abcdefg048',
+    'LOF_034' => 'abcdefg049',
     //continue manual UUID lookups
     'LOF_003' => 'zzzzzzz001',
   );
@@ -310,6 +358,10 @@ function ManualCardIDLookupData() {
     'abcdefg043' => 'LOF_224',
     'abcdefg044' => 'LOF_071',
     'abcdefg045' => 'LOF_073',
+    'abcdefg046' => 'LOF_080',
+    'abcdefg047' => 'LOF_089',
+    'abcdefg048' => 'LOF_184',
+    'abcdefg049' => 'LOF_034',
     //continue manual card ID lookups
     'zzzzzzz001' => 'LOF_003',
   );
@@ -333,6 +385,10 @@ function ManualCardRarityData() {
     'abcdefg043' => 'Common',
     'abcdefg044' => 'Common',
     'abcdefg045' => 'Legendary',
+    'abcdefg046' => 'Common',
+    'abcdefg047' => 'Legendary',
+    'abcdefg048' => 'Rare',
+    'abcdefg049' => 'Common',
     //continue manual card rarities
     'zzzzzzz001' => 'Common',
   );
@@ -340,12 +396,16 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg046' => true,
+    'abcdefg047' => true,
+    'abcdefg048' => true,
+    'abcdefg049' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer|Pounce|Grappling Guardian|Mythosaur';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer|Pounce|Grappling Guardian|Mythosaur|Exegol Patroller|Supremacy|Second Sister|Supremacy TIE/sf';
 }
 ?>
