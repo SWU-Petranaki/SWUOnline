@@ -506,6 +506,7 @@ function HasSentinel($cardID, $player, $index)
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
     case "abcdefg037"://Graceful Purrgil
+    case "abcdefg049"://Supremacy TIE/sf
       return true;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);
@@ -761,6 +762,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "9757688123"://Mace Windu
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
+    case "abcdefg046"://Exegol Patroller
       return true;
     case "e6dc0d1cee"://Avar Kriss Leader unit
       return HasTheForce($player);
@@ -870,6 +872,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "6745607382"://Jedi Temple Guards
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
+    case "abcdefg047"://Supremacy
       return true;
 
     //conditional ambush
