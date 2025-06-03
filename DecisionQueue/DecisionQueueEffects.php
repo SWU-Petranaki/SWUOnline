@@ -1475,7 +1475,6 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       PrependDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
       PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       break;
-    //SpecificCardLogic End
     case "BAYLANSKOLL":
       $owner = str_starts_with($lastResult, "MY") ? $player : ($player == 1 ? 2 : 1);
       $lastResult = str_replace("THEIR", "MY", $lastResult);
@@ -1487,6 +1486,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       PrependDecisionQueue("NOPASS", $owner, "-", 1);
       PrependDecisionQueue("YESNO", $owner, "if you want to play " . CardLink($cardID, $cardID) . " for free");
       return 1;
+    case "SECONDSISTER_LOF":
+        $numToDiscard = 2;
+        for ($i = 0; $i < $numToDiscard; $i++) {
+          $cardID = Mill($player, 1);
+          if ($cardID !== null && TraitContains($cardID, "Force", $player)) {
+            ReadyResource($player, 1);
+          }
+        }
+      break;
+    //SpecificCardLogic End
     default: return "";
   }
 }

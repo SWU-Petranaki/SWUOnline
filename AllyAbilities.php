@@ -248,6 +248,7 @@ function AllyHasStaticHealthModifier($cardID)
     case "6931439330"://The Ghost SOR (with Phantom II)
     case "5763330426"://The Ghost JTL (with Phantom II)
     case "fadc48bab2"://Kanan Jarrus (LOF) Leader unit
+    case "abcdefg047"://Supremacy
       return true;
     default: return false;
   }
@@ -330,6 +331,9 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
       $atLeastOneCreature = SearchCount(SearchAllies($player, trait:"Creature")) > 0;
       $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
       if($self && ($atLeastOneCreature || $atLeastAnotherSpectre)) return 2;
+      break;
+    case "abcdefg047"://Supremacy
+      if($eachOtherFriendly && TraitContains($cardID, "Vehicle", $player)) return 6;
       break;
     default: break;
   }
@@ -2568,6 +2572,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "32fd8db633"://Mother Talzin Leader unit
     case "3363314608"://Jedi Starfighter
     case "2277278592"://Darth Vader
+    case "abcdefg048"://Second Sister LOF
     case "abcdefg040"://Ahsoka Tano Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3784,6 +3789,12 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "abcdefg040"://Ahsoka Tano Leader unit
       DQChooseAUnitToGiveEffect($mainPlayer, $cardID, "PLAY", mzSearch:"MYALLY", context:"a unit to give Sentinel to");
       break;
+    case "abcdefg048"://Second Sister LOF
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard 2 cards from your deck?");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SECONDSISTER_LOF", 1);
+      break; 
     default: break;
   }
 
