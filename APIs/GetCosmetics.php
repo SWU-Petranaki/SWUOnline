@@ -211,6 +211,7 @@ $cardBack = new stdClass();
 $cardBack->name = "Against The Galaxy";
 $cardBack->id = 53;
 $response->cardBacks[] = $cardBack;
+//continue adding card backs here
 
 $response->playmats = [];
 if(IsUserLoggedIn()) {
