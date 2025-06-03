@@ -338,6 +338,8 @@ function GetCardBack($player, $index="")
     51 => "CB_rtchompgg",
     52 => "CB_les-cartes-sur-table",
     53 => "ATG",
+    54 => "CB_CST",
+ //continue adding card backs here
     default => "CardBack",
   };
 }
