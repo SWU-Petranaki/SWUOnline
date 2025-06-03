@@ -1498,6 +1498,20 @@ function CountReadyAllies($player) {
   return $count;
 }
 
+function GetHighestPowerFromFriendlyUnits($player, $aspect="") {
+  $highestPower = 0;
+  $allies = &GetAllies($player);
+  for($i=0; $i<count($allies); $i+=AllyPieces()) {
+    if($aspect != "" && !AspectContains($allies[$i], $aspect, $player)) continue;
+    $ally = new Ally("MYALLY-" . $i, $player);
+    if($ally->CurrentPower() > $highestPower) {
+      $highestPower = $ally->CurrentPower();
+    }
+  }
+
+  return $highestPower;
+}
+
 function GetAllAlliesKeywords($player) {
   $allies = &GetAllies($player);
   $keywords = [];

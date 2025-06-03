@@ -21,8 +21,10 @@ function ManualCardTitleData() {
     'abcdefg047' => 'Supremacy',
     'abcdefg048' => 'Second Sister',
     'abcdefg049' => 'Supremacy TIE/sf',
+    'abcdefg050' => 'Supreme Leader Snoke',
     //continue manual card titles
     'zzzzzzz001' => 'Ahsoka Tano',
+    'zzzzzzz006' => 'Supreme Leader Snoke',
   );
 }
 
@@ -38,8 +40,10 @@ function ManualCardSubtitleData() {
     'abcdefg045' => 'Folklore Awakened',
     'abcdefg047' => 'Of Unimaginable Size',
     'abcdefg048' => 'Seeking the Holocron',
+    'abcdefg050' => 'In The Seat Of Power',
     //continue manual card subtitles
     'zzzzzzz001' => 'Fighting For Peace',
+    'zzzzzzz006' => 'In The Seat Of Power',
   );
 }
 
@@ -65,8 +69,10 @@ function ManualCardCostData() {
     'abcdefg047' => 12,
     'abcdefg048' => 4,
     'abcdefg049' => 3,
+    'abcdefg050' => 6,
     //continue manual card costs
     'zzzzzzz001' => 6,
+    'zzzzzzz006' => 6,
   );
 }
 
@@ -88,6 +94,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg047' => 12,
     'abcdefg048' => 6,
     'abcdefg049' => 3,
+    'abcdefg050' => 7,
     //continue manual card HP dictionary
   );
 }
@@ -110,6 +117,7 @@ function ManualCardPowerData() {
     'abcdefg047' => 12,
     'abcdefg048' => 3,
     'abcdefg049' => 3,
+    'abcdefg050' => 4,
     //continue manual card powers
   );
 }
@@ -148,8 +156,10 @@ function ManualCardAspectsData() {
     'abcdefg047' => 'Command,Villainy',
     'abcdefg048' => 'Cunning,Villainy',
     'abcdefg049' => 'Vigilance,Villainy',
+    'abcdefg050' => 'Command,Villainy',
     //continue manual card aspects
     'zzzzzzz001' => 'Vigilance,Heroism',
+    'zzzzzzz006' => 'Command,Villainy',
   );
 }
 
@@ -175,8 +185,10 @@ function ManualCardTraitsData() {
     'abcdefg047' => 'First Order,Vehicle,Capital Ship',
     'abcdefg048' => 'Force,Imperial,Inquisitor',
     'abcdefg049' => 'First Order, Vehicle, Fighter',
+    'abcdefg050' => 'Force,First Order,Official',
     //continue manual card traits
     'zzzzzzz001' => 'Force,Fringe',
+    'zzzzzzz006' => 'Force,First Order,Official',
   );
 }
 
@@ -198,6 +210,7 @@ function ManualCardArenasData() {
     'abcdefg047' => 'Space',
     'abcdefg048' => 'Ground',
     'abcdefg049' => 'Space',
+    'abcdefg050' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -224,8 +237,10 @@ function ManualDefinedCardTypeData() {
     'abcdefg047' => 'Unit',
     'abcdefg048' => 'Unit',
     'abcdefg049' => 'Unit',
+    'abcdefg050' => 'Leader',
     //continue manual card types
     'zzzzzzz001' => 'Leader',
+    'zzzzzzz006' => 'Leader',
   );
 }
 
@@ -250,6 +265,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg047' => 'Unit',
     'abcdefg048' => 'Unit',
     'abcdefg049' => 'Unit',
+    'abcdefg050' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -267,8 +283,10 @@ function ManualCardIsUniqueData() {
     'abcdefg045' => 1,
     'abcdefg047' => 1,
     'abcdefg048' => 1,
+    'abcdefg050' => 1,
     //continue manual card unique status
     'zzzzzzz001' => 1,
+    'zzzzzzz006' => 1,
   );
 }
 
@@ -310,8 +328,10 @@ function ManualCardSetData() {
     'abcdefg047' => 'LOF',
     'abcdefg048' => 'LOF',
     'abcdefg049' => 'LOF',
+    'abcdefg050' => 'LOF',
     //continue manual card sets
     'zzzzzzz001' => 'LOF',
+    'zzzzzzz006' => 'LOF',
   );
 }
 
@@ -338,6 +358,7 @@ function ManualUUIDLookupData() {
     'LOF_034' => 'abcdefg049',
     //continue manual UUID lookups
     'LOF_003' => 'zzzzzzz001',
+    'LOF_006' => 'zzzzzzz006',
   );
 }
 
@@ -362,8 +383,10 @@ function ManualCardIDLookupData() {
     'abcdefg047' => 'LOF_089',
     'abcdefg048' => 'LOF_184',
     'abcdefg049' => 'LOF_034',
+    'abcdefg050' => 'LOF_006',
     //continue manual card ID lookups
     'zzzzzzz001' => 'LOF_003',
+    'zzzzzzz006' => 'LOF_006',
   );
 }
 
@@ -389,8 +412,10 @@ function ManualCardRarityData() {
     'abcdefg047' => 'Legendary',
     'abcdefg048' => 'Rare',
     'abcdefg049' => 'Common',
+    'abcdefg050' => 'Common',
     //continue manual card rarities
     'zzzzzzz001' => 'Common',
+    'zzzzzzz006' => 'Common',
   );
 }
 
@@ -402,6 +427,6 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer|Pounce|Grappling Guardian|Mythosaur|Exegol Patroller|Supremacy|Second Sister|Supremacy TIE/sf';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Shin Hati|Baylon Skoll|Morgan Elsbeth|Itinerant Warrior|Dooku|Graceful Purrgil|Protect The Pod|Shatterpoint|Ahsoka Tano|T-6 Shuttle 1974|Hyperspace Wayfarer|Pounce|Grappling Guardian|Mythosaur|Exegol Patroller|Supremacy|Second Sister|Supremacy TIE/sf|Supreme Leader Snoke';
 }
 ?>

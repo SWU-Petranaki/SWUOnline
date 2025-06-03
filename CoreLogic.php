@@ -6920,7 +6920,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "zzzzzzz001"://Ahsoka Tano Leader
+    case "zzzzzzz001"://Ahsoka Tano Leader//TODO: remove later
+    case "7077983867"://Ahsoka Tano Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Sentinel") {
         if(!HasTheForce($currentPlayer)) {
@@ -6930,6 +6931,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           UseTheForce($currentPlayer);
           DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY", context:"a unit to give Sentinel to");
         }
+      }
+      break;
+    case "zzzzzzz006"://Supreme Leader Snoke Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Experience" && SearchCount(SearchAllies($currentPlayer, aspect: "Villainy")) > 0) {
+        $highestPower = GetHighestPowerFromFriendlyUnits($currentPlayer, "Villainy");
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:aspect=Villainy;minAttack=$highestPower;maxAttack=$highestPower");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Villainy unit to give experience to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       }
       break;
     //end LOF leaders
@@ -7214,12 +7225,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
         }
       break;
-    case "abcdefg039"://Shatterpoint
+    case "abcdefg039"://Shatterpoint//TODO:remove laters
+    case "0033766648"://Shatterpoint
       $options = "Defeat 3 or less HP;Use the Force to defeat";
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose one");
       AddDecisionQueue("CHOOSEOPTION", $currentPlayer, "$cardID&$options");
       AddDecisionQueue("SHOWOPTIONS", $currentPlayer, "$cardID&$options");
-      AddDecisionQueue("MODAL", $currentPlayer, "abcdefg039");
+      AddDecisionQueue("MODAL", $currentPlayer, "0033766648");
       break;
     case "7078597376"://Directed by the Force
       TheForceIsWithYou($currentPlayer);
@@ -7350,7 +7362,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg036"://Dooku
+    case "abcdefg036"://Dooku//TODO: remove later
+    case "3052907071"://Dooku
       //When Played:
       if($from != "PLAY") {
         $hiddenUnits = SearchAllies($currentPlayer, keyword:"Hidden");
@@ -7364,7 +7377,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg038"://Protect the Pod
+    case "abcdefg038"://Protect the Pod//TODO: remove later
+    case "1723823172"://Protect the Pod
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "trait=Vehicle");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage equal to its remaining HP");
