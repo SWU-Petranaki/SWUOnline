@@ -1282,11 +1282,11 @@ function ConcedeGameUI()
 function PreviousTurnSelectionUI()
 {
   global $playerID, $gameName;
-  $rv = "<h3>Revert to Start of Previous Turn</h3>"; // TODO: Revert Player 1 Turn 1 to the start of the game.
-  $rv .= CreateButton($playerID, "This Turn", 10003, "beginTurnGamestate.txt", "20px") . "<BR>";
+  $rv = "<h3>Revert to a Regroup Phase <br/>(Last Round or Round Before That)</h3>"; // TODO: Revert Player 1 Turn 1 to the start of the game.
+  $rv .= CreateButton($playerID, "Last Round Regroup", 10003, "beginTurnGamestate.txt", "18px") . "<br/><br/>";
   $lastTurnFN = "lastTurnGamestate.txt";
   if (file_exists("./Games/" . $gameName . "/" . $lastTurnFN))
-    $rv .= CreateButton($playerID, "Last Turn", 10003, $lastTurnFN, "20px") . "<BR>";
+    $rv .= CreateButton($playerID, "Previous Round Regroup", 10003, $lastTurnFN, "18px") . "<br/><br/>";
   return $rv;
 }
 
