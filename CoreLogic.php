@@ -2812,10 +2812,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "6028207223"://Pirated Starfighter
-      if(SearchCount(SearchAllies($currentPlayer)) == 1) {
-        WriteLog(CardLink($cardID, $cardID) . " was played, but no other units were present, so it bounced itself.");
-      }
       if($from != "PLAY") {
+        if(SearchCount(SearchAllies($currentPlayer)) == 1) {
+          WriteLog(CardLink($cardID, $cardID) . " was played, but no other units were present, so it bounced itself.");
+        }
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
         AddDecisionQueue("MZFILTER", $currentPlayer, "leader=1");
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
