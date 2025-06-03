@@ -336,7 +336,8 @@ function ModalAbilities($player, $parameter, $lastResult)
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "REST", 1);
       break;
-    case "abcdefg039"://Shatterpoint
+    case "abcdefg039"://Shatterpoint//TODO:remove laters
+    case "0033766648"://Shatterpoint
       switch($lastResult) {
         case 0://Defeat 3 or less HP
           MZChooseAndDestroy($player, "MYALLY:maxHealth=3&THEIRALLY:maxHealth=3", filter:"leader=1");

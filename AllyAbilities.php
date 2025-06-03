@@ -1714,7 +1714,8 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
     switch($currentTurnEffects[$i]) {
       case "2012334456"://On Top of Things
-      case "abcdefg036"://Dooku LOF unit
+      case "abcdefg036"://Dooku LOF unit//TODO: remove later
+      case "3052907071"://Dooku LOF unit
         return false;
       default: break;
     }
@@ -2620,6 +2621,13 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       //immediate effect. no layer
       AddCurrentTurnEffect($attackID, $mainPlayer, from:"PLAY");
+      break;
+    case "abcdefg050"://Supreme Leader Snoke
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(SearchCount(SearchAllies($mainPlayer, aspect:"Villainy")) > 0) {
+        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
       break;
     default: break;
   }
@@ -3794,7 +3802,14 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("YESNO", $mainPlayer, "-");
       AddDecisionQueue("NOPASS", $mainPlayer, "-");
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SECONDSISTER_LOF", 1);
-      break; 
+      break;
+    case "abcdefg050"://Supreme Leader Snoke Leader unit
+        $highestPower = GetHighestPowerFromFriendlyUnits($mainPlayer, "Villainy");
+        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:aspect=Villainy;minAttack=$highestPower;maxAttack=$highestPower");
+        AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a Villainy unit to give experience to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
     default: break;
   }
 
