@@ -3607,10 +3607,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "5941636047"://Resistance Blue Squadron
       if($from != "PLAY") {
         $spaceUnits = SearchCount(SearchAllies($currentPlayer, arena: "Space"));
-        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal " . $spaceUnits . " damage to");
-        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE," . $spaceUnits . ",$currentPlayer,1", 1);
+        DQPingUnit($currentPlayer, $spaceUnits, isUnitEffect:true, may:true);
       }
       break;
     case "2758597010"://Maximum Firepower
