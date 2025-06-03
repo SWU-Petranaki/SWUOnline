@@ -594,7 +594,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $skipWriteGamestate = true;
       WriteLog("Player " . $playerID . " cancel their blocks.");
       break;
-    case 10003: //Revert to prior turn
+    case 10003: //Revert to prior regroup
       $isDev = getenv("STAGE") === "dev";
       $revertCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 29 : 30)));
       if (!$isDev && !IsOnePlayerMode() && $revertCount >= 3) {
