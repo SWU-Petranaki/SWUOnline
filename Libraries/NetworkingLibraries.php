@@ -2712,8 +2712,8 @@ function WriteGamestate()
     fwrite($handler, implode(" ", $chainLinks[$i]) . "\r\n");
   }
   fwrite($handler, implode(" ", $chainLinkSummary) . "\r\n");
-  fwrite($handler, $p1Key . "\r\n");
-  fwrite($handler, $p2Key . "\r\n");
+  fwrite($handler, $p1Key . "\r\n");//line 59
+  fwrite($handler, $p2Key . "\r\n");//line 60
   fwrite($handler, $permanentUniqueIDCounter . "\r\n");
   fwrite($handler, $inGameStatus . "\r\n"); //Game status -- 0 = START, 1 = PLAY, 2 = OVER
   fwrite($handler, implode(" ", $animations) . "\r\n"); //Animations
