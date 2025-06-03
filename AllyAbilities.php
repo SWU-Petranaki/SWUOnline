@@ -1861,9 +1861,11 @@ function AllyAttackedAbility($attackTarget, $index) {
     case "0775347605"://Chirrut Imwe
       $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
       $uniqueID = $attackerAlly->UniqueID();
-      DQAskToUseTheForce($defPlayer);
-      AddDecisionQueue("PASSPARAMETER", $mainPlayer, $uniqueID, 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0775347605,PLAY", 1);
+      if(HasTheForce($defPlayer)) {
+        DQAskToUseTheForce($defPlayer);
+        AddDecisionQueue("PASSPARAMETER", $mainPlayer, $uniqueID, 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0775347605,PLAY", 1);
+      }
       break;
     case "abcdefg041"://T-6 Shuttle 1974
       AddDecisionQueue("YESNO", $defPlayer, "Do you want to add experience to this unit (before combat damage is dealt)?", 1);
