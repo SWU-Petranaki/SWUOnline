@@ -1270,6 +1270,15 @@ function LeaveGameUI() {
   return $rv;
 }
 
+function ConcedeGameUI()
+{
+  global $playerID, $gameName;
+  $rv = "<h3>Are you sure you want to concede the game?</h3>";
+  $rv .= "<p>This will end the game and return you to the main menu.</p>";
+  $rv .= CreateButton($playerID, "Concede Game", 100015, 0, "24px", "", "", false, true);
+  return $rv;
+}
+
 function PreviousTurnSelectionUI()
 {
   global $playerID, $gameName;

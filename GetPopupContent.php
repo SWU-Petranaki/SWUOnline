@@ -112,6 +112,9 @@ switch ($popupType) {
     $popupIndex = intval(($chainLinkIndex != "" ? $chainLinkIndex : $params[1]));
     echo (CreatePopup("chainLinkPopup-" . $popupIndex, [], 1, 0, "Summary Chain Link " . $popupIndex + 1, 1, ChainLinkPopup($popupIndex), "./", false, false, "Total Damage Dealt: " . $chainLinkSummary[$popupIndex * ChainLinkSummaryPieces()]));
     break;
+  case "concedeGame":
+    echo (CreatePopup("concedeGame", [], 1, 0, "Concede Game", 1, ConcedeGameUI(), "./", true));
+    break;
   default:
     break;
 }
