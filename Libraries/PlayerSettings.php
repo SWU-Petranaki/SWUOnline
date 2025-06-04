@@ -339,6 +339,9 @@ function GetCardBack($player, $index="")
     52 => "CB_les-cartes-sur-table",
     53 => "ATG",
     54 => "CB_CST",
+ 55 => "CB_OmahaAlliance",
+ 56 => "CB_SWDadDad",
+ 57 => "CB_SWDadFamily",
  //continue adding card backs here
     default => "CardBack",
   };

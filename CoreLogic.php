@@ -4720,7 +4720,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($abilityName == "Shield") {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal 2 damage and give a shield");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2,$currentPlayer", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
@@ -5526,10 +5526,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,$damage,$currentPlayer,1", 1);
       break;
     case "2784756758"://Obi-wan Kenobi
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,1", 1);
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Heal") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,1", 1);
+      }
       break;
     case "8929774056"://Asajj Ventress
       global $CS_NumEventsPlayed;
@@ -7783,8 +7786,8 @@ function UseTheForce($player) {
   if($char[4] == "0") return;
   $char[4] = "0";
   AddEvent("FORCETOKEN", "$player!0");
-  WriteLog("Player " . $player . " used the Force.");
-  IncrementClassState($player, $CS_NumTimesUsedTheForce);
+  $numTimes = IncrementClassState($player, $CS_NumTimesUsedTheForce);
+  WriteLog("Player " . $player . " used the Force ($numTimes this phase).");
 }
 
 function DQAskToUseTheForce($player, $withNoPass=true) {

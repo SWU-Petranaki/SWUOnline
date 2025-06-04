@@ -1526,6 +1526,16 @@ function LayersHaveTriggersToResolve()
   return false;
 }
 
+function LayersHasTrigger($cardID, $player="") {
+  global $layers;
+  for ($i = 0; $i < count($layers); $i += LayerPieces()) {
+    if ($layers[$i] == "TRIGGER" && $layers[$i + 2] == $cardID && ($player == "" || $layers[$i + 1] == $player)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function BeginRoundPass()
 {
   global $mainPlayer;

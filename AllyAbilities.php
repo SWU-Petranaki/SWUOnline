@@ -1464,7 +1464,8 @@ function OnKillAbility($player, $uniqueID)
       Draw($mainPlayer);
       break;
     case "2508430135"://Oggdo Bogdo
-      AddLayer("TRIGGER", $mainPlayer, "2508430135", $attackerAlly->UniqueID());
+      if(!LayersHasTrigger($attackerAlly->CardID(), $mainPlayer))//TODO: find a better way to check on kills only for target
+        AddLayer("TRIGGER", $mainPlayer, $attackerAlly->CardID(), $attackerAlly->UniqueID());
       break;
     case "3092212109"://Drengir Spawn
       if(IsAllyAttackTarget()) {
