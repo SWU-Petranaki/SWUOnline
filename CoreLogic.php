@@ -6917,7 +6917,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "zzzzzzz001"://Ahsoka Tano Leader//TODO: remove later
     case "7077983867"://Ahsoka Tano Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Sentinel") {
@@ -7222,7 +7221,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
         }
       break;
-    case "abcdefg039"://Shatterpoint//TODO:remove laters
     case "0033766648"://Shatterpoint
       $options = "Defeat 3 or less HP;Use the Force to defeat";
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose one");
@@ -7323,7 +7321,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       }
       break;
-    case "abcdefg032"://Baylan Skoll
     case "4729355863"://Baylan Skoll
       if($from != "PLAY" && HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
@@ -7359,7 +7356,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg036"://Dooku//TODO: remove later
     case "3052907071"://Dooku
       //When Played:
       if($from != "PLAY") {
@@ -7374,7 +7370,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "abcdefg038"://Protect the Pod//TODO: remove later
     case "1723823172"://Protect the Pod
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "trait=Vehicle");

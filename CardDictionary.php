@@ -379,9 +379,8 @@ function HasSentinel($cardID, $player, $index)
       case "2301911685": $hasSentinel = true; break;//Timely Reinforcements
       //Legends of the Force
       case "6059510270": $hasSentinel = true; break;//Obi-Wan Kenobi (Protective Padawan)
-      case "zzzzzzz001": $hasSentinel = true; break;//Ahsoka Tano Leader//TODO: remove later
       case "7077983867": $hasSentinel = true; break;//Ahsoka Tano Leader
-      case "abcdefg040": $hasSentinel = true; break;//Ahsoka Tano Leader unit
+      case "1a61e6df76": $hasSentinel = true; break;//Ahsoka Tano Leader unit
       default: break;
     }
   }
@@ -506,7 +505,6 @@ function HasSentinel($cardID, $player, $index)
     //Legends of the Force
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
-    case "abcdefg037"://Graceful Purrgil//TODO: remove later
     case "9213315483"://Graceful Purrgil
     case "abcdefg049"://Supremacy TIE/sf
       return true;
@@ -968,7 +966,6 @@ function HasShielded($cardID, $player, $index)
     //Legends of the Force
     case "3967581160"://Anakin Skywalker Child LOF
     case "4347039495"://Darth Tyranus
-    case "abcdefg031"://Shin Hati
     case "5221323929"://Shin Hati
     case "7323186775"://Itinerant Warrior
     case "abcdefg045"://Mythosaur
@@ -1134,11 +1131,8 @@ function HasHidden($cardID, $player, $index) {
     case "7877401512"://Aurra Sing
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
-    case "abcdefg031"://Shin Hati
     case "5221323929"://Shin Hati
-    case "abcdefg032"://Baylan Skoll
     case "4729355863"://Baylan Skoll
-    case "abcdefg036"://Dooku//TODO: remove later
     case "3052907071"://Dooku
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
@@ -1651,8 +1645,6 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "5045607736"://Morgan Elsbeth Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz001"://Ahsoka Tano Leader//TODO: remove later
-      return LeaderAbilitiesIgnored() ? "" : "A";
     case "7077983867"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz006"://Supreme Leader Snoke Leader
@@ -2014,8 +2006,6 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Meditate";
     case "5045607736"://Morgan Elsbeth Leader
       return LeaderAbilitiesIgnored() ? "" : "Play";
-    case "zzzzzzz001"://Ahsoka Tano Leader//TODO: remove later
-      return LeaderAbilitiesIgnored() ? "" : "Sentinel";
     case "7077983867"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "Sentinel";
     case "zzzzzzz006"://Supreme Leader Snoke Leader
@@ -2497,8 +2487,6 @@ function LeaderUnit($cardID) {
       return "e6dc0d1cee";
     case "5045607736"://Morgan Elsbeth
       return "b70416cfea";
-    case "zzzzzzz001"://Ahsoka Tano//TODO: remove later
-      return "abcdefg040";
     case "7077983867"://Ahsoka Tano
       return "1a61e6df76";
     case "zzzzzzz006"://Supreme Leader Snoke
@@ -2678,8 +2666,6 @@ function LeaderUndeployed($cardID) {
       return "0092239541";
     case "b70416cfea"://Morgan Elsbeth
       return "5045607736";
-    case "abcdefg040"://Ahsoka Tano//TODO: remove later
-      return "zzzzzzz001";
     case "1a61e6df76"://Ahsoka Tano
       return "7077983867";
     case "abcdefg050"://Supreme Leader Snoke
