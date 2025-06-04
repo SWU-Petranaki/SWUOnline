@@ -304,8 +304,8 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
                   $deckObj->leader = new stdClass();
                   // Use the shared helper function
                   $cardNameParts = explode('|', $cardName);
-                  $cardTitle = trim($cardNameParts[0]);
-                  $cardSubtitle = trim($cardNameParts[1]);
+                  $cardTitle = trim(str_replace('"', "'", $cardNameParts[0]));
+                  $cardSubtitle = trim(str_replace('"', "'", $cardNameParts[1]));
                   $id = LookupCardIDFromTitles($cardTitle, $cardSubtitle ?? null);
                   $leaderSetCode = CardIDLookup($id);
                   if($leaderSetCode != null) {
@@ -327,8 +327,8 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
                   $deckObj->base = new stdClass();
                   // Use the shared helper function
                   $cardNameParts = explode('|', $cardName);
-                  $cardTitle = trim($cardNameParts[0]);
-                  $cardSubtitle = trim($cardNameParts[1]);
+                  $cardTitle = trim(str_replace('"', "'", $cardNameParts[0]));
+                  $cardSubtitle = trim(str_replace('"', "'", $cardNameParts[1]));
                   $id = LookupCardIDFromTitles($cardTitle, $cardSubtitle ?? null);
                   $baseSetCode = CardIDLookup($id);
                   if($baseSetCode != null) {
@@ -353,8 +353,8 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
               echo($cardName . " - " . $quantity . "<br/>");
               // Find card ID - use the shared helper function
               $cardNameParts = explode('|', $cardName);
-              $cardTitle = trim($cardNameParts[0]);
-              $cardSubtitle = trim($cardNameParts[1]);
+              $cardTitle = trim(str_replace('"', "'", $cardNameParts[0]));
+              $cardSubtitle = trim(str_replace('"', "'", $cardNameParts[1]));
               $id = LookupCardIDFromTitles($cardTitle, $cardSubtitle ?? null);
               $cardSetCode = CardIDLookup($id);
               if($cardSetCode != null) {
