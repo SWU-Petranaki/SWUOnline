@@ -11023,6 +11023,7 @@ function CardIsUnique($cardID) {
   6814503441 => 1,
   5125502286 => 1,
   4363379257 => 1,
+  '0754286363' => 1,
 );
   if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : 0;
 }

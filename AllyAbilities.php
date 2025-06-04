@@ -1714,7 +1714,6 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
     switch($currentTurnEffects[$i]) {
       case "2012334456"://On Top of Things
-      case "abcdefg036"://Dooku LOF unit//TODO: remove later
       case "3052907071"://Dooku LOF unit
         return false;
       default: break;
@@ -2576,7 +2575,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "3363314608"://Jedi Starfighter
     case "2277278592"://Darth Vader
     case "abcdefg048"://Second Sister LOF
-    case "abcdefg040"://Ahsoka Tano Leader unit
+    case "1a61e6df76"://Ahsoka Tano Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3796,7 +3795,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "DESTROY,$mainPlayer", 1);
       break;
-    case "abcdefg040"://Ahsoka Tano Leader unit
+    case "1a61e6df76"://Ahsoka Tano Leader unit
       DQChooseAUnitToGiveEffect($mainPlayer, $cardID, "PLAY", mzSearch:"MYALLY", context:"a unit to give Sentinel to");
       break;
     case "abcdefg048"://Second Sister LOF
