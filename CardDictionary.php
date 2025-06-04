@@ -968,7 +968,7 @@ function HasShielded($cardID, $player, $index)
     case "4347039495"://Darth Tyranus
     case "5221323929"://Shin Hati
     case "7323186775"://Itinerant Warrior
-    case "abcdefg045"://Mythosaur
+    case "1462779761"://Mythosaur
       return true;
     default: break;
   }

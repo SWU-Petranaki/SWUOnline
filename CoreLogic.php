@@ -7383,10 +7383,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "{0},$currentPlayer,1", 1);
       break;
-    case "abcdefg043"://Pounce
+    case "3591040205"://Pounce
       DQAttackWithEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY:trait=Creature", context:"Choose a Creature unit to attack with");
       break;
-    case "abcdefg044"://Grappling Guardian
+    case "2404240951"://Grappling Guardian
       //When Played:
       if($from != "PLAY") {
         //You may defeat a space unit with 6 or less remaining HP.
