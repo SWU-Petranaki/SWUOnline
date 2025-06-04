@@ -293,7 +293,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "5960134941": return 1;//Niman Strike
     case "5917432593": return -2;//Grand Inquisitor Leader
     case "5b24706856": return -2;//Grand Inquisitor Leader unit
-    case "abcdefg043": return 4;//Pounce
+    case "3591040205": return 4;//Pounce
     default: return 0;
   }
 }
@@ -964,7 +964,7 @@ function IsCombatEffectActive($cardID)
     case "5960134941"://Niman Strike
     case "5917432593"://Grand Inquisitor Leader
     case "5b24706856"://Grand Inquisitor Leader unit
-    case "abcdefg043"://Pounce
+    case "3591040205"://Pounce
       return true;
     default: return false;
   }

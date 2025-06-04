@@ -176,7 +176,7 @@ function LeaderAbilitiesIgnored() {
 }
 
 function PlayerHasMythosaurActive($player) {
-  $mythosaurIndex = SearchAlliesForCard($player, "abcdefg045"); //Mythosaur
+  $mythosaurIndex = SearchAlliesForCard($player, "1462779761"); //Mythosaur
   return $mythosaurIndex != "" && !Ally::FromMyIndex("MYALLY-" . $mythosaurIndex, $player)->LostAbilities();
 }
 
@@ -1866,7 +1866,7 @@ function AllyAttackedAbility($attackTarget, $index) {
         AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0775347605,PLAY", 1);
       }
       break;
-    case "abcdefg041"://T-6 Shuttle 1974
+    case "2134957922"://T-6 Shuttle 1974
       AddDecisionQueue("YESNO", $defPlayer, "Do you want to add experience to this unit (before combat damage is dealt)?", 1);
       AddDecisionQueue("NOPASS", $defPlayer, "-", 1);
       AddDecisionQueue("PASSPARAMETER", $defPlayer, $ally->UniqueID(), 1);
@@ -2574,7 +2574,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "32fd8db633"://Mother Talzin Leader unit
     case "3363314608"://Jedi Starfighter
     case "2277278592"://Darth Vader
-    case "abcdefg048"://Second Sister LOF
+    case "9288795472"://Second Sister LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3798,7 +3798,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "1a61e6df76"://Ahsoka Tano Leader unit
       DQChooseAUnitToGiveEffect($mainPlayer, $cardID, "PLAY", mzSearch:"MYALLY", context:"a unit to give Sentinel to");
       break;
-    case "abcdefg048"://Second Sister LOF
+    case "9288795472"://Second Sister LOF
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard 2 cards from your deck?");
       AddDecisionQueue("YESNO", $mainPlayer, "-");
       AddDecisionQueue("NOPASS", $mainPlayer, "-");
