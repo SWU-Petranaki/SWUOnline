@@ -216,6 +216,21 @@ $cardBack->name = "Canadian Snow Troopers";
 $cardBack->id = 54;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Omaha Alliance";
+$cardBack->id = 55;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Star Wars Dad (Dad)";
+$cardBack->id = 56;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Star Wars Dad (Family)";
+$cardBack->id = 57;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
