@@ -345,12 +345,12 @@ function ClearNextCardArcaneBuffs($player, $playedCard="", $from="")
 
 function IncrementClassState($player, $piece, $amount = 1)
 {
-  SetClassState($player, $piece, (intval(GetClassState($player, $piece)) + $amount));
+  return SetClassState($player, $piece, (intval(GetClassState($player, $piece)) + $amount));
 }
 
 function DecrementClassState($player, $piece, $amount = 1)
 {
-  SetClassState($player, $piece, (intval(GetClassState($player, $piece)) - $amount));
+  return SetClassState($player, $piece, (intval(GetClassState($player, $piece)) - $amount));
 }
 
 function AppendClassState($player, $piece, $value, $allowRepeats = true)
@@ -373,6 +373,7 @@ function SetClassState($player, $piece, $value)
   global $currentPlayer, $mainPlayer, $mainPlayerGamestateStillBuilt;
   global $myClassState, $theirClassState, $mainClassState, $defClassState;
   global $myStateBuiltFor;
+
   if ($mainPlayerGamestateStillBuilt) {
     if ($player == $mainPlayer) $mainClassState[$piece] = $value;
     else $defClassState[$piece] = $value;
@@ -380,6 +381,8 @@ function SetClassState($player, $piece, $value)
     if ($player == $myStateBuiltFor) $myClassState[$piece] = $value;
     else $theirClassState[$piece] = $value;
   }
+
+  return $value;
 }
 
 function AddCharacterEffect($player, $index, $effect)
