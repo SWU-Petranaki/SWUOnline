@@ -7433,7 +7433,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg052,HAND", 1);
       break;
-    //PlayAbility End
+    case "abcdefg056"://Asajj Ventress LOFAdd commentMore actions
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Force");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg056,PLAY", 1);
+      break;
+      //PlayAbility End
     default: break;
   }
 
