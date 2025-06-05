@@ -2576,7 +2576,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "3363314608"://Jedi Starfighter
     case "2277278592"://Darth Vader
     case "9288795472"://Second Sister LOF
-    case "abcdefg051"://Bendu LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -2630,6 +2629,15 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       if(SearchCount(SearchAllies($mainPlayer, aspect:"Villainy")) > 0) {
         AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
+      break;
+    case "abcdefg051"://Bendu
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(SearchCount(SearchAllies($mainPlayer)) > 1) {
+        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      } else if(SearchCount(SearchAllies($defPlayer)) > 0) {
+        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID, "THEIRALLY");
       }
       break;
     default: break;
@@ -3813,9 +3821,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
       break;
-    case "abcdefg051"://Bendu LOF
-      DamageAllAllies(3, "abcdefg051", arena: "Ground", except: "MYALLY-" . $attackerAlly->Index());
-      DamageAllAllies(3, "abcdefg051", arena: "Space", except: "MYALLY-" . $attackerAlly->Index());
+    case "abcdefg051"://Bendu
+      DamageAllAllies(3, $cardID, except:$attackerAlly->MZIndex());
       break;
     default: break;
   }
