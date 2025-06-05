@@ -2577,6 +2577,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "2277278592"://Darth Vader
     case "9288795472"://Second Sister LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
+    case "abcdefg054"://Cal Kestis Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3823,6 +3824,13 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "abcdefg051"://Bendu
       DamageAllAllies(3, $cardID, except:$attackerAlly->MZIndex());
+      break;
+    case "abcdefg054"://Cal Kestis Leader unit
+      AddDecisionQueue("MULTIZONEINDICES", $defPlayer, "MYALLY");
+      AddDecisionQueue("MZFILTER", $defPlayer, "status=1");
+      AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose a unit to exhaust");
+      AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $defPlayer, "REST", 1);
       break;
     default: break;
   }

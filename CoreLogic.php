@@ -6942,6 +6942,22 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       }
       break;
+    case "zzzzzzz015"://Cal Kestis Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Exhaust") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY");
+          AddDecisionQueue("MZFILTER", $otherPlayer, "status=1");
+          AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose a unit to exhaust");
+          AddDecisionQueue("CHOOSEMULTIZONE", $otherPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $otherPlayer, "REST", 1);
+        }
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
