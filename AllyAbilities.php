@@ -2576,6 +2576,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "3363314608"://Jedi Starfighter
     case "2277278592"://Darth Vader
     case "9288795472"://Second Sister LOF
+    case "abcdefg051"://Bendu LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -3811,6 +3812,10 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a Villainy unit to give experience to");
         AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
+    case "abcdefg051"://Bendu LOF
+      DamageAllAllies(3, "abcdefg051", arena: "Ground", except: "MYALLY-" . $attackerAlly->Index());
+      DamageAllAllies(3, "abcdefg051", arena: "Space", except: "MYALLY-" . $attackerAlly->Index());
       break;
     default: break;
   }
