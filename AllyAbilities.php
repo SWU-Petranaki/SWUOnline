@@ -2579,6 +2579,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "1a61e6df76"://Ahsoka Tano Leader unit
     case "abcdefg054"://Cal Kestis Leader unit
     case "abcdefg055"://Quinlan Vos LOF
+    case "abcdefg056"://Asajj Ventress LOF
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3844,9 +3845,16 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
       }
       break;
+    case "abcdefg056"://Asajj Ventress LOF
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Force");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "abcdefg056,PLAY", 1);
+      break;
     default: break;
   }
-
   //SpecificAllyAttackAbilities End
 }
 

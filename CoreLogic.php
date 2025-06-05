@@ -2420,7 +2420,7 @@ function ClearGameFiles($gameName)
 function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalCosts = "-", $theirCard = false, $uniqueId = "")
 {
   global $currentPlayer, $layers, $CS_PlayIndex, $CS_OppIndex, $initiativePlayer, $CCS_CantAttackBase, $CS_NumAlliesDestroyed;
-  global $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks, $CS_NumFirstOrderPlayed, $CS_NumForcePlayed;
+  global $CS_NumFighterAttacks, $CS_NumNonTokenVehicleAttacks, $CS_NumFirstOrderPlayed, $CS_NumForceUnitsPlayed;
   global $CS_NumUsesLeaderUpgrade1, $CS_NumUsesLeaderUpgrade2;
   global $CS_CachedLeader1EpicAction, $CS_CachedLeader2EpicAction;
   $index = GetClassState($currentPlayer, $CS_PlayIndex);
@@ -6942,22 +6942,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       }
       break;
-    case "zzzzzzz015"://Cal Kestis Leader
-      $abilityName = GetResolvedAbilityName($cardID, $from);
-      if($abilityName == "Exhaust") {
-        if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
-          RevertGamestate();
-        } else {
-          UseTheForce($currentPlayer);
-          AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY");
-          AddDecisionQueue("MZFILTER", $otherPlayer, "status=1");
-          AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose a unit to exhaust");
-          AddDecisionQueue("CHOOSEMULTIZONE", $otherPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $otherPlayer, "REST", 1);
-        }
-      }
-      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
@@ -7417,21 +7401,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "abcdefg053"://Caretaker Matron
       $abilityName = GetResolvedAbilityName($cardID, $from);
-      if($abilityName == "Draw" && GetClassState($currentPlayer, $CS_NumForcePlayed)) {
-        Draw($currentPlayer);
+      if($abilityName == "Draw" && GetClassState($currentPlayer, $CS_NumForceUnitsPlayed) > 0) {
+        AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       }
       break;
-    case "abcdefg052"://Force Illusion
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy unit to exhaust");
-      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Sentinel to");
+    case "abcdefg056"://Asajj Ventress LOF
+      WriteLog("inside");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Force");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg052,HAND", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg056,PLAY", 1);
       break;
     //PlayAbility End
     default: break;
@@ -7734,7 +7715,7 @@ function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $
   for($i=count($theirAllies) - AllyPieces(); $i>=0; $i-=AllyPieces())
   {
     $ally = Ally::FromUniqueId($theirAllies[$i+5]);
-    if($arena != "" && !ArenaContains($theirAllies[$i], $arena, $ally)) continue;
+    if(!ArenaContains($theirAllies[$i], $arena, $ally)) continue;
     if($alsoRest) $theirAllies[$i+1] = 1;
     if($alsoFreeze) $theirAllies[$i+3] = 1;
     $ally->DealDamage($amount, enemyDamage:true);
@@ -7746,7 +7727,7 @@ function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $
   for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
   {
     $ally = Ally::FromUniqueId($allies[$i+5]);
-    if($arena != "" && !ArenaContains($allies[$i], $arena, $ally)) continue;
+    if(!ArenaContains($allies[$i], $arena, $ally)) continue;
     if($except != "" && $except == ("MYALLY-" . $i)) continue;
     if($alsoRest) $allies[$i+1] = 1;
     if($alsoFreeze) $allies[$i+3] = 1;
