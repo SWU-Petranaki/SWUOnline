@@ -1650,6 +1650,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz006"://Supreme Leader Snoke Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "zzzzzzz015"://Cal Kestis Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -2013,6 +2015,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Sentinel";
     case "zzzzzzz006"://Supreme Leader Snoke Leader
       return LeaderAbilitiesIgnored() ? "" : "Experience";
+    case "zzzzzzz015"://Cal Kestis Leader
+      return LeaderAbilitiesIgnored() ? "" : "Exhaust";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
@@ -2496,6 +2500,8 @@ function LeaderUnit($cardID) {
       return "1a61e6df76";
     case "zzzzzzz006"://Supreme Leader Snoke
       return "abcdefg050";
+    case "zzzzzzz015"://Cal Kestis
+      return "abcdefg054";
     default: return "";
   }
 }
@@ -2675,6 +2681,8 @@ function LeaderUndeployed($cardID) {
       return "7077983867";
     case "abcdefg050"://Supreme Leader Snoke
       return "zzzzzzz006";
+    case "abcdefg054"://Cal Kestis
+      return "zzzzzzz015";
     default: return "";
   }
 }
