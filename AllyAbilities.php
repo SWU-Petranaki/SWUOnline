@@ -2578,6 +2578,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "9288795472"://Second Sister LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
     case "abcdefg054"://Cal Kestis Leader unit
+    case "abcdefg055"://Quinlan Vos LOF
+    case "abcdefg056"://Asajj Ventress LOF
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3831,6 +3833,25 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose a unit to exhaust");
       AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $defPlayer, "REST", 1);
+      break;
+    case "abcdefg055"://Quinlan Vos LOF
+      $attackerAlly = AttackerAlly();
+      if ($attackerAlly->CurrentPower() >= 6) {
+      $otherPlayer = $player == 1 ? 2 : 1;
+      AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to deal 2 damage to the opponent's base?");
+      AddDecisionQueue("YESNO", $player, "-");
+      AddDecisionQueue("NOPASS", $player, "-");
+      AddDecisionQueue("PASSPARAMETER", $player, "THEIRCHAR-0", 1);
+      AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
+      }
+      break;
+    case "abcdefg056"://Asajj Ventress LOF
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Force");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "abcdefg056,PLAY", 1);
       break;
     default: break;
   }
