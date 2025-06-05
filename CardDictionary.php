@@ -381,6 +381,7 @@ function HasSentinel($cardID, $player, $index)
       case "6059510270": $hasSentinel = true; break;//Obi-Wan Kenobi (Protective Padawan)
       case "7077983867": $hasSentinel = true; break;//Ahsoka Tano Leader
       case "1a61e6df76": $hasSentinel = true; break;//Ahsoka Tano Leader unit
+      case "abcdefg052": $hasSentinel = true; break;//Force Illusion
       default: break;
     }
   }
@@ -1654,6 +1655,8 @@ function CheckLOFAbilityTypes($cardID) {
       return "A,AA";
     case "5482818255"://Jedi Consular
       return "A,AA";
+    case "abcdefg053"://Caretaker Matron
+      return "A,AA";
     default: return "";
   }
 }
@@ -2015,6 +2018,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return "Move Damage,Attack";
     case "5482818255"://Jedi Consular
       return "Play Unit,Attack";
+    case "abcdefg053"://Caretaker Matron
+      return "Draw,Attack";
     default: return "";
   }
 }
