@@ -7,6 +7,10 @@
 
   include './zzImageConverter.php';
 
+  if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== 0) {
+    exit;
+  }
+
   $hasMoreData = true;
   $page = 1;
   $titleArray = [];

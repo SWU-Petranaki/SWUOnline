@@ -6,6 +6,10 @@ class Formats {
   public static $PremierStrict = "prstrict";
   public static $OpenFormat = "openform";
   public static $PreviewFormat = "previewf";
+  //quick match formats
+  public static $QuickMatchFormat = "qpremier";
+  public static $QuickMatchStrict = "qpstrict";
+  public static $QuickMatchPreview = "qpreview";
   //fun formats
   public static $PadawanFormat = "padawanf";
   public static $SandcrawlerFormat = "sndcrawl";

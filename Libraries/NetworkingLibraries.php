@@ -566,7 +566,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       PlayCard($cardID, "PLAY", -1, $index, $theirAllies[$index + 5]);
       break;
     case 10000: //Undo
-      $isDev = getenv("STAGE") === "dev";
       $parsedFormat = GetCurrentFormat();
       $endBo3 = BestOf3IsOver();
       if (GetCachePiece($gameName, 14) == 7)
@@ -576,7 +575,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         break;
       }
       $undoCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 27 : 28)));
-      if (!$isDev && !IsOnePlayerMode() && $undoCount >= 10) {
+      if (!IsDevEnvironment() && !IsOnePlayerMode() && $undoCount >= 10) {
         WriteLog("Player $playerID has exceeded the maximum number of undos per round. Repeated undos will result in a game loss.");
         IncrementCachePiece($gameName, ($playerID == 1 ? 27 : 28));
         if($undoCount >= 15){
@@ -595,9 +594,8 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       WriteLog("Player " . $playerID . " cancel their blocks.");
       break;
     case 10003: //Revert to prior regroup
-      $isDev = getenv("STAGE") === "dev";
       $revertCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 29 : 30)));
-      if (!$isDev && !IsOnePlayerMode() && $revertCount >= 3) {
+      if (!IsDevEnvironment() && !IsOnePlayerMode() && $revertCount >= 3) {
         WriteLog("Player $playerID has exceeded the maximum number of reverts per round. Repeated reverts will result in a game loss.");
         IncrementCachePiece($gameName, ($playerID == 1 ? 29 : 30));
         if($revertCount >= 6){
@@ -2743,6 +2741,10 @@ function AddEvent($type, $value)
   global $events;
   $events[] = $type;
   $events[] = $value;
+}
+
+function IsDevEnvironment() {
+  return getenv("STAGE") === "dev";
 }
 
 ?>

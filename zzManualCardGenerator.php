@@ -4,6 +4,11 @@ include_once 'MenuBar.php';
 
 include_once './includes/functions.inc.php';
 include_once "./includes/dbh.inc.php";
+include_once './AccountFiles/AccountSessionAPI.php';
+
+if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== 0) {
+  exit;
+}
 
 if (!isset($_SESSION["useruid"])) {
   echo ("Please login to view this page.");
@@ -11,7 +16,7 @@ if (!isset($_SESSION["useruid"])) {
 }
 
 $useruid = $_SESSION["useruid"];
-if ($useruid != "OotTheMonk" && $useruid != "test" && $useruid != "ninin" && $useruid != "Brubraz" && $useruid != "Mobyus1") {
+if (!IsUserLoggedInAsMod()) {
   echo ("You must log in to use this page.");
   exit;
 }

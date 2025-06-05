@@ -5,6 +5,7 @@ require "MenuBar.php";
 include_once './AccountFiles/AccountDatabaseAPI.php';
 include "Libraries/PlayerSettings.php";
 include_once './Database/ConnectionManager.php';
+include_once './Libraries/NetworkingLibraries.php';
 
 if (!isset($_SESSION['userid'])) {
     header('Location: ./MainMenu.php');
@@ -278,9 +279,7 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
         echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");
         echo CardbacksDropdowns($settingArray);
         echo ("</select></div>");
-        $stage = getenv('STAGE') ?: 'prod';
-        $isDev = $stage === 'dev';
-        $patreonCases = $isDev ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
+        $patreonCases = IsDevEnvironment() ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
         if(count($patreonCases) > 0) {
           echo ("<div class='SelectDeckInput'>Patreon Cardbacks: <span style='margin-left: 25%;'>");
           echo ("<select onchange='OnCardbackChange(event.target.value)' name='cardbacks' id='cardbacks'>");

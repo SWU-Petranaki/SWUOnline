@@ -508,8 +508,7 @@ function PlayerWon($playerID, $concededMatch = false)
   if(GetCachePiece($gameName, 14) == 7) return;//$MGS_StatsLoggedIrreversible
 
   try {
-    if (!AreStatsDisabled(1) && !AreStatsDisabled(2)) {
-      $isDev = getenv("STAGE") == "dev";
+    if (!AreStatsDisabled(1) && !AreStatsDisabled(2) && !IsDevEnvironment()) {
       if(!$isDev) SendSWUStatsResults();
     }
   } catch (Exception $e) {

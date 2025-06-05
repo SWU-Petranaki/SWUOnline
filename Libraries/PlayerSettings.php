@@ -531,9 +531,7 @@ function GetSettingsUI($player)
   $rv .= "</select>";
   $rv .= "<BR>";
 
-  $stage = getenv('STAGE') ?: 'prod';
-  $isDev = $stage === 'dev';
-  $patreonCases = $isDev ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
+  $patreonCases = IsDevEnvironment() ? [PatreonCampaign::ForceFam] : PatreonCampaign::cases();
   $rv .= "<h3>Patreon Card Backs</h3>";
   $submitLink = ProcessInputLink($player, 26, "select", "onchange", true);
   $rv .= "<select id='cardbacksPatreonSelect' class='settingsSelect'" . $submitLink . ">";
