@@ -104,6 +104,10 @@ function CardIDOverride($cardID) {
     case "P25_056": return "TWI_189"; //Unnatural Life
     case "P25_057": return "SOR_135"; //Emperor Palpatine (Master of the Dark Side)
     case "P25_059": return "SHD_046"; //Rey
+    case "LOF_058": return "SOR_061"; //Guardian of the Whills
+    case "LOF_060": return "TWI_058"; //Padawon Starfighter
+    case "LOF_162": return "SHD_168"; //Hunting Nexu
+    case "LOF_164": return "SOR_164"; //Wampa
     default: return $cardID;
   }
 }
