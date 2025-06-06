@@ -394,7 +394,7 @@ function HasSentinel($cardID, $player, $index)
       case "6059510270": $hasSentinel = true; break;//Obi-Wan Kenobi (Protective Padawan)
       case "7077983867": $hasSentinel = true; break;//Ahsoka Tano Leader
       case "1a61e6df76": $hasSentinel = true; break;//Ahsoka Tano Leader unit
-      case "abcdefg052": $hasSentinel = true; break;//Force Illusion
+      case "1906860379": $hasSentinel = true; break;//Force Illusion
       default: break;
     }
   }
@@ -520,7 +520,7 @@ function HasSentinel($cardID, $player, $index)
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
     case "9213315483"://Graceful Purrgil
-    case "abcdefg049"://Supremacy TIE/sf
+    case "6148303031"://Supremacy TIE/sf
       return true;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);
@@ -777,7 +777,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "9757688123"://Mace Windu
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
-    case "abcdefg046"://Exegol Patroller
+    case "9796715682"://Exegol Patroller
     case "6584072416"://Mynock
     case "4199027631"://Trident Assault Ship
       return true;
@@ -1025,7 +1025,7 @@ function HasSaboteur($cardID, $player, $index)
       case "3272995563": return false;//In The Heat of Battle
       case "8656409691": return true;//Rio Durant leader
       //Legends of the Force
-      case "abcdefg057": return true;//BD-1
+      case "0024409893": return true;//BD-1
       case "8743459187": //Focus Determines Reality
         return TraitContains($cardID, "Force", $player);
       default: break;
@@ -1166,7 +1166,7 @@ function HasHidden($cardID, $player, $index) {
     case "5221323929"://Shin Hati
     case "4729355863"://Baylan Skoll
     case "3052907071"://Dooku
-    case "abcdefg057"://BD-1
+    case "0024409893"://BD-1
     case "5451377567"://Banking Clan Shuttle
     case "5663262393"://Charging Phillak
     case "7742118411"://Vupltex
@@ -1700,7 +1700,7 @@ function CheckLOFAbilityTypes($cardID) {
       return "A,AA";
     case "5482818255"://Jedi Consular
       return "A,AA";
-    case "abcdefg053"://Caretaker Matron
+    case "6800160263"://Caretaker Matron
       return "A,AA";
     case "7d9f8bcb9b"://Anakin Skywalker Leader unit
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
@@ -2075,7 +2075,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return "Move Damage,Attack";
     case "5482818255"://Jedi Consular
       return "Play Unit,Attack";
-    case "abcdefg053"://Caretaker Matron
+    case "6800160263"://Caretaker Matron
       return "Draw,Attack";
     case "7d9f8bcb9b"://Anakin Skywalker Leader unit
       $abilityNames = "";

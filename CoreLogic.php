@@ -2126,7 +2126,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
       case "0728753133"://The Starhawk
         if($reportMode) $modifier -= (CardCost($cardID) + $modifier);//TODO: find a better way to check potential costs
         break;
-      case "abcdefg002"://Malakili
+      case "4945479132"://Malakili
         if(GetClassState($currentPlayer, $CS_NumCreaturesPlayed) == 0 && TraitContains($cardID, "Creature", $currentPlayer)) $modifier -= 1;
         break;
       default: break;
@@ -2927,7 +2927,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $ally->PlayerID(), "2587711125,HAND");
       break;
     case "6472095064"://Vanquish
-    case "abcdefg058"://It's Worse
+    case "6707315263"://It's Worse
       MZChooseAndDestroy($currentPlayer, "MYALLY&THEIRALLY", filter:"leader=1", context:"Choose a non-leader unit to defeat");
       break;
     case "6663619377"://AT-AT Suppressor
@@ -7342,7 +7342,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       AddDecisionQueue("THEFORCEISWITHYOU", $currentPlayer, "-", 1);
       break;
-    case "abcdefg029"://Crushing Blow
+    case "4218264341"://Crushing Blow
       MZChooseAndDestroy($currentPlayer, "MYALLY:maxCost=2&THEIRALLY:maxCost=2", filter:"leader=1");
       break;
     case "3595375406"://Purge Trooper
@@ -7479,7 +7479,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         Draw($currentPlayer);
       }
       break;
-    case "abcdefg052"://Force Illusion
+    case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy unit to exhaust");
@@ -7498,7 +7498,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           context: "a Force unit to give +2/+0 for this phase");
       }
       break;
-    case "abcdefg057"://BD-1
+    case "0024409893"://BD-1
       if($from != "PLAY") {
         DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
           may: false, mzSearch: "MYALLY", mzFilter: "index=" . $playAlly->MZIndex(),

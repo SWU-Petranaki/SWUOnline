@@ -227,7 +227,7 @@ function HasFewerUnits($player) {
 }
 
 function PlayerHasMalakaliLOF($player) {
-  return SearchCount(SearchAllies($player, "abcdefg002")) > 0;
+  return SearchCount(SearchAllies($player, "4945479132")) > 0;
 }
 
 function CopyCurrentTurnEffectsFromAfterResolveEffects()

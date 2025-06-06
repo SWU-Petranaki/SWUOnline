@@ -854,7 +854,7 @@ function AllyLeavesPlayAbility($player, $index)
     case "3148212344"://Admiral Yularen JTL
       SearchCurrentTurnEffects("3148212344", $owner, remove:true, startsWith:true);
       break;
-    case "abcdefg057"://BD-1
+    case "0024409893"://BD-1
       SearchCurrentTurnEffects("abcdefg057", $owner, remove:true);
       break;
     default: break;
@@ -2593,8 +2593,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "9288795472"://Second Sister LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
     case "abcdefg054"://Cal Kestis Leader unit
-    case "abcdefg055"://Quinlan Vos LOF
-    case "abcdefg056"://Asajj Ventress LOF
+    case "7008431159"://Quinlan Vos LOF
+    case "5227991792"://Asajj Ventress LOF
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -2649,7 +2649,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
-    case "abcdefg051"://Bendu
+    case "6564460785"://Bendu
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(SearchCount(SearchAllies($mainPlayer)) > 1) {
@@ -3839,7 +3839,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
       break;
-    case "abcdefg051"://Bendu
+    case "6564460785"://Bendu
       DamageAllAllies(3, $cardID, except:$attackerAlly->MZIndex());
       break;
     case "abcdefg054"://Cal Kestis Leader unit
@@ -3849,7 +3849,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $defPlayer, "REST", 1);
       break;
-    case "abcdefg055"://Quinlan Vos LOF
+    case "7008431159"://Quinlan Vos LOF
       $attackerAlly = AttackerAlly();
       if ($attackerAlly->CurrentPower() >= 6) {
       $otherPlayer = $player == 1 ? 2 : 1;
@@ -3860,7 +3860,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
       }
       break;
-    case "abcdefg056"://Asajj Ventress LOF
+    case "5227991792"://Asajj Ventress LOF
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Force");
       AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");

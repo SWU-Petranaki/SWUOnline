@@ -354,7 +354,7 @@ class Ally {
       if($this->CardID() == "6190335038" && $this->PlayerID() == $mainPlayer && $this->HasEffect("6190335038")) return false;//Aayla Secura
     }
 
-    if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"abcdefg002")) //Malakili
+    if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"4945479132")) //Malakili
         && TraitContains($unitCardID, "Creature", $this->Controller())) {
       $amount = 0;
     }
