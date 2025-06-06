@@ -10,7 +10,7 @@ include 'Libraries/GameFormats.php';
 require __DIR__ . "/components/Menus.php";
 
 $stage = getenv('STAGE') ?: 'prod';
-$isDev = $stage === 'dev';
+$isDev = IsDevEnvironment();
 
 $ReturnDelim = "GSDELIM";
 $DisconnectFirstWarningMS = $isDev ? 1e9 : 30e3;
@@ -76,6 +76,7 @@ $currentPlayerInputTimeout = false;
 $parsedFormat = GetCurrentFormat();
 $isPremierStrict = $parsedFormat === Formats::$PremierStrict;
 $endBo3 = BestOf3IsOver();
+$isPrivate = GetCachePiece($gameName, 9) == "0";
 
 $currentTime = round(microtime(true) * 1000);
 if ($isGamePlayer) {
@@ -105,7 +106,7 @@ while ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     break;
   $cacheArr = explode(SHMOPDelimiter(), $readCache);
   $cacheVal = intval($cacheArr[0]);
-  if ($isGamePlayer && !IsOnePlayerMode()) {
+  if ($isGamePlayer && !IsOnePlayerMode() && !$isPrivate) {
     SetCachePiece($gameName, $playerID + 1, $currentTime);
     $otherP = ($playerID == 1 ? 2 : 1);
     $oppLastTime = intval($cacheArr[$otherP]);

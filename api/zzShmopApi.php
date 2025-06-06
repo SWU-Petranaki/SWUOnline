@@ -21,8 +21,7 @@
   }
 </style>
 <?php
-$isDev = getenv("STAGE") === "dev";
-if(!$isDev) {
+if(!IsDevEnvironment()) {
   echo "Forbidden";
   exit;
 }

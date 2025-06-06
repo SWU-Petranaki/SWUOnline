@@ -14,6 +14,9 @@ function ManualCardTitleData() {
     'abcdefg054' => 'Cal Kestis',
     'abcdefg055' => 'Quinlan Vos',
     'abcdefg056' => 'Asajj Ventress',
+    'abcdefg057' => 'BD-1',
+    'abcdefg058' => 'It\'s Worse',
+    'abcdefg060' => 'A Precarious Predicament',
     //continue manual card titles
     'zzzzzzz006' => 'Supreme Leader Snoke',
     'zzzzzzz015' => 'Cal Kestis',
@@ -29,6 +32,7 @@ function ManualCardSubtitleData() {
     'abcdefg054' => 'I Can\'t Keep Hiding',
     'abcdefg055' => 'Dark Disciple',
     'abcdefg056' => 'Harden your Heart',
+    'abcdefg057' => 'Beep Boo Boo Bweep',
     //continue manual card subtitles
     'zzzzzzz006' => 'In The Seat Of Power',
     'zzzzzzz015' => 'I Can\'t Keep Hiding',
@@ -50,6 +54,9 @@ function ManualCardCostData() {
     'abcdefg054' => 4,
     'abcdefg055' => 4,
     'abcdefg056' => 5,
+    'abcdefg057' => 1,
+    'abcdefg058' => 7,
+    'abcdefg060' => 2,
     //continue manual card costs
     'zzzzzzz006' => 6,
     'zzzzzzz015' => 4,
@@ -68,6 +75,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg054' => 4,
     'abcdefg055' => 5,
     'abcdefg056' => 6,
+    'abcdefg057' => 3,
     //continue manual card HP dictionary
   );
 }
@@ -84,6 +92,7 @@ function ManualCardPowerData() {
     'abcdefg054' => 3,
     'abcdefg055' => 4,
     'abcdefg056' => 5,
+    'abcdefg057' => 1,
     //continue manual card powers
   );
 }
@@ -115,6 +124,8 @@ function ManualCardAspectsData() {
     'abcdefg054' => 'Cunning,Heroism',
     'abcdefg055' => 'Aggression',
     'abcdefg056' => 'Aggression',
+    'abcdefg057' => 'Cunning,Heroism',
+    'abcdefg060' => 'Cunning',
     //continue manual card aspects
     'zzzzzzz006' => 'Command,Villainy',
     'zzzzzzz015' => 'Cunning,Heroism',
@@ -136,6 +147,9 @@ function ManualCardTraitsData() {
     'abcdefg054' => 'Force,Fringe',
     'abcdefg055' => 'Force,Jedi,Republic',
     'abcdefg056' => 'Force,Night,Bounty Hunter',
+    'abcdefg057' => 'Fringe,Droid',
+    'abcdefg058' => 'Trick',
+    'abcdefg060' => 'Trick',
     //continue manual card traits
     'zzzzzzz006' => 'Force,First Order,Official',
     'zzzzzzz015' => 'Force,Fringe',
@@ -154,6 +168,7 @@ function ManualCardArenasData() {
     'abcdefg054' => 'Ground',
     'abcdefg055' => 'Ground',
     'abcdefg056' => 'Ground',
+    'abcdefg057' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -173,6 +188,9 @@ function ManualDefinedCardTypeData() {
     'abcdefg054' => 'Leader',
     'abcdefg055' => 'Unit',
     'abcdefg056' => 'Unit',
+    'abcdefg057' => 'Unit',
+    'abcdefg058' => 'Event',
+    'abcdefg060' => 'Event',
     //continue manual card types
     'zzzzzzz006' => 'Leader',
     'zzzzzzz015' => 'Leader',
@@ -193,6 +211,9 @@ function ManualDefinedCardType2Data() {
     'abcdefg054' => 'Unit',
     'abcdefg055' => 'Unit',
     'abcdefg056' => 'Unit',
+    'abcdefg057' => 'Unit',
+    'abcdefg058' => 'Event',
+    'abcdefg060' => 'Event',
     //continue manual card types 2
   );
 }
@@ -207,6 +228,7 @@ function ManualCardIsUniqueData() {
     'abcdefg054' => 1,
     'abcdefg055' => 1,
     'abcdefg056' => 1,
+    'abcdefg057' => 1,
     //continue manual card unique status
     'zzzzzzz006' => 1,
     'zzzzzzz015' => 1,
@@ -216,6 +238,7 @@ function ManualCardIsUniqueData() {
 function ManualHasWhenPlayedData() {
   return array(
     'abcdefg056' => true,
+    'abcdefg057' => true,
     //continue manual card when played status
   );
 }
@@ -241,6 +264,9 @@ function ManualCardSetData() {
     'abcdefg054' => 'LOF',
     'abcdefg055' => 'LOF',
     'abcdefg056' => 'LOF',
+    'abcdefg057' => 'CE25',
+    'abcdefg058' => 'LOF',
+    'abcdefg060' => 'LOF',
     //continue manual card sets
     'zzzzzzz006' => 'LOF',
     'zzzzzzz015' => 'LOF',
@@ -260,6 +286,9 @@ function ManualUUIDLookupData() {
     'LOF_243' => 'abcdefg053',
     'LOF_163' => 'abcdefg055',
     'LOF_165' => 'abcdefg056',
+    'CE25_4' => 'abcdefg057',
+    'LOF_264' => 'abcdefg058',
+    'LOF_222' => 'abcdefg060',
     //continue manual UUID lookups
     'LOF_006' => 'zzzzzzz006',
     'LOF_015' => 'zzzzzzz015',
@@ -281,6 +310,9 @@ function ManualCardIDLookupData() {
     'abcdefg054' => 'LOF_015',
     'abcdefg055' => 'LOF_163',
     'abcdefg056' => 'LOF_165',
+    'abcdefg057' => 'CE25_4',
+    'abcdefg058' => 'LOF_264',
+    'abcdefg060' => 'LOF_222',
     //continue manual card ID lookups
     'zzzzzzz006' => 'LOF_006',
     'zzzzzzz015' => 'LOF_015',
@@ -302,6 +334,9 @@ function ManualCardRarityData() {
     'abcdefg054' => 'Common',
     'abcdefg055' => 'Uncommon',
     'abcdefg056' => 'Uncommon',
+    'abcdefg057' => 'Rare',
+    'abcdefg058' => 'Common',
+    'abcdefg060' => 'Uncommon',
     //continue manual card rarities
     'zzzzzzz006' => 'Common',
     'zzzzzzz015' => 'Common',
@@ -310,12 +345,13 @@ function ManualCardRarityData() {
 
 function ManualIsUnimplementedData() {
   return array(
+    'abcdefg060' => true,
     //continue manual card unimplemented status
   );
 }
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Pounce|Exegol Patroller|Supremacy|Supremacy TIE/sf|Supreme Leader Snoke|Bendu|Force Illusion|Caretaker Matron|Cal Kestis|Quinlan Vos|Asajj Ventress';
+    return '|Darth Tyranus|Malakili|Curious Flock|Karis|Ataru Onslaught|Talzin\'s Assassin|Old Daka|Nightsister Warrior|Soresu Stance|Mother Talzin|Crushing Blow|Nameless Terror|Pounce|Exegol Patroller|Supremacy|Supremacy TIE/sf|Supreme Leader Snoke|Bendu|Force Illusion|Caretaker Matron|Cal Kestis|Quinlan Vos|Asajj Ventress|BD-1|It\'s Worse|A Precarious Predicament|A Precarious Predicament';
 }
 ?>

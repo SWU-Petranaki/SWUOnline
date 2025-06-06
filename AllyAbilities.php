@@ -845,6 +845,9 @@ function AllyLeavesPlayAbility($player, $index)
     case "3148212344"://Admiral Yularen JTL
       SearchCurrentTurnEffects("3148212344", $owner, remove:true, startsWith:true);
       break;
+    case "abcdefg057"://BD-1
+      SearchCurrentTurnEffects("abcdefg057", $owner, remove:true);
+      break;
     default: break;
   }
   //Opponent character abilities
