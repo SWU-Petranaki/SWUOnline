@@ -7521,8 +7521,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         $allies = &GetAllies($currentPlayer);
         for ($i = 0; $i < count($allies); $i += AllyPieces()) {
          $ally = new Ally("MYALLY-" . $i, $currentPlayer);
-         if ($ally->Health() > 7) {
-          WriteLog("count");
+         if ($ally->Health() >= 7) {
           Draw($currentPlayer);
          }
         }
