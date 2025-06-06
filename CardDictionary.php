@@ -602,6 +602,7 @@ function HasGrit($cardID, $player, $index)
       return IsCoordinateActive($player);
     //Legends of the Force
     case "8633377277"://Pong Krell
+    case "3612941171"://Sandtrooper Cavalry
       return true;
     case "2352895392"://Plo Koon
       return HasTheForce($player);
@@ -981,6 +982,7 @@ function HasShielded($cardID, $player, $index)
     case "7323186775"://Itinerant Warrior
     case "1462779761"://Mythosaur
     case "2628450872"://Gungan Warrior
+    case "8601222247"://Secretive Sage
       return true;
     default: break;
   }
@@ -1151,6 +1153,7 @@ function HasHidden($cardID, $player, $index) {
     case "abcdefg057"://BD-1
     case "5451377567"://Banking Clan Shuttle
     case "5663262393"://Charging Phillak
+    case "7742118411"://Vupltex
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
