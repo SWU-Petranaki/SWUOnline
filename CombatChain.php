@@ -4,6 +4,7 @@
 function ProcessHitEffect($cardID)
 {
   global $mainPlayer, $combatChainState, $CCS_DamageDealt, $defPlayer, $combatChain;
+  $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
   if(HitEffectsArePrevented()) return;
 
   if($combatChain[7] != "-") {
@@ -46,6 +47,12 @@ function ProcessHitEffect($cardID)
     case "7312183744"://Moff Gideon
       if(GetAttackTarget() == "THEIRCHAR-0") {
         AddCurrentTurnEffect("7312183744", $defPlayer, from: "PLAY");
+      }
+      break;
+    //Legends of the Force
+    case "3099740319"://Blockade Runner
+      if (GetAttackTarget() == "THEIRCHAR-0") {
+        $attackerAlly->AttachExperience();
       }
       break;
     default: break;
@@ -333,6 +340,12 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
       case "0035741177"://Jedi Vector
         $modifier += SearchCount(SearchAllies($player, trait:"Jedi")) > 1 ? 1 : 0; //Another Jedi
         $modifier += SearchCount(SearchUpgrades($player, trait:"Lightsaber")) > 0 ? 1 : 0; //Lightsaber upgrade
+        break;
+      case "0126487527"://Axe Woves
+        $upgrades = $ally->GetUpgrades();
+        for($i = 0; $i < count($upgrades); ++$i) {
+          $modifier += 1;
+        }
         break;
       default: break;
     }

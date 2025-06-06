@@ -813,6 +813,9 @@ function HasAmbush($cardID, $player, $index, $from)
       case "7981459508"://Shien Flurry
         AddDecisionQueue("REMOVECURRENTEFFECT", $player, "7981459508");
         return true;
+      case "2554581368-P"://Deceptive Shade
+        AddDecisionQueue("REMOVECURRENTEFFECT", $player, "2554581368-P");
+        return true;
       default: break;
     }
   }
@@ -984,6 +987,7 @@ function HasShielded($cardID, $player, $index)
     case "1462779761"://Mythosaur
     case "2628450872"://Gungan Warrior
     case "8601222247"://Secretive Sage
+    case "0126487527"://Axe Woves
       return true;
     default: break;
   }
@@ -1024,6 +1028,7 @@ function HasSaboteur($cardID, $player, $index)
     switch($upgrades[$i]) {
       case "0797226725"://Infiltrator's Skill
       case "81a416eb1f"://Rio Durant pilot leader
+      case "6128668392"://Ascension Cable
         return true;
       default: break;
     }
@@ -1076,6 +1081,7 @@ function HasSaboteur($cardID, $player, $index)
     case "7529152088"://Depa Billaba
     case "1028870559"://Kit Fisto's Aethersprite
     case "90e2d4d83e"://Kit Fisto Leader unit
+    case "3099740319"://Blockade Runner
       return true;
 
     //conditional saboteur
@@ -2269,6 +2275,7 @@ function UpgradeFilter($cardID)
     case "0875550518"://Grievous's Wheel Bike
     case "2167393423"://Darth Maul's Lightsaber
     case "3445044882"://Qui-Gon Jinn's Lightsaber
+    case "6128668392"://Ascension Cable
       return "trait=Vehicle";
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment

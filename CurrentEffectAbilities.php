@@ -1071,6 +1071,11 @@ function CurrentEffectAllyEntersPlay($player, $index)
           $ally = new Ally("MYALLY-" . $index, $player);
           AddCurrentTurnEffect("5387ca4af6-P", $player, uniqueID:$ally->UniqueID(), lastingType: 3);
           break;
+        case "2554581368"://Deceptive Shade
+          $remove = true;
+          $ally = new Ally("MYALLY-" . $index, $player);
+          AddCurrentTurnEffect("2554581368-P", $player, uniqueID:$ally->UniqueID(), lastingType: 3);
+          break;
         default:
           break;
       }
