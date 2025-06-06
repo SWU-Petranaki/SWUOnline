@@ -7524,6 +7524,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       }
       break;
+    case "1022691467"://Hyena Bomber
+      if ($from != "PLAY") {
+        if (SearchCount(SearchAllies($currentPlayer, aspect: "Aggression")) > 1) {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a ground unit to deal 2 damage to");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2,$currentPlayer", 1);
+        }
+      }
+      break;
     case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
