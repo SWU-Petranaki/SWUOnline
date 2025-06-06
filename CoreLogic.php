@@ -6971,8 +6971,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "1184397926"://Barriss Offee Leader
+    case "20f7c21d8b"://Barriss Offee Leader unit
       $abilityName = GetResolvedAbilityName($cardID, $from);
-      if($abilityName == "Event") {
+      if($abilityName == "Play") {
         if(!HasTheForce($currentPlayer)) {
           WriteLog("The Force is not strong with this one. Reverting gamestate.");
           RevertGamestate();
@@ -6981,7 +6982,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddCurrentTurnEffect($cardID, $currentPlayer, $from);
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Event");
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an event to play");
-          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
           AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
         }
