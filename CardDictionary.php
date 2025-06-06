@@ -183,7 +183,7 @@ function RestoreAmount($cardID, $player, $index)
     case "9023764122": $amount += 1; break;//Hive Defense Wing
     case "9107238716": $amount += 1; break;//Longbeam Cruiser
     case "3242169334": $amount += 2; break;//Relic Scavenger
-    case "2968188569": $amount += 4; break;//The Purgill King
+    case "2968188569": $amount += 4; break;//The Purggil King
     default: break;
   }
   //The Ghost JTL
@@ -266,6 +266,9 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
         break;
       case "9921128444"://General Hux
         if($index != $i && TraitContains($cardID, "First Order", $player)) $amount += 1;
+        break;
+      case "9937756875 "://Invasion Control Ship
+        if(TraitContains($cardID, "Droid", $player)) $amount +=2;
         break;
       default: break;
     }
@@ -2306,6 +2309,7 @@ function UpgradeFilter($cardID)
       return "cardID!=6931439330&cardID!=5763330426";
     case "3688574857"://Constructed Lightsaber
     case "0412810079"://Sith Holocron
+    case "3730933081"://Bolstered Endurance
       return "trait!=Force";
     default: return "";
   }
