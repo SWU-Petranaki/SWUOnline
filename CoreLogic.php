@@ -7473,6 +7473,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "{0},$currentPlayer,1", 1);
       break;
+    case "0721742014"://Lightsaber Throw
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:trait=Lightsaber");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Lightsaber card to discard");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 4 damage to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,4,$currentPlayer", 1);
+      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+      break;
     case "3591040205"://Pounce
       DQAttackWithEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY:trait=Creature", context:"Choose a Creature unit to attack with");
       break;
