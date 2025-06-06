@@ -1024,6 +1024,7 @@ function HasSaboteur($cardID, $player, $index)
     switch($upgrades[$i]) {
       case "0797226725"://Infiltrator's Skill
       case "81a416eb1f"://Rio Durant pilot leader
+      case "6128668392"://Ascension Cable
         return true;
       default: break;
     }
@@ -2266,6 +2267,7 @@ function UpgradeFilter($cardID)
     case "0875550518"://Grievous's Wheel Bike
     case "2167393423"://Darth Maul's Lightsaber
     case "3445044882"://Qui-Gon Jinn's Lightsaber
+    case "6128668392"://Ascension Cable
       return "trait=Vehicle";
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment
