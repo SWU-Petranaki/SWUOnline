@@ -560,6 +560,10 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
               $remove = true;
             }
             break;
+          case "1184397926"://Barriss Offee Leader
+            $costModifier -= 1;
+            $remove = true;
+            break;
           //modified for free from hand
           case "7138400365"://The Invisible Hand
           case "2580909557"://Qui-Gon Jinn Leader

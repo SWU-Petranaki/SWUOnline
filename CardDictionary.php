@@ -1655,6 +1655,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "zzzzzzz015"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "1184397926"://Barriss Offee Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -2020,6 +2022,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Experience";
     case "zzzzzzz015"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "Exhaust";
+    case "1184397926"://Barriss Offee Leader
+      return LeaderAbilitiesIgnored() ? "" : "Event";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";
