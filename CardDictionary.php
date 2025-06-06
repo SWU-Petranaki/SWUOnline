@@ -1657,6 +1657,10 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "1184397926"://Barriss Offee Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "8536024453"://Anakin Skywalker Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    case "5174764156"://Kylo Ren Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
     case "4389144613"://Grogu
       return "A,AA";
@@ -2024,6 +2028,10 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Exhaust";
     case "1184397926"://Barriss Offee Leader
       return LeaderAbilitiesIgnored() ? "" : "Event";
+    case "8536024453"://Anakin Skywalker Leader
+      return LeaderAbilitiesIgnored() ? "" : "Play";
+    case "5174764156"://Kylo Ren Leader
+      return LeaderAbilitiesIgnored() ? "" : "Rummage";
     //non-leaders
     case "4389144613"://Grogu
       return "Move Damage,Attack";

@@ -1883,6 +1883,9 @@ function IgnoreAspectPenalty($cardID, $player, $reportMode) {
       case "7895170711"://A Fine Addition
         RemoveCurrentTurnEffect($i);
         return true;
+      case "8536024453"://Anakin Skywalker leader
+        RemoveCurrentTurnEffect($i);
+        return true;
       default: break;
     }
   }
@@ -6969,6 +6972,37 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
         }
+      }
+      break;
+    case "8536024453"://Anakin Skywalker Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Play") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:aspect=Villainy");
+          AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to play");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+        }
+      }
+      break;
+    case "5174764156"://Kylo Ren Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Rummage") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to discard");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
+        AddDecisionQueue("PASSIFNOTDEFINEDTYPE", $currentPlayer, "Upgrade", 1);
+        AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       }
       break;
     //end LOF leaders

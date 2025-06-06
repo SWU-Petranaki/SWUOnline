@@ -1642,6 +1642,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "NOTEQUALPASS":
       if($lastResult != $parameter) return "PASS";
       return $lastResult;
+    case "PASSIFNOTDEFINEDTYPE":
+      if(!DefinedTypesContains($lastResult, $parameter, $player)) return "PASS";
+      return $lastResult;
     case "NOPASS":
       if($lastResult == "NO") return "PASS";
       return $lastResult;
