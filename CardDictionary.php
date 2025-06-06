@@ -772,6 +772,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "6180656125"://Eye of Sion
     case "abcdefg046"://Exegol Patroller
     case "6584072416"://Mynock
+    case "4199027631"://Trident Assault Ship
       return true;
     case "e6dc0d1cee"://Avar Kriss Leader unit
       return HasTheForce($player);
