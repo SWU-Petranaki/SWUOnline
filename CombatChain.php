@@ -4,6 +4,7 @@
 function ProcessHitEffect($cardID)
 {
   global $mainPlayer, $combatChainState, $CCS_DamageDealt, $defPlayer, $combatChain;
+  $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
   if(HitEffectsArePrevented()) return;
 
   if($combatChain[7] != "-") {
@@ -46,6 +47,12 @@ function ProcessHitEffect($cardID)
     case "7312183744"://Moff Gideon
       if(GetAttackTarget() == "THEIRCHAR-0") {
         AddCurrentTurnEffect("7312183744", $defPlayer, from: "PLAY");
+      }
+      break;
+    //Legends of the Force
+    case "3099740319"://Blockade Runner
+      if (GetAttackTarget() == "THEIRCHAR-0") {
+        $attackerAlly->AttachExperience();
       }
       break;
     default: break;
