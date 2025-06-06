@@ -6993,6 +6993,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
         }
       }
+      break;
+    case "5174764156"://Kylo Ren Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Rummage") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to discard");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
+        AddDecisionQueue("PASSIFNOTDEFINEDTYPE", $currentPlayer, "Upgrade", 1);
+        AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
