@@ -2636,15 +2636,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
             break;
           //Legend of the Force
           case "2762251208"://Rey Leader flip
-            $hand = &GetHand($currentPlayer);//pending condition of Black One SOR
-            if(count($hand) > 0) {
-              AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Do you want to discard your hand to draw 2?");
-              AddDecisionQueue("YESNO", $currentPlayer, "if you want to discard a card to Rey?");
-              AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
-              AddDecisionQueue("OP", $currentPlayer, "DISCARDHAND", 1);
-              AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
-              AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
-            }
+            AddDecisionQueue("YESNO", $currentPlayer, "if you want to discard to draw 2 cards");
+            AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
+            AddDecisionQueue("OP", $currentPlayer, "DISCARDHAND", 1);
+            AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+            AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
             break;
           default: break;
         }
