@@ -248,7 +248,7 @@ function AllyHasStaticHealthModifier($cardID)
     case "6931439330"://The Ghost SOR (with Phantom II)
     case "5763330426"://The Ghost JTL (with Phantom II)
     case "fadc48bab2"://Kanan Jarrus (LOF) Leader unit
-    case "abcdefg047"://Supremacy
+    case "4478482436"://Supremacy
     case "0126487527"://Axe Woves
       return true;
     default: return false;
@@ -333,7 +333,7 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
       $atLeastAnotherSpectre = SearchCount(SearchAllies($player, trait:"Spectre")) > 1;
       if($self && ($atLeastOneCreature || $atLeastAnotherSpectre)) return 2;
       break;
-    case "abcdefg047"://Supremacy
+    case "4478482436"://Supremacy
       if($eachOtherFriendly && TraitContains($cardID, "Vehicle", $player)) return 6;
       break;
     case "0126487527"://Axe Woves

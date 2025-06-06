@@ -551,7 +551,7 @@ class Ally {
         case "9811031405"://Victor Leader
           if($i != $this->index && CardArenas($this->CardID()) == "Space") $power += 1;
           break;
-        case "abcdefg047"://Supremacy
+        case "4478482436"://Supremacy
           if($i != $this->index && TraitContains($this->CardID(), "Vehicle", $this->PlayerID())) $power += 6;
           break;
         default: break;

@@ -892,7 +892,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "6745607382"://Jedi Temple Guards
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
-    case "abcdefg047"://Supremacy
+    case "4478482436"://Supremacy
     case "5663262393"://Charging Phillak
     case "9893266972"://Kowakian Monkey-Lizard
     case "0346642321"://Mysterious Hermit
