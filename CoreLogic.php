@@ -7506,6 +7506,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         Draw($currentPlayer);
       }
       break;
+    case "6491675327"://Tip the Scale
+      AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card in your opponent's hand to discard");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $otherPlayer, 1);
+      break;
     case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
