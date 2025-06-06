@@ -1284,7 +1284,7 @@ function AbilityCost($cardID)
       return $abilityName == "Shield" ? 1 : 0;
     case "3822427538"://Kit Fisto Leader
       return $abilityName == "Deal Damage" ? 1 : 0;
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       return $abilityName == "Experience" ? 1 : 0;
     default: break;
   }
@@ -1683,9 +1683,9 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "7077983867"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz015"://Cal Kestis Leader
+    case "6677799440"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "1184397926"://Barriss Offee Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
@@ -2058,9 +2058,9 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "7077983867"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "Sentinel";
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       return LeaderAbilitiesIgnored() ? "" : "Experience";
-    case "zzzzzzz015"://Cal Kestis Leader
+    case "6677799440"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "Exhaust";
     case "1184397926"://Barriss Offee Leader
       return LeaderAbilitiesIgnored() ? "" : "Event";
@@ -2565,10 +2565,10 @@ function LeaderUnit($cardID) {
       return "b70416cfea";
     case "7077983867"://Ahsoka Tano
       return "1a61e6df76";
-    case "zzzzzzz006"://Supreme Leader Snoke
-      return "abcdefg050";
-    case "zzzzzzz015"://Cal Kestis
-      return "abcdefg054";
+    case "9919167831"://Supreme Leader Snoke
+      return "e8f5e7c3f6";
+    case "6677799440"://Cal Kestis
+      return "bf3545c5e0";
     case "1184397926"://Barriss Offee
       return "20f7c21d8b";
     case "8536024453"://Anakin Skywalker
@@ -2754,10 +2754,10 @@ function LeaderUndeployed($cardID) {
       return "5045607736";
     case "1a61e6df76"://Ahsoka Tano
       return "7077983867";
-    case "abcdefg050"://Supreme Leader Snoke
-      return "zzzzzzz006";
-    case "abcdefg054"://Cal Kestis
-      return "zzzzzzz015";
+    case "e8f5e7c3f6"://Supreme Leader Snoke
+      return "9919167831";
+    case "bf3545c5e0"://Cal Kestis
+      return "6677799440";
     case "20f7c21d8b"://Barriss Offee
       return "1184397926";
     case "7d9f8bcb9b"://Anakin Skywalker
