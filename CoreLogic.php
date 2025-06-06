@@ -7005,6 +7005,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       }
       break;
+    case "2762251208"://Rey Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Deal Damage") {
+        global $CS_NumForcePlayedNonUnit;
+        if(GetClassState($currentPlayer, $CS_NumForcePlayedNonUnit) > 0) {
+          DQPingUnit($currentPlayer,1, isUnitEffect:false, may:false);
+        }
+      }
+      break;
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
