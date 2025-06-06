@@ -561,6 +561,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             }
             break;
           case "1184397926"://Barriss Offee Leader
+          case "20f7c21d8b"://Barriss Offee Leader unit
             $costModifier -= 1;
             $remove = true;
             break;

@@ -688,6 +688,7 @@ function AllyPlayableExhausted(Ally $ally) {
     case "a742dea1f1"://Han Solo Red Leader Unit
     //Legends of the Force
     case "7d9f8bcb9b"://Anakin Skywalker Leader Unit
+    case "20f7c21d8b"://Barriss Offee Leader Unit
       return true;
     default: break;
   }
@@ -757,6 +758,8 @@ function AllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Dock";
     //Legends of the Force
     case "7d9f8bcb9b"://Anakin Skywalker Leader Unit
+      return $abilityName != "Play";
+    case "20f7c21d8b"://Barriss Offee Leader Unit
       return $abilityName != "Play";
     default: break;
   }

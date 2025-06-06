@@ -1311,7 +1311,6 @@ function BlackOne($player) {
   AddDecisionQueue("DRAW", $player, "-", 1);
   AddDecisionQueue("DRAW", $player, "-", 1);
   AddDecisionQueue("DRAW", $player, "-", 1);
-
 }
 
 function TheyControlMoreUnits($player) {
