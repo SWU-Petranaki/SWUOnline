@@ -2923,7 +2923,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $ally->PlayerID(), "2587711125,HAND");
       break;
     case "6472095064"://Vanquish
-      MZChooseAndDestroy($currentPlayer, "MYALLY&THEIRALLY", filter:"leader=1");
+    case "abcdefg058"://It's Worse
+      MZChooseAndDestroy($currentPlayer, "MYALLY&THEIRALLY", filter:"leader=1", context:"Choose a non-leader unit to defeat");
       break;
     case "6663619377"://AT-AT Suppressor
       if($from != "PLAY"){
