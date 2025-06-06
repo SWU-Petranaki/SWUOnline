@@ -2505,6 +2505,14 @@ function LeaderUnit($cardID) {
       return "abcdefg050";
     case "zzzzzzz015"://Cal Kestis
       return "abcdefg054";
+    case "1184397926"://Barriss Offee
+      return "20f7c21d8b";
+    case "8536024453"://Anakin Skywalker
+      return "7d9f8bcb9b";
+    case "5174764156"://Kylo Ren
+      return "d911b778e4";
+    case "2762251208"://Rey
+      return "9d589c1981";
     default: return "";
   }
 }
@@ -2686,6 +2694,14 @@ function LeaderUndeployed($cardID) {
       return "zzzzzzz006";
     case "abcdefg054"://Cal Kestis
       return "zzzzzzz015";
+    case "20f7c21d8b"://Barriss Offee
+      return "1184397926";
+    case "7d9f8bcb9b"://Anakin Skywalker
+      return "8536024453";
+    case "d911b778e4"://Kylo Ren
+      return "5174764156";
+    case "9d589c1981"://Rey
+      return "2762251208";
     default: return "";
   }
 }
