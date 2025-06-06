@@ -6,10 +6,6 @@ class Formats {
   public static $PremierStrict = "prstrict";
   public static $OpenFormat = "openform";
   public static $PreviewFormat = "previewf";
-  //quick match formats
-  public static $QuickMatchFormat = "qpremier";
-  public static $QuickMatchStrict = "qpstrict";
-  public static $QuickMatchPreview = "qpreview";
   //fun formats
   public static $PadawanFormat = "padawanf";
   public static $SandcrawlerFormat = "sndcrawl";
@@ -296,7 +292,7 @@ function IsWeeklyPlayCommon($cardID) {
 
 function CardInRotation($format, $cardID): bool {
   $premierRotation = ["SOR", "SHD", "TWI", "JTL", ];
-  $previewRotation = array_merge($premierRotation, ["LOF"]);
+  $previewRotation = array_merge($premierRotation, ["LOF", "CE25"]);
   $padawanRotation = $premierRotation;
   $sandcrawlerRotation = $premierRotation;
   $civiWarRotation = $previewRotation;

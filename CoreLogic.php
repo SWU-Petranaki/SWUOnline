@@ -5864,12 +5864,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "8418001763"://Huyang
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give +2/+2");
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDPERMANENTEFFECT", $currentPlayer, "8418001763,PLAY", 1);
+      DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
+        may:false, mzSearch:"MYALLY",context:"a unit to give +2/+2",
+        another:true,playAllyMZIndex:$playAlly->MZIndex(),lastingType:"Permanent");
       break;
     case "0216922902"://The Zillo Beast
       $theirAllies = &GetTheirAllies($currentPlayer);
@@ -7430,15 +7427,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Sentinel to");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg052,HAND", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,HAND", 1);
       break;
-    case "abcdefg056"://Asajj Ventress LOFAdd commentMore actions
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Force");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $attackerIndex);
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");
-      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "abcdefg056,PLAY", 1);
+    case "abcdefg056"://Asajj Ventress
+      if($from != "PLAY") {
+        DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
+          may: false, mzSearch: "MYALLY:trait=Force", mzFilter: "index=" . $playAlly->MZIndex(),
+          context: "a Force unit to give +2/+0 for this phase");
+      }
+      break;
+    case "abcdefg057"://BD-1
+      if($from != "PLAY") {
+        DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
+          may: false, mzSearch: "MYALLY", mzFilter: "index=" . $playAlly->MZIndex(),
+          context: "a friendly unit to give +1/0 and Saboteur", lastingType:"Permanent");
+      }
       break;
       //PlayAbility End
     default: break;
@@ -7961,15 +7964,28 @@ function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
   }
 }
 
-function DQChooseAUnitToGiveEffect($currentPlayer, $effectID, $from, $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $subsequent=false) {
+function DQChooseAUnitToGiveEffect($player, $effectID, $from, $may=true,
+  $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $lastingType="Phase",
+  $subsequent=false)
+{
   $subsequent = $subsequent ? 1 : 0;
-  AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
-  if($mzFilter != "") AddDecisionQueue("MZFILTER", $currentPlayer, $mzFilter, $subsequent);
-  AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose $context", 1);
-  AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-  AddDecisionQueue("MZOP", $currentPlayer, "WRITECHOICE", 1);
-  AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);
+  AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context", 1);
+  AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "WRITECHOICE", 1);
+  AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+  switch ($lastingType) {
+    case "Permanent":
+      AddDecisionQueue("ADDLIMITEDPERMANENTEFFECT", $player, "$effectID,$from", 1);
+      break;
+    case "Round":
+      AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $player, "$effectID,$from", 1);
+      break;
+    case "Phase":
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "$effectID,$from", 1);
+      break;
+  }
 }
 
 function DQAttackWithEffect($currentPlayer, $effectID, $from, $mzSearch = "MYALLY", $context = "Choose a unit to attack with", $subsequent = false) {

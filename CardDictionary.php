@@ -999,6 +999,8 @@ function HasSaboteur($cardID, $player, $index)
       //Jump to Lightspeed
       case "3272995563": return false;//In The Heat of Battle
       case "8656409691": return true;//Rio Durant leader
+      //Legends of the Force
+      case "abcdefg057": return true;//BD-1
       default: break;
     }
   }
@@ -1135,6 +1137,7 @@ function HasHidden($cardID, $player, $index) {
     case "5221323929"://Shin Hati
     case "4729355863"://Baylan Skoll
     case "3052907071"://Dooku
+    case "abcdefg057"://BD-1
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();

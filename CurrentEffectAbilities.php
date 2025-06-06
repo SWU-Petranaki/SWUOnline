@@ -295,6 +295,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "5b24706856": return -2;//Grand Inquisitor Leader unit
     case "3591040205": return 4;//Pounce
     case "abcdefg056": return 2;//Asajj Ventress LOF
+    case "abcdefg057": return 1;//BD-1
     default: return 0;
   }
 }
