@@ -175,6 +175,10 @@ function RestoreAmount($cardID, $player, $index)
     case "abcdefg030": $amount += 1; break;//Eye of Sion
     case "6180656125": $amount += 1; break;//Eye of Sion
     case "5887691594": $amount += 2; break;//Magistrate's Scout
+    case "2628450872": $amount += 1; break;//Gungan Warrior
+    case "9023764122": $amount += 1; break;//Hive Defense Wing
+    case "9107238716": $amount += 1; break;//Longbeam Cruiser
+    case "3242169334": $amount += 2; break;//Relic Scavenger
     default: break;
   }
   //The Ghost JTL
@@ -334,6 +338,8 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "4043787241": $amount += 3; break;//Strikeship
     case "7877401512": $amount += 2; break;//Aurra Sing
     case "4460062481": $amount += 3; break;//Nihil Marauder
+    case "4464627339": $amount += 1; break;//Blue Suqadron Assault Wing
+    case "3288909829": $amount += 1; break;//Cartel Interceptor
     default: break;
   }
   //The Ghost JTL
@@ -764,6 +770,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
     case "abcdefg046"://Exegol Patroller
+    case "6584072416"://Mynock
       return true;
     case "e6dc0d1cee"://Avar Kriss Leader unit
       return HasTheForce($player);
@@ -874,6 +881,9 @@ function HasAmbush($cardID, $player, $index, $from)
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
     case "abcdefg047"://Supremacy
+    case "5663262393"://Charging Phillak
+    case "9893266972"://Kowakian Monkey-Lizard
+    case "0346642321"://Mysterious Hermit
       return true;
 
     //conditional ambush
@@ -970,6 +980,7 @@ function HasShielded($cardID, $player, $index)
     case "5221323929"://Shin Hati
     case "7323186775"://Itinerant Warrior
     case "1462779761"://Mythosaur
+    case "2628450872"://Gungan Warrior
       return true;
     default: break;
   }
@@ -1138,6 +1149,8 @@ function HasHidden($cardID, $player, $index) {
     case "4729355863"://Baylan Skoll
     case "3052907071"://Dooku
     case "abcdefg057"://BD-1
+    case "5451377567"://Banking Clan Shuttle
+    case "5663262393"://Charging Phillak
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
