@@ -1883,6 +1883,9 @@ function IgnoreAspectPenalty($cardID, $player, $reportMode) {
       case "7895170711"://A Fine Addition
         RemoveCurrentTurnEffect($i);
         return true;
+      case "8536024453"://Anakin Skywalker leader
+        RemoveCurrentTurnEffect($i);
+        return true;
       default: break;
     }
   }
@@ -6971,6 +6974,25 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "8536024453"://Anakin Skywalker Leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Play") {
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:aspect=Villainy");
+          AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to play");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+        }
+      }
     //end LOF leaders
     case "5083905745"://Drain Essence
       TheForceIsWithYou($currentPlayer);
