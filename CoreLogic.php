@@ -2642,6 +2642,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
             AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
             AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
             break;
+          case "5174764156"://Kylo Ren Leader flip
+            AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF", 1);
+            break;
           default: break;
         }
       }
@@ -7692,6 +7695,11 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "7981459508,HAND", 1);
+      break;
+    case "d911b778e4"://Kylo Ren Leader unit
+      SearchCurrentTurnEffects("d911b778e4", $currentPlayer, remove:true);
+      AddDecisionQueue("SWAPTURN", $currentPlayer, "-", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF", 1);
       break;
     default: break;
   }
