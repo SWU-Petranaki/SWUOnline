@@ -7534,6 +7534,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "1093502388"://DRK-1 Probe Droid
+      if($from != "PLAY") {
+        DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");
+      }
+      break;
     case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
