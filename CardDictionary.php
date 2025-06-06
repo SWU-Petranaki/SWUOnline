@@ -1708,6 +1708,8 @@ function CheckLOFAbilityTypes($cardID) {
       return "A,AA";
     case "7d9f8bcb9b"://Anakin Skywalker Leader unit
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
+    case "20f7c21d8b"://Barriss Offee Leader unit
+      return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
     default: return "";
   }
 }
@@ -2067,7 +2069,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "6677799440"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "Exhaust";
     case "1184397926"://Barriss Offee Leader
-      return LeaderAbilitiesIgnored() ? "" : "Event";
+      return LeaderAbilitiesIgnored() ? "" : "Play";
     case "8536024453"://Anakin Skywalker Leader
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "5174764156"://Kylo Ren Leader
@@ -2082,6 +2084,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "6800160263"://Caretaker Matron
       return "Draw,Attack";
     case "7d9f8bcb9b"://Anakin Skywalker Leader unit
+    case "20f7c21d8b"://Barriss Offee Leader unit
       $abilityNames = "";
       if($validate) {
         $ally = new Ally("MYALLY-" . $index, $currentPlayer);
