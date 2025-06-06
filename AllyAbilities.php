@@ -858,7 +858,7 @@ function AllyLeavesPlayAbility($player, $index)
       SearchCurrentTurnEffects("3148212344", $owner, remove:true, startsWith:true);
       break;
     case "0024409893"://BD-1
-      SearchCurrentTurnEffects("abcdefg057", $owner, remove:true);
+      SearchCurrentTurnEffects("0024409893", $owner, remove:true);
       break;
     default: break;
   }
@@ -2595,7 +2595,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "2277278592"://Darth Vader
     case "9288795472"://Second Sister LOF
     case "1a61e6df76"://Ahsoka Tano Leader unit
-    case "abcdefg054"://Cal Kestis Leader unit
+    case "bf3545c5e0"://Cal Kestis Leader unit
     case "7008431159"://Quinlan Vos LOF
     case "5227991792"://Asajj Ventress LOF
       $totalOnAttackAbilities++;
@@ -2645,7 +2645,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       //immediate effect. no layer
       AddCurrentTurnEffect($attackID, $mainPlayer, from:"PLAY");
       break;
-    case "abcdefg050"://Supreme Leader Snoke
+    case "e8f5e7c3f6"://Supreme Leader Snoke
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(SearchCount(SearchAllies($mainPlayer, aspect:"Villainy")) > 0) {
@@ -3835,7 +3835,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("NOPASS", $mainPlayer, "-");
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SECONDSISTER_LOF", 1);
       break;
-    case "abcdefg050"://Supreme Leader Snoke Leader unit
+    case "e8f5e7c3f6"://Supreme Leader Snoke Leader unit
         $highestPower = GetHighestPowerFromFriendlyUnits($mainPlayer, "Villainy");
         AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:aspect=Villainy;minAttack=$highestPower;maxAttack=$highestPower");
         AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a Villainy unit to give experience to");
@@ -3845,7 +3845,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "6564460785"://Bendu
       DamageAllAllies(3, $cardID, except:$attackerAlly->MZIndex());
       break;
-    case "abcdefg054"://Cal Kestis Leader unit
+    case "bf3545c5e0"://Cal Kestis Leader unit
       AddDecisionQueue("MULTIZONEINDICES", $defPlayer, "MYALLY");
       AddDecisionQueue("MZFILTER", $defPlayer, "status=1");
       AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose a unit to exhaust");
@@ -3869,7 +3869,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Force unit to give +2/+0 for this phase");
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
-      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "abcdefg056,PLAY", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "5227991792,PLAY", 1);
       break;
     default: break;
   }
