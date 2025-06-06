@@ -183,6 +183,7 @@ function RestoreAmount($cardID, $player, $index)
     case "9023764122": $amount += 1; break;//Hive Defense Wing
     case "9107238716": $amount += 1; break;//Longbeam Cruiser
     case "3242169334": $amount += 2; break;//Relic Scavenger
+    case "2968188569": $amount += 4; break;//The Purgill King
     default: break;
   }
   //The Ghost JTL
