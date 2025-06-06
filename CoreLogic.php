@@ -7514,6 +7514,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $otherPlayer, 1);
       break;
+    case "4371455331"://Last Words
+      global $CS_NumAlliesDestroyed;
+      if(GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give 2 experience tokens to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      }
+      break;
     case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
