@@ -1741,7 +1741,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     if(!$isPremierStrict) echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"leaveGame\");'><img class='exit-icon' src='./Images/close.png' /></div></td>");
   } else {
     echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"menuPopup\");'><img class='settings-icon' src='./Images/cog.png' /></div></td>");
-    echo ("<td><div class='MenuButtons' title='Click to concede the game' onclick='TogglePopup(\"concedeGame\");'><img class='settings-icon' src='./Images/flag.png' /></div></td>");
+    //echo ("<td><div class='MenuButtons' title='Click to concede the game' onclick='TogglePopup(\"concedeGame\");'><img class='settings-icon' src='./Images/flag.png' /></div></td>");
     if(!$isPremierStrict) echo ("<td><div class='MenuButtons' title='Click to view the menu. (Hotkey: M)' onclick='TogglePopup(\"leaveGame\");'><img class='exit-icon' src='./Images/close.png' /></div></td>");
   }
   echo ("</tr></table></div></div>");
