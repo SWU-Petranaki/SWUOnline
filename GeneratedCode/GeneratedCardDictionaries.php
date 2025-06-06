@@ -18360,7 +18360,6 @@ function IsUnimplemented($cardID) {
   '0463147975' => true,
   '0466077140' => true,
   '0662915879' => true,
-  '0686684746' => true,
   '0978531185' => true,
   1022691467 => true,
   1072330402 => true,
