@@ -334,6 +334,12 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
         $modifier += SearchCount(SearchAllies($player, trait:"Jedi")) > 1 ? 1 : 0; //Another Jedi
         $modifier += SearchCount(SearchUpgrades($player, trait:"Lightsaber")) > 0 ? 1 : 0; //Lightsaber upgrade
         break;
+      case "0126487527"://Axe Woves
+        $upgrades = $ally->GetUpgrades();
+        for($i = 0; $i < count($upgrades); ++$i) {
+          $modifier += 1;
+        }
+        break;
       default: break;
     }
   }

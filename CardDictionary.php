@@ -984,6 +984,7 @@ function HasShielded($cardID, $player, $index)
     case "1462779761"://Mythosaur
     case "2628450872"://Gungan Warrior
     case "8601222247"://Secretive Sage
+    case "0126487527"://Axe Woves
       return true;
     default: break;
   }

@@ -249,6 +249,7 @@ function AllyHasStaticHealthModifier($cardID)
     case "5763330426"://The Ghost JTL (with Phantom II)
     case "fadc48bab2"://Kanan Jarrus (LOF) Leader unit
     case "abcdefg047"://Supremacy
+    case "0126487527"://Axe Woves
       return true;
     default: return false;
   }
@@ -334,6 +335,9 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
       break;
     case "abcdefg047"://Supremacy
       if($eachOtherFriendly && TraitContains($cardID, "Vehicle", $player)) return 6;
+      break;
+    case "0126487527"://Axe Woves
+      if($self) return count($ally->GetUpgrades());
       break;
     default: break;
   }
