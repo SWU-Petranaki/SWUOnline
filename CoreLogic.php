@@ -5866,8 +5866,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "8418001763"://Huyang
       DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
-        may:false, mzSearch:"MYALLY",context:"a unit to give +2/+2",
-        another:true,playAllyMZIndex:$playAlly->MZIndex(),lastingType:"Permanent");
+        may:false, mzSearch:"MYALLY", mzFilter: "index=" . $playAlly->MZIndex(), context:"a unit to give +2/+2",lastingType:"Permanent");
       break;
     case "0216922902"://The Zillo Beast
       $theirAllies = &GetTheirAllies($currentPlayer);
