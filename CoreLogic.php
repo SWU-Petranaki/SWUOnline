@@ -7539,6 +7539,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");
       }
       break;
+    case "1393713161"://Flight of the Inquisitor
+      MZMoveCard($currentPlayer, "MYDISCARD:trait=Force;definedType=Unit", "MYHAND", may:true, context:"Choose a Force unit to return to your hand");
+      MZMoveCard($currentPlayer, "MYDISCARD:trait=Lightsaber;definedType=Upgrade", "MYHAND", may:true, context:"Choose a Lightsaber upgrade to return to your hand", isSubsequent:1);
+      break;
     case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
       AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
