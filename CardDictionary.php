@@ -813,6 +813,9 @@ function HasAmbush($cardID, $player, $index, $from)
       case "7981459508"://Shien Flurry
         AddDecisionQueue("REMOVECURRENTEFFECT", $player, "7981459508");
         return true;
+      case "2554581368-P"://Deceptive Shade
+        AddDecisionQueue("REMOVECURRENTEFFECT", $player, "2554581368-P");
+        return true;
       default: break;
     }
   }

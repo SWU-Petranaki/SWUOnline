@@ -1161,7 +1161,10 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       AddDecisionQueue("MAYMULTIDAMAGEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, DealMultiDamageBuilder($player), 1);
       break;
-      //AllyDestroyedAbility End
+    case "2554581368"://Deceptive Shade
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "2554581368,PLAY", 1);
+      break;
+    //AllyDestroyedAbility End
       default: break;
     }
 
