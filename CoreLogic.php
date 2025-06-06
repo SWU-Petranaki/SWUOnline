@@ -6932,7 +6932,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Experience" && SearchCount(SearchAllies($currentPlayer, aspect: "Villainy")) > 0) {
         $highestPower = GetHighestPowerFromFriendlyUnits($currentPlayer, "Villainy");
@@ -6942,7 +6942,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       }
       break;
-    case "zzzzzzz015"://Cal Kestis Leader
+    case "6677799440"://Cal Kestis Leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Exhaust") {
         if(!HasTheForce($currentPlayer)) {
@@ -7473,7 +7473,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
       }
       break;
-    case "abcdefg053"://Caretaker Matron
+    case "6800160263"://Caretaker Matron
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Draw" && GetClassState($currentPlayer, $CS_NumForcePlayed)) {
         Draw($currentPlayer);
@@ -7491,7 +7491,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,HAND", 1);
       break;
-    case "abcdefg056"://Asajj Ventress
+    case "5227991792"://Asajj Ventress
       if($from != "PLAY") {
         DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
           may: false, mzSearch: "MYALLY:trait=Force", mzFilter: "index=" . $playAlly->MZIndex(),
