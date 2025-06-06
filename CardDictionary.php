@@ -127,6 +127,10 @@ function RestoreAmount($cardID, $player, $index)
           if(AspectContains($cardID, "Heroism", $player))
           $amount += 2;
           break;
+      case "9852723156"://Heriloom Lightsaber
+        if(TraitContains($cardID, "Force", $player))
+        $amount += 1;;
+        break;
     }
   }
   switch($cardID)
@@ -279,6 +283,9 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
       case "8719468890"://Sword and Shield Maneuver
         $amount += TraitContains($cardID, "Trooper", $player) ? 1 : 0;
         break;
+      case "8743459187"://Focus Determines Reality
+        $amount += TraitContains($cardID, "Force", $player) ? 1 : 0;
+        break;
       default: break;
     }
   }
@@ -387,7 +394,7 @@ function HasSentinel($cardID, $player, $index)
       case "6059510270": $hasSentinel = true; break;//Obi-Wan Kenobi (Protective Padawan)
       case "7077983867": $hasSentinel = true; break;//Ahsoka Tano Leader
       case "1a61e6df76": $hasSentinel = true; break;//Ahsoka Tano Leader unit
-      case "abcdefg052": $hasSentinel = true; break;//Force Illusion
+      case "1906860379": $hasSentinel = true; break;//Force Illusion
       default: break;
     }
   }
@@ -513,7 +520,7 @@ function HasSentinel($cardID, $player, $index)
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
     case "9213315483"://Graceful Purrgil
-    case "abcdefg049"://Supremacy TIE/sf
+    case "6148303031"://Supremacy TIE/sf
       return true;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);
@@ -770,7 +777,7 @@ function HasOverwhelm($cardID, $player, $index)
     case "9757688123"://Mace Windu
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
-    case "abcdefg046"://Exegol Patroller
+    case "9796715682"://Exegol Patroller
     case "6584072416"://Mynock
     case "4199027631"://Trident Assault Ship
       return true;
@@ -885,7 +892,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "6745607382"://Jedi Temple Guards
     case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
-    case "abcdefg047"://Supremacy
+    case "4478482436"://Supremacy
     case "5663262393"://Charging Phillak
     case "9893266972"://Kowakian Monkey-Lizard
     case "0346642321"://Mysterious Hermit
@@ -1018,7 +1025,9 @@ function HasSaboteur($cardID, $player, $index)
       case "3272995563": return false;//In The Heat of Battle
       case "8656409691": return true;//Rio Durant leader
       //Legends of the Force
-      case "abcdefg057": return true;//BD-1
+      case "0024409893": return true;//BD-1
+      case "8743459187": //Focus Determines Reality
+        return TraitContains($cardID, "Force", $player);
       default: break;
     }
   }
@@ -1157,7 +1166,7 @@ function HasHidden($cardID, $player, $index) {
     case "5221323929"://Shin Hati
     case "4729355863"://Baylan Skoll
     case "3052907071"://Dooku
-    case "abcdefg057"://BD-1
+    case "0024409893"://BD-1
     case "5451377567"://Banking Clan Shuttle
     case "5663262393"://Charging Phillak
     case "7742118411"://Vupltex
@@ -1275,7 +1284,7 @@ function AbilityCost($cardID)
       return $abilityName == "Shield" ? 1 : 0;
     case "3822427538"://Kit Fisto Leader
       return $abilityName == "Deal Damage" ? 1 : 0;
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       return $abilityName == "Experience" ? 1 : 0;
     default: break;
   }
@@ -1674,9 +1683,9 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "7077983867"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
-    case "zzzzzzz015"://Cal Kestis Leader
+    case "6677799440"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "1184397926"://Barriss Offee Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
@@ -1691,7 +1700,7 @@ function CheckLOFAbilityTypes($cardID) {
       return "A,AA";
     case "5482818255"://Jedi Consular
       return "A,AA";
-    case "abcdefg053"://Caretaker Matron
+    case "6800160263"://Caretaker Matron
       return "A,AA";
     case "7d9f8bcb9b"://Anakin Skywalker Leader unit
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
@@ -2051,9 +2060,9 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Play";
     case "7077983867"://Ahsoka Tano Leader
       return LeaderAbilitiesIgnored() ? "" : "Sentinel";
-    case "zzzzzzz006"://Supreme Leader Snoke Leader
+    case "9919167831"://Supreme Leader Snoke Leader
       return LeaderAbilitiesIgnored() ? "" : "Experience";
-    case "zzzzzzz015"://Cal Kestis Leader
+    case "6677799440"://Cal Kestis Leader
       return LeaderAbilitiesIgnored() ? "" : "Exhaust";
     case "1184397926"://Barriss Offee Leader
       return LeaderAbilitiesIgnored() ? "" : "Play";
@@ -2068,7 +2077,7 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return "Move Damage,Attack";
     case "5482818255"://Jedi Consular
       return "Play Unit,Attack";
-    case "abcdefg053"://Caretaker Matron
+    case "6800160263"://Caretaker Matron
       return "Draw,Attack";
     case "7d9f8bcb9b"://Anakin Skywalker Leader unit
     case "20f7c21d8b"://Barriss Offee Leader unit
@@ -2559,10 +2568,10 @@ function LeaderUnit($cardID) {
       return "b70416cfea";
     case "7077983867"://Ahsoka Tano
       return "1a61e6df76";
-    case "zzzzzzz006"://Supreme Leader Snoke
-      return "abcdefg050";
-    case "zzzzzzz015"://Cal Kestis
-      return "abcdefg054";
+    case "9919167831"://Supreme Leader Snoke
+      return "e8f5e7c3f6";
+    case "6677799440"://Cal Kestis
+      return "bf3545c5e0";
     case "1184397926"://Barriss Offee
       return "20f7c21d8b";
     case "8536024453"://Anakin Skywalker
@@ -2748,10 +2757,10 @@ function LeaderUndeployed($cardID) {
       return "5045607736";
     case "1a61e6df76"://Ahsoka Tano
       return "7077983867";
-    case "abcdefg050"://Supreme Leader Snoke
-      return "zzzzzzz006";
-    case "abcdefg054"://Cal Kestis
-      return "zzzzzzz015";
+    case "e8f5e7c3f6"://Supreme Leader Snoke
+      return "9919167831";
+    case "bf3545c5e0"://Cal Kestis
+      return "6677799440";
     case "20f7c21d8b"://Barriss Offee
       return "1184397926";
     case "7d9f8bcb9b"://Anakin Skywalker

@@ -354,7 +354,7 @@ class Ally {
       if($this->CardID() == "6190335038" && $this->PlayerID() == $mainPlayer && $this->HasEffect("6190335038")) return false;//Aayla Secura
     }
 
-    if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"abcdefg002")) //Malakili
+    if(!$enemyDamage && SearchCount(SearchAlliesForCard($this->Controller(),"4945479132")) //Malakili
         && TraitContains($unitCardID, "Creature", $this->Controller())) {
       $amount = 0;
     }
@@ -551,7 +551,7 @@ class Ally {
         case "9811031405"://Victor Leader
           if($i != $this->index && CardArenas($this->CardID()) == "Space") $power += 1;
           break;
-        case "abcdefg047"://Supremacy
+        case "4478482436"://Supremacy
           if($i != $this->index && TraitContains($this->CardID(), "Vehicle", $this->PlayerID())) $power += 6;
           break;
         default: break;
