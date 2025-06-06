@@ -686,6 +686,8 @@ function AllyPlayableExhausted(Ally $ally) {
     case "1885628519"://Crosshair
     case "2b13cefced"://Fennec Shand Leader Unit
     case "a742dea1f1"://Han Solo Red Leader Unit
+    //Legends of the Force
+    case "7d9f8bcb9b"://Anakin Skywalker Leader Unit
       return true;
     default: break;
   }
@@ -753,6 +755,9 @@ function AllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Play";
     case "5306772000"://Phantom II
       return $abilityName != "Dock";
+    //Legends of the Force
+    case "7d9f8bcb9b"://Anakin Skywalker Leader Unit
+      return $abilityName != "Play";
     default: break;
   }
 

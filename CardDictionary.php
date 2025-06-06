@@ -1686,6 +1686,8 @@ function CheckLOFAbilityTypes($cardID) {
       return "A,AA";
     case "abcdefg053"://Caretaker Matron
       return "A,AA";
+    case "7d9f8bcb9b"://Anakin Skywalker Leader unit
+      return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
     default: return "";
   }
 }
@@ -2059,6 +2061,19 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
       return "Play Unit,Attack";
     case "abcdefg053"://Caretaker Matron
       return "Draw,Attack";
+    case "7d9f8bcb9b"://Anakin Skywalker Leader unit
+      $abilityNames = "";
+      if($validate) {
+        $ally = new Ally("MYALLY-" . $index, $currentPlayer);
+        $abilityNames = $ally->IsExhausted() ? "Play" : "Play,Attack";
+      } else {
+        $abilityNames = "Play,Attack";
+      }
+      if(LeaderAbilitiesIgnored()) {
+        $abilityNames = str_replace(",Play", "", $abilityNames);
+        $abilityNames = str_replace("Play", "", $abilityNames);
+      }
+      return $abilityNames;
     default: return "";
   }
 }

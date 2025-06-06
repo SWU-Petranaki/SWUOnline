@@ -1884,6 +1884,7 @@ function IgnoreAspectPenalty($cardID, $player, $reportMode) {
         RemoveCurrentTurnEffect($i);
         return true;
       case "8536024453"://Anakin Skywalker leader
+      case "7d9f8bcb9b"://Anakin Skywalker leader unit
         RemoveCurrentTurnEffect($i);
         return true;
       default: break;
@@ -6975,6 +6976,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "8536024453"://Anakin Skywalker Leader
+    case "7d9f8bcb9b"://Anakin Skywalker Leader unit
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Play") {
         if(!HasTheForce($currentPlayer)) {
