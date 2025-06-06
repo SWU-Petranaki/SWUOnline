@@ -127,6 +127,10 @@ function RestoreAmount($cardID, $player, $index)
           if(AspectContains($cardID, "Heroism", $player))
           $amount += 2;
           break;
+      case "9852723156"://Heriloom Lightsaber
+        if(TraitContains($cardID, "Force", $player))
+        $amount += 1;;
+        break;
     }
   }
   switch($cardID)
@@ -278,6 +282,9 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
         break;
       case "8719468890"://Sword and Shield Maneuver
         $amount += TraitContains($cardID, "Trooper", $player) ? 1 : 0;
+        break;
+      case "8743459187"://Focus Determines Reality
+        $amount += TraitContains($cardID, "Force", $player) ? 1 : 0;
         break;
       default: break;
     }
@@ -1019,6 +1026,8 @@ function HasSaboteur($cardID, $player, $index)
       case "8656409691": return true;//Rio Durant leader
       //Legends of the Force
       case "abcdefg057": return true;//BD-1
+      case "8743459187": //Focus Determines Reality
+        return TraitContains($cardID, "Force", $player);
       default: break;
     }
   }

@@ -7505,6 +7505,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           context: "a friendly unit to give +1/0 and Saboteur", lastingType:"Permanent");
       }
       break;
+    case "8743459187"://Focus Determines Reality
+      AddCurrentTurnEffect("8743459187", $currentPlayer, "PLAY");
+      break;
       //PlayAbility End
     default: break;
   }
