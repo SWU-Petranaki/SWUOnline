@@ -2215,6 +2215,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   $upgrades = $attackerAlly->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {
     switch($upgrades[$i]) {
+      case "0545149763"://Jedi Trials
+        $totalOnAttackAbilities++;
+        if ($reportMode) break;
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        break;
       case "3987987905"://Hardpoint Heavy Blaster
         $totalOnAttackAbilities++;
         if ($reportMode) break;
@@ -2692,6 +2697,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
 
   switch($cardID) {
     //upgrades TODO: order by set
+    case "0545149763"://Jedi Trials
+      $attackerAlly->Attach("2007868442"); // Experience token
+      break;
     case "7280213969"://Smuggling Compartment
       ReadyResource($player);
       break;

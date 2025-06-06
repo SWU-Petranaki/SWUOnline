@@ -1202,6 +1202,9 @@ function TraitContains($cardID, $trait, $player, $index=-1) {
         case "7687006104"://Foundling
           if($trait == "Mandalorian") return true;
           break;
+        case "0545149763"://Jedi Trials
+          if($trait == "Jedi" && count($upgrades) >= 4) return true;
+          break;
         default: break;
       }
     }

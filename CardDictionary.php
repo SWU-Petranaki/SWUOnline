@@ -2305,6 +2305,7 @@ function UpgradeFilter($cardID)
       return "cardID!=6931439330&cardID!=5763330426";
     case "3688574857"://Constructed Lightsaber
     case "0412810079"://Sith Holocron
+    case "0545149763"://Jedi Trials
       return "trait!=Force";
     default: return "";
   }
