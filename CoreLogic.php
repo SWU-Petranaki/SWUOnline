@@ -2634,6 +2634,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
               AddDecisionQueue("SPECIFICCARD", $currentPlayer, "TRENCH_JTL", 1);
             }
             break;
+          //Legend of the Force
+          case "2762251208"://Rey Leader flip
+            $hand = &GetHand($currentPlayer);//pending condition of Black One SOR
+            if(count($hand) > 0) {
+              AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Do you want to discard your hand to draw 2?");
+              AddDecisionQueue("YESNO", $currentPlayer, "if you want to discard a card to Rey?");
+              AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
+              AddDecisionQueue("OP", $currentPlayer, "DISCARDHAND", 1);
+              AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+              AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+            }
+            break;
           default: break;
         }
       }
@@ -6959,8 +6971,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "1184397926"://Barriss Offee Leader
+    case "20f7c21d8b"://Barriss Offee Leader unit
       $abilityName = GetResolvedAbilityName($cardID, $from);
-      if($abilityName == "Event") {
+      if($abilityName == "Play") {
         if(!HasTheForce($currentPlayer)) {
           WriteLog("The Force is not strong with this one. Reverting gamestate.");
           RevertGamestate();
@@ -6969,7 +6982,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddCurrentTurnEffect($cardID, $currentPlayer, $from);
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Event");
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an event to play");
-          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
           AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
         }
