@@ -7508,6 +7508,26 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "8743459187"://Focus Determines Reality
       AddCurrentTurnEffect("8743459187", $currentPlayer, "PLAY");
       break;
+    case "6491675327"://Tip the Scale
+      AddDecisionQueue("LOOKHAND", $currentPlayer, "-");
+      AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND:definedType=Upgrade&&THEIRHAND:definedType=Event");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an event to discard");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
+      break;
+    case "2968188569"://The Purggil King
+      if($from != "PLAY") {
+        $allies = &GetAllies($currentPlayer);
+        for ($i = 0; $i < count($allies); $i += AllyPieces()) {
+         $ally = new Ally("MYALLY-" . $i, $currentPlayer);
+         if ($ally->Health() > 7) {
+          WriteLog("count");
+          Draw($currentPlayer);
+         }
+        }
+      }
+      break;
       //PlayAbility End
     default: break;
   }
