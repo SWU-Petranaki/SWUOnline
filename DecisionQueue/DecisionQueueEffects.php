@@ -1520,8 +1520,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       break;
     case "ZUCKUSS_LOF":
+      $filteredName = str_replace("<45>", " ", $lastResult);
       $milled = Mill($otherPlayer, 1);
-      if(CardTitle($milled) == $lastResult) {
+      if(CardTitle($milled) == $filteredName) {
         AddCurrentTurnEffect("0406487670", $player, "PLAY", $parameterArr[1]);
       }
       break;
