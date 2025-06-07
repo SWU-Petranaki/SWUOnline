@@ -301,6 +301,9 @@ function EffectAttackModifier($cardID, $playerID="")
     case "1072330402": return 5;//Acclimator Assault Ship
     case "7030628730": return -8;//Force Slow
     case "7821324752": return 2;//Eighth Brother
+    case "8085392838": return -2;//Corrupted Saber
+    case "8241022502": return 2;//Rampage
+    case "8421586325": return 3;//Unleash Rage
     default: return 0;
   }
 }
@@ -978,6 +981,7 @@ function IsCombatEffectActive($cardID)
     case "5917432593"://Grand Inquisitor Leader
     case "5b24706856"://Grand Inquisitor Leader unit
     case "3591040205"://Pounce
+    case "8085392838"://Corrupted Saber
       return true;
     default: return false;
   }

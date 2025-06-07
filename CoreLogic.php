@@ -5973,14 +5973,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $allies = &GetAllies($currentPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
         if (TraitContains($allies[$i], "Republic", $currentPlayer)) {
-          AddCurrentTurnEffect("1272825113", $currentPlayer, "PLAY", $allies[$i+5]);
+          AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $allies[$i+5]);
         }
       }
       break;
     case "9415708584"://Pyrrhic Assault
       $allies = &GetAllies($currentPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
-        AddCurrentTurnEffect("9415708584", $currentPlayer, "PLAY", $allies[$i+5]);
+        AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $allies[$i+5]);
       }
       break;
     case "9399634203"://I Have the High Ground
@@ -7647,6 +7647,46 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1), 1);
         }
       }
+      break;
+    case "8241022502"://Rampage
+      $allies = &GetAllies($currentPlayer);
+      for ($i = 0; $i < count($allies); $i += AllyPieces()) {
+        if(TraitContains($allies[$i], "Creature", $currentPlayer)) {
+          Ally::FromUniqueId($allies[$i+5])->AddRoundHealthModifier(2);
+          AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $allies[$i+5]);
+        }
+      }
+      break;
+    case "8421586325"://Unleash Rage
+      if(HasTheForce($currentPlayer)) {
+        //Use the Force. If you do, give a friendly unit +3/+0 for this phase.
+        UseTheForce($currentPlayer);
+        DQBuffUnit($currentPlayer, $cardID, 3, 0, may:false, mzSearch:"MYALLY", context:"a friendly unit to give +3/+0 for this phase");
+      }
+      break;
+    case "8496220683"://Point Rain Reclaimer
+      if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, trait:"Jedi")) > 0) {
+        //When played: If you control a Jedi unit, you may give an experience token to this unit.
+        AddDecisionQueue("YESNO", $currentPlayer, "if you want to give an experience token to " . CardLink($cardID, $cardID));
+        AddDecisionQueue("NOPASS", $currentPlayer, "-");
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->UniqueID(), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      }
+      break;
+    case "8580514429"://Pillio Star Compass
+      //When Played: Search the top 3 cards of your deck for a unit, reveal it, and draw it.
+      AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "3;1;include-definedType-Unit");
+      AddDecisionQueue("ADDHAND", $currentPlayer, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $currentPlayer, "-", 1);
+      break;
+    case "8621390428"://Consumed by the Dark Side
+      //Give 2 Experience tokens to a unit, then deal 2 damage to it.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to give 2 experience tokens to");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer), 1);
       break;
     //PlayAbility End
     default: break;
