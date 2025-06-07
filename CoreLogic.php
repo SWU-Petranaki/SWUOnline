@@ -7607,6 +7607,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DQBuffUnit($currentPlayer, $cardID, 3, 0, may:false, mzSearch:"MYALLY", context:"a friendly unit to give +3/+0 for this phase");
       }
       break;
+    case "8496220683"://Point Rain Reclaimer
+      if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, trait:"Jedi")) > 0) {
+        //When played: If you control a Jedi unit, you may give an experience token to this unit.
+        AddDecisionQueue("YESNO", $currentPlayer, "if you want to give an experience token to " . CardLink($cardID, $cardID));
+        AddDecisionQueue("NOPASS", $currentPlayer, "-");
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->UniqueID(), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
