@@ -2233,7 +2233,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     break;
     default: break;
   }
-
+  $oneOtherAlly = SearchCount(SearchAllies($mainPlayer)) > 1;
+  $anyEnemy = SearchCount(SearchAllies($defPlayer)) > 0;
   // Upgrade Abilities
   $upgrades = $attackerAlly->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {
@@ -2302,7 +2303,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       case "1938453783"://Armed to the Teeth
       case "6775521270"://Inspiring Mentor
       case "5016817239"://Superheavy Ion Cannon
-      case "0412810079"://Sith Holocron
         $totalOnAttackAbilities++;
         if ($reportMode) break;
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
@@ -2335,6 +2335,18 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
           if ($reportMode) break;
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
+        break;
+      //Legends of the Force
+      case "0412810079"://Sith Holocron
+        $totalOnAttackAbilities++;
+        if ($reportMode) break;
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        break;
+      case "7377298352"://Jedi Holocron
+        $totalOnAttackAbilities++;
+        if ($reportMode) break;
+        if($oneOtherAlly || $anyEnemy)
+          PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
       default: break;
     }
@@ -2692,11 +2704,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "6503652883"://Medical Frigate
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      if(SearchCount(SearchAllies($mainPlayer)) > 1) {
+      if($oneOtherAlly || $anyEnemy)
         AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
-      } else if(SearchCount(SearchAllies($defPlayer)) > 0) {
-        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID, "THEIRALLY");
-      }
       break;
     default: break;
   }
@@ -3949,6 +3958,14 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to restore 2 damage");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "RESTORE,2", 1);
+      break;
+    case "7377298352"://Jedi Holocron
+      //You may heal 3 damage from another unit.
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to restore 3 damage");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "RESTORE,3", 1);
       break;
     default: break;
   }

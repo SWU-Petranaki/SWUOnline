@@ -2374,6 +2374,7 @@ function UpgradeFilter($cardID)
     case "0412810079"://Sith Holocron
     case "0545149763"://Jedi Trials
     case "3730933081"://Bolstered Endurance
+    case "7377298352"://Jedi Holocron
       return "trait!=Force";
     case "6885149318"://Knight's Saber
       return "trait!=Jedi";
