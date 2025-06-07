@@ -4074,6 +4074,28 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2", 1);
       }
       break;
+    case "3848295601"://Craving Power
+      $ally = new Ally($target, $currentPlayer);
+      $damage = $ally->CurrentPower();
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage to equal to the attached unit's power");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,$damage,$currentPlayer,1", 1);
+      break;
+    case "0398004943"://Vanee
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:hasUpgradeOnly=true");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "upgrade=2007868442", 1); // Experience token
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may defeat an experience token on a friendly unit");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "2007868442", 1);
+      AddDecisionQueue("OP", $currentPlayer, "DEFEATUPGRADE", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give an experience token to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      break;
     case "3893171959"://Kaadu
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Overwhelm");

@@ -2619,6 +2619,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "5227991792"://Asajj Ventress LOF
     case "1072330402"://Acclamator Assault Ship
     case "3527836283"://Peli Motto
+    case "0398004943"://Vanee
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -2714,6 +2715,20 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
 
   switch($cardID) {
     //upgrades TODO: order by set
+    case "0398004943"://Vanee
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:hasUpgradeOnly=true");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "upgrade=2007868442", 1); // Experience token
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "You may defeat an experience token on a friendly unit");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "2007868442", 1);
+      AddDecisionQueue("OP", $mainPlayer, "DEFEATUPGRADE", 1);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly unit to give an experience token to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
     case "3527836283"://Peli Motto
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Droid&MYALLY:trait=Vehicle");
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Droid or Vehicle unit to give an experience token");

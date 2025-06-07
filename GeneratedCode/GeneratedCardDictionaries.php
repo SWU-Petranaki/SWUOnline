@@ -18354,7 +18354,6 @@ function IsUnimplemented($cardID) {
   $manualData = ManualIsUnimplementedData();
   $unimplementedCards = array (
   '0126487527' => true,
-  '0398004943' => true,
   '0406487670' => true,
   '0463147975' => true,
   '0466077140' => true,
@@ -18369,7 +18368,6 @@ function IsUnimplemented($cardID) {
   2370458497 => true,
   3124049734 => true,
   3288909829 => true,
-  3848295601 => true,
   3895004077 => true,
   4024881604 => true,
   4218264341 => true,
