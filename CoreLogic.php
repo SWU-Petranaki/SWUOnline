@@ -8600,15 +8600,7 @@ function Draw($player, $mainPhase = true)
     OpponentUnitDrawEffects($otherPlayer);
     switch($drawnCardID) {
       case "6172986745"://Rey, With Palpatine's Power
-        $leaderID = FindLeaderInPlay($player);
-        $baseID = GetPlayerCharacter($player)[0];
-        if(AspectContains($leaderID, "Aggression", $player) || AspectContains($baseID, "Aggression", $player)) {
-          DealDamageAsync($otherPlayer, 2, "DAMAGE", "1047592361", sourcePlayer:$player);
-          AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
-          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal 2 damage to");
-          AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
-          AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
-        }
+        ReyPalpatineLOF($player);
         break;
       default: break;
     }

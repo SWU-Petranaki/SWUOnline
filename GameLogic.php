@@ -373,8 +373,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       PlayAlly($lastResult, $player, $subCards, $from, $owner, $cloned, $playAbility);
       return $lastResult;
     case "DRAW":
-      $mainPhase = $parameter != 0;
-      return Draw($player, $mainPhase);
+      $isMainPhase = $parameter != 0;
+      return Draw($player, $isMainPhase);
     case "DISCARD":
       return PummelHit($player);
     case "MAYDISCARD":
@@ -458,6 +458,12 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         }
         $hand[] = $cards[$i];
         IncrementClassState($player, $CS_CardsDrawn);
+        switch($cards[$i]) {
+          case "6172986745"://Rey, With Palpatine's Power
+            ReyPalpatineLOF($player);
+            break;
+          default: break;
+        }
       }
       if($log != "") WriteLog($log . " added to hand");
       return $lastResult;
@@ -2200,7 +2206,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         }
 
         for($i=0; $i<$startingHandSize; ++$i) {
-          Draw($p);
+          Draw($p, false);
         }
       }
 

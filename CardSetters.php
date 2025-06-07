@@ -53,6 +53,12 @@ function AddPlayerHand($cardID, $player, $from)
 {
   $hand = &GetHand($player);
   $hand[] = $cardID;
+  switch($cardID) {
+    case "6172986745"://Rey, With Palpatine's Power
+      ReyPalpatineLOF($player);
+      break;
+    default: break;
+  }
 }
 
 function RemoveHand($player, $index)
