@@ -4096,6 +4096,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       break;
+    case "0466077140"://A Time of Crisis
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit you control to protect");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("DAMAGEALLOTHERUNITS", $currentPlayer, "3", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose a unit you control to protect");
+      AddDecisionQueue("CHOOSEMULTIZONE", $otherPlayer, "<-", 1);
+      AddDecisionQueue("DAMAGEALLOTHERUNITS", $otherPlayer, "3", 1);
+      break;
     case "3893171959"://Kaadu
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Overwhelm");
@@ -7853,31 +7863,35 @@ function DamagePlayerAllies($player, $damage, $source, $type="-", $arena="")
   }
 }
 
-function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $arena="", $except="")
+function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $arena="", $except="", $player="")
 {
   global $currentPlayer;
   $otherPlayer = $currentPlayer == 1 ? 2 : 1;
-  $theirAllies = &GetAllies($otherPlayer);
-  for($i=count($theirAllies) - AllyPieces(); $i>=0; $i-=AllyPieces())
-  {
-    $ally = Ally::FromUniqueId($theirAllies[$i+5]);
-    if($arena != "" && !ArenaContains($theirAllies[$i], $arena, $ally)) continue;
-    if($alsoRest) $theirAllies[$i+1] = 1;
-    if($alsoFreeze) $theirAllies[$i+3] = 1;
-    $ally->DealDamage($amount, enemyDamage:true);
+  if($player == "" || $player == $otherPlayer) {
+    $theirAllies = &GetAllies($otherPlayer);
+    for($i=count($theirAllies) - AllyPieces(); $i>=0; $i-=AllyPieces())
+    {
+      $ally = Ally::FromUniqueId($theirAllies[$i+5]);
+      if($arena != "" && !ArenaContains($theirAllies[$i], $arena, $ally)) continue;
+      if($alsoRest) $theirAllies[$i+1] = 1;
+      if($alsoFreeze) $theirAllies[$i+3] = 1;
+      $ally->DealDamage($amount, enemyDamage:true);
+    }
   }
   if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($source, "Creature", $currentPlayer)) {
     return;
   }
-  $allies = &GetAllies($currentPlayer);
-  for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
-  {
-    $ally = Ally::FromUniqueId($allies[$i+5]);
-    if($arena != "" && !ArenaContains($allies[$i], $arena, $ally)) continue;
-    if($except != "" && $except == ("MYALLY-" . $i)) continue;
-    if($alsoRest) $allies[$i+1] = 1;
-    if($alsoFreeze) $allies[$i+3] = 1;
-    $ally->DealDamage($amount);
+  if($player == "" || $player == $currentPlayer) {
+    $allies = &GetAllies($currentPlayer);
+    for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
+    {
+      $ally = Ally::FromUniqueId($allies[$i+5]);
+      if($arena != "" && !ArenaContains($allies[$i], $arena, $ally)) continue;
+      if($except != "" && $except == ("MYALLY-" . $i)) continue;
+      if($alsoRest) $allies[$i+1] = 1;
+      if($alsoFreeze) $allies[$i+3] = 1;
+      $ally->DealDamage($amount);
+    }
   }
 }
 
