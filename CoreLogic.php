@@ -5957,14 +5957,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $allies = &GetAllies($currentPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
         if (TraitContains($allies[$i], "Republic", $currentPlayer)) {
-          AddCurrentTurnEffect("1272825113", $currentPlayer, "PLAY", $allies[$i+5]);
+          AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $allies[$i+5]);
         }
       }
       break;
     case "9415708584"://Pyrrhic Assault
       $allies = &GetAllies($currentPlayer);
       for ($i = 0; $i < count($allies); $i += AllyPieces()) {
-        AddCurrentTurnEffect("9415708584", $currentPlayer, "PLAY", $allies[$i+5]);
+        AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $allies[$i+5]);
       }
       break;
     case "9399634203"://I Have the High Ground
@@ -7588,6 +7588,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         if($currentPlayer == $initiativePlayer) {
           DQMultiUnitSelect($currentPlayer, 3, "MYALLY&THEIRALLY", "to deal 1 damage to");
           AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1), 1);
+        }
+      }
+      break;
+    case "8241022502"://Rampage
+      $allies = &GetAllies($currentPlayer);
+      for ($i = 0; $i < count($allies); $i += AllyPieces()) {
+        if(TraitContains($allies[$i], "Creature", $currentPlayer)) {
+          Ally::FromUniqueId($allies[$i+5])->AddRoundHealthModifier(2);
+          AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $allies[$i+5]);
         }
       }
       break;

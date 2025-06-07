@@ -300,6 +300,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "7030628730": return -8;//Force Slow
     case "7821324752": return 2;//Eighth Brother
     case "8085392838": return -2;//Corrupted Saber
+    case "8241022502": return 2;//Rampage
     default: return 0;
   }
 }
