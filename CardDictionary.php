@@ -1865,6 +1865,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
     case "2236831712"://Leia Organa (Extraordinary)
       return "A,AA";
+    case "6501780064"://Babu Frik
+      return "A,AA";
     default: return "";
   }
 }
@@ -2267,6 +2269,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
         $abilityNames = "Fly Through Space,Attack";
       }
       return $abilityNames;
+    case "6501780064"://Babu Frik
+      return "Droid Attack,Attack";
     default: return "";
   }
 }

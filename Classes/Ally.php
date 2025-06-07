@@ -613,6 +613,10 @@ class Ally {
       $power += EffectAttackModifier($effectCardID, $this->PlayerID());
     }
 
+    if($this->HasEffect("6501780064")) {//Babu Frik
+      return $this->Health();
+    }
+
     return max($power, 0);
   }
 
