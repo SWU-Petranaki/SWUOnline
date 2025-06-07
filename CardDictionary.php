@@ -817,7 +817,7 @@ function HasOverwhelm($cardID, $player, $index)
   return false;
 }
 
-function HasAmbush($cardID, $player, $index, $from)
+function HasAmbush($cardID, $player, $index, $from, $isRecursion=false)
 {
   if ($cardID == "0345124206") return false; //Clone - Prevent bugs related to ECL and Timely.
 
@@ -943,6 +943,13 @@ function HasAmbush($cardID, $player, $index, $from)
       return HasUnitWithTraitInPlay($otherPlayer, "Force");
     case "4347039495"://Darth Tyranus
       return HasTheForce($player);
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasAmbush($units[$i], $player, $i, $from, true)) return true;
+      }
     default: break;
   }
   //The Ghost JTL
