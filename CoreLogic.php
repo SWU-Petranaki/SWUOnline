@@ -7947,7 +7947,6 @@ function AfterPlayedByAbility($cardID) {
       break;
     case "d911b778e4"://Kylo Ren Leader unit
       SearchCurrentTurnEffects("d911b778e4", $currentPlayer, remove:true);
-      AddDecisionQueue("SWAPTURN", $currentPlayer, "-", 1);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF", 1);
       break;
     case "7787879864"://Cin Drallig
