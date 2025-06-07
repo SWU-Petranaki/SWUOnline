@@ -538,7 +538,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
           <div>
             <div style="position: relative;">
               <div style='vertical-align:middle; text-align: start;'>
-                <img src="./Images/SWUKeyArt/SWH05_KeyArt.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                <img src="./Images/news-image-20250607.png" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
                 <h3 style="margin: 15px 0; display: block;">All Set 5 Cards Now Available</h3>
                 <p>The full Set 5 roster has landed in Petranaki! Every card is now implemented and ready for battle — no need to wait for hyperspace delivery.</p>
                 <p>With so many new cards added back-to-back, a few bugs or card implementation errors may have snuck in. If you notice anything off, please report it so we can address it promptly. We're also always open to feedback on how to improve the platform and your overall experience.</p>
