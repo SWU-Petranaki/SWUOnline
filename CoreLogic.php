@@ -7512,6 +7512,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
       break;
+    case "5074877387"://Three Lessons
+      global $CS_AfterPlayedBy;
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to play");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+      AddDecisionQueue("SETCLASSSTATE", $currentPlayer, $CS_AfterPlayedBy, 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+      break;
     case "1759165041"://Heavy Blaster Cannon
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground&MYALLY:arena=Ground");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 1 damage to");
@@ -7758,6 +7769,13 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      break;
+    case "5074877387"://Three Lessons
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "5074877387,PLAY", 1);
       break;
     case "7981459508"://Shien Flurry
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");

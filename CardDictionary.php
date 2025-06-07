@@ -1152,6 +1152,7 @@ function HasHidden($cardID, $player, $index) {
     switch($currentTurnEffects[$i]) {
       case "3357344238"://Third Sister Leader
       case "5387ca4af6-P"://Third Sister Leader Unit
+      case "5074877387"://Three Lessons
         return true;
       default: break;
     }

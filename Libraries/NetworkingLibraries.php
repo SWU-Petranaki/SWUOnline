@@ -2570,6 +2570,7 @@ function CurrentTurnEffectsPlayingUnit($player) {
       case "2580909557"://Qui-Gon Jinn Leader
       case "6def6570f5"://Qui-Gon Jinn Leader Unit
       case "5482818255"://Jedi Consular
+      case "5074877387"://Three Lessons
         return true;
     }
   }
