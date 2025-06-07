@@ -7796,6 +7796,19 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if(HasUnitWithTraitInPlay($currentPlayer, "Force")) $debuff = 3;
       DQDebuffUnit($currentPlayer, $otherPlayer, "$cardID-$debuff", $debuff, $debuff, false);
       break;
+    case "6501780064"://Babu Frik
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Droid Attack") {
+        if(SearchCount(SearchAllies($currentPlayer, trait:"Droid")) > 0) {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Droid");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Droid unit to attack with");
+          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,$from", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }
