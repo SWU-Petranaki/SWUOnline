@@ -2356,6 +2356,7 @@ function UpgradeFilter($cardID)
     case "6128668392"://Ascension Cable
     case "1759165041"://Heavy Blaster Cannon
     case "8085392838"://Corrupted Saber
+    case "8580514429"://Pillio Star Compass
       return "trait=Vehicle";
     //end non-Vehicle upgrades
     //Vehicle only upgrades

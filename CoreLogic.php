@@ -7616,6 +7616,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       }
       break;
+    case "8580514429":
+      //When Played: Search the top 3 cards of your deck for a unit, reveal it, and draw it.
+      AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "3;1;include-definedType-Unit");
+      AddDecisionQueue("ADDHAND", $currentPlayer, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $currentPlayer, "-", 1);
+      break;
     //PlayAbility End
     default: break;
   }
