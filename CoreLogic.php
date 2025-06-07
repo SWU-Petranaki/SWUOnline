@@ -7429,6 +7429,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "1548886844"://Tusken Tracker
       AddCurrentTurnEffect($cardID, $otherPlayer, "PLAY");
       break;
+    case "2720873461"://Disturbance in the Force
+      global $CS_NumAlliesDestroyed;
+      if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
+        TheForceIsWithYou($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a friendly unit to give a shield token to");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      } else {
+        WriteLog("<span style='color:green'>Luminous beings are we, not this crude matter.</span>");
+      }
+      break;
     case "1093502388"://DRK-1 Probe Droid
       if($from != "PLAY") {
         DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");
