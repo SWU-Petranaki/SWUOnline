@@ -20,7 +20,7 @@ function EvaluateCombatChain(&$totalAttack, &$totalDefense, &$attackModifiers=[]
       if($combatChain[$i] == $mainPlayer)
       {
         if($i == 1) $attack = $combatChainState[$CCS_LinkBaseAttack];
-        else $attack = AttackValue($combatChain[$i-1]);
+        else $attack = SpecificCardPower(AttackerMZID(), $mainPlayer);
         if($canGainAttack || $i == 1 || $attack < 0)
         {
           array_push($attackModifiers, $combatChain[$i-1], $attack);
@@ -49,24 +49,6 @@ function EvaluateCombatChain(&$totalAttack, &$totalDefense, &$attackModifiers=[]
         array_push($attackModifiers, "+1 Attack Counters", $attack);
         AddAttack($totalAttack, $attack);
       }
-    }
-    //$attack = MainCharacterAttackModifiers();
-    if($canGainAttack || $attack < 0)
-    {
-      array_push($attackModifiers, "Character/Equipment", $attack);
-      AddAttack($totalAttack, $attack);
-    }
-    //$attack = AuraAttackModifiers(0);//FAB
-    if($canGainAttack || $attack < 0)
-    {
-      array_push($attackModifiers, "Aura Ability", $attack);
-      AddAttack($totalAttack, $attack);
-    }
-    $attack = ArsenalAttackModifier();
-    if($canGainAttack || $attack < 0)
-    {
-      array_push($attackModifiers, "Arsenal Ability", $attack);
-      AddAttack($totalAttack, $attack);
     }
 }
 
@@ -220,87 +202,6 @@ function ArsenalStartTurnAbilities()
       default: break;
     }
   }
-}
-
-function ArsenalAttackAbilities()
-{
-  global $combatChain, $mainPlayer;
-  $attackID = $combatChain[0];
-  $attackType = CardType($attackID);
-  $attackVal = AttackValue($attackID);
-  $arsenal = GetArsenal($mainPlayer);
-  for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-  {
-    switch($arsenal[$i])
-    {
-
-      default: break;
-    }
-  }
-}
-
-function ArsenalAttackModifier()
-{
-  global $combatChain, $mainPlayer;
-  $attackID = $combatChain[0];
-  $attackType = CardType($attackID);
-  $arsenal = GetArsenal($mainPlayer);
-  $modifier = 0;
-  for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-  {
-    switch($arsenal[$i])
-    {
-      default: break;
-    }
-  }
-  return $modifier;
-}
-
-// function ArsenalHitEffects()//FAB
-// {
-//   global $combatChain, $mainPlayer;
-//   $attackID = $combatChain[0];
-//   $attackType = CardType($attackID);
-//   $attackSubType = CardSubType($attackID);
-//   $arsenal = GetArsenal($mainPlayer);
-//   $modifier = 0;
-//   for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-//   {
-//     switch($arsenal[$i])
-//     {
-
-//       default: break;
-//     }
-//   }
-//   return $modifier;
-// }
-
-
-function ArsenalPlayCardAbilities($cardID)
-{
-  global $currentPlayer;
-  $cardType = CardType($cardID);
-  $arsenal = GetArsenal($currentPlayer);
-  for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-  {
-    switch($arsenal[$i])
-    {
-      default: break;
-    }
-  }
-}
-
-function HasIncreasedAttack()
-{
-  global $combatChain;
-  if(count($combatChain) > 0)
-  {
-    $attack = 0;
-    $defense = 0;
-    EvaluateCombatChain($attack, $defense);
-    if($attack > AttackValue($combatChain[0])) return true;
-  }
-  return false;
 }
 
 function DamageTrigger($player, $damage, $type, $source="NA", $canPass=false)
@@ -794,25 +695,6 @@ function CombatChainClosedCharacterEffects()
       }
       switch($chainLinks[$i][$j])
       {
-        case "MON089":
-          if(!DelimStringContains($chainLinkSummary[$i*ChainLinkSummaryPieces()+3], "ILLUSIONIST") && $chainLinkSummary[$i*ChainLinkSummaryPieces()+1] >= 6)
-          {
-            $character[FindCharacterIndex($defPlayer, "MON089")+1] = 0;
-          }
-          break;
-        case "RVD003":
-          Writelog("Processing " . Cardlink($chainLinks[$i][$j], $chainLinks[$i][$j]) . " trigger: ");
-          $deck = &GetDeck($defPlayer);
-          $rv = "";
-          if (count($deck) == 0) $rv .= "Your deck is empty. No card is revealed.";
-          $wasRevealed = RevealCards($deck[0]);
-          if ($wasRevealed) {
-            if (AttackValue($deck[0]) < 6) {
-              WriteLog("The card was put on the bottom of your deck.");
-              $deck[] = array_shift($deck);
-            }
-          }
-          break;
         default: break;
       }
     }
@@ -1201,6 +1083,9 @@ function TraitContains($cardID, $trait, $player, $index=-1) {
       switch ($upgrades[$i]) {
         case "7687006104"://Foundling
           if($trait == "Mandalorian") return true;
+          break;
+        case "0545149763"://Jedi Trials
+          if($trait == "Jedi" && count($upgrades) >= 4) return true;
           break;
         default: break;
       }
@@ -2040,6 +1925,10 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
     case "6576881465"://Decimator of Dissidents
       global $CS_NumIndirectDamageGiven;
       if(GetClassState($currentPlayer, $CS_NumIndirectDamageGiven) > 0) $modifier -= 1;
+      break;
+    //Legends of the Force
+    case "6980075962"://Size Matters Not
+      if (SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) $modifier -= 1;
       break;
     default: break;
   }
@@ -3592,6 +3481,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly space unit to defeat");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LIGHTSPEEDASSAULT", 1);
+      break;
+    case "2062827036"://Do or Do Not
+      DQAskToUseTheForce($currentPlayer);
+      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+      AddDecisionQueue("ELSE", $currentPlayer, "-");
+      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       break;
     case "7730475388"://Shoot Down
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:arena=Space&THEIRALLY:arena=Space");
@@ -7472,6 +7368,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "{0},$currentPlayer,1", 1);
       break;
+    case "0721742014"://Lightsaber Throw
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:trait=Lightsaber");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Lightsaber card to discard");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 4 damage to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,4,$currentPlayer", 1);
+      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+      break;
     case "3591040205"://Pounce
       DQAttackWithEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY:trait=Creature", context:"Choose a Creature unit to attack with");
       break;
@@ -7490,6 +7397,43 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($abilityName == "Draw" && GetClassState($currentPlayer, $CS_NumForcePlayed)) {
         Draw($currentPlayer);
       }
+      break;
+    case "6491675327"://Tip the Scale
+      AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card in your opponent's hand to discard");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $otherPlayer, 1);
+      break;
+    case "4371455331"://Last Words
+      global $CS_NumAlliesDestroyed;
+      if(GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give 2 experience tokens to");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      }
+      break;
+    case "1022691467"://Hyena Bomber
+      if ($from != "PLAY") {
+        if (SearchCount(SearchAllies($currentPlayer, aspect: "Aggression")) > 1) {
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a ground unit to deal 2 damage to");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2,$currentPlayer", 1);
+        }
+      }
+      break;
+    case "1093502388"://DRK-1 Probe Droid
+      if($from != "PLAY") {
+        DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");
+      }
+      break;
+    case "1393713161"://Flight of the Inquisitor
+      MZMoveCard($currentPlayer, "MYDISCARD:trait=Force;definedType=Unit", "MYHAND", may:true, context:"Choose a Force unit to return to your hand");
+      MZMoveCard($currentPlayer, "MYDISCARD:trait=Lightsaber;definedType=Upgrade", "MYHAND", may:true, context:"Choose a Lightsaber upgrade to return to your hand", isSubsequent:1);
       break;
     case "1906860379"://Force Illusion
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");

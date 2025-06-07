@@ -2385,7 +2385,6 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
     CurrentEffectPlayOrActivateAbility($cardID, $from);
     if ($from != "PLAY") {
       CurrentEffectPlayAbility($cardID, $from);
-      ArsenalPlayCardAbilities($cardID);
     }
     $EffectContext = $cardID;
     if (!$chainClosed) {
@@ -2488,7 +2487,7 @@ function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
           AppendClassState($defPlayer, $CS_UnitsThatAttackedBase, $ally->UniqueID(), false);
         }
       } else
-        $attackValue = ($baseAttackSet != -1 ? $baseAttackSet : AttackValue($cardID));
+        $attackValue = ($baseAttackSet != -1 ? $baseAttackSet : SpecificCardPower(AttackerMZID(), $player));
       $combatChainState[$CCS_LinkBaseAttack] = BaseAttackModifiers($attackValue);
       $combatChainState[$CCS_AttackUniqueID] = $uniqueID;
       $openedChain = true;
@@ -2510,7 +2509,6 @@ function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
         if(TraitContains($cardID, "Jedi", $player, $index))
           IncrementClassState($player, $CS_NumJediAttacks);
         //end increment Trait attacks
-        ArsenalAttackAbilities();
         OnAttackEffects($cardID);
       }
       if (!$chainClosed || $definedCardType == "AA") {

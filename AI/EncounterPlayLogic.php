@@ -11,15 +11,10 @@ function CardIsBlockable($storedPriorityNode)
   {
     $character = &GetPlayerCharacter($currentPlayer);
     if($character[$storedPriorityNode[2]+6] == 1 || $character[$storedPriorityNode[2]+1] != 2) return false;
-    //WriteLog("character[i+6]->".$character[$storedPriorityNode[2]+6]);
   }
   switch($combatChain[0])
   {
-    case "CRU054": return !(ComboActive() && CardCost($storedPriorityNode[0]) < $combatChainState[$CCS_NumChainLinks]);
-    case "CRU056": return false; //I have no idea how to make Heron's Flight work, so I'm just gonna say it's unblockable. This is so edge case that no one will know for a while lmfaooooo
-    case "CRU057":
-    case "CRU058":
-    case "CRU059": return !(ComboActive() && AttackValue($storedPriorityNode[0]) > $combatChainState[$CCS_NumChainLinks]);
+
     default: return true;
   }
 }

@@ -351,6 +351,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "4460062481": $amount += 3; break;//Nihil Marauder
     case "4464627339": $amount += 1; break;//Blue Suqadron Assault Wing
     case "3288909829": $amount += 1; break;//Cartel Interceptor
+    case "0686684746": $amount += 1; break;//Grand Inquisitor LOF
     default: break;
   }
   //The Ghost JTL
@@ -1152,6 +1153,9 @@ function HasHidden($cardID, $player, $index) {
   for($i=0; $i<count($allies); $i+=AllyPieces())
   {
     switch($allies[$i]) {
+      case "0686684746"://Grand Inquisitor LOF
+        if(TraitContains($cardID, "Inquisitor", $player)) return true;
+        break;
       default: break;
     }
   }
@@ -1175,6 +1179,7 @@ function HasHidden($cardID, $player, $index) {
     case "5451377567"://Banking Clan Shuttle
     case "5663262393"://Charging Phillak
     case "7742118411"://Vupltex
+    case "0686684746"://Grand Inquisitor LOF
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
@@ -1318,6 +1323,46 @@ function PitchValue($cardID)
 function BlockValue($cardID)
 {
   return 0;
+}
+
+function SpecificCardPower($mzID, $player = -1)
+{
+  global $currentPlayer;
+  if($player == -1) $player = $currentPlayer;
+  $cardID = GetMZCard($player, $mzID);
+  if(DefinedCardType($cardID) == "Unit") {
+    $ally = new Ally($mzID, $player);
+    $upgrades = $ally->GetUpgrades();
+    for ($i = 0; $i < count($upgrades); ++$i) {
+      switch ($upgrades[$i]) {
+        case "6980075962"://Size Matters Not
+          return 5;
+        default:
+          break;
+      }
+    }
+  }
+  return CardPower($cardID);
+}
+
+function SpecificCardHP($mzID, $player = -1)
+{
+  global $currentPlayer;
+  if($player == -1) $player = $currentPlayer;
+  $cardID = GetMZCard($player, $mzID);
+  if(DefinedCardType($cardID) == "Unit") {
+    $ally = new Ally($mzID, $player);
+    $upgrades = $ally->GetUpgrades();
+    for ($i = 0; $i < count($upgrades); ++$i) {
+      switch ($upgrades[$i]) {
+        case "6980075962"://Size Matters Not
+          return 5;
+        default:
+          break;
+      }
+    }
+  }
+  return CardHPDictionary($cardID);
 }
 
 function AttackValue($cardID) {
@@ -2310,6 +2355,7 @@ function UpgradeFilter($cardID)
       return "cardID!=6931439330&cardID!=5763330426";
     case "3688574857"://Constructed Lightsaber
     case "0412810079"://Sith Holocron
+    case "0545149763"://Jedi Trials
     case "3730933081"://Bolstered Endurance
       return "trait!=Force";
     default: return "";

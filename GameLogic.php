@@ -1058,15 +1058,10 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "ADDTOPDECKASRESOURCE":
           AddTopDeckAsResource($player);
           return $lastResult;
-        // case "REMOVEPREPARATION"://FAB
-        //   global $CS_PreparationCounters;
-        //   DecrementClassState($player, $CS_PreparationCounters, $lastResult);
-        //   return $lastResult;
         case "GETLASTALLYMZ":
           $allies = &GetAllies($player);
           if(count($allies) == 0) return "";
           return "MYALLY-" . count($allies)-AllyPieces();
-        case "GETATTACK": return AttackValue($lastResult);
         case "DISCARDHAND": DiscardHand($player); return $lastResult;
         case "DISCARDRANDOM": DiscardRandom($player, isset($paramArr[1]) ? $paramArr[1] : ''); return $lastResult;
         case "MILL": return Mill($player, $lastResult);

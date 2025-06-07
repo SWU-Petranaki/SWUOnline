@@ -590,16 +590,6 @@ function CountCurrentTurnEffects($cardID, $player, $remove = false)
   return $count;
 }
 
-function SearchPitchHighestAttack(&$pitch)
-{
-  $highest = 0;
-  for ($i = 0; $i < count($pitch); ++$i) {
-    $av = AttackValue($pitch[$i]);
-    if ($av > $highest) $highest = $av;
-  }
-  return $highest;
-}
-
 function SearchPitchForColor($player, $color)
 {
   $count = 0;
@@ -668,19 +658,6 @@ function SearchItemsForCardMulti($playerID, $card1, $card2 = "", $card3 = "")
     }
   }
   return $cardList;
-}
-
-function SearchHighestAttackDefended()
-{
-  global $combatChain, $defPlayer;
-  $highest = 0;
-  for ($i = 0; $i < count($combatChain); $i += CombatChainPieces()) {
-    if ($combatChain[$i + 1] == $defPlayer) {
-      $av = AttackValue($combatChain[$i]);
-      if ($av > $highest) $highest = $av;
-    }
-  }
-  return $highest;
 }
 
 function SearchCharacterEffects($player, $index, $effect)
@@ -922,21 +899,6 @@ function CountItem($cardID, $player)
     if ($items[$i] == $cardID) ++$count;
   }
   return $count;
-}
-
-function SearchChainLinks($minPower = -1, $maxPower = -1, $cardType = "")
-{
-  global $chainLinks;
-  $links = "";
-  for ($i = 0; $i < count($chainLinks); ++$i) {
-    $power = AttackValue($chainLinks[$i][0]);
-    $type = CardType($chainLinks[$i][0]);
-    if ($chainLinks[$i][2] == "1" && ($minPower == -1 || $power >= $minPower) && ($maxPower == -1 || $power <= $maxPower) && ($cardType == "" || $type == $cardType)) {
-      if ($links != "") $links .= ",";
-      $links .= $i;
-    }
-  }
-  return $links;
 }
 
 function GetMZCardLink($player, $MZ)
