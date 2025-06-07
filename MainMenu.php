@@ -539,9 +539,10 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
             <div style="position: relative;">
               <div style='vertical-align:middle; text-align: start;'>
                 <img src="./Images/SWUKeyArt/SWH05_KeyArt.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                <h3 style="margin: 15px 0; display: block;">Set 5 Previews Are Underway</h3>
-                <p>As cards become available on the SWU card database, we will do our best to implement them into Petranaki as soon as possiible.</p>
-                <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">Discord server</a> to stay up-to-date, get the latest news, and share your feedback. Keep being the Legends of the Force that you are!</p>
+                <h3 style="margin: 15px 0; display: block;">All Set 5 Cards Now Available</h3>
+                <p>The full Set 5 roster has landed in Petranaki! Every card is now implemented and ready for battle — no need to wait for hyperspace delivery.</p>
+                <p>With so many new cards added back-to-back, a few bugs or card implementation errors may have snuck in. If you notice anything off, please report it so we can address it promptly. We're also always open to feedback on how to improve the platform and your overall experience.</p>
+                <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">Discord server</a> to report issues, suggest improvements, and stay updated on future developments. May the Force be with you!</p>
               </div>
             </div>
           </div>
