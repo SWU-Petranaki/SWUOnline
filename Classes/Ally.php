@@ -754,6 +754,13 @@ class Ally {
       }
     }
     //end Pilot attach side effects
+
+   if($cardID == "6885149318"//TODO: Knight's Saber hack until we fix MZFILTER
+      && TraitContains($this->CardID(), "Vehicle", $this->Controller())) {
+        WriteLog("Vehicles can't hold lightsabers, reverting gamestate.");
+        RevertGamestate();
+      }
+
     return $subcardUniqueID;
   }
 

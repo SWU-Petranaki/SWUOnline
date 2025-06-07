@@ -2358,6 +2358,8 @@ function UpgradeFilter($cardID)
     case "0545149763"://Jedi Trials
     case "3730933081"://Bolstered Endurance
       return "trait!=Force";
+    case "6885149318"://Knight's Saber
+      return "trait!=Jedi";
     default: return "";
   }
 }
