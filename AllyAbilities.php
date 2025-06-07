@@ -2245,6 +2245,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
             PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
         break;
+      case "4256802093"://Battle Fury
+        ++$totalOnAttackAbilities;
+        if ($reportMode) break;
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        break;
       case "8495694166"://Jedi Lightsaber
         if(TraitContains($attackID, "Force", $mainPlayer) && IsAllyAttackTarget()) {
           $totalOnAttackAbilities++;
@@ -2745,6 +2750,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         $defAlly->AddRoundHealthModifier(-2);
         AddCurrentTurnEffect($cardID, $defPlayer, from:"PLAY", uniqueID:$defAlly->UniqueID());
       }
+      break;
+    case "4256802093"://Battle Fury
+      PummelHit($mainPlayer);
       break;
     case "3525325147"://Vambrace Grappleshot
       if(IsAllyAttackTarget()) {
