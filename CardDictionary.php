@@ -353,6 +353,17 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "3288909829": $amount += 1; break;//Cartel Interceptor
     case "0686684746": $amount += 1; break;//Grand Inquisitor LOF
     case "1548886844": $amount += 2; break;//Tusken Tracker
+    case "5522824465"://Life Wind Sage
+      $otherPlayer = $player == 1 ? 2 : 1;
+      $opponentAllies = &GetAllies($otherPlayer);
+      for ($j = 0; $j < count($opponentAllies); $j += AllyPieces()) {
+        $opponentAlly = new Ally("MYALLY-" . $j, $otherPlayer);
+        if ($opponentAlly->IsExhausted()) {
+          $amount += 2;
+          break;
+        }
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
