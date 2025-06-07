@@ -304,6 +304,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "8085392838": return -2;//Corrupted Saber
     case "8241022502": return 2;//Rampage
     case "8421586325": return 3;//Unleash Rage
+    case "3895004077": return 2;//Inquisitor's Lightsaber
     default: return 0;
   }
 }
@@ -982,6 +983,7 @@ function IsCombatEffectActive($cardID)
     case "5b24706856"://Grand Inquisitor Leader unit
     case "3591040205"://Pounce
     case "8085392838"://Corrupted Saber
+    case "3895004077"://Inquisitor's Lightsaber
       return true;
     default: return false;
   }

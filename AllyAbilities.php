@@ -2387,6 +2387,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
             PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
         break;
+      case "3895004077"://Inquisitor's Lightsaber
+        $attackTarget = GetAttackTarget();
+        $target = new Ally($attackTarget, $defPlayer);
+        if(TraitContains($target->CardID(), "Force", $defPlayer))
+          AddCurrentTurnEffect($upgrades[$i], $mainPlayer, "PLAY", $attackerAlly->UniqueID());
       default: break;
     }
   }
