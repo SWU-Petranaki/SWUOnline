@@ -7707,6 +7707,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "MOVEUPGRADE", 1);
       }
       break;
+    case "9129337737"://Premonition of Doom
+      AddCurrentTurnEffect($cardID, $currentPlayer, $from);
+      break;
     //PlayAbility End
     default: break;
   }

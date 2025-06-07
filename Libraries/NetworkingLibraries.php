@@ -399,9 +399,17 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       break;
     case 34: //Claim Initiative
       global $initiativeTaken, $initiativePlayer, $isPass;
+      global $currentTurnEffects;
       WriteLog("Player " . $playerID . " claimed initiative.");
       $initiativePlayer = $currentPlayer;
       $otherPlayer = ($playerID == 1 ? 2 : 1);
+      //When Player Claims Initiative effects
+      if(SearchCurrentTurnEffects("9129337737", $initiativePlayer, remove:true)) {//Premonition of Doom
+        ExhaustAllAllies("Ground", $initiativePlayer, $initiativePlayer);
+        ExhaustAllAllies("Space", $initiativePlayer, $initiativePlayer);
+        ExhaustAllAllies("Ground", $otherPlayer, $initiativePlayer);
+        ExhaustAllAllies("Space", $otherPlayer, $initiativePlayer);
+      }
       $roundPass = $initiativeTaken == ($otherPlayer + 2);
       $initiativeTaken = 1;
       $isPass = true;
