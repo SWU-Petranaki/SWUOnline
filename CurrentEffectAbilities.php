@@ -306,6 +306,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "8421586325": return 3;//Unleash Rage
     case "3895004077": return 2;//Inquisitor's Lightsaber
     case "2236831712": return 2;//Leia Organa (Extraordinary)
+    case "0406487670": return 4;//Zuckuss
     default: return 0;
   }
 }
@@ -986,6 +987,7 @@ function IsCombatEffectActive($cardID)
     case "3591040205"://Pounce
     case "8085392838"://Corrupted Saber
     case "3895004077"://Inquisitor's Lightsaber
+    case "0406487670"://Zuckuss
       return true;
     default: return false;
   }

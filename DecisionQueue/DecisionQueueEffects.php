@@ -1519,6 +1519,12 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         }
       }
       break;
+    case "ZUCKUSS_LOF":
+      $milled = Mill($otherPlayer, 1);
+      if(CardTitle($milled) == $lastResult) {
+        AddCurrentTurnEffect("0406487670", $player, "PLAY", $parameterArr[1]);
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }
