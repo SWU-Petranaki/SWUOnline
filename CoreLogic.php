@@ -7518,6 +7518,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ALWAYS_TWO", 1);
       break;
+    case "4387584779"://Following the Path
+      AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "8;2;include-trait-Force&include-definedType-Unit");
+      AddDecisionQueue("REVEALCARDS", $currentPlayer, "-", 1);
+      AddDecisionQueue("MULTIADDTOPDECK", $currentPlayer, "-", 1);
+      break;
     case "2720873461"://Disturbance in the Force
       global $CS_NumAlliesDestroyed;
       if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
