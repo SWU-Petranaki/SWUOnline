@@ -1566,6 +1566,19 @@ function ObiWansAethersprite($player, $index) {
   AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
 }
 
+function ReyPalpatineLOF($player) {
+  $otherPlayer = $player == 1 ? 2 : 1;
+  $leaderID = FindLeaderInPlay($player);
+  $baseID = GetPlayerCharacter($player)[0];
+  if(AspectContains($leaderID, "Aggression", $player) || AspectContains($baseID, "Aggression", $player)) {
+    DealDamageAsync($otherPlayer, 2, "DAMAGE", "1047592361", sourcePlayer:$player);
+    AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
+    AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal 2 damage to");
+    AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+    AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
+  }
+}
+
 function PilotWasPlayed($player, $cardID) {
   global $CS_PlayedAsUpgrade;
   return TraitContains($cardID, "Pilot", $player) && GetClassState($player, $CS_PlayedAsUpgrade) == 1;
