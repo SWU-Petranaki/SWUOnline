@@ -7488,7 +7488,29 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       DQMultiUnitSelect($currentPlayer, 3, "MYALLY:keyword=Hidden", "to give Experience to");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer), 1);
       break;
-      //PlayAbility End
+    case "6918152447"://Ravening Gundark
+      //When Played:
+      if($from != "PLAY") {
+        //Deal 1 damage to a ground unit.
+        DQPingUnit($currentPlayer, 1, isUnitEffect:true, may:false, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground", context:"a ground unit", unitCardID:$cardID);
+      }
+      break;
+    case "7030628730"://Force Slow
+      DQChooseAUnitToGiveEffect($currentPlayer, $cardID, $from,
+        may: false, mzSearch: "MYALLY&THEIRALLY", mzFilter: "status!=1",
+        context: "an exhausted unit to give -8/-0 for this phase", lastingType:"Phase");
+      break;
+    case "7137948532"://Saesee Tiin
+      //When Played:
+      if($from != "PLAY") {
+        //if you have the initiative, deal 1 damage to each of up to 3 units.
+        if($currentPlayer == $initiativePlayer) {
+          DQMultiUnitSelect($currentPlayer, 3, "MYALLY&THEIRALLY", "to deal 1 damage to");
+          AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer, isUnitEffect:1), 1);
+        }
+      }
+      break;
+    //PlayAbility End
     default: break;
   }
 
