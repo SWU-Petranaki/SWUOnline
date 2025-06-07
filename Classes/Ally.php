@@ -974,6 +974,16 @@ class Ally {
     return count($upgrades);
   }
 
+  function HasUpgradesThatAreNotUnique(): bool {
+    $upgrades = $this->GetUpgrades();
+    foreach ($upgrades as $upgrade) {
+      if (!CardIsUnique($upgrade)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function HasBounty(): bool {
     if(!$this->LostAbilities()) return CollectBounties($this->PlayerID(), $this->CardID(), $this->UniqueID(), $this->IsExhausted(), $this->Owner(), $this->GetUpgrades(), reportMode:true) > 0;
     return false;

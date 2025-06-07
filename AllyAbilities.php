@@ -2762,6 +2762,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   for ($i =  0; $i < count($currentTurnEffects); $i += CurrentTurnEffectPieces()) {
     switch ($currentTurnEffects[$i]) {
       case "2995807621"://Trench Run
+      case "6551214763"://Force Speed
         $totalOnAttackAbilities++;
         if ($reportMode) break;
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $currentTurnEffects[$i]);
@@ -4024,6 +4025,13 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "0406487670"://Zuckuss
       AddDecisionQueue("INPUTCARDNAME", $mainPlayer, "<-");
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "ZUCKUSS_LOF," . $attackerAlly->UniqueID(), 1);
+      break;
+    case "6551214763"://Force Speed
+      $target = GetAttackTarget();
+      $defAlly = new Ally($target, $defPlayer);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, $defAlly->UniqueID());
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "FORCE_SPEED", 1);
       break;
     default: break;
   }
