@@ -582,15 +582,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         WriteLog("Player $playerID tried to undo the result of a Bo3 game.");
         break;
       }
-      $undoCount = intval(GetCachePiece($gameName, ($playerID == 1 ? 27 : 28)));
-      if (!IsDevEnvironment() && !IsOnePlayerMode() && $undoCount >= 10) {
-        WriteLog("Player $playerID has exceeded the maximum number of undos per round. Repeated undos will result in a game loss.");
-        IncrementCachePiece($gameName, ($playerID == 1 ? 27 : 28));
-        if($undoCount >= 15){
-          PlayerWon($playerID == 1 ? 2 : 1);
-        }
-        break;
-      }
       RevertGamestate();
       IncrementCachePiece($gameName, ($playerID == 1 ? 27 : 28));
       $skipWriteGamestate = true;
