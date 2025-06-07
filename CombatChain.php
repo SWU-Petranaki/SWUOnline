@@ -347,6 +347,9 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
           $modifier += 1;
         }
         break;
+      case "3337614029"://Paz Vizsla
+        $modifier += 2 * $ally->Damage();
+        break;
       default: break;
     }
   }

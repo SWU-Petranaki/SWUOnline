@@ -2211,6 +2211,9 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "5396502974"://Fortress Vader
     case "4352576521"://Crystal Caves
     case "8710346686"://Strangled Cliffs
+    case "2945340801"://Starlight Temple
+    case "3380203065"://The Holy City
+    case "2098652813"://Nightsister Lair
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
         TheForceIsWithYou($mainPlayer);
     break;
