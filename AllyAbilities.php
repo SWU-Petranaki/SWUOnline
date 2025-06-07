@@ -1197,6 +1197,15 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
       break;
+    case "1708605474"://Dagoyan Master
+      //You may use the Force. If you do, search the top 5 cards of your deck for a Force unit, reveal it, and draw it.
+      if(HasTheForce($player)) {
+        DQAskToUseTheForce($player);
+        AddDecisionQueue("SEARCHDECKTOPX", $player, "5;1;include-trait-Force&include-definedType-Unit", 1);
+        AddDecisionQueue("ADDHAND", $player, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+      }
+      break;
     //AllyDestroyedAbility End
       default: break;
     }

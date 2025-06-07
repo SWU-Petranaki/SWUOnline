@@ -7735,6 +7735,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,$from", 1);
       break;
+    case "1708605474"://Dagoyan Master
+      //When played:
+      if($from != "PLAY") {
+        //You may use the Force. If you do, search the top 5 cards of your deck for a Force unit, reveal it, and draw it.
+        if(HasTheForce($currentPlayer)) {
+          DQAskToUseTheForce($currentPlayer);
+          AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "5;1;include-trait-Force&include-definedType-Unit", 1);
+          AddDecisionQueue("ADDHAND", $currentPlayer, "-", 1);
+          AddDecisionQueue("REVEALCARDS", $currentPlayer, "-", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }
