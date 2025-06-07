@@ -1273,7 +1273,9 @@ function ShouldCombatDamageFirst()
   $targetAlly = new Ally($target, $defPlayer);
   if ($combatChain[0] == "9500514827" || $combatChain[0] == "4328408486")
     return true;//Han Solo shoots first; also Incinerator Trooper
-  if (SearchCurrentTurnEffects("8297630396", $mainPlayer))
+  if (SearchCurrentTurnEffects("8297630396", $mainPlayer)) //Shoot First
+    return true;
+  if (SearchCurrentTurnEffects("1876907238", $mainPlayer)) //Trust Your Instincts
     return true;
   if ($combatChain[0] == "f8e0c65364" && GetClassState($mainPlayer, $CS_NumEventsPlayed) > 0)
     return true;//Asajj Ventress
@@ -2570,6 +2572,7 @@ function CurrentTurnEffectsPlayingUnit($player) {
       case "2580909557"://Qui-Gon Jinn Leader
       case "6def6570f5"://Qui-Gon Jinn Leader Unit
       case "5482818255"://Jedi Consular
+      case "5074877387"://Three Lessons
         return true;
     }
   }

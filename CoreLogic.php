@@ -3307,6 +3307,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
+    case "5049217986"://Overpower
+      $ally = new Ally($target);
+      $ally->AddRoundHealthModifier(3);
+      AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $ally->UniqueID());
+      break;
+      break;
     case "2651321164"://Tactical Advantage
       $ally = new Ally($target);
       $ally->AddRoundHealthModifier(2);
@@ -4111,6 +4117,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Overwhelm");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+      break;
+    case "4024881604"://Adept of Anger
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Exhaust" && HasTheForce($currentPlayer)) {
+        UseTheForce($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to exhaust");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      }
       break;
     case "6536128825"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
@@ -7488,6 +7504,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         WriteLog("<span style='color:green'>Luminous beings are we, not this crude matter.</span>");
       }
       break;
+    case "5800386133"://Yoda's Lightsaber
+      if (HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,3", 1);
+      }
+      break;
     case "2755329102"://Loth Cat
       if ($from != "PLAY") {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
@@ -7495,6 +7518,40 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
+      break;
+    case "1876907238"://Trust Your Instincts
+      if (HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY", 1);
+        AddDecisionQueue("MZFILTER", $currentPlayer, "status=1", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to attack with", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "1876907238", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+      } else {
+        WriteLog("<span style='color:red'>Your thoughts betray you.</span>");
+      }
+      break;
+    case "5098263349"://Yoda LOF
+      if (HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,5", 1);
+      }
+      break;
+    case "5074877387"://Three Lessons
+      global $CS_AfterPlayedBy;
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to play");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+      AddDecisionQueue("SETCLASSSTATE", $currentPlayer, $CS_AfterPlayedBy, 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
     case "1759165041"://Heavy Blaster Cannon
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground&MYALLY:arena=Ground");
@@ -7783,6 +7840,13 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
       break;
+    case "5074877387"://Three Lessons
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "5074877387,PLAY", 1);
+      break;
     case "7981459508"://Shien Flurry
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
@@ -8029,6 +8093,28 @@ function UseTheForce($player) {
   AddEvent("FORCETOKEN", "$player!0");
   $numTimes = IncrementClassState($player, $CS_NumTimesUsedTheForce);
   WriteLog("Player " . $player . " used the Force ($numTimes this phase).");
+  //Unit "When you use the Force" effects
+  $units = &GetAllies($player);
+  for($i=0; $i<count($units); $i+=AllyPieces()) {
+    switch($units[$i]) {
+      case "1554637578"://The Father
+        AddDecisionQueue("SETDQCONTEXT", $player, "You may deal 1 damage to this unit to gain the Force.", 1);
+        AddDecisionQueue("YESNO", $player, "-", 1);
+        AddDecisionQueue("NOPASS", $player, "-", 1);
+        AddDecisionQueue("PASSPARAMETER", $player, "MYALLY-" . $i, 1);
+        AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
+        AddDecisionQueue("THEFORCEISWITHYOU", $player, "-", 1);
+        break;
+      case "5098263349"://Yoda LOF
+        $numUnits = SearchCount(SearchAllies($player));
+        if ($numUnits > 0) {
+          DQPingUnit($player, $numUnits * 2, isUnitEffect:true, may:true, context:"a unit to deal " . ($numUnits * 2) . " damage to");
+        }
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 function DQAskToUseTheForce($player, $withNoPass=true) {
@@ -8100,6 +8186,7 @@ function PlayRequiresTarget($cardID)
     case "8981523525": return 6;//Moment of Peace
     case "2587711125": return 6;//Disarm
     case "6515891401": return 7;//Karabast
+    case "5049217986": return 6;//Overpower
     case "2651321164": return 6;//Tactical Advantage
     case "1900571801": return 7;//Overwhelming Barrage
     case "6544277158": return 7;//Hotshot Maneuver
