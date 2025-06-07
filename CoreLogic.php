@@ -7688,6 +7688,25 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
       AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(2, $currentPlayer), 1);
       break;
+    case "8635969563"://Jocasta Nu
+      //When Played: You may attach a friendly upgrade on a friendly unit to a different eligible unit.
+      if($from != "PLAY") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:hasUpgradeOnly=true");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to move an upgrade from");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUPGRADES", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an upgrade to take.", 1);
+        AddDecisionQueue("CHOOSECARD", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "1", 1);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY",1);
+        AddDecisionQueue("MZFILTER", $currentPlayer, "filterUpgradeEligible={1}", 1);
+        AddDecisionQueue("MZFILTER", $currentPlayer, "index={1}", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to move <1> to.", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "MOVEUPGRADE", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
