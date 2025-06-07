@@ -2261,7 +2261,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $deck = &GetDeck($player);
       for($i=0; $i<count($hand); $i+=HandPieces()) {
         AddBottomDeck($hand[$i], $player);
-        PrependDecisionQueue("DRAW", $player, "-");
+        PrependDecisionQueue("DRAW", $player, "0");
       }
       $hand = [];
       PrependDecisionQueue("SHUFFLEDECK", $player, "-");
