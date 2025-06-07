@@ -531,6 +531,8 @@ function HasSentinel($cardID, $player, $index)
       return true;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);
+    case "5841324811"://Praetorian Guard
+      return SearchCount(SearchAllies($player, minAttack:4)) > 0;
     default: break;
   }
   //The Ghost JTL
