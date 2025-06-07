@@ -245,6 +245,21 @@ function DealDamageAsync($player, $damage, $type="DAMAGE", $source="NA", $source
         default: break;
       }
     }
+    //check for ally "When damage is done on your base" effects
+    $allies = &GetAllies($player);
+    for($i=0; $i<count($allies); $i+=AllyPieces()) {
+      switch($allies[$i]) {
+        //Legends of the Force
+        case "0662915879"://The Daughter
+          if(HasTheForce($player)) {
+            DQAskToUseTheForce($player);
+            AddDecisionQueue("PASSPARAMETER", $player, "MYCHAR-0", 1);
+            AddDecisionQueue("MZOP", $player, "RESTORE,2", 1);
+          }
+          break;
+        default: break;
+      }
+    }
   }
   return $damage;
 }

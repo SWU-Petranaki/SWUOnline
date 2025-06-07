@@ -55,7 +55,7 @@ jobs:
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
       with:
-        chrome-version: 135
+        chrome-version: 137
         install-chromedriver: true
 
     # Install dependencies for the E2E project
