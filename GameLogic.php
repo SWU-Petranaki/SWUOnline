@@ -379,6 +379,14 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       return PummelHit($player);
     case "MAYDISCARD":
       return PummelHit($player, may: true);
+    case "EXHAUSTRESOURCES":
+      if(NumResourcesAvailable($player) >= $parameter) {
+        for($i = 0; $i < $parameter; ++$i) {
+          ExhaustResource($player);
+        }
+        return 1;
+      }
+      return "PASS";
     case "REMOVECOMBATCHAIN":
       $cardID = $combatChain[$lastResult];
       RemoveCombatChain($lastResult);
