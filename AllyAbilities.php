@@ -2276,10 +2276,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
       case "8495694166"://Jedi Lightsaber
-        if(TraitContains($attackID, "Force", $mainPlayer) && IsAllyAttackTarget()) {
+        if(TraitContains($attackID, "Force", $mainPlayer)) {
           $totalOnAttackAbilities++;
           if ($reportMode) break;
-          PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+          if(IsAllyAttackTarget())
+            PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
         break;
       case "3525325147"://Vambrace Grappleshot
@@ -2358,6 +2359,14 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         if ($reportMode) break;
         if($oneOtherAlly || $anyEnemy)
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        break;
+      case "8085392838"://Corrupted Saber
+        if(TraitContains($attackID, "Force", $mainPlayer)) {
+          $totalOnAttackAbilities++;
+          if ($reportMode) break;
+          if(IsAllyAttackTarget())
+            PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        }
         break;
       default: break;
     }
@@ -2938,6 +2947,12 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:1, unitCardID:$attackID), 1);
       AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0412810079,PLAY", 1);
+      break;
+    case "8085392838"://Corrupted Saber
+      WriteLog("Corrupted Saber gives the defending unit -2/-0");
+      $target = GetAttackTarget();
+      $defAlly = new Ally($target);
+      AddCurrentTurnEffect($cardID, $defPlayer, from:"PLAY", uniqueID:$defAlly->UniqueID());
       break;
     //end upgrades
     case "3468546373"://General Rieekan
