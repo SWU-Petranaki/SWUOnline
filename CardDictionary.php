@@ -701,6 +701,7 @@ function HasOverwhelm($cardID, $player, $index)
       case "4085341914"://Heroic Resolve
       case "1167572655"://Planetary Invasion
       case "2167393423"://Darth Maul's Lightsaber
+      case "3893171959"://Kaadu
         return true;
       default: break;
     }
