@@ -7519,6 +7519,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
       break;
+    case "5098263349"://Yoda LOF
+      if (HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,5", 1);
+      }
+      break;
     case "5074877387"://Three Lessons
       global $CS_AfterPlayedBy;
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit");
@@ -8043,7 +8050,10 @@ function UseTheForce($player) {
         AddDecisionQueue("THEFORCEISWITHYOU", $player, "-", 1);
         break;
       case "5098263349"://Yoda LOF
-
+        $numUnits = SearchCount(SearchAllies($player));
+        if ($numUnits > 0) {
+          DQPingUnit($player, $numUnits * 2, isUnitEffect:true, may:true, context:"a unit to deal " . ($numUnits * 2) . " damage to");
+        }
         break;
       default:
         break;
