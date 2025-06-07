@@ -7544,6 +7544,18 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "BOUNCE", 1);
       break;
+    case "8365703627"://The Burden of Masters
+      global $CS_AfterPlayedBy;
+      SetClassState($currentPlayer, $CS_AfterPlayedBy, $cardID);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYDISCARD:trait=Force;definedType=Unit");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Force unit in your discard to put on the bottom of your deck");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "BOTTOMDECK", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:definedType=Unit", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit from your hand to play", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+      break;
     case "2720873461"://Disturbance in the Force
       global $CS_NumAlliesDestroyed;
       if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
@@ -8006,6 +8018,11 @@ function AfterPlayedByAbility($cardID) {
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID");
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "7981459508,HAND", 1);
+      break;
+    case "8365703627"://The Burden of Masters
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE");
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE");
       break;
     case "d911b778e4"://Kylo Ren Leader unit
       SearchCurrentTurnEffects("d911b778e4", $currentPlayer, remove:true);
