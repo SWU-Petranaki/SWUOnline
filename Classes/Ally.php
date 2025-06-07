@@ -554,6 +554,9 @@ class Ally {
         case "4478482436"://Supremacy
           if($i != $this->index && TraitContains($this->CardID(), "Vehicle", $this->PlayerID())) $power += 6;
           break;
+        case "5460831827"://The Son
+          if (HasTheForce($this->playerID)) $power += 2;
+          break;
         default: break;
       }
     }
