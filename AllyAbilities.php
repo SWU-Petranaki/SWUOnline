@@ -2246,11 +2246,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
   $upgrades = $attackerAlly->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {
     switch($upgrades[$i]) {
-      case "0545149763"://Jedi Trials
-        $totalOnAttackAbilities++;
-        if ($reportMode) break;
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
-        break;
       case "3987987905"://Hardpoint Heavy Blaster
         $totalOnAttackAbilities++;
         if ($reportMode) break;
@@ -2345,6 +2340,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         break;
       //Legends of the Force
       case "0412810079"://Sith Holocron
+      case "0545149763"://Jedi Trials
         $totalOnAttackAbilities++;
         if ($reportMode) break;
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
