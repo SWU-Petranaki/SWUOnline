@@ -352,6 +352,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "4464627339": $amount += 1; break;//Blue Suqadron Assault Wing
     case "3288909829": $amount += 1; break;//Cartel Interceptor
     case "0686684746": $amount += 1; break;//Grand Inquisitor LOF
+    case "1548886844": $amount += 2; break;//Tusken Tracker
     default: break;
   }
   //The Ghost JTL
@@ -700,6 +701,7 @@ function HasOverwhelm($cardID, $player, $index)
       case "4085341914"://Heroic Resolve
       case "1167572655"://Planetary Invasion
       case "2167393423"://Darth Maul's Lightsaber
+      case "3893171959"://Kaadu
         return true;
       default: break;
     }
@@ -1129,6 +1131,16 @@ function HasHidden($cardID, $player, $index) {
 
   $ally = new Ally("MYALLY-" . $index, $player);
   if($ally->LostAbilities()) return false;
+  //Check if ongoing effects prevent hidden
+  for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnPieces()) {
+    if($currentTurnEffects[$i+1] != $player) continue;
+    if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
+    switch($currentTurnEffects[$i]) {
+    case "1548886844": //Tusken Tracker
+        return false;
+      default: break;
+    }
+  }
   //ongoing effects
   for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnPieces()) {
     if($currentTurnEffects[$i+1] != $player) continue;
@@ -1746,6 +1758,8 @@ function CheckLOFAbilityTypes($cardID) {
     case "2762251208"://Rey Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
+    case "3433996932"://Heavy Missile Gunship
+      return "A,AA";
     case "4389144613"://Grogu
       return "A,AA";
     case "5482818255"://Jedi Consular
@@ -2123,6 +2137,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "2762251208"://Rey Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     //non-leaders
+    case "3433996932"://Heavy Missile Gunship
+      return "Damage,Attack";
     case "4389144613"://Grogu
       return "Move Damage,Attack";
     case "5482818255"://Jedi Consular
@@ -2335,6 +2351,7 @@ function UpgradeFilter($cardID)
     case "2167393423"://Darth Maul's Lightsaber
     case "3445044882"://Qui-Gon Jinn's Lightsaber
     case "6128668392"://Ascension Cable
+    case "1759165041"://Heavy Blaster Cannon
       return "trait=Vehicle";
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment

@@ -2331,21 +2331,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         RevertGamestate();
       }
       return $lastResult;
-    // case "PROCESSDAMAGEPREVENTION":
-    //   $targetMZIndex = explode("-", $lastResult);
-    //   $params =  explode("-", $parameter);
-    //   switch($targetMZIndex[0])
-    //   {
-    //     //case "MYAURAS": $damage = AuraTakeDamageAbility($player, intval($mzIndex[1]), $params[0], $params[1]); break;//FAB
-    //     case "MYCHAR": $damage = CharacterTakeDamageAbility($player, intval($targetMZIndex[1]), $params[0], $params[1]); break;
-    //     case "MYALLY": $damage = AllyTakeDamageAbilities($player, intval($targetMZIndex[1]), $params[0], $params[1]); break;
-    //     default: break;
-    //   }
-    //   if($damage < 0) $damage = 0;
-    //   $dqVars[0] = $damage;
-    //   $dqState[6] = $damage;
-    //   if($damage > 0) AddDamagePreventionSelection($player, $damage, $params[1]);
-    //   return $damage;
+    case "DAMAGEALLOTHERUNITS":
+      DamageAllAllies($parameter, "-", $player, except:$lastResult, player:$player);
+      return $lastResult;
     case "ALLRANDOMBOTTOM":
       if($lastResult == "PASS") return "";
       $cards = explode(",", $lastResult);

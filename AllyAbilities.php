@@ -1167,6 +1167,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "2554581368"://Deceptive Shade
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "2554581368,PLAY", 1);
       break;
+    case "2755329102"://Loth Cat
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a ground unit to exhaust");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "REST", 1);
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
@@ -2211,6 +2217,9 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "5396502974"://Fortress Vader
     case "4352576521"://Crystal Caves
     case "8710346686"://Strangled Cliffs
+    case "2945340801"://Starlight Temple
+    case "3380203065"://The Holy City
+    case "2098652813"://Nightsister Lair
       if(!$reportMode && TraitContains($attackID, "Force", $mainPlayer))
         TheForceIsWithYou($mainPlayer);
     break;
@@ -2241,6 +2250,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
           if(DefendingPlayerHasUnits(arena:"Ground"))
             PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
+        break;
+      case "4256802093"://Battle Fury
+        ++$totalOnAttackAbilities;
+        if ($reportMode) break;
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
       case "8495694166"://Jedi Lightsaber
         if(TraitContains($attackID, "Force", $mainPlayer) && IsAllyAttackTarget()) {
@@ -2610,6 +2624,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "7008431159"://Quinlan Vos LOF
     case "5227991792"://Asajj Ventress LOF
     case "1072330402"://Acclamator Assault Ship
+    case "3527836283"://Peli Motto
+    case "0398004943"://Vanee
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -2705,6 +2721,26 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
 
   switch($cardID) {
     //upgrades TODO: order by set
+    case "0398004943"://Vanee
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:hasUpgradeOnly=true");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "upgrade=2007868442", 1); // Experience token
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "You may defeat an experience token on a friendly unit");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "2007868442", 1);
+      AddDecisionQueue("OP", $mainPlayer, "DEFEATUPGRADE", 1);
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly unit to give an experience token to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
+    case "3527836283"://Peli Motto
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Droid&MYALLY:trait=Vehicle");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Droid or Vehicle unit to give an experience token");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
     case "0545149763"://Jedi Trials
       $attackerAlly->Attach("2007868442"); // Experience token
       break;
@@ -2735,6 +2771,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         $defAlly->AddRoundHealthModifier(-2);
         AddCurrentTurnEffect($cardID, $defPlayer, from:"PLAY", uniqueID:$defAlly->UniqueID());
       }
+      break;
+    case "4256802093"://Battle Fury
+      PummelHit($mainPlayer);
       break;
     case "3525325147"://Vambrace Grappleshot
       if(IsAllyAttackTarget()) {

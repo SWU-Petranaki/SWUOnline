@@ -4065,6 +4065,53 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       }
       break;
+    case "3433996932"://Heavy Missile Gunship
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Damage") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground&MYALLY:arena=Ground");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to damage");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2", 1);
+      }
+      break;
+    case "3848295601"://Craving Power
+      $ally = new Ally($target, $currentPlayer);
+      $damage = $ally->CurrentPower();
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal damage to equal to the attached unit's power");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,$damage,$currentPlayer,1", 1);
+      break;
+    case "0398004943"://Vanee
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:hasUpgradeOnly=true");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "upgrade=2007868442", 1); // Experience token
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may defeat an experience token on a friendly unit");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "2007868442", 1);
+      AddDecisionQueue("OP", $currentPlayer, "DEFEATUPGRADE", 1);
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give an experience token to", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      break;
+    case "0466077140"://A Time of Crisis
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit you control to protect");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("DAMAGEALLOTHERUNITS", $currentPlayer, "3", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $otherPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose a unit you control to protect");
+      AddDecisionQueue("CHOOSEMULTIZONE", $otherPlayer, "<-", 1);
+      AddDecisionQueue("DAMAGEALLOTHERUNITS", $otherPlayer, "3", 1);
+      break;
+    case "3893171959"://Kaadu
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Overwhelm");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+      break;
     case "6536128825"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Exhaust") {
@@ -7426,6 +7473,40 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "1548886844"://Tusken Tracker
+      AddCurrentTurnEffect($cardID, $otherPlayer, "PLAY");
+      break;
+    case "2720873461"://Disturbance in the Force
+      global $CS_NumAlliesDestroyed;
+      if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
+        TheForceIsWithYou($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a friendly unit to give a shield token to");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      } else {
+        WriteLog("<span style='color:green'>Luminous beings are we, not this crude matter.</span>");
+      }
+      break;
+    case "2755329102"://Loth Cat
+      if ($from != "PLAY") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a ground unit to exhaust");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      }
+      break;
+    case "1759165041"://Heavy Blaster Cannon
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground&MYALLY:arena=Ground");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 1 damage to");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+      for ($i = 0; $i < 3; ++$i) {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,1,$currentPlayer", 1);
+      }
+      break;
     case "1093502388"://DRK-1 Probe Droid
       if($from != "PLAY") {
         DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");
@@ -7808,31 +7889,35 @@ function DamagePlayerAllies($player, $damage, $source, $type="-", $arena="")
   }
 }
 
-function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $arena="", $except="")
+function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $arena="", $except="", $player="")
 {
   global $currentPlayer;
   $otherPlayer = $currentPlayer == 1 ? 2 : 1;
-  $theirAllies = &GetAllies($otherPlayer);
-  for($i=count($theirAllies) - AllyPieces(); $i>=0; $i-=AllyPieces())
-  {
-    $ally = Ally::FromUniqueId($theirAllies[$i+5]);
-    if($arena != "" && !ArenaContains($theirAllies[$i], $arena, $ally)) continue;
-    if($alsoRest) $theirAllies[$i+1] = 1;
-    if($alsoFreeze) $theirAllies[$i+3] = 1;
-    $ally->DealDamage($amount, enemyDamage:true);
+  if($player == "" || $player == $otherPlayer) {
+    $theirAllies = &GetAllies($otherPlayer);
+    for($i=count($theirAllies) - AllyPieces(); $i>=0; $i-=AllyPieces())
+    {
+      $ally = Ally::FromUniqueId($theirAllies[$i+5]);
+      if($arena != "" && !ArenaContains($theirAllies[$i], $arena, $ally)) continue;
+      if($alsoRest) $theirAllies[$i+1] = 1;
+      if($alsoFreeze) $theirAllies[$i+3] = 1;
+      $ally->DealDamage($amount, enemyDamage:true);
+    }
   }
   if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($source, "Creature", $currentPlayer)) {
     return;
   }
-  $allies = &GetAllies($currentPlayer);
-  for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
-  {
-    $ally = Ally::FromUniqueId($allies[$i+5]);
-    if($arena != "" && !ArenaContains($allies[$i], $arena, $ally)) continue;
-    if($except != "" && $except == ("MYALLY-" . $i)) continue;
-    if($alsoRest) $allies[$i+1] = 1;
-    if($alsoFreeze) $allies[$i+3] = 1;
-    $ally->DealDamage($amount);
+  if($player == "" || $player == $currentPlayer) {
+    $allies = &GetAllies($currentPlayer);
+    for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
+    {
+      $ally = Ally::FromUniqueId($allies[$i+5]);
+      if($arena != "" && !ArenaContains($allies[$i], $arena, $ally)) continue;
+      if($except != "" && $except == ("MYALLY-" . $i)) continue;
+      if($alsoRest) $allies[$i+1] = 1;
+      if($alsoFreeze) $allies[$i+3] = 1;
+      $ally->DealDamage($amount);
+    }
   }
 }
 
