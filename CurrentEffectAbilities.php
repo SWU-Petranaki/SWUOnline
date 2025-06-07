@@ -304,6 +304,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "8085392838": return -2;//Corrupted Saber
     case "8241022502": return 2;//Rampage
     case "8421586325": return 3;//Unleash Rage
+    case "3895004077": return 2;//Inquisitor's Lightsaber
     default: return 0;
   }
 }
@@ -579,6 +580,7 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
           case "6def6570f5"://Qui-Gon Jinn Leader unit
           case "0564229530"://Old Daka
           case "4729355863"://Baylan Skoll
+          case "7787879864"://Cin Drallig
             $costModifier -= 99;
             $remove = true;
             break;
@@ -982,6 +984,7 @@ function IsCombatEffectActive($cardID)
     case "5b24706856"://Grand Inquisitor Leader unit
     case "3591040205"://Pounce
     case "8085392838"://Corrupted Saber
+    case "3895004077"://Inquisitor's Lightsaber
       return true;
     default: return false;
   }

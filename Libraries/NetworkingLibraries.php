@@ -1978,6 +1978,9 @@ function GetLayerTarget($cardID)
     if(SearchCurrentTurnEffects("d911b778e4", $currentPlayer)) {//Kylo Ren Leader unit
       AddDecisionQueue("MZFILTER", $currentPlayer, "index!=MYALLY-" . SearchAlliesForCard($currentPlayer, "d911b778e4"));
     }
+    if(SearchCurrentTurnEffects("7787879864", $currentPlayer)) {//Cin Drallig
+      AddDecisionQueue("MZFILTER", $currentPlayer, "index!=MYALLY-" . SearchAlliesForCard($currentPlayer, "7787879864"));
+    }
     if ($upgradeFilter != "")
       AddDecisionQueue("MZFILTER", $currentPlayer, $upgradeFilter);
     if ($piloting && $cardID != "5375722883") //R2-D2 pilot can be added and count as the extra pilot

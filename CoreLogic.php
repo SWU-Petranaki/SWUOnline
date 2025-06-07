@@ -7749,6 +7749,24 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "7787879864"://Cin Drallig
+      //When played:
+      if($from != "PLAY") {
+        //You may play a {lightsaber} upgrade from your hand for free on this unit. If you do, ready him.
+        if(SearchCount(SearchHand($currentPlayer, trait:"Lightsaber")) > 0) {
+          global $CS_AfterPlayedBy;
+          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:trait=Lightsaber;definedType=Upgrade");
+          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Lightsaber upgrade to play for free on this unit");
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+          AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+          AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
+          AddDecisionQueue("SETCLASSSTATE", $currentPlayer, $CS_AfterPlayedBy, 1);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+        }
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -7917,6 +7935,10 @@ function AfterPlayedByAbility($cardID) {
       SearchCurrentTurnEffects("d911b778e4", $currentPlayer, remove:true);
       AddDecisionQueue("SWAPTURN", $currentPlayer, "-", 1);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF", 1);
+      break;
+    case "7787879864"://Cin Drallig
+      AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
+      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
       break;
     default: break;
   }
