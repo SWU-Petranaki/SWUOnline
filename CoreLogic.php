@@ -50,24 +50,6 @@ function EvaluateCombatChain(&$totalAttack, &$totalDefense, &$attackModifiers=[]
         AddAttack($totalAttack, $attack);
       }
     }
-    //$attack = MainCharacterAttackModifiers();
-    if($canGainAttack || $attack < 0)
-    {
-      array_push($attackModifiers, "Character/Equipment", $attack);
-      AddAttack($totalAttack, $attack);
-    }
-    //$attack = AuraAttackModifiers(0);//FAB
-    if($canGainAttack || $attack < 0)
-    {
-      array_push($attackModifiers, "Aura Ability", $attack);
-      AddAttack($totalAttack, $attack);
-    }
-    $attack = ArsenalAttackModifier();
-    if($canGainAttack || $attack < 0)
-    {
-      array_push($attackModifiers, "Arsenal Ability", $attack);
-      AddAttack($totalAttack, $attack);
-    }
 }
 
 // function CharacterLevel($player)//FAB
@@ -220,87 +202,6 @@ function ArsenalStartTurnAbilities()
       default: break;
     }
   }
-}
-
-function ArsenalAttackAbilities()
-{
-  global $combatChain, $mainPlayer;
-  $attackID = $combatChain[0];
-  $attackType = CardType($attackID);
-  $attackVal = AttackValue($attackID);
-  $arsenal = GetArsenal($mainPlayer);
-  for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-  {
-    switch($arsenal[$i])
-    {
-
-      default: break;
-    }
-  }
-}
-
-function ArsenalAttackModifier()
-{
-  global $combatChain, $mainPlayer;
-  $attackID = $combatChain[0];
-  $attackType = CardType($attackID);
-  $arsenal = GetArsenal($mainPlayer);
-  $modifier = 0;
-  for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-  {
-    switch($arsenal[$i])
-    {
-      default: break;
-    }
-  }
-  return $modifier;
-}
-
-// function ArsenalHitEffects()//FAB
-// {
-//   global $combatChain, $mainPlayer;
-//   $attackID = $combatChain[0];
-//   $attackType = CardType($attackID);
-//   $attackSubType = CardSubType($attackID);
-//   $arsenal = GetArsenal($mainPlayer);
-//   $modifier = 0;
-//   for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-//   {
-//     switch($arsenal[$i])
-//     {
-
-//       default: break;
-//     }
-//   }
-//   return $modifier;
-// }
-
-
-function ArsenalPlayCardAbilities($cardID)
-{
-  global $currentPlayer;
-  $cardType = CardType($cardID);
-  $arsenal = GetArsenal($currentPlayer);
-  for($i=0; $i<count($arsenal); $i+=ArsenalPieces())
-  {
-    switch($arsenal[$i])
-    {
-      default: break;
-    }
-  }
-}
-
-function HasIncreasedAttack()
-{
-  global $combatChain;
-  if(count($combatChain) > 0)
-  {
-    $attack = 0;
-    $defense = 0;
-    EvaluateCombatChain($attack, $defense);
-    if($attack > AttackValue($combatChain[0])) return true;
-  }
-  return false;
 }
 
 function DamageTrigger($player, $damage, $type, $source="NA", $canPass=false)
@@ -794,25 +695,6 @@ function CombatChainClosedCharacterEffects()
       }
       switch($chainLinks[$i][$j])
       {
-        case "MON089":
-          if(!DelimStringContains($chainLinkSummary[$i*ChainLinkSummaryPieces()+3], "ILLUSIONIST") && $chainLinkSummary[$i*ChainLinkSummaryPieces()+1] >= 6)
-          {
-            $character[FindCharacterIndex($defPlayer, "MON089")+1] = 0;
-          }
-          break;
-        case "RVD003":
-          Writelog("Processing " . Cardlink($chainLinks[$i][$j], $chainLinks[$i][$j]) . " trigger: ");
-          $deck = &GetDeck($defPlayer);
-          $rv = "";
-          if (count($deck) == 0) $rv .= "Your deck is empty. No card is revealed.";
-          $wasRevealed = RevealCards($deck[0]);
-          if ($wasRevealed) {
-            if (AttackValue($deck[0]) < 6) {
-              WriteLog("The card was put on the bottom of your deck.");
-              $deck[] = array_shift($deck);
-            }
-          }
-          break;
         default: break;
       }
     }
@@ -2043,6 +1925,10 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
     case "6576881465"://Decimator of Dissidents
       global $CS_NumIndirectDamageGiven;
       if(GetClassState($currentPlayer, $CS_NumIndirectDamageGiven) > 0) $modifier -= 1;
+      break;
+    //Legends of the Force
+    case "6980075962"://Size Matters Not
+      if (SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) $modifier -= 1;
       break;
     default: break;
   }

@@ -2382,7 +2382,6 @@ function PlayCardEffect($cardID, $from, $resourcesPaid, $target = "-", $addition
     CurrentEffectPlayOrActivateAbility($cardID, $from);
     if ($from != "PLAY") {
       CurrentEffectPlayAbility($cardID, $from);
-      ArsenalPlayCardAbilities($cardID);
     }
     $EffectContext = $cardID;
     if (!$chainClosed) {
@@ -2507,7 +2506,6 @@ function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
         if(TraitContains($cardID, "Jedi", $player, $index))
           IncrementClassState($player, $CS_NumJediAttacks);
         //end increment Trait attacks
-        ArsenalAttackAbilities();
         OnAttackEffects($cardID);
       }
       if (!$chainClosed || $definedCardType == "AA") {

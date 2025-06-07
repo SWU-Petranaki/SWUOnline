@@ -1277,12 +1277,6 @@ function CanGainAttack()
   return !SearchCurrentTurnEffects("CRU035", $mainPlayer) || CardType($combatChain[0]) != "AA";
 }
 
-function IsWeaponGreaterThanTwiceBasePower()
-{
-  global $combatChainState, $CCS_CachedTotalAttack, $combatChain;
-  return count($combatChain) > 0 && CardType($combatChain[0]) == "W" && CachedTotalAttack() > (AttackValue($combatChain[0]) * 2);
-}
-
 function HasEnergyCounters($array, $index)
 {
   switch($array[$index]) {
