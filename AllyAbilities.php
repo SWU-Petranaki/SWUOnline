@@ -1173,6 +1173,14 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "REST", 1);
       break;
+    case "7298144465"://Tauntaun
+      //You may give a shield token to a damaged non-Vehicle unit
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
+      AddDecisionQueue("MZFILTER", $player, "trait=Vehicle");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give a shield");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "ADDSHIELD", 1);
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
