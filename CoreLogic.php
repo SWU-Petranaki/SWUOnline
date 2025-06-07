@@ -7441,6 +7441,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         WriteLog("<span style='color:green'>Luminous beings are we, not this crude matter.</span>");
       }
       break;
+    case "2755329102"://Loth Cat
+      if ($from != "PLAY") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a ground unit to exhaust");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      }
+      break;
     case "1093502388"://DRK-1 Probe Droid
       if($from != "PLAY") {
         DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");

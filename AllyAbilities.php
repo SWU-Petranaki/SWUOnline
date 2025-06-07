@@ -1167,6 +1167,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "2554581368"://Deceptive Shade
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "2554581368,PLAY", 1);
       break;
+    case "2755329102"://Loth Cat
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a ground unit to exhaust");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "REST", 1);
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
