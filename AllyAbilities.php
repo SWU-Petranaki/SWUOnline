@@ -2603,6 +2603,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "bf3545c5e0"://Cal Kestis Leader unit
     case "7008431159"://Quinlan Vos LOF
     case "5227991792"://Asajj Ventress LOF
+    case "1072330402"://Acclamator Assault Ship
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -3067,6 +3068,15 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
           AddDecisionQueue("MZOP", $mainPlayer, "DEALDAMAGE,3,$mainPlayer,1", 1);
         }
       }
+      break;
+    case "1072330402"://Acclamator Assault Ship
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerAlly->Index());
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to give +5/+5 for this phase");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "ADDHEALTH,5", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "1072330402,PLAY", 1);
       break;
     case "3417125055"://IG-11
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:damagedOnly=true;arena=Ground");

@@ -296,6 +296,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "3591040205": return 4;//Pounce
     case "5227991792": return 2;//Asajj Ventress LOF
     case "0024409893": return 1;//BD-1
+    case "1072330402": return 5;//Acclimator Assault Ship
     default: return 0;
   }
 }
