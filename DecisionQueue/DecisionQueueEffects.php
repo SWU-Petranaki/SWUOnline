@@ -1509,6 +1509,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
+    case "LEIAORGANA_LOF":
+      $allies = GetAllies($player);
+      for($i=0; $i<count($allies); $i+=AllyPieces()) {
+        $ally = Ally::FromUniqueId($allies[$i+5]);
+        if(AspectContains($ally->CardID(), "Heroism", $player)) {
+          $ally->AddRoundHealthModifier(2);
+          $ally->AddEffect("2236831712");//Leia Organa (Extraordinary)
+        }
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }

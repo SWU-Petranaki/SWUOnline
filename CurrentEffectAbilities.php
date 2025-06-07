@@ -305,6 +305,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "8241022502": return 2;//Rampage
     case "8421586325": return 3;//Unleash Rage
     case "3895004077": return 2;//Inquisitor's Lightsaber
+    case "2236831712": return 2;//Leia Organa (Extraordinary)
     default: return 0;
   }
 }
