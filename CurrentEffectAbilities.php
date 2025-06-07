@@ -307,6 +307,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "3895004077": return 2;//Inquisitor's Lightsaber
     case "2236831712": return 2;//Leia Organa (Extraordinary)
     case "0406487670": return 4;//Zuckuss
+    case "1655929166": return -1*$subparam;//Whirlwind of Power
     default: return 0;
   }
 }

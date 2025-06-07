@@ -7776,6 +7776,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LEIAORGANA_LOF", 1);
       }
       break;
+    case "1655929166"://Whirlwind of Power
+      $debuff = 2;
+      if(HasUnitWithTraitInPlay($currentPlayer, "Force")) $debuff = 3;
+      DQDebuffUnit($currentPlayer, $otherPlayer, "$cardID-$debuff", $debuff, $debuff, false);
+      break;
     //PlayAbility End
     default: break;
   }
