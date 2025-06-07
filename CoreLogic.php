@@ -7426,6 +7426,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "1548886844"://Tusken Tracker
+      AddCurrentTurnEffect($cardID, $otherPlayer, "PLAY");
+      break;
     case "1093502388"://DRK-1 Probe Droid
       if($from != "PLAY") {
         DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");

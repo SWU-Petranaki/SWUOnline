@@ -352,6 +352,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
     case "4464627339": $amount += 1; break;//Blue Suqadron Assault Wing
     case "3288909829": $amount += 1; break;//Cartel Interceptor
     case "0686684746": $amount += 1; break;//Grand Inquisitor LOF
+    case "1548886844": $amount += 2; break;//Tusken Tracker
     default: break;
   }
   //The Ghost JTL
@@ -1129,6 +1130,16 @@ function HasHidden($cardID, $player, $index) {
 
   $ally = new Ally("MYALLY-" . $index, $player);
   if($ally->LostAbilities()) return false;
+  //Check if ongoing effects prevent hidden
+  for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnPieces()) {
+    if($currentTurnEffects[$i+1] != $player) continue;
+    if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
+    switch($currentTurnEffects[$i]) {
+    case "1548886844": //Tusken Tracker
+        return false;
+      default: break;
+    }
+  }
   //ongoing effects
   for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnPieces()) {
     if($currentTurnEffects[$i+1] != $player) continue;
