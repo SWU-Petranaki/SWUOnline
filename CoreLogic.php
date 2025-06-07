@@ -7835,14 +7835,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Droid Attack") {
         if(SearchCount(SearchAllies($currentPlayer, trait:"Droid")) > 0) {
-          AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Droid");
-          AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Droid unit to attack with");
-          AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
-          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,$from", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+          DQAttackWithEffect($currentPlayer, $cardID, $from, mzSearch:"MYALLY:trait=Droid",
+            context:"a Droid unit to attack with");
         }
       }
+      break;
+    case "6551214763"://Force Speed
+      DQAttackWithEffect($currentPlayer, $cardID, $from);
       break;
     //PlayAbility End
     default: break;

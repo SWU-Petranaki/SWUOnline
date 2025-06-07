@@ -994,6 +994,7 @@ function IsCombatEffectActive($cardID)
     case "3895004077"://Inquisitor's Lightsaber
     case "0406487670"://Zuckuss
     case "6501780064"://Babu Frik
+    case "6551214763"://Force Speed
       return true;
     default: return false;
   }

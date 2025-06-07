@@ -1570,6 +1570,18 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("ADDCURRENTEFFECT", $player, "5562351003", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       return 1;
+    case "FORCE_SPEED":
+      $defAlly = Ally::FromUniqueId($dqVars[0]);
+      if($defAlly->HasUpgradesThatAreNotUnique()) {
+        PrependDecisionQueue("SPECIFICCARD", $player, "FORCE_SPEED", 1);
+        PrependDecisionQueue("OP", $player, "BOUNCEUPGRADE", 1);
+        PrependDecisionQueue("MAYCHOOSECARD", $player, "<-", 1);
+        PrependDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to bounce", 1);
+        PrependDecisionQueue("FILTER", $player, "LastResult-exclude-isUnique", 1);
+        PrependDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
+        PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }
