@@ -2455,6 +2455,7 @@ function UpgradeFilter($cardID)
     case "8085392838"://Corrupted Saber
     case "5800386133"://Yoda's Lightsaber
     case "8580514429"://Pillio Star Compass
+    case "1637958279"://Kylo Ren's Lightsaber
       return "trait=Vehicle";
     //end non-Vehicle upgrades
     //Vehicle only upgrades
