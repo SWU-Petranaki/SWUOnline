@@ -8030,6 +8030,25 @@ function UseTheForce($player) {
   AddEvent("FORCETOKEN", "$player!0");
   $numTimes = IncrementClassState($player, $CS_NumTimesUsedTheForce);
   WriteLog("Player " . $player . " used the Force ($numTimes this phase).");
+  //Unit "When you use the Force" effects
+  $units = &GetAllies($player);
+  for($i=0; $i<count($units); $i+=AllyPieces()) {
+    switch($units[$i]) {
+      case "1554637578"://The Father
+        AddDecisionQueue("SETDQCONTEXT", $player, "You may deal 1 damage to this unit to gain the Force.", 1);
+        AddDecisionQueue("YESNO", $player, "-", 1);
+        AddDecisionQueue("NOPASS", $player, "-", 1);
+        AddDecisionQueue("PASSPARAMETER", $player, "MYALLY-" . $i, 1);
+        AddDecisionQueue("MZOP", $player, "DEALDAMAGE,1,$player", 1);
+        AddDecisionQueue("THEFORCEISWITHYOU", $player, "-", 1);
+        break;
+      case "5098263349"://Yoda LOF
+
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 function DQAskToUseTheForce($player, $withNoPass=true) {
