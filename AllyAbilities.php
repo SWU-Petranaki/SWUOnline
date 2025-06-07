@@ -1465,7 +1465,7 @@ function CollectBounties($player, $cardID, $uniqueID, $isExhausted, $owner, $upg
 function OnKillAbility($player, $uniqueID)
 {
   global $combatChain, $mainPlayer, $defPlayer;
-  if(count($combatChain) == 0) return;
+  if(count($combatChain) == 0 && AttackerAlly()->Index() == -1) return;
   $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
   if($attackerAlly->UniqueID() == $uniqueID && $attackerAlly->PlayerID() == $player) return;
 
@@ -1514,7 +1514,7 @@ function OnKillAbility($player, $uniqueID)
       default: break;
     }
   }
-  switch($combatChain[0])
+  switch($attackerAlly->CardID())
   {
     case "5230572435"://Mace Windu (Party Crasher)
       $attackerAlly->Ready();
