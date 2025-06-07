@@ -1526,6 +1526,50 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddCurrentTurnEffect("0406487670", $player, "PLAY", $parameterArr[1]);
       }
       break;
+    case "ALWAYS_TWO":
+      $numSith = 0;
+      $units = &GetAllies($player);
+      foreach ($lastResult as $item) {
+        if (TraitContains($units[$item], "Sith", $player)) {
+          $numSith++;
+        }
+      }
+      if($numSith < 2) {
+        WriteLog("<span style='color:red;'>He promised he would teach me everything. Too bad he didn’t live long enough.</span>");
+        return "";
+      }
+      //Now we've chosen our two Sith, we can continue
+      for ($i = count($units) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
+        $ally = new Ally("MYALLY-" . $i, $player);
+        if (in_array($i, $lastResult)) {
+          $ally->Attach("2007868442"); // Experience token
+          $ally->Attach("2007868442"); // Experience token
+          $ally->Attach("8752877738"); // Shield token
+          $ally->Attach("8752877738"); // Shield token
+        } else {
+          $ally->Destroy();
+        }
+      }
+      break;
+    case "PSYCHOMETRY":
+      $cardID = GetMZCard($player, $lastResult);
+      $lastTraits = explode(",", CardTraits($cardID));
+      $search = "5;1;";
+      for($i=0; $i<count($lastTraits); ++$i) {
+        $search .= "include-trait-" . $lastTraits[$i];
+        if($i < count($lastTraits) - 1) $search .= "|";
+      }
+      AddDecisionQueue("SEARCHDECKTOPX", $player, $search);
+      AddDecisionQueue("MULTIADDHAND", $player, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+      break;
+    case "A_Precarious_Predicament":
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYHAND:cardID=6707315263&MYRESOURCES:cardID=6707315263");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose It's Worse from your hand or resources to play");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("ADDCURRENTEFFECT", $player, "5562351003", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
+      return 1;
     //SpecificCardLogic End
     default: return "";
   }

@@ -341,6 +341,20 @@ function SearchAlliesForTitle($player, $title)
   return $cardList;
 }
 
+function SearchResourcesForCard($player, $card1, $card2 = "", $card3 = "")
+{
+  $resources = &GetResourceZone($player);
+  $cardList = "";
+  for ($i = 0; $i < count($resources); $i += ResourcePieces()) {
+    $id = $resources[$i];
+    if (($id == $card1 || $id == $card2 || $id == $card3) && $id != "") {
+      if ($cardList != "") $cardList = $cardList . ",";
+      $cardList = $cardList . $i;
+    }
+  }
+  return $cardList;
+}
+
 function SearchUpgradesForTitle($player, $title) {
   $allies = &GetAllies($player);
   $cardList = "";
@@ -1046,6 +1060,16 @@ function SearchMultizone($player, $searches)
             $cards = explode(",", $condition[1]);
             switch($zone)
             {
+              case "MYHAND":
+                if(count($cards) == 1) $searchResult = SearchHandForCard($player, $cards[0]);
+                else WriteLog("Hand multizone search only supports 1 card -- report bug.");
+                break;
+              case "MYRESOURCES":
+                if(count($cards) == 1) $searchResult = SearchResourcesForCard($player, $cards[0]);
+                else if(count($cards) == 2) $searchResult = SearchResourcesForCard($player, $cards[0], $cards[1]);
+                else if(count($cards) == 3) $searchResult = SearchResourcesForCard($player, $cards[0], $cards[1], $cards[2]);
+                else WriteLog("Resources multizone search only supports 3 cards -- report bug.");
+                break;
               case "MYALLY":
                 if(count($cards) == 1) $searchResult = SearchAlliesForCard($player, $cards[0]);
                 else if(count($cards) == 2) $searchResult = SearchAlliesForCard($player, $cards[0], $cards[1]);

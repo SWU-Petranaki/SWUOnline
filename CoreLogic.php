@@ -7509,6 +7509,41 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "1548886844"://Tusken Tracker
       AddCurrentTurnEffect($cardID, $otherPlayer, "PLAY");
       break;
+    case "0463147975"://Always Two
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Sith");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "unique=0");
+      AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
+      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "2-", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose two friendly Sith units", 1);
+      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ALWAYS_TWO", 1);
+      break;
+    case "4387584779"://Following the Path
+      AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "8;2;include-trait-Force&include-definedType-Unit");
+      AddDecisionQueue("REVEALCARDS", $currentPlayer, "-", 1);
+      AddDecisionQueue("MULTIADDTOPDECK", $currentPlayer, "-", 1);
+      break;
+    case "0978531185"://Psychometry
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYDISCARD");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card in your discard pile");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "PSYCHOMETRY", 1);
+      break;
+    case "5562351003"://A Precarious Predicament
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to return to their hand", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETCARDID", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "1", 1);
+      AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Does <1> say it could be worse?");
+      AddDecisionQueue("YESNO", $otherPlayer, "-");
+      AddDecisionQueue("NOPASS", $otherPlayer, "-", 1);//Play It's Worse for free
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "A_Precarious_Predicament", 1);
+      AddDecisionQueue("ELSE", $otherPlayer, "-");//Accept the bounce
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "BOUNCE", 1);
+      break;
     case "2720873461"://Disturbance in the Force
       global $CS_NumAlliesDestroyed;
       if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
