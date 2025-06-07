@@ -1561,8 +1561,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("SEARCHDECKTOPX", $player, $search);
       AddDecisionQueue("MULTIADDHAND", $player, "-", 1);
       AddDecisionQueue("REVEALCARDS", $player, "-", 1);
-      WriteLog($lastTraits);
       break;
+    case "A_Precarious_Predicament":
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYHAND:cardID=6707315263&MYRESOURCES:cardID=6707315263");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose It's Worse from your hand or resources to play");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("ADDCURRENTEFFECT", $player, "5562351003", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
+      return 1;
     //SpecificCardLogic End
     default: return "";
   }

@@ -7529,6 +7529,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "PSYCHOMETRY", 1);
       break;
+    case "5562351003"://A Precarious Predicament
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to return to their hand", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETCARDID", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "1", 1);
+      AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Does <1> say it could be worse?");
+      AddDecisionQueue("YESNO", $otherPlayer, "-");
+      AddDecisionQueue("NOPASS", $otherPlayer, "-", 1);//Play It's Worse for free
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "A_Precarious_Predicament", 1);
+      AddDecisionQueue("ELSE", $otherPlayer, "-");//Accept the bounce
+      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "BOUNCE", 1);
+      break;
     case "2720873461"://Disturbance in the Force
       global $CS_NumAlliesDestroyed;
       if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {

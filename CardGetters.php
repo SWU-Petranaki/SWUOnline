@@ -252,6 +252,11 @@ function &GetMemory($player)
   }
 }
 
+function &GetResourceZone($player)
+{
+  return GetArsenal($player);
+}
+
 function &GetArsenal($player)
 {
   global $currentPlayer, $mainPlayer, $mainPlayerGamestateStillBuilt;
