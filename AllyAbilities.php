@@ -694,8 +694,8 @@ function AllyPlayableExhausted(Ally $ally) {
     case "7d9f8bcb9b"://Anakin Skywalker Leader Unit
     case "20f7c21d8b"://Barriss Offee Leader Unit
       return true;
-    case "2236831712"://Leia Organa
-      return HasTheForce($ally->Controller());
+    case "2236831712"://Leia Organa (Extraordinary)
+      return $ally->CurrentArena() == "Space" && HasTheForce($ally->Controller());
     default: break;
   }
   if($ally->IsUpgraded()) {

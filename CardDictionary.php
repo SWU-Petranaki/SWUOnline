@@ -1863,7 +1863,7 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
     case "20f7c21d8b"://Barriss Offee Leader unit
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
-    case "2236831712"://Leia Organa
+    case "2236831712"://Leia Organa (Extraordinary)
       return "A,AA";
     default: return "";
   }
@@ -2256,15 +2256,17 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
         $abilityNames = str_replace("Play", "", $abilityNames);
       }
       return $abilityNames;
-    case "2236831712"://Leia Organa
+    case "2236831712"://Leia Organa (Extraordinary)
       $abilityNames = "";
       if($validate) {
         $ally = new Ally("MYALLY-" . $index, $currentPlayer);
-        $abilityNames = $ally->IsExhausted() && $ally->CurrentArena() == "Space" ? "Fly Through Space" : "Attack";
+        $abilityNames = $ally->IsExhausted()
+          ? ($ally->CurrentArena() == "Space" ? "Fly Through Space" : "")
+          : ($ally->LostAbilities() ? "Attack" : ($ally->CurrentArena() == "Space" ? "Fly Through Space,Attack" : "Attack"));
       } else {
-        $abilityNames = "Play,Attack";
+        $abilityNames = "Fly Through Space,Attack";
       }
-      break;
+      return $abilityNames;
     default: return "";
   }
 }

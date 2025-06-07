@@ -7767,6 +7767,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "2236831712"://Leia Organa (Extraordinary)
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Fly Through Space") {
+        UseTheForce($currentPlayer);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->MZIndex(), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "MOVEARENA,Ground", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LEIAORGANA_LOF", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8175,7 +8184,7 @@ function UseTheForce($player) {
   $char[4] = "0";
   AddEvent("FORCETOKEN", "$player!0");
   $numTimes = IncrementClassState($player, $CS_NumTimesUsedTheForce);
-  WriteLog("Player " . $player . " used the Force ($numTimes this phase).");
+  WriteLog("Player " . $player . " used the Force ($numTimes time" .  ($numTimes > 1 ? "s" : "") . " this phase).");
   //Unit "When you use the Force" effects
   $units = &GetAllies($player);
   for($i=0; $i<count($units); $i+=AllyPieces()) {

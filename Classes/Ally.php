@@ -631,7 +631,7 @@ class Ally {
         default: break;
       }
     }
-    if($this->CardID() == "2236831712" && $this->CurrentArena() == "Space")//Leia LOF
+    if($this->CardID() == "2236831712" && $this->CurrentArena() == "Space")//Leia Organa (Extraordinary)
       return false;
     if($this->allies[$this->index+3] == 1) return false;
     $this->allies[$this->index+1] = 2;
