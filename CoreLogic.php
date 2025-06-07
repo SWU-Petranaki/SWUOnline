@@ -7509,6 +7509,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "1548886844"://Tusken Tracker
       AddCurrentTurnEffect($cardID, $otherPlayer, "PLAY");
       break;
+    case "0463147975"://Always Two
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:trait=Sith");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "unique=0");
+      AddDecisionQueue("OP", $currentPlayer, "MZTONORMALINDICES");
+      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "2-", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose two friendly Sith units", 1);
+      AddDecisionQueue("MULTICHOOSEUNIT", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ALWAYS_TWO", 1);
+      break;
     case "2720873461"://Disturbance in the Force
       global $CS_NumAlliesDestroyed;
       if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {

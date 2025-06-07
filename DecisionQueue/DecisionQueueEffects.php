@@ -1525,6 +1525,31 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddCurrentTurnEffect("0406487670", $player, "PLAY", $parameterArr[1]);
       }
       break;
+    case "ALWAYS_TWO":
+      $numSith = 0;
+      $units = &GetAllies($player);
+      foreach ($lastResult as $item) {
+        if (TraitContains($units[$item], "Sith", $player)) {
+          $numSith++;
+        }
+      }
+      if($numSith < 2) {
+        WriteLog("<span style='color:red;'>He promised he would teach me everything. Too bad he didn’t live long enough.</span>");
+        return "";
+      }
+      //Now we've chosen our two Sith, we can continue
+      for ($i = count($units) - AllyPieces(); $i >= 0; $i -= AllyPieces()) {
+        $ally = new Ally("MYALLY-" . $i, $player);
+        if (in_array($i, $lastResult)) {
+          $ally->Attach("2007868442"); // Experience token
+          $ally->Attach("2007868442"); // Experience token
+          $ally->Attach("8752877738"); // Shield token
+          $ally->Attach("8752877738"); // Shield token
+        } else {
+          $ally->Destroy();
+        }
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }
