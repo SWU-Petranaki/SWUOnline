@@ -201,6 +201,7 @@ class Ally {
     if ($this->Health() <= 0
         && ($this->CardID() != "d1a7b76ae7" || $this->LostAbilities() || $this->HasEffect("d1a7b76ae7"))//Chirrut Imwe Leader
         && ($this->CardID() != "6032641503" || $this->LostAbilities())//L3-37 JTL
+        && (!$this->HasEffect("9242267986"))//The Tragedy of Darth Plagueis
         && ($this->CardID() != "0345124206")) {  //Clone - Ensure that Clone remains in play while resolving its ability
       DestroyAlly($this->playerID, $this->index);
       return true;
@@ -419,7 +420,9 @@ class Ally {
 
     CheckBobaFettJTL($this->PlayerID(), $enemyDamage, $fromCombat);
 
-    if($this->Health() <= 0 && ($this->CardID() != "d1a7b76ae7" || $this->LostAbilities() || $this->HasEffect("d1a7b76ae7"))//Chirrut Imwe
+    if($this->Health() <= 0 &&
+      ($this->CardID() != "d1a7b76ae7" || $this->LostAbilities() || $this->HasEffect("d1a7b76ae7"))//Chirrut Imwe
+        && !$this->HasEffect("9242267986") //The Tragedy of Darth Plagueis
         && (!AllyIsMultiAttacker($this->CardID()) || !IsMultiTargetAttackActive())) {
       DestroyAlly($this->playerID, $this->index, fromCombat:$fromCombat);
       return true;

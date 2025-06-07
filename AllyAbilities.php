@@ -1188,6 +1188,9 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("DISCARD", $otherPlayer, "-", 1);
       }
       break;
+    case "9160311421"://HK-87 Assassin Droid
+      DamageAllAllies(2, $cardID, arena:"Ground");
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
