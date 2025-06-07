@@ -76,7 +76,8 @@ $cardsList = [];
               ?>
           </div>
       </div>
-      <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px; margin-bottom: 20px;">
+      <div class="game-browser container bg-yellow" style="display: none; height: auto; margin-right: 20px; margin-bottom: 20px;">
+      <!-- <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px; margin-bottom: 20px;"> -->
         <div style="text-align: center; margin-top: 4px;">
           <h2>Set 5 Implemented Cards</h2>
           <p style="margin-bottom: 20px;">Cards that have been recently implemented into the game</p>
