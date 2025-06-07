@@ -200,6 +200,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "5896817672": if(!$subparam) return 2; else return 0;//Headhunting
     case "2359136621": return $subparam;//Guarding The Way
     case "8297630396": return 1;//Shoot First
+    case "1876907238": return 2;//Trust Your Instincts
     case "5464125379": return -2;//Strafing Gunship
     case "5445166624": return -2;//Clone Dive Trooper
     case "8495694166": return -2;//Jedi Lightsaber
@@ -923,6 +924,7 @@ function IsCombatEffectActive($cardID)
     case "9097690846"://Snowtrooper Lieutenant
     case "9210902604"://Precision Fire
     case "8297630396"://Shoot First
+    case "1876907238"://Trust Your Instincts
     case "5667308555"://I Have You Now
     case "5464125379"://Strafing Gunship
     case "5445166624"://Clone Dive Trooper

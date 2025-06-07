@@ -7519,6 +7519,22 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
       break;
+    case "1876907238"://Trust Your Instincts
+      if (HasTheForce($currentPlayer)) {
+        DQAskToUseTheForce($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY", 1);
+        AddDecisionQueue("MZFILTER", $currentPlayer, "status=1", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to attack with", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "1876907238", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ATTACK", 1);
+      } else {
+        WriteLog("<span style='color:red'>Your thoughts betray you.</span>");
+      }
+      break;
     case "5098263349"://Yoda LOF
       if (HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
