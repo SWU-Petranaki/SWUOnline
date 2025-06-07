@@ -18353,7 +18353,6 @@ function CardTitles() {
 function IsUnimplemented($cardID) {
   $manualData = ManualIsUnimplementedData();
   $unimplementedCards = array (
-  '0406487670' => true,
   '0463147975' => true,
   '0978531185' => true,
   1655929166 => true,

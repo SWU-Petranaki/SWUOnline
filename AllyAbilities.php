@@ -2390,6 +2390,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         }
         break;
       case "3895004077"://Inquisitor's Lightsaber
+        // This card doesn't have On Attack ability
         $attackTarget = GetAttackTarget();
         $target = new Ally($attackTarget, $defPlayer);
         if(TraitContains($target->CardID(), "Force", $defPlayer))
@@ -2754,6 +2755,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if($oneOtherAlly || $anyEnemy)
         AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
+    case "0406487670"://Zuckuss
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      $theirDeck = &GetDeck($defPlayer);
+      if(count($theirDeck) > 0)
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
     default: break;
   }
 
@@ -4019,6 +4026,10 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to restore 3 damage");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "RESTORE,3", 1);
+      break;
+    case "0406487670"://Zuckuss
+      AddDecisionQueue("INPUTCARDNAME", $mainPlayer, "<-");
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "ZUCKUSS_LOF," . $attackerAlly->UniqueID(), 1);
       break;
     default: break;
   }
