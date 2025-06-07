@@ -2613,6 +2613,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "7008431159"://Quinlan Vos LOF
     case "5227991792"://Asajj Ventress LOF
     case "1072330402"://Acclamator Assault Ship
+    case "3527836283"://Peli Motto
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -2708,6 +2709,12 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
 
   switch($cardID) {
     //upgrades TODO: order by set
+    case "3527836283"://Peli Motto
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:trait=Droid&MYALLY:trait=Vehicle");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly Droid or Vehicle unit to give an experience token");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+      break;
     case "0545149763"://Jedi Trials
       $attackerAlly->Attach("2007868442"); // Experience token
       break;
