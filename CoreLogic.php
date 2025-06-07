@@ -1750,18 +1750,21 @@ function SameWeaponEquippedTwice()
 
 function IgnoreAspectPenalty($cardID, $player, $reportMode) {
   global $myClassState, $CS_NumClonesPlayed, $CS_LayerTarget, $currentTurnEffects;
+  $ignore = false;
   if(TraitContains($cardID, "Spectre", $player)) {
-    return !LeaderAbilitiesIgnored() && (HeroCard($player) == "7440067052" || SearchAlliesForCard($player, "80df3928eb") != ""); //Hera Syndulla (Spectre Two)
+    $ignore = !LeaderAbilitiesIgnored() && (HeroCard($player) == "7440067052" || SearchAlliesForCard($player, "80df3928eb") != ""); //Hera Syndulla (Spectre Two)
   }
+  if($ignore) return true;
   if (TraitContains($cardID, "Clone", $player)) {
-    return (SearchAlliesForCard($player, "1386874723") != "" && GetClassState($player, $CS_NumClonesPlayed) < 1) //Omega (Part of the Squad)
+    $ignore = (SearchAlliesForCard($player, "1386874723") != "" && GetClassState($player, $CS_NumClonesPlayed) < 1) //Omega (Part of the Squad)
       || (!LeaderAbilitiesIgnored() && (HeroCard($player) == "2742665601" || SearchAlliesForCard($player, "f05184bd91") != "")); //Nala Se (Kaminoan Prime Minister)
   }
+  if($ignore) return true;
   if(TraitContains($cardID, "Lightsaber", $player)) {
     $findGrievous = SearchAlliesForCard($player, "4776553531");//General Grievous  (Trophy Collector)
-    return $findGrievous != "" && ($reportMode || $myClassState[$CS_LayerTarget] == "MYALLY-$findGrievous");
+    $ignore = $findGrievous != "" && ($reportMode || $myClassState[$CS_LayerTarget] == "MYALLY-$findGrievous");
   }
-
+  if($ignore) return true;
   for($i=0;$i<count($currentTurnEffects);$i+=CurrentTurnEffectPieces()) {
     if($currentTurnEffects[$i+1] != $player) continue;
     switch($currentTurnEffects[$i]) {
@@ -6960,7 +6963,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to play");
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
           AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
-          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID, 1);
           AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
           AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
           AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
