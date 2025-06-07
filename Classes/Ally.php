@@ -554,6 +554,9 @@ class Ally {
         case "4478482436"://Supremacy
           if($i != $this->index && TraitContains($this->CardID(), "Vehicle", $this->PlayerID())) $power += 6;
           break;
+        case "5460831827"://The Son
+          if (HasTheForce($this->playerID)) $power += 2;
+          break;
         default: break;
       }
     }
@@ -754,6 +757,13 @@ class Ally {
       }
     }
     //end Pilot attach side effects
+
+   if($cardID == "6885149318"//TODO: Knight's Saber hack until we fix MZFILTER
+      && TraitContains($this->CardID(), "Vehicle", $this->Controller())) {
+        WriteLog("Vehicles can't hold lightsabers, reverting gamestate.");
+        RevertGamestate();
+      }
+
     return $subcardUniqueID;
   }
 

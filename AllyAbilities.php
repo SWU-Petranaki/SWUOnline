@@ -1838,6 +1838,12 @@ function AllyAttackAbilities($attackID)
           $me->Ready();
         }
         break;
+      case "0662915879"://The Daughter
+      if (GetAttackTarget() == "THEIRCHAR-0" && HasTheForce($defPlayer)) {
+        DQAskToUseTheForce($defPlayer);
+        AddDecisionQueue("PASSPARAMETER", $defPlayer, "THEIRCHAR-0", 1);
+        AddDecisionQueue("MZOP", $defPlayer, "RESTORE,2", 1);
+      }
       default: break;
     }
   }
