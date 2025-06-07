@@ -1550,6 +1550,19 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         }
       }
       break;
+    case "PSYCHOMETRY":
+      $cardID = GetMZCard($player, $lastResult);
+      $lastTraits = explode(",", CardTraits($cardID));
+      $search = "5;1;";
+      for($i=0; $i<count($lastTraits); ++$i) {
+        $search .= "include-trait-" . $lastTraits[$i];
+        if($i < count($lastTraits) - 1) $search .= "|";
+      }
+      AddDecisionQueue("SEARCHDECKTOPX", $player, $search);
+      AddDecisionQueue("MULTIADDHAND", $player, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+      WriteLog($lastTraits);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

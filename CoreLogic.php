@@ -7523,6 +7523,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("REVEALCARDS", $currentPlayer, "-", 1);
       AddDecisionQueue("MULTIADDTOPDECK", $currentPlayer, "-", 1);
       break;
+    case "0978531185"://Psychometry
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYDISCARD");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card in your discard pile");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "PSYCHOMETRY", 1);
+      break;
     case "2720873461"://Disturbance in the Force
       global $CS_NumAlliesDestroyed;
       if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
