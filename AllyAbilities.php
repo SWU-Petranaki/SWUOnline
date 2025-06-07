@@ -2392,6 +2392,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         $target = new Ally($attackTarget, $defPlayer);
         if(TraitContains($target->CardID(), "Force", $defPlayer))
           AddCurrentTurnEffect($upgrades[$i], $mainPlayer, "PLAY", $attackerAlly->UniqueID());
+        break;
       default: break;
     }
   }
