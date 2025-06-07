@@ -18353,7 +18353,6 @@ function CardTitles() {
 function IsUnimplemented($cardID) {
   $manualData = ManualIsUnimplementedData();
   $unimplementedCards = array (
-  6172986745 => true,
 );
   return isset($unimplementedCards[$cardID]) || isset($manualData[$cardID]);
 }
