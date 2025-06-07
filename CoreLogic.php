@@ -7710,6 +7710,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "9129337737"://Premonition of Doom
       AddCurrentTurnEffect($cardID, $currentPlayer, $from);
       break;
+    case "9242267986"://The Tragedy of Darth Plagueis
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to influence midichlorians");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+      AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,$f rom  ", 1);
+      MZChooseAndDestroy($otherPlayer, "MYALLY", context: "Choose a unit to defeat.");
+      break;
     //PlayAbility End
     default: break;
   }
