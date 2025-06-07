@@ -1191,6 +1191,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "9160311421"://HK-87 Assassin Droid
       DamageAllAllies(2, $cardID, arena:"Ground");
       break;
+    case "9910098295"://Lor San Tekka
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $player, "unique=0");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "ADDEXPERIENCE", 1);
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
@@ -3145,7 +3151,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, "READY", 1);
       break;
     case "80df3928eb"://Hera Syndulla
-      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
       AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerAlly->Index());
       AddDecisionQueue("MZFILTER", $mainPlayer, "unique=0");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
