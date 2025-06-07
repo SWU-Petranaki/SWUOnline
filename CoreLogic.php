@@ -20,7 +20,7 @@ function EvaluateCombatChain(&$totalAttack, &$totalDefense, &$attackModifiers=[]
       if($combatChain[$i] == $mainPlayer)
       {
         if($i == 1) $attack = $combatChainState[$CCS_LinkBaseAttack];
-        else $attack = AttackValue($combatChain[$i-1]);
+        else $attack = SpecificCardPower(AttackerMZID(), $mainPlayer);
         if($canGainAttack || $i == 1 || $attack < 0)
         {
           array_push($attackModifiers, $combatChain[$i-1], $attack);

@@ -126,7 +126,7 @@ function ChainLinkPopup($link)
   for ($i = 0; $i < count($chainLinks[$link]); $i += ChainLinksPieces()) {
     if ($chainLinks[$link][$i + 1] == $mainPlayer && CardType($chainLinks[$link][$i]) != "AR")
     {
-      $attackValue = AttackValue($chainLinks[$link][$i]) + $chainLinks[$link][$i + 4];
+      $attackValue = SpecificCardPower(AttackerMZID(), $mainPlayer) + $chainLinks[$link][$i + 4];
     }
     else $attackValue = 0;
 

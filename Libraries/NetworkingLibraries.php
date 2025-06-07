@@ -2484,7 +2484,7 @@ function ContinueCombat($uniqueID, $cardID, $player, $from, $resourcesPaid) {
           AppendClassState($defPlayer, $CS_UnitsThatAttackedBase, $ally->UniqueID(), false);
         }
       } else
-        $attackValue = ($baseAttackSet != -1 ? $baseAttackSet : AttackValue($cardID));
+        $attackValue = ($baseAttackSet != -1 ? $baseAttackSet : SpecificCardPower(AttackerMZID(), $player));
       $combatChainState[$CCS_LinkBaseAttack] = BaseAttackModifiers($attackValue);
       $combatChainState[$CCS_AttackUniqueID] = $uniqueID;
       $openedChain = true;
