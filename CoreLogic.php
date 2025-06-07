@@ -7600,6 +7600,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "8421586325"://Unleash Rage
+      if(HasTheForce($currentPlayer)) {
+        //Use the Force. If you do, give a friendly unit +3/+0 for this phase.
+        UseTheForce($currentPlayer);
+        DQBuffUnit($currentPlayer, $cardID, 3, 0, may:false, mzSearch:"MYALLY", context:"a friendly unit to give +3/+0 for this phase");
+      }
+      break;
     //PlayAbility End
     default: break;
   }

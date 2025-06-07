@@ -301,6 +301,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "7821324752": return 2;//Eighth Brother
     case "8085392838": return -2;//Corrupted Saber
     case "8241022502": return 2;//Rampage
+    case "8421586325": return 3;//Unleash Rage
     default: return 0;
   }
 }
