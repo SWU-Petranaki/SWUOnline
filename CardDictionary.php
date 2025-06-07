@@ -1757,6 +1757,8 @@ function CheckLOFAbilityTypes($cardID) {
     case "2762251208"://Rey Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
+    case "3433996932"://Heavy Missile Gunship
+      return "A,AA";
     case "4389144613"://Grogu
       return "A,AA";
     case "5482818255"://Jedi Consular
@@ -2134,6 +2136,8 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "2762251208"://Rey Leader
       return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
     //non-leaders
+    case "3433996932"://Heavy Missile Gunship
+      return "Damage,Attack";
     case "4389144613"://Grogu
       return "Move Damage,Attack";
     case "5482818255"://Jedi Consular

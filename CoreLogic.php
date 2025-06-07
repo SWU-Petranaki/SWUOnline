@@ -4065,6 +4065,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       }
       break;
+    case "3433996932"://Heavy Missile Gunship
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Damage") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground&MYALLY:arena=Ground");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to damage");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,2", 1);
+      }
+      break;
     case "6536128825"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Exhaust") {
