@@ -1415,7 +1415,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $mzID = SearchMultizone($player, "$from:cardID=1160624693");
       $first = explode(",", $mzID)[0];
       MZMoveCard($player, "", "MYRESOURCES", mzIndex: $first);
-      ExhaustResource($player);
+      AddDecisionQueue("EXHAUSTRESOURCES", $player, "1", 1);
       break;
     case "QGJSABER_LOF":
       $selectedUnits = explode(",",$dqVars[0]);
