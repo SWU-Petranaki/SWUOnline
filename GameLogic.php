@@ -375,19 +375,10 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "DRAW":
       $mainPhase = $parameter != 0;
       return Draw($player, $mainPhase);
-    // case "MULTIBANISH"://FAB
-    //   if($lastResult == "") return $lastResult;
-    //   $cards = explode(",", $lastResult);
-    //   $params = explode(",", $parameter);
-    //   if(count($params) < 3) $params[] = "";
-    //   $mzIndices = "";
-    //   for ($i = 0; $i < count($cards); ++$i) {
-    //     $index = BanishCardForPlayer($cards[$i], $player, $params[0], $params[1], $params[2]);
-    //     if ($mzIndices != "") $mzIndices .= ",";
-    //     $mzIndices .= "BANISH-" . $index;
-    //   }
-    //   $dqState[5] = $mzIndices;
-    //   return $lastResult;
+    case "DISCARD":
+      return PummelHit($player);
+    case "MAYDISCARD":
+      return PummelHit($player, may: true);
     case "REMOVECOMBATCHAIN":
       $cardID = $combatChain[$lastResult];
       RemoveCombatChain($lastResult);

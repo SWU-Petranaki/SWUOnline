@@ -1181,6 +1181,13 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "ADDSHIELD", 1);
       break;
+    case "7718974573"://Jedi in Hiding
+      //You may use the Force. If you do, each opponent discards a card from their hand.
+      if(HasTheForce($player)) {
+        DQAskToUseTheForce($player);
+        AddDecisionQueue("DISCARD", $otherPlayer, "-", 1);
+      }
+      break;
     //AllyDestroyedAbility End
       default: break;
     }

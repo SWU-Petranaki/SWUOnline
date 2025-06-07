@@ -1192,6 +1192,7 @@ function HasHidden($cardID, $player, $index) {
     case "5663262393"://Charging Phillak
     case "7742118411"://Vupltex
     case "0686684746"://Grand Inquisitor LOF
+    case "7718974573"://Jedi In Hiding
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
