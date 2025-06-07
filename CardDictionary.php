@@ -524,7 +524,8 @@ function HasSentinel($cardID, $player, $index)
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
     case "9213315483"://Graceful Purrgil
-    case "6148303031"://Supremacy TIE/sf
+    case "abcdefg049"://Supremacy TIE/sf
+    case "d911b778e4"://Kylo Ren Leader unit
       return true;
     case "5573238875"://Jedi Sentinel
       return HasTheForce($player);

@@ -1495,6 +1495,18 @@ function SpecificCardLogic($player, $parameter, $lastResult)
           }
         }
       break;
+    case "KYLOREN_LOF":
+      global $CS_AfterPlayedBy;
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD:definedType=Upgrade", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to attach to " . CardLink("d911b778e4", "d911b778e4") . "<br/>(or Pass to skip)", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $player, "0", 1);
+      AddDecisionQueue("ADDCURRENTEFFECT", $player, "d911b778e4", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "d911b778e4", 1);
+      AddDecisionQueue("SETCLASSSTATE", $player, $CS_AfterPlayedBy, 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

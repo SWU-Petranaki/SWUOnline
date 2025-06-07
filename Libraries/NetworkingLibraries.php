@@ -1965,6 +1965,9 @@ function GetLayerTarget($cardID)
     AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID);
     AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
     AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $upgradeTargets);
+    if(SearchCurrentTurnEffects("d911b778e4", $currentPlayer)) {//Kylo Ren Leader unit
+      AddDecisionQueue("MZFILTER", $currentPlayer, "index!=MYALLY-" . SearchAlliesForCard($currentPlayer, "d911b778e4"));
+    }
     if ($upgradeFilter != "")
       AddDecisionQueue("MZFILTER", $currentPlayer, $upgradeFilter);
     if ($piloting && $cardID != "5375722883") //R2-D2 pilot can be added and count as the extra pilot
