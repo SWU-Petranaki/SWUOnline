@@ -298,6 +298,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "0024409893": return 1;//BD-1
     case "1072330402": return 5;//Acclimator Assault Ship
     case "7030628730": return -8;//Force Slow
+    case "7821324752": return 2;//Eighth Brother
     default: return 0;
   }
 }

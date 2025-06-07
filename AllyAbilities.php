@@ -1928,7 +1928,8 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
   $thisAlly = new Ally("MYALLY-" . $index, $player);
   if($thisAlly->LostAbilities($playedCardID)) return false;
   $thisIsNewlyPlayedAlly = $thisAlly->UniqueID() == $playedCardUniqueID;
-
+  $playedAUnit = DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
+  $playedAnUpgrade = DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID);
   // When you play a card
   if ($player == $currentPlayer) {
     switch($cardID) {
@@ -1938,41 +1939,42 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
       case "0052542605"://Bossk
         return DefinedTypesContains($playedCardID, "Event");
       case "9850906885"://Maz Kanata
-        return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit;
       case "6354077246"://Black Squadron Scout Wing
         $target = TargetAlly();
         return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID();
       case "3952758746"://Toro Calican
-        return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Bounty Hunter", $player) && $thisAlly->NumUses() > 0;
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && TraitContains($playedCardID, "Bounty Hunter", $player) && $thisAlly->NumUses() > 0;
       case "724979d608"://Cad Bane Leader Unit
         return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Underworld", $player) && $thisAlly->NumUses() > 0;
       case "0981852103"://Lady Proxima
         return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Underworld", $player);
       case "4088c46c4d"://The Mandalorian Leader Unit
-        return DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID);
+        return $playedAnUpgrade;
       case "8031540027"://Dengar
-        return DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID);
+        return $playedAnUpgrade;
       case "0961039929"://Colonel Yularen
-        return AspectContains($playedCardID, "Command") && DefinedTypesContains($playedCardID, "Unit");
+        return AspectContains($playedCardID, "Command") && $playedAUnit;
       case "5907868016"://Fighters for Freedom
         return !$thisIsNewlyPlayedAlly && AspectContains($playedCardID, "Aggression");
       case "3010720738"://Tobias Beckett
-        return !DefinedTypesContains($playedCardID, "Unit") && $thisAlly->NumUses() > 0;
+        return !$playedAUnit && $thisAlly->NumUses() > 0;
       case "3f7f027abd"://Quinlan Vos Leader Unit
-        return DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
+        return $playedAUnit;
       case "0142631581"://Mas Amedda
       case "9610332938"://Poggle the Lesser
-        return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && DefinedTypesContains($playedCardID, "Unit");
+        return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && $playedAUnit;
       case "3589814405"://tactical droid commander
-        return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && TraitContains($playedCardID, "Separatist", $player);
       //Legends of the Force
       case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
-        return !$thisAlly->HasEffect($cardID) && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID)
-          && TraitContains($playedCardID, "Force", $player);
+        return !$thisAlly->HasEffect($cardID) && $playedAUnit && TraitContains($playedCardID, "Force", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
-        return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
       case "4145147486"://Kylo Ren LOF
-        return DefinedTypesContains($playedCardID, "Upgrade") && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
+        return $playedAnUpgrade && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
+      case "7821324752"://Eighth Brother
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && HasTheForce($currentPlayer);
       default: break;
     }
   } else { // When an opponent plays a card
@@ -2157,6 +2159,12 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("NOPASS", $player, "-", 1);
           AddDecisionQueue("USETHEFORCE", $player, "-", 1);
           AddDecisionQueue("DRAW", $player, "-", 1);
+        }
+        break;
+      case "7821324752"://Eighth Brother
+        if(HasTheForce($player)) {
+          DQAskToUseTheForce($player);
+          DQBuffUnit($player, $cardID, 2, may:false);
         }
         break;
       default: break;
