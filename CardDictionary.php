@@ -360,7 +360,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "7877401512": $amount += 2; break;//Aurra Sing
     case "4460062481": $amount += 3; break;//Nihil Marauder
     case "4464627339": $amount += 1; break;//Blue Suqadron Assault Wing
-    case "3288909829": $amount += 1; break;//Cartel Interceptor
+    case "3288909829": $amount += 2; break;//Cartel Interceptor
     case "0686684746": $amount += 1; break;//Grand Inquisitor LOF
     case "1548886844": $amount += 2; break;//Tusken Tracker
     case "5522824465"://Life Wind Sage
