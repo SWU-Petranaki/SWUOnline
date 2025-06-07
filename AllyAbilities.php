@@ -2834,8 +2834,8 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         WriteLog("Jedi Lightsaber gives the defending unit -2/-2");
         $target = GetAttackTarget();
         $defAlly = new Ally($target);
-        $defAlly->AddRoundHealthModifier(-2);
         AddCurrentTurnEffect($cardID, $defPlayer, from:"PLAY", uniqueID:$defAlly->UniqueID());
+        $defAlly->AddRoundHealthModifier(-2);
       }
       break;
     case "4256802093"://Battle Fury
