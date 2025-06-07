@@ -76,7 +76,7 @@ function NumResourcesAvailable($player) {
 //   return "NONE";
 // }
 
-function RestoreAmount($cardID, $player, $index)
+function RestoreAmount($cardID, $player, $index, $isRecursion = false)
 {
   global $initiativePlayer, $currentTurnEffects;
   $amount = 0;
@@ -184,6 +184,17 @@ function RestoreAmount($cardID, $player, $index)
     case "9107238716": $amount += 1; break;//Longbeam Cruiser
     case "3242169334": $amount += 2; break;//Relic Scavenger
     case "2968188569": $amount += 4; break;//The Purggil King
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(RestoreAmount($units[$i], $player, $i, true)) {
+          $amount += 2;
+          break;
+        }
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -248,7 +259,7 @@ function ExploitAmount($cardID, $player, $reportMode=true) {
   return $amount;
 }
 
-function RaidAmount($cardID, $player, $index, $reportMode = false)
+function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion = false)
 {
   global $currentTurnEffects, $combatChain;
   if(count($combatChain) == 0 && !$reportMode) return 0;
@@ -364,6 +375,17 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
         }
       }
       break;
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(RaidAmount($units[$i], $player, $i, true, true)) {
+          $amount += 2;
+          break;
+        }
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -378,7 +400,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false)
   return $amount;
 }
 
-function HasSentinel($cardID, $player, $index)
+function HasSentinel($cardID, $player, $index, $isRecursion = false)
 {
   global $initiativePlayer, $currentTurnEffects;
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -544,6 +566,14 @@ function HasSentinel($cardID, $player, $index)
       return HasTheForce($player);
     case "5841324811"://Praetorian Guard
       return SearchCount(SearchAllies($player, minAttack:4)) > 0;
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasSentinel($units[$i], $player, $i, true)) return true;
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -556,7 +586,7 @@ function HasSentinel($cardID, $player, $index)
   return false;
 }
 
-function HasGrit($cardID, $player, $index)
+function HasGrit($cardID, $player, $index, $isRecursion = false)
 {
   global $currentTurnEffects;
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -633,6 +663,14 @@ function HasGrit($cardID, $player, $index)
       return true;
     case "2352895392"://Plo Koon
       return HasTheForce($player);
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasGrit($units[$i], $player, $i, true)) return true;
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -680,7 +718,7 @@ function HasCoordinate($cardID, $player, $index)
   };
 }
 
-function HasOverwhelm($cardID, $player, $index)
+function HasOverwhelm($cardID, $player, $index, $isRecursion=false)
 {
   global $defPlayer, $currentTurnEffects, $mainPlayer;
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -805,6 +843,14 @@ function HasOverwhelm($cardID, $player, $index)
       return true;
     case "e6dc0d1cee"://Avar Kriss Leader unit
       return HasTheForce($player);
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasOverwhelm($units[$i], $player, $i, true)) return true;
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -950,6 +996,7 @@ function HasAmbush($cardID, $player, $index, $from, $isRecursion=false)
         if($i == $index) continue;
         if(HasAmbush($units[$i], $player, $i, $from, true)) return true;
       }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -962,7 +1009,7 @@ function HasAmbush($cardID, $player, $index, $from, $isRecursion=false)
   return false;
 }
 
-function HasShielded($cardID, $player, $index)
+function HasShielded($cardID, $player, $index, $isRecursion=false)
 {
   global $currentTurnEffects;
 
@@ -1026,6 +1073,14 @@ function HasShielded($cardID, $player, $index)
     case "8601222247"://Secretive Sage
     case "0126487527"://Axe Woves
       return true;
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasShielded($units[$i], $player, $i, true)) return true;
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -1038,7 +1093,7 @@ function HasShielded($cardID, $player, $index)
   return false;
 }
 
-function HasSaboteur($cardID, $player, $index)
+function HasSaboteur($cardID, $player, $index, $isRecursion=false)
 {
   global $currentTurnEffects;
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -1136,6 +1191,14 @@ function HasSaboteur($cardID, $player, $index)
       global $CS_NumAlliesDestroyed;
       $otherPlayer = $player == 1 ? 2 : 1;
       return GetClassState($otherPlayer, $CS_NumAlliesDestroyed) > 0;
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasSaboteur($units[$i], $player, $i, true)) return true;
+      }
+      break;
     default: break;
   }
   //The Ghost JTL
@@ -1148,7 +1211,7 @@ function HasSaboteur($cardID, $player, $index)
   return false;
 }
 
-function HasHidden($cardID, $player, $index) {
+function HasHidden($cardID, $player, $index, $isRecursion=false) {
   global $currentTurnEffects;
 
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -1219,6 +1282,14 @@ function HasHidden($cardID, $player, $index) {
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
+    case "2370458497"://Oppo Rancisis
+      if($isRecursion) return false; //Prevent recursion
+      $units = &GetAllies($player);
+      for($i=0; $i<count($units); $i+=AllyPieces()) {
+        if($i == $index) continue;
+        if(HasHidden($units[$i], $player, $i, true)) return true;
+      }
+      break;
     default: break;
   }
 
