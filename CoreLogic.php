@@ -7484,6 +7484,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         }
       }
       break;
+    case "6553590382"://In the Shadows
+      DQMultiUnitSelect($currentPlayer, 3, "MYALLY:keyword=Hidden", "to give Experience to");
+      AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer), 1);
+      break;
       //PlayAbility End
     default: break;
   }
