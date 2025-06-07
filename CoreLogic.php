@@ -7523,8 +7523,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6491675327"://Tip the Scale
       AddDecisionQueue("LOOKHAND", $currentPlayer, "-");
       AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND:definedType=Upgrade&&THEIRHAND:definedType=Event");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an event to discard");
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to discard");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
       break;
