@@ -904,6 +904,7 @@ function HasAmbush($cardID, $player, $index, $from)
     case "5663262393"://Charging Phillak
     case "9893266972"://Kowakian Monkey-Lizard
     case "0346642321"://Mysterious Hermit
+    case "7821324752"://Eighth Brother
       return true;
 
     //conditional ambush
@@ -1192,6 +1193,7 @@ function HasHidden($cardID, $player, $index) {
     case "5663262393"://Charging Phillak
     case "7742118411"://Vupltex
     case "0686684746"://Grand Inquisitor LOF
+    case "7718974573"://Jedi In Hiding
       return true;
     case "5387ca4af6"://Third Sister Leader Unit
       return !LeaderAbilitiesIgnored();
@@ -2329,6 +2331,7 @@ function UpgradeFilter($cardID)
   if($cardID == "5375722883") return "trait!=Vehicle";//R2-D2 (Artooooooooo!)
   if(PilotingCost($cardID) >= 0) return "trait!=Vehicle";
   switch($cardID) {
+    //non-Vehicle upgrades
     case "0160548661"://Fallen Lightsaber
     case "8495694166"://Jedi Lightsaber
     case "0705773109"://Vader's Lightsaber
@@ -2352,31 +2355,43 @@ function UpgradeFilter($cardID)
     case "3445044882"://Qui-Gon Jinn's Lightsaber
     case "6128668392"://Ascension Cable
     case "1759165041"://Heavy Blaster Cannon
+    case "8085392838"://Corrupted Saber
       return "trait=Vehicle";
+    //end non-Vehicle upgrades
+    //Vehicle only upgrades
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment
+    case "9338356823"://Dorsal Turret
+    case "9981313319"://Twin Laser Turret
       return "trait!=Vehicle";
+    //end Vehicle only upgrades
+    //non-Leader upgrades
     case "1368144544"://Imprisoned
     case "7718080954"://Frozen in Carbonite
     case "6911505367"://Second Chance
     case "7270736993"://Unrefusable Offer
       return "leader=1";
+    //end non-Leader upgrades
+    //Token upgrades
     case "4886127868"://Nameless Valor
       return "token=0";
-    case "9338356823"://Dorsal Turret
-    case "9981313319"://Twin Laser Turret
-      return "trait!=Vehicle";
-    case "5016817239"://Superheavy Ion Cannon
-      return "trait!=Capital_Ship&trait!=Transport";
-    case "5306772000"://Phantom II
-      return "cardID!=6931439330&cardID!=5763330426";
+    //end Token upgrades
+    //Force unit upgrades
     case "3688574857"://Constructed Lightsaber
     case "0412810079"://Sith Holocron
     case "0545149763"://Jedi Trials
     case "3730933081"://Bolstered Endurance
+    case "7377298352"://Jedi Holocron
       return "trait!=Force";
+    //end Force unit upgrades
+    //other filters
+    case "5016817239"://Superheavy Ion Cannon
+      return "trait!=Capital_Ship&trait!=Transport";
+    case "5306772000"://Phantom II
+      return "cardID!=6931439330&cardID!=5763330426";
     case "6885149318"://Knight's Saber
-      return "trait!=Jedi";
+      return "trait!=Jedi";//TODO: look into mixed = and != for trait=Vehicle&trait!=Jedi
+    //end other filters
     default: return "";
   }
 }

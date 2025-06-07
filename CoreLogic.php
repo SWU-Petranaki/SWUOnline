@@ -8121,6 +8121,19 @@ function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
   }
 }
 
+function DQBuffUnit($player, $effectID, $attackBuff,
+    $healthBuff="-", $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $from="HAND", $subsequent=false) {
+  $healthBuff = $healthBuff == "-" ? $attackBuff : $healthBuff;
+  $subsequent = $subsequent ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context to give +$attackBuff/+$healthBuff", 1);
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "ADDHEALTH,$healthBuff", 1);
+  AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "$effectID,$from", 1);
+}
+
 function DQChooseAUnitToGiveEffect($player, $effectID, $from, $may=true,
   $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $lastingType="Phase",
   $subsequent=false)
