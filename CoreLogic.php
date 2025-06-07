@@ -7718,6 +7718,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$cardID,$f rom  ", 1);
       MZChooseAndDestroy($otherPlayer, "MYALLY", context: "Choose a unit to defeat.");
       break;
+    case "9854991700"://Calm in the Storm
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "status=1");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a frindly unit to exhaust.");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDEXPERIENCE", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "ADDSHIELD", 1);
+      break;
     //PlayAbility End
     default: break;
   }
