@@ -2388,7 +2388,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($cardID == "8520821318") {//Poe Dameron JTL leader
         $notEnoughResources = $abilityName == "Deploy" && NumResources($currentPlayer) < 5;
       }
-      if($cardID == "zzzzzzz022" || $cardID == "0092239541") {//Avar Kriss LOF leader
+      if($cardID == "0092239541") {//Avar Kriss LOF leader
         global $CS_NumTimesUsedTheForce;
         $notEnoughResources = $abilityName == "Deploy" && NumResources($currentPlayer) + intval(GetClassState($currentPlayer, $CS_NumTimesUsedTheForce)) < 9;
       }

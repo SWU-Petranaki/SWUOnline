@@ -176,7 +176,6 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     case "1978321046": $amount += 1; break;//Village Tender
     case "4808722909": $amount += 1; break;//Yaddle
     case "6745607382": $amount += 2; break;//Jedi Temple Guards
-    case "abcdefg030": $amount += 1; break;//Eye of Sion
     case "6180656125": $amount += 1; break;//Eye of Sion
     case "5887691594": $amount += 2; break;//Magistrate's Scout
     case "2628450872": $amount += 1; break;//Gungan Warrior
@@ -559,7 +558,7 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
     case "0775347605"://Chirrut Imwe
     case "7504035101"://Loth-Wolf
     case "9213315483"://Graceful Purrgil
-    case "abcdefg049"://Supremacy TIE/sf
+    case "6148303031"://Supremacy TIE/sf
     case "d911b778e4"://Kylo Ren Leader unit
       return true;
     case "5573238875"://Jedi Sentinel
@@ -835,7 +834,6 @@ function HasOverwhelm($cardID, $player, $index, $isRecursion=false)
     case "4145147486"://Kylo Ren LOF
     case "3092212109"://Drengir Spawn
     case "9757688123"://Mace Windu
-    case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
     case "9796715682"://Exegol Patroller
     case "6584072416"://Mynock
@@ -958,7 +956,6 @@ function HasAmbush($cardID, $player, $index, $from, $isRecursion=false)
     case "1270747736"://Qui-Gon Jinn unit
     case "7529152088"://Depa Billaba
     case "6745607382"://Jedi Temple Guards
-    case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
     case "4478482436"://Supremacy
     case "5663262393"://Charging Phillak
@@ -1268,7 +1265,6 @@ function HasHidden($cardID, $player, $index, $isRecursion=false) {
     case "2897264390"://Witch of the Mist
     case "1978321046"://Village Tender
     case "7877401512"://Aurra Sing
-    case "abcdefg030"://Eye of Sion
     case "6180656125"://Eye of Sion
     case "5221323929"://Shin Hati
     case "4729355863"://Baylan Skoll
@@ -1867,6 +1863,8 @@ function CheckLOFAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
     case "20f7c21d8b"://Barriss Offee Leader unit
       return LeaderAbilitiesIgnored() ? "AA" : "A,AA";
+    case "2236831712"://Leia Organa
+      return "A,AA";
     default: return "";
   }
 }
@@ -2258,6 +2256,15 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
         $abilityNames = str_replace("Play", "", $abilityNames);
       }
       return $abilityNames;
+    case "2236831712"://Leia Organa
+      $abilityNames = "";
+      if($validate) {
+        $ally = new Ally("MYALLY-" . $index, $currentPlayer);
+        $abilityNames = $ally->IsExhausted() && $ally->CurrentArena() == "Space" ? "Fly Through Space" : "Attack";
+      } else {
+        $abilityNames = "Play,Attack";
+      }
+      break;
     default: return "";
   }
 }
