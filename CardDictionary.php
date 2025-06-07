@@ -2346,6 +2346,7 @@ function UpgradeFilter($cardID)
     case "2167393423"://Darth Maul's Lightsaber
     case "3445044882"://Qui-Gon Jinn's Lightsaber
     case "6128668392"://Ascension Cable
+    case "1759165041"://Heavy Blaster Cannon
       return "trait=Vehicle";
     case "3987987905"://Hardpoint Heavy Blaster
     case "7280213969"://Smuggling Compartment

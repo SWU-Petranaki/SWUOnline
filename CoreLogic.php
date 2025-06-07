@@ -7449,6 +7449,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       }
       break;
+    case "1759165041"://Heavy Blaster Cannon
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground&MYALLY:arena=Ground");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 1 damage to");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+      for ($i = 0; $i < 3; ++$i) {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,1,$currentPlayer", 1);
+      }
+      break;
     case "1093502388"://DRK-1 Probe Droid
       if($from != "PLAY") {
         DefeatUpgrade($currentPlayer, may:true, upgradeFilter: "unique=1");
