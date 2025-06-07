@@ -1173,6 +1173,21 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("MZOP", $player, "REST", 1);
       break;
+    case "7298144465"://Tauntaun
+      //You may give a shield token to a damaged non-Vehicle unit
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true");
+      AddDecisionQueue("MZFILTER", $player, "trait=Vehicle");
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give a shield");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "ADDSHIELD", 1);
+      break;
+    case "7718974573"://Jedi in Hiding
+      //You may use the Force. If you do, each opponent discards a card from their hand.
+      if(HasTheForce($player)) {
+        DQAskToUseTheForce($player);
+        AddDecisionQueue("DISCARD", $otherPlayer, "-", 1);
+      }
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
@@ -1913,7 +1928,8 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
   $thisAlly = new Ally("MYALLY-" . $index, $player);
   if($thisAlly->LostAbilities($playedCardID)) return false;
   $thisIsNewlyPlayedAlly = $thisAlly->UniqueID() == $playedCardUniqueID;
-
+  $playedAUnit = DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
+  $playedAnUpgrade = DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID);
   // When you play a card
   if ($player == $currentPlayer) {
     switch($cardID) {
@@ -1923,41 +1939,42 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
       case "0052542605"://Bossk
         return DefinedTypesContains($playedCardID, "Event");
       case "9850906885"://Maz Kanata
-        return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit;
       case "6354077246"://Black Squadron Scout Wing
         $target = TargetAlly();
         return (DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID)) && $target->UniqueID() == $thisAlly->UniqueID();
       case "3952758746"://Toro Calican
-        return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Bounty Hunter", $player) && $thisAlly->NumUses() > 0;
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && TraitContains($playedCardID, "Bounty Hunter", $player) && $thisAlly->NumUses() > 0;
       case "724979d608"://Cad Bane Leader Unit
         return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Underworld", $player) && $thisAlly->NumUses() > 0;
       case "0981852103"://Lady Proxima
         return !$thisIsNewlyPlayedAlly && TraitContains($playedCardID, "Underworld", $player);
       case "4088c46c4d"://The Mandalorian Leader Unit
-        return DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID);
+        return $playedAnUpgrade;
       case "8031540027"://Dengar
-        return DefinedTypesContains($playedCardID, "Upgrade") || PilotWasPlayed($currentPlayer, $playedCardID);
+        return $playedAnUpgrade;
       case "0961039929"://Colonel Yularen
-        return AspectContains($playedCardID, "Command") && DefinedTypesContains($playedCardID, "Unit");
+        return AspectContains($playedCardID, "Command") && $playedAUnit;
       case "5907868016"://Fighters for Freedom
         return !$thisIsNewlyPlayedAlly && AspectContains($playedCardID, "Aggression");
       case "3010720738"://Tobias Beckett
-        return !DefinedTypesContains($playedCardID, "Unit") && $thisAlly->NumUses() > 0;
+        return !$playedAUnit && $thisAlly->NumUses() > 0;
       case "3f7f027abd"://Quinlan Vos Leader Unit
-        return DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID);
+        return $playedAUnit;
       case "0142631581"://Mas Amedda
       case "9610332938"://Poggle the Lesser
-        return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && DefinedTypesContains($playedCardID, "Unit");
+        return !$thisIsNewlyPlayedAlly && !$thisAlly->IsExhausted() && $playedAUnit;
       case "3589814405"://tactical droid commander
-        return !$thisIsNewlyPlayedAlly && DefinedTypesContains($playedCardID, "Unit") && TraitContains($playedCardID, "Separatist", $player);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && TraitContains($playedCardID, "Separatist", $player);
       //Legends of the Force
       case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
-        return !$thisAlly->HasEffect($cardID) && DefinedTypesContains($playedCardID, "Unit") && !PilotWasPlayed($currentPlayer, $playedCardID)
-          && TraitContains($playedCardID, "Force", $player);
+        return !$thisAlly->HasEffect($cardID) && $playedAUnit && TraitContains($playedCardID, "Force", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
-        return !$thisIsNewlyPlayedAlly && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
       case "4145147486"://Kylo Ren LOF
-        return DefinedTypesContains($playedCardID, "Upgrade") && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
+        return $playedAnUpgrade && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
+      case "7821324752"://Eighth Brother
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && HasTheForce($currentPlayer);
       default: break;
     }
   } else { // When an opponent plays a card
@@ -2144,6 +2161,12 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("DRAW", $player, "-", 1);
         }
         break;
+      case "7821324752"://Eighth Brother
+        if(HasTheForce($player)) {
+          DQAskToUseTheForce($player);
+          DQBuffUnit($player, $cardID, 2, may:false);
+        }
+        break;
       default: break;
     }
   } else { // When an oponent plays a card
@@ -2225,16 +2248,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     break;
     default: break;
   }
-
+  $oneOtherAlly = SearchCount(SearchAllies($mainPlayer)) > 1;
+  $anyEnemy = SearchCount(SearchAllies($defPlayer)) > 0;
   // Upgrade Abilities
   $upgrades = $attackerAlly->GetUpgrades();
   for($i=0; $i<count($upgrades); ++$i) {
     switch($upgrades[$i]) {
-      case "0545149763"://Jedi Trials
-        $totalOnAttackAbilities++;
-        if ($reportMode) break;
-        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
-        break;
       case "3987987905"://Hardpoint Heavy Blaster
         $totalOnAttackAbilities++;
         if ($reportMode) break;
@@ -2294,7 +2313,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       case "1938453783"://Armed to the Teeth
       case "6775521270"://Inspiring Mentor
       case "5016817239"://Superheavy Ion Cannon
-      case "0412810079"://Sith Holocron
         $totalOnAttackAbilities++;
         if ($reportMode) break;
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
@@ -2327,6 +2345,19 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
           if ($reportMode) break;
           PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         }
+        break;
+      //Legends of the Force
+      case "0412810079"://Sith Holocron
+      case "0545149763"://Jedi Trials
+        $totalOnAttackAbilities++;
+        if ($reportMode) break;
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
+        break;
+      case "7377298352"://Jedi Holocron
+        $totalOnAttackAbilities++;
+        if ($reportMode) break;
+        if($oneOtherAlly || $anyEnemy)
+          PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $upgrades[$i]);
         break;
       default: break;
     }
@@ -2684,11 +2715,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "6503652883"://Medical Frigate
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      if(SearchCount(SearchAllies($mainPlayer)) > 1) {
+      if($oneOtherAlly || $anyEnemy)
         AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
-      } else if(SearchCount(SearchAllies($defPlayer)) > 0) {
-        AddLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID, "THEIRALLY");
-      }
       break;
     default: break;
   }
@@ -3941,6 +3969,14 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to restore 2 damage");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "RESTORE,2", 1);
+      break;
+    case "7377298352"://Jedi Holocron
+      //You may heal 3 damage from another unit.
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to restore 3 damage");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "RESTORE,3", 1);
       break;
     default: break;
   }

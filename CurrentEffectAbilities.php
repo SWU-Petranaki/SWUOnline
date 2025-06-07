@@ -169,6 +169,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "2587711125": return -4;//Disarm
     case "2569134232": return -4;//Jedha City
     case "1323728003": return -1;//Electrostaff
+    case "5049217986": return 3;//Overpower
     case "2651321164": return 2;//Tactical Advantage
     case "1701265931": return 4;//Moment of Glory
     case "1900571801": return 2;//Overwhelming Barrage
@@ -298,6 +299,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "0024409893": return 1;//BD-1
     case "1072330402": return 5;//Acclimator Assault Ship
     case "7030628730": return -8;//Force Slow
+    case "7821324752": return 2;//Eighth Brother
     default: return 0;
   }
 }

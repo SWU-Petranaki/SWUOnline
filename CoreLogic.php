@@ -3307,6 +3307,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
+    case "5049217986"://Overpower
+      $ally = new Ally($target);
+      $ally->AddRoundHealthModifier(3);
+      AddCurrentTurnEffect($cardID, $currentPlayer, "PLAY", $ally->UniqueID());
+      break;
+      break;
     case "2651321164"://Tactical Advantage
       $ally = new Ally($target);
       $ally->AddRoundHealthModifier(2);
@@ -4111,6 +4117,16 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to give Overwhelm");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
+      break;
+    case "4024881604"://Adept of Anger
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Exhaust" && HasTheForce($currentPlayer)) {
+        UseTheForce($currentPlayer);
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to exhaust");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      }
       break;
     case "6536128825"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
@@ -8060,6 +8076,7 @@ function PlayRequiresTarget($cardID)
     case "8981523525": return 6;//Moment of Peace
     case "2587711125": return 6;//Disarm
     case "6515891401": return 7;//Karabast
+    case "5049217986": return 6;//Overpower
     case "2651321164": return 6;//Tactical Advantage
     case "1900571801": return 7;//Overwhelming Barrage
     case "6544277158": return 7;//Hotshot Maneuver
@@ -8119,6 +8136,19 @@ function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
   if($healthDebuff > 0) {
     AddDecisionQueue("MZOP", $currentPlayer, "REDUCEHEALTH,$healthDebuff", 1);
   }
+}
+
+function DQBuffUnit($player, $effectID, $attackBuff,
+    $healthBuff="-", $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $from="HAND", $subsequent=false) {
+  $healthBuff = $healthBuff == "-" ? $attackBuff : $healthBuff;
+  $subsequent = $subsequent ? 1 : 0;
+  AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch, $subsequent);
+  if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, $subsequent);
+  AddDecisionQueue("SETDQCONTEXT", $player, "Choose $context to give +$attackBuff/+$healthBuff", 1);
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue("MZOP", $player, "ADDHEALTH,$healthBuff", 1);
+  AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+  AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "$effectID,$from", 1);
 }
 
 function DQChooseAUnitToGiveEffect($player, $effectID, $from, $may=true,
