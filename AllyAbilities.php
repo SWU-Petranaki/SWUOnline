@@ -2659,6 +2659,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       }
       break;
     case "6564460785"://Bendu
+    case "6503652883"://Medical Frigate
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       if(SearchCount(SearchAllies($mainPlayer)) > 1) {
@@ -3888,6 +3889,13 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "5227991792,PLAY", 1);
+      break;
+    case "6503652883"://Medical Frigate
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "index=MYALLY-" . $attackerIndex);
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to restore 2 damage");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "RESTORE,2", 1);
       break;
     default: break;
   }
