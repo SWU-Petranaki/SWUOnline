@@ -1764,6 +1764,7 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
     switch($currentTurnEffects[$i]) {
       case "2012334456"://On Top of Things
       case "3052907071"://Dooku LOF unit
+      case "5787840677"://Go Into Hiding
         return false;
       default: break;
     }
