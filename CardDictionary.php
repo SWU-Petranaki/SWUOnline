@@ -1340,6 +1340,26 @@ function SpecificCardPower($mzID, $player = -1)
   return CardPower($cardID);
 }
 
+function SpecificCardHP($mzID, $player = -1)
+{
+  global $currentPlayer;
+  if($player == -1) $player = $currentPlayer;
+  $cardID = GetMZCard($player, $mzID);
+  if(DefinedCardType($cardID) == "Unit") {
+    $ally = new Ally($mzID, $player);
+    $upgrades = $ally->GetUpgrades();
+    for ($i = 0; $i < count($upgrades); ++$i) {
+      switch ($upgrades[$i]) {
+        case "6980075962"://Size Matters Not
+          return 5;
+        default:
+          break;
+      }
+    }
+  }
+  return CardHPDictionary($cardID);
+}
+
 function AttackValue($cardID) {
   switch ($cardID) {
     default:

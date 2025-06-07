@@ -150,7 +150,7 @@ class Ally {
   }
 
   function MaxHealth() {
-    $max = AllyHealth($this->CardID(), $this->PlayerID());
+    $max = SpecificCardHP("MYALLY-" . $this->index, $this->PlayerID());
     $upgrades = $this->GetUpgrades();
 
     // Upgrades buffs
