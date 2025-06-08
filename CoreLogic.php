@@ -3982,8 +3982,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "2639435822,PLAY", 1);
-      AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "FORCE_LIGHTNING", 1);
+      if(HasUnitWithTraitInPlay($currentPlayer, "Force")) {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "FORCE_LIGHTNING", 1);
+      }
       break;
     case "1951911851"://Grand Admiral Thrawn
       $abilityName = GetResolvedAbilityName($cardID, $from);
