@@ -7467,6 +7467,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Lightsaber card to discard");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+      AddDecisionQueue("MZREMOVE", $currentPlayer, "-", 1);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground", 1);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 4 damage to", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
@@ -7496,9 +7497,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
       AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card in your opponent's hand to discard");
-      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $otherPlayer, 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to discard");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
       break;
     case "4371455331"://Last Words
       global $CS_NumAlliesDestroyed;
@@ -7679,15 +7680,6 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "8743459187"://Focus Determines Reality
       AddCurrentTurnEffect("8743459187", $currentPlayer, "PLAY");
-      break;
-    case "6491675327"://Tip the Scale
-      AddDecisionQueue("LOOKHAND", $currentPlayer, "-");
-      AddDecisionQueue("REVEALHANDCARDS", $otherPlayer, "-");
-      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
-      AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to discard");
-      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
       break;
     case "2968188569"://The Purggil King
       if($from != "PLAY") {
