@@ -7832,10 +7832,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "2236831712"://Leia Organa (Extraordinary)
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Fly Through Space") {
-        UseTheForce($currentPlayer);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->MZIndex(), 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "MOVEARENA,Ground", 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LEIAORGANA_LOF", 1);
+        if(!HasTheForce($currentPlayer)) {
+          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          RevertGamestate();
+        } else {
+          UseTheForce($currentPlayer);
+          AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->MZIndex(), 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "MOVEARENA,Ground", 1);
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LEIAORGANA_LOF", 1);
+        }
       }
       break;
     case "1655929166"://Whirlwind of Power
@@ -7950,7 +7955,7 @@ function AfterPlayedByAbility($cardID) {
     case "7270736993"://Unrefusable Offer
     case "3426168686"://Sneak Attack
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
-      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "READY,1", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDROUNDEFFECT", $currentPlayer, $cardID . "-2,PLAY", 1);
       break;

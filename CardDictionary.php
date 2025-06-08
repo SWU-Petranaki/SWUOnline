@@ -1812,6 +1812,7 @@ function CheckJTLAbilityTypes($cardID) {
 }
 
 function CheckLOFAbilityTypes($cardID) {
+  global $currentPlayer;
   switch($cardID) {
     //leaders
     case "2580909557"://Qui-Gon Jinn Leader
