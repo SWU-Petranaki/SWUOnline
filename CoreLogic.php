@@ -6793,7 +6793,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Deal Damage") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6806,7 +6806,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Bounce/Play") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6818,7 +6818,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Experience") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6853,7 +6853,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Debuff") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6872,7 +6872,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Attack") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6914,7 +6914,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Sentinel") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6936,7 +6936,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Exhaust") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6953,7 +6953,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Play") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -6971,7 +6971,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Play") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -7128,7 +7128,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Play Unit") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);
@@ -7831,7 +7831,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Fly Through Space") {
         if(!HasTheForce($currentPlayer)) {
-          WriteLog("The Force is not strong with this one. Reverting gamestate.");
+          WriteLog(NoForceSpan());
           RevertGamestate();
         } else {
           UseTheForce($currentPlayer);

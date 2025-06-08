@@ -894,6 +894,11 @@ function ArenabotSpan() {
   return "<span style='font-weight:bold; color:plum'>Arenabot: </span>";
 }
 
+function NoForceSpan() {
+  //"The Force is not strong with this one. Reverting gamestate."
+  return "<span style='font-weight:500; color:lemonchiffon'>The Force is not strong with this one. Reverting gamestate.</span>";
+}
+
 function GetCurrentFormat() {
   include_once "./Libraries/GameFormats.php";
   global $format, $gameName;
