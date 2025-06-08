@@ -16,7 +16,7 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>You Have Been Banned</title>
-  <link rel="stylesheet" href="./css/petranaki250506.css">
+  <link rel="stylesheet" href="./css/petranaki250608.css">
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -35,7 +35,7 @@ session_start();
       margin: 0 auto;
       padding: 20px;
 
-      p { 
+      p {
         font-size: 1.25em;
       }
 
