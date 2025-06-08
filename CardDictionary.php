@@ -1433,7 +1433,7 @@ function SpecificCardPower($mzID, $player = -1)
   global $currentPlayer;
   if($player == -1) $player = $currentPlayer;
   $cardID = GetMZCard($player, $mzID);
-  if(DefinedCardType($cardID) == "Unit") {
+  if(DefinedCardType($cardID) == "Unit" || DefinedCardType2($cardID) == "Unit") {
     $ally = new Ally($mzID, $player);
     $upgrades = $ally->GetUpgrades();
     for ($i = 0; $i < count($upgrades); ++$i) {
@@ -1453,7 +1453,7 @@ function SpecificCardHP($mzID, $player = -1)
   global $currentPlayer;
   if($player == -1) $player = $currentPlayer;
   $cardID = GetMZCard($player, $mzID);
-  if(DefinedCardType($cardID) == "Unit") {
+  if(DefinedCardType($cardID) == "Unit" || DefinedCardType2($cardID) == "Unit") {
     $ally = new Ally($mzID, $player);
     $upgrades = $ally->GetUpgrades();
     for ($i = 0; $i < count($upgrades); ++$i) {
