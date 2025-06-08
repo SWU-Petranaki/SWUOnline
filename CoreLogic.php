@@ -7090,8 +7090,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("NOPASS", $currentPlayer, "-", 1);
         AddDecisionQueue("USETHEFORCE", $currentPlayer, "-", 1);
         AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-        AddDecisionQueue("OP", $currentPlayer, "PLAYCARD,DECK", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYDECK-0", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       } else {
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "The top card of your deck is <0>");
         AddDecisionQueue("OK", $currentPlayer, "-");
