@@ -297,7 +297,7 @@ function MZRest($player, $target)
   }
 }
 
-function MZWakeUp($player, $mzIndexOrUniqueID)
+function MZWakeUp($player, $mzIndexOrUniqueID, $exception=false)
 {
   $pieces = explode("-", $mzIndexOrUniqueID);
   $player = (str_starts_with($pieces[0], "MY") ? $player : ($player == 1 ? 2 : 1));
@@ -319,7 +319,7 @@ function MZWakeUp($player, $mzIndexOrUniqueID)
   }
 
   if(!$canReady) return;
-  $targetAlly->Ready();
+  $targetAlly->Ready(resolvedSpecialCase:$exception);
 }
 
 function MZBounce($player, $target)
