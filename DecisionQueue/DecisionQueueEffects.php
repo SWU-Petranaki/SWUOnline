@@ -373,6 +373,19 @@ function SpecificCardLogic($player, $parameter, $lastResult)
   $otherPlayer = $player == 1 ? 2 : 1;
   switch($card)
   {
+    case "FORCE_LIGHTNING":
+      $numResourcesAvailable = NumResourcesAvailable($player);
+      $choices = GetIndices($numResourcesAvailable + 1);//to include 0
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose how many resources to spend (2 damage for each resource)");
+      AddDecisionQueue("BUTTONINPUT", $player, $choices, 1);
+      AddDecisionQueue("SPECIFICCARD", $player, "FORCE_LIGHTNING_DAMAGE", 1);
+      break;
+    case "FORCE_LIGHTNING_DAMAGE":
+      $numResourcesToExhaust = $lastResult;
+      ExhaustResource($player, $numResourcesToExhaust);
+      AddDecisionQueue("PASSPARAMETER", $player, $dqVars[0], 1);
+      AddDecisionQueue("MZOP", $player, DealDamageBuilder(2*$numResourcesToExhaust, $player), 1);
+      break;
     case "SABINEWREN_TWI":
       $card = Mill($player, 1);
       if (!SharesAspect($card, GetPlayerBase($player))) {
