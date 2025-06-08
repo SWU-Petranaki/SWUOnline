@@ -13,7 +13,7 @@ html, body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('../Images/petranaki_arena_cartoon_bg.webp');
+  background-image: url('../Images/petranaki_arena_cartoon_sabers.webp');
   background-attachment: fixed;
 }
 
@@ -296,7 +296,7 @@ select {
   pointer-events: none;
 }
 
-.home-header a, 
+.home-header a,
 .home-header button,
 .nav-bar,
 .nav-bar * {
@@ -1325,28 +1325,28 @@ select {
 }
 
 /* RESPONSIVE STYLES */
-@media screen and (max-height: 1050px) { 
-  .player-info img { 
-    height: 16vh !important; 
-  } 
+@media screen and (max-height: 1050px) {
+  .player-info img {
+    height: 16vh !important;
+  }
 }
 
-@media screen and (max-height: 950px) { 
-  .player-info img { 
-    height: 15vh !important; 
-  } 
+@media screen and (max-height: 950px) {
+  .player-info img {
+    height: 15vh !important;
+  }
 }
 
-@media screen and (max-height: 840px) { 
-  .player-info img { 
-    height: 110px !important; 
+@media screen and (max-height: 840px) {
+  .player-info img {
+    height: 110px !important;
   }
   .player-info {
     flex: 0;
     flex-basis: 157px;
     overflow-y: scroll;
     overflow-x: hidden;
-  } 
+  }
 }
 
 /* Mobile responsive adjustments */
@@ -1359,7 +1359,7 @@ select {
     overflow: visible;
     background-attachment: fixed;
   }
-  
+
   .main-layout {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
@@ -1370,7 +1370,7 @@ select {
     max-width: 100%;
     box-sizing: border-box;
   }
-  
+
   .deck-column, .game-action-column, .news-column {
     width: 100%;
     max-width: 100%;
@@ -1379,7 +1379,7 @@ select {
     max-height: none !important;
     height: auto !important;
   }
-  
+
   .container {
     width: 100%;
     max-width: 100%;
@@ -1387,7 +1387,7 @@ select {
     padding-left: 8px;
     padding-right: 8px;
   }
-  
+
   .header-wrapper {
     position: relative;
     width: auto;
@@ -1396,7 +1396,7 @@ select {
     justify-content: center;
     max-width: fit-content;
   }
-  
+
   .nav-bar {
     position: relative !important;
     top: auto;
@@ -1406,18 +1406,18 @@ select {
     background-color: rgba(20, 20, 20, 0.8);
     backdrop-filter: blur(5px);
   }
-  
+
   .menu-toggle {
     position: absolute;
     top: 5px;
     right: 10px;
     z-index: 40;
   }
-  
+
   .content-wrapper {
     padding: 10px;
   }
-  
+
   .core-wrapper {
     height: auto;
     overflow: visible;
@@ -1430,30 +1430,30 @@ select {
     width: auto;
     padding: 12px 14px 14px 14px;
   }
-  
+
   .home-header h1 {
     font-size: 40px;
   }
-  
+
   .nav-bar-karabast {
     display: none;
   }
-  
+
   .home-banner {
     width: calc(100% - 200px);
   }
-  
+
   .disclaimer {
     left: 0;
     right: 0;
     border-radius: 0;
   }
-  
+
   .disclaimer p {
     font-size: 9px;
     padding: 8px 10px;
   }
-  
+
   .nav-bar {
     display: flex;
     flex-direction: column;
@@ -1467,39 +1467,39 @@ select {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .game-info {
     margin-bottom: 10px;
     width: 100%;
   }
-  
+
   .join-btn, .spectate-btn {
     width: 100%;
   }
-  
+
   .create-game-summary {
     flex-direction: column;
   }
-  
+
   .summary-text {
     margin-bottom: 10px;
   }
-  
+
   .summary-actions {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .title p {
     font-size: 0.7rem;
     margin-top: 0;
   }
-  
+
   .home-title {
     font-size: 1.5rem !important;
     margin-bottom: 0;
   }
-  
+
   .content-wrapper {
     padding: 5px;
   }

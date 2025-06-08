@@ -10,7 +10,7 @@ if (!isset($_SESSION["useruid"])) {
 }
 $useruid = $_SESSION["useruid"];
 ?>
-<link rel="stylesheet" href="../css/petranaki250506.css">
+<link rel="stylesheet" href="../css/petranaki250608.css">
 <div style='padding:10px; width:90vw; max-width: 1200px; height: 80vh; margin: 10vh auto;
   background-color:rgba(74, 74, 74, 0.9); border: 2px solid #1a1a1a; border-radius: 5px;'>
 
