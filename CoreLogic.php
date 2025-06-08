@@ -3976,28 +3976,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "BAMBOOZLE", 1);
       break;
     case "2639435822"://Force Lightning
-      $playerAspects = PlayerAspects($currentPlayer);
-      $penalty = 0;
-      if($playerAspects['Villainy'] < 1) {
-        $penalty += 2;
-      }
-      if($playerAspects['Aggression'] < 1) {
-        $penalty += 2;
-      }
-      if($resourcesPaid < 1 + $penalty) {
-        WriteLog("<span style='color: red;'>You must pay at least " . (1 + $penalty) . " resources to use Force Lightning. Reverting gamestate.</span>");
-        RevertGamestate();
-        return;
-      }
-      $damage = 2 * (intval($resourcesPaid) - 1 - $penalty);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
-      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to lose abilities and deal " . $damage . " damage");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to lose abilities");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "2639435822,PLAY", 1);
       AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-      AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,$damage,$currentPlayer", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "FORCE_LIGHTNING", 1);
       break;
     case "1951911851"://Grand Admiral Thrawn
       $abilityName = GetResolvedAbilityName($cardID, $from);
