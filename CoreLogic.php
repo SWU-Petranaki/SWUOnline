@@ -1454,6 +1454,7 @@ function CanPassPhase($phase)
     case "CHOOSECHARACTER": return 0;
     case "CHOOSEHAND": return 0;
     case "CHOOSEHANDCANCEL": return 0;
+    case "MULTICHOOSESEARCHTARGETS": return 0;
     case "MULTICHOOSEDISCARD": return 0;
     case "CHOOSEDISCARDCANCEL": return 0;
     case "CHOOSEARCANE": return 0;
