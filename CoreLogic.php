@@ -3975,7 +3975,20 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "BAMBOOZLE", 1);
       break;
     case "2639435822"://Force Lightning
-      $damage = 2 * (intval($resourcesPaid) - 1);
+      $playerAspects = PlayerAspects($currentPlayer);
+      $penalty = 0;
+      if($playerAspects['Villainy'] < 1) {
+        $penalty += 2;
+      }
+      if($playerAspects['Aggression'] < 1) {
+        $penalty += 2;
+      }
+      if($resourcesPaid < 1 + $penalty) {
+        WriteLog("<span style='color: red;'>You must pay at least " . (1 + $penalty) . " resources to use Force Lightning. Reverting gamestate.</span>");
+        RevertGamestate();
+        return;
+      }
+      $damage = 2 * (intval($resourcesPaid) - 1 - $penalty);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to lose abilities and deal " . $damage . " damage");
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
