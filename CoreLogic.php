@@ -7557,8 +7557,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
       break;
     case "2720873461"://Disturbance in the Force
-      global $CS_NumAlliesDestroyed;
-      if (GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0) {
+      global $CS_NumLeftPlay;
+      if (GetClassState($currentPlayer, $CS_NumLeftPlay) > 0) {
         TheForceIsWithYou($currentPlayer);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a friendly unit to give a shield token to");
