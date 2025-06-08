@@ -767,6 +767,8 @@ function AllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Play";
     case "20f7c21d8b"://Barriss Offee Leader Unit
       return $abilityName != "Play";
+    case "2236831712"://Leia Organa (Extraordinary)
+      return $abilityName != "Fly Through Space";
     default: break;
   }
 
