@@ -8286,7 +8286,7 @@ function UseTheForce($player) {
       case "5098263349"://Yoda LOF
         $numUnits = SearchCount(SearchAllies($player));
         if ($numUnits > 0) {
-          DQPingUnit($player, $numUnits * 2, isUnitEffect:true, may:true, context:"a unit to deal " . ($numUnits * 2) . " damage to");
+          DQPingUnit($player, $numUnits * 2, isUnitEffect:true, may:true);
         }
         break;
       default:
