@@ -4923,7 +4923,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:arena=Ground&THEIRALLY:arena=Ground");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to deal 1 damage to");
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,1,$currentPlayer,1", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, DealDamageBuilder(1, $currentPlayer, isUnitEffect:true, unitCardID:$cardID), 1);
       } else if($from != "PLAY") {
         Restore(1, $currentPlayer);
       }
