@@ -1047,7 +1047,7 @@ class Ally {
   function AvoidsExhaust() {
     $hasMythosaurEffect = PlayerHasMythosaurActive($this->Controller()) && $this->IsUpgraded();
     $isAForceUnitWithKylosLightsaber = !$this->LostAbilities() && TraitContains($this->CardID(), "Force", $this->Controller())
-      && $this->HasUpgrade("1637958279");//Kylo's Lightsaber
+      && $this->HasUpgrade("1637958279");//Kylo Ren's Lightsaber
 
     return $hasMythosaurEffect
       || $isAForceUnitWithKylosLightsaber;

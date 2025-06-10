@@ -6944,7 +6944,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
           AddDecisionQueue("MZFILTER", $otherPlayer, "status=1");
           AddDecisionQueue("SETDQCONTEXT", $otherPlayer, "Choose a unit to exhaust");
           AddDecisionQueue("CHOOSEMULTIZONE", $otherPlayer, "<-", 1);
-          AddDecisionQueue("MZOP", $otherPlayer, "REST", 1);
+          AddDecisionQueue("MZOP", $otherPlayer, "REST,$currentPlayer", 1);
         }
       }
       break;

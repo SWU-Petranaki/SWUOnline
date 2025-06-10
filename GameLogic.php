@@ -604,7 +604,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           return $lastResult;
         case "SINK": MZSink($player, $lastResult); return $lastResult;
         //case "SUPPRESS": MZSuppress($player, $lastResult); return $lastResult;//FAB
-        case "REST": MZRest($player, $lastResult); return $lastResult;
+        case "REST": MZRest($player, $lastResult, $parameterArr[1] ?? $player); return $lastResult;
         case "HEAL": MZHealAlly($player, $lastResult, $parameterArr[1]); return $lastResult;
         case "READY": {
           $exception = isset($parameterArr[1]) ? $parameterArr[1] == "1" : false;
