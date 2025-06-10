@@ -1332,7 +1332,7 @@ function ResolveCombatDamage($damageDone)
   WriteLog("Combat resulted in <span style='color:Crimson;'>$damageDone damage</span>");
 
   if (!DelimStringContains(CardSubtype($combatChain[0]), "Ally")) {
-    SetClassState($mainPlayer, $CS_DamageDealt, GetClassState($mainPlayer, $CS_DamageDealt) + $damageDone);
+    IncrementClassState($mainPlayer, $CS_DamageDealt, $damageDone);
   }
 
   if ($wasHit) {

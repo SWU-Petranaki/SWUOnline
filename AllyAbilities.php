@@ -3988,7 +3988,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZFILTER", $defPlayer, "status=1");
       AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose a unit to exhaust");
       AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
-      AddDecisionQueue("MZOP", $defPlayer, "REST", 1);
+      AddDecisionQueue("MZOP", $defPlayer, "REST,$mainPlayer", 1);
       break;
     case "7008431159"://Quinlan Vos LOF
       $attackerAlly = AttackerAlly();
