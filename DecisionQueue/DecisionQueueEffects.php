@@ -563,8 +563,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         RevertGamestate();
         return "";
       }
-      for($i=0; $i<count($cardArr); ++$i) {
-        AddLayer("TRIGGER", $player, "UWINGPLAYCARD", $cardArr[$i]);
+      $totalUnits = count($cardArr);
+      for($i=0; $i<$totalUnits; ++$i) {
+        AddLayer("TRIGGER", $player, "UWINGPLAYCARD", $cardArr[$i], "$i,$totalUnits");
       }
       $deck = new Deck($player);
       $searchLeftovers = explode(",", $deck->Bottom(true, 10 - count($cardArr)));
