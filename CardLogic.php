@@ -904,9 +904,13 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       AllyPlayedAsUpgradeAbility($target, $player, Ally::FromUniqueId($additionalCosts));
       break;
     case "UWINGPLAYCARD":
+      $additionalData = explode(",", $additionalCosts);
       AddCurrentTurnEffect("8968669390", $player);
-      $uniqueID = PlayAlly($target, $player, from: "DECK", owner: $player, playAbility: true);
-      AddWhenPlayCardAbilityLayers($target, "DECK", $uniqueID, 0);
+      PlayCard($target, "DECK");
+      //hack for swap turn bug
+      if($additionalData[0] == $additionalData[1]-1 && $additionalData[1]%2 == 1) {
+        AddDecisionQueue("SWAPTURN", $player, "-");
+      }
       break;
     case "5942811090": //Luke Skywalker (You Still With Me?)
       LukePilotPlotArmor($player, $target);
