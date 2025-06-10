@@ -905,7 +905,8 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       break;
     case "UWINGPLAYCARD":
       AddCurrentTurnEffect("8968669390", $player);
-      PlayAlly($target, $player, from: "DECK", owner: $player, playAbility: true);
+      $uniqueID = PlayAlly($target, $player, from: "DECK", owner: $player, playAbility: true);
+      AddWhenPlayCardAbilityLayers($target, "DECK", $uniqueID, 0);
       break;
     case "5942811090": //Luke Skywalker (You Still With Me?)
       LukePilotPlotArmor($player, $target);

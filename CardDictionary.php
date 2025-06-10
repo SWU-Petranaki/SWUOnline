@@ -394,8 +394,12 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
       && RaidAmount("5763330426", $player, $theGhostIndex, $reportMode) > 0)
     $amount += RaidAmount("5763330426", $player, $theGhostIndex, $reportMode);
 
+  //Marchion Ro
+  $marchionRoIndex = SearchAlliesForCard($player, "4627342747");
+  if($marchionRoIndex !== false && $marchionRoIndex !== "") $amount*=2; 
+
   if($amount > 0 && $ally->LostAbilities()) return 0;
-  if(SearchAlliesForCard($player, "4627342747")) $amount*=2;//Marchion Ro
+
   return $amount;
 }
 
