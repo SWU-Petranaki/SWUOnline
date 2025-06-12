@@ -1468,11 +1468,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       break;
     case "PARAMDELIMTOARRAY":
       return explode(",", $parameter);
-    // case "ADDSOUL"://FAB
-    //   AddSoul($lastResult, $player, $parameter);
-    //   return $lastResult;
     case "SHUFFLEDECK":
       $deck = &GetDeck($player);
+      AddEvent("SHUFFLE", "P" . $player . "DECK");
       $skipSeed = $parameter == "SKIPSEED";
       RandomizeArray($deck, $skipSeed);
       return $lastResult;
@@ -1488,17 +1486,6 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         if(count($deck) <= $i) continue;
         if($rv != "") $rv .= ",";
         $rv .= $deck[$i];
-      }
-      return ($rv == "" ? "PASS" : $rv);
-    case "MATERIALCARDS":
-      $indices = $parameter;
-      if(!is_array($indices)) $indices = explode(",", $parameter);
-      $material = &GetMaterial($player);
-      $rv = "";
-      for($i = 0; $i < count($indices); ++$i) {
-         if(count($material) <= $i) continue;
-         if($rv != "") $rv .= ",";
-        $rv .= $material[$i];
       }
       return ($rv == "" ? "PASS" : $rv);
     case "SHOWOPTIONS":
