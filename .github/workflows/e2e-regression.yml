@@ -55,6 +55,7 @@ jobs:
       uses: browser-actions/setup-chrome@v1
       with:
         chrome-version: 135
+        install-dependencies: true
 
     # Install dependencies for the E2E project
     - name: Install Dependencies for E2E
