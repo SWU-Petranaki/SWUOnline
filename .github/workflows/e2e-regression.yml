@@ -50,17 +50,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
+
     # Set up Chrome
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
-      with:
-        chrome-version: 135
-        install-dependencies: true
-    # print Chrome versions
-    - name: Print Chrome and Chromedriver versions
-      run: |
-        google-chrome --version
-        chromedriver --version
 
     # Install dependencies for the E2E project
     - name: Install Dependencies for E2E
