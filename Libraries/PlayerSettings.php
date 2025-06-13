@@ -644,9 +644,9 @@ function FormatCode($format)
       return 4;
     case "padawanf":
       return 5;
-    case "sealedfm":
+    case "pwstrict":
       return 6;
-    case "draftfmt":
+    case "-unused-":
       return 7;
     case "civilwar":
       return 8;
