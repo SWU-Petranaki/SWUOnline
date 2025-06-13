@@ -2247,8 +2247,6 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     $attackerAlly = new Ally($attackerUniqueID);
   }
   $attackID = $attackerAlly->CardID();
-  if($attackerAlly->LostAbilities()) return;
-
   //check for Force base
   $myBase = GetPlayerCharacter($mainPlayer)[0];
   switch($myBase) {
@@ -2265,6 +2263,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     break;
     default: break;
   }
+  if($attackerAlly->LostAbilities()) return;
+  //layer on attack abilities
   $oneOtherAlly = SearchCount(SearchAllies($mainPlayer)) > 1;
   $anyEnemy = SearchCount(SearchAllies($defPlayer)) > 0;
   // Upgrade Abilities
