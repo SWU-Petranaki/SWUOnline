@@ -6,6 +6,8 @@ class Formats {
   public static $PremierStrict = "prstrict";
   public static $OpenFormat = "openform";
   public static $PreviewFormat = "previewf";
+  //temp formats
+  public static $PreviewStrict = "pwstrict";
   //fun formats
   public static $PadawanFormat = "padawanf";
   public static $SandcrawlerFormat = "sndcrawl";
@@ -31,7 +33,7 @@ class Formats {
       3 => Formats::$OpenFormat,
       4 => Formats::$PadawanFormat,
       5 => Formats::$SandcrawlerFormat,
-      //6 =>
+      6 => Formats::$PreviewStrict,
       //7 =>
       8 => Formats::$GalacticCivilWar,
       9 => Formats::$CloneWars,
@@ -163,7 +165,7 @@ function ValidateDeck($format, $usesUuid, $leader, $base, $deckArr, $sideboardAr
       $tooManyCopies[] = $totalCopies[$i]["id"];
     }
   }
-  if($format == Formats::$PremierStrict && $sideboardSize > 10) {
+  if(($format == Formats::$PremierStrict || $format == Formats::$PreviewStrict) && $sideboardSize > 10) {
     return new DeckValidation(ValidationCode::SideboardSize, [], [], "", "", []);
   }
   if(count($invalidCards) > 0) {
@@ -200,7 +202,8 @@ function IsAllowed($cardID, $format): bool {
     Formats::$PremierFormat,
     Formats::$PremierStrict,
     Formats::$OnePlayerPremier,
-    Formats::$PreviewFormat
+    Formats::$PreviewFormat,
+    Formats::$PreviewStrict
       => !in_array($cardID, $banned)
       ,
     //Only Commons, any unbanned leader, no Rare bases, no Special cards unless they have a Common variant
@@ -302,6 +305,7 @@ function CardInRotation($format, $cardID): bool {
     Formats::$PadawanFormat => in_array(CardSet($cardID), $padawanRotation),
     Formats::$SandcrawlerFormat => in_array(CardSet($cardID), $sandcrawlerRotation),
     Formats::$PreviewFormat => in_array(CardSet($cardID), $previewRotation),
+    Formats::$PreviewStrict => in_array(CardSet($cardID), $previewRotation),
     Formats::$GalacticCivilWar => in_array(CardSet($cardID), $civiWarRotation),
     Formats::$CloneWars => in_array(CardSet($cardID), $cloneWarRotation),
     Formats::$OpenFormat => true,
@@ -336,6 +340,7 @@ function FormatDisplayName($format) {
     Formats::$PremierFormat => "Premier Casual",
     Formats::$PremierStrict => "Premier (Best of 3)",
     Formats::$PreviewFormat => "Preview",
+    Formats::$PreviewStrict => "Preview (Best of 3)",
     Formats::$PadawanFormat => "Padawan",
     Formats::$SandcrawlerFormat => "Sandcrawler",
     Formats::$GalacticCivilWar => "Galactic Civil War",

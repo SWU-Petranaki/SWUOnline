@@ -74,7 +74,7 @@ $opponentInactive = false;
 $currentPlayerInputTimeout = false;
 //premier strict
 $parsedFormat = GetCurrentFormat();
-$isPremierStrict = $parsedFormat === Formats::$PremierStrict;
+$isPremierStrict = $parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict;
 $endBo3 = BestOf3IsOver();
 $isPrivate = GetCachePiece($gameName, 9) == "0";
 
@@ -1326,7 +1326,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Display Their Deck
   if (count($theirDeck) > 0) {
     echo ("<div class= 'their-deck'>");
-      
+
     echo ("<div style='position: relative;'>");
     // Add extra deck images underneath the main deck with inline styles
     echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
@@ -1730,7 +1730,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       echo ("<div id='P" . $playerID . "DECK' class= 'my-deck my-deck-fill' title='Click to view the cards in your Deck.' style='" . GetZoneRight("DECK") . "; bottom:" . GetZoneBottom("MYDECK") . "' onclick='TogglePopup(\"myDeckPopup\");'>");
     else {
       echo ("<div class='my-deck'>");
-      
+
       echo ("<div style='position: relative;'>");
       // Add extra deck images underneath the main deck with inline styles
       echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");

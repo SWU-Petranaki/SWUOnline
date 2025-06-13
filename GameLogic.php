@@ -2274,7 +2274,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "REMATCH":
       global $GameStatus_Rematch, $inGameStatus, $gameName, $gameFileHandler;
       $parsedFormat = GetCurrentFormat();
-      if($parsedFormat !== Formats::$PremierStrict) {
+      if($parsedFormat !== Formats::$PremierStrict && $parsedFormat !== Formats::$PreviewStrict) {
         if($lastResult == "YES") {
           $inGameStatus = $GameStatus_Rematch;
           IncrementCachePiece($gameName, 24);
