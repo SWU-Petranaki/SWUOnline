@@ -565,7 +565,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       $totalUnits = count($cardArr);
       for($i=0; $i<$totalUnits; ++$i) {
-        AddLayer("TRIGGER", $player, "UWINGPLAYCARD", $cardArr[$i], "$i,$totalUnits");
+        $unitNum = $i + 1;
+        AddLayer("TRIGGER", $player, "UWINGPLAYCARD", $cardArr[$i], "$unitNum,$totalUnits");
       }
       $deck = new Deck($player);
       $searchLeftovers = explode(",", $deck->Bottom(true, 10 - count($cardArr)));
