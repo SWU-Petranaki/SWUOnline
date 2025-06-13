@@ -9,6 +9,24 @@
         to {margin-top: -50px;}
       }
 
+      @keyframes shuffle {
+        0% {
+          transform: translateX(0) rotate(0deg);
+          z-index: 1;
+        }
+        30% {
+          transform: translateX(35px) rotate(13deg);
+          z-index: 10;
+        }
+        60% {
+          transform: translateX(-35px) rotate(-13deg);
+        }
+        100% {
+          transform: translateX(0) rotate(0deg);
+          z-index: 20;
+        }
+      }
+
       .draggable {
       }
 
@@ -590,173 +608,6 @@
       var _lastSuccessfulPoll = Date.now();
       var _requestTimeout = 60000; // 1 minute timeout
 
-      function reload() {
-        CheckReloadNeeded(0);
-      }
-
-      function CheckReloadNeeded(lastUpdate) {
-        clearTimeout(_connectionHealthCheck);
-
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4) {
-            if (this.status == 200) {
-              // Reset retry count on success
-              _currentRetryCount = 0;
-              _lastSuccessfulPoll = Date.now();
-
-              if (this.responseText == "NaN") {} //Do nothing, game is invalid
-              else if (this.responseText.split("REMATCH")[0] == "1234") {
-                location.replace('GameLobby.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&authKey=<?php echo ($authKey); ?>');
-              } else if (parseInt(this.responseText) != 0) {
-                HideCardDetail();
-                var responseArr = this.responseText.split("GSDELIM");
-                var update = parseInt(responseArr[0]);
-                if (update != "NaN") CheckReloadNeeded(update);
-                if(update < _lastUpdate) return;
-                //An update was received, begin processing it
-                _lastUpdate = update;
-
-                //Handle events; they may need a delay in the card rendering
-                var events = responseArr[1];
-                if(<?php echo(AreAnimationsDisabled($playerID) ? 'false' : 'events != ""'); ?>) {
-                  var eventsArr = events.split("~");
-                  if(eventsArr.length > 0) {
-                    var popup = document.getElementById("CHOOSEMULTIZONE");
-                    if(!popup) popup = document.getElementById("MAYCHOOSEMULTIZONE");
-                    if(popup) popup.style.display = "none";
-                    var timeoutAmount = 0;
-                    var eventsArr = reduceDamageAndRestoreEvents(eventsArr);
-                    for(var i=0; i<eventsArr.length; i+=2) {
-                      var eventType = eventsArr[i];//DAMAGE
-                      if(eventType == "DAMAGE") {
-                        var eventArr = eventsArr[i+1].split("!");
-                        //Now do the animation
-                        if(eventArr[0] == "P1BASE" || eventArr[0] == "P2BASE") var element = document.getElementById(eventArr[0]);
-                        else var element = document.getElementById("unique-" + eventArr[0]);
-                        if(!!element) {
-                          if(timeoutAmount < 500) timeoutAmount = 500;
-                          element.innerHTML += "<div class='dmg-animation dmg-animation-a'><div class='dmg-animation-a-inner'></div></div>";
-                          element.innerHTML += "<div class='dmg-animation-a-label'><div class='dmg-animation-a-label-inner'>-" + eventArr[1] + "</div></div>";
-                        }
-                      } else if(eventType == "RESTORE") {
-                        var eventArr = eventsArr[i+1].split("!");
-                        //Now do the animation
-                        if(eventArr[0] == "P1BASE" || eventArr[0] == "P2BASE") var element = document.getElementById(eventArr[0]);
-                        else var element = document.getElementById("unique-" + eventArr[0]);
-                        if(!!element) {
-                          if(timeoutAmount < 500) timeoutAmount = 500;
-                          element.innerHTML += "<div class='dmg-animation' style='position:absolute; text-align:center; font-size:36px; top: 0px; left:-2px; width:100%; height: calc(100% - 8px); padding: 0 2px; border-radius:12px; background-color:rgba(95,167,219,0.5); z-index:1000;'><div style='padding: 25px 0; width:100%; height:100%:'></div></div>";
-                          element.innerHTML += "<div style='position:absolute; text-align:center; animation-name: move; animation-duration: 0.6s; font-size:34px; font-weight: 600; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.60); top:0px; left:0px; width:100%; height:100%; background-color:rgba(0,0,0,0); z-index:1000;'><div style='padding: 25px 0; width:100%; height:100%:'>+" + eventArr[1] + "</div></div>";
-                        }
-                      } else if(eventType == "EXHAUST") {
-                        var eventArr = eventsArr[i+1].split("!");
-                        //Now do the animation
-                        if(eventArr[0] == "P1BASE" || eventArr[0] == "P2BASE") var element = document.getElementById(eventArr[0]);
-                        else var element = document.getElementById("unique-" + eventArr[0]);
-                        const timing = {
-                            duration: 60,
-                            iterations: 1,
-                          };
-                          const exhaustAnimation = [
-                          { transform: "rotate(0deg) scale(1)" },
-                          { transform: "rotate(5deg) scale(1)" },
-                        ];
-                        if(!!element) {
-                          if(timeoutAmount < 60) timeoutAmount = 60;
-                          element.animate(exhaustAnimation,timing);
-                          element.innerHTML += "<div style='position:absolute; text-align:center; font-size:36px; top: 0px; left:-2px; width:100%; height: calc(100% - 16px); padding: 0 2px; border-radius:12px; background-color:rgba(0,0,0,0.5);'><div style='width:100%; height:100%:'></div></div>";
-                          element.className += "exhausted";
-                        }
-                      } else if(eventType == "FORCETOKEN") {
-                        var eventArr = eventsArr[i+1].split("!");
-                        var id = "P" + eventArr[0] + "FORCETOKEN";
-                        var element = document.getElementById(id);
-                        if(!!element) {
-                          if(timeoutAmount < 500) timeoutAmount = 500;
-                          if(eventArr[1] == "1") {
-                            element.style.display = 'block';
-                            element.style.opacity = '0';
-                            element.animate(
-                              [
-                                { opacity: 0 },
-                                { opacity: 1 }
-                              ],
-                              {
-                                duration: 500,
-                                easing: 'ease-in-out',
-                                fill: 'forwards'
-                              }
-                            ).onfinish = function() {
-                              element.style.opacity = '1';
-                            };
-                          } else {
-                            element.style.opacity = '1';
-                            element.animate(
-                              [
-                                { opacity: 1 },
-                                { opacity: 0 }
-                              ],
-                              {
-                                duration: 500,
-                                easing: 'ease-in-out',
-                                fill: 'forwards'
-                              }
-                            ).onfinish = function() {
-                              element.style.display = 'none';
-                            };
-                          }
-                        }
-                      }
-                    }
-                    if(timeoutAmount > 0) setTimeout(RenderUpdate, timeoutAmount, responseArr[2]);
-                    else RenderUpdate(responseArr[2]);
-                  }
-                }
-                else RenderUpdate(responseArr[2]);
-              } else {
-                // Schedule next poll - no update required
-                CheckReloadNeeded(lastUpdate);
-              }
-            } else {
-              // Handle non-200 responses (server errors)
-              handlePollingError("Server returned status: " + this.status);
-            }
-          }
-        };
-
-        // Add timeout handling
-        xmlhttp.timeout = _requestTimeout;
-        xmlhttp.ontimeout = function() {
-          handlePollingError("Request timed out");
-        };
-
-        // Add error handling
-        xmlhttp.onerror = function() {
-          handlePollingError("Network error occurred");
-        };
-
-        var dimensions = "&windowWidth=" + window.innerWidth + "&windowHeight=" + window.innerHeight;
-        var lcpEl = document.getElementById("lastCurrentPlayer");
-        var lastCurrentPlayer = "&lastCurrentPlayer=" + (!lcpEl ? "0" : lcpEl.innerHTML);
-
-        if (lastUpdate == "NaN") window.location.replace("https://www.petranaki.net/game/MainMenu.php");
-        else {
-          xmlhttp.open("GET", "GetNextTurn2.php?gameName=<?php echo ($gameName); ?>&playerID=<?php echo ($playerID); ?>&lastUpdate=" + lastUpdate + lastCurrentPlayer + "&authKey=<?php echo ($authKey); ?>" + dimensions, true);
-          xmlhttp.send();
-
-          // Set up health check to recover from hanging connections
-          _connectionHealthCheck = setTimeout(function() {
-            // If we haven't received a response for twice the timeout period, abort and retry
-            if (Date.now() - _lastSuccessfulPoll > _requestTimeout * 2) {
-              console.log("Connection health check failed - restarting polling");
-              xmlhttp.abort();
-              handlePollingError("Health check timeout", true);
-            }
-          }, _requestTimeout * 2);
-        }
-      }
-
       function handlePollingError(errorMessage, forceRetry = false) {
         console.log("Polling error: " + errorMessage);
 
@@ -1061,6 +912,15 @@
                         element.innerHTML += "<div style='position:absolute; text-align:center; font-size:36px; top: 0px; left:-2px; width:100%; height: calc(100% - 16px); padding: 0 2px; border-radius:12px; background-color:rgba(0,0,0,0.5);'><div style='width:100%; height:100%:'></div></div>";
                         element.className += "exhausted";
                       }
+                    } else if(eventType == "SHUFFLE") {
+                        for(var j=1; j<=4; ++j) {
+                          var element = document.getElementById(eventsArr[i+1] + j);
+                          if(!!element) {
+                            if(timeoutAmount < 500) timeoutAmount = 500;
+                            element.style.animation = "shuffle 0.5s ease-in-out forwards";
+                            element.style.animationDelay = `calc(var(--i) * 0.1s)`;
+                          }
+                        }
                     } else if(eventType == "FORCETOKEN") {
                       var eventArr = eventsArr[i+1].split("!");
                       var id = "P" + eventArr[0] + "FORCETOKEN";
