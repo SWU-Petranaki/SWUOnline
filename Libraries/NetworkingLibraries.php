@@ -578,7 +578,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $endBo3 = BestOf3IsOver();
       if (GetCachePiece($gameName, 14) == 7)
         break;//$MGS_StatsLoggedIrreversible
-      if (IsGameOver() && $parsedFormat === Formats::$PremierStrict) {
+      if (IsGameOver() && ($parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict)) {
         WriteLog("Player $playerID tried to undo the result of a Bo3 game.");
         break;
       }
@@ -753,7 +753,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $parsedFormat = GetCurrentFormat();
       CloseDecisionQueue();
       include_once "./Libraries/GameFormats.php";
-      if ($parsedFormat !== Formats::$PremierStrict) {
+      if ($parsedFormat !== Formats::$PremierStrict && $parsedFormat !== Formats::$PreviewStrict) {
         AddDecisionQueue("YESNO", $otherPlayer, "if you want a Rematch?");
         AddDecisionQueue("REMATCH", $otherPlayer, "-", 1);
       }
@@ -781,7 +781,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
         SetCachePiece($gameName, 14, 7);//$MGS_StatsLoggedIrreversible
         $parsedFormat = GetCurrentFormat();
         $endBo3 = BestOf3IsOver();
-        if ($parsedFormat === Formats::$PremierStrict && !$endBo3) {
+        if (($parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict) && !$endBo3) {
           ConcedeMatch($otherP);
         }
       }
@@ -875,7 +875,7 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       break;
     case 100017://Claim Match Victory
       $parsedFormat = GetCurrentFormat();
-      if ($isSimulation || $parsedFormat !== Formats::$PremierStrict)
+      if ($isSimulation || ($parsedFormat !== Formats::$PremierStrict && $parsedFormat !== Formats::$PreviewStrict))
         return;
       include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
@@ -1332,7 +1332,7 @@ function ResolveCombatDamage($damageDone)
   WriteLog("Combat resulted in <span style='color:Crimson;'>$damageDone damage</span>");
 
   if (!DelimStringContains(CardSubtype($combatChain[0]), "Ally")) {
-    SetClassState($mainPlayer, $CS_DamageDealt, GetClassState($mainPlayer, $CS_DamageDealt) + $damageDone);
+    IncrementClassState($mainPlayer, $CS_DamageDealt, $damageDone);
   }
 
   if ($wasHit) {

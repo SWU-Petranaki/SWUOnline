@@ -209,6 +209,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                         <option value="prstrict" <?php echo (FormatCode('prstrict') == $defaultFormat ? "selected" : ""); ?>>Premier (Best of 3)</option>
                         <option value="<?php echo $funFormatBackendName?>" <?php echo (FormatCode($funFormatBackendName) == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option>
                         <option value="previewf" <?php echo (FormatCode('previewf') == $defaultFormat ? "selected" : ""); ?>>Preview (Set 5)</option>
+                        <option value="pwstrict" <?php echo (FormatCode('pwstrict') == $defaultFormat ? "selected" : ""); ?>>Preview (Best of 3)</option>
                       <?php } ?>
                       <option value="openform" <?php echo (FormatCode('openform') == $defaultFormat ? "selected" : ""); ?>>Open Format</option>
                     </select>
@@ -427,6 +428,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
                   <option value="previewf">Preview (Set 5)</option>
+                  <option value="pwstrict">Preview (Best of 3)</option>
                 <?php } ?>
                   <option value="openform">Open Format</option>
               </select>
@@ -459,6 +461,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="<?php $funFormatBackendName?>">Cantina Brawl</option>
                   <option value="previewf">Preview (Set 5)</option>
+                  <option value="pwstrict">Preview (Best of 3)</option>
                 <?php } ?>
                 <option value="openform">Open Format</option>
               </select>
@@ -496,6 +499,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
               $standardFormat = Formats::$PremierStrict;
               $previewFormat = Formats::$PreviewFormat;
               $openFormat = Formats::$OpenFormat;
+              $previewStrict = Formats::$PreviewStrict;
               echo ("<br><label for='format' class='SelectDeckInput'>Format</label>");
               echo ("<select name='format' id='format'>");
               if($canSeeQueue) {
@@ -503,6 +507,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
                 echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
                 echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 5)</option>");
+                echo ("<option value='$previewStrict' " . ($defaultFormat == FormatCode($previewStrict) ? " selected" : "") . ">Preview (Best of 3)</option>");
               }
               echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");
               echo ("</select>");

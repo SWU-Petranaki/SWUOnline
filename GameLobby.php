@@ -80,11 +80,11 @@ else if ($playerID == 2 && $gameStatus >= $MGS_ReadyToStart)
 $isMobile = IsMobile();
 $parsedFormat = GetCurrentFormat();
 $currentRoundGame = intval(GetCachePiece($gameName, 24));
-$canSideboard = Formats::$PremierStrict != $parsedFormat || $currentRoundGame !== 1;
-$canLeaveLobby = Formats::$PremierStrict != $parsedFormat || $currentRoundGame === 1;
+$canSideboard = (Formats::$PremierStrict != $parsedFormat && Formats::$PreviewStrict != $parsedFormat) || $currentRoundGame !== 1;
+$canLeaveLobby = (Formats::$PremierStrict != $parsedFormat && Formats::$PreviewStrict != $parsedFormat) || $currentRoundGame === 1;
 
-$arenaBotPremierStrictMessage = "By joining this lobby, you are agreeing to a Best of 3 Game. Any premature exit in the middle of a game will be considered unsportsmanlike behavior and could result in a ban. If you joined by mistake, please leave this lobby and join a Premier Casual lobby instead.";
-if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && $parsedFormat == Formats::$PremierStrict) {
+$arenaBotPremierStrictMessage = "By joining this lobby, you are agreeing to a Best of 3 Game. Any premature exit in the middle of a game will be considered unsportsmanlike behavior and could result in a ban. If you joined by mistake, please leave this lobby and join a casual lobby instead.";
+if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFormat == Formats::$PremierStrict || $parsedFormat == Formats::$PreviewStrict)) {
   $chatLog = file("./Games/" . $gameName . "/gamelog.txt");
   $found = false;
   foreach($chatLog as $line) {

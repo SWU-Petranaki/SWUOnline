@@ -67,7 +67,7 @@ switch ($popupType) {
       {
         $otherP = ($playerID == 1 ? 2 : 1);
         $parsedFormat = GetCurrentFormat();
-        $isPremierStrict = $parsedFormat === Formats::$PremierStrict;
+        $isPremierStrict = $parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict;
         $endBo3 = BestOf3IsOver();
         $myWins = GetCachePiece($gameName, $playerID + 24);
         $theirWins = GetCachePiece($gameName, $otherP + 24);

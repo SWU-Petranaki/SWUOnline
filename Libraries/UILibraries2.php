@@ -1229,7 +1229,7 @@ function MainMenuUI()
   $rv .= "</td><td style='width:45%;  margin-top: 10px; vertical-align:top;'>";
   // $rv .= CreateButton($playerID, "Home Page", 100001, 0, "24px", "", "", false, true) . "<BR>";
   $rv .= CreateButton($playerID, "Concede Game", 100002, 0, "24px", prompt: "⚠️ Do you really want to concede ?") . "<BR><BR>";
-  if($parsedFormat === Formats::$PremierStrict)
+  if($parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict)
     $rv .= CreateButton($playerID, "Concede Match", 100016, 0, "24px", prompt: "⚠️ Do you really want to concede the Bo3 ?") . "<BR><BR>";
   $rv .= CreateButton($playerID, "Report Bug", 100003, 0, "24px") . "<BR><BR>";
   $rv .= CreateButton($playerID, "Undo", 10000, 0, "24px", "", "Hotkey: U") . "<BR><BR>";

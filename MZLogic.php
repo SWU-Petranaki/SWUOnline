@@ -270,9 +270,10 @@ function MZFreeze($target)
   }
 }
 
-function MZRest($player, $target)
+function MZRest($player, $target, $sourcePlayer="-")
 {
   global $currentPlayer;
+  if($sourcePlayer == "-") $sourcePlayer = $currentPlayer;
   $pieces = explode("-", $target);
   $player = (str_starts_with($pieces[0], "MY") ? $player : ($player == 1 ? 2 : 1));
   $zone = &GetMZZone($player, $pieces[0]);
@@ -282,7 +283,7 @@ function MZRest($player, $target)
       break;
     case "THEIRALLY": case "MYALLY":
       $ally = new Ally("MYALLY-" . $pieces[1], $player);
-      $ally->Exhaust(enemyEffects:$pieces[0] == "THEIRALLY");
+      $ally->Exhaust(enemyEffects:$sourcePlayer != $player);
       break;
     case "MYITEMS": case "THEIRITEMS":
       $zone[$pieces[1]+2] = 1;

@@ -635,7 +635,9 @@ class Ally {
         default: break;
       }
     }
-    if(!$resolvedSpecialCase && $this->CardID() == "2236831712" && $this->CurrentArena() == "Space")//Leia Organa (Extraordinary)
+    if($this->CardID() == "2236831712"//Leia Organa (Extraordinary)
+        && $this->CurrentArena() == "Space"
+        && !$this->LostAbilities() && !$resolvedSpecialCase)
       return false;
     if($this->allies[$this->index+3] == 1) return false;
     $this->allies[$this->index+1] = 2;
@@ -1045,7 +1047,7 @@ class Ally {
   function AvoidsExhaust() {
     $hasMythosaurEffect = PlayerHasMythosaurActive($this->Controller()) && $this->IsUpgraded();
     $isAForceUnitWithKylosLightsaber = !$this->LostAbilities() && TraitContains($this->CardID(), "Force", $this->Controller())
-      && $this->HasUpgrade("1637958279");//Kylo's Lightsaber
+      && $this->HasUpgrade("1637958279");//Kylo Ren's Lightsaber
 
     return $hasMythosaurEffect
       || $isAForceUnitWithKylosLightsaber;

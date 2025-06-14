@@ -18,6 +18,7 @@ $premierLinks = "";
 $premierStrictLinks = "";
 $previewLinks = "";
 $otherFormatsLinks = "";
+$previewStrictLinks = "";
 // TODO: Have as a global variable.
 $reactFE = "https://fe.talishar.net/game/play";
 
@@ -180,6 +181,9 @@ if ($handle = opendir($path)) {
               break;
             case "previewf":
               $previewLinks .= $link;
+              break;
+            case "pwstrict":
+              $previewStrictLinks .= $link;
               break;
             default:
               if ($format != "shadowblitz" && $format != "shadowcc")

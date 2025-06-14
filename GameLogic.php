@@ -604,7 +604,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           return $lastResult;
         case "SINK": MZSink($player, $lastResult); return $lastResult;
         //case "SUPPRESS": MZSuppress($player, $lastResult); return $lastResult;//FAB
-        case "REST": MZRest($player, $lastResult); return $lastResult;
+        case "REST": MZRest($player, $lastResult, $parameterArr[1] ?? $player); return $lastResult;
         case "HEAL": MZHealAlly($player, $lastResult, $parameterArr[1]); return $lastResult;
         case "READY": {
           $exception = isset($parameterArr[1]) ? $parameterArr[1] == "1" : false;
@@ -1468,11 +1468,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       break;
     case "PARAMDELIMTOARRAY":
       return explode(",", $parameter);
-    // case "ADDSOUL"://FAB
-    //   AddSoul($lastResult, $player, $parameter);
-    //   return $lastResult;
     case "SHUFFLEDECK":
       $deck = &GetDeck($player);
+      AddEvent("SHUFFLE", "P" . $player . "DECK");
       $skipSeed = $parameter == "SKIPSEED";
       RandomizeArray($deck, $skipSeed);
       return $lastResult;
@@ -1488,17 +1486,6 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         if(count($deck) <= $i) continue;
         if($rv != "") $rv .= ",";
         $rv .= $deck[$i];
-      }
-      return ($rv == "" ? "PASS" : $rv);
-    case "MATERIALCARDS":
-      $indices = $parameter;
-      if(!is_array($indices)) $indices = explode(",", $parameter);
-      $material = &GetMaterial($player);
-      $rv = "";
-      for($i = 0; $i < count($indices); ++$i) {
-         if(count($material) <= $i) continue;
-         if($rv != "") $rv .= ",";
-        $rv .= $material[$i];
       }
       return ($rv == "" ? "PASS" : $rv);
     case "SHOWOPTIONS":
@@ -2287,7 +2274,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "REMATCH":
       global $GameStatus_Rematch, $inGameStatus, $gameName, $gameFileHandler;
       $parsedFormat = GetCurrentFormat();
-      if($parsedFormat !== Formats::$PremierStrict) {
+      if($parsedFormat !== Formats::$PremierStrict && $parsedFormat !== Formats::$PreviewStrict) {
         if($lastResult == "YES") {
           $inGameStatus = $GameStatus_Rematch;
           IncrementCachePiece($gameName, 24);

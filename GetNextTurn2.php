@@ -74,7 +74,7 @@ $opponentInactive = false;
 $currentPlayerInputTimeout = false;
 //premier strict
 $parsedFormat = GetCurrentFormat();
-$isPremierStrict = $parsedFormat === Formats::$PremierStrict;
+$isPremierStrict = $parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict;
 $endBo3 = BestOf3IsOver();
 $isPrivate = GetCachePiece($gameName, 9) == "0";
 
@@ -1326,6 +1326,22 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Display Their Deck
   if (count($theirDeck) > 0) {
     echo ("<div class= 'their-deck'>");
+
+    echo ("<div style='position: relative;'>");
+    // Add extra deck images underneath the main deck with inline styles
+    echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
+    // Each card is offset a bit more to the right and down, and slightly scaled
+    for ($j = 0; $j < 4; ++$j) {
+      $offset = 1 * $j;
+      echo "<div id='P{$otherPlayer}DECK" . ($j + 1) . "' style='
+        position: absolute;
+        left: {$offset}px;
+        top: {$offset}px;
+        z-index: {$j};
+        --i:$j;
+      '>" . Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
+    }
+    echo ("</div>");
     echo (Card($TheirCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, count($theirDeck)));
   } else {
     //Empty Deck div
@@ -1711,9 +1727,26 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   if (count($myDeck) > 0) {
     $playerDeck = new Deck($playerID);
     if ($turn[0] == "OVER")
-      echo ("<div class= 'my-deck my-deck-fill' title='Click to view the cards in your Deck.' style='" . GetZoneRight("DECK") . "; bottom:" . GetZoneBottom("MYDECK") . "' onclick='TogglePopup(\"myDeckPopup\");'>");
-    else
+      echo ("<div id='P" . $playerID . "DECK' class= 'my-deck my-deck-fill' title='Click to view the cards in your Deck.' style='" . GetZoneRight("DECK") . "; bottom:" . GetZoneBottom("MYDECK") . "' onclick='TogglePopup(\"myDeckPopup\");'>");
+    else {
       echo ("<div class='my-deck'>");
+
+      echo ("<div style='position: relative;'>");
+      // Add extra deck images underneath the main deck with inline styles
+      echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
+      // Each card is offset a bit more to the right and down, and slightly scaled
+      for ($j = 0; $j < 4; ++$j) {
+        $offset = 1 * $j;
+        echo "<div id='P{$playerID}DECK" . ($j + 1) . "' style='
+          position: absolute;
+          left: {$offset}px;
+          top: {$offset}px;
+          z-index: {$j};
+          --i:$j;
+        '>" . Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
+      }
+      echo ("</div>");
+    }
     echo (Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, $playerDeck->RemainingCards()));
   } else {
     //Empty Deck div
