@@ -6,6 +6,25 @@ function ModalAbilities($player, $parameter, $lastResult)
   $paramArr = explode(",", $parameter);
   switch($paramArr[0])
   {
+    case "RESTOCK":
+      $discardOwner = $player;
+      switch($lastResult) {
+        case 0://My Discard
+          AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD");
+          AddDecisionQueue("OP", $player, "MZTONORMALINDICES", 1);
+          AddDecisionQueue("PREPENDLASTRESULT", $player, "4-");
+          AddDecisionQueue("MULTICHOOSEDISCARD", $player, "<-");
+          break;
+        case 1://Their Discard
+          $discardOwner = $player == 1 ? 2 : 1;
+          AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRDISCARD");
+          AddDecisionQueue("OP", $player, "MZTONORMALINDICES", 1);
+          AddDecisionQueue("PREPENDLASTRESULT", $player, "4-");
+          AddDecisionQueue("MULTICHOOSETHEIRDISCARD", $player, "<-");
+          break;
+      }
+      AddDecisionQueue("SPECIFICCARD", $player, "RESTOCK,$discardOwner", 1);
+      break;
     case "LUXBONTERI":
       switch($lastResult) {
         case 0: // Ready a unit
@@ -605,7 +624,8 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       break;
     case "RESTOCK":
-      ShuffleToBottomDeck($lastResult, $player);
+      $owner = $parameterArr[1];
+      ShuffleToBottomDeck($lastResult, $owner);
       break;
     case "REPROCESS":
       $numCards = count($lastResult);

@@ -1456,6 +1456,7 @@ function CanPassPhase($phase)
     case "CHOOSEHANDCANCEL": return 0;
     case "MULTICHOOSESEARCHTARGETS": return 0;
     case "MULTICHOOSEDISCARD": return 0;
+    case "MULTICHOOSETHEIRDISCARD": return 0;
     case "CHOOSEDISCARDCANCEL": return 0;
     case "CHOOSEARCANE": return 0;
     case "CHOOSEARSENAL": return 0;
@@ -3956,10 +3957,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "POWERFAILURE", 1);
       break;
     case "6087834273"://Restock
-      AddDecisionQueue("FINDINDICES", $currentPlayer, "GY");
-      AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "4-");
-      AddDecisionQueue("MULTICHOOSEDISCARD", $currentPlayer, "<-");
-      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "RESTOCK", 1);
+        $options = "My Discard;Their Discard";
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a discard to Restock");
+        AddDecisionQueue("CHOOSEOPTION", $currentPlayer, "$cardID&$options");
+        AddDecisionQueue("SHOWOPTIONS", $currentPlayer, "$cardID&$options");
+        AddDecisionQueue("MODAL", $currentPlayer, "RESTOCK");
       break;
     case "5035052619"://Jabba the Hutt
       if($from != "PLAY") {
