@@ -936,7 +936,14 @@
                           }
                         }
                     } else if(eventType == "REVEAL") {
-                      var element = document.getElementById('P1DECKREVEALCARD');
+                      var eventArr = eventsArr[i+1].split("!");
+                      var revealPlayer = eventArr[0];
+                      var revealLocation = eventArr[1];
+                      var revealCardID = eventArr[2];
+                      if(revealLocation != "DECK") continue;
+                      var frontFace = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALFRONT');
+                      frontFace.innerHTML = Card(revealCardID, "concat", 96, "", 1);
+                      var element = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALCARD');
                       element.classList.toggle('is-flipped');
                       if(timeoutAmount < 1000) timeoutAmount = 1000;
                     } else if(eventType == "FORCETOKEN") {

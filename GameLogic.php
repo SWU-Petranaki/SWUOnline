@@ -1513,8 +1513,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
     case "REVEALCARDS"://Parameter = FROM
       $cards = (is_array($lastResult) ? implode(",", $lastResult) : $lastResult);
       $revealed = RevealCards($cards, $player);
-      if($revealed && $parameter != "-") {
-        AddEvent("REVEAL", "P" . $player . $parameter);
+      if($revealed && $parameter != "-" && SearchCount($cards) == 1) {
+        AddEvent("REVEAL", $player . "!" . $parameter . "!" . $cards);
       }
       return ($revealed ? $lastResult : "PASS");
     case "REVEALHANDCARDS":

@@ -1242,7 +1242,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       }
 
       $content .= "</div></div>";
-           $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
+                $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
     }
 
     $content .= "</form></div>";
@@ -1735,19 +1735,18 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       // Add extra deck images underneath the main deck with inline styles
       echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
       //Reveal divs
-      echo("<div id='P{$playerID}DECKREVEALCARD' class='reveal-card'>");
+      echo("<div id='P{$playerID}DECKREVEALCARD' class='reveal-card' style='z-index: 99999;'>");
         echo "<div id='P{$playerID}DECKREVEALBACK' style='
           position: absolute;
-            z-index: 100;
+            z-index: 100000;
             backface-visibility: hidden;
+            transform: rotateY(0deg); /* Explicitly set for 3D flip */
           '>" . Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
-        // FIX: Correct class/style attribute and add content to front face
         echo "<div id='P{$playerID}DECKREVEALFRONT' class='reveal-card-front' style='
           position: absolute;
-            z-index: 100;
+            z-index: 100001;
             backface-visibility: hidden;
-            background-color: green;
-          '><span style='color:white;display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:2em;'>FRONT</span></div>";
+          '></div>";
       echo ("</div>");
       //Shuffle divs
       for ($j = 0; $j < 4; ++$j) {
