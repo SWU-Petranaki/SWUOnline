@@ -342,6 +342,8 @@ function GetCardBack($player, $index="")
  55 => "CB_OmahaAlliance",
  56 => "CB_SWDadDad",
  57 => "CB_SWDadFamily",
+ 58 => "Unplayable",
+ 59 => "WasatchWookies",
  //continue adding card backs here
     default => "CardBack",
   };
