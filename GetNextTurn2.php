@@ -1242,7 +1242,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       }
 
       $content .= "</div></div>";
-      $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
+                $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
     }
 
     $content .= "</form></div>";
@@ -1326,11 +1326,25 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Display Their Deck
   if (count($theirDeck) > 0) {
     echo ("<div class= 'their-deck'>");
-
+    //Animation divs
     echo ("<div style='position: relative;'>");
     // Add extra deck images underneath the main deck with inline styles
     echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
-    // Each card is offset a bit more to the right and down, and slightly scaled
+    //Reveal divs
+    echo("<div id='P{$otherPlayer}DECKREVEALCARD' class='reveal-card' style='z-index: 99999;'>");
+      echo "<div id='P{$otherPlayer}DECKREVEALBACK' style='
+        position: absolute;
+          z-index: 100000;
+          backface-visibility: hidden;
+          transform: rotateY(0deg); /* Explicitly set for 3D flip */
+        '>" . Card($TheirCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
+      echo "<div id='P{$otherPlayer}DECKREVEALFRONT' class='reveal-card-front' style='
+        position: absolute;
+          z-index: 100001;
+          backface-visibility: hidden;
+        '></div>";
+    echo ("</div>");
+    //Shuffle divs
     for ($j = 0; $j < 4; ++$j) {
       $offset = 1 * $j;
       echo "<div id='P{$otherPlayer}DECK" . ($j + 1) . "' style='
@@ -1730,11 +1744,25 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       echo ("<div id='P" . $playerID . "DECK' class= 'my-deck my-deck-fill' title='Click to view the cards in your Deck.' style='" . GetZoneRight("DECK") . "; bottom:" . GetZoneBottom("MYDECK") . "' onclick='TogglePopup(\"myDeckPopup\");'>");
     else {
       echo ("<div class='my-deck'>");
-
+      //Add animation divs
       echo ("<div style='position: relative;'>");
       // Add extra deck images underneath the main deck with inline styles
       echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
-      // Each card is offset a bit more to the right and down, and slightly scaled
+      //Reveal divs
+      echo("<div id='P{$playerID}DECKREVEALCARD' class='reveal-card' style='z-index: 99999;'>");
+        echo "<div id='P{$playerID}DECKREVEALBACK' style='
+          position: absolute;
+            z-index: 100000;
+            backface-visibility: hidden;
+            transform: rotateY(0deg); /* Explicitly set for 3D flip */
+          '>" . Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
+        echo "<div id='P{$playerID}DECKREVEALFRONT' class='reveal-card-front' style='
+          position: absolute;
+            z-index: 100001;
+            backface-visibility: hidden;
+          '></div>";
+      echo ("</div>");
+      //Shuffle divs
       for ($j = 0; $j < 4; ++$j) {
         $offset = 1 * $j;
         echo "<div id='P{$playerID}DECK" . ($j + 1) . "' style='

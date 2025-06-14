@@ -27,6 +27,20 @@
         }
       }
 
+      .reveal-card {
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+      }
+
+      .reveal-card.is-flipped {
+        transform: rotateY(-180deg) translateX(200px);
+      }
+
+      .reveal-card-front {
+        transform: rotateY(180deg);
+      }
+
       .draggable {
       }
 
@@ -865,6 +879,7 @@
               var events = responseArr[1];
               if(<?php echo(AreAnimationsDisabled($playerID) ? 'false' : 'events != ""'); ?>) {
                 var eventsArr = events.split("~");
+                var myPlayerID = <?php echo($playerID); ?>;
                 if(eventsArr.length > 0) {
                   var popup = document.getElementById("CHOOSEMULTIZONE");
                   if(!popup) popup = document.getElementById("MAYCHOOSEMULTIZONE");
@@ -921,6 +936,18 @@
                             element.style.animationDelay = `calc(var(--i) * 0.1s)`;
                           }
                         }
+                    } else if(eventType == "REVEAL") {
+                      var eventArr = eventsArr[i+1].split("!");
+                      var revealPlayer = eventArr[0];
+                      var revealLocation = eventArr[1];
+                      var revealCardID = eventArr[2];
+                      //Reveals besides deck not yet supported
+                      if(revealLocation != "DECK") continue;
+                      var frontFace = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALFRONT');
+                      frontFace.innerHTML = Card(revealCardID, "concat", 96, "", 1);
+                      var element = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALCARD');
+                      element.classList.toggle('is-flipped');
+                      if(timeoutAmount < 1000) timeoutAmount = 1000;
                     } else if(eventType == "FORCETOKEN") {
                       var eventArr = eventsArr[i+1].split("!");
                       var id = "P" + eventArr[0] + "FORCETOKEN";

@@ -1510,9 +1510,12 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
       WriteLog("Selected mode" . (count($modes) > 1 ? "s" : "") . " for " . CardLink($parameter, $parameter) . (count($modes) > 1 ? " are" : " is") . ": " . $text);
       return $lastResult;
-    case "REVEALCARDS":
+    case "REVEALCARDS"://Parameter = FROM
       $cards = (is_array($lastResult) ? implode(",", $lastResult) : $lastResult);
       $revealed = RevealCards($cards, $player);
+      if($revealed && $parameter != "-" && SearchCount($cards) == 1) {
+        AddEvent("REVEAL", $player . "!" . $parameter . "!" . $cards);
+      }
       return ($revealed ? $lastResult : "PASS");
     case "REVEALHANDCARDS":
       $hand = &GetHand($player);
@@ -2337,6 +2340,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       for($i=0; $i<count($cards); ++$i) {
         AddBottomDeck($cards[$i], $player);
       }
+      AddEvent("SHUFFLE", "P" . $player . "DECK");
       return "";
     case "ATTACK":
       global $CCS_WeaponIndex, $CS_PlayIndex;
