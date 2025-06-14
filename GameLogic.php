@@ -1510,9 +1510,12 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
       WriteLog("Selected mode" . (count($modes) > 1 ? "s" : "") . " for " . CardLink($parameter, $parameter) . (count($modes) > 1 ? " are" : " is") . ": " . $text);
       return $lastResult;
-    case "REVEALCARDS":
+    case "REVEALCARDS"://Parameter = FROM
       $cards = (is_array($lastResult) ? implode(",", $lastResult) : $lastResult);
       $revealed = RevealCards($cards, $player);
+      if($revealed && $parameter != "-") {
+        AddEvent("REVEAL", "P" . $player . $parameter);
+      }
       return ($revealed ? $lastResult : "PASS");
     case "REVEALHANDCARDS":
       $hand = &GetHand($player);

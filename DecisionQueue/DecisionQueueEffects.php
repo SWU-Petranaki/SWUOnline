@@ -496,7 +496,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddDecisionQueue("YESNO", $player, "-");
         AddDecisionQueue("NOPASS", $player, "-");
         AddDecisionQueue("DRAW", $player, "-", 1);
-        AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
       }
       else {
         AddDecisionQueue("SETDQCONTEXT", $player, "The top card of your deck is <0>");
@@ -1598,7 +1598,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       }
       AddDecisionQueue("SEARCHDECKTOPX", $player, $search);
       AddDecisionQueue("MULTIADDHAND", $player, "-", 1);
-      AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
       break;
     case "A_Precarious_Predicament":
       AddDecisionQueue("MULTIZONEINDICES", $player, "MYHAND:cardID=6707315263&MYRESOURCES:cardID=6707315263");

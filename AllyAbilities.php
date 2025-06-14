@@ -984,7 +984,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       case "9151673075"://Cobb Vanth
         AddDecisionQueue("SEARCHDECKTOPX", $player, "10;1;include-definedType-Unit&include-maxCost-2");
         AddDecisionQueue("ADDDISCARD", $player, "HAND,TTFREE", 1);
-        AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
         break;
       case "9637610169"://Bo Katan
         if(GetHealth(1) >= 15) Draw($player);
@@ -1019,7 +1019,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
         AddDecisionQueue("SEARCHDECKTOPX", $player, "8;1;include-trait-Tactic", 1);
         AddDecisionQueue("ADDHAND", $player, "-", 1);
-        AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
         break;
       case "3680942691"://Confederate Courier
         CreateBattleDroid($player);
@@ -1133,7 +1133,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       case "5264998537"://Owen Lars
           AddDecisionQueue("SEARCHDECKTOPX", $player, "5;1;include-trait-Force&include-definedType-Unit");
           AddDecisionQueue("ADDHAND", $player, "-", 1);
-          AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+          AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
         break;
       case "7488326298"://Sifo-Dyas
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose any number of Clone units with combined cost 4 or less.");
@@ -1207,7 +1207,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         DQAskToUseTheForce($player);
         AddDecisionQueue("SEARCHDECKTOPX", $player, "5;1;include-trait-Force&include-definedType-Unit", 1);
         AddDecisionQueue("ADDHAND", $player, "-", 1);
-        AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
       }
       break;
     //AllyDestroyedAbility End
@@ -1335,7 +1335,7 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
       if($reportMode) break;
       AddDecisionQueue("SEARCHDECKTOPX", $opponent, "10;2;exclude-definedType-Unit");
       AddDecisionQueue("MULTIADDHAND", $opponent, "-", 1);
-      AddDecisionQueue("REVEALCARDS", $opponent, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $opponent, "DECK", 1);
       if(!CardIsUnique($unitCardID)) PummelHit($opponent);
       break;
     case "9503028597"://Clone Deserter
@@ -1610,7 +1610,7 @@ function AllyPlayedAsUpgradeAbility($cardID, $player, $targetAlly) {
     case "0524529055"://Snap Wexley
       AddDecisionQueue("SEARCHDECKTOPX", $player, "5;1;include-trait-Resistance");
       AddDecisionQueue("MULTIADDHAND", $player, "-", 1);
-      AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
       break;
     case "1911230033"://Wingman Victor Three
       AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
@@ -1684,7 +1684,7 @@ function AllyStartRegroupPhaseAbilities($player) {
           AddDecisionQueue("MZOP", $player, "GETCARDTITLE", 1);
           AddDecisionQueue("NOTEQUALPASS", $player, "{0}");
           AddDecisionQueue("DRAW", $player, "-", 1);
-          AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+          AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
           AddDecisionQueue("ELSE", $player, "-");
           AddDecisionQueue("SETDQCONTEXT", $player, "The top card of your deck is <1>");
           AddDecisionQueue("OK", $player, "-");
@@ -2077,7 +2077,7 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
           AddDecisionQueue("MZOP", $player, "REST", 1);
           AddDecisionQueue("SEARCHDECKTOPX", $player, "4;1;include-definedType-Unit", 1);
           AddDecisionQueue("ADDHAND", $player, "-", 1);
-          AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+          AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
         }
         break;
       case "8031540027"://Dengar
@@ -3635,7 +3635,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       if(IsCoordinateActive($mainPlayer)) {
         AddDecisionQueue("SEARCHDECKTOPX", $mainPlayer, "3;1;include-trait-Republic");
         AddDecisionQueue("ADDHAND", $mainPlayer, "-", 1);
-        AddDecisionQueue("REVEALCARDS", $mainPlayer, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $mainPlayer, "DECK", 1);
       }
       break;
     case "3033790509"://Captain Typho
@@ -3907,7 +3907,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "5472129982"://Luthen Rael
       AddDecisionQueue("SEARCHDECKTOPX", $mainPlayer, "5;1;include-trait-Item&include-definedType-Upgrade");
       AddDecisionQueue("ADDHAND", $mainPlayer, "-", 1);
-      AddDecisionQueue("REVEALCARDS", $mainPlayer, "-", 1);
+      AddDecisionQueue("REVEALCARDS", $mainPlayer, "DECK", 1);
       break;
     case "d12b136775"://Obi-Wan Kenobi Leader unit
       ObiWanKenobiLOF($mainPlayer, true);
@@ -4260,7 +4260,7 @@ function JabbasRancorSHD($player, $index=-1) {
 function InvisibleHandJTL($player) {
   AddDecisionQueue("SEARCHDECKTOPX", $player, "8;1;include-trait-Droid&include-definedType-Unit");
   AddDecisionQueue("ADDHAND", $player, "-", 1);
-  AddDecisionQueue("REVEALCARDS", $player, "-", 1);
+  AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
   AddDecisionQueue("SPECIFICCARD", $player, "INVISIBLE_HAND_JTL", 1);
 }
 

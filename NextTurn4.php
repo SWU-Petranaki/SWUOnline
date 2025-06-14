@@ -921,6 +921,8 @@
                             element.style.animationDelay = `calc(var(--i) * 0.1s)`;
                           }
                         }
+                    } else if(eventType == "REVEAL") {
+                      
                     } else if(eventType == "FORCETOKEN") {
                       var eventArr = eventsArr[i+1].split("!");
                       var id = "P" + eventArr[0] + "FORCETOKEN";
