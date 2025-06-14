@@ -879,6 +879,7 @@
               var events = responseArr[1];
               if(<?php echo(AreAnimationsDisabled($playerID) ? 'false' : 'events != ""'); ?>) {
                 var eventsArr = events.split("~");
+                var myPlayerID = <?php echo($playerID); ?>;
                 if(eventsArr.length > 0) {
                   var popup = document.getElementById("CHOOSEMULTIZONE");
                   if(!popup) popup = document.getElementById("MAYCHOOSEMULTIZONE");
@@ -940,7 +941,8 @@
                       var revealPlayer = eventArr[0];
                       var revealLocation = eventArr[1];
                       var revealCardID = eventArr[2];
-                      if(revealLocation != "DECK") continue;
+                      //Reveals besides deck not yet supported; don't need reveal animation for myself
+                      if(revealLocation != "DECK" || revealPlayer == myPlayerID) continue;
                       var frontFace = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALFRONT');
                       frontFace.innerHTML = Card(revealCardID, "concat", 96, "", 1);
                       var element = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALCARD');
