@@ -941,8 +941,8 @@
                       var revealPlayer = eventArr[0];
                       var revealLocation = eventArr[1];
                       var revealCardID = eventArr[2];
-                      //Reveals besides deck not yet supported; don't need reveal animation for myself
-                      if(revealLocation != "DECK" || revealPlayer == myPlayerID) continue;
+                      //Reveals besides deck not yet supported
+                      if(revealLocation != "DECK") continue;
                       var frontFace = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALFRONT');
                       frontFace.innerHTML = Card(revealCardID, "concat", 96, "", 1);
                       var element = document.getElementById('P' + revealPlayer + revealLocation + 'REVEALCARD');
