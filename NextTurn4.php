@@ -27,6 +27,20 @@
         }
       }
 
+      .reveal-card {
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+      }
+
+      .reveal-card.is-flipped {
+        transform: rotateY(-180deg) translateX(200px);
+      }
+
+      .reveal-card-front {
+        transform: rotateY(180deg);
+      }
+
       .draggable {
       }
 
@@ -922,7 +936,9 @@
                           }
                         }
                     } else if(eventType == "REVEAL") {
-                      
+                      var element = document.getElementById('P1DECKREVEALCARD');
+                      element.classList.toggle('is-flipped');
+                      if(timeoutAmount < 1000) timeoutAmount = 1000;
                     } else if(eventType == "FORCETOKEN") {
                       var eventArr = eventsArr[i+1].split("!");
                       var id = "P" + eventArr[0] + "FORCETOKEN";

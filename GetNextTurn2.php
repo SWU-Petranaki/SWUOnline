@@ -1242,7 +1242,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       }
 
       $content .= "</div></div>";
-      $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
+           $content .= CreateForm($playerID, "Submit", 19, count($options[0]), count($options[1]));
     }
 
     $content .= "</form></div>";
@@ -1730,11 +1730,26 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       echo ("<div id='P" . $playerID . "DECK' class= 'my-deck my-deck-fill' title='Click to view the cards in your Deck.' style='" . GetZoneRight("DECK") . "; bottom:" . GetZoneBottom("MYDECK") . "' onclick='TogglePopup(\"myDeckPopup\");'>");
     else {
       echo ("<div class='my-deck'>");
-
+      //Add animation divs
       echo ("<div style='position: relative;'>");
       // Add extra deck images underneath the main deck with inline styles
       echo ("<div style='position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;'>");
-      // Each card is offset a bit more to the right and down, and slightly scaled
+      //Reveal divs
+      echo("<div id='P{$playerID}DECKREVEALCARD' class='reveal-card'>");
+        echo "<div id='P{$playerID}DECKREVEALBACK' style='
+          position: absolute;
+            z-index: 100;
+            backface-visibility: hidden;
+          '>" . Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
+        // FIX: Correct class/style attribute and add content to front face
+        echo "<div id='P{$playerID}DECKREVEALFRONT' class='reveal-card-front' style='
+          position: absolute;
+            z-index: 100;
+            backface-visibility: hidden;
+            background-color: green;
+          '><span style='color:white;display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:2em;'>FRONT</span></div>";
+      echo ("</div>");
+      //Shuffle divs
       for ($j = 0; $j < 4; ++$j) {
         $offset = 1 * $j;
         echo "<div id='P{$playerID}DECK" . ($j + 1) . "' style='
