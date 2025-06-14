@@ -57,6 +57,8 @@ function CardbacksDropdowns($settings) {
  $rv .= CreateSelectOption($SET_Cardback . "-55", "Omaha Alliance", $SET_Cardback . "-" . $settings[$SET_Cardback]);
  $rv .= CreateSelectOption($SET_Cardback . "-56", "Star Wars Dad (Dad)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
  $rv .= CreateSelectOption($SET_Cardback . "-57", "Star Wars Dad (Family)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+ $rv .= CreateSelectOption($SET_Cardback . "-58", "Unplayable", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+ $rv .= CreateSelectOption($SET_Cardback . "-59", "Wasatch Wookies", $SET_Cardback . "-" . $settings[$SET_Cardback]);
  //continue adding card backs here
   return $rv;
 }
