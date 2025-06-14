@@ -1866,7 +1866,7 @@ function AllyAttackAbilities($attackID)
         if(GetAttackTarget() == "THEIRCHAR-0") {
           AddDecisionQueue("MULTIZONEINDICES", $defPlayer, "MYALLY:arena=" . CardArenas($attackID));
           AddDecisionQueue("SETDQCONTEXT", $defPlayer, "Choose a unit to give a shield");
-          AddDecisionQueue("MAYCHOOSEMULTIZONE", $defPlayer, "<-", 1);
+          AddDecisionQueue("CHOOSEMULTIZONE", $defPlayer, "<-", 1);
           AddDecisionQueue("MZOP", $defPlayer, "ADDSHIELD", 1);
         }
         break;
