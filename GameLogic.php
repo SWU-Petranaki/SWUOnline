@@ -2337,6 +2337,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       for($i=0; $i<count($cards); ++$i) {
         AddBottomDeck($cards[$i], $player);
       }
+      AddEvent("SHUFFLE", "P" . $player . "DECK");
       return "";
     case "ATTACK":
       global $CCS_WeaponIndex, $CS_PlayIndex;
