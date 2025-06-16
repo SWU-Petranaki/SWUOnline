@@ -189,6 +189,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
               <span id="gameSettingsSummary">Create a new game: Premier Casual, <?php echo ($defaultVisibility == 1 ? "Public" : "Private"); ?></span>
             </div>
             <div class="summary-actions">
+              
               <button class="create-btn" id="quickCreateGame">Create Game</button>
               <button class="edit-icon" id="openCreateGameModal">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
@@ -201,6 +202,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
           <div class="create-game-summary">
               <div class="quick-match-container">
                 <div class="summary-actions" style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                  <?php if($canSeeQueue) { ?>
                   <span style="white-space: nowrap; margin-right: 5px;">Quick Match:</span>
                   <div class="filter-dropdown-wrapper" style="flex: 1; margin-top: 10px;">
                     <select id="quickMatchFormat" class="styled-dropdown">
@@ -215,6 +217,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                     </select>
                   </div>
                   <button id="findQuickMatch" class="create-btn">Find Game</button>
+                  <?php } ?>
                 </div>
                 <div id="quickMatchStatus" class="quick-match-status"></div>
               </div>
