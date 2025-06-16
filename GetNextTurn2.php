@@ -1353,7 +1353,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         top: {$offset}px;
         z-index: {$j};
         --i:$j;
-      '>" . Card($MyCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
+      '>" . Card($TheirCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, 0) . "</div>";
     }
     echo ("</div>");
     echo (Card($TheirCardBack, "concat", $cardSizeAura, 0, 0, 0, 0, count($theirDeck)));
