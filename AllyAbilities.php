@@ -66,6 +66,8 @@ function PlayAlly($cardID, $player, $subCards = "-", $from = "-",
 }
 
 
+
+
 function DefeatUpgradeForUniqueID($subcardUniqueID, $player = "") {
   $initialPlayer = ($player == 1 || $player == 2) ? $player : 1;
   $players = [$initialPlayer, ($initialPlayer % 2) + 1];
@@ -1342,9 +1344,12 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
     case "9108611319"://Cartel Turncoat
     case "6878039039"://Hylobon Enforcer
       if($reportMode) break;
-      $deck = &GetDeck($player);
+      $deck = &GetDeck($opponent);
       if(count($deck) > 0) {
-        Draw($opponent);
+      AddDecisionQueue("SETDQCONTEXT", $opponent, "Do you want to draw a card for Hylobon Enforcer's bounty?");
+      AddDecisionQueue("YESNO", $opponent, "-");
+      AddDecisionQueue("NOPASS", $opponent, "-");
+      AddDecisionQueue("DRAW", $opponent, "-", 1);
       }
       break;
     case "8679638018"://Wanted Insurgents
