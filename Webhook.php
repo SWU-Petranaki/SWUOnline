@@ -1,4 +1,6 @@
 <?php
+echo exec('whoami');
+
   // Configuration
   $secret = getenv('WEBHOOK_SECRET'); // Get secret from environment variable
   $signature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
@@ -17,7 +19,7 @@
   // Check if the push is to the 'main' branch
   if ($data['ref'] !== 'refs/heads/main') {
     http_response_code(200); // No action taken
-    die('Not a push to the petranaki branch');
+    die('Not a push to the main branch');
   }
 
   // Execute `git pull` in the current directory
