@@ -50,23 +50,8 @@ https://docs.google.com/document/d/10u3qGpxr1ddvwobq8__lVZfYCgqtanZShHEaYljiA1M/
 
 This guide explains how to set up CI/CD, including deploying with GitHub, securing webhooks, and configuring environment variables.
 
-#### 1. Set Up a Deploy Key
-- On the server, generate an SSH key pair by running:
-  ```bash
-  ssh-keygen -t rsa -b 4096 -C "deploy-key"
-  ```
-  This will create two files:
-  - **Private Key**: `~/.ssh/id_rsa`
-  - **Public Key**: `~/.ssh/id_rsa.pub`
 
-- In your GitHub repository, go to **Settings > Deploy Keys** and add the content of `~/.ssh/id_rsa.pub` as a new deploy key.
-
-- Test the SSH connection to GitHub:
-  ```bash
-  ssh -T git@github.com
-  ```
-
-#### 2. Configure a Webhook
+#### 1. Configure a Webhook
 - Generate a secret key to secure the webhook:
   ```bash
   openssl rand -hex 32
@@ -80,7 +65,7 @@ This guide explains how to set up CI/CD, including deploying with GitHub, securi
   - **SSL Verification**: Enabled
   - **Events**: Select "Just the push event" to trigger the webhook on push events.
 
-#### 3. Configure `.htaccess`
+#### 2. Configure `.htaccess`
 To secure your project and set environment variables:
 - Navigate to your project directory: `/var/www/html/petranaki`
 - Create or edit an `.htaccess` file with the following content:
@@ -106,29 +91,30 @@ To secure your project and set environment variables:
 
 This configuration ensures that the `.git` folder is inaccessible and adds environment variables for your project.
 
-#### 4. Connect the Project to GitHub
-If your project is not yet connected to GitHub, follow these steps:
+#### 3. Sync the Project to GitHub
+If your project is not yet synced to GitHub, follow these steps:
 
 - Initialize the project as a Git repository:
   ```bash
   git init
   ```
 
-- Add the GitHub repository as the remote origin:
+- Fetch the project from GitHub:
   ```bash
-  git remote add origin git@github.com:SWU-Petranaki/SWUOnline.git
+  git fetch https://github.com/SWU-Petranaki/SWUOnline.git main
   ```
 
-- Sync the project with the remote repository:
+- Reset the project to the latest version:
   ```bash
-  git fetch --all
-  ```
-
-- Ensure the server files match the repository by running:
-  ```bash
-  git reset --hard origin/main
+  git reset --hard FETCH_HEAD
   ```
   **Note**: Files listed in `.gitignore` will remain unaffected. Back up important files before running this command to avoid accidental data loss.
+
+- Pull the latest changes from GitHub:
+  ```bash
+  git pull https://github.com/SWU-Petranaki/SWUOnline.git main
+  ```
+  
 
 #### 5. Grant Permissions to the `apache` User
 The `Webhook.php` script will execute using the `apache` user, so it must have permissions to run `git pull`.
