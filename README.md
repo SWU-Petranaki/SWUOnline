@@ -130,8 +130,8 @@ If your project is not yet connected to GitHub, follow these steps:
   ```
   **Note**: Files listed in `.gitignore` will remain unaffected. Back up important files before running this command to avoid accidental data loss.
 
-#### 5. Grant Permissions to the `daemon` User
-The `Webhook.php` script will execute using the `daemon` user, so it must have permissions to run `git pull`.
+#### 5. Grant Permissions to the `apache` User
+The `Webhook.php` script will execute using the `apache` user, so it must have permissions to run `git pull`.
 
 - Edit the sudoers file:
   ```bash
@@ -140,7 +140,7 @@ The `Webhook.php` script will execute using the `daemon` user, so it must have p
 
 - Add the following line to grant limited permissions:
   ```text
-  daemon ALL=(ALL) NOPASSWD: /usr/bin/git
+  apache ALL=(ALL) NOPASSWD: /usr/bin/git
   ```
 
 #### Final Steps
