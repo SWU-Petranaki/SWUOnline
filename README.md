@@ -143,5 +143,31 @@ The `Webhook.php` script will execute using the `apache` user, so it must have p
   apache ALL=(ALL) NOPASSWD: /usr/bin/git
   ```
 
+#### 6. Set Up SSH for Apache User (Amazon Linux 2023)
+On Amazon Linux 2023 with httpd, you need to create an SSH directory for the apache user and copy the SSH keys created in Step 1.
+
+- Create the SSH directory for the apache user:
+  ```bash
+  sudo mkdir -p /usr/share/httpd/.ssh
+  ```
+
+- Copy the SSH keys from your user to the apache user:
+  ```bash
+  sudo cp ~/.ssh/id_rsa /usr/share/httpd/.ssh/
+  sudo cp ~/.ssh/id_rsa.pub /usr/share/httpd/.ssh/
+  ```
+
+- Set proper ownership and permissions for the SSH directory and keys:
+  ```bash
+  sudo chown -R apache:apache /usr/share/httpd/.ssh
+  ```
+
+- Test the SSH connection as the apache user:
+  ```bash
+  sudo -u apache ssh -T git@github.com
+  ```
+
+This ensures that the apache user can authenticate with GitHub when the webhook triggers a git pull operation.
+
 #### Final Steps
 Your project is now configured for CI/CD. Any commit pushed to the `main` branch will trigger the webhook, which executes a `git pull` on the server to update the project files automatically.

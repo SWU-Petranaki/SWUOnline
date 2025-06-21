@@ -1,6 +1,4 @@
 <?php
-echo exec('whoami');
-
   // Configuration
   $secret = getenv('WEBHOOK_SECRET'); // Get secret from environment variable
   $signature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
