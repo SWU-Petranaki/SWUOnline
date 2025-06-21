@@ -82,16 +82,26 @@ This guide explains how to set up CI/CD, including deploying with GitHub, securi
 
 #### 3. Configure `.htaccess`
 To secure your project and set environment variables:
-- Navigate to your project directory: `/opt/lampp/htdocs/Arena`
+- Navigate to your project directory: `/var/www/html/petranaki`
 - Create or edit an `.htaccess` file with the following content:
   ```apache
   RedirectMatch 404 /\.git
   SetEnv MYSQL_SERVER_NAME localhost
   SetEnv MYSQL_SERVER_USER_NAME root
-  SetEnv MYSQL_ROOT_PASSWORD <mysql-root-password>
+  SetEnv MYSQL_ROOT_PASSWORD <mysql-password> (password for the custom user)
   SetEnv WEBHOOK_SECRET <webhook-secret>
   SetEnv PATREON_CLIENT_ID <patreon-client-id>
   SetEnv PATREON_CLIENT_SECRET <patreon-client-secret>
+
+  RewriteEngine On
+
+  # Redirect to MainMenu.php if the request is for the root directory
+  RewriteCond %{REQUEST_URI} ^/$
+  RewriteRule ^$ /Arena/MainMenu.php [R=302,L]
+
+  # Redirect to MainMenu.php if the request is for the Arena directory
+  RewriteCond %{REQUEST_URI} ^/Arena/?$
+  RewriteRule ^Arena/?$ /Arena/MainMenu.php [R=302,L]
   ```
 
 This configuration ensures that the `.git` folder is inaccessible and adds environment variables for your project.

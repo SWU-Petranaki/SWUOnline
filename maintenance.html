@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Maintenance - Petranaki</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('./Images/petranaki_arena_cartoon_sabers2.webp');
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .maintenance-container {
+            background: rgba(90, 70, 30, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 10px;
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(150, 130, 90, 0.3);
+        }
+
+        .maintenance-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, rgba(120, 100, 60, 0.8), rgba(140, 120, 80, 0.9));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(120, 100, 60, 0.4);
+            border: 2px solid rgba(150, 130, 90, 0.5);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #aaaaaa;
+        }
+
+        .message {
+            font-size: 16px;
+            line-height: 130%;
+            color: white;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(40, 150, 50, 0.3);
+            color: #c0ffc0;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            border: 1px solid rgba(40, 150, 50, 0.5);
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #c0ffc0;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .estimated-time {
+            background: rgba(180, 60, 60, 0.3);
+            border: 1px solid rgba(180, 60, 60, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .estimated-time h3 {
+            color: #ffc0c0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .estimated-time p {
+            color: #ffc0c0;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .contact-info {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-info p {
+            color: #aaaaaa;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            color: #bddbff;
+            text-decoration: underline;
+            font-weight: 400;
+        }
+
+        .contact-info a:hover {
+            color: lightsalmon;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .maintenance-container {
+                padding: 40px 20px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .maintenance-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .maintenance-container {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .message {
+                font-size: 14px;
+            }
+
+            .contact-info p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="maintenance-icon">
+            🔧
+        </div>
+        
+        <h1>Petranaki Maintenance</h1>
+        <p class="subtitle">Temporary Downtime</p>
+        
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            Fixing Issues
+        </div>
+        
+        <p class="message">
+            We encountered a technical issue with Petranaki and need to perform emergency maintenance to resolve it. 
+            Our team is working quickly to get the game back online as soon as possible.
+        </p>
+        
+        <div class="estimated-time">
+            <h3>⏰ Estimated Completion</h3>
+            <p>We expect to be back online within the next few hours. Thank you for your patience!</p>
+        </div>
+        
+        <div class="contact-info">
+            <p>Follow us on <a href="https://discord.gg/Vs7wWFJQE3" target="_blank">Discord</a> for updates</p>
+        </div>
+    </div>
+</body>
+</html> 
