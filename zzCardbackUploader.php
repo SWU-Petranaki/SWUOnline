@@ -6,14 +6,14 @@ include_once './includes/functions.inc.php';
 include_once "./includes/dbh.inc.php";
 include_once './AccountFiles/AccountSessionAPI.php';
 
-if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== 0) {
-  exit;
-}
+// if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== 0) {
+//   exit;
+// }
 
-if (!IsUserLoggedInAsMod()) {
-  echo ("You must log in to use this page.");
-  exit;
-}
+// if (!IsUserLoggedInAsMod()) {
+//   echo ("You must log in to use this page.");
+//   exit;
+// }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $displayName = $_POST['displayName'] ?? '';
