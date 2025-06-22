@@ -344,9 +344,6 @@ function GetCardBack($player, $index="")
  57 => "CB_SWDadFamily",
  58 => "Unplayable",
  59 => "WasatchWookies",
- 60 => "CoastalCantina",
- 61 => "TopCutTarget",
- 62 => "MoTheMonster",
  //continue adding card backs here
     default => "CardBack",
   };
