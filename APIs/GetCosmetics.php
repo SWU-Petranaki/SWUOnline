@@ -230,6 +230,31 @@ $cardBack = new stdClass();
 $cardBack->name = "Star Wars Dad (Family)";
 $cardBack->id = 57;
 $response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Coastal CantinaBG";
+$cardBack->id = 60;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "MoTheMonster";
+$cardBack->id = 61;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Coastal Cantina";
+$cardBack->id = 62;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Coastal Cantina (Name)";
+$cardBack->id = 63;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Top Cut Target";
+$cardBack->id = 64;
+$response->cardBacks[] = $cardBack;
 
 //continue adding card backs here
 
