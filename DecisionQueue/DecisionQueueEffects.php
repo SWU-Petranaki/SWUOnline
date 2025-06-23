@@ -1192,10 +1192,10 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $cards = explode(",",$dqVars[0]);
       $index = array_search($lastResult, $cards);
       unset($cards[$index]);
-      $cardLeft = array_values($cards)[0];
-      $dqVars[0] = implode(",", $cards);
-      AddHand($player, $lastResult);
-      AddGraveyard($cardLeft, $player, "DECK");
+      $cardLeft = array_values($cards)[0] ?? "";
+      AddPlayerHand($lastResult, $player, "DECK");
+      if($cardLeft != "")
+        AddGraveyard($cardLeft, $player, "DECK");
       break;
     case "CAT_AND_MOUSE":
       $enemyAlly = new Ally($lastResult);

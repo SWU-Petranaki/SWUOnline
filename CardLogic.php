@@ -1578,12 +1578,16 @@ function ReyPalpatineLOF($player) {
   $leaderID = FindLeaderInPlay($player);
   $baseID = GetPlayerCharacter($player)[0];
   if(AspectContains($leaderID, "Aggression", $player) || AspectContains($baseID, "Aggression", $player)) {
-    WriteLog(CardLink("6172986745", "6172986745") ." was drawn during action phase and deals 2 damage to a base and a unit");
-    DealDamageAsync($otherPlayer, 2, "DAMAGE", "1047592361", sourcePlayer:$player);
-    AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
-    AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal 2 damage to");
+    AddDecisionQueue("SETDQCONTEXT", $player, "Do you want to reveal Rey?", 1);
+    AddDecisionQueue("YESNO", $player, "", 1);
+    AddDecisionQueue("NOPASS", $player, "-", 1);
+    AddDecisionQueue("PASSPARAMETER", $player, "THEIRCHAR-0", 1);
+    AddDecisionQueue("MZOP", $player, DealDamageBuilder(2, $player, false), 1);
+    AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
+    AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal 2 damage to", 1);
     AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
     AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
+    AddDecisionQueue("WRITELOG", $player, CardLink("6172986745", "6172986745") ." was drawn during action phase and deals 2 damage to a base and a unit", 1);
   }
 }
 
