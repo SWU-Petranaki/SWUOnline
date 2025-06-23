@@ -396,7 +396,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
 
   //Marchion Ro
   $marchionRoIndex = SearchAlliesForCard($player, "4627342747");
-  if($marchionRoIndex !== false && $marchionRoIndex !== "") $amount*=2; 
+  if($marchionRoIndex !== false && $marchionRoIndex !== "") $amount*=2;
 
   if($amount > 0 && $ally->LostAbilities()) return 0;
 
@@ -2508,6 +2508,18 @@ function UpgradeFilter($cardID)
       return "trait!=Jedi";//TODO: look into mixed = and != for trait=Vehicle&trait!=Jedi
     //end other filters
     default: return "";
+  }
+}
+
+function UpgradeIsOnlyForFriendlyUnits($cardID) {
+  switch($cardID) {
+    case "8877249477"://Legal Authority
+    case "0754286363"://The Mandalorian's Rifle
+    case "3848295601"://Craving Power
+    case "2167393423"://Darth Maul's Lightsaber
+    case "3445044882"://Qui-Gon Jinn's Lightsaber
+      return true;
+    default: return false;
   }
 }
 

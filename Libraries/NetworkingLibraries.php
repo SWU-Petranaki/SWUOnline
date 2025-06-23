@@ -1975,7 +1975,7 @@ function GetLayerTarget($cardID)
 
   $piloting = PilotingCost($cardID) >= 0 && GetClassState($currentPlayer, $CS_PlayedAsUpgrade) > 0;
   if (DefinedTypesContains($cardID, "Upgrade", $currentPlayer) || $piloting) {
-    $upgradeTargets = $piloting ? "MYALLY" : "MYALLY&THEIRALLY";
+    $upgradeTargets = ($piloting || UpgradeIsOnlyForFriendlyUnits($cardID)) ? "MYALLY" : "MYALLY&THEIRALLY";
     $upgradeFilter = UpgradeFilter($cardID);
     AddDecisionQueue("PASSPARAMETER", $currentPlayer, $cardID);
     AddDecisionQueue("SETDQVAR", $currentPlayer, "0");
