@@ -350,7 +350,7 @@ function GetCardBack($player, $index="")
     63 => "TopCutTarget",
     64 => "CB_outerteam",
     65 => "CB_swuneff",
- //continue adding card backs here
+    //continue adding card backs here
     default => "CardBack",
   };
 }
