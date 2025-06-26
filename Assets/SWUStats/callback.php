@@ -50,7 +50,18 @@ include_once __DIR__ . '/../../AccountFiles/AccountSessionAPI.php';
 
 $userId = LoggedInUser();
 if (!$userId) {
-    die('User not logged in.');
+    if (isset($_COOKIE["rememberMeToken"])) {
+        include_once '../Assets/patreon-php-master/src/PatreonLibraries.php';
+        include_once '../Assets/patreon-php-master/src/API.php';
+        include_once '../Assets/patreon-php-master/src/PatreonDictionary.php';
+        include_once '../../includes/functions.inc.php';
+        include_once '../../includes/dbh.inc.php';
+        loginFromCookie();
+    }
+    $userId = LoggedInUser();
+    if (!$userId) {
+        die('User not logged in.');
+    }
 }
 
 $conn = GetLocalMySQLConnection();
