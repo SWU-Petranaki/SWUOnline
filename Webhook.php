@@ -21,8 +21,8 @@
   }
 
   // Execute `git pull` in the current directory
-  // Ensure that sudo is configured to allow the "apache" user to run git pull without a password prompt
-  // by adding the following line to the sudoers file: "apache ALL=(ALL) NOPASSWD: /usr/bin/git"
+  // Ensure that sudo is configured to allow the "daemon" user to run git pull without a password prompt
+  // by adding the following line to the sudoers file: "daemon ALL=(ALL) NOPASSWD: /usr/bin/git"
   exec('git pull https://github.com/SWU-Petranaki/SWUOnline.git 2>&1', $output, $result);
 
   // SWUStats Webhook

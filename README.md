@@ -116,8 +116,8 @@ If your project is not yet synced to GitHub, follow these steps:
   ```
   
 
-#### 5. Grant Permissions to the `apache` User
-The `Webhook.php` script will execute using the `apache` user, so it must have permissions to run `git pull`.
+#### 5. Grant Permissions to the `daemon` User
+The `Webhook.php` script will execute using the `daemon` user, so it must have permissions to run `git pull`.
 
 - Edit the sudoers file:
   ```bash
@@ -126,10 +126,10 @@ The `Webhook.php` script will execute using the `apache` user, so it must have p
 
 - Add the following line to grant limited permissions:
   ```text
-  apache ALL=(ALL) NOPASSWD: /usr/bin/git
+  daemon ALL=(ALL) NOPASSWD: /usr/bin/git
   ```
 
-This ensures that the apache user can authenticate with GitHub when the webhook triggers a git pull operation.
+This ensures that the daemon user can authenticate with GitHub when the webhook triggers a git pull operation.
 
 #### Final Steps
 Your project is now configured for CI/CD. Any commit pushed to the `main` branch will trigger the webhook, which executes a `git pull` on the server to update the project files automatically.
