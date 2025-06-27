@@ -1992,11 +1992,11 @@ function AllyHasWhenPlayCardAbility($playedCardID, $playedCardUniqueID, $from, $
       case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
         return !$thisAlly->HasEffect($cardID) && $playedAUnit && TraitContains($playedCardID, "Force", $player);
       case "7338701361"://Luke Skywalker (A Hero's Beginning)
-        return !$thisIsNewlyPlayedAlly && $playedAUnit && CardIsUnique($playedCardID) && HasTheForce($currentPlayer);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit && CardIsUnique($playedCardID);
       case "4145147486"://Kylo Ren LOF
         return $playedAnUpgrade && $thisAlly->HasUpgrade($playedCardID, $playedCardUniqueID);
       case "7821324752"://Eighth Brother
-        return !$thisIsNewlyPlayedAlly && $playedAUnit && HasTheForce($currentPlayer);
+        return !$thisIsNewlyPlayedAlly && $playedAUnit;
       default: break;
     }
   } else { // When an opponent plays a card
