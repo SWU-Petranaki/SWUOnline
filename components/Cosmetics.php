@@ -54,17 +54,16 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-" . 52, "Les Cartes sur Table", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 53, "Against The Galaxy", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-54", "Canadian Snow Troopers", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-55", "Omaha Alliance", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-56", "Star Wars Dad (Dad)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-57", "Star Wars Dad (Family)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-58", "Unplayable", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-59", "Wasatch Wookies", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-60", "Coastal CantinaBG", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-61", "MoTheMonster", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-62", "Coastal Cantina", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-63", "Coastal Cantina (Name)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-64", "Top Cut Target", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- //continue adding card backs here
+  $rv .= CreateSelectOption($SET_Cardback . "-55", "Omaha Alliance", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-56", "Star Wars Dad (Dad)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-57", "Star Wars Dad (Family)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-58", "Unplayable", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-59", "Wasatch Wookies", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-60", "MoTheMonster", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-61", "Coastal Cantina", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-62", "Coastal Cantina (Name)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-63", "Top Cut Target", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  //continue adding card backs here
   return $rv;
 }
 
