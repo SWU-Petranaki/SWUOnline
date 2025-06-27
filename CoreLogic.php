@@ -425,7 +425,7 @@ function PlayerWon($playerID, $concededMatch = false)
 
   try {
     if (!AreStatsDisabled(1) && !AreStatsDisabled(2) && !IsDevEnvironment()) {
-      if(!$isDev) SendSWUStatsResults();
+      SendSWUStatsResults();
     }
   } catch (Exception $e) {
 
