@@ -1,4 +1,4 @@
-# SWUOnline
+# SWUOnline - Petranaki
 Star Wars Unlimited Sim
 
 ## Contact info
