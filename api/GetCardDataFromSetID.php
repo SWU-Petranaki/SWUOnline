@@ -34,12 +34,32 @@ function fetchAndCacheJson($url, $cacheKey, $cacheTtl = 86400) {
   if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTtl)) {
     $data = file_get_contents($cacheFile);
   } else {
-    $data = file_get_contents($url);
-    if ($data !== false) {
-      file_put_contents($cacheFile, $data);
-    } else {
+    // Use cURL to fetch the URL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'PHP-cURL-fetcher/1.0');
+    // Optional: disable SSL verify temporarily if you're testing a broken SSL setup
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    $data = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+      $error = curl_error($ch);
+      error_log("cURL Error fetching $url: $error");
       $data = '{}';
+    } else {
+      $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      if ($httpCode >= 400) {
+        error_log("cURL HTTP $httpCode error on $url");
+        $data = '{}';
+      } else {
+        file_put_contents($cacheFile, $data);
+      }
     }
+
+    curl_close($ch);
   }
 
   return json_decode($data, true, 512, JSON_OBJECT_AS_ARRAY);
