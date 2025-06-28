@@ -200,7 +200,7 @@ $baseUri = "/Arena";
                       <ul id='tools-dd' class='dropdown-content'>
                         <li><a href='$baseUri/Tools/OnePlayerMode.php'>One Player Mode (Beta)</a></li>
                         <li><a href='$baseUri/Tools/ShuffleIntegrity.php'>Shuffle Integrity</a></li>
-                        <li><a href='$baseUri/Tools/MeleeToJson.php'>Melee To JSON</a></li>
+                        <li><a href='$baseUri/Tools/TCGPMEConverter.php'>TCGP ME Converter</a></li>
                       </ul>
                     </li>";
                     echo "<li><a href='https://swustats.net/TCGEngine/SharedUI/MainMenu.php' target='_blank' class='NavBarItem'>SWU Stats</a></li>";
@@ -265,7 +265,7 @@ $baseUri = "/Arena";
                   <ul id='tools-dd-mobile' class='dropdown-content'>
                     <li><a href='$baseUri/Tools/OnePlayerMode.php'>One Player Mode (Beta)</a></li>
                     <li><a href='$baseUri/Tools/ShuffleIntegrity.php'>Shuffle Integrity</a></li>
-                    <li><a href='$baseUri/Tools/MeleeToJson.php'>Melee To JSON</a></li>
+                    <li><a href='$baseUri/Tools/TCGPMEConverter.php'>TCGP ME Converter</a></li>
                   </ul>
                 </li>";
                 echo "<li><a href='https://swustats.net/TCGEngine/SharedUI/MainMenu.php' target='_blank' class='NavBarItem'>SWU Stats</a></li>";
