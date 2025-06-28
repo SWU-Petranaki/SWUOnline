@@ -13,6 +13,12 @@ services:
     depends_on:
       - redis
       - mysql-server
+    dns: 8.8.8.8
+    dns_opt:
+      - use-vc
+      - no-tld-query
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       PHP_FPM_CLEAR_ENV: "no"
       MYSQL_ROOT_PASSWORD: "secret"
