@@ -261,6 +261,11 @@ $cardBack->name = "Top Cut Target";
 $cardBack->id = 63;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Outer Team";
+$cardBack->id = 64;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
