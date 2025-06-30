@@ -348,6 +348,7 @@ function GetCardBack($player, $index="")
     61 => "CoastalCantina",
     62 => "CoastalCantinaName",
     63 => "TopCutTarget",
+    64 => "CB_outerteam",
  //continue adding card backs here
     default => "CardBack",
   };
