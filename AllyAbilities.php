@@ -228,6 +228,7 @@ function AllyHasStaticHealthModifier($cardID)
 {
   switch($cardID)
   {
+    case "7648077180"://97th Legion
     case "1557302740"://General Veers
     case "9799982630"://General Dodonna
     case "3666212779"://Captain Tarkin
@@ -269,6 +270,9 @@ function AllyStaticHealthModifier($cardID, $index, $player, $myCardID, $myIndex,
 
   switch($myCardID)
   {
+    case "7648077180"://97th Legion
+      if($self) return NumResources($player);
+      break;
     case "1557302740"://General Veers
       if($eachOtherFriendly && TraitContains($cardID, "Imperial", $player)) return 1;
       break;
@@ -785,19 +789,6 @@ function TheirAllyDoesAbilityExhaust($cardID) {
       return $abilityName != "Take Control";
     default: return true;
   }
-}
-
-function AllyHealth($cardID, $playerID="")
-{
-  $health = CardHP($cardID);
-  switch($cardID)
-  {
-    case "7648077180"://97th Legion
-      $health += NumResources($playerID);
-      break;
-    default: break;
-  }
-  return $health;
 }
 
 function AllyLeavesPlayAbility($player, $index)
