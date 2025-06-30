@@ -911,7 +911,7 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
       AddCurrentTurnEffect("8968669390", $player);
       PlayCard($target, "DECK");
       //hacks to resolve layers off of U-Wing plays
-      if($unitNum == $totalUnits && $unitNum%2 == 1 && count($layers) == 0 && count($decisionQueue) == 0)
+      if ($unitNum <= $totalUnits && count($layers) == 0 && count($decisionQueue) == 0)
         AddDecisionQueue("SWAPTURN", $player, "-", 1);
       break;
     case "5942811090": //Luke Skywalker (You Still With Me?)
