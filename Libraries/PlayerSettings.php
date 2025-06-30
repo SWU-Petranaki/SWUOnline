@@ -530,7 +530,7 @@ function GetSettingsUI($player)
   global $SET_CasterMode, $SET_StreamerMode, $SET_DisableAnimations;
   $rv = "";
   $settings = GetSettings($player);
-  $rv = "<h3>Card Backs (public available: 25)</h3>";
+  $rv = "<h3>Card Backs (Public)</h3>";
   $submitLink = ProcessInputLink("", 26, "select", "onchange", true);
   $rv .= "<select id='cardbacksSelect' class='settingsSelect'" . $submitLink . ">";
   $rv .= CardbacksDropdowns($settings);
@@ -545,7 +545,7 @@ function GetSettingsUI($player)
   $rv .= "</select>";
   $rv .= "<BR>";
 
-  $rv .= "<h3>Backgrounds (public available: 14)</h3>";
+  $rv .= "<h3>Backgrounds</h3>";
   $submitLink = ProcessInputLink($player, 26, "select", "onchange", true);
   $rv .= "<select id='backgroundSelect' class='settingsSelect'" . $submitLink . ">";
   $rv .= GameBackgroundDropdowns($settings);
