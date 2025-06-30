@@ -1465,6 +1465,7 @@ function SpecificCardHP($mzID, $player = -1)
       }
     }
   }
+
   return CardHPDictionary($cardID);
 }
 
