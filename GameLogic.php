@@ -884,12 +884,13 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           $upgrades = $attachedAlly->GetUpgrades(withMetadata:true);
           [$fromEpicAction, $turnsInPlay] = TupleFirstUpgradeWithCardID($upgrades, $lastResult);
           $attachedAlly->RemoveSubcard($lastResult, moving:true);
-          $newUID = PlayAlly($lastResult, $attachedAlly->Owner(), epicAction:$fromEpicAction, turnsInPlay: $turnsInPlay);
+          $playedFrom = $fromEpicAction ? "EPICACTION" : "UPGRADE";
+          $newUID = PlayAlly($lastResult, $attachedAlly->Owner(), from:$playedFrom, turnsInPlay: $turnsInPlay);
           if($subcardIsLeader) Ally::FromUniqueId($newUID)->Exhaust();
           return $newUID;
         case "FALLENPILOTUPGRADE":
           $params = explode(",", $lastResult);
-          $newUID = PlayAlly($params[0], $player, epicAction:false, turnsInPlay:$params[1]);//so far only Luke Skywalker JTL
+          $newUID = PlayAlly($params[0], $player, from:"UPGRADE", turnsInPlay:$params[1]);//so far only Luke Skywalker JTL
           $discard = &GetDiscard($player);
           for($i=0; $i<count($discard); $i+=DiscardPieces()) {
             if($discard[$i] == $params[0]) {

@@ -258,8 +258,12 @@ class Ally {
     return $isLeaderPilot || PilotingCost($cardID) >= 0 && GetClassState($player, $CS_PlayedAsUpgrade) == "1";
   }
 
+  function From() {
+    return $this->allies[$this->index+16];
+  }
+
   function FromEpicAction() {
-    return $this->allies[$this->index+16] == 1;
+    return $this->allies[$this->index+16] == "EPICACTION";
   }
 
   function IsExhausted() {
