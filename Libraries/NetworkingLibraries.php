@@ -2052,7 +2052,7 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
           trait:"Vehicle",
           canAddPilot: $cardID != "5375722883")) > 0)//R2-D2 JTL
     {
-      if (!SearchCurrentTurnEffects("0011262813", $currentPlayer)) {//Wedge Antilles Leader
+      if (!MustPlayPilot($currentPlayer)) {
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose to play as a pilot or unit");
         AddDecisionQueue("BUTTONINPUT", $currentPlayer, "Pilot,Unit");
         AddDecisionQueue("NOTEQUALPASS", $currentPlayer, "Pilot");
@@ -2100,6 +2100,13 @@ function AddPrePitchDecisionQueue($cardID, $from, $index = -1, $skipAbilityType 
     default:
       break;
   }
+}
+
+function MustPlayPilot($player) {
+  return SearchCurrentTurnEffects("0011262813", $player)//Wedge Antilles Leader
+    || SearchCurrentTurnEffects("8536024453", $player)//Anakin Skywalker Leader
+    || SearchCurrentTurnEffects("7d9f8bcb9b", $player)//Anakin Skywalker Leader unit
+  ;
 }
 
 function GetTargetsForAttack(Ally $attacker, bool $canAttackBase)

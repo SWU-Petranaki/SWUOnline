@@ -6978,13 +6978,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         } else {
           UseTheForce($currentPlayer);
           AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:aspect=Villainy");
-          AddDecisionQueue("MZFILTER", $currentPlayer, "definedType=Unit");
           AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a non-unit card to play");
           AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
           AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
           AddDecisionQueue("ADDCURRENTEFFECT", $currentPlayer, $cardID, 1);
           AddDecisionQueue("PASSPARAMETER", $currentPlayer, "{0}", 1);
-          AddDecisionQueue("MZOP", $currentPlayer, "PLAYCARD", 1);
+          AddDecisionQueue("MZOP", $currentPlayer, "GETCARDID", 1);
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "ANAKINSKYWALKER_LOF", 1);
         }
       }
       break;

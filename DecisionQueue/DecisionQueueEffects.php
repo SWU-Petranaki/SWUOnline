@@ -1563,6 +1563,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         AddCurrentTurnEffect("0406487670", $player, "PLAY", $parameterArr[1]);
       }
       break;
+    case "ANAKINSKYWALKER_LOF":
+      $verify = !DefinedTypesContains($lastResult, "Unit") || (HasKeyword($lastResult, "Piloting") && SearchCount(SearchAllies($player, canAddPilot:true)) > 0);
+      if(!$verify) {
+        WriteLog("<span style='color:red;'>Anakin Skywalker (Legends of the Force) can only tap into the dark side for non-unit cards.</span> Reverting gamestate.");
+        RevertGamestate();
+        return "";
+      }
+      AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
+      break;
     case "ALWAYS_TWO":
       $numSith = 0;
       $units = &GetAllies($player);
