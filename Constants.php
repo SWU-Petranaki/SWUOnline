@@ -139,7 +139,7 @@ function ResourcePieces() { return ArsenalPieces(); }
 //13 - Cloned - 0 = no, 1 = yes
 //14 - Healed
 //15 - Arena Override
-//16 - From Epic Action (1 = yes, 0 = no)
+//16 - From ("HAND", "DECK", "RESOURCES", "EPICACTION", "CAPTIVE", etc.)
 function AllyPieces()
 {
   return 17;

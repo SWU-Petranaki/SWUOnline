@@ -2416,7 +2416,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       if($abilityName == "Deploy" || $abilityName == "") {
         $epicAction = $cardID != "3905028200" ? 1 : 0;//Admiral Trench leader (so far the only one)
-        $playUniqueID = PlayAlly(LeaderUnit($cardID), $currentPlayer, epicAction:$epicAction);
+        if($epicAction) $from = "EPICACTION";
+        $playUniqueID = PlayAlly(LeaderUnit($cardID), $currentPlayer, from:$from);
         if (HasShielded(LeaderUnit($cardID), $currentPlayer, Ally::FromUniqueId($playUniqueID)->Index())) {
           AddLayer("TRIGGER", $currentPlayer, "SHIELDED", "-", "-", $playUniqueID);
         }

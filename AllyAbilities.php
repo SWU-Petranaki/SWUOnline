@@ -19,8 +19,7 @@ function CreateTieFighter($player, $from = "-") {
 
 // This function put an ally into play for a player, which means no when played abilities are triggered.
 function PlayAlly($cardID, $player, $subCards = "-", $from = "-",
-  $owner = null, $cloned = false, $playAbility = false,
-  $epicAction = false, $turnsInPlay = 0) {
+  $owner = null, $cloned = false, $playAbility = false, $turnsInPlay = 0) {
   if($from == "TGY") {
     $owner = $player == 1 ? 2 : 1;
   }
@@ -43,7 +42,7 @@ function PlayAlly($cardID, $player, $subCards = "-", $from = "-",
   $allies[] = $cloned ? 1 : 0; //Cloned
   $allies[] = 0; //Healed this turn
   $allies[] = "NA";//Arena Override
-  $allies[] = $epicAction ? 1 : 0; //Epic Action
+  $allies[] = $from; //From
   $index = count($allies) - AllyPieces();
   CurrentEffectAllyEntersPlay($player, $index);
   CheckUniqueCard($cardID, $uniqueID);
@@ -1779,7 +1778,7 @@ function AllyCanBeAttackTarget($player, $index, $cardID)
     }
   }
 
-  if(HasHidden($cardID, $player, $index) && $ally->TurnsInPlay() == 0 && !HasSentinel($cardID, $player, $index)) {
+  if(HasHidden($cardID, $player, $index) && $ally->From() != "CAPTIVE" && $ally->TurnsInPlay() == 0 && !HasSentinel($cardID, $player, $index)) {
     return false;
   }
 

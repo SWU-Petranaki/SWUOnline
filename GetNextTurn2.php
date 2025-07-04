@@ -1425,7 +1425,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         'showCounterControls' => $showCounterControls,
         'counterLimit' => $counterLimit,
         'counterLimitReached' => $counterLimitReached,
-        'currentlyHidden' => HasHidden($theirAllies[$i], $otherPlayer, $i) && $theirAllies[$i + 12] == 0,
+        'currentlyHidden' => HasHidden($theirAllies[$i], $otherPlayer, $i) && $theirAllies[$i + 12] == 0 && $theirAllies[$i + 16] != "CAPTIVE",
       );
       $isUnimplemented = IsUnimplemented($theirAllies[$i]);
       $cardArena = $ally->CurrentArena();
@@ -1622,7 +1622,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
         'showCounterControls' => $showCounterControls,
         'counterLimit' => $counterLimit,
         'counterLimitReached' => $counterLimitReached,
-        'currentlyHidden' => HasHidden($myAllies[$i], $playerID, $i) && $myAllies[$i + 12] == 0,
+        'currentlyHidden' => HasHidden($myAllies[$i], $playerID, $i) && $myAllies[$i + 12] == 0 && $myAllies[$i + 16] != "CAPTIVE",
       );
       $isUnimplemented = IsUnimplemented($myAllies[$i]);
       $cardArena = $ally->CurrentArena();
