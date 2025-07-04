@@ -75,6 +75,7 @@ $currentPlayerInputTimeout = false;
 //premier strict
 $parsedFormat = GetCurrentFormat();
 $isPremierStrict = $parsedFormat === Formats::$PremierStrict || $parsedFormat === Formats::$PreviewStrict;
+$isPremierQuick = $parsedFormat === Formats::$PremierQuick;
 $endBo3 = BestOf3IsOver();
 $isPrivate = GetCachePiece($gameName, 9) == "0";
 
@@ -640,7 +641,7 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       $myWins = GetCachePiece($gameName, $playerID + 24);
       $theirWins = GetCachePiece($gameName, $otherP + 24);
       $content = "";
-      $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict);
+      $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict, $isPremierQuick);
       if ($playerID != 3) {
         $time = ($playerID == 1 ? $p1TotalTime : $p2TotalTime);
         $totalTime = $p1TotalTime + $p2TotalTime;

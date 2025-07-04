@@ -654,7 +654,7 @@ function FormatCode($format)
       return 5;
     case "pwstrict":
       return 6;
-    case "-unused-":
+    case "prquickf":
       return 7;
     case "civilwar":
       return 8;

@@ -80,7 +80,10 @@ else if ($playerID == 2 && $gameStatus >= $MGS_ReadyToStart)
 $isMobile = IsMobile();
 $parsedFormat = GetCurrentFormat();
 $currentRoundGame = intval(GetCachePiece($gameName, 24));
-$canSideboard = (Formats::$PremierStrict != $parsedFormat && Formats::$PreviewStrict != $parsedFormat) || $currentRoundGame !== 1;
+$canSideboard = (
+  (Formats::$PremierStrict != $parsedFormat && Formats::$PreviewStrict != $parsedFormat)
+  || $currentRoundGame !== 1
+) && $parsedFormat != Formats::$PremierQuick;
 $canLeaveLobby = (Formats::$PremierStrict != $parsedFormat && Formats::$PreviewStrict != $parsedFormat) || $currentRoundGame === 1;
 
 $arenaBotPremierStrictMessage = "By joining this lobby, you are agreeing to a Best of 3 Game. Any premature exit in the middle of a game will be considered unsportsmanlike behavior and could result in a ban. If you joined by mistake, please leave this lobby and join a casual lobby instead.";
@@ -402,7 +405,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
 
     function CardClick(id) {
       if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
-        alert('In the Premier format, you cannot sideboard Game 1\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
+        alert('In this format, you cannot sideboard at this time\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
         return;
       }
       var idArr = id.split("-");

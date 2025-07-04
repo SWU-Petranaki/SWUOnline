@@ -8,6 +8,8 @@ class Formats {
   public static $PreviewFormat = "previewf";
   //temp formats
   public static $PreviewStrict = "pwstrict";
+  //quick match
+  public static $PremierQuick = "prquickf";
   //fun formats
   public static $PadawanFormat = "padawanf";
   public static $SandcrawlerFormat = "sndcrawl";
@@ -34,7 +36,7 @@ class Formats {
       4 => Formats::$PadawanFormat,
       5 => Formats::$SandcrawlerFormat,
       6 => Formats::$PreviewStrict,
-      //7 =>
+      7 => Formats::$PremierQuick,
       8 => Formats::$GalacticCivilWar,
       9 => Formats::$CloneWars,
       //10 => Formats::$GreyJedi,
@@ -190,10 +192,10 @@ function DeckModifier($base): int {
 
 function IsAllowed($cardID, $format): bool {
   $banned = [
-    "4626028465",//Boba Fett Leader SOR
-    "9155536481", //Jango Fett TWI
-    "4002861992",//DJ Blatent Thief
-    "5696041568"//Triple Dark Raid
+    "4626028465"//Boba Fett Leader SOR
+    ,"9155536481"//Jango Fett TWI
+    ,"4002861992"//DJ Blatent Thief
+    ,"5696041568"//Triple Dark Raid
   ];
   if($format == Formats::$OpenFormat || $format == Formats::$OnePlayerOpen) return true;
   if(!CardInRotation($format, $cardID)) return false;
@@ -203,7 +205,8 @@ function IsAllowed($cardID, $format): bool {
     Formats::$PremierStrict,
     Formats::$OnePlayerPremier,
     Formats::$PreviewFormat,
-    Formats::$PreviewStrict
+    Formats::$PreviewStrict,
+    Formats::$PremierQuick
       => !in_array($cardID, $banned)
       ,
     //Only Commons, any unbanned leader, no Rare bases, no Special cards unless they have a Common variant
@@ -288,6 +291,7 @@ function IsWeeklyPlayCommon($cardID) {
     ,"1209133362" //33nd Stalwart
     ,"0741296536" //Ahsoka's Padawan Lightsaber
     //Jump to Lightspeed
+    //Legends of the Force
       => true,
     default => false
   };
@@ -301,7 +305,10 @@ function CardInRotation($format, $cardID): bool {
   $civiWarRotation = $previewRotation;
   $cloneWarRotation = $previewRotation;
   return match($format) {
-    Formats::$PremierFormat, Formats::$PremierStrict, Formats::$OnePlayerPremier => in_array(CardSet($cardID), $premierRotation),
+    Formats::$PremierFormat,
+      Formats::$PremierStrict,
+      Formats::$OnePlayerPremier,
+      Formats::$PremierQuick => in_array(CardSet($cardID), $premierRotation),
     Formats::$PadawanFormat => in_array(CardSet($cardID), $padawanRotation),
     Formats::$SandcrawlerFormat => in_array(CardSet($cardID), $sandcrawlerRotation),
     Formats::$PreviewFormat => in_array(CardSet($cardID), $previewRotation),
@@ -341,6 +348,7 @@ function FormatDisplayName($format) {
     Formats::$PremierStrict => "Premier (Best of 3)",
     Formats::$PreviewFormat => "Preview",
     Formats::$PreviewStrict => "Preview (Best of 3)",
+    Formats::$PremierQuick => "Premier Quick Match",
     Formats::$PadawanFormat => "Padawan",
     Formats::$SandcrawlerFormat => "Sandcrawler",
     Formats::$GalacticCivilWar => "Galactic Civil War",
