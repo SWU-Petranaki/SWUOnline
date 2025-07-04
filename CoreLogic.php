@@ -5810,8 +5810,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "2847868671"://Yoda Leader
       global $CS_NumLeftPlay;
       if(GetClassState($currentPlayer, $CS_NumLeftPlay) > 0 || GetClassState($otherPlayer, $CS_NumLeftPlay) > 0) {
-        Draw($currentPlayer);
-        AddDecisionQueue("HANDTOPBOTTOM", $currentPlayer, "-");
+        $drawnCardID = Draw($currentPlayer, specialCase: true);
+        switch($drawnCardID) {
+          case "6172986745"://Rey, With Palpatine's Power
+            AddDecisionQueue("SPECIFICCARD", $currentPlayer, "REY_LOF_LEADERDRAW,$cardID", 1);
+            break;
+          default:
+            AddDecisionQueue("HANDTOPBOTTOM", $currentPlayer, "-");
+            break;
+        }
       }
       break;
     case "3381931079"://Malevolence
@@ -8584,7 +8591,7 @@ function HandIntoMemory($player)
   AddDecisionQueue("MZREMOVE", $player, "-", 1);
 }
 
-function Draw($player, $mainPhase = true)
+function Draw($player, $mainPhase = true, $specialCase = false)
 {
   global $EffectContext, $mainPlayer, $CS_CardsDrawn;
   $otherPlayer = ($player == 1 ? 2 : 1);
@@ -8606,7 +8613,7 @@ function Draw($player, $mainPhase = true)
     OpponentUnitDrawEffects($otherPlayer);
     switch($drawnCardID) {
       case "6172986745"://Rey, With Palpatine's Power
-        ReyPalpatineLOF($player);
+        if(!$specialCase) ReyPalpatineLOF($player);
         break;
       default: break;
     }

@@ -368,6 +368,35 @@ function ModalAbilities($player, $parameter, $lastResult)
           break;
         default: break;
       }
+    case "REY_LOF_LEADERDRAW_YODA_TWI":
+      $playerHand = GetHand($player);
+      $lastHandMZIndex = "MYHAND-" . (count($playerHand) - 1);
+      switch($lastResult)
+      {
+        case 0://Keep without Reveal
+          AddDecisionQueue("HANDTOPBOTTOM", $player, "-");
+          break;
+        case 1://Keep and Reveal
+          AddDecisionQueue("MULTIZONEINDICES", $player, "MYHAND");
+          AddDecisionQueue("MZFILTER", $player, "index=" . $lastHandMZIndex);
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a card to put to top or bottom that is not Rey.");
+          AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+          AddDecisionQueue("MZREMOVE", $player, "-", 1);
+          AddDecisionQueue("OPT", $player, "<-");
+          ReyPalpatineLOF($player, auto: true);
+          break;
+        case 2://Put to Top
+          AddDecisionQueue("PASSPARAMETER", $player, $lastHandMZIndex, 1);
+          AddDecisionQueue("MZADDZONE", $player, "MYTOPDECK", 1);
+          AddDecisionQueue("MZREMOVE", $player, "-", 1);
+          break;
+        case 3://Put to Bottom
+          AddDecisionQueue("PASSPARAMETER", $player, $lastHandMZIndex, 1);
+          AddDecisionQueue("MZADDZONE", $player, "MYBOTDECK", 1);
+          AddDecisionQueue("MZREMOVE", $player, "-", 1);
+          break;
+      }
+      break;
     default: return "";
   }
   //ModalAbilities end
@@ -1627,6 +1656,20 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         PrependDecisionQueue("FILTER", $player, "LastResult-exclude-isUnique", 1);
         PrependDecisionQueue("MZOP", $player, "GETUPGRADES", 1);
         PrependDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      }
+      break;
+    case "REY_LOF_LEADERDRAW":
+      $fromLeaderCardID = $parameterArr[1];
+      switch($fromLeaderCardID) {
+        case "2847868671"://Yoda TWI Leader
+          if(count(GetHand($player)) > 1) {
+            $options = "Keep without Reveal;Keep and Reveal;Put to Top;Put to Bottom";
+            AddDecisionQueue("SETDQCONTEXT", $player, "You drew " . CardLink("6172986745", "6172986745") . ". Choose one");
+            AddDecisionQueue("CHOOSEOPTION", $player, "6172986745&$options");
+            AddDecisionQueue("MODAL", $player, "REY_LOF_LEADERDRAW_YODA_TWI");
+          } else AddDecisionQueue("HANDTOPBOTTOM", $player, "-");
+          break;
+        default: break;
       }
       break;
     //SpecificCardLogic End
