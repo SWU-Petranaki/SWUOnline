@@ -204,20 +204,6 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 <div class="summary-actions" style="display: flex; align-items: center; gap: 10px; width: 100%;">
                   <?php if($canSeeQueue) { ?>
                   <span style="white-space: nowrap; margin-right: 5px;">Quick Match:</span>
-                  <div class="filter-dropdown-wrapper" style="flex: 1; margin-top: 10px;">
-                    <select id="quickMatchFormat" class="styled-dropdown">
-                      <?php if($canSeeQueue) { ?>
-                        <option value="premierf" <?php echo (FormatCode('premierf') == $defaultFormat ? "selected" : ""); ?>>Premier Casual</option>
-                        <option value="prstrict" <?php echo (FormatCode('prstrict') == $defaultFormat ? "selected" : ""); ?>>Premier (Best of 3)</option>
-                        <!-- <option value="<?php echo $funFormatBackendName?>" <?php echo (FormatCode($funFormatBackendName) == $defaultFormat ? "selected" : ""); ?>>Cantina Brawl</option> -->
-                        <!--
-                        <option value="previewf" <?php echo (FormatCode('previewf') == $defaultFormat ? "selected" : ""); ?>>Preview (Set 5)</option>
-                        <option value="pwstrict" <?php echo (FormatCode('pwstrict') == $defaultFormat ? "selected" : ""); ?>>Preview (Best of 3)</option>
-                        -->
-                      <?php } ?>
-                      <option value="openform" <?php echo (FormatCode('openform') == $defaultFormat ? "selected" : ""); ?>>Open Format</option>
-                    </select>
-                  </div>
                   <button id="findQuickMatch" class="create-btn">Find Game</button>
                   <?php } ?>
                 </div>
@@ -245,7 +231,8 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                     quickMatchStatus.className = 'quick-match-status loading';
 
                     // Get selected format
-                    const selectedFormat = quickMatchFormat.value;
+                    //const selectedFormat = quickMatchFormat.value;
+                    const selectedFormat = 'prquickf';
 
                     // Fetch open games for user
                     fetch('APIs/GetOpenGames.php?forCurrentPlayer=true')
@@ -1103,7 +1090,7 @@ function displayOpenGames(data) {
     // Display games grouped by format
     Object.keys(gamesByFormat).forEach(format => {
         // Skip if format doesn't match filter (unless "all" is selected)
-        if (formatFilter !== 'all' && format !== formatFilter) {
+        if (formatFilter !== 'all' && format !== formatFilter || format == 'prquickf') {
             return;
         }
 

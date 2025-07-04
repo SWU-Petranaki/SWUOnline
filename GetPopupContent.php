@@ -72,7 +72,7 @@ switch ($popupType) {
         $myWins = GetCachePiece($gameName, $playerID + 24);
         $theirWins = GetCachePiece($gameName, $otherP + 24);
         $content = "";
-        $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict);
+        $content .= EndGameRematchButtons($playerID, $endBo3, $myWins, $theirWins, $gameName, $isPremierStrict, $isPremierQuick);
         $content .= CreateButton($playerID, "Report Bug", 100003, 0, "24px") . "<BR>";
         $content .= BlockOpponentButtons($playerID);
       }
