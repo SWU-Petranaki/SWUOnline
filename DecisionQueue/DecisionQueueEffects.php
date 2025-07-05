@@ -368,6 +368,7 @@ function ModalAbilities($player, $parameter, $lastResult)
           break;
         default: break;
       }
+      break;
     case "REY_LOF_LEADERDRAW_YODA_TWI":
       $playerHand = GetHand($player);
       $lastHandMZIndex = "MYHAND-" . (count($playerHand) - 1);
