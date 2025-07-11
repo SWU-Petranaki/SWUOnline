@@ -64,8 +64,9 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-62", "Coastal Cantina (Name)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-63", "Top Cut Target", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-64", "Outer Team", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- $rv .= CreateSelectOption($SET_Cardback . "-65", "SWUNeff", $SET_Cardback . "-" . $settings[$SET_Cardback]);
- //continue adding card backs here
+  $rv .= CreateSelectOption($SET_Cardback . "-65", "SWUNeff", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-66", "BVS", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  //continue adding card backs here
   return $rv;
 }
 
