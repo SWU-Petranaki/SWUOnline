@@ -1073,6 +1073,7 @@ function HasShielded($cardID, $player, $index, $isRecursion=false)
     case "2628450872"://Gungan Warrior
     case "8601222247"://Secretive Sage
     case "0126487527"://Axe Woves
+    case "0355203328"://Sorcerers of Tund
       return true;
     case "2370458497"://Oppo Rancisis
       if($isRecursion) return false; //Prevent recursion
