@@ -21,6 +21,7 @@
   }
 </style>
 <?php
+include_once "../Libraries/NetworkingLibraries.php";
 if(!IsDevEnvironment()) {
   echo "Forbidden";
   exit;
