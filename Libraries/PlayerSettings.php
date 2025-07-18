@@ -351,6 +351,7 @@ function GetCardBack($player, $index="")
     64 => "CB_outerteam",
     65 => "CB_swuneff",
     66 => "CB_BlackVaultSyndicate",
+    67 => "CB_BabuFreaks",
     //continue adding card backs here
     default => "CardBack",
   };
