@@ -1404,11 +1404,10 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $args = explode("-", $lastResult);
       $ally = new Ally($args[0], $player);
       $healed = $args[1];
-      WriteLog($healed);
       if ($healed > 0) {
         AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal " . $healed . " damage to");
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, DealDamageBuilder($healed, $player, isUnitEffect:1), 1);
       }
       break;

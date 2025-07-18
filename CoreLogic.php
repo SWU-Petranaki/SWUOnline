@@ -7067,6 +7067,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "4389144613"://Grogu
       $abilityName = GetResolvedAbilityName($cardID, $from);
+      $theirUnitCount = SearchCount(SearchAllies($otherPlayer));
+      $ourUnitCount = SearchCount(SearchAllies($currentPlayer));
+      if ($theirUnitCount == 0 && $ourUnitCount == 1) {
+        break;
+      }
       if($abilityName == "Move Damage") {
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:damagedOnly=1&THEIRALLY:damagedOnly=1");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal up to 2 damage", 1);

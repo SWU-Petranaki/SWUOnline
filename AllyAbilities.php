@@ -2029,6 +2029,7 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to deal 2 damage to");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
         AddDecisionQueue("MZOP", $player, "DEALDAMAGE,2,$player,1", 1);
+        AddDecisionQueue("WRITELOG", $player, CardLink("0052542605", "0052542605") . " deals 2 damage for an event played", 1);
         break;
       case "3434956158"://Fives
         MZMoveCard($player, "MYDISCARD:trait=Clone;definedType=Unit", "MYBOTDECK", may:true, context:"Choose a Clone unit to put on the bottom of your deck");
@@ -2174,9 +2175,16 @@ function AllyPlayCardAbility($player, $cardID, $uniqueID, $numUses, $playedCardI
         }
         break;
       case "7821324752"://Eighth Brother
-        if(HasTheForce($player)) {
-          DQAskToUseTheForce($player);
-          DQBuffUnit($player, $cardID, 2, may:false);
+        if (HasTheForce($player)) {
+          AddDecisionQueue("YESNO", $player, "Do you want to use the Force to give a unit +2/+2 for this phase?");
+          AddDecisionQueue("NOPASS", $player, "-", 1);
+          AddDecisionQueue("USETHEFORCE", $player, "-", 1);
+          AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY", 1);
+          AddDecisionQueue("SETDQCONTEXT", $player, "Choose a unit to give +2/+2", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+          AddDecisionQueue("MZOP", $player, "ADDHEALTH,2", 1);
+          AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+          AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $player, "7821324752,PLAY", 1);
         }
         break;
       default: break;
