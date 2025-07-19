@@ -2821,7 +2821,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "MULTIHEAL", 1);
         AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "-", 1);
         if(SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) {
-          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEALRESTOREDAMAGE", 1);
+          AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEALRESTOREDAMAGE,MAY", 1);
         }
       break;
     case "1021495802"://Cantina Bouncer
