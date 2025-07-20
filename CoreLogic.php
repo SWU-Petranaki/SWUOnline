@@ -7959,6 +7959,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         MZChooseAndDestroy($currentPlayer, "MYALLY:arena=Ground;maxHealth=3&THEIRALLY:arena=Ground;maxHealth=3", may: true, filter: "leader=1");
       }
       break;
+    case "4512477799"://Hoth Lieutenant
+      //When played:
+      if($from != "PLAY") {
+        DQAttackWithEffect($currentPlayer, $cardID, $from, mzOtherThan: $playAlly->MZIndex(), may: true);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8565,12 +8571,15 @@ function DQChooseAUnitToGiveEffect($player, $effectID, $from, $may=true,
   }
 }
 
-function DQAttackWithEffect($currentPlayer, $effectID, $from, $mzSearch = "MYALLY", $context = "Choose a unit to attack with", $subsequent = false) {
+function DQAttackWithEffect($currentPlayer, $effectID, $from, $mzSearch = "MYALLY", $context = "Choose a unit to attack with", $mzOtherThan = "", $may = false, $subsequent = false) {
   $subsequent = $subsequent ? 1 : 0;
   AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
   AddDecisionQueue("MZFILTER", $currentPlayer, "status=1", $subsequent);
+  if($mzOtherThan != "") {
+    AddDecisionQueue("MZFILTER", $currentPlayer, "index=$mzOtherThan", $subsequent);
+  }
   AddDecisionQueue("SETDQCONTEXT", $currentPlayer, $context, $subsequent);
-  AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
   AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
   AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
   AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);

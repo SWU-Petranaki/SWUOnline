@@ -13753,7 +13753,6 @@ function HasWhenPlayed($cardID) {
   6776733024 => true,
   4184803715 => true,
   2867307776 => true,
-  '0722293431' => true,
   5480486728 => true,
 );
   if(isset($data[$cardID])) return $data[$cardID]; else return isset($manualData[$cardID]) ? $manualData[$cardID] : false;
@@ -20358,7 +20357,6 @@ function IsUnimplemented($cardID) {
   4100796757 => true,
   4136801536 => true,
   4187779775 => true,
-  4512477799 => true,
   4564775801 => true,
   5105187536 => true,
   5258186349 => true,
