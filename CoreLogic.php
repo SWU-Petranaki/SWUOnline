@@ -3511,6 +3511,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "2062827036"://Do or Do Not
       DQAskToUseTheForce($currentPlayer);
+      //TODO: use specific card logic since draw DQ is not working when twice
       AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       AddDecisionQueue("ELSE", $currentPlayer, "-");
@@ -7964,6 +7965,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") {
         DQAttackWithEffect($currentPlayer, $cardID, $from, mzOtherThan: $playAlly->MZIndex(), may: true);
       }
+      break;
+    case "2796502553"://I Want Proof, Not Leads
+      Draw($currentPlayer, true);
+      Draw($currentPlayer, true);
+      PummelHit($currentPlayer);
       break;
     //PlayAbility End
     default: break;
