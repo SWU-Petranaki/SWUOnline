@@ -1687,6 +1687,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally->Heal(1);
       }
       break;
+    case "THE_DESOLATION_OF_HOTH":
+      $selectedUnits = explode(",",$dqVars[0]);
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $allyPlayer = MZPlayerID($player, $selectedUnits[$i]);
+        $ally = new Ally($selectedUnits[$i], $allyPlayer);
+        $ally->Destroy();
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }
