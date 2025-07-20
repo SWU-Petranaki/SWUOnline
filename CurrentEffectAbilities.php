@@ -308,6 +308,8 @@ function EffectAttackModifier($cardID, $playerID="")
     case "2236831712": return 2;//Leia Organa (Extraordinary)
     case "0406487670": return 4;//Zuckuss
     case "1655929166": return -1*$subparam;//Whirlwind of Power
+    //Intro Battle: Hoth
+    case "1758639231": return 2;//Improvised Detonation
     default: return 0;
   }
 }
@@ -995,6 +997,8 @@ function IsCombatEffectActive($cardID)
     case "0406487670"://Zuckuss
     case "6501780064"://Babu Frik
     case "6551214763"://Force Speed
+    //Intro Battle: Hoth
+    case "1758639231"://Improvised Detonation
       return true;
     default: return false;
   }
