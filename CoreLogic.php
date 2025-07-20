@@ -7919,7 +7919,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       //When played: if you control a Vigilance_aspect unit, deal 2 damage to an enemy base and heal 2 damage from your base.
       if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, aspect:"Vigilance")) > 0) {
         //Deal 2 damage to an enemy base.
-        DealDamageAsync($otherPlayer, 2, "DAMAGE", "6088773439", sourcePlayer:$currentPlayer);
+        DealDamageAsync($otherPlayer, 2, "DAMAGE", $cardID, sourcePlayer:$currentPlayer);
         //Heal 2 damage from your base.
         Restore(2, $currentPlayer);
       }
@@ -7929,6 +7929,28 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") {
         DamageAllAllies(1, $cardID, except: $playAlly->MZIndex());
       }
+      break;
+    case "7524197668"://We're In Trouble
+      //Deal 3 damage to a unit.
+      DQPingUnit($currentPlayer, 3, isUnitEffect:false, may:false);
+      break;
+    case "8290455967"://Target The Main Generator
+      //Deal 2 damage to a base.
+      DealDamageAsync($otherPlayer, 2, "DAMAGE", $cardID, sourcePlayer:$currentPlayer);
+      break;
+    case "7014669428"://Too Strong For Blasters
+      //Heal 2 damage from a unit.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal 2 damage from");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,2", 1);
+      break;
+    case "1758639231"://Improvised Detonation
+      DQAttackWithEffect($currentPlayer, $cardID, $from);
+      break;
+    case "1941072965"://I'll Cover For You
+      DQMultiUnitSelect($currentPlayer, 2, "THEIRALLY", "to deal 1 damage to", cantSkip:true);
+      AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer), 1);
       break;
     //PlayAbility End
     default: break;
@@ -8473,6 +8495,7 @@ function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter=
     AddDecisionQueue("APPENDDQVAR", $player, "0", 1);
     AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
     AddDecisionQueue("SETDQVAR", $player, "2", 1);
+    //TODO: add param for target amount if we ever need to deal more than one damage
     AddDecisionQueue("PASSPARAMETER", $player, "1-{2}", 1);
     AddDecisionQueue("APPENDDQVAR", $player, "1", 1);
   }
