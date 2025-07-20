@@ -2767,6 +2767,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if(count($theirDeck) > 0)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
     //Intro Batle: Hoth
+    case "9f6a0193d6"://Darth Vader leader unit
+    case "d1f7a7c11b"://Leia Organa leader unit
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      break;
     case "3366353612"://R2-D2
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -4053,6 +4059,15 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "FORCE_SPEED", 1);
       break;
     //Intro Batle: Hoth
+    case "9f6a0193d6"://Darth Vader leader unit
+      //Deal 2 damage to their base.
+      AddDecisionQueue("PASSPARAMETER", $mainPlayer, "THEIRCHAR-0");
+      AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:1, unitCardID:$cardID));
+      break;
+    case "d1f7a7c11b"://Leia Organa leader unit
+      DQMultiUnitSelect($mainPlayer, 2, "MYALLY", "to heal 1 damage from", cantSkip:true);
+      AddDecisionQueue("SPECIFICCARD", $mainPlayer, "LEIA_ORGANA_IBH", 1);
+      break;
     case "3366353612"://R2-D2
       //Exhaust an enemy ground unit that costs 4 or less
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=Ground;maxCost=4");

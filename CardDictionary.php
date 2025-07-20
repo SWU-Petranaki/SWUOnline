@@ -1412,6 +1412,11 @@ function AbilityCost($cardID)
       return $abilityName == "Deal Damage" ? 1 : 0;
     case "9919167831"://Supreme Leader Snoke Leader
       return $abilityName == "Experience" ? 1 : 0;
+    //Intro Battle: Hoth
+    case "9389694773"://Darth Vader
+      return $abilityName == "Deal Damage" ? 1 : 0;
+    case "9970912404"://Leia Organa
+      return $abilityName == "Heal" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -1551,6 +1556,7 @@ function GetAbilityTypes($cardID, $index = -1, $from="-")
     case "TWI": $abilityTypes = CheckTWIAbilityTypes($cardID); break;
     case "JTL": $abilityTypes = CheckJTLAbilityTypes($cardID); break;
     case "LOF": $abilityTypes = CheckLOFAbilityTypes($cardID); break;
+    case "IBH": $abilityTypes = CheckIBHAbilityTypes($cardID); break;
     default: break;//maybe throw error?
   }
 
@@ -1882,6 +1888,16 @@ function CheckLOFAbilityTypes($cardID) {
   }
 }
 
+function CheckIBHAbilityTypes($cardID) {
+  switch($cardID) {
+    case "9389694773"://Darth Vader
+      return "A,AA";
+    case "9970912404"://Leia Organa
+      return "A,AA";
+    default: return "";
+  }
+}
+
 
 function GetAbilityNames($cardID, $index = -1, $validate=false)
 {
@@ -1894,6 +1910,7 @@ function GetAbilityNames($cardID, $index = -1, $validate=false)
     case "TWI": $abilityNames = CheckTWIAbilityNames($cardID, $index, $validate); break;
     case "JTL": $abilityNames = CheckJTLAbilityNames($cardID, $index, $validate); break;
     case "LOF": $abilityNames = CheckLOFAbilityNames($cardID, $index, $validate); break;
+    case "IBH": $abilityNames = CheckIBHAbilityNames($cardID, $index, $validate); break;
     default: break;//maybe throw error?
   }
 
@@ -2283,6 +2300,17 @@ function CheckLOFAbilityNames($cardID, $index, $validate) {
     case "6501780064"://Babu Frik
       return "Droid Attack,Attack";
     default: return "";
+  }
+}
+
+function CheckIBHAbilityNames($cardID, $index, $validate) {
+  global $currentPlayer;
+
+  switch($cardID) {
+    case "9389694773"://Darth Vader leader
+      return LeaderAbilitiesIgnored() ? "" : "Deal Damage";
+    case "9970912404"://Leia Organa leader
+      return LeaderAbilitiesIgnored() ? "" : "Heal";
   }
 }
 
@@ -2803,6 +2831,11 @@ function LeaderUnit($cardID) {
       return "d911b778e4";
     case "2762251208"://Rey
       return "9d589c1981";
+    //Intro Battle: Hoth
+    case "9389694773"://Darth Vader
+      return "9f6a0193d6";
+    case "9970912404"://Leia Organa
+      return "d1f7a7c11b";
     default: return "";
   }
 }
@@ -2992,6 +3025,11 @@ function LeaderUndeployed($cardID) {
       return "5174764156";
     case "9d589c1981"://Rey
       return "2762251208";
+    //Intro Battle: Hoth
+    case "9f6a0193d6"://Darth Vader
+      return "9389694773";
+    case "d1f7a7c11b"://Leia Organa
+      return "9970912404";
     default: return "";
   }
 }

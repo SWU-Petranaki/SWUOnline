@@ -1402,7 +1402,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       break;
     case "DEALRESTOREDAMAGE":
       $may = isset($parameterArr[1]) && $parameterArr[1] === "MAY";
-      $args = explode("-", $lastResult); 
+      $args = explode("-", $lastResult);
       $ally = new Ally($args[0], $player);
       $healed = $args[1];
       if ($healed > 0) {
@@ -1676,6 +1676,15 @@ function SpecificCardLogic($player, $parameter, $lastResult)
           } else AddDecisionQueue("HANDTOPBOTTOM", $player, "-");
           break;
         default: break;
+      }
+      break;
+      //Intro Battle: Hoth
+    case "LEIA_ORGANA_IBH":
+      $selectedUnits = explode(",",$dqVars[0]);
+      //heal 1 damage from each selected unit
+      for($i=0; $i<count($selectedUnits); ++$i) {
+        $ally = new Ally($selectedUnits[$i], $player);
+        $ally->Heal(1);
       }
       break;
     //SpecificCardLogic End
