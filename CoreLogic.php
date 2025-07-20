@@ -7971,6 +7971,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       Draw($currentPlayer, true);
       PummelHit($currentPlayer);
       break;
+    case "4087028261"://The Desolation of Hoth
+      DQMultiUnitSelect($currentPlayer, 2, "THEIRALLY:maxCost=3", "to defeat");
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "THE_DESOLATION_OF_HOTH", 1);
+      break;
+    case "4187779775"://You Have Failed Me
+      //Defeat a friendly unit. If you do, ready a friendly unit with 5 or less power.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to defeat");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:maxAttack=5", 1);
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit with 5 or less power to ready", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      break;
     //PlayAbility End
     default: break;
   }

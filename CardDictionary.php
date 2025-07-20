@@ -392,6 +392,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "8332320550": $amount += 2; break;//Rogue Squadron Speeder
     case "6815960456": $amount += 3; break;//E-Web Gunner
     case "9127322562": $amount += 1; break;//Surface Assault Bomber
+    case "4136801536": $amount += 2; break;//Han Solo
     default: break;
   }
   //The Ghost JTL
