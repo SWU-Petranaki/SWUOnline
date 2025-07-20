@@ -7873,6 +7873,22 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6551214763"://Force Speed
       DQAttackWithEffect($currentPlayer, $cardID, $from);
       break;
+    //Intro Battle: Hoth
+    case "9389694773"://Darth Vader leader
+      if($abilityName == "Deal Damage") {
+        //Deal 1 damage to their base.
+        DealDamageAsync($otherPlayer, 1, "DAMAGE", "6088773439", sourcePlayer:$currentPlayer);
+      }
+      break;
+    case "9970912404"://Leia Organa
+      if($abilityName == "Heal") {
+        //Heal 1 damage from a friendly unit.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit to heal 1 damage from");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,1", 1);
+      }
+      break;
     case "0375794695"://Recovery
       //Heal 5 damage from a unit.
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
