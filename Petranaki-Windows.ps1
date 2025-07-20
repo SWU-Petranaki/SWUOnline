@@ -1,0 +1,1 @@
+& 'C:\Program Files\Git\bin\bash.exe' .\petranaki.sh start
