@@ -3511,6 +3511,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       break;
     case "2062827036"://Do or Do Not
       DQAskToUseTheForce($currentPlayer);
+      //TODO: use specific card logic since draw DQ is not working when twice
       AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
       AddDecisionQueue("ELSE", $currentPlayer, "-");
@@ -7952,6 +7953,24 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       DQMultiUnitSelect($currentPlayer, 2, "THEIRALLY", "to deal 1 damage to", cantSkip:true);
       AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer), 1);
       break;
+    case "5480486728"://Blizzard One
+      //When played:
+      if($from != "PLAY") {
+        //You may defeat a non-leader ground unit with 3 or less remaining HP.
+        MZChooseAndDestroy($currentPlayer, "MYALLY:arena=Ground;maxHealth=3&THEIRALLY:arena=Ground;maxHealth=3", may: true, filter: "leader=1");
+      }
+      break;
+    case "4512477799"://Hoth Lieutenant
+      //When played:
+      if($from != "PLAY") {
+        DQAttackWithEffect($currentPlayer, $cardID, $from, mzOtherThan: $playAlly->MZIndex(), may: true);
+      }
+      break;
+    case "2796502553"://I Want Proof, Not Leads
+      Draw($currentPlayer, true);
+      Draw($currentPlayer, true);
+      PummelHit($currentPlayer);
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8558,12 +8577,15 @@ function DQChooseAUnitToGiveEffect($player, $effectID, $from, $may=true,
   }
 }
 
-function DQAttackWithEffect($currentPlayer, $effectID, $from, $mzSearch = "MYALLY", $context = "Choose a unit to attack with", $subsequent = false) {
+function DQAttackWithEffect($currentPlayer, $effectID, $from, $mzSearch = "MYALLY", $context = "Choose a unit to attack with", $mzOtherThan = "", $may = false, $subsequent = false) {
   $subsequent = $subsequent ? 1 : 0;
   AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, $mzSearch, $subsequent);
   AddDecisionQueue("MZFILTER", $currentPlayer, "status=1", $subsequent);
+  if($mzOtherThan != "") {
+    AddDecisionQueue("MZFILTER", $currentPlayer, "index=$mzOtherThan", $subsequent);
+  }
   AddDecisionQueue("SETDQCONTEXT", $currentPlayer, $context, $subsequent);
-  AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
   AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
   AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
   AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "$effectID,$from", 1);
