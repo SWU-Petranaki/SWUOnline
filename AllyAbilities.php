@@ -2791,6 +2791,12 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
+    case "4136801536"://Han Solo
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      //immediate effect. no layer
+      AddCurrentTurnEffect($attackID, $defPlayer, from:"PLAY");
+      break;
     default: break;
   }
 

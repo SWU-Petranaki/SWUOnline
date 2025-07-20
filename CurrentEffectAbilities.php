@@ -311,6 +311,7 @@ function EffectAttackModifier($cardID, $playerID="")
     //Intro Battle: Hoth
     case "1758639231": return 2;//Improvised Detonation
     case "4512477799": return 2;//Hoth Lieutenant
+    case "4136801536": return -2;//Han Solo
     default: return 0;
   }
 }
@@ -1001,6 +1002,7 @@ function IsCombatEffectActive($cardID)
     //Intro Battle: Hoth
     case "1758639231"://Improvised Detonation
     case "4512477799"://Hoth Lieutenant
+    case "4136801536"://Han Solo
       return true;
     default: return false;
   }
