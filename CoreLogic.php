@@ -7915,6 +7915,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
       break;
+    case "6776733024"://General Veers
+      //When played: if you control a Vigilance_aspect unit, deal 2 damage to an enemy base and heal 2 damage from your base.
+      if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, aspect:"Vigilance")) > 0) {
+        //Deal 2 damage to an enemy base.
+        DealDamageAsync($otherPlayer, 2, "DAMAGE", "6088773439", sourcePlayer:$currentPlayer);
+        //Heal 2 damage from your base.
+        Restore(2, $currentPlayer);
+      }
+      break;
+    case "4184803715"://Avenger
+      //When played: deal 1 damage to each other unit (including friendly units).
+      if($from != "PLAY") {
+        DamageAllAllies(1, $cardID, except: $playAlly->MZIndex());
+      }
+      break;
     //PlayAbility End
     default: break;
   }
