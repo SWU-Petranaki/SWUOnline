@@ -1208,6 +1208,10 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       //Heal 2 damage from your base.
       Restore(2, $player);
       break;
+    case "2022483509"://Admiral Ozzel
+      //Each opponent discards a card from their hand.
+      PummelHit($otherPlayer);
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
@@ -2780,6 +2784,13 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
+    case "0274964861"://Admiral Piett
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(SearchCount(SearchAllies($mainPlayer, aspect:"Aggression")) > 0) {
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
+      break;
     default: break;
   }
 
@@ -4074,6 +4085,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a ground unit to exhaust");
       AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, "REST", 1);
+      break;
+    case "0274964861"://Admiral Piett
+      Draw($mainPlayer);
       break;
     default: break;
   }
