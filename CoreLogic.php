@@ -7952,6 +7952,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       DQMultiUnitSelect($currentPlayer, 2, "THEIRALLY", "to deal 1 damage to", cantSkip:true);
       AddDecisionQueue("MZOP", $currentPlayer, DealMultiDamageBuilder($currentPlayer), 1);
       break;
+    case "5480486728"://Blizzard One
+      //When played:
+      if($from != "PLAY") {
+        //You may defeat a non-leader ground unit with 3 or less remaining HP.
+        MZChooseAndDestroy($currentPlayer, "MYALLY:arena=Ground;maxHealth=3&THEIRALLY:arena=Ground;maxHealth=3", may: true, filter: "leader=1");
+      }
+      break;
     //PlayAbility End
     default: break;
   }

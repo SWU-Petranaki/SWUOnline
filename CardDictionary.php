@@ -1896,9 +1896,9 @@ function CheckLOFAbilityTypes($cardID) {
 function CheckIBHAbilityTypes($cardID) {
   switch($cardID) {
     case "9389694773"://Darth Vader
-      return "A,AA";
+      return LeaderAbilitiesIgnored() ? "" : "A";
     case "9970912404"://Leia Organa
-      return "A,AA";
+      return LeaderAbilitiesIgnored() ? "" : "A";
     default: return "";
   }
 }
