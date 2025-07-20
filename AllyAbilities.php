@@ -1057,6 +1057,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("DRAW", $player, "-", 1);
         break;
       case "1164297413"://Onyx Squadron Brute
+        //Heal 2 damage from your base.
         Restore(2, $player);
         break;
       case "6861397107"://First Order Stormtrooper
@@ -1201,6 +1202,11 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("ADDHAND", $player, "-", 1);
         AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
       }
+      break;
+    //Intro Battle: Hoth
+    case "2798571364"://Tauntaun Mount
+      //Heal 2 damage from your base.
+      Restore(2, $player);
       break;
     //AllyDestroyedAbility End
       default: break;
@@ -2760,6 +2766,14 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       $theirDeck = &GetDeck($defPlayer);
       if(count($theirDeck) > 0)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+    //Intro Batle: Hoth
+    case "3366353612"://R2-D2
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      if(SearchCount(SearchAllies($mainPlayer, aspect:"Command")) > 0) {
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
+      break;
     default: break;
   }
 
@@ -4037,6 +4051,14 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("PASSPARAMETER", $mainPlayer, $defAlly->UniqueID());
       AddDecisionQueue("SETDQVAR", $mainPlayer, "0", 1);
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "FORCE_SPEED", 1);
+      break;
+    //Intro Batle: Hoth
+    case "3366353612"://R2-D2
+      //Exhaust an enemy ground unit that costs 4 or less
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY:arena=Ground;maxCost=4");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a ground unit to exhaust");
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "REST", 1);
       break;
     default: break;
   }
