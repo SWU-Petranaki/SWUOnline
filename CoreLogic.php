@@ -7873,6 +7873,32 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6551214763"://Force Speed
       DQAttackWithEffect($currentPlayer, $cardID, $from);
       break;
+    case "0375794695"://Recovery
+      //Heal 5 damage from a unit.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal 5 damage from");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,5", 1);
+      break;
+    case "1174196426"://Luke Skywalker
+      if($from != "PLAY") {
+        //You may deal 3 damage to a ground unit.
+        DQPingUnit($currentPlayer, 3, isUnitEffect:true, may:true, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground", context:"a ground unit", unitCardID:$cardID);
+      }
+      break;
+    case "2404973143"://C-3PO
+      //When played: if you control a Cunning_aspect unit, draw a card.
+      if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer, aspect:"Cunning")) > 0) {
+        Draw($currentPlayer);
+      }
+      break;
+    case "2859074789"://Go For The Legs
+      //Exhaust an enemy ground unit.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy ground unit to exhaust");
+      AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+      break;
     //PlayAbility End
     default: break;
   }

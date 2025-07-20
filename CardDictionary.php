@@ -194,6 +194,8 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
         }
       }
       break;
+    //Inro Battle: Hoth
+    case "1174196426": $amount += 2; break;//Luke Skywalker
     default: break;
   }
   //The Ghost JTL
@@ -385,6 +387,8 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
         }
       }
       break;
+    //Inro Battle: Hoth
+    case "8332320550": $amount += 2; break;//Rogue Squadron Speeder
     default: break;
   }
   //The Ghost JTL
@@ -577,6 +581,10 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
         if(HasSentinel($units[$i], $player, $i, true)) return true;
       }
       break;
+    //Inro Battle: Hoth
+      case "1112130807"://Chewbacca
+      case "5509338180"://Bright Hope
+        return true;
     default: break;
   }
   //The Ghost JTL
