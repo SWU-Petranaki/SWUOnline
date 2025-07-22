@@ -105,15 +105,10 @@ function IsBannedIP() {
 }
 
 function logUserIP() {
-  $watchFor = [
-    "wonderwonder",
-    "wonderbread",
-    "wonderbreader",
-    "johhony",
-    "jelyroll",
-    "polloganadora",
-    "LolloCava"
-  ];
+  $watchFor = file(__DIR__ . "/../HostFiles/ipWatchlist.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  if ($watchFor === false) {
+    $watchFor = []; // Fallback to an empty array if the file cannot be read
+  }
   // Check if the user is Brubraz and log their IP if so
   if (isset($_SESSION["useruid"])
       && in_array($_SESSION["useruid"], $watchFor)) {
@@ -122,9 +117,9 @@ function logUserIP() {
     $gameInfo = "Username: " . $_SESSION["useruid"] . " - IP: " . $ip;
     $logEntry = $timestamp . " - " . $gameInfo . "\n";
 
-    // Write to a log file in the root directory
-    $logFile = "user_ip_log.txt";
-    file_put_contents($logFile, $logEntry, FILE_APPEND);
+	// Write to a log file in the same directory as this script
+	$logFile = __DIR__ . "/user_ip_log.txt";
+	file_put_contents($logFile, $logEntry, FILE_APPEND);
   }
 }
 
