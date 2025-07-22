@@ -257,7 +257,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
         break;
       case "24a81d97b5"://Anakin Skywalker Leader Unit
         if(LeaderAbilitiesIgnored()) break;
-        $modifier += floor(GetHealth($player)/5);
+        $modifier += floor(GetBaseDamage($player)/5);
         break;
       case "8139901441"://Bo-Katan Kryze
         if(SearchCount(SearchAllies($player, trait:"Trooper")) > 1) $modifier += 1;
@@ -266,7 +266,7 @@ function AttackModifier($cardID, $player, $index, $reportMode = false)
         if(SearchCount(SearchAllies($player, trait:"Trooper")) > 1) $modifier += 2;
         break;
       case "4551109857"://Anakin's Interceptor
-        if(!$ally->LostAbilities() &&GetHealth($player) >= 15) $modifier += 2;
+        if(!$ally->LostAbilities() && GetBaseDamage($player) >= 15) $modifier += 2;
         break;
       case "7099699830"://Jyn Erso
         global $CS_NumAlliesDestroyed;

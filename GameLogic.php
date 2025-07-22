@@ -675,9 +675,9 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               $healAmount = $afterHealth - $currentHealth;
             } else {
               $targetPlayer = $targetUniqueID[1];
-              $currentHealth = GetHealth($targetPlayer);
+              $currentHealth = GetBaseDamage($targetPlayer);
               Restore($targetHeal, $targetPlayer);
-              $afterHealth = GetHealth($targetPlayer);
+              $afterHealth = GetBaseDamage($targetPlayer);
               $healAmount = $currentHealth - $afterHealth;
             }
 
@@ -1286,7 +1286,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
               if($params[1] == 1 && $ally->IsDamaged()) $match = true;
               else if($params[1] == 0 && !$ally->IsDamaged()) $match = true;
             } else if($mzArr[0] == "MYCHAR" || $mzArr[0] == "THEIRCHAR") {
-              $health = GetHealth($mzArr[0] == "MYCHAR" ? $player : ($player == 1 ? 2 : 0));
+              $health = GetBaseDamage($mzArr[0] == "MYCHAR" ? $player : ($player == 1 ? 2 : 0));
               if($params[1] == 1 && $health > 0) $match = true;
               else if($params[1] == 0 && $health == 0) $match = true;
             }

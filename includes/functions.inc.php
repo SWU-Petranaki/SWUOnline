@@ -337,7 +337,7 @@ function sortFavorites($array) {
 // 	$stmt = mysqli_stmt_init($conn);
 // 	$gameResultID = 0;
 // 	if (mysqli_stmt_prepare($stmt, $sql)) {
-// 		mysqli_stmt_bind_param($stmt, "ssssssss", $winHero, $loseHero, $currentRound, $winnerDeck, $loserDeck, GetHealth($winner), $firstPlayer, $winner);
+// 		mysqli_stmt_bind_param($stmt, "ssssssss", $winHero, $loseHero, $currentRound, $winnerDeck, $loserDeck, GetBaseDamage($winner), $firstPlayer, $winner);
 // 		mysqli_stmt_execute($stmt);
 // 		$gameResultID = mysqli_insert_id($conn);
 // 		mysqli_stmt_close($stmt);
