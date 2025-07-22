@@ -8001,6 +8001,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->UniqueID(), 1);
         AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
       }
+      break;
     //PlayAbility End
     default: break;
   }
