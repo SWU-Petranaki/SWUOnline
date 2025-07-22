@@ -979,8 +979,8 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
         AddDecisionQueue("REVEALCARDS", $player, "DECK", 1);
         break;
       case "9637610169"://Bo Katan
-        if(GetHealth(1) >= 15) Draw($player);
-        if(GetHealth(2) >= 15) Draw($player);
+        if(GetBaseDamage(1) >= 15) Draw($player);
+        if(GetBaseDamage(2) >= 15) Draw($player);
         break;
       case "7204838421"://Enterprising Lackeys
         $discardID = SearchDiscardForCard($player, $cardID);
@@ -3594,7 +3594,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       }
       break;
     case "0354710662"://Saw Gerrera (Resistance Is Not Terrorism)
-      if(GetHealth($mainPlayer) >= 15) {
+      if(GetBaseDamage($mainPlayer) >= 15) {
         $otherPlayer = $mainPlayer == 1 ? 2 : 1;
         DamagePlayerAllies($otherPlayer, 1, "0354710662", "ATTACKABILITY", arena:"Ground");
       }

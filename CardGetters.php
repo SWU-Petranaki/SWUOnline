@@ -144,7 +144,7 @@ function &GetPitch($player)
   }
 }
 
-function &GetHealth($player)
+function &GetBaseDamage($player)
 {
   global $currentPlayer, $mainPlayer, $mainPlayerGamestateStillBuilt;
   global $myHealth, $theirHealth, $mainHealth, $defHealth;

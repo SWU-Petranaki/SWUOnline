@@ -361,21 +361,21 @@ function Restore($amount, $player)
     return false;
   }
 
-  $health = &GetHealth($player);
+  $baseDmg = &GetBaseDamage($player);
   WriteLog("Player " . $player . " gained " . $amount . " health.");
-  if($amount > $health) $amount = $health;
-  $health -= $amount;
+  if($amount > $baseDmg) $amount = $baseDmg;
+  $baseDmg -= $amount;
   AddEvent("RESTORE", "P" . $player . "BASE!" . $amount);
   return true;
 }
 
 function PlayerLoseHealth($player, $amount)
 {
-  $health = &GetHealth($player);
+  $baseDmg = &GetBaseDamage($player);
   //$amount = AuraLoseHealthAbilities($player, $amount);//FAB
   $char = &GetPlayerCharacter($player);
   if(count($char) == 0) return;
-  $health += $amount;
+  $baseDmg += $amount;
   AddEvent("DAMAGE", "P" . $player . "BASE!" . $amount);
   if(PlayerRemainingHealth($player) <= 0)
   {
@@ -384,10 +384,10 @@ function PlayerLoseHealth($player, $amount)
 }
 
 function PlayerRemainingHealth($player) {
-  $health = &GetHealth($player);
+  $baseDmg = &GetBaseDamage($player);
   $char = &GetPlayerCharacter($player);
-  if($char[0] == "DUMMY") return 1000 - $health;
-  return CardHP($char[0]) - $health;
+  if($char[0] == "DUMMY") return 1000 - $baseDmg;
+  return CardHP($char[0]) - $baseDmg;
 }
 
 function IsGameOver()
@@ -447,7 +447,7 @@ function SendSWUStatsResults() {
   $apiKey = $SWUStatsAPIKey;
   $winHero = GetCachePiece($gameName, ($winner == 1 ? 7 : 8));
 	$loseHero = GetCachePiece($gameName, ($winner == 1 ? 8 : 7));
-  $winnerHealth = GetHealth($winner);
+  $winnerHealth = GetBaseDamage($winner);
   $p1Char = &GetPlayerCharacter(1);
   $p1Hero = FindLeaderInPlay(1);
   $p1Base = DeduplicateBase($p1Char[0]);
@@ -776,22 +776,22 @@ function NumAttacksBlocking()
   return $num;
 }
 
-function IHaveLessHealth()
+function IHaveLessDamageOnBase()
 {
   global $currentPlayer;
-  return PlayerHasLessHealth($currentPlayer);
+  return PlayerHasLessDamageOnBase($currentPlayer);
 }
 
-function DefHasLessHealth()
+function DefHasLessDamageOnBase()
 {
   global $defPlayer;
-  return PlayerHasLessHealth($defPlayer);
+  return PlayerHasLessDamageOnBase($defPlayer);
 }
 
-function PlayerHasLessHealth($player)
+function PlayerHasLessDamageOnBase($player)
 {
   $otherPlayer = ($player == 1 ? 2 : 1);
-  return GetHealth($player) < GetHealth($otherPlayer);
+  return GetBaseDamage($player) < GetBaseDamage($otherPlayer);
 }
 
 function PlayerHasFewerEquipment($player)
@@ -1897,7 +1897,7 @@ function SelfCostModifier($cardID, $from, $reportMode=false)
   //Self Cost Modifier
   switch($cardID) {
     case "2585318816"://Resolute
-      $modifier -= floor(GetHealth($currentPlayer)/5);
+      $modifier -= floor(GetBaseDamage($currentPlayer)/5);
       break;
     case "1446471743"://Force Choke
       if(SearchCount(SearchAllies($currentPlayer, trait:"Force")) > 0) $modifier -= 1;
@@ -2681,7 +2681,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") MZMoveCard($currentPlayer, "MYDISCARD:maxCost=2;definedType=Unit", "MYHAND", may:true);
       break;
     case "5335160564"://Guerilla Attack Pod
-      if($from != "PLAY" && (GetHealth(1) >= 15 || GetHealth(2) >= 15)) {
+      if($from != "PLAY" && (GetBaseDamage(1) >= 15 || GetBaseDamage(2) >= 15)) {
         $playAlly->Ready();
       }
       break;
@@ -7994,6 +7994,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a friendly unit with 5 or less power to ready", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      break;
+    case "6270777752"://Millennium Falcon
+      //When played: if your base has more damage on it than an enemy base, ready this unit.
+      if($from != "PLAY" && PlayerHasLessDamageOnBase($otherPlayer)) {
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->UniqueID(), 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      }
       break;
     //PlayAbility End
     default: break;
