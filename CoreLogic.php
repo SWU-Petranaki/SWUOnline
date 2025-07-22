@@ -8002,6 +8002,15 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
       }
       break;
+    case "9508246309"://Imperial Deck Officer
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Heal") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:aspect=Villainy&THEIRALLY:aspect=Villainy");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a villainous unit to heal damage from");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,2", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
