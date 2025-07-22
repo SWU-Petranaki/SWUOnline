@@ -20343,7 +20343,6 @@ function IsUnimplemented($cardID) {
   8765982385 => true,
   9508246309 => true,
   9782761594 => true,
-  9863058946 => true,
 );
   return isset($unimplementedCards[$cardID]) || isset($manualData[$cardID]);
 }
