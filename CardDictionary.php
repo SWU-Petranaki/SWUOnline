@@ -1425,6 +1425,8 @@ function AbilityCost($cardID)
       return $abilityName == "Heal" ? 1 : 0;
     case "9508246309"://Imperial Deck Officer
       return $abilityName == "Heal" ? 2 : 0;
+    case "9782761594"://Ion Cannon
+      return $abilityName == "Deal Damage" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -1900,6 +1902,8 @@ function CheckIBHAbilityTypes($cardID) {
   switch($cardID) {
     case "9508246309"://Imperial Deck Officer
       return "A,AA";
+    case "9782761594"://Ion Cannon
+      return "A,AA";
     case "9389694773"://Darth Vader
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "9970912404"://Leia Organa
@@ -2323,6 +2327,8 @@ function CheckIBHAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Heal";
     case "9508246309"://Imperial Deck Officer
         return "Heal,Attack";
+    case "9782761594"://Ion Cannon
+      return "Damage,Attack";
   }
 }
 
