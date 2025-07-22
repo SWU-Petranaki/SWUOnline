@@ -1678,6 +1678,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         default: break;
       }
       break;
+    case "DRENGIR_SPAWN":
+      $dsUniqueID = $parameterArr[1];
+      $spawn = Ally::FromUniqueId($dsUniqueID);
+      if($spawn->Exists()) {
+        $defeatedCost = $parameterArr[2];
+        for($i=0; $i<$defeatedCost; ++$i) {
+          $spawn->AttachExperience();
+        }
+      }
+      break;
       //Intro Battle: Hoth
     case "LEIA_ORGANA_IBH":
       $selectedUnits = explode(",",$dqVars[0]);
