@@ -388,9 +388,11 @@ function CharacterHasWhenPlayCardAbility($player, $characterIndex, $playedCardID
         return $character->IsReady() && (DefinedTypesContains($playedCardID, "Upgrade", $player) || PilotWasPlayed($player, $playedCardID));
       case "9334480612"://Boba Fett (Daimyo)
         return $character->IsReady()
+          && !LayersHasWhenPlayCardTrigger("9334480612", $player)
           && DefinedTypesContains($playedCardID, "Unit", $player)
           && !PilotWasPlayed($player, $playedCardID)
-          && HasKeyword($playedCardID, "Any", $player);
+          && (HasKeyword($playedCardID, "Any", $player)
+            || HasKeywordWhenPlayed($playedCardID));
       default:
         break;
     }

@@ -1549,6 +1549,17 @@ function LayersHasTrigger($cardID, $player="") {
   return false;
 }
 
+function LayersHasWhenPlayCardTrigger($cardID, $player="") {
+  global $layers;
+  for ($i = 0; $i < count($layers); $i += LayerPieces()) {
+    if ($layers[$i] == "TRIGGER" && $layers[$i + 2] == "WHENPLAYCARDABILITY" && ($player == "" || $layers[$i + 1] == $player)
+        && explode(",", $layers[$i + 3])[0] == $cardID) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function BeginRoundPass()
 {
   global $mainPlayer;
