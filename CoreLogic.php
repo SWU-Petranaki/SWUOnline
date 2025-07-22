@@ -1143,7 +1143,7 @@ function HasKeyword($cardID, $keyword, $player="", $index=-1){
     case "Ambush": return HasAmbush($cardID, $player, $index,"");
     case "Coordinate": return HasCoordinate($cardID, $player, $index);
     case "Exploit": return ExploitAmount($cardID, $player, true) > 0;
-    case "Piloting": return PilotingCost($cardID) > -1;//TODO: test Boba Daimyo trigger when piloting as upgrade vs unit
+    case "Piloting": return PilotingCost($cardID) > -1;
     case "Hidden": return HasHidden($cardID, $player, $index);
     case "Any":
       return SmuggleCost($cardID, $player, $index) > -1 ||
@@ -1161,6 +1161,15 @@ function HasKeyword($cardID, $keyword, $player="", $index=-1){
         PilotingCost($cardID) > -1 ||
         HasHidden($cardID, $player, $index);
     default: return false;
+  }
+}
+
+function HasKeywordWhenPlayed($cardID) {
+  switch($cardID) {
+    case "6059510270"://Obi-Wan Kenobi (Protective Padawan)
+      return true;
+    default:
+      return false;
   }
 }
 

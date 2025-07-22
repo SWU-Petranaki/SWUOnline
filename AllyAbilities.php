@@ -1537,12 +1537,10 @@ function OnKillAbility($player, $uniqueID)
       if(IsAllyAttackTarget()) {
         $target = GetAttackTarget();
         $defAlly = new Ally($target, $defPlayer);
-        if($defAlly->Health() <= 0 && $attackerAlly->Health() > $defAlly->CurrentPower()) {
-          $cost = CardCost($defAlly->CardID());
-          for($i=0; $i<$cost; ++$i) {
-            $attackerAlly->AttachExperience();
-          }
-        }
+        $cost = CardCost($defAlly->CardID());
+        $attackerUniqueID = $attackerAlly->UniqueID();
+        AddDecisionQueue("ATTACKEREXISTSORPASS", $mainPlayer, $attackerUniqueID, 1);
+        AddDecisionQueue("SPECIFICCARD", $mainPlayer, "DRENGIR_SPAWN,$attackerUniqueID,$cost", 1);
       }
       break;
     default: break;

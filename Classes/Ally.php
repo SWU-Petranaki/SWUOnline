@@ -471,7 +471,7 @@ class Ally {
   }
 
   function CurrentPower($reportMode = false) {
-    global $currentTurnEffects;
+    global $currentTurnEffects, $combatChain;
     $power = ((int) (SpecificCardPower("MYALLY-" . $this->index, $this->playerID))) + ((int) $this->allies[$this->index+7]);
     $power += AttackModifier($this->CardID(), $this->playerID, $this->index, $reportMode);
     $upgrades = $this->GetUpgrades();
