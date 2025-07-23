@@ -3519,12 +3519,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "LIGHTSPEEDASSAULT", 1);
       break;
     case "2062827036"://Do or Do Not
-      DQAskToUseTheForce($currentPlayer);
-      //TODO: use specific card logic since draw DQ is not working when twice
-      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
-      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
-      AddDecisionQueue("ELSE", $currentPlayer, "-");
-      AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+      if(HasTheForce($currentPlayer)) {
+        AddDecisionQueue("YESNO", $currentPlayer, "if you want to use the Force");
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DO_OR_DO_NOT", 1);
+      } else {
+        Draw($currentPlayer, true);
+      }
       break;
     case "7730475388"://Shoot Down
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:arena=Space&THEIRALLY:arena=Space");

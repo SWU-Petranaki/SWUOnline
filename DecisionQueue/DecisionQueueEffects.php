@@ -1688,6 +1688,15 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         }
       }
       break;
+    case "DO_OR_DO_NOT":
+      if($lastResult == "YES") {
+        UseTheForce($player);
+        Draw($player, true);
+        Draw($player, true);
+      } else {
+        Draw($player, true);
+      }
+      break;
       //Intro Battle: Hoth
     case "LEIA_ORGANA_IBH":
       $selectedUnits = explode(",",$dqVars[0]);
