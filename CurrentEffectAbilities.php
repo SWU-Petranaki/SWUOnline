@@ -985,6 +985,7 @@ function IsCombatEffectActive($cardID)
     case "6413979593"://Punch it
     case "1355075014"://Air Assault
     case "9667260960"://Retrofitted Airspeeder
+    case "2922063712"://Sith Trooper
     //Legends of the Force
     case "2167393423"://Darth Maul's Lightsaber
     case "8834515285"://Maz Kanata
