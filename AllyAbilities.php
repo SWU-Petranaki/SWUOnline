@@ -2701,6 +2701,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "1072330402"://Acclamator Assault Ship
     case "3527836283"://Peli Motto
     case "0398004943"://Vanee
+    case "9863058946"://Rebellion Y-Wing
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -4092,6 +4093,9 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       break;
     case "0274964861"://Admiral Piett
       Draw($mainPlayer);
+      break;
+    case "9863058946"://Rebellion Y-Wing
+      DealDamageAsync($otherPlayer, 1, "DAMAGE", "6022703929", sourcePlayer:$player);
       break;
     default: break;
   }
