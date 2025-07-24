@@ -80,13 +80,11 @@ To secure your project and set environment variables:
 
   RewriteEngine On
 
-  # Redirect to MainMenu.php if the request is for the root directory
-  RewriteCond %{REQUEST_URI} ^/$
-  RewriteRule ^$ /Arena/MainMenu.php [R=302,L]
+  # Redirect from / to /Arena/MainMenu.php
+  RewriteRule ^$ /Arena/MainMenu.php [L,R=301]
 
-  # Redirect to MainMenu.php if the request is for the Arena directory
-  RewriteCond %{REQUEST_URI} ^/Arena/?$
-  RewriteRule ^Arena/?$ /Arena/MainMenu.php [R=302,L]
+  # Redirect from /Arena to /Arena/MainMenu.php
+  RewriteRule ^Arena/?$ /Arena/MainMenu.php [L,R=301]
   ```
 
 This configuration ensures that the `.git` folder is inaccessible and adds environment variables for your project.
