@@ -112,7 +112,21 @@ If your project is not yet synced to GitHub, follow these steps:
   ```bash
   git pull https://github.com/SWU-Petranaki/SWUOnline.git main
   ```
-  
+
+- Grant permissions to the `daemon` user:
+  ```bash
+  sudo chown -R daemon:daemon /opt/lampp/htdocs/petranaki/Arena
+  ```
+
+- Add the project directory to the safe directory list:
+  ```bash
+  sudo git config --system --add safe.directory /opt/lampp/htdocs/petranaki/Arena
+  ```
+
+- Test the setup:
+  ```bash
+  sudo -u daemon git pull https://github.com/SWU-Petranaki/SWUOnline.git main
+  ```
 
 #### 5. Grant Permissions to the `daemon` User
 The `Webhook.php` script will execute using the `daemon` user, so it must have permissions to run `git pull`.
