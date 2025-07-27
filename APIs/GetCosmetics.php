@@ -281,6 +281,11 @@ $cardBack->name = "Babu Freaks";
 $cardBack->id = 67;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Bodega Loth-Cats";
+$cardBack->id = 68;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
