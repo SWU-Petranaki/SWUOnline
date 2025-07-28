@@ -7602,7 +7602,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "5800386133"://Yoda's Lightsaber
       if (HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0,THEIRCHAR-0", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a base to heal", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,3", 1);
       }
       break;
