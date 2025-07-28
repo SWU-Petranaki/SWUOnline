@@ -1343,13 +1343,14 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
     case "9503028597"://Clone Deserter
     case "9108611319"://Cartel Turncoat
     case "6878039039"://Hylobon Enforcer
+    case "2151430798"://Guavian Antagonizer
       if($reportMode) break;
       $deck = &GetDeck($opponent);
       if(count($deck) > 0) {
-      AddDecisionQueue("SETDQCONTEXT", $opponent, "Do you want to draw a card for Hylobon Enforcer's bounty?");
-      AddDecisionQueue("YESNO", $opponent, "-");
-      AddDecisionQueue("NOPASS", $opponent, "-");
-      AddDecisionQueue("DRAW", $opponent, "-", 1);
+        AddDecisionQueue("SETDQCONTEXT", $opponent, "Do you want to draw a card for" . CardLink($bountyCardID, $bountyCardID) . " bounty?");
+        AddDecisionQueue("YESNO", $opponent, "-");
+        AddDecisionQueue("NOPASS", $opponent, "-");
+        AddDecisionQueue("DRAW", $opponent, "-", 1);
       }
       break;
     case "8679638018"://Wanted Insurgents
@@ -1407,10 +1408,6 @@ function CollectBounty($player, $unitCardID, $bountyCardID, $isExhausted, $owner
         Draw($opponent);
         Draw($opponent);
       }
-      break;
-    case "2151430798."://Guavian Antagonizer
-      if($reportMode) break;
-      Draw($opponent);
       break;
     case "0474909987"://Val
       if($reportMode) break;
@@ -3013,7 +3010,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
       AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY", 1);
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a friendly unit to deal 2 damage to", 1);
-      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:1, unitCardID:$attackID), 1);
       AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
       AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $mainPlayer, "0412810079,PLAY", 1);

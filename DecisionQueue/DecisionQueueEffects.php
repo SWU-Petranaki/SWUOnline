@@ -1608,6 +1608,11 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
+    case "KYLO_REN_LOF":
+      if(DefinedTypesContains($lastResult, "Upgrade")) {
+        Draw($player);
+      }
+      break;
     case "ALWAYS_TWO":
       $numSith = 0;
       $units = &GetAllies($player);
@@ -1691,10 +1696,10 @@ function SpecificCardLogic($player, $parameter, $lastResult)
     case "DO_OR_DO_NOT":
       if($lastResult == "YES") {
         UseTheForce($player);
-        Draw($player, true);
-        Draw($player, true);
+        Draw($player);
+        Draw($player);
       } else {
-        Draw($player, true);
+        Draw($player);
       }
       break;
       //Intro Battle: Hoth

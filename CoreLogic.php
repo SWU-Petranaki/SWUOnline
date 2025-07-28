@@ -3523,7 +3523,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("YESNO", $currentPlayer, "if you want to use the Force");
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DO_OR_DO_NOT", 1);
       } else {
-        Draw($currentPlayer, true);
+        Draw($currentPlayer);
       }
       break;
     case "7730475388"://Shoot Down
@@ -7013,8 +7013,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to discard");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
-        AddDecisionQueue("PASSIFNOTDEFINEDTYPE", $currentPlayer, "Upgrade", 1);
-        AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLO_REN_LOF", 1);
       }
       break;
     case "2762251208"://Rey Leader
@@ -7603,7 +7602,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "5800386133"://Yoda's Lightsaber
       if (HasTheForce($currentPlayer)) {
         DQAskToUseTheForce($currentPlayer);
-        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0", 1);
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, "MYCHAR-0,THEIRCHAR-0", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a base to heal", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZOP", $currentPlayer, "RESTORE,3", 1);
       }
       break;
@@ -7976,8 +7977,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "2796502553"://I Want Proof, Not Leads
-      Draw($currentPlayer, true);
-      Draw($currentPlayer, true);
+      Draw($currentPlayer);
+      Draw($currentPlayer);
       PummelHit($currentPlayer);
       break;
     case "4087028261"://The Desolation of Hoth
