@@ -1065,7 +1065,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           }
           return implode(",", $cards);
         case "ADDTOPDECKASRESOURCE":
-          AddTopDeckAsResource($player);
+          $ready = isset($paramArr[1]) && $paramArr[1] == "1";
+          AddTopDeckAsResource($player, !$ready);
           return $lastResult;
         case "GETLASTALLYMZ":
           $allies = &GetAllies($player);
