@@ -1311,6 +1311,18 @@ function HasHidden($cardID, $player, $index, $isRecursion=false) {
   return false;
 }
 
+function HasPlot($cardID, $player, $index) {
+  $ally = new Ally("MYALLY-" . $index, $player);
+  if($ally->LostAbilities()) return false;
+  return match($cardID) {
+    //Secrets of Power
+      "abcdefg001"//Cad Bane
+    , "abcdefg002"//Armor of Fortune
+      => true,
+    default => false,
+  };
+}
+
 function WhenDefeatedWasUseForceAbility($cardID) {
   return match ($cardID) {
     //Legends of the Force

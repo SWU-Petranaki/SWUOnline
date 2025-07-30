@@ -794,6 +794,17 @@ function PlayerHasLessDamageOnBase($player)
   return GetBaseDamage($player) < GetBaseDamage($otherPlayer);
 }
 
+function PlayerHasPlotsAvailable($player) {
+  $resources = &GetArsenal($player);
+  $plotAvailable = false;
+  for($i=0; $i<count($resources); $i+=ResourcePieces()) {
+    if(HasPlot($resources[$i], $player, $i))
+      $plotAvailable = $plotAvailable || NumResourcesAvailable($player) >= CardCost($resources[$i]);
+  }
+
+  return $plotAvailable;
+}
+
 function PlayerHasFewerEquipment($player)
 {
   $otherPlayer = ($player == 1 ? 2 : 1);
@@ -1145,6 +1156,7 @@ function HasKeyword($cardID, $keyword, $player="", $index=-1){
     case "Exploit": return ExploitAmount($cardID, $player, true) > 0;
     case "Piloting": return PilotingCost($cardID) > -1;
     case "Hidden": return HasHidden($cardID, $player, $index);
+    case "Plot": return HasPlot($cardID, $player, $index);
     case "Any":
       return SmuggleCost($cardID, $player, $index) > -1 ||
         RaidAmount($cardID, $player, $index, true) > 0 ||
@@ -1159,7 +1171,9 @@ function HasKeyword($cardID, $keyword, $player="", $index=-1){
         HasCoordinate($cardID, $player, $index) ||
         ExploitAmount($cardID, $player, true) > 0 ||
         PilotingCost($cardID) > -1 ||
-        HasHidden($cardID, $player, $index);
+        HasHidden($cardID, $player, $index) ||
+        HasPlot($cardID, $player, $index)
+      ;
     default: return false;
   }
 }
@@ -2453,6 +2467,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SHOWSELECTEDTARGET", $currentPlayer, "-", 1);
         AddDecisionQueue("DEPLOYLEADERASUPGRADE", $currentPlayer, $cardID, 1);
       }
+
+      //check for any Plot cards in resources
+      if(PlayerHasPlotsAvailable($currentPlayer)) {
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "PLAY_PLOT", 1);
+      }
+
       //On Deploy ability / When Deployed ability
       if(!LeaderAbilitiesIgnored()) {
         switch($cardID) {
@@ -2562,7 +2582,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
             AddDecisionQueue("DRAW", $currentPlayer, "-", 1);
             break;
           case "5174764156"://Kylo Ren Leader flip
-            AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF", 1);
+            AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF_DEPLOY", 1);
             break;
           default: break;
         }
@@ -7013,7 +7033,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a card to discard");
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
         AddDecisionQueue("MZDESTROY", $currentPlayer, "-", 1);
-        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLO_REN_LOF", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF_RUMMAGE", 1);
       }
       break;
     case "2762251208"://Rey Leader
@@ -8019,6 +8039,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,3,$currentPlayer,1", 1);
       break;
+    //Secrets of Power
+    case "abcdefg001":
+      MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true);
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8190,11 +8214,17 @@ function AfterPlayedByAbility($cardID) {
       break;
     case "d911b778e4"://Kylo Ren Leader unit
       SearchCurrentTurnEffects("d911b778e4", $currentPlayer, remove:true);
-      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF", 1);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF_DEPLOY", 1);
       break;
     case "7787879864"://Cin Drallig
       AddDecisionQueue("OP", $currentPlayer, "GETLASTALLYMZ");
       AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      break;
+    //Secrets of Power
+    case "PLAY_PLOT":
+      if(PlayerHasPlotsAvailable($currentPlayer))
+        PrependDecisionQueue("SPECIFICCARD", $currentPlayer, "PLAY_PLOT", 1);
+      PrependDecisionQueue("OP", $currentPlayer, "ADDTOPDECKASRESOURCE", 1);
       break;
     default: break;
   }

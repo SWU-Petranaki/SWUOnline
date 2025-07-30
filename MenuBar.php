@@ -204,7 +204,7 @@ $baseUri = "/Arena";
                       </ul>
                     </li>";
                     echo "<li><a href='https://swustats.net/TCGEngine/SharedUI/MainMenu.php' target='_blank' class='NavBarItem'>SWU Stats</a></li>";
-                    //echo "<li><a href='$baseUri/PreviewCards.php'>Preview Cards</a></li>";
+                    echo "<li><a href='$baseUri/PreviewCards.php'>Preview Cards</a></li>";
                     echo "<li><a href='$baseUri/ProfilePage.php' class='NavBarItem'>Profile</a></li>";
                     echo "<li><a href='$baseUri/AccountFiles/LogoutUser.php' class='NavBarItem'>Log Out</a></li>";
                 } else {
@@ -256,7 +256,7 @@ $baseUri = "/Arena";
                   <a href='javascript:void(0)' onclick='toggleInfoNavMobile()' class='NavBarItem info-nav'>Info <span id='nav-tri-info-mobile' class='nav-triangle'>▼</span></a>
                   <ul id='info-dd-mobile' class='dropdown-content'>
                     <li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>"
-                    //. "<li><a href='$baseUri/PreviewCards.php'>Preview Cards</a></li>"
+                    . "<li><a href='$baseUri/PreviewCards.php'>Preview Cards</a></li>"
                     . "<li><a href='$baseUri/Conduct.php'>Code of Conduct</a></li>
                   </ul>
                 </li>";

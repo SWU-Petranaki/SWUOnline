@@ -1734,7 +1734,7 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
   global $layerPriority, $lastPlayed;
   global $decisionQueue, $CS_PlayIndex, $CS_OppIndex, $CS_OppCardActive, $CS_PlayUniqueID, $CS_LayerPlayIndex, $CS_LastDynCost, $CS_NumCardsPlayed;
   global $CS_DynCostResolved, $CS_NumVillainyPlayed, $CS_NumEventsPlayed, $CS_NumClonesPlayed;
-  global $CS_PlayedAsUpgrade, $CS_NumWhenDefeatedPlayed, $CS_NumBountyHuntersPlayed, $CS_NumPilotsPlayed, $CS_NumFirstOrderPlayed;
+  global $CS_PlayedAsUpgrade, $CS_PlayedAsPlot, $CS_NumWhenDefeatedPlayed, $CS_NumBountyHuntersPlayed, $CS_NumPilotsPlayed, $CS_NumFirstOrderPlayed;
   global $CS_NumForcePlayed, $CS_NumForcePlayedNonUnit;
   global $CS_NumUnitsPlayed;
   $resources = &GetResources($currentPlayer);
@@ -1778,7 +1778,9 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
     if ($dynCostResolved >= 0) {
       SetClassState($currentPlayer, $CS_DynCostResolved, $dynCostResolved);
       $baseCost = match ($from) {
-        "RESOURCES" => SmuggleCost($cardID, $currentPlayer, $index) + SelfCostModifier($cardID, $from),
+        "RESOURCES" => (GetClassState($currentPlayer, $CS_PlayedAsPlot) == "1"
+          ? CardCost($cardID)
+          : SmuggleCost($cardID, $currentPlayer, $index)) + SelfCostModifier($cardID, $from),
         "PLAY", "EQUIP" => AbilityCost($cardID),
         "HAND" => GetClassState($currentPlayer, $CS_PlayedAsUpgrade) == "1" && PilotingCost($cardID) > -1
         ? PilotingCost($cardID) + SelfCostModifier($cardID, $from)
@@ -1851,6 +1853,8 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
   }
   $resourceCards = &GetResourceCards($currentPlayer);
   $resourcesPaid = 0;
+  if(GetClassState($currentPlayer, $CS_PlayedAsPlot) == "1")
+    $prepaidResources = 1;
 
   if ($prepaidResources > 0 && $resources[1] > 0) {
     $resourcesPaid = $prepaidResources;

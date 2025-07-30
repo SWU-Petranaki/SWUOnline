@@ -23,9 +23,9 @@ $cardsList = [];
     <div class="game-browser-wrapper">
     <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px;">
           <div style="text-align: center; margin-top: 4px;">
-              <h2>Set 5 Cards In Progress</h2>
+              <h2>Set IBH and Set 6 Cards In Progress</h2>
               <p style="margin-bottom: 20px;">The cards we have images for, but are not implemented are below</p>
-              <!-- <p style="margin-bottom: 20px;">All  Set 1-5 cards are now implemeneted.</p> -->
+              <!-- <p style="margin-bottom: 20px;">All  Set 1-6 cards are now implemeneted.</p> -->
           </div>
           <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 20px;">
               <?php
@@ -76,10 +76,10 @@ $cardsList = [];
               ?>
           </div>
       </div>
-      <div class="game-browser container bg-yellow" style="display: none; height: auto; margin-right: 20px; margin-bottom: 20px;">
-      <!-- <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px; margin-bottom: 20px;"> -->
+      <!-- <div class="game-browser container bg-yellow" style="display: none; height: auto; margin-right: 20px; margin-bottom: 20px;"> -->
+      <div class="game-browser container bg-yellow" style="height: auto; margin-right: 20px; margin-bottom: 20px;">
         <div style="text-align: center; margin-top: 4px;">
-          <h2>Set 5 Implemented Cards</h2>
+          <h2>Set 6 Implemented Cards</h2>
           <p style="margin-bottom: 20px;">Cards that have been recently implemented into the game</p>
         </div>
         <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 20px;">

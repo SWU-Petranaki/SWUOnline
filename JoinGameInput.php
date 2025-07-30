@@ -246,7 +246,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
       $decklinkArr = explode("/", $decklink);
       $assetSource = 2;
       $assetSourceID = substr(trim($decklinkArr[count($decklinkArr) - 1]), 0, 31);
-      
+
       // Fetch the HTML content from melee.gg
       $curl = curl_init();
       curl_setopt($curl, CURLOPT_URL, $decklink);
@@ -256,31 +256,31 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
       $apiInfo = curl_getinfo($curl);
       $errorMessage = curl_error($curl);
       curl_close($curl);
-      
+
       if(!empty($htmlContent)) {
         // Create a DOM parser
         $dom = new DOMDocument();
         @$dom->loadHTML($htmlContent);
         $xpath = new DOMXPath($dom);
-        
+
         // Create the structure that matches our expected format
         $deckObj = new stdClass();
-        
+
         // Extract deck title
         $deckTitleNodes = $xpath->query("//div[@class='decklist-title']");
         $deckTitle = "";
         if($deckTitleNodes->length > 0) {
           $deckTitle = trim($deckTitleNodes->item(0)->nodeValue);
-          
+
           // Add metadata with the deck name
           $deckObj->metadata = new stdClass();
           $deckObj->metadata->name = $deckTitle;
         }
-        
+
         // Extract cards from the HTML
         $deckObj->deck = [];
         $deckObj->sideboard = [];
-        
+
         // Find all card categories
         $categoryNodes = $xpath->query("//div[@class='decklist-category']");
         foreach($categoryNodes as $categoryNode) {
@@ -290,7 +290,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
           if($categoryTitleNodes->length > 0) {
             $categoryTitle = trim($categoryTitleNodes->item(0)->nodeValue);
           }
-          
+
           // Skip processing if we already have leader and base from title
           if($categoryTitle == "Leader (1)" || $categoryTitle == "Base (1)") {
             // If leader wasn't found in the title, try to extract it here
@@ -315,7 +315,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
                 }
               }
             }
-            
+
             // If base wasn't found in the title, try to extract it here
             if($categoryTitle == "Base (1)" && (!isset($deckObj->base) || !isset($deckObj->base->id))) {
               $cardNodes = $xpath->query(".//div[@class='decklist-record']", $categoryNode);
@@ -340,13 +340,13 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
             }
             continue;
           }
-          
+
           // Process cards in this category
           $cardNodes = $xpath->query(".//div[@class='decklist-record']", $categoryNode);
           foreach($cardNodes as $cardNode) {
             $quantityNodes = $xpath->query(".//span[@class='decklist-record-quantity']", $cardNode);
             $nameNodes = $xpath->query(".//a[@class='decklist-record-name']", $cardNode);
-            
+
             if($quantityNodes->length > 0 && $nameNodes->length > 0) {
               $quantity = intval(trim($quantityNodes->item(0)->nodeValue));
               $cardName = trim($nameNodes->item(0)->nodeValue);
@@ -361,7 +361,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
                 $cardObject = new stdClass();
                 $cardObject->id = $cardSetCode;
                 $cardObject->count = $quantity;
-                
+
                 // Add to appropriate list based on category
                 if(stripos($categoryTitle, "Sideboard") !== false) {
                   $deckObj->sideboard[] = $cardObject;
@@ -374,7 +374,7 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
             }
           }
         }
-        
+
         // Convert back to JSON string
         $json = json_encode($deckObj);
       }

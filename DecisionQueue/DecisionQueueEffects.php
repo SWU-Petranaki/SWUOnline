@@ -1569,7 +1569,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
           }
         }
       break;
-    case "KYLOREN_LOF":
+    case "KYLOREN_LOF_DEPLOY":
       global $CS_AfterPlayedBy;
       AddDecisionQueue("MULTIZONEINDICES", $player, "MYDISCARD:definedType=Upgrade", 1);
       AddDecisionQueue("SETDQCONTEXT", $player, "Choose an upgrade to attach to " . CardLink("d911b778e4", "d911b778e4") . "<br/>(or Pass to skip)", 1);
@@ -1608,7 +1608,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
-    case "KYLO_REN_LOF":
+    case "KYLOREN_LOF_RUMMAGE":
       if(DefinedTypesContains($lastResult, "Upgrade")) {
         Draw($player);
       }
@@ -1718,6 +1718,20 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         $ally = new Ally($selectedUnits[$i], $allyPlayer);
         $ally->Destroy();
       }
+      break;
+    //Secrets of Power
+    case "PLAY_PLOT":
+      global $CS_AfterPlayedBy, $CS_PlayedAsPlot;
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYRESOURCES:keyword=Plot", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose a Plot to play");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("SETDQVAR", $player, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "PLAY_PLOT", 1);
+      AddDecisionQueue("SETCLASSSTATE", $player, $CS_AfterPlayedBy, 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "1", 1);
+      AddDecisionQueue("SETCLASSSTATE", $player, $CS_PlayedAsPlot, 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
     //SpecificCardLogic End
     default: return "";
