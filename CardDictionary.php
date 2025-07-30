@@ -591,6 +591,13 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
       case "0162722840"://Death Squadron Star Destroyer
       case "6199578966"://Blizzard Force AT-ST
         return true;
+    //Secrets of Power
+      case "abcdefg006"://Captain Typho
+        return true;
+      case "abcdefg003"://Corrupt Politician
+        $myAllyCount = SearchCount(SearchAllies($player));
+        $theirAllyCount = SearchCount(SearchAllies($player == 1 ? 2 : 1));
+        return $myAllyCount > $theirAllyCount;
     default: break;
   }
   //The Ghost JTL
@@ -1305,6 +1312,9 @@ function HasHidden($cardID, $player, $index, $isRecursion=false) {
         if(HasHidden($units[$i], $player, $i, true)) return true;
       }
       break;
+    //Secrets of Power
+    case "abcdefg010"://Anakin Skywalker
+      return true;
     default: break;
   }
 
@@ -1318,6 +1328,7 @@ function HasPlot($cardID, $player, $index) {
     //Secrets of Power
       "abcdefg001"//Cad Bane
     , "abcdefg002"//Armor of Fortune
+    , "abcdefg007"//Jar Jar Binks
       => true,
     default => false,
   };
