@@ -5463,7 +5463,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "2761325938"://Devastating Gunship
-      MZChooseAndDestroy($currentPlayer, "THEIRALLY:maxHealth=2");
+      if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "THEIRALLY:maxHealth=2", context:"Choose an enemy unit with 2 or less health to defeat.");
       break;
     case "4824842849"://Subjugating Starfighter
       if($initiativePlayer == $currentPlayer) {
@@ -8040,8 +8040,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,3,$currentPlayer,1", 1);
       break;
     //Secrets of Power
-    case "abcdefg001":
-      MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true);
+    case "abcdefg001"://Cad Bane
+      if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true, context: "Choose a unit with 2 or less health to defeat");
+      break;
+    case "abcdefg004"://I Am the Senate
+      for($i=0; $i<5; ++$i) CreateSpy($currentPlayer);
       break;
     //PlayAbility End
     default: break;
