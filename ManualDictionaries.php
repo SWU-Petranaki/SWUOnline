@@ -11,6 +11,7 @@ function ManualCardTitleData() {
     'abcdefg008' => 'Syril Karn',
     'abcdefg009' => 'Furtive Handmaiden',
     'abcdefg010' => 'Anakin Skywalker',
+    'abcdefg011' => 'Spy',
     //continue manual card titles
   );
 }
@@ -39,6 +40,7 @@ function ManualCardCostData() {
     'abcdefg008' => 2,
     'abcdefg009' => 1,
     'abcdefg010' => 3,
+    'abcdefg011' => 0,
     //continue manual card costs
   );
 }
@@ -53,6 +55,7 @@ function ManualCardHPDictionaryData() {
     'abcdefg008' => 3,
     'abcdefg009' => 2,
     'abcdefg010' => 4,
+    'abcdefg011' => 2,
     //continue manual card HP dictionary
   );
 }
@@ -67,6 +70,7 @@ function ManualCardPowerData() {
     'abcdefg008' => 2,
     'abcdefg009' => 2,
     'abcdefg010' => 3,
+    'abcdefg011' => 0,
     //continue manual card powers
   );
 }
@@ -113,6 +117,7 @@ function ManualCardTraitsData() {
     'abcdefg008' => 'Official',
     'abcdefg009' => 'Naboo',
     'abcdefg010' => 'Force,Jedi,Republic',
+    'abcdefg011' => 'Official',
     //continue manual card traits
   );
 }
@@ -127,6 +132,7 @@ function ManualCardArenasData() {
     'abcdefg008' => 'Ground',
     'abcdefg009' => 'Ground',
     'abcdefg010' => 'Ground',
+    'abcdefg011' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -143,6 +149,7 @@ function ManualDefinedCardTypeData() {
     'abcdefg008' => 'Unit',
     'abcdefg009' => 'Unit',
     'abcdefg010' => 'Unit',
+    'abcdefg011' => 'Unit',
     //continue manual card types
   );
 }
@@ -159,6 +166,7 @@ function ManualDefinedCardType2Data() {
     'abcdefg008' => 'Unit',
     'abcdefg009' => 'Unit',
     'abcdefg010' => 'Unit',
+    'abcdefg011' => 'Unit',
     //continue manual card types 2
   );
 }
@@ -201,6 +209,7 @@ function ManualCardSetData() {
     'abcdefg008' => 'SEC',
     'abcdefg009' => 'SEC',
     'abcdefg010' => 'SEC',
+    'abcdefg011' => 'SEC',
     //continue manual card sets
   );
 }
@@ -217,6 +226,7 @@ function ManualUUIDLookupData() {
     'SEC_133' => 'abcdefg008',
     'SEC_197' => 'abcdefg009',
     'SEC_201' => 'abcdefg010',
+    'SEC_T01' => 'abcdefg011',
     //continue manual UUID lookups
   );
 }
@@ -233,6 +243,7 @@ function ManualCardIDLookupData() {
     'abcdefg008' => 'SEC_133',
     'abcdefg009' => 'SEC_197',
     'abcdefg010' => 'SEC_201',
+    'abcdefg011' => 'SEC_T01',
     //continue manual card ID lookups
   );
 }
@@ -249,6 +260,7 @@ function ManualCardRarityData() {
     'abcdefg008' => 'Rare',
     'abcdefg009' => 'Special',
     'abcdefg010' => 'Special',
+    'abcdefg011' => 'Common',
     //continue manual card rarities
   );
 }
@@ -268,6 +280,6 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Cad Bane|Armor Of Fortune|Corrupt Politician|I Am the Senate|C-3PO|Captain Typho|Jar Jar Binks|Syril Karn|Furtive Handmaiden|Anakin Skywalker';
+    return '|Cad Bane|Armor Of Fortune|Corrupt Politician|I Am the Senate|C-3PO|Captain Typho|Jar Jar Binks|Syril Karn|Furtive Handmaiden|Anakin Skywalker|Spy';
 }
 ?>

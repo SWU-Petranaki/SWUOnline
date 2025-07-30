@@ -393,6 +393,8 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "6815960456": $amount += 3; break;//E-Web Gunner
     case "9127322562": $amount += 1; break;//Surface Assault Bomber
     case "4136801536": $amount += 2; break;//Han Solo
+    //Secrets of Power
+    case "abcdefg011": $amount += 2; break;//Spy token
     default: break;
   }
   //The Ghost JTL
@@ -2620,12 +2622,14 @@ function IsCloned($uniqueID) {
 function IsToken($cardID)
 {
   return match($cardID) {
-    "8752877738",//Shield
-    "2007868442",//Experience
-    "3463348370",//Battle Droid
-    "3941784506",//Clone Trooper
-    "9415311381",//X-Wing
-    "7268926664" => true,//Tie Fighter
+      "8752877738"//Shield
+    , "2007868442"//Experience
+    , "3463348370"//Battle Droid
+    , "3941784506"//Clone Trooper
+    , "9415311381"//X-Wing
+    , "7268926664"//Tie Fighter
+    , "abcdefg011"//Spy
+      => true,
     default => false
   };
 }

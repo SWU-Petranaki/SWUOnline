@@ -17,6 +17,10 @@ function CreateTieFighter($player, $from = "-") {
   return PlayAlly("7268926664", $player, from:$from, playAbility:true); //Tie Fighter
 }
 
+function CreateSpy($player, $from = "-") {
+  return PlayAlly("abcdefg011", $player, from:$from, playAbility:true); //Spy
+}
+
 // This function put an ally into play for a player, which means no when played abilities are triggered.
 function PlayAlly($cardID, $player, $subCards = "-", $from = "-",
   $owner = null, $cloned = false, $playAbility = false, $turnsInPlay = 0) {
