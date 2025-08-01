@@ -286,6 +286,11 @@ $cardBack->name = "Bodega Loth-Cats";
 $cardBack->id = 68;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "SWUNeff (Hyperspace)";
+$cardBack->id = 69;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];

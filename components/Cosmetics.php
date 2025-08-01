@@ -68,7 +68,8 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-66", "BVS", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-67", "Babu Freaks", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-68", "Bodega Loth-Cats", $SET_Cardback . "-" . $settings[$SET_Cardback]);
-  //continue adding card backs here
+  $rv .= CreateSelectOption($SET_Cardback . "-69", "SWUNeff (Hyperspace)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+ //continue adding card backs here
   return $rv;
 }
 
