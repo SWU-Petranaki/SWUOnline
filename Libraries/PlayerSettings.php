@@ -354,7 +354,8 @@ function GetCardBack($player, $index="")
     67 => "CB_BabuFreaks",
     68 => "CB_blc",
     69 => "CB_SWUNeff_HS",
- //continue adding card backs here
+    70 => "CB_SWUTC",
+    //continue adding card backs here
     default => "CardBack",
   };
 }
