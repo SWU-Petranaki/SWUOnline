@@ -111,9 +111,9 @@ PHP;
     $cosmeticsPath = './components/Cosmetics.php';
     $cosmeticsContents = file_get_contents($cosmeticsPath);
 
-    $newOption = " \$rv .= CreateSelectOption(\$SET_Cardback . \"-$cardbackId\", \"$displayName\", \$SET_Cardback . \"-\" . \$settings[\$SET_Cardback]);\n";
+    $newOption = "  \$rv .= CreateSelectOption(\$SET_Cardback . \"-$cardbackId\", \"$displayName\", \$SET_Cardback . \"-\" . \$settings[\$SET_Cardback]);\n";
 
-    $insertPosition = strpos($cosmeticsContents, '//continue adding card backs here')-1;
+    $insertPosition = strpos($cosmeticsContents, ' //continue adding card backs here')-1;
     if ($insertPosition !== false) {
       $cosmeticsContents = substr_replace($cosmeticsContents, $newOption, $insertPosition, 0);
       file_put_contents($cosmeticsPath, $cosmeticsContents);
@@ -127,9 +127,9 @@ PHP;
   $playerSettingsPath = './Libraries/PlayerSettings.php';
   $playerSettingsContents = file_get_contents($playerSettingsPath);
 
-  $newCardbackCase = " $cardbackId => \"$fileName\",\n";
+  $newCardbackCase = "    $cardbackId => \"$fileName\",\n";
 
-  $insertPosition = strpos($playerSettingsContents, '//continue adding card backs here')-1;
+  $insertPosition = strpos($playerSettingsContents, '   //continue adding card backs here')-1;
   if ($insertPosition !== false) {
     $playerSettingsContents = substr_replace($playerSettingsContents, $newCardbackCase, $insertPosition, 0);
     file_put_contents($playerSettingsPath, $playerSettingsContents);
