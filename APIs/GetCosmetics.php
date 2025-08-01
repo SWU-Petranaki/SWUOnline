@@ -131,10 +131,7 @@ $cardBack = new stdClass();
 $cardBack->name = "Tropa do Boba";
 $cardBack->id = 32;
 $response->cardBacks[] = $cardBack;
-$cardBack = new stdClass();
-$cardBack->name = "Outer Rim CCG";
-$cardBack->id = 33;
-$response->cardBacks[] = $cardBack;
+
 $cardBack = new stdClass();
 $cardBack->name = "Central Spacers";
 $cardBack->id = 34;
@@ -294,6 +291,11 @@ $response->cardBacks[] = $cardBack;
 $cardBack = new stdClass();
 $cardBack->name = "SWU-Tang Clan";
 $cardBack->id = 70;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Outer Rim CCG";
+$cardBack->id = 71;
 $response->cardBacks[] = $cardBack;
 
 //continue adding card backs here

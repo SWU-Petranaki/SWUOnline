@@ -317,7 +317,6 @@ function GetCardBack($player, $index="")
     30 => "GonkGang",
     31 => "galactic-shuffle",
     32 => "tropa-do-boba-2",
-    33 => "CB_OuterRimCCG",
     34 => "Central",
     35 => "CB_Enigma",
     36 => "PrairiePirates",
@@ -355,6 +354,7 @@ function GetCardBack($player, $index="")
     68 => "CB_blc",
     69 => "CB_SWUNeff_HS",
     70 => "CB_SWUTC",
+    71 => "CB_OuterRimCCG2",
     //continue adding card backs here
     default => "CardBack",
   };
