@@ -355,6 +355,8 @@ function GetCardBack($player, $index="")
     69 => "CB_SWUNeff_HS",
     70 => "CB_SWUTC",
     71 => "CB_OuterRimCCG2",
+    72 => "CB_DDlight",
+    73 => "CB_DDdark",
     //continue adding card backs here
     default => "CardBack",
   };

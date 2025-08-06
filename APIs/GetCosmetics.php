@@ -298,6 +298,16 @@ $cardBack->name = "Outer Rim CCG";
 $cardBack->id = 71;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Dodonna&#039;s Disciples (light)";
+$cardBack->id = 72;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Dodonna&#039;s Disciples (dark)";
+$cardBack->id = 73;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
