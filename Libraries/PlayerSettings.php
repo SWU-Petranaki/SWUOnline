@@ -357,6 +357,7 @@ function GetCardBack($player, $index="")
     71 => "CB_OuterRimCCG2",
     72 => "CB_DDlight",
     73 => "CB_DDdark",
+    74 => "DriftlessSquadron",
     //continue adding card backs here
     default => "CardBack",
   };

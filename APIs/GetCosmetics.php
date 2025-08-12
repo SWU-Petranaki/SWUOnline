@@ -307,6 +307,11 @@ $cardBack = new stdClass();
 $cardBack->name = "Dodonna&#039;s Disciples (dark)";
 $cardBack->id = 73;
 $response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Driftless Squadron";
+$cardBack->id = 74;
+$response->cardBacks[] = $cardBack;
 
 //continue adding card backs here
 
