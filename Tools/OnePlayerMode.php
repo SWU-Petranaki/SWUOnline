@@ -13,7 +13,7 @@ if (!isset($_SESSION["useruid"])) {
 }
 $useruid = $_SESSION["useruid"];
 ?>
-<link rel="stylesheet" href="../css/petranaki250609.css">
+<link rel="stylesheet" href="../css/petranaki250812.css">
 <style>
   .onep-title {
     font-size: 1.5em;

@@ -553,7 +553,7 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 10px 0;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   margin-bottom: 20px;
 }
@@ -564,17 +564,27 @@ select {
 
 .card-display {
   display: flex;
-  align-items: center;
+  align-items: end;
   gap: 8px;
-  margin-right: 10px;
+  margin-right: 32px;
+  height: 80px;
+  /* margin-bottom: -20px; */
+  position: relative;
 }
 
 .card-image {
-  width: 56px;
-  height: 40px;
+  width: auto;
+  height: 64px;
   object-fit: cover;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.base-image {
+  position: absolute;
+  top: 0px;
+  left: 16px;
+  z-index: -1;
 }
 
 .game-info {

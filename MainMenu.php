@@ -1139,7 +1139,7 @@ function displayOpenGames(data) {
                 const baseImg = document.createElement('img');
                 baseImg.src = `./WebpImages2/${game.p1Base}.webp`;
                 baseImg.alt = 'Base';
-                baseImg.className = 'card-image';
+                baseImg.className = 'card-image base-image';
 
                 // Add error handler for image loading
                 baseImg.onerror = function() {
@@ -1342,7 +1342,7 @@ function displaySpectateGames(data) {
                 const baseImg = document.createElement('img');
                 baseImg.src = `./WebpImages2/${game.p1Base}.webp`;
                 baseImg.alt = 'Base 1';
-                baseImg.className = 'card-image';
+                baseImg.className = 'card-image base-image';
 
                 // Add error handler for image loading
                 baseImg.onerror = function() {
@@ -1384,7 +1384,7 @@ function displaySpectateGames(data) {
                 const baseImg = document.createElement('img');
                 baseImg.src = `./WebpImages2/${game.p2Base}.webp`;
                 baseImg.alt = 'Base 2';
-                baseImg.className = 'card-image';
+                baseImg.className = 'card-image base-image';
 
                 // Add error handler for image loading
                 baseImg.onerror = function() {
