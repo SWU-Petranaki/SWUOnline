@@ -2553,6 +2553,7 @@ function UpgradeFilter($cardID)
     case "1637958279"://Kylo Ren's Lightsaber
     case "3895004077"://Inquisitor's Lightsaber
     case "9566815036"://Darth Revan's Lightsabers
+    case "9852723156"://Heirloom Lightsaber
       return "trait=Vehicle";
     //end non-Vehicle upgrades
     //Vehicle only upgrades
