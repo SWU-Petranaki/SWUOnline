@@ -18,7 +18,7 @@ function CreateTieFighter($player, $from = "-") {
 }
 
 function CreateSpy($player, $from = "-") {
-  return PlayAlly("abcdefg011", $player, from:$from, playAbility:true); //Spy
+  return PlayAlly("6665455613", $player, from:$from, playAbility:true); //Spy
 }
 
 // This function put an ally into play for a player, which means no when played abilities are triggered.

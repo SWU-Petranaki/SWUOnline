@@ -394,7 +394,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "9127322562": $amount += 1; break;//Surface Assault Bomber
     case "4136801536": $amount += 2; break;//Han Solo
     //Secrets of Power
-    case "abcdefg011": $amount += 2; break;//Spy token
+    case "6665455613": $amount += 2; break;//Spy token
     default: break;
   }
   //The Ghost JTL
@@ -594,7 +594,7 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
       case "6199578966"://Blizzard Force AT-ST
         return true;
     //Secrets of Power
-      case "abcdefg006"://Captain Typho
+      case "8088607505"://Captain Typho
         return true;
       case "abcdefg003"://Corrupt Politician
         $myAllyCount = SearchCount(SearchAllies($player));
@@ -1315,7 +1315,7 @@ function HasHidden($cardID, $player, $index, $isRecursion=false) {
       }
       break;
     //Secrets of Power
-    case "abcdefg010"://Anakin Skywalker
+    case "3103445211"://Anakin Skywalker
       return true;
     default: break;
   }
@@ -1328,9 +1328,9 @@ function HasPlot($cardID, $player, $index) {
   if($ally->LostAbilities()) return false;
   return match($cardID) {
     //Secrets of Power
-      "abcdefg001"//Cad Bane
-    , "abcdefg002"//Armor of Fortune
-    , "abcdefg007"//Jar Jar Binks
+      "8365930807"//Cad Bane
+    , "0024944513"//Armor of Fortune
+    , "9985741271"//Jar Jar Binks
       => true,
     default => false,
   };
@@ -2629,7 +2629,7 @@ function IsToken($cardID)
     , "3941784506"//Clone Trooper
     , "9415311381"//X-Wing
     , "7268926664"//Tie Fighter
-    , "abcdefg011"//Spy
+    , "6665455613"//Spy
       => true,
     default => false
   };
