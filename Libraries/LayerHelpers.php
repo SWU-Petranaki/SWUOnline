@@ -69,54 +69,52 @@ function LayerFriendlyDestroyedTriggers($player, $arr) {
   }
 }
 
-function GetAllyWhenDestroyTheirsEffects($mainPlayer, $player,
-    $destroyedUniqueID, $destroyedWasUnique, $destroyedWasUpgraded, $destroyedUpgradesWithOwnerData) {
-  global $combatChainState, $CCS_CachedLastDestroyed;
-  $triggers=[];
-  if($mainPlayer != $player) {
-    $allies = &GetAllies($player);
-    for($i=0;$i<count($allies);$i+=AllyPieces()) {
-      $ally = new Ally("MYALLY-$i", $player);
-      if(!$ally->LostAbilities() && $ally->UniqueID() != $destroyedUniqueID &&
-         HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded)) {
-        array_unshift($triggers, implode(";",$destroyedUpgradesWithOwnerData));
-        array_unshift($triggers, $ally->UniqueID());
-        array_unshift($triggers, $player);
-        array_unshift($triggers, $ally->CardID());
-      }
-    }
-  } else {
-    $allies = &GetAllies($player);
-    for($i=0;$i<count($allies);$i+=AllyPieces()) {
-      $ally = new Ally("MYALLY-$i", $player);
-      if(!$ally->LostAbilities() && $ally->UniqueID() != $destroyedUniqueID &&
-         HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded)) {
-        array_unshift($triggers, implode(";",$destroyedUpgradesWithOwnerData));
-        array_unshift($triggers, $ally->UniqueID());
-        array_unshift($triggers, $player);
-        array_unshift($triggers, $ally->CardID());
-      };
-    }
-    if($combatChainState[$CCS_CachedLastDestroyed] != "NA") {
-      $ally = explode(";",$combatChainState[$CCS_CachedLastDestroyed]);
-      // Even if this is the ally that was just destroyed, it should still trigger its ability
-      // if it has a WhenEnemyDestroyed effect (for case where both units die in combat)
-      $otherPlayer = $player == "1" ? "2" : "1";
-      // Only trigger the ability if:
-      // 1. The cached ally isn't the same as the one we're processing AND has WhenEnemyDestroyed
-      // OR
-      // 2. The cached ally is from a different player (trade situation)
-      if(HasWhenEnemyDestroyed($ally[0], $ally[5], $ally[8], $destroyedWasUnique, $destroyedWasUpgraded) &&
-         ($ally[5] != $destroyedUniqueID || $ally[1] != $player)) {
-        array_unshift($triggers, implode(";",$destroyedUpgradesWithOwnerData));
-        array_unshift($triggers, $ally[5]);
-        array_unshift($triggers, $otherPlayer);
-        array_unshift($triggers, $ally[0]);
-      }
-    }
-  }
+function GetAllyWhenDestroyTheirsEffects(
+    $mainPlayer,
+    $player,
+    $destroyedUniqueID,
+    $destroyedWasUnique,
+    $destroyedWasUpgraded,
+    $destroyedUpgradesWithOwnerData
+) {
+    global $combatChain, $combatChainState, $CCS_CachedLastDestroyed;
+    $triggers = [];
 
-  return $triggers;
+    $allies = &GetAllies($player);
+
+    // Loop through all allies for WhenEnemyDestroyed triggers
+    for ($i = 0; $i < count($allies); $i += AllyPieces()) {
+        $ally = new Ally("MYALLY-$i", $player);
+        if ($ally->LostAbilities() || $ally->UniqueID() == $destroyedUniqueID) continue;
+
+        if (HasWhenEnemyDestroyed($ally->CardID(), $ally->UniqueID(), $ally->NumUses(), $destroyedWasUnique, $destroyedWasUpgraded)) {
+            array_unshift($triggers, implode(";", $destroyedUpgradesWithOwnerData));
+            array_unshift($triggers, $ally->UniqueID());
+            array_unshift($triggers, $player);
+            array_unshift($triggers, $ally->CardID());
+        }
+    }
+
+    // Always consider cached last destroyed unit for trades/multi-destroy
+    if ($combatChainState[$CCS_CachedLastDestroyed] != "NA") {
+        $cached = explode(";", $combatChainState[$CCS_CachedLastDestroyed]);
+        $cachedCardID = $cached[0];
+        $cachedOwner = $cached[1];
+        $cachedUniqueID = $cached[5];
+        $cachedNumUses = $cached[8];
+
+        // Only skip if the cached unit is the same as the unit just destroyed
+        if ($cachedUniqueID != $destroyedUniqueID &&
+            HasWhenEnemyDestroyed($cachedCardID, $cachedUniqueID, $cachedNumUses, $destroyedWasUnique, $destroyedWasUpgraded)) {
+
+            array_unshift($triggers, implode(";", $destroyedUpgradesWithOwnerData));
+            array_unshift($triggers, $cachedUniqueID);
+            array_unshift($triggers, $cachedOwner);
+            array_unshift($triggers, $cachedCardID);
+        }
+    }
+
+    return $triggers;
 }
 
 function GetAllyWhenDestroyFriendlyEffects($player, $destroyedCardID, $destroyedUniqueID, $destroyedWasUnique, $destroyedWasUpgraded, $upgradesWithOwnerData) {
