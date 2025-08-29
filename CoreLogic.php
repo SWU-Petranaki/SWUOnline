@@ -8040,12 +8040,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,3,$currentPlayer,1", 1);
       break;
     //Secrets of Power
-    case "8365930807"://Cad Bane
+    case "8365930807"://Cad Bane SOP
       if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true, context: "Choose a unit with 2 or less health to defeat");
       break;
     case "6814804824"://I Am the Senate
       for($i=0; $i<5; ++$i) CreateSpy($currentPlayer);
       break;
+    case "9985741271"://Jar Jar Binks SOP
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose another unit to give +2/+2");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDHEALTH,2", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "9985741271,PLAY", 1);
+        break;
     case "7930132943"://Charged With Murder
       if(PlayerCanDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"])) {
         DQAskToDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"]);
