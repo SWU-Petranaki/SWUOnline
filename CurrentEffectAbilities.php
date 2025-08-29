@@ -312,6 +312,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "1758639231": return 2;//Improvised Detonation
     case "4512477799": return 2;//Hoth Lieutenant
     case "4136801536": return -2;//Han Solo
+    case "9985741271": return 2;//Jar Jar Binks SOP
     default: return 0;
   }
 }
