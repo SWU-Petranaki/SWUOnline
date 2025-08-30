@@ -1316,7 +1316,17 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Show deck, discard, pitch, banish
   //Display Their Discard
   if (count($theirDiscard) > 0) {
-    echo ("<div class= 'their-discard' title='Click to view the cards in your opponent's Graveyard.' onclick='TogglePopup(\"theirDiscardPopup\");'>");
+    $hasSomethingICanPlay = false;
+    for ($i = 0; $i + DiscardPieces() - 1 < count($theirDiscard); $i += DiscardPieces()) {
+      $cardID = $theirDiscard[$i];
+      $modifier = $theirDiscard[$i + 1];
+      if($modifier == "TTOPFREE") {
+        $hasSomethingICanPlay = $playerID == $currentPlayer;
+        break;
+      }
+    }
+    $addBorder = $hasSomethingICanPlay ? "style='border: 2px solid #00FF66;'" : "";
+    echo ("<div $addBorder class= 'their-discard' title='Click to view the cards in your opponent's Graveyard.' onclick='TogglePopup(\"theirDiscardPopup\");'>");
     echo (Card($theirDiscard[count($theirDiscard) - DiscardPieces()], "concat", $cardSizeAura, 0, 0, 0, 0, count($theirDiscard) / DiscardPieces(), controller: $otherPlayer));
   } else {
     //Empty Discard div
@@ -1730,7 +1740,17 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   //Show deck, discard
   //Display My Discard
   if (count($myDiscard) > 0) {
-    echo ("<div class='my-discard my-discard-fill' title='Click to view the cards in your Graveyard.' onclick='TogglePopup(\"myDiscardPopup\");'>");
+    $hasSomethingICanPlay = false;
+    for ($i = 0; $i + DiscardPieces() - 1 < count($myDiscard); $i += DiscardPieces()) {
+      $cardID = $myDiscard[$i];
+      $modifier = $myDiscard[$i + 1];
+      if($modifier == "TTFREE") {
+        $hasSomethingICanPlay = $playerID == $currentPlayer;
+        break;
+      }
+    }
+    $addBorder = $hasSomethingICanPlay ? "style='border: 2px solid #00FF66;'" : "";
+    echo ("<div $addBorder class='my-discard my-discard-fill' title='Click to view the cards in your Graveyard.' onclick='TogglePopup(\"myDiscardPopup\");'>");
     echo (Card($myDiscard[count($myDiscard) - DiscardPieces()], "concat", $cardSizeAura, 0, 0, 0, 0, count($myDiscard) / DiscardPieces(), controller: $playerID));
   } else {
     //Empty Discard div
