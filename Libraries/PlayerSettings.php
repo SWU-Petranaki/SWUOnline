@@ -359,6 +359,7 @@ function GetCardBack($player, $index="")
     73 => "CB_DDdark",
     74 => "DriftlessSquadron",
     75 => "CB_Ticorah",
+    76 => "CD_LSD",
     //continue adding card backs here
     default => "CardBack",
   };
