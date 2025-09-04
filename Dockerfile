@@ -32,5 +32,9 @@ FROM base as dev
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+# Install PHPUnit 11.x globally (LTS as of 2025-09-03)
+RUN curl -L https://phar.phpunit.de/phpunit-11.phar -o /usr/local/bin/phpunit \
+    && chmod +x /usr/local/bin/phpunit
+
 # Production stage (builds by default)
 FROM base as prod

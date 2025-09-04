@@ -1653,6 +1653,43 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         return $lastResult;
       }
       return "PASS";
+    case "DISCLOSEASPECTS":
+      $aspects = explode(",", $parameter);
+      $handSize = count(GetHand($player)) / HandPieces();
+      PrependDecisionQueue("RESOLVEDISCLOSE", $player, $parameter, 1);
+      PrependDecisionQueue("MULTICHOOSEHAND", $player, "<-", 1);
+      PrependDecisionQueue("SETDQCONTEXT", $player, "Choose cards to reveal with " . implode(" and ", $aspects) . " to activate this ability");
+      PrependDecisionQueue("PREPENDLASTRESULT", $player, "$handSize-", 1);
+      PrependDecisionQueue("FINDINDICES", $player, "HAND", 1);
+      break;
+    case "RESOLVEDISCLOSE":
+      $cardIndices = is_array($lastResult) ? $lastResult : ($lastResult == "" ? [] : explode(",", $lastResult));
+      $aspects = explode(",", $parameter);
+      $revealedAspects = [];
+      $cardIDsToReveal = [];
+      $hand = &GetHand($player);
+        foreach ($cardIndices as $idx) {
+        if (!isset($hand[$idx])) continue;
+        $cardID = $hand[$idx];
+        $cardIDsToReveal[] = $cardID;
+        $aspectsOnCard = explode(",", CardAspects($cardID));
+        foreach ($aspectsOnCard as $aspect) {
+          $revealedAspects[$aspect] = ($revealedAspects[$aspect] ?? 0) + 1;
+        }
+      }
+      $requiredAspects = [];
+      foreach ($aspects as $aspect) {
+        $requiredAspects[$aspect] = ($requiredAspects[$aspect] ?? 0) + 1;
+      }
+      foreach ($requiredAspects as $aspect => $count) {
+        if (!isset($revealedAspects[$aspect]) || $revealedAspects[$aspect] < $count) {
+          WriteLog("You did not reveal all required aspects. Reverting gamestate.");
+          RevertGamestate();
+          return "PASS";
+        }
+      }
+      RevealCards(implode(",", $cardIDsToReveal), $player);
+      return $lastResult;
     case "THEFORCEISWITHYOU":
       TheForceIsWithYou($player);
       return $lastResult;
