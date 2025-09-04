@@ -8046,6 +8046,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "6814804824"://I Am the Senate
       for($i=0; $i<5; ++$i) CreateSpy($currentPlayer);
       break;
+    case "7930132943"://Charged With Murder
+      if(PlayerCanDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"])) {
+        DQAskToDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"]);
+        MZChooseAndDestroy($currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true", may:false, filter:"leader=1", context:"a damaged non-leader unit to defeat", isSubsequent:true);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8495,6 +8501,13 @@ function DQAskToUseTheForce($player, $withNoPass=true) {
   AddDecisionQueue("USETHEFORCE", $player, "-", 1);
 }
 
+function DQAskToDiscloseAspects($player, $aspects) {
+  AddDecisionQueue("SETDQCONTEXT", $player, "You may disclose " . implode(" and ", $aspects) . " to activate this ability");
+  AddDecisionQueue("YESNO", $player, "-", 1);
+  AddDecisionQueue("NOPASS", $player, "-", 1);
+  AddDecisionQueue("DISCLOSEASPECTS", $player, implode(",", $aspects), 1);
+}
+
 function DQTakeControlOfANonLeaderUnit($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
   AddDecisionQueue("MZFILTER", $player, "leader=1", 1);
@@ -8814,5 +8827,28 @@ function WakeUpChampion($player)
 {
   $char = &GetPlayerCharacter($player);
   $char[1] = 2;
+}
+
+function PlayerCanDiscloseAspects($player, $aspectsArray) {
+  $hand = &GetHand($player);
+  //return true if player has all aspects in hand. the same card cannot count for aspects if there are multiples
+  //example: ["Vigilance", "Vigilance"] needs one double Vigilance card or two single Vigilance cards (or having Vigilance plus either Heroism or Villainy)
+  $hand = GetHand($player);
+  $handAspects = [];
+  foreach ($hand as $cardID) {
+    $aspects = explode(",", CardAspects($cardID));
+    foreach ($aspects as $aspect) {
+      $handAspects[$aspect] = ($handAspects[$aspect] ?? 0) + 1;
+    }
+  }
+  //count occurrences of each aspect in hand and compare with aspectsArray supplied, if any aspect is missing or not enough, return false
+  $aspectsCount = [];
+  foreach ($aspectsArray as $aspect) {
+    $aspectsCount[$aspect] = ($aspectsCount[$aspect] ?? 0) + 1;
+  }
+  foreach ($aspectsCount as $aspect => $count) {
+    if(!isset($handAspects[$aspect]) || $handAspects[$aspect] < $count) return false;
+  }
+  return true;
 }
 
