@@ -8040,13 +8040,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,3,$currentPlayer,1", 1);
       break;
     //Secrets of Power
-    case "8365930807"://Cad Bane SOP
+    case "8365930807"://Cad Bane SEC
       if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true, context: "Choose a unit with 2 or less health to defeat");
       break;
     case "6814804824"://I Am the Senate
       for($i=0; $i<5; ++$i) CreateSpy($currentPlayer);
       break;
-    case "9985741271"://Jar Jar Binks SOP
+    //Secrets of Power
+    case "9985741271"://Jar Jar Binks SEC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
         AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose another unit to give +2/+2");
@@ -8055,11 +8056,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
         AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "9985741271,PLAY", 1);
         break;
-    case "7930132943"://Charged With Murder
-      if(PlayerCanDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"])) {
-        DQAskToDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"]);
-        MZChooseAndDestroy($currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true", may:false, filter:"leader=1", context:"a damaged non-leader unit to defeat", isSubsequent:true);
-      }
+    case "3489636326"://Budget Scheming
+      WriteLog("testing");
+      DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Official&THEIRALLY:trait=Official", "to give an experience to");
+      AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       break;
     //PlayAbility End
     default: break;
@@ -8510,13 +8510,6 @@ function DQAskToUseTheForce($player, $withNoPass=true) {
   AddDecisionQueue("USETHEFORCE", $player, "-", 1);
 }
 
-function DQAskToDiscloseAspects($player, $aspects) {
-  AddDecisionQueue("SETDQCONTEXT", $player, "You may disclose " . implode(" and ", $aspects) . " to activate this ability");
-  AddDecisionQueue("YESNO", $player, "-", 1);
-  AddDecisionQueue("NOPASS", $player, "-", 1);
-  AddDecisionQueue("DISCLOSEASPECTS", $player, implode(",", $aspects), 1);
-}
-
 function DQTakeControlOfANonLeaderUnit($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "THEIRALLY");
   AddDecisionQueue("MZFILTER", $player, "leader=1", 1);
@@ -8836,28 +8829,5 @@ function WakeUpChampion($player)
 {
   $char = &GetPlayerCharacter($player);
   $char[1] = 2;
-}
-
-function PlayerCanDiscloseAspects($player, $aspectsArray) {
-  $hand = &GetHand($player);
-  //return true if player has all aspects in hand. the same card cannot count for aspects if there are multiples
-  //example: ["Vigilance", "Vigilance"] needs one double Vigilance card or two single Vigilance cards (or having Vigilance plus either Heroism or Villainy)
-  $hand = GetHand($player);
-  $handAspects = [];
-  foreach ($hand as $cardID) {
-    $aspects = explode(",", CardAspects($cardID));
-    foreach ($aspects as $aspect) {
-      $handAspects[$aspect] = ($handAspects[$aspect] ?? 0) + 1;
-    }
-  }
-  //count occurrences of each aspect in hand and compare with aspectsArray supplied, if any aspect is missing or not enough, return false
-  $aspectsCount = [];
-  foreach ($aspectsArray as $aspect) {
-    $aspectsCount[$aspect] = ($aspectsCount[$aspect] ?? 0) + 1;
-  }
-  foreach ($aspectsCount as $aspect => $count) {
-    if(!isset($handAspects[$aspect]) || $handAspects[$aspect] < $count) return false;
-  }
-  return true;
 }
 
