@@ -2797,6 +2797,18 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       //immediate effect. no layer
       AddCurrentTurnEffect($attackID, $defPlayer, from:"PLAY");
       break;
+    //Secrets of Power
+    case "9280012856"://Bail Organa SEC
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to create a spy token");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
+      AddDecisionQueue("CREATESPY", $mainPlayer, "-", 1);
+      break;
     default: break;
   }
 
