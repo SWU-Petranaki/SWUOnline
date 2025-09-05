@@ -8086,6 +8086,11 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "9394156877"://Dhani Pilgrim
       Restore(1, $currentPlayer);
       break;
+    case "5668757769"://Political Bully
+      if (SearchCount(SearchAllies($currentPlayer, trait:"Official")) > 1) {
+        DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground",  unitCardID:$cardID);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
