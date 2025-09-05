@@ -73,6 +73,8 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-72", "Dodonna&#039;s Disciples (light)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-73", "Dodonna&#039;s Disciples (dark)", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-74", "Driftless Squadron", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-75", "Ticorah", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-76", "Lonestar Destroyers [LSD]", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   //continue adding card backs here
   return $rv;
 }

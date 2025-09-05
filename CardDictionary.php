@@ -600,6 +600,7 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
         return true;
     //Secrets of Power
       case "8088607505"://Captain Typho
+      case "3796991604"://Dogmatic Shock Squad
         return true;
       case "abcdefg003"://Corrupt Politician
         $myAllyCount = SearchCount(SearchAllies($player));
@@ -1206,6 +1207,8 @@ function HasSaboteur($cardID, $player, $index, $isRecursion=false)
     case "1028870559"://Kit Fisto's Aethersprite
     case "90e2d4d83e"://Kit Fisto Leader unit
     case "3099740319"://Blockade Runner
+    //Secrets of Power
+    case "5195040705"://Bravo Squadron Fighter
       return true;
 
     //conditional saboteur
@@ -1335,7 +1338,11 @@ function HasPlot($cardID, $player, $index) {
     //Secrets of Power
       "8365930807"//Cad Bane SEC
     , "0024944513"//Armor of Fortune
+
     , "9985741271"//Jar Jar Binks SEC
+    , "2877797132"//Unveiled Might
+    , "3796991604"//Dogmatic Shock Squad
+    , "6015383018"//Sneaking Suspicion
       => true,
     default => false,
   };
