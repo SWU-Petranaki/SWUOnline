@@ -11,6 +11,7 @@ if (!isset($_SESSION['userid'])) {
   echo json_encode(["error" => "Not logged in"]);
   exit;
 }
+$useruid = $_SESSION['useruid'];
 
 $deck = $_POST["input"] ?? '';
 if ($deck == '') {
