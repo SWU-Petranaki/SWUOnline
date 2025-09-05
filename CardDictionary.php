@@ -602,7 +602,7 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
       case "8088607505"://Captain Typho
       case "3796991604"://Dogmatic Shock Squad
         return true;
-      case "abcdefg003"://Corrupt Politician
+      case "8854921497"://Corrupt Politician
         $myAllyCount = SearchCount(SearchAllies($player));
         $theirAllyCount = SearchCount(SearchAllies($player == 1 ? 2 : 1));
         return $myAllyCount > $theirAllyCount;
