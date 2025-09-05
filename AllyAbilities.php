@@ -2809,6 +2809,9 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
       AddDecisionQueue("CREATESPY", $mainPlayer, "-", 1);
       break;
+    case "8167114067"://Dedra Meero
+      CreateSpy($mainPlayer);
+      break;
     default: break;
   }
 
