@@ -197,6 +197,8 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     //Inro Battle: Hoth
     case "1174196426": $amount += 2; break;//Luke Skywalker
     case "0008529481": $amount += 1; break;//Lambda Shuttle
+    //Secrets of Power
+    case "7241924417": if(SearchCount(SearchAllies($player, trait:"Official")) > 0) $amount += 2; break;//Nubian Star Skiff
     default: break;
   }
   //The Ghost JTL
