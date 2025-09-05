@@ -1216,6 +1216,10 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       //Each opponent discards a card from their hand.
       PummelHit($otherPlayer);
       break;
+    //Secrets of Power
+    case "9394156877"://Dhani Pilgrim
+      Restore(1, $player);
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
