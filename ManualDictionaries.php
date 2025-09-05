@@ -1,7 +1,6 @@
 <?php
 function ManualCardTitleData() {
   return array(
-    'abcdefg003' => 'Corrupt Politician',
     'abcdefg008' => 'Syril Karn',
     //continue manual card titles
   );
@@ -135,7 +134,6 @@ function ManualCardIDLookupData() {
 
 function ManualCardRarityData() {
   return array(
-    'abcdefg003' => 'Special',
     'abcdefg008' => 'Rare',
     //continue manual card rarities
   );
@@ -150,6 +148,5 @@ function ManualIsUnimplementedData() {
 
 function ManualCardTitlesData() {
     //to be added to the CardTitles function output
-    return '|Corrupt Politician';
 }
 ?>
