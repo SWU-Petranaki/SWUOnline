@@ -8065,6 +8065,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         CreateSpy($currentPlayer);
       }
       break;
+    case "9394156877"://Dhani Pilgrim
+      Restore(1, $currentPlayer);
+      break;
     //PlayAbility End
     default: break;
   }
