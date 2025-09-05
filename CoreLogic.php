@@ -8064,6 +8064,27 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         DQAskToDiscloseAspects($currentPlayer, ["Vigilance", "Vigilance"]);
         MZChooseAndDestroy($currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true", may:false, filter:"leader=1", context:"a damaged non-leader unit to defeat", isSubsequent:true);
       }
+        break;
+    case "9985741271"://Jar Jar Binks SEC
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
+        AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose another unit to give +2/+2");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "ADDHEALTH,2", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $currentPlayer, "9985741271,PLAY", 1);
+        break;
+    case "3489636326"://Budget Scheming
+      DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Official&THEIRALLY:trait=Official", "to give an experience to");
+      AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
+      break;
+    case "7227136692"://ISB Shuttle SEC
+      if(GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0){
+        CreateSpy($currentPlayer);
+      }
+      break;
+    case "9394156877"://Dhani Pilgrim
+      Restore(1, $currentPlayer);
       break;
     //PlayAbility End
     default: break;
@@ -8530,6 +8551,29 @@ function DQTakeControlOfANonLeaderUnit($player) {
   AddDecisionQueue("MZOP", $player, "TAKECONTROL", 1);
 }
 
+function PlayerCanDiscloseAspects($player, $aspectsArray) {
+  $hand = &GetHand($player);
+  //return true if player has all aspects in hand. the same card cannot count for aspects if there are multiples
+  //example: ["Vigilance", "Vigilance"] needs one double Vigilance card or two single Vigilance cards (or having Vigilance plus either Heroism or Villainy)
+  $hand = GetHand($player);
+  $handAspects = [];
+  foreach ($hand as $cardID) {
+    $aspects = explode(",", CardAspects($cardID));
+    foreach ($aspects as $aspect) {
+      $handAspects[$aspect] = ($handAspects[$aspect] ?? 0) + 1;
+    }
+  }
+  //count occurrences of each aspect in hand and compare with aspectsArray supplied, if any aspect is missing or not enough, return false
+  $aspectsCount = [];
+  foreach ($aspectsArray as $aspect) {
+    $aspectsCount[$aspect] = ($aspectsCount[$aspect] ?? 0) + 1;
+  }
+  foreach ($aspectsCount as $aspect => $count) {
+    if(!isset($handAspects[$aspect]) || $handAspects[$aspect] < $count) return false;
+  }
+  return true;
+}
+
 function DQWaylay($player) {
   AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY&THEIRALLY");
   AddDecisionQueue("MZFILTER", $player, "leader=1");
@@ -8840,28 +8884,5 @@ function WakeUpChampion($player)
 {
   $char = &GetPlayerCharacter($player);
   $char[1] = 2;
-}
-
-function PlayerCanDiscloseAspects($player, $aspectsArray) {
-  $hand = &GetHand($player);
-  //return true if player has all aspects in hand. the same card cannot count for aspects if there are multiples
-  //example: ["Vigilance", "Vigilance"] needs one double Vigilance card or two single Vigilance cards (or having Vigilance plus either Heroism or Villainy)
-  $hand = GetHand($player);
-  $handAspects = [];
-  foreach ($hand as $cardID) {
-    $aspects = explode(",", CardAspects($cardID));
-    foreach ($aspects as $aspect) {
-      $handAspects[$aspect] = ($handAspects[$aspect] ?? 0) + 1;
-    }
-  }
-  //count occurrences of each aspect in hand and compare with aspectsArray supplied, if any aspect is missing or not enough, return false
-  $aspectsCount = [];
-  foreach ($aspectsArray as $aspect) {
-    $aspectsCount[$aspect] = ($aspectsCount[$aspect] ?? 0) + 1;
-  }
-  foreach ($aspectsCount as $aspect => $count) {
-    if(!isset($handAspects[$aspect]) || $handAspects[$aspect] < $count) return false;
-  }
-  return true;
 }
 

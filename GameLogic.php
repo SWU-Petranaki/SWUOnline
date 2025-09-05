@@ -352,6 +352,8 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       return CreateXWing($player, $parameter);
     case "CREATETIEFIGHTER":
       return CreateTieFighter($player, $parameter);
+    case "CREATESPY": 
+      return CreateSpy($player, $parameter);
     case "PLAYALLY":
       $params = explode(";", $parameter);
       $subCards = "-";
