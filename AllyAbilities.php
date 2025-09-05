@@ -2827,6 +2827,11 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
       AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
       break;
+    case "4832242481"://Taylander Shuttle
+      $totalOnAttackAbilities++;
+      if ($initiativePlayer == $mainPlayer) {
+        CreateSpy($mainPlayer);
+      }
     default: break;
   }
 
