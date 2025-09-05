@@ -2810,7 +2810,18 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       AddDecisionQueue("CREATESPY", $mainPlayer, "-", 1);
       break;
     case "8167114067"://Dedra Meero
+      $totalOnAttackAbilities++;
       CreateSpy($mainPlayer);
+      break;
+    case "7125768467"://Furtive Handmaiden
+      $totalOnAttackAbilities++;
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card from your hand to draw a card?");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
+      AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
       break;
     default: break;
   }
