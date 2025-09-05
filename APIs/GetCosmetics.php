@@ -323,6 +323,16 @@ $cardBack->name = "Lonestar Destroyers [LSD]";
 $cardBack->id = 76;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "TGB_Team";
+$cardBack->id = 77;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Indy SWU";
+$cardBack->id = 78;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
