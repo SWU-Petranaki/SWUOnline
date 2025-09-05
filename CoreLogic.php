@@ -798,7 +798,7 @@ function PlayerHasPlotsAvailable($player) {
   $resources = &GetArsenal($player);
   $plotAvailable = false;
   for($i=0; $i<count($resources); $i+=ResourcePieces()) {
-    if(HasPlot($resources[$i], $player, $i))
+    if(HasPlot($resources[$i]))
       $plotAvailable = $plotAvailable || NumResourcesAvailable($player) >= CardCost($resources[$i]);
   }
 
@@ -2583,6 +2583,10 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
             break;
           case "5174764156"://Kylo Ren Leader flip
             AddDecisionQueue("SPECIFICCARD", $currentPlayer, "KYLOREN_LOF_DEPLOY", 1);
+            break;
+          //Secrets of Power
+          case "1020365882"://Chancellor Palpatine Leader flip
+            AddCurrentTurnEffect(LeaderUnit($cardID), $currentPlayer, $from);
             break;
           default: break;
         }
@@ -5929,7 +5933,8 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "2870878795"://Padme Amidala
-      if(IsCoordinateActive($currentPlayer)) {
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Draw" && IsCoordinateActive($currentPlayer)) {
         AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "3;1;include-trait-Republic");
         AddDecisionQueue("ADDHAND", $currentPlayer, "-", 1);
         AddDecisionQueue("REVEALCARDS", $currentPlayer, "DECK", 1);
@@ -8040,6 +8045,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,3,$currentPlayer,1", 1);
       break;
     //Secrets of Power
+    case "1020365882"://Chancellor Palpatine leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Draw") {
+        AddDecisionQueue("SEARCHDECKTOPX", $currentPlayer, "5;1;include-keyword-Plot");
+        AddDecisionQueue("ADDHAND", $currentPlayer, "-", 1);
+        AddDecisionQueue("REVEALCARDS", $currentPlayer, "DECK", 1);
+      }
+      break;
     case "8365930807"://Cad Bane
       if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true, context: "Choose a unit with 2 or less health to defeat");
       break;
