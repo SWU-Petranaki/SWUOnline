@@ -395,20 +395,10 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "4136801536": $amount += 2; break;//Han Solo
     //Secrets of Power
     case "6665455613": $amount += 2; break;//Spy token
-    case "3103445211": //Anakin Skywalker SOP
-        $hasPadme = false;
-        $allies = &GetAllies($player);
-        foreach ($allies as $allyCardID) {
-        if (CardTitle($allyCardID) == "Padmé Amidala") {
-          $hasPadme = true;
-          break;
-        }
-        }
-        $character = &GetPlayerCharacter($player);
-        if (isset($character[CharacterPieces()]) && $character[CharacterPieces()] == "2870878795") {
-          $hasPadme = true;
-        }
-        $amount += $hasPadme ? 2 : 0;
+    case "3103445211": //Anakin Skywalker SEC
+      if (ControlsNamedCard($player, "Padmé Amidala")) {
+        $amount += 2;
+      }
       break;
     default: break;
   }
@@ -1346,7 +1336,7 @@ function HasPlot($cardID, $player, $index) {
   if($ally->LostAbilities()) return false;
   return match($cardID) {
     //Secrets of Power
-      "8365930807"//Cad Bane SOP
+      "8365930807"//Cad Bane SEC
     , "0024944513"//Armor of Fortune
     , "9985741271"//Jar Jar Binks SEC
     , "2877797132"//Unveiled Might
