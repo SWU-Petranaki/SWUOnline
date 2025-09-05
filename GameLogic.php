@@ -1199,6 +1199,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
           case "isToken": if(IsToken($inputArr[0])) $passFilter = !$passFilter; break;
           case "isLeader": if(CardIDIsLeader($inputArr[0])) $passFilter = !$passFilter; break;
           case "isUnique": if(CardIsUnique($inputArr[0])) $passFilter = !$passFilter; break;
+          case "keyword": if(HasKeyword($inputArr[0], $compareValue)) $passFilter = !$passFilter; break;
           default: break;
         }
         if($passFilter) $output[] = $inputArr[1];

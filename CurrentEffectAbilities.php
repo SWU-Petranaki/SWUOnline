@@ -597,6 +597,13 @@ function CurrentEffectCostModifiers($cardID, $from, $reportMode=false)
             $costModifier -= 99;
             $remove = true;
             break;
+          //Secrets of Power
+          case "f5c367b02f"://Chancellor Palpatine Leader unit
+            if ($from == "RESOURCES" && HasPlot($cardID)) {
+              $costModifier -= 3;
+              $remove = true;
+            }
+            break;
           default: break;
         }
       }

@@ -1246,7 +1246,7 @@ function HasSaboteur($cardID, $player, $index, $isRecursion=false)
   return false;
 }
 
-function HasHidden($cardID, $player, $index, $isRecursion=false) {
+function HasHidden($cardID, $player="", $index=-1, $isRecursion=false) {
   global $currentTurnEffects;
 
   $ally = new Ally("MYALLY-" . $index, $player);
@@ -1333,7 +1333,7 @@ function HasHidden($cardID, $player, $index, $isRecursion=false) {
   return false;
 }
 
-function HasPlot($cardID, $player, $index) {
+function HasPlot($cardID, $player="", $index=-1) {
   $ally = new Ally("MYALLY-" . $index, $player);
   if($ally->LostAbilities()) return false;
   return match($cardID) {
@@ -1465,6 +1465,9 @@ function AbilityCost($cardID)
       return $abilityName == "Heal" ? 2 : 0;
     case "9782761594"://Ion Cannon
       return $abilityName == "Deal Damage" ? 1 : 0;
+    //Secrets of Power
+    case "1020365882"://Chancellor Palpatine
+      return $abilityName == "Draw" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -1605,6 +1608,7 @@ function GetAbilityTypes($cardID, $index = -1, $from="-")
     case "JTL": $abilityTypes = CheckJTLAbilityTypes($cardID); break;
     case "LOF": $abilityTypes = CheckLOFAbilityTypes($cardID); break;
     case "IBH": $abilityTypes = CheckIBHAbilityTypes($cardID); break;
+    case "SEC": $abilityTypes = CheckSECAbilityTypes($cardID); break;
     default: break;//maybe throw error?
   }
 
@@ -1950,6 +1954,15 @@ function CheckIBHAbilityTypes($cardID) {
   }
 }
 
+function CheckSECAbilityTypes($cardID) {
+  global $currentPlayer;
+  switch($cardID) {
+    //leaders
+    case "1020365882"://Chancellor Palpatine Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    //non-leaders
+  }
+}
 
 function GetAbilityNames($cardID, $index = -1, $validate=false)
 {
@@ -1963,6 +1976,7 @@ function GetAbilityNames($cardID, $index = -1, $validate=false)
     case "JTL": $abilityNames = CheckJTLAbilityNames($cardID, $index, $validate); break;
     case "LOF": $abilityNames = CheckLOFAbilityNames($cardID, $index, $validate); break;
     case "IBH": $abilityNames = CheckIBHAbilityNames($cardID, $index, $validate); break;
+    case "SEC": $abilityNames = CheckSECAbilityNames($cardID, $index, $validate); break;
     default: break;//maybe throw error?
   }
 
@@ -2367,6 +2381,15 @@ function CheckIBHAbilityNames($cardID, $index, $validate) {
         return "Heal,Attack";
     case "9782761594"://Ion Cannon
       return "Damage,Attack";
+  }
+}
+
+function CheckSECAbilityNames($cardID, $index, $validate) {
+  global $currentPlayer;
+
+  switch($cardID) {
+    case "1020365882"://Chancellor Palpatine Leader
+      return LeaderAbilitiesIgnored() ? "" : "Draw";
   }
 }
 
@@ -2896,6 +2919,11 @@ function LeaderUnit($cardID) {
       return "9f6a0193d6";
     case "9970912404"://Leia Organa
       return "d1f7a7c11b";
+    //Secrets of Power
+    case "1020365882"://Chancellor Palpatine
+      return "f5c367b02f";
+    case "3399415368"://Padme Amidala
+      return "9efccff9d9";
     default: return "";
   }
 }
@@ -3090,6 +3118,11 @@ function LeaderUndeployed($cardID) {
       return "9389694773";
     case "d1f7a7c11b"://Leia Organa
       return "9970912404";
+    //Secrets of Power
+    case "f5c367b02f"://Chancellor Palpatine
+      return "1020365882";
+    case "9efccff9d9"://Padme Amidala
+      return "3399415368";
     default: return "";
   }
 }
