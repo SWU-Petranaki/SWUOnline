@@ -15,7 +15,6 @@ include "AI/EncounterAI.php";
 include "AI/PlayerMacros.php";
 include "Libraries/HTTPLibraries.php";
 require_once("Libraries/CoreLibraries.php");
-include_once "./includes/dbh.inc.php";
 include_once "./includes/functions.inc.php";
 include_once "APIKeys/APIKeys.php";
 include_once "WriteLog.php";
@@ -80,7 +79,6 @@ switch ($mode) {
     $userID = "";
     if (!$isSimulation) {
       include "MenuFiles/ParseGamefile.php";
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       if ($playerID == 1) $userID = $p1id;
       else $userID = $p2id;

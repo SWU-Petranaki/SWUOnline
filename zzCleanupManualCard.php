@@ -1,7 +1,6 @@
 <?php
 include_once 'MenuBar.php';
 include_once './includes/functions.inc.php';
-include_once "./includes/dbh.inc.php";
 
 // Authentication check
 if (!isset($_SESSION["useruid"])) {

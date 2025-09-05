@@ -6,7 +6,6 @@ include_once "../Libraries/HTTPLibraries.php";
 include_once "../Libraries/SHMOPLibraries.php";
 include_once "../APIKeys/APIKeys.php";
 include_once '../includes/functions.inc.php';
-include_once '../includes/dbh.inc.php';
 include_once '../CoreLogic.php';
 include_once '../Libraries/CoreLibraries.php';
 
@@ -206,7 +205,6 @@ if ($decklink != "") {
 
     if (isset($_SESSION["userid"])) {
         include_once '../includes/functions.inc.php';
-        include_once "../includes/dbh.inc.php";
         /*
         $deckbuilderID = GetDeckBuilderId($_SESSION["userid"], $decklink);
         if ($deckbuilderID != "") {
@@ -219,7 +217,6 @@ if ($decklink != "") {
     if ($favoriteDeck == "on" && isset($_SESSION["userid"])) {
         //Save deck
         include_once '../includes/functions.inc.php';
-        include_once "../includes/dbh.inc.php";
         addFavoriteDeck($_SESSION["userid"], $decklink, $deckName, $character, $deckFormat);
     }
 } else {

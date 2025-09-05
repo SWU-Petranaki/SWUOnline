@@ -75,6 +75,14 @@ $(document).on('click', '#filterButton', function() {
             box-sizing: border-box;
         }
 
+        .profile-toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: -0.8rem;
+            margin-right: 40%;
+        }
+
         @media screen and (max-width: 768px) {
             .core-wrapper {
                 margin-top: 0px !important; /* More space for mobile header */
@@ -253,6 +261,30 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
             xmlhttp.open("GET", ajaxLink, true);
             xmlhttp.send();
           }
+
+          function OnDisableStatsChange(c) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) { window.location.reload(); }
+            }
+            var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
+            ajaxLink += "&piece=" + <?php echo ($SET_DisableStats); ?>;
+            ajaxLink += `&value=${c}`;
+            xmlhttp.open("GET", ajaxLink, true);
+            xmlhttp.send();
+          }
+
+          function OnDisableChatAlwaysChange(c) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) { window.location.reload(); }
+            }
+            var ajaxLink = "api/UpdateMyPlayerSetting.php?userid=" + <?php echo ($_SESSION["userid"]); ?>;
+            ajaxLink += "&piece=" + <?php echo ($SET_DisableChatAlways); ?>;
+            ajaxLink += `&value=${c}`;
+            xmlhttp.open("GET", ajaxLink, true);
+            xmlhttp.send();
+          }
         </script>
         <?php
         $savedSettings = LoadSavedSettings($_SESSION["userid"]);
@@ -296,6 +328,17 @@ if (isset($_SESSION['swustats_linked_success']) && $_SESSION['swustats_linked_su
         echo GameBackgroundDropdowns($settingArray);
         echo ("</select></div>");
         ?>
+        <div>
+          <h3>Other Toggles</h3>
+          <div class="profile-toggle-item">
+            <label for="parent-mode-toggle">Disable Chat Always</label>
+            <input name="parent-mode-toggle" id="parent-mode-toggle" type="checkbox" <?php if(isset($settingArray[$SET_DisableChatAlways]) && $settingArray[$SET_DisableChatAlways] == 1) echo "checked"; ?> onchange="OnDisableChatAlwaysChange(event.target.value = (this.checked ? '1' : '0'))">
+          </div>
+          <div class="profile-toggle-item">
+            <label for="disable-stats-toggle">Disable Stats</label>
+            <input name="disable-stats-toggle" id="disable-stats-toggle" type="checkbox" <?php if(isset($settingArray[$SET_DisableStats]) && $settingArray[$SET_DisableStats] == 1) echo "checked"; ?> onchange="OnDisableStatsChange(event.target.value = (this.checked ? '1' : '0'))">
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -11,7 +11,6 @@ include "../Libraries/PlayerSettings.php";
 include "../Libraries/UILibraries2.php";
 include "../AI/CombatDummy.php";
 include "../WriteLog.php";
-include_once "../includes/dbh.inc.php";
 include_once "../includes/functions.inc.php";
 include_once "../MenuFiles/StartHelper.php";
 

@@ -2,7 +2,6 @@
 
 include "./Libraries/HTTPLibraries.php";
 include_once './includes/functions.inc.php';
-include_once "./includes/dbh.inc.php";
 include "Libraries/SHMOPLibraries.php";
 
 session_start();

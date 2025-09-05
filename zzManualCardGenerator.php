@@ -3,7 +3,6 @@
 include_once 'MenuBar.php';
 
 include_once './includes/functions.inc.php';
-include_once "./includes/dbh.inc.php";
 include_once './AccountFiles/AccountSessionAPI.php';
 
 if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== 0) {

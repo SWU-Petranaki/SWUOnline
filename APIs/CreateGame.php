@@ -11,7 +11,6 @@ require_once '../Assets/patreon-php-master/src/API.php';
 include_once '../Assets/patreon-php-master/src/PatreonLibraries.php';
 include_once "../AccountFiles/AccountDatabaseAPI.php";
 include_once '../includes/functions.inc.php';
-include_once '../includes/dbh.inc.php';
 include_once '../Database/ConnectionManager.php';
 ob_end_clean();
 SetHeaders();
@@ -64,7 +63,6 @@ if ($visibility == "public" && $deckTestMode != "" && !isset($_SESSION["userid"]
 if (isset($_SESSION["userid"])) {
   //Save game creation settings
   include_once '../includes/functions.inc.php';
-  include_once '../includes/dbh.inc.php';
   if (isset($favoriteDeckIndex)) {
     ChangeSetting("", $SET_FavoriteDeckIndex, $favoriteDeckIndex, $_SESSION["userid"]);
   }

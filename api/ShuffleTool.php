@@ -1,6 +1,5 @@
 <?php
 include "../includes/functions.inc.php";
-include "../includes/dbh.inc.php";
 include "../Libraries/CoreLibraries.php";
 include "../GeneratedCode/GeneratedCardDictionaries.php";
 header('Content-Type: application/json; charset=utf-8');

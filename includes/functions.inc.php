@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . "/dbh.inc.php";
 use SendGrid\Mail\Mail;
 
 // Check for empty input change username
@@ -576,6 +576,38 @@ function LoadBlockedPlayers($playerId)
 	}
 	mysqli_close($conn);
 	return $output;
+}
+
+function IsChatDisabledForAnyPlayer() {
+  global $SET_DisableChatAlways, $p1Settings, $p2Settings, $p1id, $p2id;
+  $useSavedSettings = false;
+  if ($p1Settings == null || $p2Settings == null) {
+    $p1Settings = LoadSavedSettings($p1id);
+    if($p2id != "-") $p2Settings = LoadSavedSettings($p2id);
+    else $p2Settings = array();
+    $useSavedSettings = true;
+  }
+  $p1Disabled = false;
+  $p2Disabled = false;
+  if ($useSavedSettings) {
+    for($i=0; $i<count($p1Settings); $i+=2) {
+      if($p1Settings[intval($i)] == $SET_DisableChatAlways && $p1Settings[intval($i)+1] == "1") {
+        $p1Disabled = true;
+        break;
+      }
+    }
+    for($i=0; $i<count($p2Settings); $i+=2) {
+      if($p2Settings[intval($i)] == $SET_DisableChatAlways && $p2Settings[intval($i)+1] == "1") {
+        $p2Disabled = true;
+        break;
+      }
+    }
+  } else {
+    $p1Disabled = isset($p1Settings[$SET_DisableChatAlways]) && $p1Settings[$SET_DisableChatAlways] == "1";
+    $p2Disabled = isset($p2Settings[$SET_DisableChatAlways]) && $p2Settings[$SET_DisableChatAlways] == "1";
+  }
+
+  return $p1Disabled || $p2Disabled;
 }
 
 function SendEmail($userEmail, $url)

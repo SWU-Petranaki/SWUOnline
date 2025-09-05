@@ -284,7 +284,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $userID = "";
       if (!$isSimulation) {
         include "MenuFiles/ParseGamefile.php";
-        include_once "./includes/dbh.inc.php";
         include_once "./includes/functions.inc.php";
         if ($playerID == 1)
           $userID = $p1id;
@@ -717,7 +716,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
     case 100002: //Concede
       if ($isSimulation)
         return;
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $conceded = true;
       if (!IsGameOver()) {
@@ -772,7 +770,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
     case 100007: //Claim Victory when opponent is inactive
       if ($isSimulation)
         return;
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       if (!IsGameOver()) {
         CloseDecisionQueue();
@@ -790,7 +787,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       if ($isSimulation)
         return;
       include "MenuFiles/ParseGamefile.php";
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $myName = ($playerID == 1 ? $p1uid : $p2uid);
       $theirName = ($playerID == 1 ? $p2uid : $p1uid);
@@ -855,7 +851,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
     case 100015://Leave Game Concede
       if ($isSimulation)
         return;
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $conceded = true;
       if (!IsGameOver())
@@ -865,7 +860,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
     case 100016://Concede Match
       if ($isSimulation)
         return;
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       $conceded = true;
       if (!IsGameOver()) {
@@ -877,7 +871,6 @@ function ProcessInput($playerID, $mode, $buttonInput, $cardID, $chkCount, $chkIn
       $parsedFormat = GetCurrentFormat();
       if ($isSimulation || ($parsedFormat !== Formats::$PremierStrict && $parsedFormat !== Formats::$PreviewStrict))
         return;
-      include_once "./includes/dbh.inc.php";
       include_once "./includes/functions.inc.php";
       CloseDecisionQueue();
       $conceded = true;

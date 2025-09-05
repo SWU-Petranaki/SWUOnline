@@ -6,7 +6,6 @@ include "Libraries/GameFormats.php";
 include "Libraries/NetworkingLibraries.php";
 include "APIKeys/APIKeys.php";
 include_once 'includes/functions.inc.php';
-include_once 'includes/dbh.inc.php';
 include_once 'CoreLogic.php';
 include_once 'Libraries/CoreLibraries.php';
 include_once "WriteLog.php";
@@ -481,7 +480,6 @@ function LoadPlayerDeck($decklink, $redirectPath, $format, $gameName, $playerID,
   if ($favoriteDeck == "on" && isset($_SESSION["userid"])) {
     //Save deck
     include_once './includes/functions.inc.php';
-    include_once "./includes/dbh.inc.php";
     $saveLink = explode("https://", $originalLink);
     $saveLink = count($saveLink) > 1 ? $saveLink[1] : $originalLink;
     addFavoriteDeck($_SESSION["userid"], $saveLink, $deckName, $leader, $deckFormat);

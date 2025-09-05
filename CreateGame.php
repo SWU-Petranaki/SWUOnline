@@ -10,7 +10,6 @@ include_once "Libraries/PlayerSettings.php";
 include_once 'Assets/patreon-php-master/src/PatreonDictionary.php';
 include_once "./AccountFiles/AccountDatabaseAPI.php";
 include_once './includes/functions.inc.php';
-include_once './includes/dbh.inc.php';
 include_once './Database/ConnectionManager.php';
 ob_end_clean();
 

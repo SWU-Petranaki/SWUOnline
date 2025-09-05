@@ -9,7 +9,6 @@ include "../CardDictionary.php";
 include "../AccountFiles/AccountSessionAPI.php";
 include_once "../AccountFiles/AccountDatabaseAPI.php";
 include_once '../includes/functions.inc.php';
-include_once '../includes/dbh.inc.php';
 
 $path = "../Games";
 
