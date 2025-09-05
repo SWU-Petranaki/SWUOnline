@@ -2,7 +2,6 @@
   include_once 'MenuBar.php';
 
   include_once './includes/functions.inc.php';
-  include_once "./includes/dbh.inc.php";
 
   if (!isset($_SESSION["useruid"])) {
     echo ("Please login to view this page.");

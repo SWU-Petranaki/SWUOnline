@@ -11,6 +11,7 @@ include_once "WriteLog.php";
 include_once './AccountFiles/AccountDatabaseAPI.php';
 include_once './Libraries/GameFormats.php';
 include './Libraries/NetworkingLibraries.php';
+include_once "./includes/functions.inc.php";
 ob_end_clean();
 
 session_start();
@@ -224,7 +225,7 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
   </style>
 </head>
 
-<body onload='OnLoadCallback(<?php echo (filemtime(LogPath($gameName))); ?>)'>
+<body onload='GameLobbyOnLoad(<?php echo (filemtime(LogPath($gameName))); ?>)'>
   <div class="lobby-container">
     <div id="cardDetail" style="display:none; position:absolute;"></div>
     <!-- <div class="lobby-header">
@@ -254,12 +255,20 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
         <div class='chat-log container bg-yellow'>
           <h2>Chat</h2>
           <div id='gamelog' class="gamelog"></div>
-          <div id='chatbox' class="chatbox">
-            <div class="lobby-chat-input">
-              <input class='GameLobby_Input' type='text' id='chatText' name='chatText' value='' autocomplete='off' onkeypress='ChatKey(event)'>
-              <button class='GameLobby_Button' style='cursor:pointer;' onclick='SubmitChat()'>Chat</button>
+          <?php if(!IsChatDisabledForAnyPlayer()): ?>
+            <div id="chatbox" class="chatbox">
+              <div class="lobby-chat-input">
+                <input class="GameLobby_Input" type="text" id="chatText" name="chatText" value="" autocomplete="off" onkeypress="ChatKey(event)">
+                <button class="GameLobby_Button" style="cursor:pointer;" onclick="SubmitChat()">Chat</button>
+              </div>
             </div>
-          </div>
+          <?php else: ?>
+            <div id="chatbox" class="chatbox">
+              <div class="lobby-chat-input">
+                <div style="margin: 0 auto; color:white; font-weight: bold;">One or more players has disabled chat.</div>
+              </div>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
 
@@ -373,27 +382,10 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
   <audio id="playerJoinedAudio">
     <source src="./Assets/playerJoinedSound.mp3" type="audio/mpeg">
   </audio>
-  <script src="./jsInclude250308.js"></script>
   <script>
-    function copyText() {
-      var gameLink = document.getElementById("gameLink");
-      gameLink.select();
-      gameLink.setSelectionRange(0, 99999);
-
-      // Copy it to clipboard
-      document.execCommand("copy");
-    }
-    function OnLoadCallback(lastUpdate) {
-      <?php
-      if ($playerID == "1" && $gameStatus == $MGS_ChooseFirstPlayer) {
-        echo ("var audio = document.getElementById('playerJoinedAudio');");
-        echo ("audio.play();");
-      }
-      ?>
-      UpdateFormInputs();
-      var log = document.getElementById('gamelog');
-      if (log !== null) log.scrollTop = log.scrollHeight;
-      CheckReloadNeeded(0);
+    function reload() {
+      // This function is called by jsInclude250308.js but should be handled by CheckReloadNeeded
+      // For GameLobby, we don't want to reload immediately, so we do nothing here
     }
 
     function UpdateFormInputs() {
@@ -401,21 +393,6 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
       if (!!playerCharacter) playerCharacter.value = GetCharacterCards();
       var playerDeck = document.getElementById("playerDeck");
       if (!!playerDeck) playerDeck.value = GetDeckCards();
-    }
-
-    function CardClick(id) {
-      if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
-        alert('In this format, you cannot sideboard at this time\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
-        return;
-      }
-      var idArr = id.split("-");
-      if (idArr[0] == "DECK") {
-        var overlay = document.getElementById(id + "-ovr");
-        overlay.style.visibility = (overlay.style.visibility == "hidden" ? "visible" : "hidden");
-        var mbCount = document.getElementById("mbCount");
-        mbCount.innerText = parseInt(mbCount.innerText) + (overlay.style.visibility == "hidden" ? 1 : -1);
-      }
-      UpdateFormInputs();
     }
 
     function GetCharacterCards() {
@@ -440,8 +417,6 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
       }
       return returnValue;
     }
-
-    var audioPlayed = false;
 
     function CheckReloadNeeded(lastUpdate) {
       var xmlhttp = new XMLHttpRequest();
@@ -475,6 +450,8 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
       xmlhttp.send();
     }
 
+    var audioPlayed = false;
+
     function SubmitFirstPlayer(action) {
        if (action == 1) action = "Go First";
       else action = "Go Second";
@@ -495,6 +472,45 @@ if($currentRoundGame == 1 && $gameStatus == $MGS_ChooseFirstPlayer && ($parsedFo
       SubmitFirstPlayer(num);
     }
 
+    function CardClick(id) {
+      if(<?php echo $canSideboard ? "'true'" : "'false'"?> === 'false') {
+        alert('In this format, you cannot sideboard at this time\nIf you wish to sideboard Game 1, leave this lobby and change the format to Premier Casual');
+        return;
+      }
+      var idArr = id.split("-");
+      if (idArr[0] == "DECK") {
+        var overlay = document.getElementById(id + "-ovr");
+        overlay.style.visibility = (overlay.style.visibility == "hidden" ? "visible" : "hidden");
+        var mbCount = document.getElementById("mbCount");
+        mbCount.innerText = parseInt(mbCount.innerText) + (overlay.style.visibility == "hidden" ? 1 : -1);
+      }
+      UpdateFormInputs();
+    }
+
+    function GameLobbyOnLoad(lastUpdate) {
+      <?php
+      if ($playerID == "1" && $gameStatus == $MGS_ChooseFirstPlayer) {
+        echo ("var audio = document.getElementById('playerJoinedAudio');");
+        echo ("audio.play();");
+      }
+      ?>
+      UpdateFormInputs();
+      var log = document.getElementById('gamelog');
+      if (log !== null) log.scrollTop = log.scrollHeight;
+      CheckReloadNeeded(0);
+    }
+
+    function copyText() {
+      var gameLink = document.getElementById("gameLink");
+      gameLink.select();
+      gameLink.setSelectionRange(0, 99999);
+
+      // Copy it to clipboard
+      document.execCommand("copy");
+    }
+  </script>
+  <script src="./jsInclude250308.js"></script>
+  <script>
     // function SwapOutForceBase(base) {
     //   var xmlhttp = new XMLHttpRequest();
     //   xmlhttp.onreadystatechange = function() {

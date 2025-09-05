@@ -7,7 +7,6 @@ include '../Libraries/NetworkingLibraries.php';
 include_once "../Libraries/PlayerSettings.php";
 include_once "../Assets/patreon-php-master/src/PatreonDictionary.php";
 include_once "../AccountFiles/AccountSessionAPI.php";
-include_once "../includes/dbh.inc.php";
 include_once "../includes/functions.inc.php";
 
 SetHeaders();

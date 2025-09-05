@@ -32,10 +32,11 @@ $SET_GameVisibility = 21; //The visibility of the last game you created
 
 $SET_StreamerMode = 22; //Did this player enable caster mode
 $SET_Playmat = 23; //Playmat settings
+$SET_DisableChatAlways = 24; //Disable chat always
 
 function PlayerSettingsPieces()
 {
-  return 24;
+  return 25;
 }
 
 function HoldPrioritySetting($player)
@@ -627,7 +628,7 @@ function SaveSettingInDatabase($setting)
 {
   global $SET_DarkMode, $SET_ColorblindMode, $SET_Mute, $SET_Cardback, $SET_DisableStats;
   global $SET_Format, $SET_FavoriteDeckIndex, $SET_GameVisibility, $SET_AlwaysHoldPriority, $SET_ManualMode;
-  global $SET_StreamerMode, $SET_AutotargetArcane, $SET_Playmat, $SET_Background, $SET_DisableAnimations;
+  global $SET_StreamerMode, $SET_AutotargetArcane, $SET_Playmat, $SET_Background, $SET_DisableAnimations, $SET_DisableChatAlways;
   switch ($setting) {
     case $SET_DarkMode:
     case $SET_ColorblindMode:
@@ -644,6 +645,7 @@ function SaveSettingInDatabase($setting)
     case $SET_Playmat:
     case $SET_Background:
     case $SET_DisableAnimations:
+    case $SET_DisableChatAlways:
       return true;
     default:
       return false;

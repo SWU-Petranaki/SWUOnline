@@ -138,7 +138,6 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
   $isReactFE = true;
 
   if ($opponentDisconnected && !IsGameOver()) {
-    include_once "./includes/dbh.inc.php";
     include_once "./includes/functions.inc.php";
     PlayerLoseHealth($otherP, GetBaseDamage($otherP));
     include "WriteGamestate.php";

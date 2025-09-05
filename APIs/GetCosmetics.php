@@ -2,7 +2,6 @@
 
 include "../AccountFiles/AccountSessionAPI.php";
 include_once '../includes/functions.inc.php';
-include_once "../includes/dbh.inc.php";
 include_once "../Libraries/PlayerSettings.php";
 include_once "../Libraries/HTTPLibraries.php";
 include_once "../Assets/patreon-php-master/src/PatreonDictionary.php";
@@ -307,7 +306,8 @@ $cardBack = new stdClass();
 $cardBack->name = "Dodonna&#039;s Disciples (dark)";
 $cardBack->id = 73;
 $response->cardBacks[] = $cardBack;
-
+
+
 $cardBack = new stdClass();
 $cardBack->name = "Driftless Squadron";
 $cardBack->id = 74;

@@ -1,7 +1,6 @@
 <?php
 include "../Libraries/PlayerSettings.php";
 include "../includes/functions.inc.php";
-include "../includes/dbh.inc.php";
 header('Content-Type: application/json; charset=utf-8');
 session_start();
 if (!isset($_SESSION['userid'])) {

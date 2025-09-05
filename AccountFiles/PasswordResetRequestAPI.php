@@ -1,6 +1,5 @@
 <?php
 include '../includes/functions.inc.php';
-include '../includes/dbh.inc.php';
 include_once '../Libraries/HTTPLibraries.php';
 
 SetHeaders();

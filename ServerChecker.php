@@ -6,7 +6,6 @@ include "CardDictionary.php";
 include_once 'MenuBar.php';
 include_once "./AccountFiles/AccountDatabaseAPI.php";
 include_once './includes/functions.inc.php';
-include_once './includes/dbh.inc.php';
 
 define('ROOTPATH', __DIR__);
 

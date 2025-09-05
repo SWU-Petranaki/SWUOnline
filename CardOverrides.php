@@ -104,6 +104,8 @@ function CardIDOverride($cardID) {
     case "P25_056": return "TWI_189"; //Unnatural Life
     case "P25_057": return "SOR_135"; //Emperor Palpatine (Master of the Dark Side)
     case "P25_059": return "SHD_046"; //Rey
+    case "P25_077": return "LOF_046"; //Ezra Bridger
+    case "P25_087": return "LOF_070"; //Anakin Skywalker
     case "LOF_058": return "SOR_061"; //Guardian of the Whills
     case "LOF_060": return "TWI_058"; //Padawon Starfighter
     case "LOF_162": return "SHD_168"; //Hunting Nexu

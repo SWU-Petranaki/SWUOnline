@@ -12,7 +12,6 @@ include "Libraries/PlayerSettings.php";
 include "Libraries/UILibraries2.php";
 include "AI/CombatDummy.php";
 include_once "WriteLog.php";
-include_once "./includes/dbh.inc.php";
 include_once "./includes/functions.inc.php";
 include_once "./MenuFiles/StartHelper.php";
 ob_end_clean();
@@ -118,9 +117,9 @@ $p1GameWins = GetCachePiece($gameName, 25);
 $p2GameWins = GetCachePiece($gameName, 26);
 $currentPlayer = 0;
 $isReplay = 0;
-WriteCache($gameName, ($currentUpdate + 1) . "!" . $currentTime . "!" . $currentTime . "!-1!-1!" . $currentTime . "!" 
-  . $p1Hero . "!" . $p2Hero . "!" . $visibility . "!" . $isReplay . "!0!0!" 
-  . $format . "!" . $MGS_GameStarted 
+WriteCache($gameName, ($currentUpdate + 1) . "!" . $currentTime . "!" . $currentTime . "!-1!-1!" . $currentTime . "!"
+  . $p1Hero . "!" . $p2Hero . "!" . $visibility . "!" . $isReplay . "!0!0!"
+  . $format . "!" . $MGS_GameStarted
   . "!0!0!$currentTime!0!0!$p1Base!$p2Base!$p1SecondHero!$p2SecondHero!$roundGameNumber!$p1GameWins!$p2GameWins" . "!0!0!0!0"); //Initialize SHMOP cache for this game
 
 ob_start();

@@ -23,7 +23,6 @@ include "./Libraries/PlayerSettings.php";
 include_once 'Assets/patreon-php-master/src/PatreonDictionary.php';
 include "./GameTerms.php";
 include "./HostFiles/Redirector.php";
-include_once "./includes/dbh.inc.php";
 include_once "./includes/functions.inc.php";
 ob_end_clean();
 
