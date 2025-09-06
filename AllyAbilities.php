@@ -2832,6 +2832,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($initiativePlayer == $mainPlayer) {
         CreateSpy($mainPlayer);
       }
+      break;
     default: break;
   }
 
