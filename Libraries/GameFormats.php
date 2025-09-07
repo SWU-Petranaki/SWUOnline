@@ -299,7 +299,7 @@ function IsWeeklyPlayCommon($cardID) {
 
 function CardInRotation($format, $cardID): bool {
   $premierRotation = ["SOR", "SHD", "TWI", "JTL", "LOF",];
-  $previewRotation = array_merge($premierRotation, []);
+  $previewRotation = array_merge($premierRotation, ["SEC"]);
   $padawanRotation = $premierRotation;
   $sandcrawlerRotation = $premierRotation;
   $civiWarRotation = $previewRotation;
