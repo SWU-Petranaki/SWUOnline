@@ -2698,7 +2698,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose which card you want your opponent to discard", 1);
       AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND,$currentPlayer,1", 1);
       AddDecisionQueue("MZREMOVE", $currentPlayer, "-", 1);
       break;
     case "3377409249"://Rogue Squadron Skirmisher
@@ -5280,7 +5280,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may discard a card to Echo's ability", 1);
         AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+        AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND,$currentPlayer,0", 1);
         AddDecisionQueue("MZREMOVE", $currentPlayer, "-", 1);
         AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:sameTitle={0}&THEIRALLY:sameTitle={0}", 1);
@@ -5437,7 +5437,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRHAND");
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose which card you want your opponent to discard", 1);
         AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-        AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+        AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND,$currentPlayer,1", 1);
         AddDecisionQueue("MZREMOVE", $currentPlayer, "-", 1);
       }
       break;
@@ -7507,7 +7507,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYHAND:trait=Lightsaber");
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a Lightsaber card to discard");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
-      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND," . $currentPlayer, 1);
+      AddDecisionQueue("MZDISCARD", $currentPlayer, "HAND,$currentPlayer,0", 1);
       AddDecisionQueue("MZREMOVE", $currentPlayer, "-", 1);
       AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY:arena=Ground", 1);
       AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a ground unit to deal 4 damage to", 1);

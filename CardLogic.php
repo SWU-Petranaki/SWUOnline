@@ -1711,3 +1711,31 @@ function CardCostIsOdd($cardID) {
 function PlayerIsUsingNabatVillage($player) {
   return GetPlayerCharacter($player)[0] == "9586661707";//Nabat Village
 }
+
+function CheckPadmeAmidalaSEC($player) {
+  //check leader
+  $playerChar = &GetPlayerCharacter($player);
+  for($i=0; $i<count($playerChar); $i+=CharacterPieces()) {
+    switch($playerChar[$i]) {
+      case "3399415368"://Padme Amidala (SEC) Leader
+        if(!LeaderAbilitiesIgnored() && $playerChar[$i+1] == 2) {
+          AddDecisionQueue("LEADERREADYORPASS", $player, "-");
+          AddDecisionQueue("YESNO", $player, "if you want use Padme's ability", 1);
+          AddDecisionQueue("NOPASS", $player, "-", 1);
+          AddDecisionQueue("EXHAUSTCHARACTER", $player, FindCharacterIndex($player, "3399415368"), 1);
+          DQPingUnit(1, $player, false, false, subsequent: true);
+        }
+        break;
+    }
+  }
+  //check units
+  $allies = &GetAllies($player);
+  for($i=0; $i<count($allies); $i+=AllyPieces()) {
+    switch($allies[$i]) {
+      case "9efccff9d9"://Padme Amidala (SEC) Unit
+        if(!LeaderAbilitiesIgnored()) {
+          DQPingUnit(1, $player, true, true);
+        }
+      }
+    }
+}
