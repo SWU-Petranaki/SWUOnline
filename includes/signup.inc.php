@@ -11,7 +11,6 @@ if (isset($_POST["submit"])) {
   // Then we run a bunch of error handlers to catch any user mistakes we can (you can add more than I did)
   // These functions can be found in functions.inc.php
 
-  require_once "dbh.inc.php";
   require_once 'functions.inc.php';
 
 	$conn = GetDBConnection();
