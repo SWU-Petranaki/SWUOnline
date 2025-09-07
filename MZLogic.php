@@ -96,6 +96,7 @@ function MZDiscard($player, $parameter, $lastResult)
   $otherPlayer = ($player == 1 ? 2 : 1);
   $params = explode(",", $parameter);
   $handDiscard = false;
+  $alreadyRevealed = count($params) > 2 ? $params[2] == "1" : false;
   for($i = 0; $i < count($lastResultArr); ++$i) {
     $mzIndex = explode("-", $lastResultArr[$i]);
     $cardOwner = (str_starts_with($mzIndex[0], "MY") ? $player : $otherPlayer);
@@ -108,7 +109,10 @@ function MZDiscard($player, $parameter, $lastResult)
     }
   }
   //At the moment discardedID is not used anywhere
-  if($handDiscard) AllyCardDiscarded($player, "");
+  if($handDiscard) {
+    AllyCardDiscarded($player, "");
+    if(!$alreadyRevealed) CheckPadmeAmidalaSEC($player);
+  }
   return $lastResult;
 }
 

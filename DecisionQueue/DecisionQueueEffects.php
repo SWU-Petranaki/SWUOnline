@@ -1733,6 +1733,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
+    case "PADME_AMIDALA_LEADER_SEC":
+      DQPingUnit($player, 1, false, false);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

@@ -352,7 +352,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       return CreateXWing($player, $parameter);
     case "CREATETIEFIGHTER":
       return CreateTieFighter($player, $parameter);
-    case "CREATESPY": 
+    case "CREATESPY":
       return CreateSpy($player, $parameter);
     case "PLAYALLY":
       $params = explode(";", $parameter);
@@ -1426,6 +1426,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       $paramArr = explode(",", $parameter);
       $modifier = count($paramArr) > 1 ? $paramArr[1] : "-";
       AddGraveyard($lastResult, $player, $paramArr[0], $modifier);
+      if($paramArr[0] == "HAND") CheckPadmeAmidalaSEC($player);
       return $lastResult;
     case "ADDBOTDECK":
       $deck = &GetDeck($player);
@@ -1530,6 +1531,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         $cards .= $hand[$i];
       }
       RevealCards($cards, $player);
+      CheckPadmeAmidalaSEC($player);
       return $lastResult;
     case "REVEALDECKCARDS":
       $hand = &GetDeck($player);
@@ -1692,6 +1694,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         }
       }
       RevealCards(implode(",", $cardIDsToReveal), $player);
+      CheckPadmeAmidalaSEC($player);
       return $lastResult;
     case "THEFORCEISWITHYOU":
       TheForceIsWithYou($player);
