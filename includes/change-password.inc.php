@@ -1,7 +1,6 @@
 <?php
 
 include_once '../AccountFiles/AccountSessionAPI.php';
-require_once "./dbh.inc.php";
 require_once './functions.inc.php';
 
 if(!IsUserLoggedIn()) {
