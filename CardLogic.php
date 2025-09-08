@@ -1723,7 +1723,7 @@ function CheckPadmeAmidalaSEC($player) {
           AddDecisionQueue("YESNO", $player, "if you want use Padme's ability", 1);
           AddDecisionQueue("NOPASS", $player, "-", 1);
           AddDecisionQueue("EXHAUSTCHARACTER", $player, FindCharacterIndex($player, "3399415368"), 1);
-          DQPingUnit(1, $player, false, false, subsequent: true);
+          DQPingUnit($player, 1, false, false, subsequent: true);
         }
         break;
     }
@@ -1734,8 +1734,9 @@ function CheckPadmeAmidalaSEC($player) {
     switch($allies[$i]) {
       case "9efccff9d9"://Padme Amidala (SEC) Unit
         if(!LeaderAbilitiesIgnored()) {
-          DQPingUnit(1, $player, true, true);
+          DQPingUnit($player, 1, true, true);
         }
+        break;
       }
     }
 }
