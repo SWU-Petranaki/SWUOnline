@@ -454,6 +454,8 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
       case "7077983867": $hasSentinel = true; break;//Ahsoka Tano Leader
       case "1a61e6df76": $hasSentinel = true; break;//Ahsoka Tano Leader unit
       case "1906860379": $hasSentinel = true; break;//Force Illusion
+      //Secrets of Power
+      case "7936097828": $hasSentinel = true; break;//Chancellor Palpatine unit (SEC)
       default: break;
     }
   }
@@ -1347,6 +1349,7 @@ function HasPlot($cardID, $player="", $index=-1) {
     , "3796991604"//Dogmatic Shock Squad
     , "6015383018"//Sneaking Suspicion
     , "7069246970"//Sly Moore (SEC)
+    , "7936097828"//Chancellor Palpatine unit (SEC)
       => true,
     default => false,
   };

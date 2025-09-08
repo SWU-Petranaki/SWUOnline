@@ -8094,6 +8094,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "7069246970"://Sly Moore
       if($from != "PLAY") AddCurrentTurnEffect($cardID,$otherPlayer,"HAND");
       break;
+    case "7936097828"://Chancellor Palpatine unit (SEC)
+      if(HasLeader($currentPlayer)) {
+        $spy1 = CreateSpy($currentPlayer);
+        $spy2 = CreateSpy($currentPlayer);
+        AddCurrentTurnEffect("7936097828", $currentPlayer, "PLAY", $spy1);
+        AddCurrentTurnEffect("7936097828", $currentPlayer, "PLAY", $spy2);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
