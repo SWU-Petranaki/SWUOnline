@@ -364,6 +364,7 @@ function GetCardBack($player, $index="")
     77 => "CB_TGB_Team",
     78 => "CB_IndySWU",
     79 => "CB_teamserialized",
+    80 => "CB_SquadTaurinense",
     //continue adding card backs here
     default => "CardBack",
   };
