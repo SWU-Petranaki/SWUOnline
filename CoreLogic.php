@@ -8102,6 +8102,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddCurrentTurnEffect("7936097828", $currentPlayer, "PLAY", $spy2);
       }
       break;
+    case "1347170274"://Mon Mothma
+      if($from != "PLAY" && SearchCount(SearchAllies($currentPlayer)) > 1) {
+        AddCurrentTurnEffect($cardID, $currentPlayer, "HAND");
+        AddDecisionQueue("PASSPARAMETER", $currentPlayer, $playAlly->UniqueID(), 1);
+        AddDecisionQueue("SETDQVAR", $currentPlayer, "0", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MON_MOTHMA_SEC", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8114,13 +8122,13 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
   }
 }
 
-function AttackWithMyUnitEvenIfExhaustedNoBases($player, $traitOnly="", $withCombatEffect="") {
+function AttackWithMyUnitEvenIfExhaustedNoBases($player, $traitOnly="", $withCombatEffect="", $may=false) {
   global $CCS_CantAttackBase;
   $search = $traitOnly == "" ? "MYALLY" : "MYALLY:trait=$traitOnly";
   $context = $traitOnly == "" ? "unit" : "$traitOnly unit";
   AddDecisionQueue("MULTIZONEINDICES", $player, $search, 1);
   AddDecisionQueue("SETDQCONTEXT", $player, "Choose a $context to attack with");
-  AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
+  AddDecisionQueue(($may ? "MAY" : "") . "CHOOSEMULTIZONE", $player, "<-", 1);
   AddDecisionQueue("SETDQVAR", $player, "0", 1);
   AddDecisionQueue("PASSPARAMETER", $player, 1, 1);
   AddDecisionQueue("SETCOMBATCHAINSTATE", $player, $CCS_CantAttackBase, 1);

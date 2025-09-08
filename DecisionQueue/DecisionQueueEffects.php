@@ -1733,8 +1733,19 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
       AddDecisionQueue("MZOP", $player, "PLAYCARD", 1);
       break;
-    case "PADME_AMIDALA_LEADER_SEC":
-      DQPingUnit($player, 1, false, false);
+    case "MON_MOTHMA_SEC":
+      global $CCS_CantAttackBase;
+      AddDecisionQueue("MULTIZONEINDICES", $player, "MYALLY");
+      AddDecisionQueue("MZFILTER", $player, "dqVar=0", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "You may choose a unit to attack with (or pass to end chain)", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
+      AddDecisionQueue("MZOP", $player, "GETUNIQUEID", 1);
+      AddDecisionQueue("APPENDDQVAR", $player, 0, 1);
+      AddDecisionQueue("SETDQVAR", $player, "1", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, 1, 1);
+      AddDecisionQueue("SETCOMBATCHAINSTATE", $player, $CCS_CantAttackBase, 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "{1}", 1);
+      AddDecisionQueue("MZOP", $player, "ATTACK", 1);
       break;
     //SpecificCardLogic End
     default: return "";

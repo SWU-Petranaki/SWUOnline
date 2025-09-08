@@ -36,6 +36,9 @@ function EffectHitEffect($cardID)
     case "1355075014"://Attack Run
       AddCurrentTurnEffect("1355075014-1", $mainPlayer);
       break;
+    case "1347170274"://Mon Mothma
+      AddCurrentTurnEffect("1347170274", $mainPlayer);
+      break;
     default:
       break;
   }
@@ -147,6 +150,9 @@ function FinalizeChainLinkEffects()
         PrependDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit to attack with");
         PrependDecisionQueue("MZFILTER", $mainPlayer, "status=1");
         PrependDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:arena=Space");
+        return true;
+      case "1347170274"://Mon Mothma
+        PrependDecisionQueue("SPECIFICCARD", $mainPlayer, "MON_MOTHMA_SEC", 1);
         return true;
       default: break;
     }
@@ -1015,6 +1021,8 @@ function IsCombatEffectActive($cardID)
     case "1758639231"://Improvised Detonation
     case "4512477799"://Hoth Lieutenant
     case "4136801536"://Han Solo
+    //Secrets of Power
+    case "1347170274"://Mon Mothma
       return true;
     default: return false;
   }
