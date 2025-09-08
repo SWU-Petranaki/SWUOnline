@@ -200,6 +200,7 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     //Secrets of Power
     case "7241924417": if(SearchCount(SearchAllies($player, trait:"Official")) > 0) $amount += 2; break;//Nubian Star Skiff
     case "9378249305": $amount += 1; break;//Mina Bonteri
+    case "1347170274": $amount += 3; break;//Mon Mothma
     default: break;
   }
   //The Ghost JTL
