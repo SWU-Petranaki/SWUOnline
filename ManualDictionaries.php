@@ -1,14 +1,12 @@
 <?php
 function ManualCardTitleData() {
   return array(
-    'abcdefg008' => 'Syril Karn',
     //continue manual card titles
   );
 }
 
 function ManualCardSubtitleData() {
   return array(
-    'abcdefg008' => 'Where Is He',
     //continue manual card subtitles
   );
 }
@@ -16,7 +14,6 @@ function ManualCardSubtitleData() {
 function ManualCardCostData() {
   return array(
     'abcdefg003' => 1,
-    'abcdefg008' => 2,
     //continue manual card costs
   );
 }
@@ -24,7 +21,6 @@ function ManualCardCostData() {
 function ManualCardHPDictionaryData() {
   return array(
     'abcdefg003' => 2,
-    'abcdefg008' => 3,
     //continue manual card HP dictionary
   );
 }
@@ -32,7 +28,6 @@ function ManualCardHPDictionaryData() {
 function ManualCardPowerData() {
   return array(
     'abcdefg003' => 2,
-    'abcdefg008' => 2,
     //continue manual card powers
   );
 }
@@ -52,7 +47,7 @@ function ManualCardUpgradePowerData() {
 function ManualCardAspectsData() {
   return array(
     'abcdefg003' => 'Command,Villainy',
-    'abcdefg008' => 'Aggression,Villainy',
+    'abcde' => 'Aggression,Villainy',
     //continue manual card aspects
   );
 }
@@ -60,7 +55,6 @@ function ManualCardAspectsData() {
 function ManualCardTraitsData() {
   return array(
     'abcdefg003' => 'Republic,Official',
-    'abcdefg008' => 'Official',
     //continue manual card traits
   );
 }
@@ -68,7 +62,6 @@ function ManualCardTraitsData() {
 function ManualCardArenasData() {
   return array(
     'abcdefg003' => 'Ground',
-    'abcdefg008' => 'Ground',
     //continue manual card arenas
   );
 }
@@ -76,7 +69,7 @@ function ManualCardArenasData() {
 function ManualDefinedCardTypeData() {
   return array(
     'abcdefg003' => 'Unit',
-    'abcdefg008' => 'Unit',
+    'abcdefg0x08' => 'Unit',
     //continue manual card types
   );
 }
@@ -84,14 +77,13 @@ function ManualDefinedCardTypeData() {
 function ManualDefinedCardType2Data() {
   return array(
     'abcdefg003' => 'Unit',
-    'abcdefg008' => 'Unit',
+    'abcde' => 'Unit',
     //continue manual card types 2
   );
 }
 
 function ManualCardIsUniqueData() {
   return array(
-    'abcdefg008' => 1,
     //continue manual card unique status
   );
 }
@@ -111,7 +103,6 @@ function ManualHasWhenDestroyedData() {
 function ManualCardSetData() {
   return array(
     'abcdefg003' => 'SEC',
-    'abcdefg008' => 'SEC',
     //continue manual card sets
   );
 }
@@ -119,7 +110,6 @@ function ManualCardSetData() {
 function ManualUUIDLookupData() {
   return array(
     'SEC_079' => 'abcdefg003',
-    'SEC_133' => 'abcdefg008',
     //continue manual UUID lookups
   );
 }
