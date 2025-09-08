@@ -1812,6 +1812,7 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
         $dynCost = "";
       if ($playingCard) {
         SetClassState($currentPlayer, $CS_PlayedAsUpgrade, 0);
+        SetClassState($currentPlayer, $CS_PlayedAsPlot, 0);
         AddPrePitchDecisionQueue($cardID, $from, $index, $skipAbilityType); //CR 5.1.3b,c Declare additional/optional costs (CR 2.0)
       }
       if ($dynCost != "") {
