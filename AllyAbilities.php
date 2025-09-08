@@ -1220,6 +1220,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "9394156877"://Dhani Pilgrim
       Restore(1, $player);
       break;
+    case "9378249305"://Mina Bonteri
+      if(PlayerCanDiscloseAspects($player, ["Command", "Command", "Heroism"])) {
+        DQAskToDiscloseAspects($player, ["Command", "Command", "Heroism"]);
+        AddDecisionQueue("DRAW", $player, "-", 1);
+      }
+      break;
     //AllyDestroyedAbility End
       default: break;
     }
@@ -2279,8 +2285,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     break;
     default: break;
   }
-  //other ally
-  $allies = GetAllies($mainPlayer);
+  //another friendly ally attacks effects
+  $allies = GetAllies($mainPlayer );
   for($i=0; $i<count($allies); $i+=AllyPieces()) {
     $ally = new Ally($allies[$i + 5]);
     if($ally->UniqueID() == $attackerAlly->UniqueID()) continue;
