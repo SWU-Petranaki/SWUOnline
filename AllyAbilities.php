@@ -1222,7 +1222,7 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       break;
     case "9378249305"://Mina Bonteri
       if(PlayerCanDiscloseAspects($player, ["Command", "Command", "Heroism"])) {
-        DQAskToDiscloseAspects($player, ["Command", "Command", "Heroism"]);
+        DQAskToDiscloseAspects($player, ["Command", "Command", "Heroism"], $cardID);
         AddDecisionQueue("DRAW", $player, "-", 1);
       }
       break;
@@ -1952,7 +1952,7 @@ function AllyAttackedAbility($attackTarget, $index) {
       break;
     case "8088607505"://Captain Typho
       if(PlayerCanDiscloseAspects($defPlayer, ["Command", "Heroism"])) {
-        DQAskToDiscloseAspects($defPlayer, ["Command", "Heroism"]);
+        DQAskToDiscloseAspects($defPlayer, ["Command", "Heroism"], $attackTarget);
         AddDecisionQueue("PASSPARAMETER", $defPlayer, "MYCHAR-0", 1);
         AddDecisionQueue("MZOP", $defPlayer, "RESTORE,1", 1);
       }

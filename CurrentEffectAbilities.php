@@ -151,9 +151,16 @@ function FinalizeChainLinkEffects()
         PrependDecisionQueue("MZFILTER", $mainPlayer, "status=1");
         PrependDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY:arena=Space");
         return true;
-      case "1347170274"://Mon Mothma
+      case "1347170274"://Mon Mothma (SEC)
         PrependDecisionQueue("SPECIFICCARD", $mainPlayer, "MON_MOTHMA_SEC", 1);
         return true;
+      case "7352167785"://Ahsoka Tano (SEC)
+        PrependDecisionQueue("MZOP", $mainPlayer, "ATTACK", 1);
+        PrependDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+        PrependDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a ready friendly unit to attack with", 1);
+        PrependDecisionQueue("MZFILTER", $mainPlayer, "status=1", 1);
+        PrependDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY", 1);
+        break;
       default: break;
     }
   }
@@ -1023,6 +1030,7 @@ function IsCombatEffectActive($cardID)
     case "4136801536"://Han Solo
     //Secrets of Power
     case "1347170274"://Mon Mothma
+    case "7352167785"://Ahsoka Tano (SEC)
       return true;
     default: return false;
   }

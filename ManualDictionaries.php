@@ -117,21 +117,18 @@ function ManualUUIDLookupData() {
 function ManualCardIDLookupData() {
   return array(
     'abcdefg003' => 'SEC_079',
-    'abcdefg008' => 'SEC_133',
     //continue manual card ID lookups
   );
 }
 
 function ManualCardRarityData() {
   return array(
-    'abcdefg008' => 'Rare',
     //continue manual card rarities
   );
 }
 
 function ManualIsUnimplementedData() {
   return array(
-    'abcdefg008' => true,
     //continue manual card unimplemented status
   );
 }

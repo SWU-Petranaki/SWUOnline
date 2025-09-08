@@ -8558,8 +8558,9 @@ function DQAskToUseTheForce($player, $withNoPass=true) {
   AddDecisionQueue("USETHEFORCE", $player, "-", 1);
 }
 
-function DQAskToDiscloseAspects($player, $aspects) {
-  AddDecisionQueue("SETDQCONTEXT", $player, "You may disclose " . implode(" and ", $aspects) . " to activate this ability");
+function DQAskToDiscloseAspects($player, $aspects, $for="") {
+  if($for != "") $for = " for<br/>" . CardLink($for, $for);
+  AddDecisionQueue("SETDQCONTEXT", $player, "You may disclose " . implode(" and ", $aspects) . " to activate ability$for");
   AddDecisionQueue("YESNO", $player, "-", 1);
   AddDecisionQueue("NOPASS", $player, "-", 1);
   AddDecisionQueue("DISCLOSEASPECTS", $player, implode(",", $aspects), 1);
