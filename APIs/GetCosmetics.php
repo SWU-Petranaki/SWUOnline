@@ -338,6 +338,11 @@ $cardBack->name = "Team serialized";
 $cardBack->id = 79;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Squadriglia Taurinense";
+$cardBack->id = 80;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
