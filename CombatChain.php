@@ -146,6 +146,7 @@ function CompletesAttackEffect($cardID) {
       AddDecisionQueue("SETDQVAR", $mainPlayer, "1", 1);
       AddDecisionQueue("SPECIFICCARD", $mainPlayer, "UWINGLANDER", 1);
       break;
+    //Legends of the Force
     case "6def6570f5"://Qui-Gon Jinn Leader unit
       QuiGonJinnLOF($mainPlayer, true);
       break;
@@ -158,6 +159,13 @@ function CompletesAttackEffect($cardID) {
       break;
     case "5390030381"://Infused Brawler
       $attackerAlly->DefeatUpgrade("2007868442");
+      break;
+    //Secrets of Power
+    case "7352167785"://Ahsoka Tano (SEC)
+      if(PlayerCanDiscloseAspects($mainPlayer, ["Command", "Heroism"])) {
+        DQAskToDiscloseAspects($mainPlayer, ["Command", "Heroism"], $cardID);
+        AddDecisionQueue("ADDCURRENTEFFECT", $mainPlayer, "7352167785", 1);
+      }
       break;
     default: break;
   }
