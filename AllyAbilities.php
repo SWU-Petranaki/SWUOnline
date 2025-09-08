@@ -1220,6 +1220,12 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
     case "9394156877"://Dhani Pilgrim
       Restore(1, $player);
       break;
+    case "9378249305"://Mina Bonteri
+      if(PlayerCanDiscloseAspects($player, ["Command", "Command", "Heroism"])) {
+        DQAskToDiscloseAspects($player, ["Command", "Command", "Heroism"]);
+        AddDecisionQueue("DRAW", $player, "-", 1);
+      }
+      break;
     //AllyDestroyedAbility End
       default: break;
     }

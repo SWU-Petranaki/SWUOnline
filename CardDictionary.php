@@ -199,6 +199,7 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     case "0008529481": $amount += 1; break;//Lambda Shuttle
     //Secrets of Power
     case "7241924417": if(SearchCount(SearchAllies($player, trait:"Official")) > 0) $amount += 2; break;//Nubian Star Skiff
+    case "9378249305": $amount += 1; break;//Mina Bonteri
     default: break;
   }
   //The Ghost JTL
