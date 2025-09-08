@@ -2279,8 +2279,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     break;
     default: break;
   }
-  //other ally
-  $allies = GetAllies($mainPlayer);
+  //another friendly ally attacks effects
+  $allies = GetAllies($mainPlayer );
   for($i=0; $i<count($allies); $i+=AllyPieces()) {
     $ally = new Ally($allies[$i + 5]);
     if($ally->UniqueID() == $attackerAlly->UniqueID()) continue;

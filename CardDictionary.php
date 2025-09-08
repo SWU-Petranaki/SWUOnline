@@ -269,6 +269,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
   if(count($combatChain) == 0 && !$reportMode) return 0;
   $amount = 0;
   $allies = &GetAllies($player);
+  $ally = new Ally("MYALLY-" . $index, $player);
   for($i=0; $i<count($allies); $i+=AllyPieces())
   {
     switch($allies[$i])
@@ -282,13 +283,15 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
       case "9921128444"://General Hux
         if($index != $i && TraitContains($cardID, "First Order", $player)) $amount += 1;
         break;
-      case "9937756875 "://Invasion Control Ship
+      case "9937756875"://Invasion Control Ship
         if(TraitContains($cardID, "Droid", $player)) $amount +=2;
+        break;
+      case "2919204327"://Naboo Royal Starship
+        if($ally->IsLeader()) $amount += 2;
         break;
       default: break;
     }
   }
-  $ally = new Ally("MYALLY-" . $index, $player);
   for($i=0; $i<count($currentTurnEffects); $i+=CurrentTurnPieces()) {
     if($currentTurnEffects[$i+1] != $player) continue;
     if($currentTurnEffects[$i+2] != -1 && $currentTurnEffects[$i+2] != $ally->UniqueID()) continue;
@@ -775,6 +778,9 @@ function HasOverwhelm($cardID, $player, $index, $isRecursion=false)
         break;
       case "3666212779"://Captain Tarkin
         if(TraitContains($cardID, "Vehicle", $player)) return true;
+        break;
+      case "2919204327"://Naboo Royal Starship
+        if($ally->IsLeader()) return true;
         break;
       default: break;
     }
@@ -1353,6 +1359,7 @@ function HasPlot($cardID, $player="", $index=-1) {
     , "6015383018"//Sneaking Suspicion
     , "7069246970"//Sly Moore (SEC)
     , "7936097828"//Chancellor Palpatine unit (SEC)
+    , "2919204327"//Naboo Royal Starship
       => true,
     default => false,
   };
