@@ -886,6 +886,9 @@ function HasOverwhelm($cardID, $player, $index, $isRecursion=false)
         if(HasOverwhelm($units[$i], $player, $i, true)) return true;
       }
       break;
+    //Secrets of Power
+    case "2183727633"://Major Partagaz
+      return true;
     default: break;
   }
   //The Ghost JTL
