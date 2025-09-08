@@ -1915,6 +1915,7 @@ function AllyAttackedAbility($attackTarget, $index) {
       default: break;
     }
   }
+  if($ally->LostAbilities()) return;
   switch($attackTarget) {
     case "8918765832"://Chewbacca (Loyal Companion)
       $ally->Ready();
