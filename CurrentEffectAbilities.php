@@ -315,6 +315,7 @@ function EffectAttackModifier($cardID, $playerID="")
     //Secrets of Power
     case "9985741271": return 2;//Jar Jar Binks (SEC)
     case "7069246970": return (str_contains(GetAttackTarget(), "CHAR-0") ? -2 : 0);//Sly Moore (SEC)
+    case "2183727633": return 2;//Major Partagaz
     default: return 0;
   }
 }

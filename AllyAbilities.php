@@ -2279,6 +2279,21 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     break;
     default: break;
   }
+  //other ally
+  $allies = GetAllies($mainPlayer);
+  for($i=0; $i<count($allies); $i+=AllyPieces()) {
+    $ally = new Ally($allies[$i + 5]);
+    if($ally->UniqueID() == $attackerAlly->UniqueID()) continue;
+    if($ally->LostAbilities()) continue;
+    switch($ally->CardID()) {
+      case "2183727633"://Major Partagaz
+        if(TraitContains($attackID, "Official", $mainPlayer)) {
+          AddCurrentTurnEffect("2183727633", $mainPlayer, from:"PLAY", uniqueID: $ally->UniqueID());
+          $ally->AddRoundHealthModifier(2);
+        }
+        break;
+    }
+  }
   if($attackerAlly->LostAbilities()) return;
   //layer on attack abilities
   $oneOtherAlly = SearchCount(SearchAllies($mainPlayer)) > 1;

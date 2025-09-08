@@ -8095,7 +8095,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       if($from != "PLAY") AddCurrentTurnEffect($cardID,$otherPlayer,"HAND");
       break;
     case "7936097828"://Chancellor Palpatine unit (SEC)
-      if(HasLeader($currentPlayer)) {
+      if($from != "PLAY" && HasLeader($currentPlayer)) {
         $spy1 = CreateSpy($currentPlayer);
         $spy2 = CreateSpy($currentPlayer);
         AddCurrentTurnEffect("7936097828", $currentPlayer, "PLAY", $spy1);
