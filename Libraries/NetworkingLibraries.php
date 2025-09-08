@@ -1812,7 +1812,6 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
         $dynCost = "";
       if ($playingCard) {
         SetClassState($currentPlayer, $CS_PlayedAsUpgrade, 0);
-        SetClassState($currentPlayer, $CS_PlayedAsPlot, 0);
         AddPrePitchDecisionQueue($cardID, $from, $index, $skipAbilityType); //CR 5.1.3b,c Declare additional/optional costs (CR 2.0)
       }
       if ($dynCost != "") {
@@ -1847,8 +1846,10 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
   }
   $resourceCards = &GetResourceCards($currentPlayer);
   $resourcesPaid = 0;
-  if(GetClassState($currentPlayer, $CS_PlayedAsPlot) == "1")
-    $prepaidResources = 1;
+  if(GetClassState($currentPlayer, $CS_PlayedAsPlot) == "1") {
+    $postCount = NumResourcesAvailable($currentPlayer) - $resources[1];
+    AddTopDeckAsResource($currentPlayer, $postCount > 0 ? 0 : 1);
+  }
 
   if ($prepaidResources > 0 && $resources[1] > 0) {
     $resourcesPaid = $prepaidResources;
