@@ -1949,6 +1949,13 @@ function AllyAttackedAbility($attackTarget, $index) {
       AddDecisionQueue("PASSPARAMETER", $defPlayer, $ally->UniqueID(), 1);
       AddDecisionQueue("MZOP", $defPlayer, "ADDEXPERIENCE", 1);
       break;
+    case "8088607505"://Captain Typho
+      if(PlayerCanDiscloseAspects($defPlayer, ["Command", "Heroism"])) {
+        DQAskToDiscloseAspects($defPlayer, ["Command", "Heroism"]);
+        AddDecisionQueue("PASSPARAMETER", $defPlayer, "MYCHAR-0", 1);
+        AddDecisionQueue("MZOP", $defPlayer, "RESTORE,1", 1);
+      }
+      break;
     default: break;
   }
 }
