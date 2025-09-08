@@ -8291,7 +8291,6 @@ function AfterPlayedByAbility($cardID) {
     case "PLAY_PLOT":
       if(PlayerHasPlotsAvailable($currentPlayer))
         PrependDecisionQueue("SPECIFICCARD", $currentPlayer, "PLAY_PLOT", 1);
-      PrependDecisionQueue("OP", $currentPlayer, "ADDTOPDECKASRESOURCE", 1);
       break;
     default: break;
   }
