@@ -8065,7 +8065,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         MZChooseAndDestroy($currentPlayer, "MYALLY:damagedOnly=true&THEIRALLY:damagedOnly=true", may:false, filter:"leader=1", context:"a damaged non-leader unit to defeat", isSubsequent:true);
       }
         break;
-    case "9985741271"://Jar Jar Binks SEC
+    case "9985741271"://Jar Jar Binks (SEC)
         AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY");
         AddDecisionQueue("MZFILTER", $currentPlayer, "index=MYALLY-" . $playAlly->Index());
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose another unit to give +2/+2");
@@ -8078,7 +8078,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       DQMultiUnitSelect($currentPlayer, 3, "MYALLY:trait=Official&THEIRALLY:trait=Official", "to give an experience to");
       AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
       break;
-    case "7227136692"://ISB Shuttle SEC
+    case "7227136692"://ISB Shuttle (SEC)
       if(GetClassState($currentPlayer, $CS_NumAlliesDestroyed) > 0){
         CreateSpy($currentPlayer);
       }
@@ -8089,6 +8089,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "5668757769"://Political Bully
       if (SearchCount(SearchAllies($currentPlayer, trait:"Official")) > 1) {
         DQPingUnit($currentPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground",  unitCardID:$cardID);
+      }
+      break;
+    case "7069246970"://Sly Moore
+      if($from != "PLAY") AddCurrentTurnEffect($cardID,$otherPlayer,"HAND");
+      break;
+    case "7936097828"://Chancellor Palpatine unit (SEC)
+      if(HasLeader($currentPlayer)) {
+        $spy1 = CreateSpy($currentPlayer);
+        $spy2 = CreateSpy($currentPlayer);
+        AddCurrentTurnEffect("7936097828", $currentPlayer, "PLAY", $spy1);
+        AddCurrentTurnEffect("7936097828", $currentPlayer, "PLAY", $spy2);
       }
       break;
     //PlayAbility End

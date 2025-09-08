@@ -2802,7 +2802,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       AddCurrentTurnEffect($attackID, $defPlayer, from:"PLAY");
       break;
     //Secrets of Power
-    case "9280012856"://Bail Organa SEC
+    case "9280012856"://Bail Organa (SEC)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to create a spy token");

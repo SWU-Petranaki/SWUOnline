@@ -397,7 +397,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "4136801536": $amount += 2; break;//Han Solo
     //Secrets of Power
     case "6665455613": $amount += 2; break;//Spy token
-    case "3103445211": //Anakin Skywalker SEC
+    case "3103445211": //Anakin Skywalker (SEC)
       if (ControlsNamedCard($player, "Padmé Amidala")) {
         $amount += 2;
       }
@@ -454,6 +454,8 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
       case "7077983867": $hasSentinel = true; break;//Ahsoka Tano Leader
       case "1a61e6df76": $hasSentinel = true; break;//Ahsoka Tano Leader unit
       case "1906860379": $hasSentinel = true; break;//Force Illusion
+      //Secrets of Power
+      case "7936097828": $hasSentinel = true; break;//Chancellor Palpatine unit (SEC)
       default: break;
     }
   }
@@ -1340,12 +1342,14 @@ function HasPlot($cardID, $player="", $index=-1) {
   if($ally->LostAbilities()) return false;
   return match($cardID) {
     //Secrets of Power
-      "8365930807"//Cad Bane SEC
+      "8365930807"//Cad Bane (SEC)
     , "0024944513"//Armor of Fortune
-    , "9985741271"//Jar Jar Binks SEC
+    , "9985741271"//Jar Jar Binks (SEC)
     , "2877797132"//Unveiled Might
     , "3796991604"//Dogmatic Shock Squad
     , "6015383018"//Sneaking Suspicion
+    , "7069246970"//Sly Moore (SEC)
+    , "7936097828"//Chancellor Palpatine unit (SEC)
       => true,
     default => false,
   };
