@@ -2525,14 +2525,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
             }
             break;
           case "4628885755"://Mace Windu Leader flip
-            $theirAllies = &GetAllies($otherPlayer);
-            for($i=count($theirAllies)-AllyPieces(); $i>=0; $i-=AllyPieces())
-            {
-              $ally = new Ally("MYALLY-" . $i, $otherPlayer);
-              if($ally->IsDamaged()) {
-                $ally->DealDamage(2);
-              }
-            }
+            DamageAllAllies(2, $cardID, player:$otherPlayer, alreadyDamaged: true);
             break;
           case "7734824762"://Captain Rex Leader flip
             CreateCloneTrooper($currentPlayer);
@@ -4950,7 +4943,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       Draw($currentPlayer);
       break;
     case "9270539174"://Wild Rancor
-      DamageAllAllies(2, "9270539174", arena: "Ground", except: "MYALLY-" . $playAlly->Index());
+      DamageAllAllies(2, "9270539174", arena: "Ground", exceptMZIndex: "MYALLY-" . $playAlly->Index());
       break;
     case "2744523125"://Salacious Crumb
       $abilityName = GetResolvedAbilityName($cardID, $from);
@@ -7963,7 +7956,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "4184803715"://Avenger
       //When played: deal 1 damage to each other unit (including friendly units).
       if($from != "PLAY") {
-        DamageAllAllies(1, $cardID, except: $playAlly->MZIndex());
+        DamageAllAllies(1, $cardID, exceptMZIndex: $playAlly->MZIndex());
       }
       break;
     case "7524197668"://We're In Trouble
@@ -8428,22 +8421,34 @@ function DamagePlayerAllies($player, $damage, $source, $type="-", $arena="")
   }
 }
 
-function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $arena="", $except="", $player="")
+function DamageAllAllies($amount, $sourceCardID, $alsoRest=false, $alsoFreeze=false, $arena="", $exceptMZIndex="", $player="", $alreadyDamaged=false)
 {
   global $currentPlayer;
   $otherPlayer = $currentPlayer == 1 ? 2 : 1;
+  $snapshotIDs = [];
+  $player1Allies = GetAllies(1);
+  for($i=0;$i<count($player1Allies);$i+=AllyPieces()) {
+    $snapshotIDs[] = $player1Allies[$i+5];
+  }
+  $player2Allies = GetAllies(2);
+  for($i=0;$i<count($player2Allies);$i+=AllyPieces()) {
+    $snapshotIDs[] = $player2Allies[$i+5];
+  }
+
   if($player == "" || $player == $otherPlayer) {
     $theirAllies = &GetAllies($otherPlayer);
     for($i=count($theirAllies) - AllyPieces(); $i>=0; $i-=AllyPieces())
     {
       $ally = Ally::FromUniqueId($theirAllies[$i+5]);
+      if(!in_array($ally->UniqueID(), $snapshotIDs)) continue;
+      if($alreadyDamaged && !$ally->IsDamaged()) continue;
       if($arena != "" && !ArenaContains($theirAllies[$i], $arena, $ally)) continue;
       if($alsoRest) $theirAllies[$i+1] = 1;
       if($alsoFreeze) $theirAllies[$i+3] = 1;
       $ally->DealDamage($amount, enemyDamage:true);
     }
   }
-  if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($source, "Creature", $currentPlayer)) {
+  if(PlayerHasMalakaliLOF($currentPlayer) && TraitContains($sourceCardID, "Creature", $currentPlayer)) {
     return;
   }
   if($player == "" || $player == $currentPlayer) {
@@ -8451,8 +8456,10 @@ function DamageAllAllies($amount, $source, $alsoRest=false, $alsoFreeze=false, $
     for($i=count($allies) - AllyPieces(); $i>=0; $i-=AllyPieces())
     {
       $ally = Ally::FromUniqueId($allies[$i+5]);
+      if(!in_array($ally->UniqueID(), $snapshotIDs)) continue;
+      if($alreadyDamaged && !$ally->IsDamaged()) continue;
       if($arena != "" && !ArenaContains($allies[$i], $arena, $ally)) continue;
-      if($except != "" && $except == ("MYALLY-" . $i)) continue;
+      if($exceptMZIndex != "" && $exceptMZIndex == ("MYALLY-" . $i)) continue;
       if($alsoRest) $allies[$i+1] = 1;
       if($alsoFreeze) $allies[$i+3] = 1;
       $ally->DealDamage($amount);

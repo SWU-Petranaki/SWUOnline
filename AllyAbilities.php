@@ -4086,7 +4086,7 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
         AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
       break;
     case "6564460785"://Bendu
-      DamageAllAllies(3, $cardID, except:$attackerAlly->MZIndex());
+      DamageAllAllies(3, $cardID, exceptMZIndex:$attackerAlly->MZIndex());
       break;
     case "bf3545c5e0"://Cal Kestis Leader unit
       AddDecisionQueue("MULTIZONEINDICES", $defPlayer, "MYALLY");

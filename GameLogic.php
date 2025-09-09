@@ -2380,7 +2380,7 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
       }
       return $lastResult;
     case "DAMAGEALLOTHERUNITS":
-      DamageAllAllies($parameter, "-", except:$lastResult, player:$player);
+      DamageAllAllies($parameter, "-", exceptMZIndex:$lastResult, player:$player);
       return $lastResult;
     case "ALLRANDOMBOTTOM":
       if($lastResult == "PASS") return "";
