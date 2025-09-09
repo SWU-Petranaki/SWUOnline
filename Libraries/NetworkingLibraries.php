@@ -1851,6 +1851,7 @@ function PlayCard($cardID, $from, $dynCostResolved = -1, $index = -1, $uniqueID 
     $added = AddTopDeckAsResource($currentPlayer, $dqVars[1]);
     if(!$added && $dqVars[1] == "0") $prepaidResources = 1;
   }
+  SetClassState($currentPlayer, $CS_PlayedAsPlot, 0);
 
   if ($prepaidResources > 0 && $resources[1] > 0) {
     $resourcesPaid = $prepaidResources;
