@@ -1045,6 +1045,10 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             $player = $ally->Controller();
             WriteLog(LogSelectedTarget($player, $mzIndex));
             return $lastResult;
+        case "GETRESOURCESTATE":
+          $mzPieces = explode("-", $lastResult);
+          $resources = GetArsenal($player);
+          return $resources[$mzPieces[1] + 4];
         default: break;
       }
       return $lastResult;

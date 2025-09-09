@@ -1726,6 +1726,9 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("SETDQCONTEXT", $player, "Choose a Plot to play");
       AddDecisionQueue("MAYCHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("SETDQVAR", $player, "0", 1);
+      AddDecisionQueue("PASSPARAMETER", $player, "{0}", 1);
+      AddDecisionQueue("MZOP", $player, "GETRESOURCESTATE", 1);
+      AddDecisionQueue("SETDQVAR", $player, "1", 1);
       AddDecisionQueue("PASSPARAMETER", $player, "PLAY_PLOT", 1);
       AddDecisionQueue("SETCLASSSTATE", $player, $CS_AfterPlayedBy, 1);
       AddDecisionQueue("PASSPARAMETER", $player, "1", 1);
