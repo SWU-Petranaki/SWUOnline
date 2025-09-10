@@ -4,8 +4,8 @@ function CardbacksDropdowns($settings) {
   $rv = "";
   $rv .= CreateSelectOption($SET_Cardback . "-" . 0, "", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 0, "Default", $SET_Cardback . "-" . $settings[$SET_Cardback]);
-  $rv .= CreateSelectOption($SET_Cardback . "-" . 3, "Rebel Resource", $SET_Cardback . "-" . $settings[$SET_Cardback]);
-  $rv .= CreateSelectOption($SET_Cardback . "-" . 4, "Rebel Resource Dark", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  //$rv .= CreateSelectOption($SET_Cardback . "-" . 3, "Rebel Resource", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  //$rv .= CreateSelectOption($SET_Cardback . "-" . 4, "Rebel Resource Dark", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 5, "Golden Dice Podcast", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 6, "L8 Night Gaming", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-" . 7, "Mobyus1 Simple", $SET_Cardback . "-" . $settings[$SET_Cardback]);
@@ -79,6 +79,8 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-78", "Indy SWU", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-79", "Team serialized", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-80", "Squadriglia Taurinense", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-81", "LXO", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-82", "Rebel Resource", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   //continue adding card backs here
   return $rv;
 }

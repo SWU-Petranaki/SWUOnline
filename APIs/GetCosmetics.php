@@ -18,14 +18,14 @@ $cardBack = new stdClass();
 $cardBack->name = "Default";
 $cardBack->id = 0;
 $response->cardBacks[] = $cardBack;
-$cardBack = new stdClass();
-$cardBack->name = "Rebel Resource";
-$cardBack->id = 3;
-$response->cardBacks[] = $cardBack;
-$cardBack = new stdClass();
-$cardBack->name = "Rebel Resource Dark";
-$cardBack->id = 4;
-$response->cardBacks[] = $cardBack;
+// $cardBack = new stdClass();
+// $cardBack->name = "Rebel Resource";
+// $cardBack->id = 3;
+// $response->cardBacks[] = $cardBack;
+// $cardBack = new stdClass();
+// $cardBack->name = "Rebel Resource Dark";
+// $cardBack->id = 4;
+// $response->cardBacks[] = $cardBack;
 $cardBack = new stdClass();
 $cardBack->name = "L8 Night Gaming";
 $cardBack->id = 6;
@@ -341,6 +341,16 @@ $response->cardBacks[] = $cardBack;
 $cardBack = new stdClass();
 $cardBack->name = "Squadriglia Taurinense";
 $cardBack->id = 80;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "LXO";
+$cardBack->id = 81;
+$response->cardBacks[] = $cardBack;
+
+$cardBack = new stdClass();
+$cardBack->name = "Rebel Resource";
+$cardBack->id = 82;
 $response->cardBacks[] = $cardBack;
 
 //continue adding card backs here
