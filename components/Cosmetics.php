@@ -79,6 +79,7 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-78", "Indy SWU", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-79", "Team serialized", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-80", "Squadriglia Taurinense", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-81", "LXO", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   //continue adding card backs here
   return $rv;
 }

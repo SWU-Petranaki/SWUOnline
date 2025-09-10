@@ -343,6 +343,11 @@ $cardBack->name = "Squadriglia Taurinense";
 $cardBack->id = 80;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "LXO";
+$cardBack->id = 81;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
