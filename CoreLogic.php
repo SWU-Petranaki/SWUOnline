@@ -6530,7 +6530,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AttackWithMyUnitEvenIfExhaustedNoBases($currentPlayer);
       break;
     case "8757741946"://Poe Dameron (One Hell of a Pilot)
-      if($from != "PLAY" && $target == "-") {
+      if($from != "PLAY" && $target == "-" && $playAlly->Exists()) {
         CreateXWing($currentPlayer);
         AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Attach Poe to a Vehicle?");
         AddDecisionQueue("YESNO", $currentPlayer, "-", 1);
