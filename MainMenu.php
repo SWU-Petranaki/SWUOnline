@@ -82,7 +82,7 @@ if (!empty($_SESSION['error'])) {
 }
 
 //Cantina Brawl Format; Update this to rotate formats
-$funFormatBackendName = Formats::$GalacticCivilWar;
+$funFormatBackendName = Formats::$PadawanFormat;
 $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
 
 // Now start HTML output after all PHP processing is done
@@ -419,8 +419,8 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                   <option value="premierf">Premier Casual</option>
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="previewf">Preview (Set 6)</option>
-                  <!--
                   <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
+                  <!--
                   <option value="pwstrict">Preview (Best of 3)</option>
                   -->
                 <?php } ?>
@@ -454,8 +454,8 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                   <option value="premierf">Premier Casual</option>
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="previewf">Preview (Set 6)</option>
+                  <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
                   <!--
-                  <option value="<?php $funFormatBackendName?>">Cantina Brawl</option>
                   <option value="pwstrict">Preview (Best of 3)</option>
                   -->
                 <?php } ?>
@@ -501,8 +501,9 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
               if($canSeeQueue) {
                 echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
                 echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
-                // echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
                 echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 6)</option>");
+                // echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");
+                echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">$funFormatDisplayName</option>");
                 // echo ("<option value='$previewStrict' " . ($defaultFormat == FormatCode($previewStrict) ? " selected" : "") . ">Preview (Best of 3)</option>");
               }
               echo ("<option value='$openFormat'" . ($defaultFormat == FormatCode($openFormat) ? " selected" : "") . ">" . FormatDisplayName($openFormat) . "</option>");

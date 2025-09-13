@@ -190,7 +190,7 @@ $baseUri = "/Arena";
                     echo "<li class='dropdown'>
                       <a href='javascript:void(0)' onclick='toggleInfoNav()' class='NavBarItem info-nav'>Info <span id='nav-tri-info' class='nav-triangle'>▼</span></a>
                       <ul id='info-dd' class='dropdown-content'>
-                        <li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>
+                        <!--<li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>-->
                         <li><a href='$baseUri/Conduct.php'>Code of Conduct</a></li>
                       </ul>
                     </li>";
@@ -254,7 +254,7 @@ $baseUri = "/Arena";
                 echo "<li class='dropdown'>
                   <a href='javascript:void(0)' onclick='toggleInfoNavMobile()' class='NavBarItem info-nav'>Info <span id='nav-tri-info-mobile' class='nav-triangle'>▼</span></a>
                   <ul id='info-dd-mobile' class='dropdown-content'>
-                    <li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>"
+                    <!--<li><a href='$baseUri/CantinaBrawl.php'>Cantina Brawl</a></li>-->"
                     . "<li><a href='$baseUri/PreviewCards.php'>Preview Cards</a></li>"
                     . "<li><a href='$baseUri/Conduct.php'>Code of Conduct</a></li>
                   </ul>
