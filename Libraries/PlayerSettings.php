@@ -660,6 +660,8 @@ function FormatCode($format)
   switch ($format) {
     case "premierf":
       return 0;
+    case "prnoft":
+      return 14;
     case "prstrict":
       return 1;
     case "previewf":
