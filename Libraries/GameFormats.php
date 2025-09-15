@@ -3,6 +3,7 @@
 class Formats {
   //basic formats
   public static $PremierFormat = "premierf";
+  public static $PremierNoForceThrow = "prnoft";
   public static $PremierStrict = "prstrict";
   public static $OpenFormat = "openform";
   public static $PreviewFormat = "previewf";
@@ -43,6 +44,7 @@ class Formats {
       //11 => Formats::$GroundAssault,
       //12 => Formats::$AllWingsReportIn,
       //13 => Formats::$NowThereAreThreeOfThem,
+      14 => Formats::$PremierNoForceThrow,
       101 => Formats::$OnePlayerPremier,
       102 => Formats::$OnePlayerOpen,
       201 => Formats::$Mobyus1Puzzles,
@@ -209,6 +211,9 @@ function IsAllowed($cardID, $format): bool {
     Formats::$PremierQuick
       => !in_array($cardID, $banned)
       ,
+    //All cards in rotation are allowed except for banned cards and Force Throw
+    Formats::$PremierNoForceThrow => !in_array($cardID, $banned) && $cardID != "1705806419" //Force Throw
+    ,
     //Only Commons, any unbanned leader, no Rare bases, no Special cards unless they have a Common variant
     Formats::$PadawanFormat => (CardRarity($cardID) == "Common"
         || CardIDIsLeader($cardID)
@@ -306,9 +311,10 @@ function CardInRotation($format, $cardID): bool {
   $cloneWarRotation = $previewRotation;
   return match($format) {
     Formats::$PremierFormat,
-      Formats::$PremierStrict,
-      Formats::$OnePlayerPremier,
-      Formats::$PremierQuick => in_array(CardSet($cardID), $premierRotation),
+    Formats::$PremierNoForceThrow,
+    Formats::$PremierStrict,
+    Formats::$OnePlayerPremier,
+    Formats::$PremierQuick => in_array(CardSet($cardID), $premierRotation),
     Formats::$PadawanFormat => in_array(CardSet($cardID), $padawanRotation),
     Formats::$SandcrawlerFormat => in_array(CardSet($cardID), $sandcrawlerRotation),
     Formats::$PreviewFormat => in_array(CardSet($cardID), $previewRotation),
@@ -345,6 +351,7 @@ function CardSubceedsNumCopies($format, $cardID, $count): bool {
 function FormatDisplayName($format) {
   return match($format) {
     Formats::$PremierFormat => "Premier Casual",
+    Formats::$PremierNoForceThrow => "Premier (No Force Throw)",
     Formats::$PremierStrict => "Premier (Best of 3)",
     Formats::$PreviewFormat => "Preview",
     Formats::$PreviewStrict => "Preview (Best of 3)",

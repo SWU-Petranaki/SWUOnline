@@ -417,6 +417,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 <?php if($canSeeQueue) { ?>
                   <option value="all">All Formats</option>
                   <option value="premierf">Premier Casual</option>
+                  <option value="prnoft">Premier (No Force Throw)</option>
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="previewf">Preview (Set 6)</option>
                   <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
@@ -452,6 +453,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 <?php if($canSeeQueue) { ?>
                   <option value="all">All Formats</option>
                   <option value="premierf">Premier Casual</option>
+                  <option value="prnoft">Premier (No Force Throw)</option>
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="previewf">Preview (Set 6)</option>
                   <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
@@ -492,6 +494,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
 
               <?php
               $standardFormatCasual = Formats::$PremierFormat;
+              $standardFormatNoForceThrow = Formats::$PremierNoForceThrow;
               $standardFormat = Formats::$PremierStrict;
               $previewFormat = Formats::$PreviewFormat;
               $openFormat = Formats::$OpenFormat;
@@ -500,6 +503,7 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
               echo ("<select name='format' id='format'>");
               if($canSeeQueue) {
                 echo ("<option value='$standardFormatCasual' " . ($defaultFormat == FormatCode($standardFormatCasual) ? " selected" : "") . ">Premier Casual</option>");
+                echo ("<option value='$standardFormatNoForceThrow' " . ($defaultFormat == FormatCode($standardFormatNoForceThrow) ? " selected" : "") . ">Premier (No Force Throw)</option>");
                 echo ("<option value='$standardFormat' " . ($defaultFormat == FormatCode($standardFormat) ? " selected" : "") . ">Premier (Best of 3)</option>");
                 echo ("<option value='$previewFormat' " . ($defaultFormat == FormatCode($previewFormat) ? " selected" : "") . ">Preview (Set 6)</option>");
                 // echo ("<option value='$funFormatBackendName'" . ($defaultFormat == FormatCode($funFormatBackendName) ? " selected" : "") . ">Cantina Brawl ($funFormatDisplayName)</option>");

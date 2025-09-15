@@ -14,6 +14,7 @@ $path = ROOTPATH . "/Games";
 $currentlyActiveGames = "";
 $spectateLinks = "";
 $premierLinks = "";
+$premierNoForceThrowLinks = "";
 $premierStrictLinks = "";
 $previewLinks = "";
 $otherFormatsLinks = "";
@@ -175,6 +176,9 @@ if ($handle = opendir($path)) {
             case "premierf":
               $premierLinks .= $link;
               break;
+            case "prnoft":
+              $premierNoForceThrowLinks .= $link;
+              break;
             case "prstrict":
               $premierStrictLinks .= $link;
               break;
@@ -204,6 +208,9 @@ if ($canSeeQueue) {
   echo ("<h3 style='text-align: right;'>Premier Casual</h3>");
   echo ("<hr/>");
   echo ($premierLinks);
+  echo ("<h3 style='text-align: right;'>Premier (No Force Throw)</h3>");
+  echo ("<hr/>");
+  echo ($premierNoForceThrowLinks);
   echo ("<h3 style='text-align: right;'>Premier (Best of 3)</h3>");
   echo ("<hr/>");
   echo ($premierStrictLinks);
