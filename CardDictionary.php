@@ -1362,6 +1362,7 @@ function HasPlot($cardID, $player="", $index=-1) {
     , "7069246970"//Sly Moore (SEC)
     , "7936097828"//Chancellor Palpatine unit (SEC)
     , "2919204327"//Naboo Royal Starship
+    , "7365023470"//Mas Amedda
       => true,
     default => false,
   };

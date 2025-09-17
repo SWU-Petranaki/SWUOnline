@@ -1750,6 +1750,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("PASSPARAMETER", $player, "{1}", 1);
       AddDecisionQueue("MZOP", $player, "ATTACK", 1);
       break;
+    case "WITH_THUNDEROUS_APPLAUSE":
+      $firstUnitMz = Ally::FromUniqueID($lastResult)->MZIndex();
+      $discloseAspects = ["Command"];
+      if(PlayerCanDiscloseAspects($player, $discloseAspects)) {
+        DQAskToDiscloseAspects($player, $discloseAspects);
+        DQBuffUnit($player, "1156033141", 2, 2, may:false, mzFilter: "index=$firstUnitMz", subsequent:true);
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }

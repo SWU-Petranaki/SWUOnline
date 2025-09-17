@@ -329,6 +329,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "9985741271": return 2;//Jar Jar Binks (SEC)
     case "7069246970": return (str_contains(GetAttackTarget(), "CHAR-0") ? -2 : 0);//Sly Moore (SEC)
     case "2183727633": return 2;//Major Partagaz
+    case "1156033141": return 2;//With Thunderous Applause
     default: return 0;
   }
 }

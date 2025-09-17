@@ -2743,6 +2743,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
+    //conditional layers
     case "5387ca4af6"://Third Sister Leader Unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
@@ -2834,35 +2835,33 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       AddCurrentTurnEffect($attackID, $defPlayer, from:"PLAY");
       break;
     //Secrets of Power
-    case "9280012856"://Bail Organa (SEC)
-      $totalOnAttackAbilities++;
-      if ($reportMode) break;
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to create a spy token");
-      AddDecisionQueue("YESNO", $mainPlayer, "-");
-      AddDecisionQueue("NOPASS", $mainPlayer, "-");
-      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
-      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
-      AddDecisionQueue("CREATESPY", $mainPlayer, "-", 1);
-      break;
     case "8167114067"://Dedra Meero
       $totalOnAttackAbilities++;
-      CreateSpy($mainPlayer);
+      if ($reportMode) break;
+      PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
+    //conditional layers
+    case "6496365934"://Vice Admiral Rampart
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      $discloseAspects = ["Command", "Command", "Villainy"];
+      if(PlayerCanDiscloseAspects($mainPlayer, $discloseAspects)) {
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
+      break;
+    case "9280012856"://Bail Organa
     case "7125768467"://Furtive Handmaiden
       $totalOnAttackAbilities++;
-      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card from your hand to draw a card?");
-      AddDecisionQueue("YESNO", $mainPlayer, "-");
-      AddDecisionQueue("NOPASS", $mainPlayer, "-");
-      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
-      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
-      AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
+      if ($reportMode) break;
+      if(count(GetHand($mainPlayer)) > 0) {
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
+      }
       break;
     case "4832242481"://Taylander Shuttle
       $totalOnAttackAbilities++;
+      if ($reportMode) break;
       if ($initiativePlayer == $mainPlayer) {
-        CreateSpy($mainPlayer);
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       }
       break;
     default: break;
@@ -2881,9 +2880,8 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     }
   }
 
-  //SpecificAllyAttackAbilities End
   return $totalOnAttackAbilities;
-}
+} //WhileAttackingAbilities End
 
 //NOTE: this is for processing the triggers
 function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
@@ -4166,6 +4164,37 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "9863058946"://Rebellion Y-Wing
       DealDamageAsync($otherPlayer, 1, "DAMAGE", "6022703929", sourcePlayer:$player);
       break;
+    //Secrets of Power
+    case "9280012856"://Bail Organa
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card to create a spy token");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
+      AddDecisionQueue("CREATESPY", $mainPlayer, "-", 1);
+      break;
+    case "8167114067"://Dedra Meero
+    case "4832242481"://Taylander Shuttle
+      CreateSpy($mainPlayer);
+      break;
+    case "7125768467"://Furtive Handmaiden
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to discard a card from your hand to draw a card?");
+      AddDecisionQueue("YESNO", $mainPlayer, "-");
+      AddDecisionQueue("NOPASS", $mainPlayer, "-");
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYHAND", 1);
+      AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZDESTROY", $mainPlayer, "-", 1);
+      AddDecisionQueue("DRAW", $mainPlayer, "-", 1);
+      break;
+    case "6496365934"://Vice Admiral Rampart
+    $discloseAspects = ["Command", "Command", "Villainy"];
+    if(PlayerCanDiscloseAspects($mainPlayer, $discloseAspects)) {
+      DQAskToDiscloseAspects($mainPlayer, $discloseAspects, $cardID);
+      DQMultiUnitSelect($mainPlayer, 2, "MYALLY&THEIRALLY", "to give an experience to", "index=" . $attackerAlly->MZIndex(), subsequent:true);
+      AddDecisionQueue("MZOP", $mainPlayer, GiveExperienceBuilder($mainPlayer, isUnitEffect:1), 1);
+    }
+    break;
     default: break;
   }
 
