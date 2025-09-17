@@ -2004,6 +2004,8 @@ function CheckSECAbilityTypes($cardID) {
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "0955276339"://Dedra Meero Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "7588883291"://C-3PO
+      return "A,AA";
     //non-leaders
   }
 }
@@ -2440,6 +2442,8 @@ function CheckSECAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Spy";
     case "0955276339"://Dedra Meero
       return LeaderAbilitiesIgnored() ? "" : "Torment";
+    case "7588883291"://C-3PO
+      return "Bounce,Attack";
   }
 }
 
