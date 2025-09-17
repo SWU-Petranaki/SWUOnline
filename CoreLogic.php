@@ -8103,6 +8103,20 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MON_MOTHMA_SEC", 1);
       }
       break;
+    case "5577542957"://Cantwell Arrestor Cruiser
+      $discloseAspects = ["Vigilance", "Vigilance", "Villainy"];
+      if($from != "PLAY" && PlayerCanDiscloseAspects($currentPlayer, $discloseAspects)) {
+        DQAskToDiscloseAspects($currentPlayer, $discloseAspects);
+        //exhaust an enemy unit
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy unit to exhaust", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+        //that unit can't ready while this unit is in play (ie. add limited current effect)
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "$cardID-" . $playAlly->UniqueID() . ",PLAY", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8917,3 +8931,11 @@ function WakeUpChampion($player)
   $char[1] = 2;
 }
 
+function CurrentEffectPreventsReady($player, $uniqueID) {
+  if (SearchLimitedCurrentTurnEffects("8800836530", $player, $uniqueID) != -1) { // No Good to me Dead
+    return true;
+  }
+  if (SearchLimitedCurrentTurnEffects("5577542957", $player, $uniqueID, startsWith: true) != -1) { // Cantwell Arrestor Cruiser
+    return true;
+  }
+}

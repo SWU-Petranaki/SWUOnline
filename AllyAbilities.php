@@ -836,6 +836,9 @@ function AllyLeavesPlayAbility($player, $index)
       $otherPlayer = $player == 1 ? 2 : 1;
       SearchLimitedCurrentTurnEffects("3503494534", $notOwner, uniqueID:$ally->UniqueID(), remove:true);
       break;
+    case "5577542957"://Cantwell Arrestor Cruiser
+      SearchLimitedCurrentTurnEffects("5577542957-" . $ally->UniqueID(), $notOwner, remove:true);
+      break;
     case "4002861992"://DJ (Blatant Thief)
       $djAlly = new Ally("MYALLY-" . $index, $player);
       $resourceFound = false;

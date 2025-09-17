@@ -552,13 +552,17 @@ function GetCurrentTurnEffects($cardID, $player, $uniqueID = -1, $remove = false
   return null;
 }
 
-function SearchLimitedCurrentTurnEffects($cardID, $player, $uniqueID = -1, $remove = false)
+function SearchLimitedCurrentTurnEffects($cardID, $player, $uniqueID = -1, $remove = false, $startsWith = false)
 {
   global $currentTurnEffects;
   for ($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnEffectPieces()) {
     $currentCardID = explode("_", $currentTurnEffects[$i])[0];
     $currentUniqueID = $currentTurnEffects[$i + 2];
-    if ($currentCardID == $cardID && $currentTurnEffects[$i + 1] == $player && ($uniqueID == -1 || $uniqueID == $currentUniqueID)) {
+    if ($startsWith && str_starts_with($currentCardID, $cardID) && $currentTurnEffects[$i + 1] == $player && ($uniqueID == -1 || $uniqueID == $currentUniqueID)) {
+      if ($remove) RemoveCurrentTurnEffect($i);
+      return $currentUniqueID;
+    }
+    else if ($currentCardID == $cardID && $currentTurnEffects[$i + 1] == $player && ($uniqueID == -1 || $uniqueID == $currentUniqueID)) {
       if ($remove) RemoveCurrentTurnEffect($i);
       return $currentUniqueID;
     }
