@@ -1758,6 +1758,14 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         DQBuffUnit($player, "1156033141", 2, 2, may:false, mzFilter: "index=$firstUnitMz", subsequent:true);
       }
       break;
+    case "SATINE_KRYZE_SEC":
+      $parts = explode("-", $lastResult);
+      $healed = intval($parts[0]);
+      $index = $parts[1];
+      if($healed > 0) {
+        DealDamageAsync($player, $healed, "DAMAGE", "2070613552");
+      }
+      break;
     //SpecificCardLogic End
     default: return "";
   }

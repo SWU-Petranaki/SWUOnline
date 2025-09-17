@@ -8038,6 +8038,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       AddDecisionQueue("MZOP", $currentPlayer, "DEALDAMAGE,3,$currentPlayer,1", 1);
       break;
     //Secrets of Power
+    //leaders
     case "1020365882"://Chancellor Palpatine leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Draw") {
@@ -8046,6 +8047,21 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("REVEALCARDS", $currentPlayer, "DECK", 1);
       }
       break;
+    case "2070613552"://Satine Kryze leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Heal") {
+        //Heal up to 2 damage from a unit.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to heal up to 2 damage", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $currentPlayer, "2-", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Heal up to 2 damage", 1);
+        AddDecisionQueue("PARTIALMULTIHEALMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "MULTIHEAL", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "SATINE_KRYZE_SEC", 1);
+      }
+      break;
+    //non-leaders
     case "8365930807"://Cad Bane
       if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true, context: "Choose a unit with 2 or less health to defeat");
       break;

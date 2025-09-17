@@ -201,6 +201,7 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     case "7241924417": if(SearchCount(SearchAllies($player, trait:"Official")) > 0) $amount += 2; break;//Nubian Star Skiff
     case "9378249305": $amount += 1; break;//Mina Bonteri
     case "1347170274": $amount += 3; break;//Mon Mothma
+    case "1cd07cdf58": $amount += 4; break;//Satine Kryze leader unit
     default: break;
   }
   //The Ghost JTL
@@ -1979,6 +1980,8 @@ function CheckSECAbilityTypes($cardID) {
     //leaders
     case "1020365882"://Chancellor Palpatine Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "2070613552"://Satine Kryze Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
   }
 }
@@ -2409,6 +2412,8 @@ function CheckSECAbilityNames($cardID, $index, $validate) {
   switch($cardID) {
     case "1020365882"://Chancellor Palpatine Leader
       return LeaderAbilitiesIgnored() ? "" : "Draw";
+    case "2070613552"://Satine Kryze leader
+      return LeaderAbilitiesIgnored() ? "" : "Heal";
   }
 }
 
@@ -2943,6 +2948,8 @@ function LeaderUnit($cardID) {
       return "f5c367b02f";
     case "3399415368"://Padme Amidala
       return "9efccff9d9";
+    case "2070613552"://Satine Kryze
+      return "1cd07cdf58";
     default: return "";
   }
 }
@@ -3142,6 +3149,8 @@ function LeaderUndeployed($cardID) {
       return "1020365882";
     case "9efccff9d9"://Padme Amidala
       return "3399415368";
+    case "1cd07cdf58"://Satine Kryze
+      return "2070613552";
     default: return "";
   }
 }
