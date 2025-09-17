@@ -451,6 +451,7 @@ function DestroyAlly($player, $index,
   $discardPileModifier = "-";
   if(!$skipDestroy && !$isL337JTL || $skipSpecialCase) {
     OnKillAbility($player, $uniqueID);
+    OnSacrificeAbility($player, $uniqueID);
     $whenDestroyData="";$whenResourceData="";$whenBountiedData="";
     $shouldLayerDestroyTriggers = (HasWhenDestroyed($cardID) && !$isSuperlaserTech && !GivesWhenDestroyedToAllies($cardID))
       || UpgradesContainWhenDefeated($upgrades)
@@ -1558,6 +1559,49 @@ function OnKillAbility($player, $uniqueID)
       }
       break;
     default: break;
+  }
+}
+
+function OnSacrificeAbility($player, $uniqueID) {
+  global $combatChain, $mainPlayer, $defPlayer;
+  if(count($combatChain) == 0) return;
+  $attackerAlly = new Ally(AttackerMZID($mainPlayer), $mainPlayer);
+  $defAlly = new Ally(GetAttackTarget(), $defPlayer);
+  if($attackerAlly->Controller() != $player || $attackerAlly->UniqueID() != $uniqueID || !$attackerAlly->Exists() || $defAlly->CurrentPower() < $attackerAlly->Health()) return;
+
+  $attackerChar = GetPlayerCharacter($mainPlayer);
+  for($i = 0; $i < count($attackerChar); $i+=CharacterPieces()) {
+    switch($attackerChar[$i]) {
+      case "8780923793"://Luthen Rael leader
+        if(!LeaderAbilitiesIgnored() && $attackerChar[$i+1] == 2) {
+          //You may exhaust this leader. If you do, deal 1 damage to a unit or base.
+          AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Do you want to exhaust " . CardLink("8780923793", "8780923793") . " to deal 1 damage to a unit or base?", 1);
+          AddDecisionQueue("YESNO", $mainPlayer, "-", 1);
+          AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
+          AddDecisionQueue("EXHAUSTCHARACTER", $mainPlayer, FindCharacterIndex($mainPlayer, "8780923793"), 1);
+          AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
+          AddDecisionQueue("PREPENDLASTRESULT", $mainPlayer, "MYCHAR-0,THEIRCHAR-0,", 1);
+          AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to deal 1 damage to", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(1, $mainPlayer), 1);
+        }
+        break;
+      default: break;
+    }
+  }
+  $myAllies = GetAllies($mainPlayer);
+  for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
+    switch($myAllies[$i]) {
+      case "e4ce8e34a9"://Luthen Rael leader unit
+        //You may deal 2 damage to a unit or base.
+        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
+        AddDecisionQueue("PREPENDLASTRESULT", $mainPlayer, "MYCHAR-0,THEIRCHAR-0,");
+        AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to deal 2 damage to", 1);
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:true, unitCardID:"e4ce8e34a9"), 1);
+        break;
+      default: break;
+    }
   }
 }
 
