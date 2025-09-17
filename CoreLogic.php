@@ -799,7 +799,7 @@ function PlayerHasPlotsAvailable($player) {
   $plotAvailable = false;
   for($i=0; $i<count($resources); $i+=ResourcePieces()) {
     if(HasPlot($resources[$i]))
-      $plotAvailable = $plotAvailable || NumResourcesAvailable($player) >= CardCost($resources[$i]);
+      $plotAvailable = $plotAvailable || NumResourcesAvailable($player) >= (CardCost($resources[$i]) + CurrentEffectCostModifiers($resources[$i], "RESOURCES", true));
   }
 
   return $plotAvailable;
