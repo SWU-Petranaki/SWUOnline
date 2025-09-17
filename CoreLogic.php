@@ -8061,6 +8061,28 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "SATINE_KRYZE_SEC", 1);
       }
       break;
+    case "4672831370"://Sly Moore
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Spy") {
+        $numExhausted = 0;
+        $myAllies = &GetAllies($currentPlayer);
+        for ($i = 0; $i < count($myAllies); $i += AllyPieces()) {
+          if (Ally::FromUniqueId($myAllies[$i+5])->IsExhausted()) {
+            ++$numExhausted;
+          }
+        }
+        $theirAllies = &GetAllies($otherPlayer);
+        for ($i = 0; $i < count($theirAllies); $i += AllyPieces()) {
+          if (Ally::FromUniqueId($theirAllies[$i+5])->IsExhausted()) {
+            ++$numExhausted;
+          }
+        }
+        //If 4 or more units are exhausted, create a spy.
+        if($numExhausted >= 4) {
+          CreateSpy($currentPlayer);
+        }
+      }
+      break;
     //non-leaders
     case "8365930807"://Cad Bane
       if($from != "PLAY") MZChooseAndDestroy($currentPlayer, "MYALLY:maxHealth=2&THEIRALLY:maxHealth=2", may: true, context: "Choose a unit with 2 or less health to defeat");

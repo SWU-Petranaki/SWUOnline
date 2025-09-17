@@ -1488,6 +1488,8 @@ function AbilityCost($cardID)
     //Secrets of Power
     case "1020365882"://Chancellor Palpatine
       return $abilityName == "Draw" ? 1 : 0;
+    case "4672831370"://Sly Moore
+      return $abilityName == "Spy" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -2414,6 +2416,8 @@ function CheckSECAbilityNames($cardID, $index, $validate) {
       return LeaderAbilitiesIgnored() ? "" : "Draw";
     case "2070613552"://Satine Kryze leader
       return LeaderAbilitiesIgnored() ? "" : "Heal";
+    case "4672831370"://Sly Moore
+      return LeaderAbilitiesIgnored() ? "" : "Spy";
   }
 }
 
@@ -2950,6 +2954,8 @@ function LeaderUnit($cardID) {
       return "9efccff9d9";
     case "2070613552"://Satine Kryze
       return "1cd07cdf58";
+    case "4672831370"://Sly Moore
+      return "039c73c1ec";
     default: return "";
   }
 }
@@ -3151,6 +3157,8 @@ function LeaderUndeployed($cardID) {
       return "3399415368";
     case "1cd07cdf58"://Satine Kryze
       return "2070613552";
+    case "039c73c1ec"://Sly Moore
+      return "4672831370";
     default: return "";
   }
 }
