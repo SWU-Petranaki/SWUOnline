@@ -201,6 +201,7 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     case "7241924417": if(SearchCount(SearchAllies($player, trait:"Official")) > 0) $amount += 2; break;//Nubian Star Skiff
     case "9378249305": $amount += 1; break;//Mina Bonteri
     case "1347170274": $amount += 3; break;//Mon Mothma
+    case "1cd07cdf58": $amount += 4; break;//Satine Kryze leader unit
     default: break;
   }
   //The Ghost JTL
@@ -406,6 +407,10 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
       if (ControlsNamedCard($player, "Padmé Amidala")) {
         $amount += 2;
       }
+      break;
+    case "df8a422de0"://Dedra Meero leader unit
+      $otherPlayer = $player == 1 ? 2 : 1;
+      $amount += (count(GetHand($player)) > count(GetHand($otherPlayer))) ? 2 : 0;
       break;
     default: break;
   }
@@ -1487,6 +1492,10 @@ function AbilityCost($cardID)
     //Secrets of Power
     case "1020365882"://Chancellor Palpatine
       return $abilityName == "Draw" ? 1 : 0;
+    case "4672831370"://Sly Moore
+      return $abilityName == "Spy" ? 1 : 0;
+    case "0955276339"://Dedra Meero
+      return $abilityName == "Torment" ? 1 : 0;
     default: break;
   }
   if(IsAlly($cardID)) return 0;
@@ -1979,6 +1988,12 @@ function CheckSECAbilityTypes($cardID) {
     //leaders
     case "1020365882"://Chancellor Palpatine Leader
       return LeaderAbilitiesIgnored() ? "" : "A";
+    case "2070613552"://Satine Kryze Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    case "4672831370"://Sly Moore Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
+    case "0955276339"://Dedra Meero Leader
+      return LeaderAbilitiesIgnored() ? "" : "A";
     //non-leaders
   }
 }
@@ -2409,6 +2424,12 @@ function CheckSECAbilityNames($cardID, $index, $validate) {
   switch($cardID) {
     case "1020365882"://Chancellor Palpatine Leader
       return LeaderAbilitiesIgnored() ? "" : "Draw";
+    case "2070613552"://Satine Kryze leader
+      return LeaderAbilitiesIgnored() ? "" : "Heal";
+    case "4672831370"://Sly Moore
+      return LeaderAbilitiesIgnored() ? "" : "Spy";
+    case "0955276339"://Dedra Meero
+      return LeaderAbilitiesIgnored() ? "" : "Torment";
   }
 }
 
@@ -2943,6 +2964,14 @@ function LeaderUnit($cardID) {
       return "f5c367b02f";
     case "3399415368"://Padme Amidala
       return "9efccff9d9";
+    case "2070613552"://Satine Kryze
+      return "1cd07cdf58";
+    case "4672831370"://Sly Moore
+      return "039c73c1ec";
+    case "0955276339"://Dedra Meero
+      return "df8a422de0";
+    case "8780923793"://Luthen Rael
+      return "e4ce8e34a9";
     default: return "";
   }
 }
@@ -3142,6 +3171,14 @@ function LeaderUndeployed($cardID) {
       return "1020365882";
     case "9efccff9d9"://Padme Amidala
       return "3399415368";
+    case "1cd07cdf58"://Satine Kryze
+      return "2070613552";
+    case "039c73c1ec"://Sly Moore
+      return "4672831370";
+    case "df8a422de0"://Dedra Meero
+      return "0955276339";
+    case "e4ce8e34a9"://Luthen Rael
+      return "8780923793";
     default: return "";
   }
 }

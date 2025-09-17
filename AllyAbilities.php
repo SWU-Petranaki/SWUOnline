@@ -2836,6 +2836,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       break;
     //Secrets of Power
     case "8167114067"://Dedra Meero
+    case "039c73c1ec"://Sly Moore leader unit
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -4195,6 +4196,10 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
       AddDecisionQueue("MZOP", $mainPlayer, GiveExperienceBuilder($mainPlayer, isUnitEffect:1), 1);
     }
     break;
+    case "039c73c1ec"://Sly Moore leader unit
+      //You may deal 2 damage to an exhausted unit.
+      DQPingUnit($mainPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY&THEIRALLY", mzFilter:"status=0");
+      break;
     default: break;
   }
 
