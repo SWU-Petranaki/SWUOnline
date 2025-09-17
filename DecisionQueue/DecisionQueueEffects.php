@@ -1755,7 +1755,7 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       $discloseAspects = ["Command"];
       if(PlayerCanDiscloseAspects($player, $discloseAspects)) {
         DQAskToDiscloseAspects($player, $discloseAspects);
-        DQBuffUnit($player, "1156033141", 2, 2, may:false, mzFilter: "index=$firstUnitMz", subsequent:true);
+        DQBuffUnit($player, "1156033141", 2, may:false, mzFilter: "index=$firstUnitMz", subsequent:true);
       }
       break;
     case "SATINE_KRYZE_SEC":

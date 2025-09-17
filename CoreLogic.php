@@ -8164,7 +8164,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       }
       break;
     case "1156033141"://With Thunderous Applause
-      DQBuffUnit($currentPlayer, $cardID, 2, 2, may:false);
+      DQBuffUnit($currentPlayer, $cardID, 2, may:false);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "WITH_THUNDEROUS_APPLAUSE");
       break;
     case "8401985446"://Topple the Summit
@@ -8187,6 +8187,14 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       //Create a Spy token.
       AddDecisionQueue("CREATESPY", $currentPlayer, "-");
       break;
+    case "7588883291"://C-3PO
+    $abilityName = GetResolvedAbilityName($cardID, $from);
+    if($abilityName == "Bounce") {
+      $c3poIndex = SearchAlliesForCard($currentPlayer, $cardID);
+      MZBounce($currentPlayer, "MYALLY-" . $c3poIndex);
+      DQBuffUnit($currentPlayer, $cardID, 2, may:false, from: "PLAY");
+    }
+    break;
     //PlayAbility End
     default: break;
   }
