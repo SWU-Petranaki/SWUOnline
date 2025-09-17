@@ -202,6 +202,7 @@ function RestoreAmount($cardID, $player, $index, $isRecursion = false)
     case "9378249305": $amount += 1; break;//Mina Bonteri
     case "1347170274": $amount += 3; break;//Mon Mothma
     case "1cd07cdf58": $amount += 4; break;//Satine Kryze leader unit
+    case "2720042002": $amount += 2; break;//Chandrilan Sponsor
     default: break;
   }
   //The Ghost JTL
@@ -616,6 +617,9 @@ function HasSentinel($cardID, $player, $index, $isRecursion = false)
     //Secrets of Power
       case "8088607505"://Captain Typho
       case "3796991604"://Dogmatic Shock Squad
+      case "2642304891"://Ando Commission
+      case "5488386689"://Jade Squadron Patrol
+      case "5843701855"://Lobot
         return true;
       case "8854921497"://Corrupt Politician
         $myAllyCount = SearchCount(SearchAllies($player));
@@ -718,6 +722,9 @@ function HasGrit($cardID, $player, $index, $isRecursion = false)
         if(HasGrit($units[$i], $player, $i, true)) return true;
       }
       break;
+    //Secrets of Power
+    case "5843701855"://Lobot
+      return true;
     default: break;
   }
   //The Ghost JTL
