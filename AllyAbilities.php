@@ -1513,11 +1513,13 @@ function OnKillAbility($player, $uniqueID)
   for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
     switch($myAllies[$i]) {
       case "754e979196"://Darth Revan Leader Unit
-        AddDecisionQueue("ATTACKEREXISTSORPASS", $mainPlayer, $attackerAlly->UniqueID(), 1);
-        AddDecisionQueue("YESNO", $mainPlayer, "Give Experience to " . CardLink($attackerAlly->CardID(), $attackerAlly->CardID()) . "?", 1);
-        AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
-        AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
-        AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+        if(!LeaderAbilitiesIgnored()) {
+          AddDecisionQueue("ATTACKEREXISTSORPASS", $mainPlayer, $attackerAlly->UniqueID(), 1);
+          AddDecisionQueue("YESNO", $mainPlayer, "Give Experience to " . CardLink($attackerAlly->CardID(), $attackerAlly->CardID()) . "?", 1);
+          AddDecisionQueue("NOPASS", $mainPlayer, "-", 1);
+          AddDecisionQueue("PASSPARAMETER", $mainPlayer, $attackerAlly->UniqueID(), 1);
+          AddDecisionQueue("MZOP", $mainPlayer, "ADDEXPERIENCE", 1);
+        }
         break;
       default:
         break;
@@ -1593,12 +1595,14 @@ function OnSacrificeAbility($player, $uniqueID) {
   for($i=0; $i<count($myAllies); $i+=AllyPieces()) {
     switch($myAllies[$i]) {
       case "e4ce8e34a9"://Luthen Rael leader unit
-        //You may deal 2 damage to a unit or base.
-        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
-        AddDecisionQueue("PREPENDLASTRESULT", $mainPlayer, "MYCHAR-0,THEIRCHAR-0,");
-        AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to deal 2 damage to", 1);
-        AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
-        AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:true, unitCardID:"e4ce8e34a9"), 1);
+        if(!LeaderAbilitiesIgnored()) {
+          //You may deal 2 damage to a unit or base.
+          AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
+          AddDecisionQueue("PREPENDLASTRESULT", $mainPlayer, "MYCHAR-0,THEIRCHAR-0,");
+          AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a card to deal 2 damage to", 1);
+          AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+          AddDecisionQueue("MZOP", $mainPlayer, DealDamageBuilder(2, $mainPlayer, isUnitEffect:true, unitCardID:"e4ce8e34a9"), 1);
+        }
         break;
       default: break;
     }
