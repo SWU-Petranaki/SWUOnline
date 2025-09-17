@@ -8103,6 +8103,32 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "MON_MOTHMA_SEC", 1);
       }
       break;
+    case "5577542957"://Cantwell Arrestor Cruiser
+      $discloseAspects = ["Vigilance", "Vigilance", "Villainy"];
+      if($from != "PLAY" && PlayerCanDiscloseAspects($currentPlayer, $discloseAspects)) {
+        DQAskToDiscloseAspects($currentPlayer, $discloseAspects, $cardID);
+        //exhaust an enemy unit
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY", 1);
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose an enemy unit to exhaust", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "REST", 1);
+        //that unit can't ready while this unit is in play (ie. add limited current effect)
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("ADDLIMITEDCURRENTEFFECT", $otherPlayer, "$cardID-" . $playAlly->UniqueID() . ",PLAY", 1);
+      }
+      break;
+    case "7365023470"://Mas Amedda
+      //When Played:
+      if($from != "PLAY") {
+        //Give an Experience token to each of up to 2 other Official units.
+        DQMultiUnitSelect($currentPlayer, 2, "MYALLY:trait=Official&THEIRALLY:trait=Official", "to give an experience to");
+        AddDecisionQueue("MZOP", $currentPlayer, GiveExperienceBuilder($currentPlayer, isUnitEffect:1), 1);
+      }
+      break;
+    case "1156033141"://With Thunderous Applause
+      DQBuffUnit($currentPlayer, $cardID, 2, 2, may:false);
+      AddDecisionQueue("SPECIFICCARD", $currentPlayer, "WITH_THUNDEROUS_APPLAUSE");
+      break;
     //PlayAbility End
     default: break;
   }
@@ -8677,12 +8703,13 @@ function PlayRequiresTarget($cardID)
   }
 }
 
-function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="", $cantSkip=false, $customIndices="") {
+function DQMultiUnitSelect($player, $numUnits, $unitSelector, $title, $mzFilter="", $cantSkip=false, $customIndices="", $subsequent=false) {
   global $CS_CantSkipPhase, $dqVars;
+  $subsequent = $subsequent ? 1 : 0;
   if($cantSkip) SetClassState($player, $CS_CantSkipPhase, 1);
-  AddDecisionQueue("PASSPARAMETER", $player, "-");
-  AddDecisionQueue("SETDQVAR", $player, "0");
-  AddDecisionQueue("SETDQVAR", $player, "1");
+  AddDecisionQueue("PASSPARAMETER", $player, "-", $subsequent);
+  AddDecisionQueue("SETDQVAR", $player, "0", $subsequent);
+  AddDecisionQueue("SETDQVAR", $player, "1", $subsequent);
   for ($i = $numUnits; $i > 0; $i--) {
     if($customIndices == "") {
       AddDecisionQueue("MULTIZONEINDICES", $player, $unitSelector, 1);
@@ -8724,7 +8751,7 @@ function DQDebuffUnit($currentPlayer, $otherPlayer, $effectID, $attackDebuff,
 
 function DQBuffUnit($player, $effectID, $attackBuff,
     $healthBuff="-", $may=true, $mzSearch="MYALLY&THEIRALLY", $mzFilter="", $context="a unit", $from="HAND", $subsequent=false) {
-  $healthBuff = $healthBuff == "-" ? $attackBuff : $healthBuff;
+  $healthBuff = $healthBuff === "-" ? $attackBuff : $healthBuff;
   $subsequent = $subsequent ? 1 : 0;
   AddDecisionQueue("MULTIZONEINDICES", $player, $mzSearch, $subsequent);
   if($mzFilter != "") AddDecisionQueue("MZFILTER", $player, $mzFilter, $subsequent);
@@ -8917,3 +8944,11 @@ function WakeUpChampion($player)
   $char[1] = 2;
 }
 
+function CurrentEffectPreventsReady($player, $uniqueID) {
+  if (SearchLimitedCurrentTurnEffects("8800836530", $player, $uniqueID) != -1) { // No Good to me Dead
+    return true;
+  }
+  if (SearchLimitedCurrentTurnEffects("5577542957", $player, $uniqueID, startsWith: true) != -1) { // Cantwell Arrestor Cruiser
+    return true;
+  }
+}

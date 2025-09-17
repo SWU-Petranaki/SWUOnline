@@ -308,9 +308,8 @@ function MZWakeUp($player, $mzIndexOrUniqueID, $exception=false)
   $player = (str_starts_with($pieces[0], "MY") ? $player : ($player == 1 ? 2 : 1));
   $targetAlly = new Ally($mzIndexOrUniqueID, $player);
 
-  if (SearchLimitedCurrentTurnEffects("8800836530", $targetAlly->Controller(), $targetAlly->UniqueID()) != -1) { // No Good to me Dead
+  if (CurrentEffectPreventsReady($targetAlly->Controller(), $targetAlly->UniqueID()))
     return;
-  }
 
   $upgrades = $targetAlly->GetUpgrades();
   $canReady = true;

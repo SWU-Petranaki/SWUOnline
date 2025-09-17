@@ -625,6 +625,7 @@ class Ally {
   }
 
   function Ready($resolvedSpecialCase=false) {
+    if(CurrentEffectPreventsReady($this->Controller(), $this->UniqueID())) return false;
     $upgrades = $this->GetUpgrades();
     for($i=0; $i<count($upgrades); ++$i) {
       switch($upgrades[$i]) {
