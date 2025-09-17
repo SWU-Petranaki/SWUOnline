@@ -8176,6 +8176,17 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddCurrentTurnEffectToAllAllies($cardID, $otherPlayer, from: $from);
       }
       break;
+    case "1126903253"://It's Not Over Yet
+      //You may ready a unit that didn't attack or enter play this phase.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "turns=0");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "numAttacks=>0");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a unit to ready");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      //Create a Spy token.
+      AddDecisionQueue("CREATESPY", $currentPlayer, "-");
+      break;
     //PlayAbility End
     default: break;
   }

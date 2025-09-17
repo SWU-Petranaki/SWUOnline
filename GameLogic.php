@@ -1370,14 +1370,17 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
             $paramsArr = explode(">", $params[1]);
             if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
               $ally = new Ally($arr[$i]);
-              if($ally->TurnsInPlay() > $paramsArr[1]) $match = true;
+              if(count($paramsArr) == 1 && $ally->TurnsInPlay() == $params[1]) $match = true;
+              else if(count($paramsArr) == 2 && $ally->TurnsInPlay() > $paramsArr[1]) $match = true;
             }
             break;
           case "numAttacks":
             $mzArr = explode("-", $arr[$i]);
+            $paramsArr = explode(">", $params[1]);
             if($mzArr[0] == "MYALLY" || $mzArr[0] == "THEIRALLY") {
               $ally = new Ally($arr[$i]);
-              if($ally->NumAttacks() == $params[1]) $match = true;
+              if(count($paramsArr) == 1 && $ally->NumAttacks() == $params[1]) $match = true;
+              else if(count($paramsArr) == 2 && $ally->NumAttacks() > $paramsArr[1]) $match = true;
             }
             break;
           case "hasCaptives":
