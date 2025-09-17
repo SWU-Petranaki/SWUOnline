@@ -8061,26 +8061,26 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
         AddDecisionQueue("SPECIFICCARD", $currentPlayer, "SATINE_KRYZE_SEC", 1);
       }
       break;
-    case "4672831370"://Sly Moore
+    case "4672831370"://Sly Moore leader
       $abilityName = GetResolvedAbilityName($cardID, $from);
       if($abilityName == "Spy") {
         $numExhausted = 0;
         $myAllies = &GetAllies($currentPlayer);
-        for ($i = 0; $i < count($myAllies); $i += AllyPieces()) {
-          if (Ally::FromUniqueId($myAllies[$i+5])->IsExhausted()) {
-            ++$numExhausted;
-          }
-        }
+        for ($i = 0; $i < count($myAllies); $i += AllyPieces()) { if (Ally::FromUniqueId($myAllies[$i+5])->IsExhausted()) ++$numExhausted; }
         $theirAllies = &GetAllies($otherPlayer);
-        for ($i = 0; $i < count($theirAllies); $i += AllyPieces()) {
-          if (Ally::FromUniqueId($theirAllies[$i+5])->IsExhausted()) {
-            ++$numExhausted;
-          }
-        }
+        for ($i = 0; $i < count($theirAllies); $i += AllyPieces()) { if (Ally::FromUniqueId($theirAllies[$i+5])->IsExhausted()) ++$numExhausted; }
         //If 4 or more units are exhausted, create a spy.
-        if($numExhausted >= 4) {
-          CreateSpy($currentPlayer);
-        }
+        if($numExhausted >= 4) CreateSpy($currentPlayer);
+      }
+      break;
+    case "0955276339"://Dedra Meero leader
+      $abilityName = GetResolvedAbilityName($cardID, $from);
+      if($abilityName == "Torment") {
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "THEIRALLY");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a target for the damage");
+        AddDecisionQueue("CHOOSEMULTIZONE", $currentPlayer, "<-");
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("SPECIFICCARD", $currentPlayer, "DEDRA_MEERO_SEC", 1);
       }
       break;
     //non-leaders

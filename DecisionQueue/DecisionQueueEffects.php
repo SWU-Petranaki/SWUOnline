@@ -1766,6 +1766,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
         DealDamageAsync($player, $healed, "DAMAGE", "2070613552");
       }
       break;
+    case "DEDRA_MEERO_SEC":
+      $otherPlayer = $player == 1 ? 2 : 1;
+      $ally = Ally::FromUniqueId($lastResult);
+      AddDecisionQueue("YESNO", $otherPlayer, "Deal 2 damage to " . CardLink($ally->CardID(), $ally->CardID()) . "?", 1);
+      AddDecisionQueue("NOPASS", $otherPlayer, "-", 1);
+      AddDecisionQueue("PASSPARAMETER", $otherPlayer, $lastResult, 1);
+      AddDecisionQueue("MZOP", $otherPlayer, DealDamageBuilder(2, $player), 1);
+      AddDecisionQueue("ELSE", $otherPlayer, "-");
+      AddDecisionQueue("DRAW", $player, "-", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }
