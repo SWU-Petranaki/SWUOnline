@@ -403,6 +403,7 @@ function RaidAmount($cardID, $player, $index, $reportMode = false, $isRecursion 
     case "4136801536": $amount += 2; break;//Han Solo
     //Secrets of Power
     case "6665455613": $amount += 2; break;//Spy token
+    case "6930799884": $amount += 1; break;//A-Wing
     case "3103445211": //Anakin Skywalker (SEC)
       if (ControlsNamedCard($player, "Padmé Amidala")) {
         $amount += 2;
@@ -1368,6 +1369,7 @@ function HasPlot($cardID, $player="", $index=-1) {
     , "7936097828"//Chancellor Palpatine unit (SEC)
     , "2919204327"//Naboo Royal Starship
     , "7365023470"//Mas Amedda
+    , "8401985446"//Topple the Summit
       => true,
     default => false,
   };

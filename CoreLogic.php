@@ -8167,6 +8167,9 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       DQBuffUnit($currentPlayer, $cardID, 2, 2, may:false);
       AddDecisionQueue("SPECIFICCARD", $currentPlayer, "WITH_THUNDEROUS_APPLAUSE");
       break;
+    case "8401985446"://Topple the Summit
+      DamageAllAllies(3, $cardID, player:'', alreadyDamaged: true);
+      break;
     //PlayAbility End
     default: break;
   }
