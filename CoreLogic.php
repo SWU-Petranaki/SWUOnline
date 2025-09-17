@@ -8170,6 +8170,23 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "8401985446"://Topple the Summit
       DamageAllAllies(3, $cardID, player:'', alreadyDamaged: true);
       break;
+    case "2959504320"://Bo-Katan Kryze
+      if($from != "PLAY") {
+        AddRoundHealthModifierToAllAllies(-3, $otherPlayer);
+        AddCurrentTurnEffectToAllAllies($cardID, $otherPlayer, from: $from);
+      }
+      break;
+    case "1126903253"://It's Not Over Yet
+      //You may ready a unit that didn't attack or enter play this phase.
+      AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY&THEIRALLY");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "turns=0");
+      AddDecisionQueue("MZFILTER", $currentPlayer, "numAttacks=>0");
+      AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "You may choose a unit to ready");
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $currentPlayer, "READY", 1);
+      //Create a Spy token.
+      AddDecisionQueue("CREATESPY", $currentPlayer, "-");
+      break;
     //PlayAbility End
     default: break;
   }

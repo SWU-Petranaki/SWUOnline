@@ -782,9 +782,10 @@ function ProcessTrigger($player, $parameter, $uniqueID, $additionalCosts, $targe
         $triggerPlayer=$data[$i+1];
         $uniqueID=$data[$i+2];
         switch($cardID) {
-          case "1664771721"://Gideon Hask
-            AddDecisionQueue("SETDQCONTEXT", $triggerPlayer, "Choose a unit to add an experience");
+          case "1664771721"://Gideon Hask (SOR)
+          case "2959504320"://Bo-Katan Kryze (SEC)
             AddDecisionQueue("MULTIZONEINDICES", $triggerPlayer, "MYALLY");
+            AddDecisionQueue("SETDQCONTEXT", $triggerPlayer, "Choose a unit to add an experience");
             AddDecisionQueue("MAYCHOOSEMULTIZONE", $triggerPlayer, "<-", 1);
             AddDecisionQueue("MZOP",  $triggerPlayer, "ADDEXPERIENCE", 1);
             break;
