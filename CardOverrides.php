@@ -69,6 +69,12 @@ function CardIDOverride($cardID) {
     case "JTLW_018": return "JTL_240"; //Fett's Firespray
     case "JTLW_019": return "JTL_249"; //Millennium Falcon
     case "JTLW_020": return "JTL_256"; //Swarming Vulture Droid
+    case "C25_001": return "JTL_049"; //L3-37
+    case "C25_002": return "JTL_145"; //BB-8
+    case "C25_003": return "JTL_245"; //R2-D2
+    case "C25_004": return "LOF_191"; //BD-1
+    case "C25_005": return "SEC_093"; //C-3PO
+    case "C25_006": return "SEC_147"; //Chopper
     case "P25_001":
     case "P25_002": return "JTL_187"; //Bossk
     case "P25_003":
@@ -76,11 +82,66 @@ function CardIDOverride($cardID) {
     case "P25_005":
     case "P25_006": return "JTL_143"; //Devastator
     case "P25_007":
-    case "P25_008": return "JTL_147"; //Black One
+    case "P25_008":
+    case "P25_157":
+    case "P25_167": return "JTL_147"; //Black One
     case "P25_009":
     case "P25_010":
     case "P25_011":
     case "P25_012": return "JTL_204"; //Home One
+    case "P25_013":
+    case "P25_014": return "LOF_"; //Jedi Holocron
+    case "P25_015":
+    case "P25_016":
+    case "P25_017":
+    case "P25_018":
+    case "P25_081": return "LOF_132"; //Grand Inquisitor
+    case "P25_019":
+    case "P25_020": return "LOF_238"; //Darth Revan's Lightsabers
+    case "P25_021":
+    case "P25_022":
+    case "P25_023":
+    case "P25_024": return "LOF_234"; //Darth Malak
+    case "P25_039": return "SOR_097"; //Admiral Ackbar
+    case "P25_040": return "SOR_115"; //Agent Kallus
+    case "P25_041": return "SOR_144"; //Red Three
+    case "P25_042": return "SOR_196"; //Chewbacca
+    case "P25_043": return "SOR_198"; //Han Solo
+    case "P25_044":
+    case "P25_045": return "SOR_049"; //Obi-Wan
+    case "P25_046":
+    case "P25_047":
+    case "P25_048":
+    case "P25_049":
+    case "P25_050":
+    case "P25_051": return "SHD_141"; //Kylo Ren
+    case "P25_052": return "SHD_073"; //Mandalorian Armor
+    case "P25_053": return "TWI_138"; //Count Dooku
+    case "P25_054": return "TWI_165"; //Kit Fisto
+    case "P25_055": return "SOR_184"; //Fett's Firespray
+    case "P25_056": return "TWI_189"; //Unnatural Life
+    case "P25_057":
+    case "P25_058": return "SOR_135"; //Emperor Palpatine (Master of the Dark Side)
+    case "P25_059":
+    case "P25_060":
+    case "P25_061":
+    case "P25_062":
+    case "P25_063":
+    case "P25_064": return "SHD_046"; //Rey
+    case "P25_065": return "LOF_032"; //Director Krennic
+    case "P25_066": return "SOR_043"; //Superlaser Blast
+    case "P25_067": return "SHD_044"; //Razor Crest
+    case "P25_068": return "JTL_103"; //Chewbacca
+    case "P25_069": return "LOF_149"; //Mace Windu
+    case "P25_070": return "LOF_183"; //Shin Hati
+    case "P25_071": return "LOF_148"; //Rey
+    case "P25_072": return "LOF_229"; //Kylo Ren
+    case "P25_073": return "SOR_005"; //Luke Skywalker
+    case "P25_074": return "SOR_010"; //Darth Vader
+    case "P25_075": return "LOF_037"; //Darth Vader
+    case "P25_076": return "SHD_037"; //Supreme Leader Snoke
+    case "P25_077": return "LOF_046"; //Ezra Bridger
+    case "P25_087": return "LOF_070"; //Anakin Skywalker
     case "J25_001": return "JTL_053"; //The Ghost
     case "J25_002": return "TWI_064"; //Ki-Adi-Mundi
     case "J25_003": return "TWI_080"; //Poggle The Lesser
@@ -90,22 +151,6 @@ function CardIDOverride($cardID) {
     case "J25_007": return "TWI_138"; //Count Dooku
     case "J25_008": return "TWI_194"; //Ahsoka Tano
     case "J25_009": return "TWI_198"; //Enfys Nest
-    case "P25_046": return "SHD_141"; //Kylo Ren
-    case "P25_044": return "SOR_049"; //Obi-Wan Kenobi
-    case "P25_039": return "SOR_097"; //Admiral Ackbar
-    case "P25_040": return "SOR_115"; //Agent Kallus
-    case "P25_041": return "SOR_144"; //Red Three
-    case "P25_042": return "SOR_196"; //Chewbacca
-    case "P25_043": return "SOR_198"; //Han Solo
-    case "P25_052": return "SHD_073"; //Mandalorian Armor
-    case "P25_053": return "TWI_138"; //Count Dooku
-    case "P25_054": return "TWI_165"; //Kit Fisto
-    case "P25_055": return "SOR_184"; //Fett's Firespray
-    case "P25_056": return "TWI_189"; //Unnatural Life
-    case "P25_057": return "SOR_135"; //Emperor Palpatine (Master of the Dark Side)
-    case "P25_059": return "SHD_046"; //Rey
-    case "P25_077": return "LOF_046"; //Ezra Bridger
-    case "P25_087": return "LOF_070"; //Anakin Skywalker
     case "LOF_058": return "SOR_061"; //Guardian of the Whills
     case "LOF_060": return "TWI_058"; //Padawon Starfighter
     case "LOF_162": return "SHD_168"; //Hunting Nexu
