@@ -330,6 +330,7 @@ function EffectAttackModifier($cardID, $playerID="")
     case "7069246970": return (str_contains(GetAttackTarget(), "CHAR-0") ? -2 : 0);//Sly Moore (SEC)
     case "2183727633": return 2;//Major Partagaz
     case "1156033141": return 2;//With Thunderous Applause
+    case "2959504320": return -3;//Bo-Katan Kryze
     default: return 0;
   }
 }

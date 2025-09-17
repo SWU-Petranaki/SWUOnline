@@ -8170,6 +8170,12 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
     case "8401985446"://Topple the Summit
       DamageAllAllies(3, $cardID, player:'', alreadyDamaged: true);
       break;
+    case "2959504320"://Bo-Katan Kryze
+      if($from != "PLAY") {
+        AddRoundHealthModifierToAllAllies(-3, $otherPlayer);
+        AddCurrentTurnEffectToAllAllies($cardID, $otherPlayer, from: $from);
+      }
+      break;
     //PlayAbility End
     default: break;
   }
