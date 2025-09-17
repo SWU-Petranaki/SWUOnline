@@ -2970,6 +2970,8 @@ function LeaderUnit($cardID) {
       return "039c73c1ec";
     case "0955276339"://Dedra Meero
       return "df8a422de0";
+    case "8780923793"://Luthen Rael
+      return "e4ce8e34a9";
     default: return "";
   }
 }
@@ -3175,6 +3177,8 @@ function LeaderUndeployed($cardID) {
       return "4672831370";
     case "df8a422de0"://Dedra Meero
       return "0955276339";
+    case "e4ce8e34a9"://Luthen Rael
+      return "8780923793";
     default: return "";
   }
 }
