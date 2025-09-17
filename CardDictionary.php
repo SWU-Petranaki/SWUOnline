@@ -1025,6 +1025,7 @@ function HasAmbush($cardID, $player, $index, $from, $isRecursion=false)
     case "7821324752"://Eighth Brother
     //Secrets of Power
     case "8167114067"://Dedra Meero
+    case "7522568119"://The Mandalorian
       return true;
 
     //conditional ambush

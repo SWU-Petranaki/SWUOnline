@@ -1561,6 +1561,14 @@ function OnKillAbility($player, $uniqueID)
         AddDecisionQueue("SPECIFICCARD", $mainPlayer, "DRENGIR_SPAWN,$attackerUniqueID,$cost", 1);
       }
       break;
+    case "7522568119"://The Mandalorian (SEC)
+      //You may choose an enemy non-leader unit. This unit captures it.
+      AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "THEIRALLY");
+      AddDecisionQueue("MZFILTER", $mainPlayer, "leader=1");
+      AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "You may choose an enemy non-leader unit to capture", 1);
+      AddDecisionQueue("MAYCHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+      AddDecisionQueue("MZOP", $mainPlayer, "CAPTURE," . $attackerAlly->UniqueID(), 1);
+      break;
     default: break;
   }
 }
