@@ -1776,6 +1776,16 @@ function SpecificCardLogic($player, $parameter, $lastResult)
       AddDecisionQueue("ELSE", $otherPlayer, "-");
       AddDecisionQueue("DRAW", $player, "-", 1);
       break;
+    case "SYRIL_KARN_SEC":
+      $otherPlayer = $player == 1 ? 2 : 1;
+      $ally = Ally::FromUniqueId($lastResult);
+      AddDecisionQueue("YESNO", $otherPlayer, "Deal 2 damage to " . CardLink($ally->CardID(), $ally->CardID()) . "? (else, discard)", 1);
+      AddDecisionQueue("NOPASS", $otherPlayer, "-", 1);
+      AddDecisionQueue("PASSPARAMETER", $otherPlayer, $lastResult, 1);
+      AddDecisionQueue("MZOP", $otherPlayer, DealDamageBuilder(2, $player, isUnitEffect:true, unitCardID:"8108381803"), 1);
+      AddDecisionQueue("ELSE", $otherPlayer, "-");
+      AddDecisionQueue("DISCARD", $otherPlayer, "-", 1);
+      break;
     //SpecificCardLogic End
     default: return "";
   }

@@ -55,6 +55,13 @@ function ProcessHitEffect($cardID)
         $attackerAlly->AttachExperience();
       }
       break;
+    //Secrets of Power
+    case "4136536221"://Chopper
+      if(GetAttackTarget() == "THEIRCHAR-0") {
+        PummelHit(1);
+        PummelHit(2);
+      }
+      break;
     default: break;
   }
   AllyHitEffects();

@@ -8195,6 +8195,22 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
       DQBuffUnit($currentPlayer, $cardID, 2, may:false, from: "PLAY");
     }
     break;
+    case "2460309477"://Fulminatrix
+      if($from != "PLAY") {
+        //You may deal 4 damage to a ground unit
+        DQPingUnit($currentPlayer, 4, isUnitEffect:true, may:true, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground", context:"a ground unit", unitCardID:$cardID);
+      }
+      break;
+    case "0602708575"://Kaydel Connix
+      if($from != "PLAY") {
+        //You may defeat all non-unique upgrades on a unit.
+        AddDecisionQueue("MULTIZONEINDICES", $currentPlayer, "MYALLY:hasUpgradeOnly=true&THEIRALLY:hasUpgradeOnly=true");
+        AddDecisionQueue("SETDQCONTEXT", $currentPlayer, "Choose a unit to defeat all non-unique upgrades on");
+        AddDecisionQueue("MAYCHOOSEMULTIZONE", $currentPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $currentPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("UIDOP", $currentPlayer, "DEFEATALLUPGRADES,non-unique", 1);
+      }
+      break;
     //PlayAbility End
     default: break;
   }

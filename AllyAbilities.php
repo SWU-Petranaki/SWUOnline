@@ -87,6 +87,8 @@ function DefeatUpgradeForUniqueID($subcardUniqueID, $player = "") {
         if ($allySubcards[$j + 3] == $subcardUniqueID) {
           $ally = new Ally("MYALLY-" . $i, $p);
           $ally->DefeatUpgrade($allySubcards[$j], $subcardUniqueID);
+          if(!IsToken($allySubcards[$j]) && !CardIdIsLeader($allySubcards[$j]))
+            AddGraveyard($allySubcards[$j], $ally->Owner(), "DEFEAT");
           break;
         }
       }
@@ -1229,6 +1231,14 @@ function AllyDestroyedAbility($player, $cardID, $uniqueID, $lostAbilities, $isUp
       if(PlayerCanDiscloseAspects($player, ["Command", "Command", "Heroism"])) {
         DQAskToDiscloseAspects($player, ["Command", "Command", "Heroism"], $cardID);
         AddDecisionQueue("DRAW", $player, "-", 1);
+      }
+      break;
+    case "7243187516"://Luthen's Haulcraft
+      $discloseAspects = ["Aggression", "Aggression", "Heroism"];
+      if(PlayerCanDiscloseAspects($player, $discloseAspects)) {
+        DQAskToDiscloseAspects($player, $discloseAspects, $cardID);
+        PummelHit($otherPlayer, 1);
+        PummelHit($otherPlayer, 1);
       }
       break;
     //AllyDestroyedAbility End
@@ -2894,6 +2904,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     //Secrets of Power
     case "8167114067"://Dedra Meero
     case "039c73c1ec"://Sly Moore leader unit
+    case "2460309477"://Fulminatrix
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -2903,24 +2914,28 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       $discloseAspects = ["Command", "Command", "Villainy"];
-      if(PlayerCanDiscloseAspects($mainPlayer, $discloseAspects)) {
+      if(PlayerCanDiscloseAspects($mainPlayer, $discloseAspects))
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
-      }
+      break;
+    case "8108381803"://Syril Karn
+      $totalOnAttackAbilities++;
+      if ($reportMode) break;
+      $discloseAspects = ["Aggression", "Aggression", "Villainy"];
+      if(PlayerCanDiscloseAspects($mainPlayer, $discloseAspects))
+        PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
       break;
     case "9280012856"://Bail Organa
     case "7125768467"://Furtive Handmaiden
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      if(count(GetHand($mainPlayer)) > 0) {
+      if(count(GetHand($mainPlayer)) > 0)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
-      }
       break;
     case "4832242481"://Taylander Shuttle
       $totalOnAttackAbilities++;
       if ($reportMode) break;
-      if ($initiativePlayer == $mainPlayer) {
+      if ($initiativePlayer == $mainPlayer)
         PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
-      }
       break;
     default: break;
   }
@@ -4256,6 +4271,22 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "039c73c1ec"://Sly Moore leader unit
       //You may deal 2 damage to an exhausted unit.
       DQPingUnit($mainPlayer, 2, isUnitEffect:true, may:true, mzSearch:"MYALLY&THEIRALLY", mzFilter:"status=0");
+      break;
+    case "8108381803"://Syril Karn
+      $discloseAspects = ["Aggression", "Aggression", "Villainy"];
+      //You may disclose Aggression, Aggression, and Villainy
+      if(PlayerCanDiscloseAspects($mainPlayer, $discloseAspects)) {
+        DQAskToDiscloseAspects($mainPlayer, $discloseAspects, $cardID);
+        AddDecisionQueue("MULTIZONEINDICES", $mainPlayer, "MYALLY&THEIRALLY", 1);
+        AddDecisionQueue("SETDQCONTEXT", $mainPlayer, "Choose a unit", 1);
+        AddDecisionQueue("CHOOSEMULTIZONE", $mainPlayer, "<-", 1);
+        AddDecisionQueue("MZOP", $mainPlayer, "GETUNIQUEID", 1);
+        AddDecisionQueue("SPECIFICCARD", $mainPlayer, "SYRIL_KARN_SEC", 1);
+      }
+      break;
+    case "2460309477"://Fulminatrix
+      //You may deal 4 damage to a ground unit.
+      DQPingUnit($mainPlayer, 4, isUnitEffect:true, may:true, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground", context:"a ground unit", unitCardID: $cardID);
       break;
     default: break;
   }
