@@ -123,6 +123,7 @@ function GameBackgroundDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Background . "-" . 15, "R2-D2", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 16, "Kylo Ren Saber", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 17, "Plo Koon Saber", $SET_Background . "-" . $settings[$SET_Background]);
+  $rv .= CreateSelectOption($SET_Background . "-" . 18, "Superlaser Blast", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 101, "SOR Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 102, "SHD Starfield", $SET_Background . "-" . $settings[$SET_Background]);
   $rv .= CreateSelectOption($SET_Background . "-" . 103, "TWI Starfield", $SET_Background . "-" . $settings[$SET_Background]);
