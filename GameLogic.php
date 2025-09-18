@@ -553,6 +553,34 @@ function DecisionQueueStaticEffect($phase, $player, $parameter, $lastResult)
         case "DEFEATUPGRADE":
           DefeatUpgradeForUniqueID($lastResult, $player);
           break;
+        case "DEFEATALLUPGRADES":
+          $ally = Ally::FromUniqueId($lastResult);
+          switch($parameterArr[1]) {
+            case "-":
+              $upgrades = $ally->GetUpgrades(withMetadata:true);
+              for($i=0; $i<count($upgrades); $i+=SubcardPieces()) {
+                DefeatUpgradeForUniqueID($upgrades[$i+3], $player);
+              }
+              break;
+            case "unique":
+              $upgrades = $ally->GetUpgrades(withMetadata:true);
+              for($i=0; $i<count($upgrades); $i+=SubcardPieces()) {
+                if(CardIsUnique($upgrades[$i])) {
+                  DefeatUpgradeForUniqueID($upgrades[$i+3], $player);
+                }
+              }
+              break;
+            case "non-unique":
+              $upgrades = $ally->GetUpgrades(withMetadata:true);
+              for($i=0; $i<count($upgrades); $i+=SubcardPieces()) {
+                if(!CardIsUnique($upgrades[$i])) {
+                  DefeatUpgradeForUniqueID($upgrades[$i+3], $player);
+                }
+              }
+              break;
+            default: break;
+          }
+          break;
         case "BOUNCE":
           $ally = new Ally($lastResult);
           if (!$ally->Exists()) return "PASS";
