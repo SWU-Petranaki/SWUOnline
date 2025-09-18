@@ -127,6 +127,8 @@ function GetBackground($player)
       return "Kylo Ren Saber";
     case 17:
       return "Plo Koon Saber";
+    case 18:
+      return "Superlaser Blast";
     case 101:
       return "SOR Starfield";
     case 102:
@@ -189,6 +191,8 @@ function BackgroundCode($name)
       return 16;
     case "Plo Koon Saber":
       return 17;
+    case "Superlaser Blast":
+      return 18;
     case "SOR Starfield":
       return 101;
     case "SHD Starfield":
@@ -251,6 +255,8 @@ function GetGameBgSrc($code)
       return ["bg-kylo-stance.png", false];
     case 17:
       return ["bg-plo-koon-stance.png", false];
+    case 18:
+      return ["bg-SLB.png", false];
     case 101:
       return ["SWUKeyArt/SWH01_Starfield.png", false];
     case 102:
