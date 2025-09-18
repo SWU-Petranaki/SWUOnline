@@ -574,20 +574,20 @@ function AddCurrentTurnEffectToAllAllies($cardID, $player="", $arena="", $lastin
   //(1 = phase, 2 = round, 3 = permanent). Default: 1 (phase).
   if($player == "") {
     $player1Allies = &GetAllies(1);
-    for($i=0; $i<count($player1Allies); $i+=AllyPieces()) {
+    for($i=count($player1Allies); $i>=0; $i-=AllyPieces()) {
       $ally = Ally::FromUniqueId($player1Allies[$i+5]);
       if($arena != "" && !ArenaContains($ally->CardID(), $arena, $ally)) continue;
       AddCurrentTurnEffect($cardID, 1, $from, $ally->UniqueID(), $lastingType);
     }
     $player2Allies = &GetAllies(2);
-    for($i=0; $i<count($player2Allies); $i+=AllyPieces()) {
+    for($i=count($player2Allies); $i>=0; $i-=AllyPieces()) {
       $ally = Ally::FromUniqueId($player2Allies[$i+5]);
       if($arena != "" && !ArenaContains($ally->CardID(), $arena, $ally)) continue;
       AddCurrentTurnEffect($cardID, 2, $from, $ally->UniqueID(), $lastingType);
     }
   } else {
     $playerAllies = &GetAllies($player);
-    for($i=0; $i<count($playerAllies); $i+=AllyPieces()) {
+    for($i=count($playerAllies); $i>=0; $i-=AllyPieces()) {
       $ally = Ally::FromUniqueId($playerAllies[$i+5]);
       if($arena != "" && !ArenaContains($ally->CardID(), $arena, $ally)) continue;
       AddCurrentTurnEffect($cardID, $player, $from, $ally->UniqueID(), $lastingType);
@@ -598,19 +598,19 @@ function AddCurrentTurnEffectToAllAllies($cardID, $player="", $arena="", $lastin
 function AddRoundHealthModifierToAllAllies($amount, $player="", $arena="") {
   if($player == "") {
     $player1Allies = &GetAllies(1);
-    for($i=0; $i<count($player1Allies); $i+=AllyPieces()) {
+    for($i=count($player1Allies); $i>=0; $i-=AllyPieces()) {
       $ally = Ally::FromUniqueId($player1Allies[$i+5]);
       if($arena != "" && !ArenaContains($ally->CardID(), $arena, $ally)) continue;
       $ally->AddRoundHealthModifier($amount);
     }
     $player2Allies = &GetAllies(2);
-    for($i=0; $i<count($player2Allies); $i+=AllyPieces()) {
+    for($i=count($player2Allies); $i>=0; $i-=AllyPieces()) {
       $ally = Ally::FromUniqueId($player2Allies[$i+5]);
       $ally->AddRoundHealthModifier($amount);
     }
   } else {
     $playerAllies = &GetAllies($player);
-    for($i=0; $i<count($playerAllies); $i+=AllyPieces()) {
+    for($i=count($playerAllies); $i>=0; $i-=AllyPieces()) {
       $ally = Ally::FromUniqueId($playerAllies[$i+5]);
       if($arena != "" && !ArenaContains($ally->CardID(), $arena, $ally)) continue;
       $ally->AddRoundHealthModifier($amount);
