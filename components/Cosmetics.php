@@ -81,6 +81,7 @@ function CardbacksDropdowns($settings) {
   $rv .= CreateSelectOption($SET_Cardback . "-80", "Squadriglia Taurinense", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-81", "LXO", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   $rv .= CreateSelectOption($SET_Cardback . "-82", "Rebel Resource", $SET_Cardback . "-" . $settings[$SET_Cardback]);
+  $rv .= CreateSelectOption($SET_Cardback . "-83", "Pittsburgh Radar Technicians", $SET_Cardback . "-" . $settings[$SET_Cardback]);
   //continue adding card backs here
   return $rv;
 }

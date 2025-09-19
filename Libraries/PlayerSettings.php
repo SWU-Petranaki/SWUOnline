@@ -373,6 +373,7 @@ function GetCardBack($player, $index="")
     80 => "CB_SquadTaurinense",
     81 => "CB_LXO",
     82 => "CB_RebelResource",
+    83 => "CB_PRT",
     //continue adding card backs here
     default => "CardBack",
   };
