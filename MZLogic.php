@@ -336,7 +336,7 @@ function MZBounce($player, $target)
       $ally = new Ally($target, $controller);
       $owner = $ally->Owner();
       $cloned = $ally->IsCloned();
-      if($ally->AvoidsBounce()) {
+      if($mzArr == "THEIRALLY" && $ally->AvoidsBounce()) {
         WriteLog(CardLink($ally->CardID(), $ally->CardID()) . " avoided bounce.");
         break;
       }
