@@ -358,6 +358,11 @@ $cardBack->name = "Pittsburgh Radar Technicians";
 $cardBack->id = 83;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Team Shoot First [TSF]";
+$cardBack->id = 84;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];
