@@ -80,6 +80,35 @@ if(str_contains($filteredChatText, "*****")) {
 GamestateUpdated($gameName);
 if ($playerID == 1) SetCachePiece($gameName, 11, 0);
 
+//if starts with "/", then it will be an Arenabot macro
+if (str_starts_with($filteredChatText, "/")) {
+  $command = substr($filteredChatText, 1);
+  $them = ($playerID == 1 ? 2 : 1);
+  // Process the command
+  switch($command) {
+    case "life":
+      include_once "CardGetters.php";
+      include_once "CardDictionary.php";
+      include_once "ParseGamestate.php";
+      $yourLife = GetBaseDamage($playerID);
+      $yourBaseTotal = CardHPDictionary(GetPlayerCharacter($playerID)[0]);
+      $theirLife = GetBaseDamage($them);
+      $theirBaseTotal = CardHPDictionary(GetPlayerCharacter($them)[0]);
+      WriteLog(ArenabotSpan() . "<br/>You: $yourLife/$yourBaseTotal<br/>Them: $theirLife/$theirBaseTotal");
+      break;
+    case "force":
+      include_once "CoreLogic.php";
+      include_once "ParseGamestate.php";
+      $myForce = HasTheForce($playerID) ? "Yes" : "No";
+      $theirForce = HasTheForce($them) ? "Yes" : "No";
+      WriteLog(ArenabotSpan() . "<br/>You: $myForce<br/>Them: $theirForce");
+      break;
+    default:
+      WriteLog(ArenabotSpan() . "Unknown command. Available commands: /life, /force");
+      break;
+  }
+}
+
 if(GetCachePiece($gameName, $playerID + 14) > 0) {
   exit("refresh");
 }
