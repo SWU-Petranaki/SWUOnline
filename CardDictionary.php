@@ -1774,6 +1774,9 @@ function CheckSORAbilityTypes($cardID) {
 function CheckSHDAbilityTypes($cardID) {
   switch($cardID) {
     case "1480894253"://Kylo Ren
+      global $currentPlayer;
+      $hand = &GetHand($currentPlayer);
+      if(count($hand) == 0) return "";
       return LeaderAbilitiesIgnored() ? "" : "A";
     case "6722700037"://Doctor Pershing
       return "A,AA";
@@ -2146,7 +2149,7 @@ function CheckSHDAbilityNames($cardID, $index, $validate) {
   switch($cardID) {
     case "1480894253"://Kylo Ren
       $hand = &GetHand($currentPlayer);
-      if(count($hand) == 0) return LeaderAbilitiesIgnored() ? "" : "";
+      if(count($hand) == 0) return "";
       return LeaderAbilitiesIgnored() ? "" : "Buff Attack";
     case "6722700037"://Doctor Pershing
       return "Draw,Attack";
