@@ -3,7 +3,6 @@
 class Formats {
   //basic formats
   public static $PremierFormat = "premierf";
-  public static $PremierNoForceThrow = "prnoft";
   public static $PremierStrict = "prstrict";
   public static $OpenFormat = "openform";
   public static $PreviewFormat = "previewf";
@@ -44,7 +43,6 @@ class Formats {
       //11 => Formats::$GroundAssault,
       //12 => Formats::$AllWingsReportIn,
       //13 => Formats::$NowThereAreThreeOfThem,
-      14 => Formats::$PremierNoForceThrow,
       101 => Formats::$OnePlayerPremier,
       102 => Formats::$OnePlayerOpen,
       201 => Formats::$Mobyus1Puzzles,
@@ -198,6 +196,7 @@ function IsAllowed($cardID, $format): bool {
     ,"9155536481"//Jango Fett TWI
     ,"4002861992"//DJ Blatent Thief
     ,"5696041568"//Triple Dark Raid
+    ,"1705806419"//Force Throw
   ];
   if($format == Formats::$OpenFormat || $format == Formats::$OnePlayerOpen) return true;
   if(!CardInRotation($format, $cardID)) return false;
@@ -211,9 +210,6 @@ function IsAllowed($cardID, $format): bool {
     Formats::$PremierQuick
       => !in_array($cardID, $banned)
       ,
-    //All cards in rotation are allowed except for banned cards and Force Throw
-    Formats::$PremierNoForceThrow => !in_array($cardID, $banned) && $cardID != "1705806419" //Force Throw
-    ,
     //Only Commons, any unbanned leader, no Rare bases, no Special cards unless they have a Common variant
     Formats::$PadawanFormat => (CardRarity($cardID) == "Common"
         || CardIDIsLeader($cardID)
@@ -297,6 +293,7 @@ function IsWeeklyPlayCommon($cardID) {
     ,"0741296536" //Ahsoka's Padawan Lightsaber
     //Jump to Lightspeed
     //Legends of the Force
+    //Secrets of Power
       => true,
     default => false
   };
@@ -311,7 +308,6 @@ function CardInRotation($format, $cardID): bool {
   $cloneWarRotation = $previewRotation;
   return match($format) {
     Formats::$PremierFormat,
-    Formats::$PremierNoForceThrow,
     Formats::$PremierStrict,
     Formats::$OnePlayerPremier,
     Formats::$PremierQuick => in_array(CardSet($cardID), $premierRotation),
@@ -351,7 +347,6 @@ function CardSubceedsNumCopies($format, $cardID, $count): bool {
 function FormatDisplayName($format) {
   return match($format) {
     Formats::$PremierFormat => "Premier Casual",
-    Formats::$PremierNoForceThrow => "Premier (No Force Throw)",
     Formats::$PremierStrict => "Premier (Best of 3)",
     Formats::$PreviewFormat => "Preview",
     Formats::$PreviewStrict => "Preview (Best of 3)",

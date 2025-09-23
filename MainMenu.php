@@ -417,7 +417,6 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 <?php if($canSeeQueue) { ?>
                   <option value="all">All Formats</option>
                   <option value="premierf">Premier Casual</option>
-                  <option value="prnoft">Premier (No Force Throw)</option>
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="previewf">Preview (Set 6)</option>
                   <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
@@ -453,7 +452,6 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
                 <?php if($canSeeQueue) { ?>
                   <option value="all">All Formats</option>
                   <option value="premierf">Premier Casual</option>
-                  <option value="prnoft">Premier (No Force Throw)</option>
                   <option value="prstrict">Premier (Best of 3)</option>
                   <option value="previewf">Preview (Set 6)</option>
                   <option value="<?php echo $funFormatBackendName?>">Cantina Brawl</option>
