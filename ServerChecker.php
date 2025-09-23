@@ -175,10 +175,7 @@ if ($handle = opendir($path)) {
           switch ($format) {
             case "premierf":
               $premierLinks .= $link;
-              break;
-            case "prnoft":
-              $premierNoForceThrowLinks .= $link;
-              break;
+              break;            
             case "prstrict":
               $premierStrictLinks .= $link;
               break;
