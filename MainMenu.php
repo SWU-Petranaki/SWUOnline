@@ -492,7 +492,6 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
 
               <?php
               $standardFormatCasual = Formats::$PremierFormat;
-              $standardFormatNoForceThrow = Formats::$PremierNoForceThrow;
               $standardFormat = Formats::$PremierStrict;
               $previewFormat = Formats::$PreviewFormat;
               $openFormat = Formats::$OpenFormat;
