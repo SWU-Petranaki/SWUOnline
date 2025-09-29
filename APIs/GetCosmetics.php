@@ -363,6 +363,11 @@ $cardBack->name = "Team Shoot First [TSF]";
 $cardBack->id = 84;
 $response->cardBacks[] = $cardBack;
 
+$cardBack = new stdClass();
+$cardBack->name = "Bachforellen Freunde Franken";
+$cardBack->id = 85;
+$response->cardBacks[] = $cardBack;
+
 //continue adding card backs here
 
 $response->playmats = [];

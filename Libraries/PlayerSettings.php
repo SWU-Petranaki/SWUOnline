@@ -375,6 +375,7 @@ function GetCardBack($player, $index="")
     82 => "CB_RebelResource",
     83 => "CB_PRT",
     84 => "CB_TSF",
+    85 => "CB_BFF",
     //continue adding card backs here
     default => "CardBack",
   };
