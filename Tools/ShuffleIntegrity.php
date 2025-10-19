@@ -10,7 +10,7 @@ if (!isset($_SESSION["useruid"])) {
 }
 $useruid = $_SESSION["useruid"];
 ?>
-<link rel="stylesheet" href="../css/petranaki250812.css">
+<link rel="stylesheet" href="../css/petranaki251019.css">
 <script>
   function LoadDeck() {
     var deckJson = document.getElementById("deckJson").value;

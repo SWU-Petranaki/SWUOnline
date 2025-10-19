@@ -15,21 +15,6 @@ if (isset($_SESSION["userid"]) && IsBanned($_SESSION["userid"])) {
   exit;
 }
 
-// April Fools Day
-if ((date('m') == '04' && date('d') == '01')) {
-  // Check if the user has already seen the April Fools page
-  $aprilFoolsSeen = false;
-  if (isset($_COOKIE['april_fools_seen']) && $_COOKIE['april_fools_seen'] == date('Y')) {
-    $aprilFoolsSeen = true;
-  }
-
-  // If they haven't seen it yet, set a cookie and redirect
-  if (!$aprilFoolsSeen) {
-    header("Location: ./Banned.php");
-    exit;
-  }
-}
-
 $userData = isset($_SESSION["useruid"]) ? LoadUserData($_SESSION["useruid"]) : NULL;
 
 $language = TryGet("language", 1);
@@ -540,11 +525,12 @@ $funFormatDisplayName = FormatDisplayName($funFormatBackendName);
           <div>
             <div style="position: relative;">
               <div style='vertical-align:middle; text-align: start;'>
-                <img src="./Images/news-image-20250607.png" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                <h3 style="margin: 15px 0; display: block;">All Set 5 Cards Now Available</h3>
-                <p>The full Set 5 roster has landed in Petranaki! Every card is now implemented and ready for battle — no need to wait for hyperspace delivery.</p>
-                <p>With so many new cards added back-to-back, a few bugs or card implementation errors may have snuck in. If you notice anything off, please report it so we can address it promptly. We're also always open to feedback on how to improve the platform and your overall experience.</p>
-                <p>Join our <a href="https://discord.gg/ep9fj8Vj3F" target="_blank" rel="noopener noreferrer">Discord server</a> to report issues, suggest improvements, and stay updated on future developments. May the Force be with you!</p>
+                <img src="./Images/karabast-undo.png" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                <h3 style="margin: 15px 0; display: block;">Undo Is Now Available In Karabast!</h3>
+                <p>The Karabast team has been working hard to get the features back from OG Karabast.</p>
+                <p>Most of our devs have already started helping out with those efforts. We are excited to finally be able to work on one client.</p>
+                <p>Thank you all for your support and patience during this transition.</p>
+                <p style="font-size: 1.67rem;"><a href="https://karabast.net">Visit Karabast.net</a></p>
               </div>
             </div>
           </div>
