@@ -16,7 +16,7 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>You Have Been Banned</title>
-  <link rel="stylesheet" href="./css/petranaki250812.css">
+  <link rel="stylesheet" href="./css/petranaki251019.css">
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -123,7 +123,7 @@ session_start();
     <button class="button" onclick="showAprilFools()">Appeal Ban</button>
   </div>
 
-  <div class="april-fools" id="april-fools">
+  <!-- <div class="april-fools" id="april-fools">
     <h1 style="margin-top: 80px;">APRIL FOOLS!</h1>
     <img src="./Images/banned-obi.webp" alt="Obi-Wan Kenobi" height="200px" width="300px" style="border-radius: 50%; box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.3); object-fit: cover;">
     <div class="ban-text">
@@ -136,10 +136,11 @@ session_start();
       - Obi-Wan Kenobi
     </div>
     <button class="button return-button" onclick="window.location.href='MainMenu.php'">Return to Game</button>
-  </div>
+  </div> -->
 
   <script>
     function showAprilFools() {
+      return;
       document.getElementById('ban-message').style.display = 'none';
       document.getElementById('april-fools').style.display = 'block';
       window.scrollTo(0, 0); // Scroll back to the top of the page
