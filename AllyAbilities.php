@@ -2905,6 +2905,7 @@ function WhileAttackingAbilities($attackerUniqueID, $reportMode)
     case "8167114067"://Dedra Meero
     case "039c73c1ec"://Sly Moore leader unit
     case "2460309477"://Fulminatrix
+    case "4195599545"://Darth Traya
       $totalOnAttackAbilities++;
       if ($reportMode) break;
       PrependLayer("TRIGGER", $mainPlayer, "ONATTACKABILITY", $attackID);
@@ -4287,6 +4288,11 @@ function SpecificAllyAttackAbilities($player, $otherPlayer, $cardID, $params)
     case "2460309477"://Fulminatrix
       //You may deal 4 damage to a ground unit.
       DQPingUnit($mainPlayer, 4, isUnitEffect:true, may:true, mzSearch:"MYALLY:arena=Ground&THEIRALLY:arena=Ground", context:"a ground unit", unitCardID: $cardID);
+      break;
+    case "4195599545"://Darth Traya
+      $myChar = &GetPlayerCharacter($mainPlayer);
+      if(isset($myChar[CharacterPieces() + 1]))
+        $myChar[CharacterPieces() + 1] = 2;
       break;
     default: break;
   }

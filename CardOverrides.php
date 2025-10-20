@@ -155,6 +155,9 @@ function CardIDOverride($cardID) {
     case "LOF_060": return "TWI_058"; //Padawon Starfighter
     case "LOF_162": return "SHD_168"; //Hunting Nexu
     case "LOF_164": return "SOR_164"; //Wampa
+    case "SEC_238": return "SOR_228"; //Viper Probe Droid
+    case "SEC_250": return "SOR_239"; //Rebel Pathfinder
+    case "SEC_030": return "SOR_033"; //Death Trooper
     default: return $cardID;
   }
 }
